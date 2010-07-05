@@ -140,7 +140,7 @@ namespace Log4Qt
 				 */
 					CODECFORTR,
 				/*! UTF-8 */
-					UNICODEUTF8,
+					UNICODEUTF8
 			};
 			//Q_ENUMS(Encoding)
 

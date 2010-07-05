@@ -194,7 +194,7 @@ namespace Log4Qt
 	{   QDateTime::operator=(rOther); return *this; }
 
 	inline qint64 DateTime::toMilliSeconds() const
-	{   return (qint64)1000 * toTime_t() + time().msec();   }
+	{   return static_cast<qint64>(1000) * toTime_t() + time().msec();   }
 
 	inline DateTime DateTime::currentDateTime()
 	{   return DateTime(QDateTime::currentDateTime());    }

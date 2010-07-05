@@ -90,8 +90,7 @@ namespace Log4Qt
 	inline RecursionGuardLocker::~RecursionGuardLocker()
 	{
 			*mpGuard = false;
-	};
-
+	}
 
 
 	/**************************************************************************

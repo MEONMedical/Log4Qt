@@ -85,7 +85,7 @@ namespace Log4Qt
 				 * The ttcc conversion pattern string is
 				 * "%r [%t] %p %c %x - %m%n".
 				 */
-				TTCC_CONVERSION_PATTERN,
+				TTCC_CONVERSION_PATTERN
 			};
 			Q_ENUMS(ConversionPattern)
 

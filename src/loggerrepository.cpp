@@ -57,10 +57,12 @@ namespace Log4Qt
 
 
 
-		/**************************************************************************
-		 * Implementation: Operators, Helper
+	/**************************************************************************
+	 * Implementation: Operators, Helper
 	 **************************************************************************/
 
+
+	LoggerRepository::~LoggerRepository() {}
 
 #ifndef QT_NO_DEBUG_STREAM
 	QDebug operator<<(QDebug debug,

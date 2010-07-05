@@ -71,7 +71,7 @@ namespace Log4Qt
 				DENY,
 				NEUTRAL
 			};
-			Q_ENUMS(Decision);
+			Q_ENUMS(Decision)
 
 	public:
 			Filter(QObject *pObject = 0);

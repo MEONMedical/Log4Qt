@@ -52,8 +52,9 @@ namespace Log4Qt
 	public:
 			// LoggerRepository(); // Use compiler default
 			// LoggerRepository(const LoggerRepository &rOther); // Use compiler default
-			// virtual ~LoggerRepository(); // Use compiler default
+
 			// LoggerRepository &operator=(const LoggerRepository &rOther); // Use compiler default
+			virtual ~LoggerRepository();
 
 	public:
 			virtual bool exists(const QString &rName) const = 0;

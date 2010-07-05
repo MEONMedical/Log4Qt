@@ -136,7 +136,7 @@ namespace Log4Qt
 			MESSAGE_CONVERTER,
 			NDC_CONVERTER,
 			LEVEL_CONVERTER,
-			THREAD_CONVERTER,
+			THREAD_CONVERTER
 		};
 
 	public:
@@ -646,7 +646,7 @@ namespace Log4Qt
 		mMinLength = 0;
 		mMaxLength = INT_MAX;
 		mLeftAligned = false;
-	};
+	}
 
 
 	QString FormattingInfo::intToString(int i)
@@ -767,7 +767,7 @@ namespace Log4Qt
 	{
 		Q_UNUSED(rLoggingEvent);
 		return mLiteral;
-	};
+	}
 
 
 	QDebug LiteralPatternConverter::debug(QDebug &rDebug) const
@@ -830,7 +830,7 @@ namespace Log4Qt
 	QString MDCPatternConverter::convert(const LoggingEvent &rLoggingEvent) const
 	{
 		return rLoggingEvent.mdc().value(mKey);
-	};
+	}
 
 
 	QDebug MDCPatternConverter::debug(QDebug &rDebug) const

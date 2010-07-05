@@ -32,7 +32,8 @@
 #include "varia/debugappender.h"
 
 #include <QtCore/QDebug>
-#include <stdio.h>
+#include <iostream>
+
 #include "layout.h"
 #include "loggingevent.h"
 
@@ -89,8 +90,8 @@ namespace Log4Qt
 					OutputDebugStringA(message.toLocal8Bit().data());
 			});
 #else
-			fprintf(stderr, message.toLocal8Bit().data());
-			fflush(stderr);
+            std::cerr << message.toLocal8Bit().constData() << std::endl;
+            std::cerr << std::flush;
 #endif
 	}
 
