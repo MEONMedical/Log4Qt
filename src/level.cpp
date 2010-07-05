@@ -5,21 +5,21 @@
  * created:     September 2007
  * author:      Martin Heinrich
  *
- * 
+ *
  * Copyright 2007 Martin Heinrich
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  ******************************************************************************/
 
 
@@ -38,32 +38,32 @@
 
 namespace Log4Qt
 {
-	
-	
+
+
 	/**************************************************************************
 	 * Declarations
 	 **************************************************************************/
-	
-	
-	
+
+
+
 	/**************************************************************************
 	 * C helper functions
 	 **************************************************************************/
-	
-	
-    LOG4QT_DECLARE_STATIC_LOGGER(logger, Log4Qt::Level)
-    
 
-    
+
+    LOG4QT_DECLARE_STATIC_LOGGER(logger, Log4Qt::Level)
+
+
+
 	/**************************************************************************
 	 * Class implementation: Level
 	 **************************************************************************/
-	
-	
+
+
 	int Level::syslogEquivalent() const
 	{
         // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-        
+
 	    switch (mValue)
 	    {
 	        case NULL_INT:
@@ -85,14 +85,14 @@ namespace Log4Qt
 	            return 7;
 	    }
 	}
-	
-	
+
+
 	QString Level::toString() const
 	{
         // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
 
 	    const char *p_context = "Level";
-	
+
 	    switch (mValue)
 	    {
 	        case NULL_INT:
@@ -118,86 +118,86 @@ namespace Log4Qt
 	            return QCoreApplication::translate(p_context, "NULL");
 	    }
 	}
-	
-	
+
+
 	Level Level::fromString(const QString &rLevel, bool *pOk)
 	{
 	    const char *p_context = "Level";
 	    if (pOk)
 	        *pOk = true;
-	
-	    if (rLevel == QLatin1String("OFF") || 
+
+	    if (rLevel == QLatin1String("OFF") ||
 	        rLevel == QCoreApplication::translate(p_context, "OFF"))
 	        return OFF_INT;
-	    if (rLevel == QLatin1String("FATAL") || 
+	    if (rLevel == QLatin1String("FATAL") ||
 	        rLevel == QCoreApplication::translate(p_context, "FATAL"))
 	        return FATAL_INT;
-	    if (rLevel == QLatin1String("ERROR") || 
+	    if (rLevel == QLatin1String("ERROR") ||
 	        rLevel == QCoreApplication::translate(p_context, "ERROR"))
 	        return ERROR_INT;
-	    if (rLevel == QLatin1String("WARN") || 
+	    if (rLevel == QLatin1String("WARN") ||
 	        rLevel == QCoreApplication::translate(p_context, "WARN"))
 	        return WARN_INT;
-	    if (rLevel == QLatin1String("INFO") || 
+	    if (rLevel == QLatin1String("INFO") ||
 	        rLevel == QCoreApplication::translate(p_context, "INFO"))
 	        return INFO_INT;
-	    if (rLevel == QLatin1String("DEBUG") || 
+	    if (rLevel == QLatin1String("DEBUG") ||
 	        rLevel == QCoreApplication::translate(p_context, "DEBUG"))
 	        return DEBUG_INT;
-	    if (rLevel == QLatin1String("TRACE") || 
+	    if (rLevel == QLatin1String("TRACE") ||
 	        rLevel == QCoreApplication::translate(p_context, "TRACE"))
 	        return TRACE_INT;
 	    if (rLevel == QLatin1String("ALL") ||
 	        rLevel == QCoreApplication::translate(p_context, "ALL"))
 	        return ALL_INT;
-	    if (rLevel == QLatin1String("NULL") || 
+	    if (rLevel == QLatin1String("NULL") ||
 	        rLevel == QCoreApplication::translate(p_context, "NULL"))
 	        return NULL_INT;
-	    
+
 	    logger()->warn("Use of invalid level string '%1'. Using 'Level::NULL_INT' instead.", rLevel);
 	    if (pOk)
 	        *pOk = false;
 	    return NULL_INT;
 	}
-	
-	
-	
+
+
+
 	/**************************************************************************
 	 * Implementation: Operators, Helper
 	 **************************************************************************/
 
-	
+
 #ifndef QT_NO_DATASTREAM
-    QDataStream &operator<<(QDataStream &rStream, 
+    QDataStream &operator<<(QDataStream &rStream,
                             const Level &rLevel)
     {
         quint8 l = rLevel.mValue;
         rStream << l;
         return rStream;
     }
-    
-    
-    QDataStream &operator>>(QDataStream &rStream, 
+
+
+    QDataStream &operator>>(QDataStream &rStream,
                             Level &rLevel)
     {
         quint8 l;
         rStream >> l;
-        rLevel.mValue = (Level::Value)l;
+        rLevel.mValue = static_cast<Level::Value>(l);
         return rStream;
     }
 #endif // QT_NO_DATASTREAM
 
 
 #ifndef QT_NO_DEBUG_STREAM
-	QDebug operator<<(QDebug debug, 
+	QDebug operator<<(QDebug debug,
 	                  const Level &rLevel)
 	{
-	    debug.nospace() << "Level(" 
+	    debug.nospace() << "Level("
 	        << rLevel.toString()
 	        << ")";
 	    return debug.space();
 	}
 #endif // QT_NO_DEBUG_STREAM
-	
-	    
+
+
 } // namespace Log4Qt
