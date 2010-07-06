@@ -215,6 +215,8 @@ namespace Log4Qt
 
 	void TelnetAppender::onNewConnection()
 	{
+		QMutexLocker locker(&mObjectGuard);
+
 		if (mpTcpServer && mpTcpServer->hasPendingConnections())
 		{
 			QTcpSocket * pClientConnection = mpTcpServer->nextPendingConnection();
@@ -237,6 +239,8 @@ namespace Log4Qt
 
 	void TelnetAppender::onClientDisconnected()
 	{
+		QMutexLocker locker(&mObjectGuard);
+
 		QTcpSocket* pClientConnection = qobject_cast<QTcpSocket*>( sender() );
 		if (pClientConnection)
 		{
