@@ -37,6 +37,7 @@
 #include "consoleappender.h"
 #include "dailyrollingfileappender.h"
 #include "fileappender.h"
+#include "telnetappender.h"
 #include "helpers/logerror.h"
 #include "helpers/initialisationhelper.h"
 #include "helpers/optionconverter.h"
@@ -111,6 +112,8 @@ namespace Log4Qt
 	{	return new DatabaseAppender;	}
 #endif //#if defined(QT_SQL_LIB)
 
+	Appender *create_telnet_appender()
+	{	return new TelnetAppender;	}
 
 	// Filters
 
@@ -365,6 +368,9 @@ namespace Log4Qt
 			mAppenderRegistry.insert(QLatin1String("org.apache.log4j.DatabaseAppender"), create_database_appender);
 			mAppenderRegistry.insert(QLatin1String("Log4Qt::DatabaseAppender"), create_database_appender);
 #endif //#ifdef QT_SQL_LIB
+
+			mAppenderRegistry.insert(QLatin1String("org.apache.log4j.TelnetAppender"), create_telnet_appender);
+			mAppenderRegistry.insert(QLatin1String("Log4Qt::TelnetAppender"), create_telnet_appender);
 		}
 
 
