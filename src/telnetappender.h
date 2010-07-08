@@ -1,8 +1,8 @@
 /******************************************************************************
  *
  * package:     Log4Qt
- * file:        TelnetAppender.h
- * created:     September 2010
+ * file:        telnetappender.h
+ * created:     July 2010
  * author:      Andreas Bacher
  *
  *
@@ -55,6 +55,24 @@ namespace Log4Qt
 	{
 		Q_OBJECT
 
+		/*!
+		 * The property holds the port used by the telenet appender.
+		 *
+		 * The default is 23 for the port.
+		 *
+		 * \sa port, port(), setPort()
+		 */
+		Q_PROPERTY(int port READ port WRITE setPort)
+
+		/*!
+		 * The property holds, if the writer flushes after all write operations.
+		 *
+		 * The default is false for flushing.
+		 *
+		 * \sa immediateFlush(), setImmediateFlush()
+		 */
+		Q_PROPERTY(bool immediateFlush READ immediateFlush WRITE setImmediateFlush)
+
 	public:
 		TelnetAppender(QObject *pParent = 0);
 		TelnetAppender(Layout *pLayout,
@@ -74,13 +92,13 @@ namespace Log4Qt
 		virtual void close();
 
 		/*!
-		 * Sets the listening port of the telnet server
+		 * Sets the listening port of the telnet server (default = 23)
 		 */
 		void setPort(int port);
 		/*!
 		 * Returns the listening port of the telnet server
 		 */
-		int  getPort() const;
+		int  port() const;
 		/*!
 		 * Set the property immediate flush (default: false)
 		 */

@@ -1,8 +1,8 @@
 /******************************************************************************
  *
  * package:     Log4Qt
- * file:        TelnetAppender.cpp
- * created:     September 2010
+ * file:        telnetappender.cpp
+ * created:     July 2010
  * author:      Andreas Bacher
  *
  *
@@ -118,7 +118,7 @@ namespace Log4Qt
 		mPort = port;
 	}
 
-	int TelnetAppender::getPort() const
+	int TelnetAppender::port() const
 	{
 		return mPort;
 	}
@@ -200,7 +200,7 @@ namespace Log4Qt
 	        << "layout:" << layout_name
 	        << "referencecount:" << referenceCount() << " "
 	        << "threshold:" << threshold().toString()
-			<< "port:" << getPort() << " "
+			<< "port:" << port() << " "
 	        << ")";
 	    return rDebug.space();
 	}
