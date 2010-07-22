@@ -1,12 +1,12 @@
 Build and install
 
 *NIX
-cmake -DQT_USE_QTSQL=TRUE -DCMAKE_BUILD_TYPE=Release .
+cmake -DQT_USE_QTSQL=TRUE -DQT_USE_QTNETWORK=TRUE -DCMAKE_BUILD_TYPE=Release .
 make
 make install
 
 WIN*
-cmake -DQT_USE_QTSQL=TRUE -DCMAKE_BUILD_TYPE=Release -G "MinGW Makefiles" .
+cmake -DQT_USE_QTSQL=TRUE -DQT_USE_QTNETWORK=TRUE -DCMAKE_BUILD_TYPE=Release -G "MinGW Makefiles" .
 mingw32-make
 mingw32-make install
 
