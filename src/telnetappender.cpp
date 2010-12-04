@@ -22,7 +22,6 @@
  *
  ******************************************************************************/
 
-
 /******************************************************************************
  * Dependencies
  ******************************************************************************/
@@ -30,228 +29,231 @@
 #include "telnetappender.h"
 
 #include <QtCore/QDebug>
+#include <QtCore/QThread>
+#include <QtCore/QEvent>
+#include <QtCore/QCoreApplication>
 
 #include <QtNetwork/QTcpServer>
-#include <QtNetwork/QTcpServer>
 #include <QtNetwork/QTcpSocket>
+#include <QtNetwork/QHostAddress>
 
 #include "layout.h"
 #include "loggingevent.h"
 
-namespace Log4Qt
-{
+namespace Log4Qt {
+  /**************************************************************************
+   * Declarations
+   **************************************************************************/
 
-	/**************************************************************************
-	 * Declarations
-	 **************************************************************************/
+  /**************************************************************************
+   * C helper functions
+   **************************************************************************/
 
+  /**************************************************************************
+   * Class implementation: TelnetAppender
+   **************************************************************************/
 
-	/**************************************************************************
-	 * C helper functions
-	 **************************************************************************/
+  TelnetAppender::TelnetAppender(QObject *pParent) :
+    AppenderSkeleton(false, pParent), mAddress(QHostAddress::Any), mPort(23),
+        mpTcpServer(0), mImmediateFlush(false)
+  {
+  }
 
+  TelnetAppender::TelnetAppender(Layout *pLayout, QObject *pParent) :
+    AppenderSkeleton(false, pParent), mAddress(QHostAddress::Any), mPort(23),
+        mpTcpServer(0), mImmediateFlush(false)
+  {
+    setLayout(pLayout);
+  }
 
-	/**************************************************************************
-	 * Class implementation: TelnetAppender
-	 **************************************************************************/
+  TelnetAppender::TelnetAppender(Layout *pLayout, int port, QObject *pParent) :
+    AppenderSkeleton(false, pParent), mAddress(QHostAddress::Any), mPort(port),
+        mpTcpServer(0), mImmediateFlush(false)
+  {
+    setLayout(pLayout);
+  }
 
+  TelnetAppender::TelnetAppender(Layout *pLayout, const QHostAddress& address,
+    int port, QObject *pParent) :
+    AppenderSkeleton(false, pParent), mAddress(address), mPort(port),
+        mpTcpServer(0), mImmediateFlush(false)
+  {
+    setLayout(pLayout);
+  }
 
-	TelnetAppender::TelnetAppender(QObject *pParent) :
-	    AppenderSkeleton(false, pParent),
-	    mPort(23),
-		mpTcpServer(0),
-		mImmediateFlush(false)
-	{
-	}
+  TelnetAppender::~TelnetAppender()
+  {
+    close();
+  }
 
-	TelnetAppender::TelnetAppender(Layout *pLayout,
-	                               QObject *pParent) :
-		AppenderSkeleton(false, pParent),
-	    mPort(23),
-		mpTcpServer(0),
-		mImmediateFlush(false)
-	{
-		setLayout(pLayout);
-	}
+  void TelnetAppender::activateOptions()
+  {
+    QMutexLocker locker(&mObjectGuard);
 
+    closeServer();
+    openServer();
 
-	TelnetAppender::TelnetAppender(Layout *pLayout,
-								   int port,
-	                               QObject *pParent) :
-		AppenderSkeleton(false, pParent),
-	    mPort(port),
-		mpTcpServer(0),
-		mImmediateFlush(false)
-	{
-		setLayout(pLayout);
-	}
+    AppenderSkeleton::activateOptions();
+  }
 
+  void TelnetAppender::close()
+  {
+    QMutexLocker locker(&mObjectGuard);
 
-	TelnetAppender::~TelnetAppender()
-	{
-	    close();
-	}
+    if (isClosed())
+      return;
 
-	void TelnetAppender::activateOptions()
-	{
-	    QMutexLocker locker(&mObjectGuard);
+    AppenderSkeleton::close();
+    closeServer();
+  }
 
-		closeServer();
-		openServer();
+  void TelnetAppender::setAddress(const QHostAddress& address)
+  {
+    mAddress = address;
+  }
 
-	    AppenderSkeleton::activateOptions();
-	}
+  QHostAddress TelnetAppender::address() const
+  {
+    return mAddress;
+  }
 
-	void TelnetAppender::close()
-	{
-	    QMutexLocker locker(&mObjectGuard);
+  void TelnetAppender::setPort(int port)
+  {
+    mPort = port;
+  }
 
-	    if (isClosed())
-	        return;
+  int TelnetAppender::port() const
+  {
+    return mPort;
+  }
 
-	    AppenderSkeleton::close();
-		closeServer();
-	}
+  void TelnetAppender::setWelcomeMessage(const QString & welcomeMessage)
+  {
+    mWelcomeMessage = welcomeMessage;
+  }
 
-	void TelnetAppender::setPort(int port)
-	{
-		mPort = port;
-	}
+  bool TelnetAppender::requiresLayout() const
+  {
+    return true;
+  }
 
-	int TelnetAppender::port() const
-	{
-		return mPort;
-	}
+  void TelnetAppender::append(const LoggingEvent &rEvent)
+  {
+    // Q_ASSERT_X(, "TelnetAppender::append()", "Lock must be held by caller");
+    Q_ASSERT_X(layout(), "TelnetAppender::append()", "Layout must not be null");
 
-	void TelnetAppender::setWelcomeMessage(const QString & welcomeMessage)
-	{
-		mWelcomeMessage = welcomeMessage;
-	}
+    QString message(layout()->format(rEvent));
 
-	bool TelnetAppender::requiresLayout() const
-	{
-	    return true;
-	}
+    Q_FOREACH (QTcpSocket * pClientConnection, mTcpSockets)
+      {
+        pClientConnection->write(message.toLocal8Bit().constData());
+        if (immediateFlush())
+          pClientConnection->flush();
+      }
 
-	void TelnetAppender::append(const LoggingEvent &rEvent)
-	{
-	    // Q_ASSERT_X(, "TelnetAppender::append()", "Lock must be held by caller");
-	    Q_ASSERT_X(layout(), "TelnetAppender::append()", "Layout must not be null");
+  }
 
-	    QString message(layout()->format(rEvent));
+  bool TelnetAppender::checkEntryConditions() const
+  {
+    // Q_ASSERT_X(, "TelnetAppender::checkEntryConditions()", "Lock must be held by caller")
 
-		Q_FOREACH(QTcpSocket * pClientConnection, mTcpSockets)
-		{
-			pClientConnection->write(message.toLocal8Bit().constData());
-			if (immediateFlush())
-				pClientConnection->flush();
-		}
-	}
+    if (!mpTcpServer && !mpTcpServer->isListening()) {
+      LogError
+          e =
+              LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' without a listing telnet server"),
+                  APPENDER_TELNET_SERVER_NOT_RUNNING);
+      e << name();
+      logger()->error(e);
+      return false;
+    }
 
-	bool TelnetAppender::checkEntryConditions() const
-	{
-	    // Q_ASSERT_X(, "TelnetAppender::checkEntryConditions()", "Lock must be held by caller")
+    return AppenderSkeleton::checkEntryConditions();
+  }
 
-		if (!mpTcpServer && !mpTcpServer->isListening())
-	    {
-	        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' without a listing telnet server"),
-                                             APPENDER_TELNET_SERVER_NOT_RUNNING);
-	        e << name();
-	        logger()->error(e);
-	        return false;
-	    }
+  void TelnetAppender::openServer()
+  {
+    mpTcpServer = new QTcpServer(this);
+    connect(mpTcpServer, SIGNAL(newConnection()), this, SLOT(onNewConnection()));
+    mpTcpServer->listen(mAddress, mPort);
+  }
 
-	    return AppenderSkeleton::checkEntryConditions();
-	}
+  void TelnetAppender::closeServer()
+  {
+    if (mpTcpServer)
+      mpTcpServer->close();
 
-	void TelnetAppender::openServer()
-	{
-		mpTcpServer = new QTcpServer(this);
-		connect(mpTcpServer, SIGNAL(newConnection()), this, SLOT(onNewConnection()));
-		mpTcpServer->listen(QHostAddress::Any, mPort);
-	}
+    Q_FOREACH(QTcpSocket * pClientConnection, mTcpSockets)
+        delete pClientConnection;
 
-	void TelnetAppender::closeServer()
-	{
-		if (mpTcpServer)
-			mpTcpServer->close();
+    mTcpSockets.clear();
 
-		Q_FOREACH(QTcpSocket * pClientConnection, mTcpSockets)
-			delete pClientConnection;
+    delete mpTcpServer;
+    mpTcpServer = 0;
+  }
 
-		mTcpSockets.clear();
-
-		delete mpTcpServer;
-		mpTcpServer = 0;
-	}
+  QList<QTcpSocket*> TelnetAppender::clients() const
+  {
+    return mTcpSockets;
+  }
 
 #ifndef QT_NO_DEBUG_STREAM
-	QDebug TelnetAppender::debug(QDebug &rDebug) const
-	{
-	    QString layout_name;
-	    if (layout())
-	        layout_name = layout()->name();
+  QDebug TelnetAppender::debug(QDebug &rDebug) const
+  {
+    QString layout_name;
+    if (layout())
+      layout_name = layout()->name();
 
-	    rDebug.nospace() << "TelnetAppender("
-	        << "name:" << name() << " "
-	        << "filter:" << firstFilter()
-	        << "isactive:" << isActive()
-	        << "isclosed:" << isClosed()
-	        << "layout:" << layout_name
-	        << "referencecount:" << referenceCount() << " "
-	        << "threshold:" << threshold().toString()
-			<< "port:" << port() << " "
-	        << ")";
-	    return rDebug.space();
-	}
+    rDebug.nospace() << "TelnetAppender(" << "name:" << name() << " "
+        << "filter:" << firstFilter() << "isactive:" << isActive()
+        << "isclosed:" << isClosed() << "layout:" << layout_name
+        << "referencecount:" << referenceCount() << " " << "threshold:"
+        << threshold().toString() << "address:" << address() << "port:"
+        << port() << " " << ")";
+    return rDebug.space();
+  }
 #endif // QT_NO_DEBUG_STREAM
+  bool TelnetAppender::handleIoErrors() const
+  {
+    // Q_ASSERT_X(, "FileAppender::handleIoErrors()", "Lock must be held by caller")
+    return false;
+  }
 
+  void TelnetAppender::onNewConnection()
+  {
+    QMutexLocker locker(&mObjectGuard);
 
-	bool TelnetAppender::handleIoErrors() const
-	{
-		// Q_ASSERT_X(, "FileAppender::handleIoErrors()", "Lock must be held by caller")
-		return false;
-	}
+    if (mpTcpServer && mpTcpServer->hasPendingConnections()) {
+      QTcpSocket * pClientConnection = mpTcpServer->nextPendingConnection();
+      if (pClientConnection) {
+        mTcpSockets.append(pClientConnection);
+        connect(pClientConnection, SIGNAL(disconnected()), this,
+          SLOT(onClientDisconnected()));
+        sendWelcomeMessage(pClientConnection);
+      }
+    }
+  }
 
-	void TelnetAppender::onNewConnection()
-	{
-		QMutexLocker locker(&mObjectGuard);
+  void TelnetAppender::sendWelcomeMessage(QTcpSocket * pClientConnection)
+  {
+    if (mWelcomeMessage.isEmpty())
+      return;
 
-		if (mpTcpServer && mpTcpServer->hasPendingConnections())
-		{
-			QTcpSocket * pClientConnection = mpTcpServer->nextPendingConnection();
-			if (pClientConnection)
-			{
-				mTcpSockets.append(pClientConnection);
-				connect(pClientConnection, SIGNAL(disconnected()), this, SLOT(onClientDisconnected()));
-				sendWelcomeMessage(pClientConnection);
-			}
-		}
-	}
+    pClientConnection->write(mWelcomeMessage.toLocal8Bit().constData());
+  }
 
-	void TelnetAppender::sendWelcomeMessage(QTcpSocket * pClientConnection)
-	{
-		if (mWelcomeMessage.isEmpty())
-			return;
+  void TelnetAppender::onClientDisconnected()
+  {
+    QMutexLocker locker(&mObjectGuard);
 
-		pClientConnection->write(mWelcomeMessage.toLocal8Bit().constData());
-	}
+    QTcpSocket* pClientConnection = qobject_cast<QTcpSocket*> (sender());
+    if (pClientConnection) {
+      mTcpSockets.removeOne(pClientConnection);
+      pClientConnection->deleteLater();
+    }
+  }
 
-	void TelnetAppender::onClientDisconnected()
-	{
-		QMutexLocker locker(&mObjectGuard);
-
-		QTcpSocket* pClientConnection = qobject_cast<QTcpSocket*>( sender() );
-		if (pClientConnection)
-		{
-			mTcpSockets.removeOne(pClientConnection);
-			pClientConnection->deleteLater();
-		}
-	}
-
-	/******************************************************************************
-	 * Implementation: Operators, Helper
-	 ******************************************************************************/
-
+/******************************************************************************
+ * Implementation: Operators, Helper
+ ******************************************************************************/
 
 } // namespace Log4Qt

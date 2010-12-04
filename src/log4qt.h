@@ -548,7 +548,8 @@ namespace Log4Qt
 		 * \sa \ref Log4Qt::LOG4QT_VERSION_STR "LOG4QT_VERSION_STR",
 		 *     \ref Log4Qt::LogManager::version() "LogManager::version()"
 		 */
-		#define LOG4QT_VERSION 0x000200
+    // Defined in CMakeLists.txt
+		// #define LOG4QT_VERSION X
 
 		/*!
 		 * The macro expands to a string that specifies the Log4Qt's version
@@ -557,7 +558,8 @@ namespace Log4Qt
 		 * \sa \ref Log4Qt::LOG4QT_VERSION "LOG4QT_VERSION",
 		 *     \ref Log4Qt::LogManager::version() "LogManager::version()"
 		 */
-		#define LOG4QT_VERSION_STR "0.3.0"
+    // Defined in CMakeLists.txt
+		// #define LOG4QT_VERSION_STR "X"
 
 	enum ErrorCode
 	{

@@ -26,7 +26,6 @@
  * Dependencies
  ******************************************************************************/
 
-
 #include "colorconsoleappender.h"
 
 #include <QtCore/QTextStream>
@@ -94,211 +93,198 @@
 
 #define WIN_DEFAULT								FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED
 
-void colorOutputString(HANDLE hConsole, const QString& output)
+static void colorOutputString(HANDLE hConsole, const QString& output)
 {
-	QString message = output;
+  QString message = output;
 
-	// save colors
-	CONSOLE_SCREEN_BUFFER_INFO cbi = {sizeof(cbi)};
-	GetConsoleScreenBufferInfo(hConsole,&cbi);
+  // save colors
+  CONSOLE_SCREEN_BUFFER_INFO cbi = {sizeof(cbi)};
+  GetConsoleScreenBufferInfo(hConsole,&cbi);
 
-	wchar_t *wideMessage;
+  wchar_t *wideMessage;
 
-	QStringList colorizedMessage = message.split('\033');
+  QStringList colorizedMessage = message.split('\033');
 
-	int actualSize;
-	DWORD out;
+  int actualSize;
+  DWORD out;
 
-	WORD color = 0;
-	WORD newColor = 0;
-	QString parsedWordString;
-	QStringList escParams;
-	int indexOfM;
-	// display first part of message
-	if (!colorizedMessage.at(0).isEmpty()) {
-		wideMessage = new wchar_t [colorizedMessage.at(0).size()];
-		actualSize = colorizedMessage.at(0).toWCharArray(wideMessage);
-		WriteConsoleW(hConsole, wideMessage, actualSize, &out, 0);
-		delete [] wideMessage;
-		colorizedMessage.removeAt(0);
-	}
-	foreach (QString it, colorizedMessage) {
-		// color setted
-		if (it.startsWith("[")) {
-			indexOfM = it.indexOf('m');
-			// not esc-sequence
-			if (indexOfM != -1) {
-				parsedWordString = it.mid(1, indexOfM - 1);
+  WORD color = 0;
+  WORD newColor = 0;
+  QString parsedWordString;
+  QStringList escParams;
+  int indexOfM;
+  // display first part of message
+  if (!colorizedMessage.at(0).isEmpty()) {
+    wideMessage = new wchar_t [colorizedMessage.at(0).size()];
+    actualSize = colorizedMessage.at(0).toWCharArray(wideMessage);
+    WriteConsoleW(hConsole, wideMessage, actualSize, &out, 0);
+    delete [] wideMessage;
+    colorizedMessage.removeAt(0);
+  }
+  foreach (QString it, colorizedMessage) {
+    // color setted
+    if (it.startsWith("[")) {
+      indexOfM = it.indexOf('m');
+      // not esc-sequence
+      if (indexOfM != -1) {
+        parsedWordString = it.mid(1, indexOfM - 1);
 
-				escParams = parsedWordString.split(';');
-				foreach(QString param, escParams) {
-					color = param.toUInt();
-					switch(color) {
-		 case NIX_DEFAULT:
-						newColor = WIN_DEFAULT;
-						break;
-		 case NIX_FORE_BOLD:
-						newColor |= WIN_FORE_BOLD;
-						break;
-		 case NIX_BACK_BLACK :
-						newColor = (newColor & 0x0f) | WIN_BACK_BLACK;
-						break;
-		 case NIX_BACK_RED :
-						newColor = (newColor & 0x0f) | WIN_BACK_RED;
-						break;
-		 case NIX_BACK_GREEN :
-						newColor = (newColor & 0x0f) | WIN_BACK_GREEN;
-						break;
-		 case NIX_BACK_YELLOW :
-						newColor = (newColor & 0x0f) | WIN_BACK_YELLOW;
-						break;
-		 case NIX_BACK_BLUE :
-						newColor = (newColor & 0x0f) | WIN_BACK_BLUE;
-						break;
-		 case NIX_BACK_MAGNETTA :
-						newColor = (newColor & 0x0f) | WIN_BACK_MAGNETTA;
-						break;
-		 case NIX_BACK_CYAN :
-						newColor = (newColor & 0x0f) | WIN_BACK_CYAN;
-						break;
-		 case NIX_BACK_GRAY :
-						newColor = (newColor & 0x0f) | WIN_BACK_GRAY;
-						break;
-		 case NIX_FORE_BLACK :
-						newColor = (newColor & 0xF8)| WIN_FORE_BLACK;
-						break;
-		 case NIX_FORE_RED :
-						newColor = (newColor & 0xF8) | WIN_FORE_RED;
-						break;
-		 case NIX_FORE_GREEN :
-						newColor = (newColor & 0xF8) | WIN_FORE_GREEN;
-						break;
-		 case NIX_FORE_YELLOW :
-						newColor = (newColor & 0xF8) | WIN_FORE_YELLOW;
-						break;
-		 case NIX_FORE_BLUE :
-						newColor = (newColor & 0xF8) | WIN_FORE_BLUE;
-						break;
-		 case NIX_FORE_MAGNETTA :
-						newColor = (newColor & 0xF8) | WIN_FORE_MAGNETTA;
-						break;
-		 case NIX_FORE_CYAN :
-						newColor = (newColor & 0xF8) | WIN_FORE_CYAN;
-						break;
-		 case NIX_FORE_GRAY :
-						newColor = (newColor & 0xF8) | WIN_FORE_GRAY;
-						break;
-		 default:;
-		 }
-				}
-				it = it.mid(indexOfM + 1);
+        escParams = parsedWordString.split(';');
+        foreach(QString param, escParams) {
+          color = param.toUInt();
+          switch(color) {
+            case NIX_DEFAULT:
+            newColor = WIN_DEFAULT;
+            break;
+            case NIX_FORE_BOLD:
+            newColor |= WIN_FORE_BOLD;
+            break;
+            case NIX_BACK_BLACK :
+            newColor = (newColor & 0x0f) | WIN_BACK_BLACK;
+            break;
+            case NIX_BACK_RED :
+            newColor = (newColor & 0x0f) | WIN_BACK_RED;
+            break;
+            case NIX_BACK_GREEN :
+            newColor = (newColor & 0x0f) | WIN_BACK_GREEN;
+            break;
+            case NIX_BACK_YELLOW :
+            newColor = (newColor & 0x0f) | WIN_BACK_YELLOW;
+            break;
+            case NIX_BACK_BLUE :
+            newColor = (newColor & 0x0f) | WIN_BACK_BLUE;
+            break;
+            case NIX_BACK_MAGNETTA :
+            newColor = (newColor & 0x0f) | WIN_BACK_MAGNETTA;
+            break;
+            case NIX_BACK_CYAN :
+            newColor = (newColor & 0x0f) | WIN_BACK_CYAN;
+            break;
+            case NIX_BACK_GRAY :
+            newColor = (newColor & 0x0f) | WIN_BACK_GRAY;
+            break;
+            case NIX_FORE_BLACK :
+            newColor = (newColor & 0xF8)| WIN_FORE_BLACK;
+            break;
+            case NIX_FORE_RED :
+            newColor = (newColor & 0xF8) | WIN_FORE_RED;
+            break;
+            case NIX_FORE_GREEN :
+            newColor = (newColor & 0xF8) | WIN_FORE_GREEN;
+            break;
+            case NIX_FORE_YELLOW :
+            newColor = (newColor & 0xF8) | WIN_FORE_YELLOW;
+            break;
+            case NIX_FORE_BLUE :
+            newColor = (newColor & 0xF8) | WIN_FORE_BLUE;
+            break;
+            case NIX_FORE_MAGNETTA :
+            newColor = (newColor & 0xF8) | WIN_FORE_MAGNETTA;
+            break;
+            case NIX_FORE_CYAN :
+            newColor = (newColor & 0xF8) | WIN_FORE_CYAN;
+            break;
+            case NIX_FORE_GRAY :
+            newColor = (newColor & 0xF8) | WIN_FORE_GRAY;
+            break;
+            default:break;
+          }
+        }
+        it = it.mid(indexOfM + 1);
 
-				SetConsoleTextAttribute(hConsole, newColor);
-			}
-		}
+        SetConsoleTextAttribute(hConsole, newColor);
+      }
+    }
 
-		wideMessage = new wchar_t [it.size()];
-		actualSize = it.toWCharArray(wideMessage);
-		WriteConsoleW(hConsole, wideMessage, actualSize, &out, 0);
-		delete [] wideMessage;
-	}
-	// load old colors
-	SetConsoleTextAttribute(hConsole, cbi.wAttributes);
+    wideMessage = new wchar_t [it.size()];
+    actualSize = it.toWCharArray(wideMessage);
+    WriteConsoleW(hConsole, wideMessage, actualSize, &out, 0);
+    delete [] wideMessage;
+  }
+  // load old colors
+  SetConsoleTextAttribute(hConsole, cbi.wAttributes);
 
-	//qDebug() << colorizedMessage;
+  //qDebug() << colorizedMessage;
 
 }
 #endif
 
-namespace Log4Qt
-{
+namespace Log4Qt {
 
+  /**************************************************************************
+   * Declarations
+   **************************************************************************/
 
-	/**************************************************************************
-	 * Declarations
-	 **************************************************************************/
+  /**************************************************************************
+   * C helper functions
+   **************************************************************************/
 
+  /**************************************************************************
+   * Class implementation: ColorConsoleAppender
+   **************************************************************************/
 
+  ColorConsoleAppender::ColorConsoleAppender(QObject *pParent) :
+    ConsoleAppender(pParent)
+  {
+  }
 
-	/**************************************************************************
-	 * C helper functions
-	 **************************************************************************/
+  ColorConsoleAppender::ColorConsoleAppender(Layout *pLayout, QObject *pParent) :
+    ConsoleAppender(pLayout, pParent)
+  {
+  }
 
+  ColorConsoleAppender::ColorConsoleAppender(Layout *pLayout,
+    const QString &rTarget, QObject *pParent) :
+    ConsoleAppender(pLayout, rTarget, pParent)
+  {
+  }
 
-
-	/**************************************************************************
-	 * Class implementation: ColorConsoleAppender
-	 **************************************************************************/
-
-
-	ColorConsoleAppender::ColorConsoleAppender(QObject *pParent) :
-			ConsoleAppender(pParent)
-	{
-	}
-
-
-	ColorConsoleAppender::ColorConsoleAppender(Layout *pLayout,
-																	 QObject *pParent) :
-			ConsoleAppender(pLayout, pParent)
-	{
-	}
-
-
-		ColorConsoleAppender::ColorConsoleAppender(Layout *pLayout,
-																		 const QString &rTarget,
-																		 QObject *pParent) :
-				ConsoleAppender(pLayout, rTarget, pParent)
-		{}
-
-
-		ColorConsoleAppender::ColorConsoleAppender(Layout *pLayout,
-																	 Target target,
-																	 QObject *pParent) :
-			ConsoleAppender(pLayout, target, pParent)
-	{
-	}
+  ColorConsoleAppender::ColorConsoleAppender(Layout *pLayout, Target target,
+    QObject *pParent) :
+    ConsoleAppender(pLayout, target, pParent)
+  {
+  }
 
 #if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
-	void ColorConsoleAppender::append(const LoggingEvent &rEvent)
-	{
-		QString message = layout()->format(rEvent);
+void ColorConsoleAppender::append(const LoggingEvent &rEvent)
+{
+  QString message = layout()->format(rEvent);
 
-		colorOutputString(hConsole, message);
+  colorOutputString(hConsole, message);
 
-		// обрабатываем ошибки, по умолчанию метод не реализован
-		if (handleIoErrors())
-			return;
+  // обрабатываем ошибки, по умолчанию метод не реализован
+  if (handleIoErrors())
+  return;
 
-		if (immediateFlush())
-		{
-				writer()->flush();
-				if (handleIoErrors())
-						return;
-		}
-	}
+  if (immediateFlush())
+  {
+    writer()->flush();
+    if (handleIoErrors())
+    return;
+  }
+}
 
-	void ColorConsoleAppender::activateOptions()
-	{
-		ConsoleAppender::activateOptions();
+void ColorConsoleAppender::activateOptions()
+{
+  ConsoleAppender::activateOptions();
 
-		if (target() == "STDOUT_TARGET")
-			hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-		else
-			hConsole = GetStdHandle(STD_ERROR_HANDLE);
-	}
+  if (target() == "STDOUT_TARGET")
+  hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+  else
+  hConsole = GetStdHandle(STD_ERROR_HANDLE);
+}
 
-	void ColorConsoleAppender::close()
-	{
-		ConsoleAppender::close();
-		CloseHandle(hConsole);
-	}
+void ColorConsoleAppender::close()
+{
+  ConsoleAppender::close();
+  CloseHandle(hConsole);
+}
 
 #endif
 
-	/******************************************************************************
-	 * Implementation: Operators, Helper
-	 ******************************************************************************/
-
+/******************************************************************************
+ * Implementation: Operators, Helper
+ ******************************************************************************/
 
 } // namespace Log4Qt
 

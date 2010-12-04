@@ -112,9 +112,10 @@ namespace Log4Qt
 	{	return new DatabaseAppender;	}
 #endif //#if defined(QT_SQL_LIB)
 
+#if defined(QT_NETWORK_LIB)
 	Appender *create_telnet_appender()
 	{	return new TelnetAppender;	}
-
+#endif
 	// Filters
 
 	Filter *create_deny_all_filter()
@@ -369,8 +370,10 @@ namespace Log4Qt
 			mAppenderRegistry.insert(QLatin1String("Log4Qt::DatabaseAppender"), create_database_appender);
 #endif //#ifdef QT_SQL_LIB
 
+#if defined(QT_NETWORK_LIB)
 			mAppenderRegistry.insert(QLatin1String("org.apache.log4j.TelnetAppender"), create_telnet_appender);
 			mAppenderRegistry.insert(QLatin1String("Log4Qt::TelnetAppender"), create_telnet_appender);
+#endif
 		}
 
 

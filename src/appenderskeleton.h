@@ -125,6 +125,7 @@ namespace Log4Qt
 
 	protected:
 			virtual void append(const LoggingEvent &rEvent) = 0;
+			void customEvent(QEvent* event);
 
 			/*!
 			 * Tests if all entry conditions for using append() in this class are

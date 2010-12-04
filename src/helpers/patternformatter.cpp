@@ -392,8 +392,17 @@ namespace Log4Qt
 			case 'd':
 			{
 				QString option = rOption;
-				if (rOption.isEmpty())
-								 option = QLatin1String("ISO8601");
+				if (rOption.isEmpty()) {
+					option = QLatin1String("ISO8601");
+				} else if (rOption == "locale:long") {
+				  option = QLocale().dateTimeFormat(QLocale::LongFormat);
+				} else if (rOption == "locale:short") {
+				  option = QLocale().dateTimeFormat(QLocale::ShortFormat);
+				} else if (rOption == "locale:narrow") {
+				  option = QLocale().dateTimeFormat(QLocale::NarrowFormat);
+				} else if (rOption == "locale") {
+				  option = QLocale().dateTimeFormat(QLocale::ShortFormat);
+				}
 				mPatternConverters << new DatePatternConverter(rFormattingInfo,
 																														 option);
 				break;

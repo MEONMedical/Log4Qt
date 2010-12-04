@@ -31,7 +31,9 @@
 
 #include "appenderskeleton.h"
 
-#include <QString>
+#include <QtCore/QString>
+
+#include <QtNetwork/QHostAddress>
 
 /******************************************************************************
  * Declarations
@@ -73,10 +75,16 @@ namespace Log4Qt
 		 */
 		Q_PROPERTY(bool immediateFlush READ immediateFlush WRITE setImmediateFlush)
 
+		Q_PROPERTY(QHostAddress address READ address WRITE setAddress)
+
 	public:
 		TelnetAppender(QObject *pParent = 0);
 		TelnetAppender(Layout *pLayout,
 						 QObject *pParent = 0);
+		TelnetAppender(Layout *pLayout,
+		  const QHostAddress& address,
+             int port,
+             QObject *pParent = 0);
 		TelnetAppender(Layout *pLayout,
 						 int port,
 						 QObject *pParent = 0);
@@ -108,6 +116,14 @@ namespace Log4Qt
 		 */
 		bool immediateFlush() const;
 
+		/*!
+		 * Sets the listenning address of the telnet server (default QHostAddress::Any)
+		 */
+		void setAddress(const QHostAddress& address);
+		/*!
+		 * Returns the listenning address of the telnet server
+		 */
+		QHostAddress address() const;
 		/*!
 		 *  Set the welcome message which is send on
 		 */
@@ -144,6 +160,8 @@ namespace Log4Qt
 		 */
 		void closeServer();
 
+		QList<QTcpSocket*> clients() const;
+
 #ifndef QT_NO_DEBUG_STREAM
 		/*!
 		 * Writes all object member variables to the given debug stream
@@ -173,6 +191,7 @@ namespace Log4Qt
 		void onClientDisconnected();
 
 	private:
+		QHostAddress mAddress;
 		int				mPort;
 		QTcpServer *	mpTcpServer;
 		QList<QTcpSocket*> mTcpSockets;

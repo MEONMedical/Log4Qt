@@ -1,14 +1,12 @@
 cmake_minimum_required(VERSION 2.6)
 
+# cmake options
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/lib")
 # postfix for library
-# if CMAKE_BUILD_TYPE == Debug then library_name become library_name + CMAKE_DEBUG_POSTFIX
 set(CMAKE_DEBUG_POSTFIX d)
-
 set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
-
 # variable for project name, used in many places
 set (PROJECT log4qt)
 
@@ -17,7 +15,6 @@ project(${PROJECT})
 string(TOUPPER ${PROJECT_NAME} PROJECT_TO_UPPER)
 
 find_package(Qt4 REQUIRED)
-
 # COMPILER customization
   # compilers flags
   if (MSVC)
@@ -27,10 +24,8 @@ find_package(Qt4 REQUIRED)
   else ()
     message ("Unknown compiler")
   endif ()
-	
   #compiler options
   set(OPTIMIZATION_FLAGS "-O2" )
-
 message("Building project ${PROJECT_NAME}")
 
 message("
@@ -50,68 +45,165 @@ if (NOT "${CMAKE_BUILD_TYPE}" STREQUAL "Release")
 endif (NOT "${CMAKE_BUILD_TYPE}" STREQUAL "Release")
 
 # SOURCE FILES AND DIRECTORIES
-set(SOURCES)
+set(LOG4QT_SOURCES)
 # Q_SOURCES, var contains files, for which need call qt4_automoc
-set(Q_SOURCES)
-set(HEADERS)
+set(LOG4QT_Q_SOURCES)
+set(LOG4QT_HEADERS)
 # Q_HEADERS, var contains files, for which qt4_wrap_cpp called
-set(Q_HEADERS)
+set(LOG4QT_Q_HEADERS)
 
-file(GLOB_RECURSE Q_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h")
-file(GLOB_RECURSE SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+set(LOG4QT_HEADERS
+    src/basicconfigurator.h
+    src/helpers/classlogger.h
+    src/helpers/datetime.h
+    src/helpers/factory.h
+    src/hierarchy.h
+    src/helpers/initialisationhelper.h
+    src/level.h
+    src/log4qt.h
+    src/log4qtshared.h
+    src/logger.h
+    src/loggerrepository.h
+    src/loggingevent.h
+    src/logmanager.h
+    src/helpers/logobjectptr.h
+    src/mdc.h
+    src/ndc.h
+    src/helpers/optionconverter.h
+    src/helpers/patternformatter.h
+    src/helpers/properties.h
+    src/propertyconfigurator.h
+    src/helpers/logerror.h
+)
+
+set(LOG4QT_Q_HEADERS src/appender.h
+    src/appenderskeleton.h
+    src/colorconsoleappender.h
+    src/consoleappender.h
+    src/dailyrollingfileappender.h
+    src/fileappender.h
+    src/layout.h
+    src/patternlayout.h
+    src/rollingfileappender.h
+    src/signalappender.h
+    src/simplelayout.h
+    src/simpletimelayout.h
+    src/ttcclayout.h
+    src/writerappender.h
+    src/systemlogappender.h
+    src/helpers/configuratorhelper.h
+    src/helpers/logobject.h
+    src/spi/filter.h
+    src/varia/debugappender.h
+    src/varia/denyallfilter.h
+    src/varia/levelmatchfilter.h
+    src/varia/levelrangefilter.h
+    src/varia/listappender.h
+    src/varia/nullappender.h
+    src/varia/stringmatchfilter.h)
+    
+set(LOG4QT_SOURCES
+    src/helpers/classlogger.cpp
+    src/helpers/configuratorhelper.cpp
+    src/helpers/datetime.cpp
+    src/helpers/factory.cpp
+    src/helpers/initialisationhelper.cpp
+    src/helpers/logerror.cpp
+    src/helpers/logobject.cpp
+    src/helpers/logobjectptr.cpp
+    src/helpers/optionconverter.cpp
+    src/helpers/patternformatter.cpp
+    src/helpers/properties.cpp
+    src/spi/filter.cpp
+    src/varia/debugappender.cpp
+    src/varia/denyallfilter.cpp
+    src/varia/levelmatchfilter.cpp
+    src/varia/levelrangefilter.cpp
+    src/varia/listappender.cpp
+    src/varia/nullappender.cpp
+    src/varia/stringmatchfilter.cpp
+    src/systemlogappender.cpp
+    src/appenderskeleton.cpp
+    src/basicconfigurator.cpp
+    src/colorconsoleappender.cpp
+    src/consoleappender.cpp
+    src/dailyrollingfileappender.cpp
+    src/fileappender.cpp
+    src/hierarchy.cpp
+    src/layout.cpp
+    src/level.cpp
+    src/log4qt.cpp
+    src/logger.cpp
+    src/loggerrepository.cpp
+    src/loggingevent.cpp
+    src/logmanager.cpp
+    src/mdc.cpp
+    src/ndc.cpp
+    src/patternlayout.cpp
+    src/propertyconfigurator.cpp
+    src/rollingfileappender.cpp
+    src/signalappender.cpp
+    src/simplelayout.cpp
+    src/simpletimelayout.cpp
+    src/ttcclayout.cpp
+    src/writerappender.cpp
+)
 
 # project version
-set (VERSION_MAJOR 0)
-set (VERSION_MINOR 3)
-set (VERSION_RELEASE 0)
-set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}" )
+set(LOG4QT_VERSION_MAJOR 1)
+set(LOG4QT_VERSION_MINOR 0)
+set(LOG4QT_VERSION_RELEASE 0)
+set(LOG4QT_VERSION "${LOG4QT_VERSION_MAJOR}.${LOG4QT_VERSION_MINOR}.${LOG4QT_VERSION_RELEASE}")
+set(VERSION ${LOG4QT_VERSION})
+set(SOVERSION ${LOG4QT_VERSION})
+add_definitions(-DLOG4QT_VERSION=${LOG4QT_VERSION_MAJOR}*65536+${LOG4QT_VERSION_MINOR}*256+${LOG4QT_VERSION_RELEASE})
+add_definitions(-DLOG4QT_VERSION_STR="${LOG4QT_VERSION}")
 
-# QT CUSTOMIZATION
-# qt definitions
-# dont using gui
-set(QT_DONTUSE_QTGUI   TRUE)
-
-# include qt libraries
+# QT
+set(QT_DONTUSE_QTGUI TRUE)
 include(${QT_USE_FILE})
 
-if (NOT QT_USE_QTSQL)
-	message("Without QT_USE_QTSQL DatabaseAppender, DatabaseLayout not compiled")
-	list(REMOVE_ITEM Q_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/src/databaseappender.h" "${CMAKE_CURRENT_SOURCE_DIR}/src/databaselayout.h")
-	list(REMOVE_ITEM SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/databaseappender.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/databaselayout.cpp")
-endif (NOT QT_USE_QTSQL)
+if (QT_USE_QTSQL)
+	message("With QT_USE_QTSQL DatabaseAppender, DatabaseLayout compiled")
+	list(APPEND LOG4QT_Q_HEADERS src/databaseappender.h src/databaselayout.h)
+	list(APPEND LOG4QT_SOURCES src/databaseappender.cpp src/databaselayout.cpp)
+endif (QT_USE_QTSQL)
+
+if (QT_USE_QTNETWORK)
+    message("With QT_USE_QTNETWORK TelnetAppender compiled")
+    list(APPEND LOG4QT_Q_HEADERS src/telnetappender.h )
+    list(APPEND LOG4QT_SOURCES src/telnetappender.cpp)
+endif (QT_USE_QTNETWORK)
+
+include_directories(src)
 
 # COMPILATION
-include_directories(src)
-# if you use Q_OBJECT 
-qt4_wrap_cpp(MOC_SOURCES ${Q_HEADERS})
+# if you use Q_OBJECT
+qt4_wrap_cpp(LOG4QT_MOC_SOURCES ${LOG4QT_Q_HEADERS})
+qt4_automoc(${LOG4QT_Q_SOURCES})
+ 
+# BUILD STATIC LIBRARY
+if (LOG4QT_BUILD_STATIC)
+set(LOG4QT_BUILD_CONFIGURATION STATIC)
+# BUILD SHARED LIBRARY
+else (LOG4QT_BUILD_STATIC)
+set(LOG4QT_BUILD_CONFIGURATION SHARED)
+endif (LOG4QT_BUILD_STATIC)
 
-qt4_automoc(${Q_SOURCES})
-
-qt4_wrap_ui(UI_HEADERS ${FORMS})
-
-qt4_add_resources(QRC_SOURCES ${RESOURCES})
-
-add_library(${PROJECT_NAME} SHARED 
-	${SOURCES}
-	${Q_SOURCES}
-	${MOC_SOURCES}
-	${QRC_SOURCES}
-	${HEADERS}
-	${Q_HEADERS}
-	${UI_HEADERS})
-
-set_target_properties(${PROJECT_NAME} PROPERTIES
-  # lib version
-  VERSION ${VERSION} 
-  SOVERSION ${VERSION}
- 	# add -D${PROJECT_NAME}_EXPORTS to export symbols for msvc compilers
-  DEFINE_SYMBOL ${PROJECT_TO_UPPER}_EXPORTS)
-
+add_library(${PROJECT_NAME} ${LOG4QT_BUILD_CONFIGURATION} 
+    ${LOG4QT_SOURCES}
+    ${LOG4QT_Q_SOURCES}
+    ${LOG4QT_MOC_SOURCES}
+    ${LOG4QT_HEADERS}
+    ${LOG4QT_Q_HEADERS})
+    
 # LINKING
-#set_target_properties(${PROJECT} PROPERTIES LINKER_LANGUAGE CXX)
-# main library
 target_link_libraries(${PROJECT_NAME} ${QT_LIBRARIES})
 
+set_target_properties(${PROJECT_NAME} PROPERTIES 
+    SOVERSION ${LOG4QT_VERSION}
+    VERSION ${LOG4QT_VERSION}
+    DEFINE_SYMBOL ${PROJECT_TO_UPPER}_EXPORTS)
 
 # CMAKE CONFIG FILE
 set (INSTALL_PROJECT_INCLUDE_DIR "${QT_INCLUDE_DIR}/${PROJECT_NAME}")
@@ -131,11 +223,6 @@ install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_TARGETS}
   RUNTIME DESTINATION ${QT_BINARY_DIR}
   LIBRARY DESTINATION ${QT_LIBRARY_DIR}
   ARCHIVE DESTINATION ${QT_LIBRARY_DIR})
-
-# dublicate dll file for dll-based platform
-#if(WIN32)
-#  install(TARGETS ${PROJECT_NAME} DESTINATION lib)
-#endif(WIN32)
 
 # install exported project target cmake file into qt_mkspec_dir/cmake
 install(EXPORT ${PROJECT_TARGETS} DESTINATION ${EXPORT_TARGET_DESTINATION} COMPONENT Devel)

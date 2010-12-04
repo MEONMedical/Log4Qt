@@ -34,6 +34,7 @@
 #include <QtCore/QHash>
 #include <QtCore/QMetaType>
 #include <QtCore/QStringList>
+#include <QtCore/QEvent>
 #include "level.h"
 
 
@@ -54,9 +55,10 @@ namespace Log4Qt
 	 * Universal Time for time values. For converstion from and to QDateTime
 	 * use DateTime.
 	 */
-	class LOG4QT_EXPORT LoggingEvent
+	class LOG4QT_EXPORT LoggingEvent : public QEvent
 	{
 	public:
+	    static const QEvent::Type eventId;
 			LoggingEvent();
 			LoggingEvent(const Logger *pLogger,
 									 Level level,
@@ -102,6 +104,7 @@ namespace Log4Qt
 	private:
 		void setThreadNameToCurrent();
 			static qint64 nextSequenceNumber();
+
 
 	private:
 			Level mLevel;

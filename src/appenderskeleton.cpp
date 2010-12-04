@@ -178,6 +178,15 @@ namespace Log4Qt
 			mIsActive = false;
 	}
 
+	void AppenderSkeleton::customEvent(QEvent* event)
+	{
+	  if (event->type() == LoggingEvent::eventId) {
+	    LoggingEvent *logEvent = static_cast<LoggingEvent*>(event);
+	    doAppend(*logEvent);
+	    return ;
+	  }
+	  QObject::customEvent(event);
+	}
 
 	void AppenderSkeleton::doAppend(const LoggingEvent &rEvent)
 	{
