@@ -62,7 +62,6 @@ set(LOG4QT_HEADERS
     src/level.h
     src/log4qt.h
     src/log4qtshared.h
-    src/logger.h
     src/loggerrepository.h
     src/loggingevent.h
     src/logmanager.h
@@ -83,6 +82,7 @@ set(LOG4QT_Q_HEADERS src/appender.h
     src/dailyrollingfileappender.h
     src/fileappender.h
     src/layout.h
+    src/logger.h
     src/patternlayout.h
     src/rollingfileappender.h
     src/signalappender.h
@@ -205,39 +205,41 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     VERSION ${LOG4QT_VERSION}
     DEFINE_SYMBOL ${PROJECT_TO_UPPER}_EXPORTS)
 
-# CMAKE CONFIG FILE
-set (INSTALL_PROJECT_INCLUDE_DIR "${QT_INCLUDE_DIR}/${PROJECT_NAME}")
-# for using library in your cmake projects
-configure_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/project-config.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
-  IMMEDIATE @ONLY)
-
-# INSTALLATION
-# install and export project target
-# copy project file into qt_libdir and create project.cmake file for use this library in your cmake projects
-set(EXPORT_TARGET_DESTINATION "${QT_MKSPECS_DIR}/cmake/${PROJECT_NAME}")
-set(PROJECT_TARGETS ${PROJECT_NAME}-targets)
-
-install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_TARGETS}
-  RUNTIME DESTINATION ${QT_BINARY_DIR}
-  LIBRARY DESTINATION ${QT_LIBRARY_DIR}
-  ARCHIVE DESTINATION ${QT_LIBRARY_DIR})
-
-# install exported project target cmake file into qt_mkspec_dir/cmake
-install(EXPORT ${PROJECT_TARGETS} DESTINATION ${EXPORT_TARGET_DESTINATION} COMPONENT Devel)
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/" DESTINATION "${INSTALL_PROJECT_INCLUDE_DIR}" COMPONENT Devel
-	FILES_MATCHING PATTERN "*.h")
-
-# install cmake config file
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake DESTINATION ${EXPORT_TARGET_DESTINATION} COMPONENT Devel)
-
-# UNINSTALL TARGET
-# create cmake uninstall files and unregister docs scripts
-configure_file(
-	"${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
-	"${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
-	IMMEDIATE @ONLY)
-
-add_custom_target(uninstall
-	COMMAND "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
+if (NOT LOG4QT_DONT_INSTALL)
+    # CMAKE CONFIG FILE
+    set (INSTALL_PROJECT_INCLUDE_DIR "${QT_INCLUDE_DIR}/${PROJECT_NAME}")
+    # for using library in your cmake projects
+    configure_file(
+      "${CMAKE_CURRENT_SOURCE_DIR}/project-config.cmake.in"
+      "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
+      IMMEDIATE @ONLY)
+    
+    # INSTALLATION
+    # install and export project target
+    # copy project file into qt_libdir and create project.cmake file for use this library in your cmake projects
+    set(EXPORT_TARGET_DESTINATION "${QT_MKSPECS_DIR}/cmake/${PROJECT_NAME}")
+    set(PROJECT_TARGETS ${PROJECT_NAME}-targets)
+    
+    install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_TARGETS}
+      RUNTIME DESTINATION ${QT_BINARY_DIR}
+      LIBRARY DESTINATION ${QT_LIBRARY_DIR}
+      ARCHIVE DESTINATION ${QT_LIBRARY_DIR})
+    
+    # install exported project target cmake file into qt_mkspec_dir/cmake
+    install(EXPORT ${PROJECT_TARGETS} DESTINATION ${EXPORT_TARGET_DESTINATION} COMPONENT Devel)
+    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/" DESTINATION "${INSTALL_PROJECT_INCLUDE_DIR}" COMPONENT Devel
+    	FILES_MATCHING PATTERN "*.h")
+    
+    # install cmake config file
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake DESTINATION ${EXPORT_TARGET_DESTINATION} COMPONENT Devel)
+    
+    # UNINSTALL TARGET
+    # create cmake uninstall files and unregister docs scripts
+    configure_file(
+    	"${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+    	"${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+    	IMMEDIATE @ONLY)
+    
+    add_custom_target(uninstall
+    	COMMAND "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
+endif (NOT LOG4QT_DONT_INSTALL)
