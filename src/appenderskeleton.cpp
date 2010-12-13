@@ -188,43 +188,43 @@ namespace Log4Qt
 	  QObject::customEvent(event);
 	}
 
-	void AppenderSkeleton::doAppend(const LoggingEvent &rEvent)
-	{
-		// The mutex serialises concurrent access from multiple threads.
-		// - e.g. two threads using the same logger
-		// - e.g. two threads using different logger with the same appender
-		//
-		// A call from the same thread will pass the mutex (QMutex::Recursive)
-			// and get to the recursion guard. The recursion guard blocks recursive
-			// invocation and prevents a possible endless loop.
-		// - e.g. an appender logs an error with a logger that uses it
+    void AppenderSkeleton::doAppend(const LoggingEvent &rEvent)
+    {
+        // The mutex serialises concurrent access from multiple threads.
+        // - e.g. two threads using the same logger
+        // - e.g. two threads using different logger with the same appender
+        //
+        // A call from the same thread will pass the mutex (QMutex::Recursive)
+        // and get to the recursion guard. The recursion guard blocks recursive
+        // invocation and prevents a possible endless loop.
+        // - e.g. an appender logs an error with a logger that uses it
 
-		QMutexLocker locker(&mObjectGuard);
+        QMutexLocker locker(&mObjectGuard);
 
-			if (mAppendRecursionGuard)
-					return;
+        if (mAppendRecursionGuard)
+            return;
 
-			RecursionGuardLocker recursion_locker(&mAppendRecursionGuard);
+        RecursionGuardLocker recursion_locker(&mAppendRecursionGuard);
 
-			if (!checkEntryConditions())
-					return;
-			if (!isAsSevereAsThreshold(rEvent.level()))
-					return;
+        if (!checkEntryConditions())
+            return;
+        if (!isAsSevereAsThreshold(rEvent.level()))
+            return;
 
-			Filter *p_filter = mpHeadFilter;
-			while(p_filter)
-			{
-				Filter::Decision decision = p_filter->decide(rEvent);
-				if (decision == Filter::ACCEPT)
-					break;
-				else if (decision == Filter::DENY)
-					return;
-				else
-					p_filter = p_filter->next();
-			}
+        Filter *p_filter = mpHeadFilter;
+        while(p_filter)
+        {
+            Filter::Decision decision = p_filter->decide(rEvent);
+            if (decision == Filter::ACCEPT)
+                break;
+            else if (decision == Filter::DENY)
+                return;
+            else
+                p_filter = p_filter->next();
+        }
 
-			append(rEvent);
-	}
+        append(rEvent);
+    }
 
 
 	bool AppenderSkeleton::checkEntryConditions() const

@@ -61,13 +61,8 @@ namespace Log4Qt {
   Logger::Logger(LoggerRepository* pLoggerRepository, Level level,
     const QString &rName, Logger *pParent) :
     QObject(0),
-#if QT_VERSION < QT_VERSION_CHECK(4, 4, 0)
-        mObjectGuard(),
-#else
-        mObjectGuard(QReadWriteLock::Recursive),
-#endif
-        mName(rName), mpLoggerRepository(pLoggerRepository), mAdditivity(true),
-        mAppenders(), mLevel(level), mpParent(pParent)
+    mName(rName), mpLoggerRepository(pLoggerRepository), mAdditivity(true),
+    mLevel(level), mpParent(pParent)
   {
     Q_ASSERT_X(pLoggerRepository, "Logger::Logger()",
       "Construction of Logger with null LoggerRepository");
@@ -89,17 +84,6 @@ namespace Log4Qt {
     // }
   }
 
-  QList<Appender *> Logger::appenders() const
-  {
-    QReadLocker locker(&mObjectGuard);
-
-    QList<Appender *> result;
-    Appender *p_appender;
-    Q_FOREACH(p_appender, mAppenders)
-    result << p_appender;
-    return result;
-  }
-
   void Logger::setLevel(Level level)
   {
     // QWriteLocker locker(&mObjectGuard); // Read/Write int is safe
@@ -110,47 +94,6 @@ namespace Log4Qt {
       level = Level::DEBUG_INT;
     }
     mLevel = level;
-  }
-
-  void Logger::addAppender(Appender *pAppender)
-  {
-    // Avoid deadlock:
-    // - Handle warnings, before write lock is aquired
-
-    // Keep objects with a 0 reference count safe
-    LogObjectPtr < Appender > p_appender = pAppender;
-
-    {
-      QReadLocker locker(&mObjectGuard);
-
-      if (!p_appender) {
-        logger()->warn("Adding null Appender to Logger '%1'", name());
-        return;
-      }
-      if (mAppenders.contains(p_appender)) {
-        logger()->warn("Adding of duplicate appender '%2' to logger '%1'",
-          name(), p_appender->name());
-        return;
-      }
-    }
-    {
-      QWriteLocker locker(&mObjectGuard);
-
-      if (mAppenders.contains(p_appender))
-        return;
-      mAppenders.append(p_appender);
-    }
-  }
-
-  Appender *Logger::appender(const QString &rName) const
-  {
-    QReadLocker locker(&mObjectGuard);
-
-    Appender *p_appender;
-    Q_FOREACH(p_appender, mAppenders)
-    if (p_appender->name() == rName)
-    return p_appender;
-    return 0;
   }
 
   void Logger::callAppenders(const LoggingEvent &rEvent) const
@@ -169,79 +112,6 @@ namespace Log4Qt {
     }
     if (additivity() && (parentLogger() != 0))
       parentLogger()->callAppenders(rEvent);
-  }
-
-  bool Logger::isAttached(Appender *pAppender) const
-  {
-    QReadLocker locker(&mObjectGuard);
-
-    // Keep objects with a 0 reference count safe
-    LogObjectPtr < Appender > p_appender = pAppender;
-
-    return mAppenders.contains(p_appender);
-  }
-
-  void Logger::removeAllAppenders()
-  {
-    // Avoid deadlock:
-    // - Only log warnings without having the write log aquired
-    // - Hold a reference to all appenders so that the remove does not
-    //   destruct the appender over the reference count while the write
-    //   log is held. The appender may log messages.
-
-    logger()->trace("Removing all appenders from logger '%1'", name());
-
-    QList < LogObjectPtr<Appender> > appenders;
-    {
-      QWriteLocker locker(&mObjectGuard);
-      QMutableListIterator < LogObjectPtr<Appender> > i(mAppenders);
-      while (i.hasNext()) {
-        Appender *p_appender = i.next();
-        ListAppender *p_listappender = qobject_cast<ListAppender*> (p_appender);
-        if (p_listappender && p_listappender->configuratorList())
-          continue;
-        else {
-          appenders << p_appender;
-          i.remove();
-        }
-      }
-    }
-    appenders.clear();
-  }
-
-  void Logger::removeAppender(Appender *pAppender)
-  {
-    // Avoid deadlock:
-    // - Only log warnings without having the write log aquired
-    // - Hold a reference to the appender so that the remove does not
-    //   destruct the appender over the reference count while the write
-    //   log is held. The appender may log messages.
-
-    LogObjectPtr < Appender > p_appender = pAppender;
-
-    if (!p_appender) {
-      logger()->warn("Request to remove null Appender from Logger '%1'", name());
-      return;
-    }
-    int n;
-    {
-      QWriteLocker locker(&mObjectGuard);
-
-      n = mAppenders.removeAll(p_appender);
-    }
-    if (n == 0) {
-      logger()->warn(
-        "Request to remove Appender '%2', which is not part of Logger '%1' appenders",
-        name(), p_appender->name());
-      return;
-    }
-  }
-
-  void Logger::removeAppender(const QString &rName)
-  {
-    Appender *p_appender = appender(rName);
-    if (p_appender)
-      removeAppender(p_appender);
   }
 
   Level Logger::effectiveLevel() const

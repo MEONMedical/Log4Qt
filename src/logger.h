@@ -43,6 +43,7 @@
 #include "helpers/logerror.h"
 #include "helpers/classlogger.h"
 #include "helpers/logobjectptr.h"
+#include "helpers/appenderattachable.h"
 #include "level.h"
 
 #if QT_VERSION >= QT_VERSION_CHECK(4, 4, 0)
@@ -220,7 +221,7 @@ namespace Log4Qt
 	 *
 	 * \note All the functions declared in this class are thread-safe.
 	 */
-	class LOG4QT_EXPORT  Logger : public QObject
+    class LOG4QT_EXPORT  Logger : public QObject, public AppenderAttachable
 	{
 			Q_OBJECT
 
@@ -273,7 +274,6 @@ namespace Log4Qt
 
 	public:
 			bool additivity() const;
-			QList<Appender*> appenders() const;
 			Level level() const;
 			LoggerRepository *loggerRepository() const;
 			QString name() const;
@@ -283,25 +283,8 @@ namespace Log4Qt
 			void setAdditivity(bool additivity);
 			virtual void setLevel(Level level);
 
-			void addAppender(Appender *pAppender);
-			Appender *appender(const QString &rName) const;
 			void callAppenders(const LoggingEvent &rEvent) const;
-			bool isAttached(Appender *pAppender) const;
 
-			/*!
-			 * Removes all appenders that have been previously added from this
-			 * Logger.
-			 *
-			 * To allow configurators to collect events during the configuration
-			 * process ListAppenders with the configuratorList property set, will
-			 * not be removed.
-			 *
-			 * \sa LisAppender::setConfiguratorList()
-			 */
-			void removeAllAppenders();
-
-			void removeAppender(Appender *pAppender);
-			void removeAppender(const QString &rName);
 			// JAVA: QString resourceBundleString(const QString &rKey) const;
 
 			Level effectiveLevel() const;
@@ -763,21 +746,17 @@ namespace Log4Qt
 																 const Logger &rLogger);
 #endif // QT_NO_DEBUG_STREAM
 
-			void forcedLog(Level level,
-										 const QString &rMessage) const;
+            void forcedLog(Level level, const QString &rMessage) const;
 
-	protected:
-			mutable QReadWriteLock mObjectGuard;
-	private:
-		const QString mName;
-			LoggerRepository* mpLoggerRepository;
-			volatile bool mAdditivity;
-			QList< LogObjectPtr<Appender> > mAppenders;
-			Level mLevel;
-			Logger *mpParent;
+    private:
+        const QString mName;
+        LoggerRepository* mpLoggerRepository;
+        volatile bool mAdditivity;
+        Level mLevel;
+        Logger *mpParent;
 
-			// Needs to be friend to create Logger objects
-			friend class Hierarchy;
+        // Needs to be friend to create Logger objects
+        friend class Hierarchy;
 	};
 
 

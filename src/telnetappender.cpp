@@ -29,9 +29,6 @@
 #include "telnetappender.h"
 
 #include <QtCore/QDebug>
-#include <QtCore/QThread>
-#include <QtCore/QEvent>
-#include <QtCore/QCoreApplication>
 
 #include <QtNetwork/QTcpServer>
 #include <QtNetwork/QTcpSocket>

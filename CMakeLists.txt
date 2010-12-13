@@ -73,6 +73,7 @@ set(LOG4QT_HEADERS
     src/helpers/properties.h
     src/propertyconfigurator.h
     src/helpers/logerror.h
+    src/helpers/appenderattachable.h
 )
 
 set(LOG4QT_Q_HEADERS src/appender.h
@@ -114,6 +115,7 @@ set(LOG4QT_SOURCES
     src/helpers/optionconverter.cpp
     src/helpers/patternformatter.cpp
     src/helpers/properties.cpp
+    src/helpers/appenderattachable.cpp
     src/spi/filter.cpp
     src/varia/debugappender.cpp
     src/varia/denyallfilter.cpp
