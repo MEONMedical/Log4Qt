@@ -84,9 +84,11 @@ namespace Log4Qt
 
 	public:
 			AppenderSkeleton(QObject *pParent = 0);
+
 	protected:
 			AppenderSkeleton(const bool isActive,
 											 QObject *pParent = 0);
+
 	public:
 			// virtual ~AppenderSkeleton(); Use compiler default
 	private:
@@ -153,10 +155,11 @@ namespace Log4Qt
 
 	protected:
 			mutable QMutex mObjectGuard;
+
 	private:
-		bool mAppendRecursionGuard;
-		volatile bool mIsActive;
-		volatile bool mIsClosed;
+			bool mAppendRecursionGuard;
+			volatile bool mIsActive;
+			volatile bool mIsClosed;
 			LogObjectPtr<Layout> mpLayout;
 			Level mThreshold;
 			LogObjectPtr<Filter> mpHeadFilter;

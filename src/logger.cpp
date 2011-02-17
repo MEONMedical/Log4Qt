@@ -96,22 +96,17 @@ namespace Log4Qt {
     mLevel = level;
   }
 
+  // Note: use MainThreadAppender if you want write the log from non-main threads
+  // within the main trhead
   void Logger::callAppenders(const LoggingEvent &rEvent) const
   {
-    QReadLocker locker(&mObjectGuard);
+      QReadLocker locker(&mAppenderGuard);
 
-    Appender *p_appender;
-    Q_FOREACH(p_appender, mAppenders) {
-
-      if (QThread::currentThread() != qApp->thread()) {
-        LoggingEvent *event = new LoggingEvent(rEvent);
-        qApp->postEvent(p_appender, event);
-      } else {
-        p_appender->doAppend(rEvent);
-      }
-    }
-    if (additivity() && (parentLogger() != 0))
-      parentLogger()->callAppenders(rEvent);
+      Appender *p_appender;
+      Q_FOREACH(p_appender, mAppenders)
+          p_appender->doAppend(rEvent);
+      if (additivity() && (parentLogger() != 0))
+          parentLogger()->callAppenders(rEvent);
   }
 
   Level Logger::effectiveLevel() const
@@ -119,7 +114,7 @@ namespace Log4Qt {
     Q_ASSERT_X(LogManager::rootLogger()->level() != Level::NULL_INT,
       "Logger::effectiveLevel()", "Root logger level must not be NULL_INT");
 
-    QReadLocker locker(&mObjectGuard);
+    QReadLocker locker(&mAppenderGuard);
 
     const Logger *p_logger = this;
     while (p_logger->level() == Level::NULL_INT)
@@ -152,7 +147,7 @@ namespace Log4Qt {
 #ifndef QT_NO_DEBUG_STREAM
   QDebug Logger::debug(QDebug &rDebug) const
   {
-    QReadLocker locker(&mObjectGuard);
+    QReadLocker locker(&mAppenderGuard);
 
     QString parent_logger;
     if (mpParent)
@@ -167,7 +162,7 @@ namespace Log4Qt {
 
   void Logger::forcedLog(Level level, const QString &rMessage) const
   {
-    QReadLocker locker(&mObjectGuard);
+    QReadLocker locker(&mAppenderGuard);
 
     LoggingEvent event(this, level, rMessage);
     callAppenders(event);

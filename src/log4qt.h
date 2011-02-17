@@ -548,8 +548,8 @@ namespace Log4Qt
 		 * \sa \ref Log4Qt::LOG4QT_VERSION_STR "LOG4QT_VERSION_STR",
 		 *     \ref Log4Qt::LogManager::version() "LogManager::version()"
 		 */
-    // Defined in CMakeLists.txt
-		// #define LOG4QT_VERSION X
+		// Defined in CMakeLists.txt or pro file
+		//#define LOG4QT_VERSION 1.0.0
 
 		/*!
 		 * The macro expands to a string that specifies the Log4Qt's version
@@ -558,8 +558,9 @@ namespace Log4Qt
 		 * \sa \ref Log4Qt::LOG4QT_VERSION "LOG4QT_VERSION",
 		 *     \ref Log4Qt::LogManager::version() "LogManager::version()"
 		 */
-    // Defined in CMakeLists.txt
-		// #define LOG4QT_VERSION_STR "X"
+		// Defined in CMakeLists.txt or pro file
+		//#define LOG4QT_VERSION_STR "1.0.0"
+
 
 	enum ErrorCode
 	{
@@ -601,7 +602,8 @@ namespace Log4Qt
 		APPENDER_MISSING_DATABASE_OR_TABLE_ERROR,
 		APPENDER_EXEC_SQL_QUERY_ERROR,
 		APPENDER_INVALID_DATABASE_LAYOUT_ERROR,
-		APPENDER_TELNET_SERVER_NOT_RUNNING
+        APPENDER_TELNET_SERVER_NOT_RUNNING,
+        APPENDER_ASNC_DISPATCHER_NOT_RUNNING
 	};
 
 

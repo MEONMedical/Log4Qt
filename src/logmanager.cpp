@@ -167,7 +167,7 @@ namespace Log4Qt
 
 		const char* LogManager::version()
 		{
-				return LOG4QT_VERSION_STR;
+			return LOG4QT_VERSION_STR;
 		}
 
 

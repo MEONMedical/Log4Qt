@@ -5,21 +5,21 @@
  * created:     Dezember 2010
  * author:      Andreas Bacher
  *
- * 
+ *
  * Copyright 2007 Andreas Bacher
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  ******************************************************************************/
 
 
@@ -37,7 +37,7 @@
 
 namespace Log4Qt
 {
-	
+
 
 /**************************************************************************
  * Declarations
@@ -56,16 +56,16 @@ namespace Log4Qt
  **************************************************************************/
 AppenderAttachable::AppenderAttachable() :
 #if QT_VERSION < QT_VERSION_CHECK(4, 4, 0)
-        mObjectGuard()
+        mAppenderGuard()
 #else
-        mObjectGuard(QReadWriteLock::Recursive)
+        mAppenderGuard(QReadWriteLock::Recursive)
 #endif
 {
 }
 
 QList<Appender *> AppenderAttachable::appenders() const
 {
-    QReadLocker locker(&mObjectGuard);
+    QReadLocker locker(&mAppenderGuard);
 
     QList<Appender *> result;
     Appender *p_appender;
@@ -84,7 +84,7 @@ void AppenderAttachable::addAppender(Appender *pAppender)
     LogObjectPtr < Appender > p_appender = pAppender;
 
     {
-        QReadLocker locker(&mObjectGuard);
+        QReadLocker locker(&mAppenderGuard);
 
         if (!p_appender) {
             //logger()->warn("Adding null Appender to Logger '%1'", name());
@@ -98,7 +98,7 @@ void AppenderAttachable::addAppender(Appender *pAppender)
         }
     }
     {
-        QWriteLocker locker(&mObjectGuard);
+        QWriteLocker locker(&mAppenderGuard);
 
         if (mAppenders.contains(p_appender))
             return;
@@ -108,7 +108,7 @@ void AppenderAttachable::addAppender(Appender *pAppender)
 
 Appender *AppenderAttachable::appender(const QString &rName) const
 {
-    QReadLocker locker(&mObjectGuard);
+    QReadLocker locker(&mAppenderGuard);
 
     Appender *p_appender;
     Q_FOREACH(p_appender, mAppenders)
@@ -119,7 +119,7 @@ Appender *AppenderAttachable::appender(const QString &rName) const
 
 bool AppenderAttachable::isAttached(Appender *pAppender) const
 {
-    QReadLocker locker(&mObjectGuard);
+    QReadLocker locker(&mAppenderGuard);
 
     // Keep objects with a 0 reference count safe
     LogObjectPtr < Appender > p_appender = pAppender;
@@ -139,7 +139,7 @@ void AppenderAttachable::removeAllAppenders()
 
     QList < LogObjectPtr<Appender> > appenders;
     {
-        QWriteLocker locker(&mObjectGuard);
+        QWriteLocker locker(&mAppenderGuard);
         QMutableListIterator < LogObjectPtr<Appender> > i(mAppenders);
         while (i.hasNext()) {
             Appender *p_appender = i.next();
@@ -171,7 +171,7 @@ void AppenderAttachable::removeAllAppenders()
     }
     int n;
     {
-        QWriteLocker locker(&mObjectGuard);
+        QWriteLocker locker(&mAppenderGuard);
 
         n = mAppenders.removeAll(p_appender);
     }
@@ -194,6 +194,6 @@ void AppenderAttachable::removeAppender(const QString &rName)
 /**************************************************************************
  * Implementation: Operators, Helper
  **************************************************************************/
-	
-	
+
+
 } // namespace Log4Qt

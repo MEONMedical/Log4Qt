@@ -102,9 +102,8 @@ namespace Log4Qt
 			static qint64 startTime();
 
 	private:
-		void setThreadNameToCurrent();
+			void setThreadNameToCurrent();
 			static qint64 nextSequenceNumber();
-
 
 	private:
 			Level mLevel;

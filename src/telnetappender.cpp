@@ -142,12 +142,11 @@ namespace Log4Qt {
     QString message(layout()->format(rEvent));
 
     Q_FOREACH (QTcpSocket * pClientConnection, mTcpSockets)
-      {
+    {
         pClientConnection->write(message.toLocal8Bit().constData());
         if (immediateFlush())
-          pClientConnection->flush();
-      }
-
+            pClientConnection->flush();
+    }
   }
 
   bool TelnetAppender::checkEntryConditions() const

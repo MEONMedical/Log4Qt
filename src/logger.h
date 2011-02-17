@@ -232,7 +232,7 @@ namespace Log4Qt
 			 *
 			 * \sa additive(), setAdditive()
 			 */
-			Q_PROPERTY(bool additivity READ additivity WRITE setAdditivity)
+			Q_PROPERTY(bool additivity READ additivity WRITE  setAdditivity)
 
 			/*!
 			 * The property holds the level used by the logger.

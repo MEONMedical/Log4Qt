@@ -112,7 +112,7 @@ namespace Log4Qt
 	}
 
 
-	AppenderSkeleton::AppenderSkeleton(const bool isActive,
+    AppenderSkeleton::AppenderSkeleton(const bool isActive,
 																		 QObject *pParent) :
 			Appender(pParent),
 			mObjectGuard(QMutex::Recursive), // Recursive for doAppend()

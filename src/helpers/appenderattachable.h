@@ -100,7 +100,7 @@ public:
 
 protected:
     QList< LogObjectPtr<Appender> > mAppenders;
-    mutable QReadWriteLock mObjectGuard;
+    mutable QReadWriteLock mAppenderGuard;
 };
 
 /**************************************************************************

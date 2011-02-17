@@ -52,7 +52,7 @@ namespace Log4Qt
 		 * \a rOther. The reference counter of the object is incremented by
 		 * one.
 		 */
-			LogObjectPtr(const LogObjectPtr<T> &rOther);
+		LogObjectPtr(const LogObjectPtr<T> &rOther);
 
 		/*!
 		 * Constructs a LogObject pointer that points to the object

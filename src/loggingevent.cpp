@@ -187,11 +187,8 @@ namespace Log4Qt
 	    return ++msSequenceCount;
 	}
 
-
 	qint64 LoggingEvent::msSequenceCount = 0;
 	const QEvent::Type LoggingEvent::eventId = static_cast<QEvent::Type>(QEvent::registerEventType());
-
-
 
 	/**************************************************************************
 	 * Implementation: Operators, Helper

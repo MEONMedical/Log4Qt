@@ -78,10 +78,12 @@ set(LOG4QT_HEADERS
 
 set(LOG4QT_Q_HEADERS src/appender.h
     src/appenderskeleton.h
+    src/asyncappender.h
     src/colorconsoleappender.h
     src/consoleappender.h
     src/dailyrollingfileappender.h
     src/fileappender.h
+    src/mainthreadappender.h
     src/layout.h
     src/logger.h
     src/patternlayout.h
@@ -94,6 +96,7 @@ set(LOG4QT_Q_HEADERS src/appender.h
     src/systemlogappender.h
     src/helpers/configuratorhelper.h
     src/helpers/logobject.h
+    src/helpers/dispatcher.h
     src/spi/filter.h
     src/varia/debugappender.h
     src/varia/denyallfilter.h
@@ -111,6 +114,7 @@ set(LOG4QT_SOURCES
     src/helpers/initialisationhelper.cpp
     src/helpers/logerror.cpp
     src/helpers/logobject.cpp
+    src/helpers/dispatcher.cpp
     src/helpers/logobjectptr.cpp
     src/helpers/optionconverter.cpp
     src/helpers/patternformatter.cpp
@@ -129,8 +133,10 @@ set(LOG4QT_SOURCES
     src/basicconfigurator.cpp
     src/colorconsoleappender.cpp
     src/consoleappender.cpp
+    src/asyncappender.cpp
     src/dailyrollingfileappender.cpp
     src/fileappender.cpp
+    src/mainthreadappender.cpp
     src/hierarchy.cpp
     src/layout.cpp
     src/level.cpp

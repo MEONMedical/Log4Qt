@@ -92,7 +92,7 @@ namespace Log4Qt {
   {
     return true;
   }
+
 }
-;
 
 #endif //#ifndef SYSTEMLOGAPPENDER_H
