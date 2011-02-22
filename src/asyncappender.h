@@ -43,7 +43,7 @@
 namespace Log4Qt
 {
 
-class DispatcherThread;
+class Dispatcher;
 
 /*!
  * \brief The class AsyncAppender lets users log events asynchronously.
@@ -51,7 +51,7 @@ class DispatcherThread;
  * The AsyncAppender will collect the events sent to it and then dispatch them to all the
  * appenders that are attached to it. You can attach multiple appenders to an AsyncAppender.
  *
- * The AsyncAppender uses a separate thread to serve the events from the event loop.
+ * The AsyncAppender uses a separate thread to serve the events fromthe event loop.
  *
  * \note All the functions declared in this class are thread-safe.
  * &nbsp;
@@ -91,9 +91,6 @@ public:
 	 */
 	virtual bool checkEntryConditions() const;
 
-private slots:
-	void onDispatcherStarted();
-
 protected:
 	virtual void append(const LoggingEvent &rEvent);
 
@@ -117,7 +114,8 @@ private:
     Q_DISABLE_COPY(AsyncAppender)
 
     //! Event dispatcher trhead
-    DispatcherThread       *mDispatcherThread;
+    QThread       *mpThread;
+    Dispatcher    *mpDispatcher;
 };
 
 

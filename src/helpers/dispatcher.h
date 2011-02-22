@@ -66,30 +66,6 @@ private:
     AsyncAppender *mpAsyncAppender;
 };
 
-/*!
- * \brief The class DispatcherThread is the tread with logs events asynchronously.
- *
- * \note All the functions declared in this class are thread-safe.
- */
-class DispatcherThread : public QThread
-{
-    Q_OBJECT
-public:
-    explicit DispatcherThread(QObject *parent = 0);
-    virtual ~DispatcherThread();
-
-    //! posts the log event to the dispatchers threads event loop
-    void postLoggingEvent(const LoggingEvent &rEvent) const;
-    //! set the async appender
-    void setAsyncAppender(AsyncAppender *pAsyncAppender);
-
-protected:
-    //! reimpl
-    virtual void run();
-
-private:
-    Dispatcher *mpDispatcher;
-};
 
 /**************************************************************************
  * Operators, Helper

@@ -54,8 +54,10 @@ namespace Log4Qt
 
 
 AsyncAppender::AsyncAppender(QObject *parent) : AppenderSkeleton(parent)
-                                                ,mDispatcherThread(0)
-{}
+                                                ,mpThread(0)
+                                                ,mpDispatcher(0)
+{
+}
 
 AsyncAppender::~AsyncAppender()
 {
@@ -69,27 +71,28 @@ bool AsyncAppender::requiresLayout() const
 
 void AsyncAppender::activateOptions()
 {
-    if (!mDispatcherThread)
-        mDispatcherThread = new DispatcherThread();
+    if (mpThread)
+        return;
 
-    mDispatcherThread->start();
-    connect(mDispatcherThread, SIGNAL(started()), this, SLOT(onDispatcherStarted()));
-}
+    mpThread = new QThread();
+    mpDispatcher = new Dispatcher();
+    mpDispatcher->setAsyncAppender(this);
 
-void AsyncAppender::onDispatcherStarted()
-{
-    mDispatcherThread->setAsyncAppender(this);;
+    mpDispatcher->moveToThread(mpThread);
+    mpThread->start();
 }
 
 void AsyncAppender::close()
 {
-    if (mDispatcherThread)
+    if (mpThread)
     {
-        mDispatcherThread->setAsyncAppender(0);
-        mDispatcherThread->quit();
-        mDispatcherThread->wait();
-        delete mDispatcherThread;
-        mDispatcherThread = 0;
+        mpDispatcher->setAsyncAppender(0);
+        mpThread->quit();
+        mpThread->wait();
+        delete mpThread;
+        mpThread = 0;
+        delete mpDispatcher;
+        mpDispatcher = 0;
     }
 }
 
@@ -104,13 +107,14 @@ void AsyncAppender::callAppenders(const LoggingEvent &rEvent) const
 
 void AsyncAppender::append(const LoggingEvent &rEvent)
 {
-    // Post to the evet loop of the dispatcher thread
-    mDispatcherThread->postLoggingEvent(rEvent);
+    // Post to the event loop of the dispatcher
+    LoggingEvent *event = new LoggingEvent(rEvent);
+    qApp->postEvent(mpDispatcher, event);
 }
 
 bool AsyncAppender::checkEntryConditions() const
 {
-    if (mDispatcherThread && !mDispatcherThread->isRunning())
+    if (mpThread && !mpThread->isRunning())
     {
       LogError
           e =

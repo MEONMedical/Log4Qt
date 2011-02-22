@@ -44,7 +44,7 @@ void Dispatcher::customEvent(QEvent* event)
     if (event->type() == LoggingEvent::eventId)
     {
         LoggingEvent *logEvent = static_cast<LoggingEvent*>(event);
-        qDebug() << "Dispatcher::customEvent()" << QString("0x%1").arg((quintptr)(QThread::currentThread()), QT_POINTER_SIZE * 2, 16, QChar('0'));
+        logEvent->mThreadName2 = QString("0x%1").arg((quintptr)(QThread::currentThread()), QT_POINTER_SIZE * 2, 16, QChar('0'));
         if (mpAsyncAppender)
             mpAsyncAppender->callAppenders(*logEvent);
     }
@@ -56,37 +56,5 @@ void Dispatcher::setAsyncAppender(AsyncAppender *pAsyncAppender)
     mpAsyncAppender = pAsyncAppender;
 }
 
-
-/**************************************************************************
- * Class implementation: DispatcherThread
- **************************************************************************/
-DispatcherThread::DispatcherThread(QObject *parent) :
-    QThread(parent)
-    , mpDispatcher(0)
-{
-}
-
-DispatcherThread::~DispatcherThread()
-{
-    delete mpDispatcher;
-}
-
-void DispatcherThread::postLoggingEvent(const LoggingEvent &rEvent) const
-{
-    // Post to the event loop of the dispatcher thread
-    LoggingEvent *event = new LoggingEvent(rEvent);
-    qApp->postEvent(mpDispatcher, event);
-}
-
-void DispatcherThread::setAsyncAppender(AsyncAppender *pAsyncAppender)
-{
-    mpDispatcher->setAsyncAppender(pAsyncAppender);
-}
-
-void DispatcherThread::run()
-{
-    mpDispatcher = new Dispatcher();
-    exec();
-}
 
 } // namespace Log4Qt
