@@ -44,7 +44,6 @@ void Dispatcher::customEvent(QEvent* event)
     if (event->type() == LoggingEvent::eventId)
     {
         LoggingEvent *logEvent = static_cast<LoggingEvent*>(event);
-        logEvent->mThreadName2 = QString("0x%1").arg((quintptr)(QThread::currentThread()), QT_POINTER_SIZE * 2, 16, QChar('0'));
         if (mpAsyncAppender)
             mpAsyncAppender->callAppenders(*logEvent);
     }
