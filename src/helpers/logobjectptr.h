@@ -39,7 +39,7 @@ namespace Log4Qt
 	 *        for LogObject objects.
 	 */
 	template <class T>
-	class  LOG4QT_EXPORT LogObjectPtr
+	class LogObjectPtr
 	{
 	public:
 		/*!

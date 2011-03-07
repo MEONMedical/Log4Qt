@@ -18,7 +18,7 @@ find_package(Qt4 REQUIRED)
 # COMPILER customization
   # compilers flags
   if (MSVC)
-    add_definitions (/W3)
+    add_definitions (/W3 -Zc:wchar_t-)
   elseif (CMAKE_COMPILER_IS_GNUCXX)
     add_definitions (-Wall)
   else ()
@@ -215,7 +215,20 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 if (NOT LOG4QT_DONT_INSTALL)
     # CMAKE CONFIG FILE
-    set (INSTALL_PROJECT_INCLUDE_DIR "${QT_INCLUDE_DIR}/${PROJECT_NAME}")
+    
+    if (NOT APPLE)
+        SET(TARGET_INCLUDE_DIR "${QT_INCLUDE_DIR}/${PROJECT_NAME}")
+        SET(TARGET_LIB_DIR "${QT_LIBRARY_DIR}")
+        SET(TARGET_BIN_DIR "${QT_BINARY_DIR}")
+    else()
+        #Qt is the framework but log4qt is not. So it should not be placed into the frameworks location
+        #Also the include dir should not be retrieved from the Qt itself, see http://www.paraview.org/Bug/view.php?id=10632
+        SET(TARGET_INCLUDE_DIR "/usr/include")
+        SET(TARGET_LIB_DIR "/usr/lib")
+        SET(TARGET_BIN_DIR "/usr/bin")
+    endif()
+    
+    set (INSTALL_PROJECT_INCLUDE_DIR "${TARGET_INCLUDE_DIR}/${PROJECT_NAME}")
     # for using library in your cmake projects
     configure_file(
       "${CMAKE_CURRENT_SOURCE_DIR}/project-config.cmake.in"
@@ -229,14 +242,14 @@ if (NOT LOG4QT_DONT_INSTALL)
     set(PROJECT_TARGETS ${PROJECT_NAME}-targets)
     
     install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_TARGETS}
-      RUNTIME DESTINATION ${QT_BINARY_DIR}
-      LIBRARY DESTINATION ${QT_LIBRARY_DIR}
-      ARCHIVE DESTINATION ${QT_LIBRARY_DIR})
+      RUNTIME DESTINATION ${TARGET_BIN_DIR}
+      LIBRARY DESTINATION ${TARGET_LIB_DIR}
+      ARCHIVE DESTINATION ${TARGET_LIB_DIR})
     
     # install exported project target cmake file into qt_mkspec_dir/cmake
     install(EXPORT ${PROJECT_TARGETS} DESTINATION ${EXPORT_TARGET_DESTINATION} COMPONENT Devel)
     install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/" DESTINATION "${INSTALL_PROJECT_INCLUDE_DIR}" COMPONENT Devel
-    	FILES_MATCHING PATTERN "*.h")
+        FILES_MATCHING PATTERN "*.h")
     
     # install cmake config file
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake DESTINATION ${EXPORT_TARGET_DESTINATION} COMPONENT Devel)
@@ -244,10 +257,10 @@ if (NOT LOG4QT_DONT_INSTALL)
     # UNINSTALL TARGET
     # create cmake uninstall files and unregister docs scripts
     configure_file(
-    	"${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
-    	"${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
-    	IMMEDIATE @ONLY)
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+        IMMEDIATE @ONLY)
     
     add_custom_target(uninstall
-    	COMMAND "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
+        COMMAND "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 endif (NOT LOG4QT_DONT_INSTALL)
