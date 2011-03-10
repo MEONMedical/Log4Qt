@@ -69,7 +69,7 @@ namespace Log4Qt
 			 *
 			 * \sa levelMax(), setLevelMax()
 			 */
-			Q_PROPERTY(Level levelMax READ levelMax WRITE setLevelMax)
+			Q_PROPERTY(Log4Qt::Level levelMax READ levelMax WRITE setLevelMax)
 
 		/*!
 			 * The property holds the minimum level of the range for this filter.
@@ -78,7 +78,7 @@ namespace Log4Qt
 			 *
 			 * \sa levelMin(), setLevelMin()
 			 */
-			Q_PROPERTY(Level levelMin READ levelMin WRITE setLevelMin)
+			Q_PROPERTY(Log4Qt::Level levelMin READ levelMin WRITE setLevelMin)
 
 	public:
 		LevelRangeFilter(QObject *pParent = 0);

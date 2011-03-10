@@ -69,7 +69,7 @@ namespace Log4Qt
 			 *
 			 * \sa levelToMatch(), setLevelToMatch()
 			 */
-			Q_PROPERTY(Level levelToMatch READ levelToMatch WRITE setLevelToMatch)
+			Q_PROPERTY(Log4Qt::Level levelToMatch READ levelToMatch WRITE setLevelToMatch)
 
 	public:
 		LevelMatchFilter(QObject *pParent = 0);

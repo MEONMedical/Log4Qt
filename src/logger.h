@@ -240,7 +240,7 @@ namespace Log4Qt
 			 * The default is Level::NULL_INT.
 			 * \sa level(), setLevel()
 			 */
-			Q_PROPERTY(Level level READ level WRITE setLevel)
+			Q_PROPERTY(Log4Qt::Level level READ level WRITE setLevel)
 
 			/*!
 			 * The property holds the LoggerRepository of the logger.

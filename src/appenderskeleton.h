@@ -80,7 +80,7 @@ namespace Log4Qt
 			 *
 			 * \sa threshold(), setThreshold()
 			 */
-			 Q_PROPERTY(Level threshold READ threshold WRITE setThreshold)
+                        Q_PROPERTY(Log4Qt::Level threshold READ threshold WRITE setThreshold)
 
 	public:
 			AppenderSkeleton(QObject *pParent = 0);
