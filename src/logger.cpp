@@ -43,6 +43,7 @@
 #include "log4qt.h"
 #include "loggerrepository.h"
 #include "logmanager.h"
+#include "logstream.h"
 
 namespace Log4Qt {
 
@@ -167,6 +168,7 @@ namespace Log4Qt {
     LoggingEvent event(this, level, rMessage);
     callAppenders(event);
   }
+
 
   /**************************************************************************
    * Implementation: Operators, Helper

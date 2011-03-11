@@ -51,7 +51,8 @@ HEADERS += $$PWD/appender.h \
            $$PWD/varia/levelrangefilter.h \
            $$PWD/varia/listappender.h \
            $$PWD/varia/nullappender.h \
-           $$PWD/varia/stringmatchfilter.h
+           $$PWD/varia/stringmatchfilter.h \
+           $$PWD/logstream.h
 
 SOURCES += $$PWD/appenderskeleton.cpp \
            $$PWD/basicconfigurator.cpp \
@@ -103,6 +104,5 @@ SOURCES += $$PWD/appenderskeleton.cpp \
            $$PWD/varia/levelrangefilter.cpp \
            $$PWD/varia/listappender.cpp \
            $$PWD/varia/nullappender.cpp \
-           $$PWD/varia/stringmatchfilter.cpp
-
-
+           $$PWD/varia/stringmatchfilter.cpp \
+    ../lib/log4qt/src/logstream.cpp

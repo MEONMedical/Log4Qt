@@ -45,6 +45,7 @@
 #include "helpers/logobjectptr.h"
 #include "helpers/appenderattachable.h"
 #include "level.h"
+#include "logstream.h"
 
 #if QT_VERSION >= QT_VERSION_CHECK(4, 4, 0)
 #	ifndef Q_ATOMIC_POINTER_TEST_AND_SET_IS_ALWAYS_NATIVE
@@ -309,6 +310,7 @@ namespace Log4Qt
 			bool isTraceEnabled() const;
 			bool isWarnEnabled() const;
 
+			LogStream debug() const;
 			void debug(const QString &rMessage) const;
 			void debug(const LogError &rLogError) const;
 			void debug(const char *pMessage) const;
@@ -365,6 +367,7 @@ namespace Log4Qt
 								 const QVariant &rArg2,
 								 const QVariant &rArg3) const;
 
+			LogStream error() const;
 			void error(const QString &rMessage) const;
 			void error(const LogError &rLogError) const;
 			void error(const char *pMessage) const;
@@ -420,6 +423,7 @@ namespace Log4Qt
 								 const QVariant &rArg2,
 								 const QVariant &rArg3) const;
 
+			LogStream fatal() const;
 			void fatal(const QString &rMessage) const;
 			void fatal(const LogError &rLogError) const;
 			void fatal(const char *pMessage) const;
@@ -476,6 +480,7 @@ namespace Log4Qt
 								 const QVariant &rArg2,
 								 const QVariant &rArg3) const;
 
+			LogStream info() const;
 			void info(const QString &rMessage) const;
 			void info(const LogError &rLogError) const;
 			void info(const char *pMessage) const;
@@ -532,6 +537,7 @@ namespace Log4Qt
 								const QVariant &rArg2,
 								const QVariant &rArg3) const;
 
+			LogStream log(Level level) const;
 			void log(Level level,
 							 const QString &rMessage) const;
 			void log(Level level,
@@ -612,6 +618,7 @@ namespace Log4Qt
 			//                   const QString &rKey,
 			//                   const QList<Object *> rParameters);
 
+			LogStream trace() const;
 			void trace(const QString &rMessage) const;
 			void trace(const LogError &rLogError) const;
 			void trace(const char *pMessage) const;
@@ -668,6 +675,7 @@ namespace Log4Qt
 								 const QVariant &rArg2,
 								 const QVariant &rArg3) const;
 
+			LogStream warn() const;
 			void warn(const QString &rMessage) const;
 			void warn(const LogError &rLogError) const;
 			void warn(const char *pMessage) const;
@@ -831,6 +839,9 @@ namespace Log4Qt
 
 	// Log operations: debug
 
+	inline LogStream Logger::debug() const
+	{   return LogStream(*this, Level::DEBUG_INT); }
+
 	inline void Logger::debug(const LogError &rLogError) const
 	{   if (isEnabledFor(Level::DEBUG_INT))
 			forcedLog(Level::DEBUG_INT, rLogError.toString());  }
@@ -941,6 +952,9 @@ namespace Log4Qt
 			forcedLog(Level::DEBUG_INT, QString::fromUtf8(pMessage).arg(rArg1.toString(), rArg2.toString(), rArg3.toString()));  }
 
 	// Log operations: error
+
+	inline LogStream Logger::error() const
+	{   return LogStream(*this, Level::ERROR_INT); }
 
 	inline void Logger::error(const QString &rMessage) const
 	{   if (isEnabledFor(Level::ERROR_INT))
@@ -1053,6 +1067,9 @@ namespace Log4Qt
 
 	// Log operations: fatal
 
+	inline LogStream Logger::fatal() const
+	{   return LogStream(*this, Level::FATAL_INT); }
+
 	inline void Logger::fatal(const QString &rMessage) const
 	{   if (isEnabledFor(Level::FATAL_INT))
 			forcedLog(Level::FATAL_INT, rMessage);  }
@@ -1161,6 +1178,9 @@ namespace Log4Qt
 			forcedLog(Level::FATAL_INT, QString::fromUtf8(pMessage).arg(rArg1.toString(), rArg2.toString(), rArg3.toString()));  }
 
 	// Log operations: info
+
+	inline LogStream Logger::info() const
+	{   return LogStream(*this, Level::INFO_INT); }
 
 	inline void Logger::info(const QString &rMessage) const
 	{   if (isEnabledFor(Level::INFO_INT))
@@ -1272,6 +1292,9 @@ namespace Log4Qt
 			forcedLog(Level::INFO_INT, QString::fromUtf8(pMessage).arg(rArg1.toString(), rArg2.toString(), rArg3.toString()));  }
 
 	// Log operations: log
+
+	inline LogStream Logger::log(Level level) const
+	{   return LogStream(*this, level); }
 
 	inline void Logger::log(Level level,
 													const QString &rMessage) const
@@ -1401,6 +1424,9 @@ namespace Log4Qt
 
 	// Log operations: trace
 
+	inline LogStream Logger::trace() const
+	{   return LogStream(*this, Level::TRACE_INT); }
+
 	inline void Logger::trace(const QString &rMessage) const
 	{   if (isEnabledFor(Level::TRACE_INT))
 			forcedLog(Level::TRACE_INT, rMessage);  }
@@ -1511,6 +1537,9 @@ namespace Log4Qt
 			forcedLog(Level::TRACE_INT, QString::fromUtf8(pMessage).arg(rArg1.toString(), rArg2.toString(), rArg3.toString()));  }
 
 	// Log operations: warn
+
+	inline LogStream Logger::warn() const
+	{   return LogStream(*this, Level::WARN_INT); }
 
 	inline void Logger::warn(const QString &rMessage) const
 	{   if (isEnabledFor(Level::WARN_INT))
