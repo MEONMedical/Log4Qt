@@ -105,4 +105,4 @@ SOURCES += $$PWD/appenderskeleton.cpp \
            $$PWD/varia/listappender.cpp \
            $$PWD/varia/nullappender.cpp \
            $$PWD/varia/stringmatchfilter.cpp \
-    ../lib/log4qt/src/logstream.cpp
+           $$PWD/logstream.cpp

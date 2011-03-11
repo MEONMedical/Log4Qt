@@ -74,6 +74,7 @@ set(LOG4QT_HEADERS
     src/propertyconfigurator.h
     src/helpers/logerror.h
     src/helpers/appenderattachable.h
+    src/logstream.h
 )
 
 set(LOG4QT_Q_HEADERS src/appender.h
@@ -155,6 +156,7 @@ set(LOG4QT_SOURCES
     src/simpletimelayout.cpp
     src/ttcclayout.cpp
     src/writerappender.cpp
+    src/logstream.cpp
 )
 
 # project version
