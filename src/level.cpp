@@ -199,5 +199,44 @@ namespace Log4Qt
 	}
 #endif // QT_NO_DEBUG_STREAM
 
+Level::Level(Value value)
+    : mValue(value)
+{
+}
+
+int Level::toInt() const
+{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
+    return mValue;
+}
+
+bool Level::operator==(const Level &rOther) const
+{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
+    return mValue == rOther.mValue;
+}
+
+bool Level::operator!=(const Level &rOther) const
+{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
+    return mValue != rOther.mValue;
+}
+
+bool Level::operator<(const Level &rOther) const
+{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
+    return mValue < rOther.mValue;
+}
+
+bool Level::operator<=(const Level &rOther) const
+{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
+    return mValue <= rOther.mValue;
+}
+
+bool Level::operator>(const Level &rOther) const
+{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
+    return mValue > rOther.mValue;
+}
+
+bool Level::operator>=(const Level &rOther) const
+{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
+    return mValue >= rOther.mValue;
+}
 
 } // namespace Log4Qt

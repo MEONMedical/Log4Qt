@@ -144,45 +144,6 @@ namespace Log4Qt
 										const Level &rLevel);
 #endif // QT_NO_DEBUG_STREAM
 
-
-	/**************************************************************************
-	 * Inline
-	 **************************************************************************/
-
-
-	inline Level::Level(Value value) :
-			mValue(value)
-	{}
-
-		inline int Level::toInt() const
-		{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-				return mValue; }
-
-		inline bool Level::operator==(const Level &rOther) const
-		{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-				return mValue == rOther.mValue; }
-
-	inline bool Level::operator!=(const Level &rOther) const
-		{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-			return mValue != rOther.mValue; }
-
-	inline bool Level::operator<(const Level &rOther) const
-		{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-			return mValue < rOther.mValue; }
-
-	inline bool Level::operator<=(const Level &rOther) const
-		{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-			return mValue <= rOther.mValue; }
-
-	inline bool Level::operator>(const Level &rOther) const
-		{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-			return mValue > rOther.mValue; }
-
-	inline bool Level::operator>=(const Level &rOther) const
-		{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-			return mValue >= rOther.mValue; }
-
-
 } // namespace Log4Qt
 
 

@@ -8,7 +8,9 @@
 #include <QtCore/QCoreApplication>
 
 #if defined(Q_WS_WIN)
+#ifndef UNICODE
 #define UNICODE
+#endif
 #include <qt_windows.h>
 #include <QtCore/QLibrary>
 
