@@ -43,7 +43,7 @@ namespace Log4Qt
 {
     class Logger;
 
-    class LogStream
+    class LOG4QT_EXPORT LogStream
     {
 
     private:
