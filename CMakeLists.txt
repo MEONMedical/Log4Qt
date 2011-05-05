@@ -8,7 +8,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/lib")
 set(CMAKE_DEBUG_POSTFIX d)
 set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 # variable for project name, used in many places
-set (PROJECT log4qt)
+set (PROJECT Log4Qt)
 
 project(${PROJECT})
 
@@ -230,7 +230,6 @@ if (NOT LOG4QT_DONT_INSTALL)
         SET(TARGET_BIN_DIR "/usr/bin")
     endif()
     
-    set (INSTALL_PROJECT_INCLUDE_DIR "${TARGET_INCLUDE_DIR}/${PROJECT_NAME}")
     # for using library in your cmake projects
     configure_file(
       "${CMAKE_CURRENT_SOURCE_DIR}/project-config.cmake.in"
@@ -250,8 +249,9 @@ if (NOT LOG4QT_DONT_INSTALL)
     
     # install exported project target cmake file into qt_mkspec_dir/cmake
     install(EXPORT ${PROJECT_TARGETS} DESTINATION ${EXPORT_TARGET_DESTINATION} COMPONENT Devel)
-    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/" DESTINATION "${INSTALL_PROJECT_INCLUDE_DIR}" COMPONENT Devel
+    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/" DESTINATION "${TARGET_INCLUDE_DIR}" COMPONENT Devel
         FILES_MATCHING PATTERN "*.h")
+    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/deploy/include/" DESTINATION "${TARGET_INCLUDE_DIR}" COMPONENT Devel)
     
     # install cmake config file
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake DESTINATION ${EXPORT_TARGET_DESTINATION} COMPONENT Devel)
