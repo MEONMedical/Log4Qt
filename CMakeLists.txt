@@ -13,6 +13,7 @@ set (PROJECT Log4Qt)
 project(${PROJECT})
 
 string(TOUPPER ${PROJECT_NAME} PROJECT_TO_UPPER)
+string(TOLOWER ${PROJECT_NAME} PROJECT_TO_LOWER)
 
 find_package(Qt4 REQUIRED)
 # COMPILER customization
@@ -233,7 +234,7 @@ if (NOT LOG4QT_DONT_INSTALL)
     # for using library in your cmake projects
     configure_file(
       "${CMAKE_CURRENT_SOURCE_DIR}/project-config.cmake.in"
-      "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
+      "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_TO_LOWER}-config.cmake"
       IMMEDIATE @ONLY)
     
     # INSTALLATION
@@ -254,7 +255,7 @@ if (NOT LOG4QT_DONT_INSTALL)
     install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/deploy/include/" DESTINATION "${TARGET_INCLUDE_DIR}" COMPONENT Devel)
     
     # install cmake config file
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake DESTINATION ${EXPORT_TARGET_DESTINATION} COMPONENT Devel)
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_TO_LOWER}-config.cmake DESTINATION ${EXPORT_TARGET_DESTINATION} COMPONENT Devel)
     
     # UNINSTALL TARGET
     # create cmake uninstall files and unregister docs scripts

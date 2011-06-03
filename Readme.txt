@@ -34,7 +34,7 @@ If your have cmake-based project
     3. link library to target.
     
     For example:
-    find_package(log4qt REQUIRED HINTS "${QT_MKSPECS_DIR}/cmake" NO_DEFAULT_PATHS)
+    find_package(log4qt REQUIRED HINTS "${QT_MKSPECS_DIR}/cmake/Log4Qt" NO_DEFAULT_PATHS)
     include_directories(${LOG4QT_INCLUDE_DIRS})
     target_link_libraries(main ${QT_LIBRARIES} log4qt)
 
