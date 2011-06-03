@@ -226,7 +226,7 @@ if (NOT LOG4QT_DONT_INSTALL)
     else()
         #Qt is the framework but log4qt is not. So it should not be placed into the frameworks location
         #Also the include dir should not be retrieved from the Qt itself, see http://www.paraview.org/Bug/view.php?id=10632
-        SET(TARGET_INCLUDE_DIR "/usr/include")
+        SET(TARGET_INCLUDE_DIR "/usr/include/${PROJECT_NAME}")
         SET(TARGET_LIB_DIR "/usr/lib")
         SET(TARGET_BIN_DIR "/usr/bin")
     endif()
