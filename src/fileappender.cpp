@@ -40,7 +40,10 @@
 #include "layout.h"
 #include "loggingevent.h"
 
-
+// if we are in WIN*
+#if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
+#include <windows.h>
+#endif
 
 namespace Log4Qt
 {
@@ -244,6 +247,13 @@ namespace Log4Qt
 					parent_dir.mkdir(name);
 			}
 
+#if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
+                        // Let windows resolve any environment variables included in the file path
+                        wchar_t buffer[MAX_PATH];
+                        if (ExpandEnvironmentStringsW((wchar_t*)mFileName.utf16(), buffer, MAX_PATH)) {
+                            mFileName = QString::fromWCharArray(buffer);
+                        }
+#endif
 
 			mpFile = new QFile(mFileName);
 			QFile::OpenMode mode = QIODevice::WriteOnly | QIODevice::Text;
