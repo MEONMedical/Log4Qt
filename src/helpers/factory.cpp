@@ -38,7 +38,6 @@
 #include "colorconsoleappender.h"
 #include "dailyrollingfileappender.h"
 #include "fileappender.h"
-#include "telnetappender.h"
 #include "helpers/logerror.h"
 #include "helpers/initialisationhelper.h"
 #include "helpers/optionconverter.h"
@@ -48,6 +47,10 @@
 #include "simplelayout.h"
 #include "simpletimelayout.h"
 #include "ttcclayout.h"
+
+#if defined(QT_NETWORK_LIB)
+#include "telnetappender.h"
+#endif
 
 #if defined(QT_SQL_LIB)
 #include "databaseappender.h"
