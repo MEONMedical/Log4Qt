@@ -35,6 +35,7 @@
 #include <QtCore/QMetaObject>
 #include <QtCore/QMetaProperty>
 #include "consoleappender.h"
+#include "colorconsoleappender.h"
 #include "dailyrollingfileappender.h"
 #include "fileappender.h"
 #include "telnetappender.h"
@@ -106,6 +107,9 @@ namespace Log4Qt
 
 	Appender *create_signal_appender()
 	{	return new SignalAppender;	}
+
+	Appender *create_color_console_appender()
+	{   return new ColorConsoleAppender;}
 
 #if defined(QT_SQL_LIB)
 	Appender *create_database_appender()
@@ -364,6 +368,8 @@ namespace Log4Qt
 
 			mAppenderRegistry.insert(QLatin1String("org.apache.log4j.SignalAppender"), create_signal_appender);
 			mAppenderRegistry.insert(QLatin1String("Log4Qt::SignalAppender"), create_signal_appender);
+			mAppenderRegistry.insert(QLatin1String("org.apache.log4j.ColorConsoleAppender"), create_color_console_appender);
+						mAppenderRegistry.insert(QLatin1String("Log4Qt::ColorConsoleAppender"), create_color_console_appender);
 
 #if defined(QT_SQL_LIB)
 			mAppenderRegistry.insert(QLatin1String("org.apache.log4j.DatabaseAppender"), create_database_appender);
