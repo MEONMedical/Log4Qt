@@ -219,17 +219,26 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 if (NOT LOG4QT_DONT_INSTALL)
     # CMAKE CONFIG FILE
     
-    if (NOT APPLE)
-        SET(TARGET_INCLUDE_DIR "${QT_INCLUDE_DIR}/${PROJECT_NAME}")
-        SET(TARGET_LIB_DIR "${QT_LIBRARY_DIR}")
-        SET(TARGET_BIN_DIR "${QT_BINARY_DIR}")
-    else()
-        #Qt is the framework but log4qt is not. So it should not be placed into the frameworks location
-        #Also the include dir should not be retrieved from the Qt itself, see http://www.paraview.org/Bug/view.php?id=10632
-        SET(TARGET_INCLUDE_DIR "/usr/include/${PROJECT_NAME}")
-        SET(TARGET_LIB_DIR "/usr/lib")
-        SET(TARGET_BIN_DIR "/usr/bin")
-    endif()
+	if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+		if (NOT APPLE)
+			SET(TARGET_INCLUDE_DIR "${QT_INCLUDE_DIR}/${PROJECT_NAME}")
+			SET(TARGET_LIB_DIR "${QT_LIBRARY_DIR}")
+			SET(TARGET_BIN_DIR "${QT_BINARY_DIR}")
+		else()
+			#Qt is the framework but log4qt is not. So it should not be placed into the frameworks location
+			#Also the include dir should not be retrieved from the Qt itself, see http://www.paraview.org/Bug/view.php?id=10632
+			SET(TARGET_INCLUDE_DIR "/usr/include/${PROJECT_NAME}")
+			SET(TARGET_LIB_DIR "/usr/lib")
+			SET(TARGET_BIN_DIR "/usr/bin")
+		endif()
+		# copy project file into qt_libdir and create project.cmake file for use this library in your cmake projects
+		set(EXPORT_TARGET_DESTINATION "${QT_MKSPECS_DIR}/cmake/${PROJECT_NAME}")
+	else()
+		SET(TARGET_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/include/${PROJECT_TO_LOWER}")
+		SET(TARGET_LIB_DIR "${CMAKE_INSTALL_PREFIX}/lib")
+		SET(TARGET_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin")
+		SET(EXPORT_TARGET_DESTINATION "${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}")
+	endif (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     
     # for using library in your cmake projects
     configure_file(
@@ -239,8 +248,6 @@ if (NOT LOG4QT_DONT_INSTALL)
     
     # INSTALLATION
     # install and export project target
-    # copy project file into qt_libdir and create project.cmake file for use this library in your cmake projects
-    set(EXPORT_TARGET_DESTINATION "${QT_MKSPECS_DIR}/cmake/${PROJECT_NAME}")
     set(PROJECT_TARGETS ${PROJECT_NAME}-targets)
     
     install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_TARGETS}
@@ -248,7 +255,7 @@ if (NOT LOG4QT_DONT_INSTALL)
       LIBRARY DESTINATION ${TARGET_LIB_DIR}
       ARCHIVE DESTINATION ${TARGET_LIB_DIR})
     
-    # install exported project target cmake file into qt_mkspec_dir/cmake
+    # install exported project target cmake file into export target
     install(EXPORT ${PROJECT_TARGETS} DESTINATION ${EXPORT_TARGET_DESTINATION} COMPONENT Devel)
     install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/" DESTINATION "${TARGET_INCLUDE_DIR}" COMPONENT Devel
         FILES_MATCHING PATTERN "*.h")
