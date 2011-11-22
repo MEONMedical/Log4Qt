@@ -170,6 +170,12 @@ set(SOVERSION ${LOG4QT_VERSION})
 add_definitions(-DLOG4QT_VERSION=${LOG4QT_VERSION_MAJOR}*65536+${LOG4QT_VERSION_MINOR}*256+${LOG4QT_VERSION_RELEASE})
 add_definitions(-DLOG4QT_VERSION_STR="${LOG4QT_VERSION}")
 
+# Make sure LOG4QT_BUILD_STATIC is defined since the variable value is used when configuring
+# the project-config.cmake file.
+if (NOT DEFINED LOG4QT_BUILD_STATIC)
+	set (LOG4QT_BUILD_STATIC FALSE)
+endif (NOT DEFINED LOG4QT_BUILD_STATIC)
+
 # QT
 set(QT_DONTUSE_QTGUI TRUE)
 include(${QT_USE_FILE})
