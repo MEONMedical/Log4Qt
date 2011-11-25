@@ -38,6 +38,7 @@
 
 // if we are in WIN*
 #if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
+#define NOGDI
 #include <windows.h>
 #endif
 
