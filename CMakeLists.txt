@@ -222,9 +222,27 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     VERSION ${LOG4QT_VERSION}
     DEFINE_SYMBOL ${PROJECT_TO_UPPER}_EXPORTS)
 
+# Allow install location to be overridden for libraries, includes, binaries and cmake configuration
+# files. This provides fine-grained control over where various pieces get installed. The
+# LIB_INSTALL_DIR and BIN_INSTALL_DIR locations are particularly useful for platforms where 32-bit
+# and 64-bit binaries must be separate. (Idea shamelessly stolen from the QJson project.)
+# NOTE: these locations will be used *only* if CMAKE_INSTALL_PREFIX is explicitly defined (see
+# comment below).
+set (BIN_SUFFIX "" CACHE STRING "Define suffix of binary directory name (32/64)" )
+set (BIN_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/bin${BIN_SUFFIX}" CACHE PATH "The directory where binaries will install")
+set (LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib${BIN_SUFFIX}" CACHE PATH "The directory where lib will install")
+set (INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/include/${PROJECT_TO_LOWER}" CACHE PATH "The directory where headers will install")
+set (CMAKECONFIG_INSTALL_DIR "${LIB_INSTALL_DIR}/cmake/${PROJECT_NAME}" CACHE PATH "The directory where Log4QtConfig.cmake will install")
+
 if (NOT LOG4QT_DONT_INSTALL)
-    # CMAKE CONFIG FILE
     
+	# The original implementation of this module used hardcoded paths for the install locations on
+	# Mac OS X (everything was installed under the /usr directory); or would install directly into
+	# the Qt directories on other platforms. CMAKE_INSTALL_PREFIX was ignored. This original
+	# behaviour is preserved for anyone who was relying on it. We continue to use those default
+	# install locations if CMAKE_INSTALL_PREFIX has *not* been explicitly defined. The rationale is
+	# that folks who were satisfied with the old, default install locations would not have been
+	# trying to use CMAKE_INSTALL_PREFIX.
 	if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 		if (NOT APPLE)
 			SET(TARGET_INCLUDE_DIR "${QT_INCLUDE_DIR}/${PROJECT_NAME}")
@@ -240,10 +258,10 @@ if (NOT LOG4QT_DONT_INSTALL)
 		# copy project file into qt_libdir and create project.cmake file for use this library in your cmake projects
 		set(EXPORT_TARGET_DESTINATION "${QT_MKSPECS_DIR}/cmake/${PROJECT_NAME}")
 	else()
-		SET(TARGET_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/include/${PROJECT_TO_LOWER}")
-		SET(TARGET_LIB_DIR "${CMAKE_INSTALL_PREFIX}/lib")
-		SET(TARGET_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin")
-		SET(EXPORT_TARGET_DESTINATION "${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}")
+		SET(TARGET_INCLUDE_DIR "${INCLUDE_INSTALL_DIR}")
+		SET(TARGET_LIB_DIR "${LIB_INSTALL_DIR}")
+		SET(TARGET_BIN_DIR "${BIN_INSTALL_DIR}")
+		SET(EXPORT_TARGET_DESTINATION "${CMAKECONFIG_INSTALL_DIR}")
 	endif (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     
     # for using library in your cmake projects
