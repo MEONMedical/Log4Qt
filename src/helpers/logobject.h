@@ -183,7 +183,13 @@ namespace Log4Qt
 	{}
 
 	inline int LogObject::referenceCount() const
-	{	return mReferenceCount;	}
+	{
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
+		return mReferenceCount;
+#else
+		return mReferenceCount.loadAcquire();
+#endif
+	}
 
 	inline void LogObject::release()
 #if QT_VERSION < QT_VERSION_CHECK(4, 4, 0)

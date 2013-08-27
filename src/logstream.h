@@ -65,7 +65,9 @@ namespace Log4Qt
         ~LogStream();
 
         inline LogStream &operator<<(QChar t) { stream->ts << '\'' << t << '\''; return *this; }
+#if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
         inline LogStream &operator<<(QBool t) { stream->ts << (bool(t != 0) ? "true" : "false"); return *this; }
+#endif
         inline LogStream &operator<<(bool t) { stream->ts << (t ? "true" : "false"); return *this; }
         inline LogStream &operator<<(char t) { stream->ts << t; return *this; }
         inline LogStream &operator<<(signed short t) { stream->ts << t; return *this; }
@@ -78,7 +80,7 @@ namespace Log4Qt
         inline LogStream &operator<<(quint64 t) { stream->ts << QString::number(t); return *this; }
         inline LogStream &operator<<(float t) { stream->ts << t; return *this; }
         inline LogStream &operator<<(double t) { stream->ts << t; return *this; }
-        inline LogStream &operator<<(const char* t) { stream->ts << QString::fromAscii(t); return *this; }
+        inline LogStream &operator<<(const char* t) { stream->ts << QString::fromLatin1(t); return *this; }
         inline LogStream &operator<<(const QString & t) { stream->ts << t ; return *this; }
         inline LogStream &operator<<(const QStringRef & t) { return operator<<(t.toString()); }
         inline LogStream &operator<<(const QLatin1String &t) { stream->ts << t.latin1(); return *this; }

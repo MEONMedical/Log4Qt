@@ -40,7 +40,7 @@ HEADERS += $$PWD/appender.h \
            $$PWD/helpers/logerror.h \
            $$PWD/helpers/logobject.h \
            $$PWD/helpers/logobjectptr.h \
-           $$PWD/ helpers/optionconverter.h \
+           $$PWD/helpers/optionconverter.h \
            $$PWD/helpers/patternformatter.h \
            $$PWD/helpers/properties.h \
            $$PWD/helpers/dispatcher.h \

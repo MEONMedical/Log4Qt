@@ -255,15 +255,23 @@ namespace Log4Qt
 		void doConfigureLogLogger();
 		void doStartup();
 		void welcome();
-			static void qtMessageHandler(QtMsgType type,
-																	 const char *pMessage);
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
+		static void qtMessageHandler(QtMsgType type,
+																 const char *pMessage);
+#else
+		static void qtMessageHandler(QtMsgType type, const QMessageLogContext &, const QString & pMessage);
+#endif
 
 	private:
 			mutable QMutex mObjectGuard;
 			LoggerRepository *mpLoggerRepository;
 			Logger *mpNullLogger;
 			bool mHandleQtMessages;
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
 			QtMsgHandler mOldQtMsgHandler;
+#else
+			QtMessageHandler mOldQtMsgHandler;
+#endif
 			static LogManager *mspInstance;
 	};
 

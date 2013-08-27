@@ -154,7 +154,7 @@ namespace Log4Qt {
 #if !defined(Q_WS_WIN)
     if (ident)
       delete[] ident;
-    QString tmp = encodeName(mServiceName, TRUE);
+    QString tmp = encodeName(mServiceName, true);
     int len = tmp.toLocal8Bit().size();
     ident = new char[len + 1];
     ident[len] = '\0';

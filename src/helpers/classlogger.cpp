@@ -76,11 +76,16 @@ namespace Log4Qt
 										0,
 										LogManager::logger(QLatin1String(pObject->metaObject()->className())));
 			return const_cast<Logger *>(mpLogger);
-#else
+#elif QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
 			if (!static_cast<Logger *>(mpLogger))
 			 mpLogger.testAndSetOrdered(0,
 										LogManager::logger(QLatin1String(pObject->metaObject()->className())));
 			return const_cast<Logger *>(static_cast<Logger *>(mpLogger));
+#else
+		if (!static_cast<Logger *>(mpLogger.loadAcquire()))
+		 mpLogger.testAndSetOrdered(0,
+									LogManager::logger(QLatin1String(pObject->metaObject()->className())));
+		return const_cast<Logger *>(static_cast<Logger *>(mpLogger.loadAcquire()));
 #endif
 	}
 
