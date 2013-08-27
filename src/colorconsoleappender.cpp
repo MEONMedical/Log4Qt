@@ -98,7 +98,7 @@ static void colorOutputString(HANDLE hConsole, const QString& output)
   QString message = output;
 
   // save colors
-  CONSOLE_SCREEN_BUFFER_INFO cbi = {sizeof(cbi)};
+	CONSOLE_SCREEN_BUFFER_INFO cbi;
   GetConsoleScreenBufferInfo(hConsole,&cbi);
 
   wchar_t *wideMessage;
