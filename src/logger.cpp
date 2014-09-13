@@ -251,10 +251,20 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::DEBUG_INT))
                   forcedLog(Level::DEBUG_INT, QString::fromUtf8(pMessage).arg(rArg1));  }
 
+  void Logger::debug(const QString &rMessage,
+                                                                                                          const QString &rArg1) const
+  {   if (isEnabledFor(Level::DEBUG_INT))
+                  forcedLog(Level::DEBUG_INT, rMessage.arg(rArg1));  }
+
   void Logger::debug(const char *pMessage,
                                                                                                           int arg1) const
   {   if (isEnabledFor(Level::DEBUG_INT))
                   forcedLog(Level::DEBUG_INT, QString::fromUtf8(pMessage).arg(arg1));  }
+
+  void Logger::debug(const QString &rMessage,
+                                                                                                          int arg1) const
+  {   if (isEnabledFor(Level::DEBUG_INT))
+                  forcedLog(Level::DEBUG_INT, rMessage.arg(arg1));  }
 
   void Logger::debug(const char *pMessage,
                                                                                                           const QString &rArg1,
@@ -262,11 +272,23 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::DEBUG_INT))
                   forcedLog(Level::DEBUG_INT, QString::fromUtf8(pMessage).arg(rArg1, rArg2));  }
 
+  void Logger::debug(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          const QString &rArg2) const
+  {   if (isEnabledFor(Level::DEBUG_INT))
+                  forcedLog(Level::DEBUG_INT, rMessage.arg(rArg1, rArg2));  }
+
   void Logger::debug(const char *pMessage,
                                                                                                           const QString &rArg1,
                                                                                                           int arg2) const
   {   if (isEnabledFor(Level::DEBUG_INT))
                   forcedLog(Level::DEBUG_INT, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2));  }
+
+  void Logger::debug(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          int arg2) const
+  {   if (isEnabledFor(Level::DEBUG_INT))
+                  forcedLog(Level::DEBUG_INT, rMessage.arg(rArg1).arg(arg2));  }
 
   void Logger::debug(const char *pMessage,
                                                                                                           int arg1,
@@ -274,11 +296,23 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::DEBUG_INT))
                   forcedLog(Level::DEBUG_INT, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2));  }
 
+  void Logger::debug(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          const QString &rArg2) const
+  {   if (isEnabledFor(Level::DEBUG_INT))
+                  forcedLog(Level::DEBUG_INT, rMessage.arg(arg1).arg(rArg2));  }
+
   void Logger::debug(const char *pMessage,
                                                                                                           int arg1,
                                                                                                           int arg2) const
   {   if (isEnabledFor(Level::DEBUG_INT))
                   forcedLog(Level::DEBUG_INT, QString::fromUtf8(pMessage).arg(arg1).arg(arg2));  }
+
+  void Logger::debug(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          int arg2) const
+  {   if (isEnabledFor(Level::DEBUG_INT))
+                  forcedLog(Level::DEBUG_INT, rMessage.arg(arg1).arg(arg2));  }
 
   void Logger::debug(const char *pMessage,
                                                                                                           const QString &rArg1,
@@ -287,12 +321,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::DEBUG_INT))
                   forcedLog(Level::DEBUG_INT, QString::fromUtf8(pMessage).arg(rArg1, rArg2, rArg3));  }
 
+  void Logger::debug(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          const QString &rArg2,
+                                                                                                          const QString &rArg3) const
+  {   if (isEnabledFor(Level::DEBUG_INT))
+                  forcedLog(Level::DEBUG_INT, rMessage.arg(rArg1, rArg2, rArg3));  }
+
   void Logger::debug(const char *pMessage,
                                                                                                           const QString &rArg1,
                                                                                                           const QString &rArg2,
                                                                                                           int arg3) const
   {   if (isEnabledFor(Level::DEBUG_INT))
                   forcedLog(Level::DEBUG_INT, QString::fromUtf8(pMessage).arg(rArg1, rArg2).arg(arg3));  }
+
+  void Logger::debug(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          const QString &rArg2,
+                                                                                                          int arg3) const
+  {   if (isEnabledFor(Level::DEBUG_INT))
+                  forcedLog(Level::DEBUG_INT, rMessage.arg(rArg1, rArg2).arg(arg3));  }
 
   void Logger::debug(const char *pMessage,
                                                                                                           const QString &rArg1,
@@ -301,12 +349,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::DEBUG_INT))
                   forcedLog(Level::DEBUG_INT, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2).arg(rArg3));  }
 
+  void Logger::debug(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          int arg2,
+                                                                                                          const QString &rArg3) const
+  {   if (isEnabledFor(Level::DEBUG_INT))
+                  forcedLog(Level::DEBUG_INT, rMessage.arg(rArg1).arg(arg2).arg(rArg3));  }
+
   void Logger::debug(const char *pMessage,
                                                                                                           const QString &rArg1,
                                                                                                           int arg2,
                                                                                                           int arg3) const
   {   if (isEnabledFor(Level::DEBUG_INT))
                   forcedLog(Level::DEBUG_INT, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2).arg(arg3));  }
+
+  void Logger::debug(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          int arg2,
+                                                                                                          int arg3) const
+  {   if (isEnabledFor(Level::DEBUG_INT))
+                  forcedLog(Level::DEBUG_INT, rMessage.arg(rArg1).arg(arg2).arg(arg3));  }
 
   void Logger::debug(const char *pMessage,
                                                                                                           int arg1,
@@ -315,12 +377,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::DEBUG_INT))
                   forcedLog(Level::DEBUG_INT, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2).arg(rArg3));  }
 
+  void Logger::debug(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          const QString &rArg2,
+                                                                                                          const QString &rArg3) const
+  {   if (isEnabledFor(Level::DEBUG_INT))
+                  forcedLog(Level::DEBUG_INT, rMessage.arg(arg1).arg(rArg2).arg(rArg3));  }
+
   void Logger::debug(const char *pMessage,
                                                                                                           int arg1,
                                                                                                           const QString &rArg2,
                                                                                                           int arg3) const
   {   if (isEnabledFor(Level::DEBUG_INT))
                   forcedLog(Level::DEBUG_INT, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2).arg(arg3));  }
+
+  void Logger::debug(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          const QString &rArg2,
+                                                                                                          int arg3) const
+  {   if (isEnabledFor(Level::DEBUG_INT))
+                  forcedLog(Level::DEBUG_INT, rMessage.arg(arg1).arg(rArg2).arg(arg3));  }
 
   void Logger::debug(const char *pMessage,
                                                                                                           int arg1,
@@ -329,6 +405,13 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::DEBUG_INT))
                   forcedLog(Level::DEBUG_INT, QString::fromUtf8(pMessage).arg(arg1).arg(arg2).arg(rArg3));  }
 
+  void Logger::debug(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          int arg2,
+                                                                                                          const QString &rArg3) const
+  {   if (isEnabledFor(Level::DEBUG_INT))
+                  forcedLog(Level::DEBUG_INT, rMessage.arg(arg1).arg(arg2).arg(rArg3));  }
+
   void Logger::debug(const char *pMessage,
                                                                                                           int arg1,
                                                                                                           int arg2,
@@ -336,12 +419,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::DEBUG_INT))
                   forcedLog(Level::DEBUG_INT, QString::fromUtf8(pMessage).arg(arg1).arg(arg2).arg(arg3));  }
 
+  void Logger::debug(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          int arg2,
+                                                                                                          int arg3) const
+  {   if (isEnabledFor(Level::DEBUG_INT))
+                  forcedLog(Level::DEBUG_INT, rMessage.arg(arg1).arg(arg2).arg(arg3));  }
+
   void Logger::debug(const char *pMessage,
                                                                                                           const QVariant &rArg1,
                                                                                                           const QVariant &rArg2,
                                                                                                           const QVariant &rArg3) const
   {   if (isEnabledFor(Level::DEBUG_INT))
                   forcedLog(Level::DEBUG_INT, QString::fromUtf8(pMessage).arg(rArg1.toString(), rArg2.toString(), rArg3.toString()));  }
+
+  void Logger::debug(const QString &rMessage,
+                                                                                                          const QVariant &rArg1,
+                                                                                                          const QVariant &rArg2,
+                                                                                                          const QVariant &rArg3) const
+  {   if (isEnabledFor(Level::DEBUG_INT))
+                  forcedLog(Level::DEBUG_INT, rMessage.arg(rArg1.toString(), rArg2.toString(), rArg3.toString()));  }
 
   // Log operations: error
 
@@ -365,10 +462,20 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::ERROR_INT))
                                   forcedLog(Level::ERROR_INT, QString::fromUtf8(pMessage).arg(rArg1));  }
 
+  void Logger::error(const QString &rMessage,
+                                                                                                          const QString &rArg1) const
+  {   if (isEnabledFor(Level::ERROR_INT))
+                                  forcedLog(Level::ERROR_INT, rMessage.arg(rArg1));  }
+
   void Logger::error(const char *pMessage,
                                                                                                           int arg1) const
   {   if (isEnabledFor(Level::ERROR_INT))
                   forcedLog(Level::ERROR_INT, QString::fromUtf8(pMessage).arg(arg1));  }
+
+  void Logger::error(const QString &rMessage,
+                                                                                                          int arg1) const
+  {   if (isEnabledFor(Level::ERROR_INT))
+                  forcedLog(Level::ERROR_INT, rMessage.arg(arg1));  }
 
   void Logger::error(const char *pMessage,
                                                                                                           const QString &rArg1,
@@ -376,11 +483,23 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::ERROR_INT))
                   forcedLog(Level::ERROR_INT, QString::fromUtf8(pMessage).arg(rArg1, rArg2));  }
 
+  void Logger::error(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          const QString &rArg2) const
+  {   if (isEnabledFor(Level::ERROR_INT))
+                  forcedLog(Level::ERROR_INT, rMessage.arg(rArg1, rArg2));  }
+
   void Logger::error(const char *pMessage,
                                                                                                           const QString &rArg1,
                                                                                                           int arg2) const
   {   if (isEnabledFor(Level::ERROR_INT))
                   forcedLog(Level::ERROR_INT, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2));  }
+
+  void Logger::error(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          int arg2) const
+  {   if (isEnabledFor(Level::ERROR_INT))
+                  forcedLog(Level::ERROR_INT, rMessage.arg(rArg1).arg(arg2));  }
 
   void Logger::error(const char *pMessage,
                                                                                                           int arg1,
@@ -388,11 +507,23 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::ERROR_INT))
                   forcedLog(Level::ERROR_INT, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2));  }
 
+  void Logger::error(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          const QString &rArg2) const
+  {   if (isEnabledFor(Level::ERROR_INT))
+                  forcedLog(Level::ERROR_INT, rMessage.arg(arg1).arg(rArg2));  }
+
   void Logger::error(const char *pMessage,
                                                                                                           int arg1,
                                                                                                           int arg2) const
   {   if (isEnabledFor(Level::ERROR_INT))
                   forcedLog(Level::ERROR_INT, QString::fromUtf8(pMessage).arg(arg1).arg(arg2));  }
+
+  void Logger::error(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          int arg2) const
+  {   if (isEnabledFor(Level::ERROR_INT))
+                  forcedLog(Level::ERROR_INT, rMessage.arg(arg1).arg(arg2));  }
 
   void Logger::error(const char *pMessage,
                                                                                                           const QString &rArg1,
@@ -401,12 +532,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::ERROR_INT))
                   forcedLog(Level::ERROR_INT, QString::fromUtf8(pMessage).arg(rArg1, rArg2, rArg3));  }
 
+  void Logger::error(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          const QString &rArg2,
+                                                                                                          const QString &rArg3) const
+  {   if (isEnabledFor(Level::ERROR_INT))
+                  forcedLog(Level::ERROR_INT, rMessage.arg(rArg1, rArg2, rArg3));  }
+
   void Logger::error(const char *pMessage,
                                                                                                           const QString &rArg1,
                                                                                                           const QString &rArg2,
                                                                                                           int arg3) const
   {   if (isEnabledFor(Level::ERROR_INT))
                   forcedLog(Level::ERROR_INT, QString::fromUtf8(pMessage).arg(rArg1, rArg2).arg(arg3));  }
+
+  void Logger::error(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          const QString &rArg2,
+                                                                                                          int arg3) const
+  {   if (isEnabledFor(Level::ERROR_INT))
+                  forcedLog(Level::ERROR_INT, rMessage.arg(rArg1, rArg2).arg(arg3));  }
 
   void Logger::error(const char *pMessage,
                                                                                                           const QString &rArg1,
@@ -415,12 +560,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::ERROR_INT))
                   forcedLog(Level::ERROR_INT, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2).arg(rArg3));  }
 
+  void Logger::error(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          int arg2,
+                                                                                                          const QString &rArg3) const
+  {   if (isEnabledFor(Level::ERROR_INT))
+                  forcedLog(Level::ERROR_INT, rMessage.arg(rArg1).arg(arg2).arg(rArg3));  }
+
   void Logger::error(const char *pMessage,
                                                                                                           const QString &rArg1,
                                                                                                           int arg2,
                                                                                                           int arg3) const
   {   if (isEnabledFor(Level::ERROR_INT))
                   forcedLog(Level::ERROR_INT, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2).arg(arg3));  }
+
+  void Logger::error(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          int arg2,
+                                                                                                          int arg3) const
+  {   if (isEnabledFor(Level::ERROR_INT))
+                  forcedLog(Level::ERROR_INT, rMessage.arg(rArg1).arg(arg2).arg(arg3));  }
 
   void Logger::error(const char *pMessage,
                                                                                                           int arg1,
@@ -429,12 +588,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::ERROR_INT))
                   forcedLog(Level::ERROR_INT, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2).arg(rArg3));  }
 
+  void Logger::error(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          const QString &rArg2,
+                                                                                                          const QString &rArg3) const
+  {   if (isEnabledFor(Level::ERROR_INT))
+                  forcedLog(Level::ERROR_INT, rMessage.arg(arg1).arg(rArg2).arg(rArg3));  }
+
   void Logger::error(const char *pMessage,
                                                                                                           int arg1,
                                                                                                           const QString &rArg2,
                                                                                                           int arg3) const
   {   if (isEnabledFor(Level::ERROR_INT))
                   forcedLog(Level::ERROR_INT, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2).arg(arg3));  }
+
+  void Logger::error(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          const QString &rArg2,
+                                                                                                          int arg3) const
+  {   if (isEnabledFor(Level::ERROR_INT))
+                  forcedLog(Level::ERROR_INT, rMessage.arg(arg1).arg(rArg2).arg(arg3));  }
 
   void Logger::error(const char *pMessage,
                                                                                                           int arg1,
@@ -443,6 +616,13 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::ERROR_INT))
                   forcedLog(Level::ERROR_INT, QString::fromUtf8(pMessage).arg(arg1).arg(arg2).arg(rArg3));  }
 
+  void Logger::error(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          int arg2,
+                                                                                                          const QString &rArg3) const
+  {   if (isEnabledFor(Level::ERROR_INT))
+                  forcedLog(Level::ERROR_INT, rMessage.arg(arg1).arg(arg2).arg(rArg3));  }
+
   void Logger::error(const char *pMessage,
                                                                                                           int arg1,
                                                                                                           int arg2,
@@ -450,12 +630,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::ERROR_INT))
                   forcedLog(Level::ERROR_INT, QString::fromUtf8(pMessage).arg(arg1).arg(arg2).arg(arg3));  }
 
+  void Logger::error(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          int arg2,
+                                                                                                          int arg3) const
+  {   if (isEnabledFor(Level::ERROR_INT))
+                  forcedLog(Level::ERROR_INT, rMessage.arg(arg1).arg(arg2).arg(arg3));  }
+
   void Logger::error(const char *pMessage,
                                                                                                           const QVariant &rArg1,
                                                                                                           const QVariant &rArg2,
                                                                                                           const QVariant &rArg3) const
   {   if (isEnabledFor(Level::ERROR_INT))
                   forcedLog(Level::ERROR_INT, QString::fromUtf8(pMessage).arg(rArg1.toString(), rArg2.toString(), rArg3.toString()));  }
+
+  void Logger::error(const QString &rMessage,
+                                                                                                          const QVariant &rArg1,
+                                                                                                          const QVariant &rArg2,
+                                                                                                          const QVariant &rArg3) const
+  {   if (isEnabledFor(Level::ERROR_INT))
+                  forcedLog(Level::ERROR_INT, rMessage.arg(rArg1.toString(), rArg2.toString(), rArg3.toString()));  }
 
   // Log operations: fatal
 
@@ -479,20 +673,40 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::FATAL_INT))
                   forcedLog(Level::FATAL_INT, QString::fromUtf8(pMessage).arg(rArg1));  }
 
+  void Logger::fatal(const QString &rMessage,
+                                                                                                          const QString &rArg1) const
+  {   if (isEnabledFor(Level::FATAL_INT))
+                  forcedLog(Level::FATAL_INT, rMessage.arg(rArg1));  }
+
   void Logger::fatal(const char *pMessage,
                                                                                                           int arg1) const
   {   if (isEnabledFor(Level::FATAL_INT))
                   forcedLog(Level::FATAL_INT, QString::fromUtf8(pMessage).arg(arg1));  }
+
+  void Logger::fatal(const QString &rMessage,
+                                                                                                          int arg1) const
+  {   if (isEnabledFor(Level::FATAL_INT))
+                  forcedLog(Level::FATAL_INT, rMessage.arg(arg1));  }
 
   void Logger::fatal(const char *pMessage,
                                                                                                           const QString &rArg1, const QString &rArg2) const
   {   if (isEnabledFor(Level::FATAL_INT))
                   forcedLog(Level::FATAL_INT, QString::fromUtf8(pMessage).arg(rArg1, rArg2));  }
 
+  void Logger::fatal(const QString &rMessage,
+                                                                                                          const QString &rArg1, const QString &rArg2) const
+  {   if (isEnabledFor(Level::FATAL_INT))
+                  forcedLog(Level::FATAL_INT, rMessage.arg(rArg1, rArg2));  }
+
   void Logger::fatal(const char *pMessage,
                                                                                                           const QString &rArg1, int arg2) const
   {   if (isEnabledFor(Level::FATAL_INT))
                   forcedLog(Level::FATAL_INT, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2));  }
+
+  void Logger::fatal(const QString &rMessage,
+                                                                                                          const QString &rArg1, int arg2) const
+  {   if (isEnabledFor(Level::FATAL_INT))
+                  forcedLog(Level::FATAL_INT, rMessage.arg(rArg1).arg(arg2));  }
 
   void Logger::fatal(const char *pMessage,
                                                                                                           int arg1,
@@ -500,11 +714,23 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::FATAL_INT))
                   forcedLog(Level::FATAL_INT, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2));  }
 
+  void Logger::fatal(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          const QString &rArg2) const
+  {   if (isEnabledFor(Level::FATAL_INT))
+                  forcedLog(Level::FATAL_INT, rMessage.arg(arg1).arg(rArg2));  }
+
   void Logger::fatal(const char *pMessage,
                                                                                                           int arg1,
                                                                                                           int arg2) const
   {   if (isEnabledFor(Level::FATAL_INT))
                   forcedLog(Level::FATAL_INT, QString::fromUtf8(pMessage).arg(arg1).arg(arg2));  }
+
+  void Logger::fatal(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          int arg2) const
+  {   if (isEnabledFor(Level::FATAL_INT))
+                  forcedLog(Level::FATAL_INT, rMessage.arg(arg1).arg(arg2));  }
 
   void Logger::fatal(const char *pMessage,
                                                                                                           const QString &rArg1,
@@ -513,12 +739,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::FATAL_INT))
                   forcedLog(Level::FATAL_INT, QString::fromUtf8(pMessage).arg(rArg1, rArg2, rArg3));  }
 
+  void Logger::fatal(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          const QString &rArg2,
+                                                                                                          const QString &rArg3) const
+  {   if (isEnabledFor(Level::FATAL_INT))
+                  forcedLog(Level::FATAL_INT, rMessage.arg(rArg1, rArg2, rArg3));  }
+
   void Logger::fatal(const char *pMessage,
                                                                                                           const QString &rArg1,
                                                                                                           const QString &rArg2,
                                                                                                           int arg3) const
   {   if (isEnabledFor(Level::FATAL_INT))
                   forcedLog(Level::FATAL_INT, QString::fromUtf8(pMessage).arg(rArg1, rArg2).arg(arg3));  }
+
+  void Logger::fatal(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          const QString &rArg2,
+                                                                                                          int arg3) const
+  {   if (isEnabledFor(Level::FATAL_INT))
+                  forcedLog(Level::FATAL_INT, rMessage.arg(rArg1, rArg2).arg(arg3));  }
 
   void Logger::fatal(const char *pMessage,
                                                                                                           const QString &rArg1,
@@ -527,12 +767,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::FATAL_INT))
                   forcedLog(Level::FATAL_INT, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2).arg(rArg3));  }
 
+  void Logger::fatal(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          int arg2,
+                                                                                                          const QString &rArg3) const
+  {   if (isEnabledFor(Level::FATAL_INT))
+                  forcedLog(Level::FATAL_INT, rMessage.arg(rArg1).arg(arg2).arg(rArg3));  }
+
   void Logger::fatal(const char *pMessage,
                                                                                                           const QString &rArg1,
                                                                                                           int arg2,
                                                                                                           int arg3) const
   {   if (isEnabledFor(Level::FATAL_INT))
                   forcedLog(Level::FATAL_INT, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2).arg(arg3));  }
+
+  void Logger::fatal(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          int arg2,
+                                                                                                          int arg3) const
+  {   if (isEnabledFor(Level::FATAL_INT))
+                  forcedLog(Level::FATAL_INT, rMessage.arg(rArg1).arg(arg2).arg(arg3));  }
 
   void Logger::fatal(const char *pMessage,
                                                                                                           int arg1,
@@ -541,12 +795,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::FATAL_INT))
                   forcedLog(Level::FATAL_INT, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2).arg(rArg3));  }
 
+  void Logger::fatal(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          const QString &rArg2,
+                                                                                                          const QString &rArg3) const
+  {   if (isEnabledFor(Level::FATAL_INT))
+                  forcedLog(Level::FATAL_INT, rMessage.arg(arg1).arg(rArg2).arg(rArg3));  }
+
   void Logger::fatal(const char *pMessage,
                                                                                                           int arg1,
                                                                                                           const QString &rArg2,
                                                                                                           int arg3) const
   {   if (isEnabledFor(Level::FATAL_INT))
                   forcedLog(Level::FATAL_INT, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2).arg(arg3));  }
+
+  void Logger::fatal(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          const QString &rArg2,
+                                                                                                          int arg3) const
+  {   if (isEnabledFor(Level::FATAL_INT))
+                  forcedLog(Level::FATAL_INT, rMessage.arg(arg1).arg(rArg2).arg(arg3));  }
 
   void Logger::fatal(const char *pMessage,
                                                                                                           int arg1,
@@ -555,6 +823,13 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::FATAL_INT))
                   forcedLog(Level::FATAL_INT, QString::fromUtf8(pMessage).arg(arg1).arg(arg2).arg(rArg3));  }
 
+  void Logger::fatal(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          int arg2,
+                                                                                                          const QString &rArg3) const
+  {   if (isEnabledFor(Level::FATAL_INT))
+                  forcedLog(Level::FATAL_INT, rMessage.arg(arg1).arg(arg2).arg(rArg3));  }
+
   void Logger::fatal(const char *pMessage,
                                                                                                           int arg1,
                                                                                                           int arg2,
@@ -562,12 +837,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::FATAL_INT))
                   forcedLog(Level::FATAL_INT, QString::fromUtf8(pMessage).arg(arg1).arg(arg2).arg(arg3));  }
 
+  void Logger::fatal(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          int arg2,
+                                                                                                          int arg3) const
+  {   if (isEnabledFor(Level::FATAL_INT))
+                  forcedLog(Level::FATAL_INT, rMessage.arg(arg1).arg(arg2).arg(arg3));  }
+
   void Logger::fatal(const char *pMessage,
                                                                                                           const QVariant &rArg1,
                                                                                                           const QVariant &rArg2,
                                                                                                           const QVariant &rArg3) const
   {   if (isEnabledFor(Level::FATAL_INT))
                   forcedLog(Level::FATAL_INT, QString::fromUtf8(pMessage).arg(rArg1.toString(), rArg2.toString(), rArg3.toString()));  }
+
+  void Logger::fatal(const QString &rMessage,
+                                                                                                          const QVariant &rArg1,
+                                                                                                          const QVariant &rArg2,
+                                                                                                          const QVariant &rArg3) const
+  {   if (isEnabledFor(Level::FATAL_INT))
+                  forcedLog(Level::FATAL_INT, rMessage.arg(rArg1.toString(), rArg2.toString(), rArg3.toString()));  }
 
   // Log operations: info
 
@@ -591,10 +880,20 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::INFO_INT))
                   forcedLog(Level::INFO_INT, QString::fromUtf8(pMessage).arg(rArg1));  }
 
+  void Logger::info(const QString &rMessage,
+                                                                                                   const QString &rArg1) const
+  {   if (isEnabledFor(Level::INFO_INT))
+                  forcedLog(Level::INFO_INT, rMessage.arg(rArg1));  }
+
   void Logger::info(const char *pMessage,
                                                                                                    int arg1) const
   {   if (isEnabledFor(Level::INFO_INT))
                   forcedLog(Level::INFO_INT, QString::fromUtf8(pMessage).arg(arg1));  }
+
+  void Logger::info(const QString &rMessage,
+                                                                                                   int arg1) const
+  {   if (isEnabledFor(Level::INFO_INT))
+                  forcedLog(Level::INFO_INT, rMessage.arg(arg1));  }
 
   void Logger::info(const char *pMessage,
                                                                                                    const QString &rArg1,
@@ -602,11 +901,23 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::INFO_INT))
                   forcedLog(Level::INFO_INT, QString::fromUtf8(pMessage).arg(rArg1, rArg2));  }
 
+  void Logger::info(const QString &rMessage,
+                                                                                                   const QString &rArg1,
+                                                                                                   const QString &rArg2) const
+  {   if (isEnabledFor(Level::INFO_INT))
+                  forcedLog(Level::INFO_INT, rMessage.arg(rArg1, rArg2));  }
+
   void Logger::info(const char *pMessage,
                                                                                                    const QString &rArg1,
                                                                                                    int arg2) const
   {   if (isEnabledFor(Level::INFO_INT))
                   forcedLog(Level::INFO_INT, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2));  }
+
+  void Logger::info(const QString &rMessage,
+                                                                                                   const QString &rArg1,
+                                                                                                   int arg2) const
+  {   if (isEnabledFor(Level::INFO_INT))
+                  forcedLog(Level::INFO_INT, rMessage.arg(rArg1).arg(arg2));  }
 
   void Logger::info(const char *pMessage,
                                                                                                    int arg1,
@@ -614,11 +925,23 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::INFO_INT))
                   forcedLog(Level::INFO_INT, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2));  }
 
+  void Logger::info(const QString &rMessage,
+                                                                                                   int arg1,
+                                                                                                   const QString &rArg2) const
+  {   if (isEnabledFor(Level::INFO_INT))
+                  forcedLog(Level::INFO_INT, rMessage.arg(arg1).arg(rArg2));  }
+
   void Logger::info(const char *pMessage,
                                                                                                    int arg1,
                                                                                                    int arg2) const
   {   if (isEnabledFor(Level::INFO_INT))
                   forcedLog(Level::INFO_INT, QString::fromUtf8(pMessage).arg(arg1).arg(arg2));  }
+
+  void Logger::info(const QString &rMessage,
+                                                                                                   int arg1,
+                                                                                                   int arg2) const
+  {   if (isEnabledFor(Level::INFO_INT))
+                  forcedLog(Level::INFO_INT, rMessage.arg(arg1).arg(arg2));  }
 
   void Logger::info(const char *pMessage,
                                                                                                    const QString &rArg1,
@@ -627,12 +950,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::INFO_INT))
                   forcedLog(Level::INFO_INT, QString::fromUtf8(pMessage).arg(rArg1, rArg2, rArg3));  }
 
+  void Logger::info(const QString &rMessage,
+                                                                                                   const QString &rArg1,
+                                                                                                   const QString &rArg2,
+                                                                                                   const QString &rArg3) const
+  {   if (isEnabledFor(Level::INFO_INT))
+                  forcedLog(Level::INFO_INT, rMessage.arg(rArg1, rArg2, rArg3));  }
+
   void Logger::info(const char *pMessage,
                                                                                                    const QString &rArg1,
                                                                                                    const QString &rArg2,
                                                                                                    int arg3) const
   {   if (isEnabledFor(Level::INFO_INT))
                   forcedLog(Level::INFO_INT, QString::fromUtf8(pMessage).arg(rArg1, rArg2).arg(arg3));  }
+
+  void Logger::info(const QString &rMessage,
+                                                                                                   const QString &rArg1,
+                                                                                                   const QString &rArg2,
+                                                                                                   int arg3) const
+  {   if (isEnabledFor(Level::INFO_INT))
+                  forcedLog(Level::INFO_INT, rMessage.arg(rArg1, rArg2).arg(arg3));  }
 
   void Logger::info(const char *pMessage,
                                                                                                    const QString &rArg1,
@@ -641,12 +978,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::INFO_INT))
                   forcedLog(Level::INFO_INT, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2).arg(rArg3));  }
 
+  void Logger::info(const QString &rMessage,
+                                                                                                   const QString &rArg1,
+                                                                                                   int arg2,
+                                                                                                   const QString &rArg3) const
+  {   if (isEnabledFor(Level::INFO_INT))
+                  forcedLog(Level::INFO_INT, rMessage.arg(rArg1).arg(arg2).arg(rArg3));  }
+
   void Logger::info(const char *pMessage,
                                                                                                    const QString &rArg1,
                                                                                                    int arg2,
                                                                                                    int arg3) const
   {   if (isEnabledFor(Level::INFO_INT))
                   forcedLog(Level::INFO_INT, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2).arg(arg3));  }
+
+  void Logger::info(const QString &rMessage,
+                                                                                                   const QString &rArg1,
+                                                                                                   int arg2,
+                                                                                                   int arg3) const
+  {   if (isEnabledFor(Level::INFO_INT))
+                  forcedLog(Level::INFO_INT, rMessage.arg(rArg1).arg(arg2).arg(arg3));  }
 
   void Logger::info(const char *pMessage,
                                                                                                    int arg1,
@@ -655,12 +1006,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::INFO_INT))
                   forcedLog(Level::INFO_INT, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2).arg(rArg3));  }
 
+  void Logger::info(const QString &rMessage,
+                                                                                                   int arg1,
+                                                                                                   const QString &rArg2,
+                                                                                                   const QString &rArg3) const
+  {   if (isEnabledFor(Level::INFO_INT))
+                  forcedLog(Level::INFO_INT, rMessage.arg(arg1).arg(rArg2).arg(rArg3));  }
+
   void Logger::info(const char *pMessage,
                                                                                                    int arg1,
                                                                                                    const QString &rArg2,
                                                                                                    int arg3) const
   {   if (isEnabledFor(Level::INFO_INT))
                   forcedLog(Level::INFO_INT, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2).arg(arg3));  }
+
+  void Logger::info(const QString &rMessage,
+                                                                                                   int arg1,
+                                                                                                   const QString &rArg2,
+                                                                                                   int arg3) const
+  {   if (isEnabledFor(Level::INFO_INT))
+                  forcedLog(Level::INFO_INT, rMessage.arg(arg1).arg(rArg2).arg(arg3));  }
 
   void Logger::info(const char *pMessage,
                                                                                                    int arg1,
@@ -669,6 +1034,13 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::INFO_INT))
                   forcedLog(Level::INFO_INT, QString::fromUtf8(pMessage).arg(arg1).arg(arg2).arg(rArg3));  }
 
+  void Logger::info(const QString &rMessage,
+                                                                                                   int arg1,
+                                                                                                   int arg2,
+                                                                                                   const QString &rArg3) const
+  {   if (isEnabledFor(Level::INFO_INT))
+                  forcedLog(Level::INFO_INT, rMessage.arg(arg1).arg(arg2).arg(rArg3));  }
+
   void Logger::info(const char *pMessage,
                                                                                                    int arg1,
                                                                                                    int arg2,
@@ -676,12 +1048,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::INFO_INT))
                   forcedLog(Level::INFO_INT, QString::fromUtf8(pMessage).arg(arg1).arg(arg2).arg(arg3));  }
 
+  void Logger::info(const QString &rMessage,
+                                                                                                   int arg1,
+                                                                                                   int arg2,
+                                                                                                   int arg3) const
+  {   if (isEnabledFor(Level::INFO_INT))
+                  forcedLog(Level::INFO_INT, rMessage.arg(arg1).arg(arg2).arg(arg3));  }
+
   void Logger::info(const char *pMessage,
                                                                                                    const QVariant &rArg1,
                                                                                                    const QVariant &rArg2,
                                                                                                    const QVariant &rArg3) const
   {   if (isEnabledFor(Level::INFO_INT))
                   forcedLog(Level::INFO_INT, QString::fromUtf8(pMessage).arg(rArg1.toString(), rArg2.toString(), rArg3.toString()));  }
+
+  void Logger::info(const QString &rMessage,
+                                                                                                   const QVariant &rArg1,
+                                                                                                   const QVariant &rArg2,
+                                                                                                   const QVariant &rArg3) const
+  {   if (isEnabledFor(Level::INFO_INT))
+                  forcedLog(Level::INFO_INT, rMessage.arg(rArg1.toString(), rArg2.toString(), rArg3.toString()));  }
 
   // Log operations: log
 
@@ -710,10 +1096,22 @@ namespace Log4Qt {
                   forcedLog(level, QString::fromUtf8(pMessage).arg(rArg1));  }
 
   void Logger::log(Level level,
+                                                                                                  const QString &rMessage,
+                                                                                                  const QString &rArg1) const
+  {   if (isEnabledFor(level))
+                  forcedLog(level, rMessage.arg(rArg1));  }
+
+  void Logger::log(Level level,
                                                                                                   const char *pMessage,
                                                                                                   int arg1) const
   {   if (isEnabledFor(level))
                   forcedLog(level, QString::fromUtf8(pMessage).arg(arg1));  }
+
+  void Logger::log(Level level,
+                                                                                                  const QString &rMessage,
+                                                                                                  int arg1) const
+  {   if (isEnabledFor(level))
+                  forcedLog(level, rMessage.arg(arg1));  }
 
   void Logger::log(Level level,
                                                                                                   const char *pMessage,
@@ -723,10 +1121,23 @@ namespace Log4Qt {
                   forcedLog(level, QString::fromUtf8(pMessage).arg(rArg1, rArg2));  }
 
   void Logger::log(Level level,
+                                                                                                  const QString &rMessage,
+                                                                                                  const QString &rArg1,
+                                                                                                  const QString &rArg2) const
+  {   if (isEnabledFor(level))
+                  forcedLog(level, rMessage.arg(rArg1, rArg2));  }
+
+  void Logger::log(Level level,
                                                                                                   const char *pMessage,
                                                                                                   const QString &rArg1, int arg2) const
   {   if (isEnabledFor(level))
                   forcedLog(level, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2));  }
+
+  void Logger::log(Level level,
+                                                                                                  const QString &rMessage,
+                                                                                                  const QString &rArg1, int arg2) const
+  {   if (isEnabledFor(level))
+                  forcedLog(level, rMessage.arg(rArg1).arg(arg2));  }
 
   void Logger::log(Level level,
                                                                                                   const char *pMessage,
@@ -736,11 +1147,25 @@ namespace Log4Qt {
                   forcedLog(level, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2));  }
 
   void Logger::log(Level level,
+                                                                                                  const QString &rMessage,
+                                                                                                  int arg1,
+                                                                                                  const QString &rArg2) const
+  {   if (isEnabledFor(level))
+                  forcedLog(level, rMessage.arg(arg1).arg(rArg2));  }
+
+  void Logger::log(Level level,
                                                                                                   const char *pMessage,
                                                                                                   int arg1,
                                                                                                   int arg2) const
   {   if (isEnabledFor(level))
                   forcedLog(level, QString::fromUtf8(pMessage).arg(arg1).arg(arg2));  }
+
+  void Logger::log(Level level,
+                                                                                                  const QString &rMessage,
+                                                                                                  int arg1,
+                                                                                                  int arg2) const
+  {   if (isEnabledFor(level))
+                  forcedLog(level, rMessage.arg(arg1).arg(arg2));  }
 
   void Logger::log(Level level,
                                                                                                   const char *pMessage,
@@ -751,12 +1176,28 @@ namespace Log4Qt {
                   forcedLog(level, QString::fromUtf8(pMessage).arg(rArg1, rArg2, rArg3));  }
 
   void Logger::log(Level level,
+                                                                                                  const QString &rMessage,
+                                                                                                  const QString &rArg1,
+                                                                                                  const QString &rArg2,
+                                                                                                  const QString &rArg3) const
+  {   if (isEnabledFor(level))
+                  forcedLog(level, rMessage.arg(rArg1, rArg2, rArg3));  }
+
+  void Logger::log(Level level,
                                                                                                   const char *pMessage,
                                                                                                   const QString &rArg1,
                                                                                                   const QString &rArg2,
                                                                                                   int arg3) const
   {   if (isEnabledFor(level))
                   forcedLog(level, QString::fromUtf8(pMessage).arg(rArg1, rArg2).arg(arg3));  }
+
+  void Logger::log(Level level,
+                                                                                                  const QString &rMessage,
+                                                                                                  const QString &rArg1,
+                                                                                                  const QString &rArg2,
+                                                                                                  int arg3) const
+  {   if (isEnabledFor(level))
+                  forcedLog(level, rMessage.arg(rArg1, rArg2).arg(arg3));  }
 
   void Logger::log(Level level,
                                                                                                   const char *pMessage,
@@ -767,12 +1208,28 @@ namespace Log4Qt {
                   forcedLog(level, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2).arg(rArg3));  }
 
   void Logger::log(Level level,
+                                                                                                  const QString &rMessage,
+                                                                                                  const QString &rArg1,
+                                                                                                  int arg2,
+                                                                                                  const QString &rArg3) const
+  {   if (isEnabledFor(level))
+                  forcedLog(level, rMessage.arg(rArg1).arg(arg2).arg(rArg3));  }
+
+  void Logger::log(Level level,
                                                                                                   const char *pMessage,
                                                                                                   const QString &rArg1,
                                                                                                   int arg2,
                                                                                                   int arg3) const
   {   if (isEnabledFor(level))
                   forcedLog(level, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2).arg(arg3));  }
+
+  void Logger::log(Level level,
+                                                                                                  const QString &rMessage,
+                                                                                                  const QString &rArg1,
+                                                                                                  int arg2,
+                                                                                                  int arg3) const
+  {   if (isEnabledFor(level))
+                  forcedLog(level, rMessage.arg(rArg1).arg(arg2).arg(arg3));  }
 
   void Logger::log(Level level,
                                                                                                   const char *pMessage,
@@ -783,12 +1240,28 @@ namespace Log4Qt {
                   forcedLog(level, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2).arg(rArg3));  }
 
   void Logger::log(Level level,
+                                                                                                  const QString &rMessage,
+                                                                                                  int arg1,
+                                                                                                  const QString &rArg2,
+                                                                                                  const QString &rArg3) const
+  {   if (isEnabledFor(level))
+                  forcedLog(level, rMessage.arg(arg1).arg(rArg2).arg(rArg3));  }
+
+  void Logger::log(Level level,
                                                                                                   const char *pMessage,
                                                                                                   int arg1,
                                                                                                   const QString &rArg2,
                                                                                                   int arg3) const
   {   if (isEnabledFor(level))
                   forcedLog(level, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2).arg(arg3));  }
+
+  void Logger::log(Level level,
+                                                                                                  const QString &rMessage,
+                                                                                                  int arg1,
+                                                                                                  const QString &rArg2,
+                                                                                                  int arg3) const
+  {   if (isEnabledFor(level))
+                  forcedLog(level, rMessage.arg(arg1).arg(rArg2).arg(arg3));  }
 
   void Logger::log(Level level,
                                                                                                   const char *pMessage,
@@ -799,6 +1272,14 @@ namespace Log4Qt {
                   forcedLog(level, QString::fromUtf8(pMessage).arg(arg1).arg(arg2).arg(rArg3));  }
 
   void Logger::log(Level level,
+                                                                                                  const QString &rMessage,
+                                                                                                  int arg1,
+                                                                                                  int arg2,
+                                                                                                  const QString &rArg3) const
+  {   if (isEnabledFor(level))
+                  forcedLog(level, rMessage.arg(arg1).arg(arg2).arg(rArg3));  }
+
+  void Logger::log(Level level,
                                                                                                   const char *pMessage,
                                                                                                   int arg1,
                                                                                                   int arg2,
@@ -807,12 +1288,28 @@ namespace Log4Qt {
                   forcedLog(level, QString::fromUtf8(pMessage).arg(arg1).arg(arg2).arg(arg3));  }
 
   void Logger::log(Level level,
+                                                                                                  const QString &rMessage,
+                                                                                                  int arg1,
+                                                                                                  int arg2,
+                                                                                                  int arg3) const
+  {   if (isEnabledFor(level))
+                  forcedLog(level, rMessage.arg(arg1).arg(arg2).arg(arg3));  }
+
+  void Logger::log(Level level,
                                                                                                   const char *pMessage,
                                                                                                   const QVariant &rArg1,
                                                                                                   const QVariant &rArg2,
                                                                                                   const QVariant &rArg3) const
   {   if (isEnabledFor(level))
                   forcedLog(level, QString::fromUtf8(pMessage).arg(rArg1.toString(), rArg2.toString(), rArg3.toString()));  }
+
+  void Logger::log(Level level,
+                                                                                                  const QString &rMessage,
+                                                                                                  const QVariant &rArg1,
+                                                                                                  const QVariant &rArg2,
+                                                                                                  const QVariant &rArg3) const
+  {   if (isEnabledFor(level))
+                  forcedLog(level, rMessage.arg(rArg1.toString(), rArg2.toString(), rArg3.toString()));  }
 
   // Log operations: trace
 
@@ -836,10 +1333,20 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::TRACE_INT))
                   forcedLog(Level::TRACE_INT, QString::fromUtf8(pMessage).arg(rArg1));  }
 
+  void Logger::trace(const QString &rMessage,
+                                                                                                          const QString &rArg1) const
+  {   if (isEnabledFor(Level::TRACE_INT))
+                  forcedLog(Level::TRACE_INT, rMessage.arg(rArg1));  }
+
   void Logger::trace(const char *pMessage,
                                                                                                           int arg1) const
   {   if (isEnabledFor(Level::TRACE_INT))
                   forcedLog(Level::TRACE_INT, QString::fromUtf8(pMessage).arg(arg1));  }
+
+  void Logger::trace(const QString &rMessage,
+                                                                                                          int arg1) const
+  {   if (isEnabledFor(Level::TRACE_INT))
+                  forcedLog(Level::TRACE_INT, rMessage.arg(arg1));  }
 
   void Logger::trace(const char *pMessage,
                                                                                                           const QString &rArg1,
@@ -847,11 +1354,23 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::TRACE_INT))
                   forcedLog(Level::TRACE_INT, QString::fromUtf8(pMessage).arg(rArg1, rArg2));  }
 
+  void Logger::trace(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          const QString &rArg2) const
+  {   if (isEnabledFor(Level::TRACE_INT))
+                  forcedLog(Level::TRACE_INT, rMessage.arg(rArg1, rArg2));  }
+
   void Logger::trace(const char *pMessage,
                                                                                                           const QString &rArg1,
                                                                                                           int arg2) const
   {   if (isEnabledFor(Level::TRACE_INT))
                   forcedLog(Level::TRACE_INT, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2));  }
+
+  void Logger::trace(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          int arg2) const
+  {   if (isEnabledFor(Level::TRACE_INT))
+                  forcedLog(Level::TRACE_INT, rMessage.arg(rArg1).arg(arg2));  }
 
   void Logger::trace(const char *pMessage,
                                                                                                           int arg1,
@@ -859,11 +1378,23 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::TRACE_INT))
                   forcedLog(Level::TRACE_INT, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2));  }
 
+  void Logger::trace(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          const QString &rArg2) const
+  {   if (isEnabledFor(Level::TRACE_INT))
+                  forcedLog(Level::TRACE_INT, rMessage.arg(arg1).arg(rArg2));  }
+
   void Logger::trace(const char *pMessage,
                                                                                                           int arg1,
                                                                                                           int arg2) const
   {   if (isEnabledFor(Level::TRACE_INT))
                   forcedLog(Level::TRACE_INT, QString::fromUtf8(pMessage).arg(arg1).arg(arg2));  }
+
+  void Logger::trace(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          int arg2) const
+  {   if (isEnabledFor(Level::TRACE_INT))
+                  forcedLog(Level::TRACE_INT, rMessage.arg(arg1).arg(arg2));  }
 
   void Logger::trace(const char *pMessage,
                                                                                                           const QString &rArg1,
@@ -872,12 +1403,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::TRACE_INT))
                   forcedLog(Level::TRACE_INT, QString::fromUtf8(pMessage).arg(rArg1, rArg2, rArg3));  }
 
+  void Logger::trace(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          const QString &rArg2,
+                                                                                                          const QString &rArg3) const
+  {   if (isEnabledFor(Level::TRACE_INT))
+                  forcedLog(Level::TRACE_INT, rMessage.arg(rArg1, rArg2, rArg3));  }
+
   void Logger::trace(const char *pMessage,
                                                                                                           const QString &rArg1,
                                                                                                           const QString &rArg2,
                                                                                                           int arg3) const
   {   if (isEnabledFor(Level::TRACE_INT))
                   forcedLog(Level::TRACE_INT, QString::fromUtf8(pMessage).arg(rArg1, rArg2).arg(arg3));  }
+
+  void Logger::trace(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          const QString &rArg2,
+                                                                                                          int arg3) const
+  {   if (isEnabledFor(Level::TRACE_INT))
+                  forcedLog(Level::TRACE_INT, rMessage.arg(rArg1, rArg2).arg(arg3));  }
 
   void Logger::trace(const char *pMessage,
                                                                                                           const QString &rArg1,
@@ -886,12 +1431,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::TRACE_INT))
                   forcedLog(Level::TRACE_INT, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2).arg(rArg3));  }
 
+  void Logger::trace(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          int arg2,
+                                                                                                          const QString &rArg3) const
+  {   if (isEnabledFor(Level::TRACE_INT))
+                  forcedLog(Level::TRACE_INT, rMessage.arg(rArg1).arg(arg2).arg(rArg3));  }
+
   void Logger::trace(const char *pMessage,
                                                                                                           const QString &rArg1,
                                                                                                           int arg2,
                                                                                                           int arg3) const
   {   if (isEnabledFor(Level::TRACE_INT))
                   forcedLog(Level::TRACE_INT, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2).arg(arg3));  }
+
+  void Logger::trace(const QString &rMessage,
+                                                                                                          const QString &rArg1,
+                                                                                                          int arg2,
+                                                                                                          int arg3) const
+  {   if (isEnabledFor(Level::TRACE_INT))
+                  forcedLog(Level::TRACE_INT, rMessage.arg(rArg1).arg(arg2).arg(arg3));  }
 
   void Logger::trace(const char *pMessage,
                                                                                                           int arg1,
@@ -900,12 +1459,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::TRACE_INT))
                   forcedLog(Level::TRACE_INT, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2).arg(rArg3));  }
 
+  void Logger::trace(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          const QString &rArg2,
+                                                                                                          const QString &rArg3) const
+  {   if (isEnabledFor(Level::TRACE_INT))
+                  forcedLog(Level::TRACE_INT, rMessage.arg(arg1).arg(rArg2).arg(rArg3));  }
+
   void Logger::trace(const char *pMessage,
                                                                                                           int arg1,
                                                                                                           const QString &rArg2,
                                                                                                           int arg3) const
   {   if (isEnabledFor(Level::TRACE_INT))
                   forcedLog(Level::TRACE_INT, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2).arg(arg3));  }
+
+  void Logger::trace(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          const QString &rArg2,
+                                                                                                          int arg3) const
+  {   if (isEnabledFor(Level::TRACE_INT))
+                  forcedLog(Level::TRACE_INT, rMessage.arg(arg1).arg(rArg2).arg(arg3));  }
 
   void Logger::trace(const char *pMessage,
                                                                                                           int arg1,
@@ -914,6 +1487,13 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::TRACE_INT))
                   forcedLog(Level::TRACE_INT, QString::fromUtf8(pMessage).arg(arg1).arg(arg2).arg(rArg3));  }
 
+  void Logger::trace(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          int arg2,
+                                                                                                          const QString &rArg3) const
+  {   if (isEnabledFor(Level::TRACE_INT))
+                  forcedLog(Level::TRACE_INT, rMessage.arg(arg1).arg(arg2).arg(rArg3));  }
+
   void Logger::trace(const char *pMessage,
                                                                                                           int arg1,
                                                                                                           int arg2,
@@ -921,12 +1501,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::TRACE_INT))
                   forcedLog(Level::TRACE_INT, QString::fromUtf8(pMessage).arg(arg1).arg(arg2).arg(arg3));  }
 
+  void Logger::trace(const QString &rMessage,
+                                                                                                          int arg1,
+                                                                                                          int arg2,
+                                                                                                          int arg3) const
+  {   if (isEnabledFor(Level::TRACE_INT))
+                  forcedLog(Level::TRACE_INT, rMessage.arg(arg1).arg(arg2).arg(arg3));  }
+
   void Logger::trace(const char *pMessage,
                                                                                                           const QVariant &rArg1,
                                                                                                           const QVariant &rArg2,
                                                                                                           const QVariant &rArg3) const
   {   if (isEnabledFor(Level::TRACE_INT))
                   forcedLog(Level::TRACE_INT, QString::fromUtf8(pMessage).arg(rArg1.toString(), rArg2.toString(), rArg3.toString()));  }
+
+  void Logger::trace(const QString &rMessage,
+                                                                                                          const QVariant &rArg1,
+                                                                                                          const QVariant &rArg2,
+                                                                                                          const QVariant &rArg3) const
+  {   if (isEnabledFor(Level::TRACE_INT))
+                  forcedLog(Level::TRACE_INT, rMessage.arg(rArg1.toString(), rArg2.toString(), rArg3.toString()));  }
 
   // Log operations: warn
 
@@ -950,10 +1544,20 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::WARN_INT))
                   forcedLog(Level::WARN_INT, QString::fromUtf8(pMessage).arg(rArg1));  }
 
+  void Logger::warn(const QString &rMessage,
+                                                                                                   const QString &rArg1) const
+  {   if (isEnabledFor(Level::WARN_INT))
+                  forcedLog(Level::WARN_INT, rMessage.arg(rArg1));  }
+
   void Logger::warn(const char *pMessage,
                                                                                                    int arg1) const
   {   if (isEnabledFor(Level::WARN_INT))
                   forcedLog(Level::WARN_INT, QString::fromUtf8(pMessage).arg(arg1));  }
+
+  void Logger::warn(const QString &rMessage,
+                                                                                                   int arg1) const
+  {   if (isEnabledFor(Level::WARN_INT))
+                  forcedLog(Level::WARN_INT, rMessage.arg(arg1));  }
 
   void Logger::warn(const char *pMessage,
                                                                                                    const QString &rArg1,
@@ -961,11 +1565,23 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::WARN_INT))
                   forcedLog(Level::WARN_INT, QString::fromUtf8(pMessage).arg(rArg1, rArg2));  }
 
+  void Logger::warn(const QString &rMessage,
+                                                                                                   const QString &rArg1,
+                                                                                                   const QString &rArg2) const
+  {   if (isEnabledFor(Level::WARN_INT))
+                  forcedLog(Level::WARN_INT, rMessage.arg(rArg1, rArg2));  }
+
   void Logger::warn(const char *pMessage,
                                                                                                    const QString &rArg1,
                                                                                                    int arg2) const
   {   if (isEnabledFor(Level::WARN_INT))
                   forcedLog(Level::WARN_INT, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2));  }
+
+  void Logger::warn(const QString &rMessage,
+                                                                                                   const QString &rArg1,
+                                                                                                   int arg2) const
+  {   if (isEnabledFor(Level::WARN_INT))
+                  forcedLog(Level::WARN_INT, rMessage.arg(rArg1).arg(arg2));  }
 
   void Logger::warn(const char *pMessage,
                                                                                                    int arg1,
@@ -973,11 +1589,23 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::WARN_INT))
                   forcedLog(Level::WARN_INT, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2));  }
 
+  void Logger::warn(const QString &rMessage,
+                                                                                                   int arg1,
+                                                                                                   const QString &rArg2) const
+  {   if (isEnabledFor(Level::WARN_INT))
+                  forcedLog(Level::WARN_INT, rMessage.arg(arg1).arg(rArg2));  }
+
   void Logger::warn(const char *pMessage,
                                                                                                    int arg1,
                                                                                                    int arg2) const
   {   if (isEnabledFor(Level::WARN_INT))
                   forcedLog(Level::WARN_INT, QString::fromUtf8(pMessage).arg(arg1).arg(arg2));  }
+
+  void Logger::warn(const QString &rMessage,
+                                                                                                   int arg1,
+                                                                                                   int arg2) const
+  {   if (isEnabledFor(Level::WARN_INT))
+                  forcedLog(Level::WARN_INT, rMessage.arg(arg1).arg(arg2));  }
 
   void Logger::warn(const char *pMessage,
                                                                                                    const QString &rArg1,
@@ -986,12 +1614,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::WARN_INT))
                   forcedLog(Level::WARN_INT, QString::fromUtf8(pMessage).arg(rArg1, rArg2, rArg3));  }
 
+  void Logger::warn(const QString &rMessage,
+                                                                                                   const QString &rArg1,
+                                                                                                   const QString &rArg2,
+                                                                                                   const QString &rArg3) const
+  {   if (isEnabledFor(Level::WARN_INT))
+                  forcedLog(Level::WARN_INT, rMessage.arg(rArg1, rArg2, rArg3));  }
+
   void Logger::warn(const char *pMessage,
                                                                                                    const QString &rArg1,
                                                                                                    const QString &rArg2,
                                                                                                    int arg3) const
   {   if (isEnabledFor(Level::WARN_INT))
                   forcedLog(Level::WARN_INT, QString::fromUtf8(pMessage).arg(rArg1, rArg2).arg(arg3));  }
+
+  void Logger::warn(const QString &rMessage,
+                                                                                                   const QString &rArg1,
+                                                                                                   const QString &rArg2,
+                                                                                                   int arg3) const
+  {   if (isEnabledFor(Level::WARN_INT))
+                  forcedLog(Level::WARN_INT, rMessage.arg(rArg1, rArg2).arg(arg3));  }
 
   void Logger::warn(const char *pMessage,
                                                                                                    const QString &rArg1,
@@ -1000,12 +1642,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::WARN_INT))
                   forcedLog(Level::WARN_INT, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2).arg(rArg3));  }
 
+  void Logger::warn(const QString &rMessage,
+                                                                                                   const QString &rArg1,
+                                                                                                   int arg2,
+                                                                                                   const QString &rArg3) const
+  {   if (isEnabledFor(Level::WARN_INT))
+                  forcedLog(Level::WARN_INT, rMessage.arg(rArg1).arg(arg2).arg(rArg3));  }
+
   void Logger::warn(const char *pMessage,
                                                                                                    const QString &rArg1,
                                                                                                    int arg2,
                                                                                                    int arg3) const
   {   if (isEnabledFor(Level::WARN_INT))
                   forcedLog(Level::WARN_INT, QString::fromUtf8(pMessage).arg(rArg1).arg(arg2).arg(arg3));  }
+
+  void Logger::warn(const QString &rMessage,
+                                                                                                   const QString &rArg1,
+                                                                                                   int arg2,
+                                                                                                   int arg3) const
+  {   if (isEnabledFor(Level::WARN_INT))
+                  forcedLog(Level::WARN_INT, rMessage.arg(rArg1).arg(arg2).arg(arg3));  }
 
   void Logger::warn(const char *pMessage,
                                                                                                    int arg1,
@@ -1014,12 +1670,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::WARN_INT))
                   forcedLog(Level::WARN_INT, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2).arg(rArg3));  }
 
+  void Logger::warn(const QString &rMessage,
+                                                                                                   int arg1,
+                                                                                                   const QString &rArg2,
+                                                                                                   const QString &rArg3) const
+  {   if (isEnabledFor(Level::WARN_INT))
+                  forcedLog(Level::WARN_INT, rMessage.arg(arg1).arg(rArg2).arg(rArg3));  }
+
   void Logger::warn(const char *pMessage,
                                                                                                    int arg1,
                                                                                                    const QString &rArg2,
                                                                                                    int arg3) const
   {   if (isEnabledFor(Level::WARN_INT))
                   forcedLog(Level::WARN_INT, QString::fromUtf8(pMessage).arg(arg1).arg(rArg2).arg(arg3));  }
+
+  void Logger::warn(const QString &rMessage,
+                                                                                                   int arg1,
+                                                                                                   const QString &rArg2,
+                                                                                                   int arg3) const
+  {   if (isEnabledFor(Level::WARN_INT))
+                  forcedLog(Level::WARN_INT, rMessage.arg(arg1).arg(rArg2).arg(arg3));  }
 
   void Logger::warn(const char *pMessage,
                                                                                                    int arg1,
@@ -1028,12 +1698,26 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::WARN_INT))
                   forcedLog(Level::WARN_INT, QString::fromUtf8(pMessage).arg(arg1).arg(arg2).arg(rArg3));  }
 
+  void Logger::warn(const QString &rMessage,
+                                                                                                   int arg1,
+                                                                                                   int arg2,
+                                                                                                   const QString &rArg3) const
+  {   if (isEnabledFor(Level::WARN_INT))
+                  forcedLog(Level::WARN_INT, rMessage.arg(arg1).arg(arg2).arg(rArg3));  }
+
   void Logger::warn(const char *pMessage,
                                                                                                    int arg1,
                                                                                                    int arg2,
                                                                                                    int arg3) const
   {   if (isEnabledFor(Level::WARN_INT))
                   forcedLog(Level::WARN_INT, QString::fromUtf8(pMessage).arg(arg1).arg(arg2).arg(arg3));  }
+
+  void Logger::warn(const QString &rMessage,
+                                                                                                   int arg1,
+                                                                                                   int arg2,
+                                                                                                   int arg3) const
+  {   if (isEnabledFor(Level::WARN_INT))
+                  forcedLog(Level::WARN_INT, rMessage.arg(arg1).arg(arg2).arg(arg3));  }
 
   void Logger::warn(const char *pMessage,
                                                                                                    const QVariant &rArg1,
@@ -1042,6 +1726,12 @@ namespace Log4Qt {
   {   if (isEnabledFor(Level::WARN_INT))
                   forcedLog(Level::WARN_INT, QString::fromUtf8(pMessage).arg(rArg1.toString(), rArg2.toString(), rArg3.toString()));  }
 
+  void Logger::warn(const QString &rMessage,
+                                                                                                   const QVariant &rArg1,
+                                                                                                   const QVariant &rArg2,
+                                                                                                   const QVariant &rArg3) const
+  {   if (isEnabledFor(Level::WARN_INT))
+                  forcedLog(Level::WARN_INT, rMessage.arg(rArg1.toString(), rArg2.toString(), rArg3.toString()));  }
 
 
 } // namespace Log4Qt
