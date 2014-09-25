@@ -410,7 +410,7 @@ namespace Log4Qt
 					// get the current report mode
 					int reportMode = _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_WNDW);
 					_CrtSetReportMode(_CRT_ERROR, reportMode);
-					int ret = _CrtDbgReport(_CRT_ERROR, __FILE__, __LINE__, QT_VERSION_STR, pMessage);
+					int ret = _CrtDbgReport(_CRT_ERROR, __FILE__, __LINE__, QT_VERSION_STR, pMessage.toStdString().c_str());
 					if (ret == 0  && reportMode & _CRTDBG_MODE_WNDW)
 							return; // ignore
 					else if (ret == 1)
