@@ -329,25 +329,49 @@ namespace Log4Qt
 			void debug(const char *pMessage) const;
 			void debug(const char *pMessage,
 								 const QString &rArg1) const;
+			void debug(const QString &rMessage,
+								 const QString &rArg1) const;
 			void debug(const char *pMessage,
+								 int arg1) const;
+			void debug(const QString &rMessage,
 								 int arg1) const;
 			void debug(const char *pMessage,
 								 const QString &rArg1,
 								 const QString &rArg2) const;
+			void debug(const QString &rMessage,
+								 const QString &rArg1,
+								 const QString &rArg2) const;
 			void debug(const char *pMessage,
+								 const QString &rArg1,
+								 int arg2) const;
+			void debug(const QString &rMessage,
 								 const QString &rArg1,
 								 int arg2) const;
 			void debug(const char *pMessage,
 								 int arg1,
 								 const QString &rArg2) const;
+			void debug(const QString &rMessage,
+								 int arg1,
+								 const QString &rArg2) const;
 			void debug(const char *pMessage,
+								 int arg1,
+								 int arg2) const;
+			void debug(const QString &rMessage,
 								 int arg1,
 								 int arg2) const;
 			void debug(const char *pMessage,
 								 const QString &rArg1,
 								 const QString &rArg2,
 								 const QString &rArg3) const;
+			void debug(const QString &rMessage,
+								 const QString &rArg1,
+								 const QString &rArg2,
+								 const QString &rArg3) const;
 			void debug(const char *pMessage,
+								 const QString &rArg1,
+								 const QString &rArg2,
+								 int arg3) const;
+			void debug(const QString &rMessage,
 								 const QString &rArg1,
 								 const QString &rArg2,
 								 int arg3) const;
@@ -355,7 +379,15 @@ namespace Log4Qt
 								 const QString &rArg1,
 								 int arg2,
 								 const QString &rArg3) const;
+			void debug(const QString &rMessage,
+								 const QString &rArg1,
+								 int arg2,
+								 const QString &rArg3) const;
 			void debug(const char *pMessage,
+								 const QString &rArg1,
+								 int arg2,
+								 int arg3) const;
+			void debug(const QString &rMessage,
 								 const QString &rArg1,
 								 int arg2,
 								 int arg3) const;
@@ -363,7 +395,15 @@ namespace Log4Qt
 								 int arg1,
 								 const QString &rArg2,
 								 const QString &rArg3) const;
+			void debug(const QString &rMessage,
+								 int arg1,
+								 const QString &rArg2,
+								 const QString &rArg3) const;
 			void debug(const char *pMessage,
+								 int arg1,
+								 const QString &rArg2,
+								 int arg3) const;
+			void debug(const QString &rMessage,
 								 int arg1,
 								 const QString &rArg2,
 								 int arg3) const;
@@ -371,11 +411,23 @@ namespace Log4Qt
 								 int arg1,
 								 int arg2,
 								 const QString &rArg3) const;
+			void debug(const QString &rMessage,
+								 int arg1,
+								 int arg2,
+								 const QString &rArg3) const;
 			void debug(const char *pMessage,
 								 int arg1,
 								 int arg2,
 								 int arg3) const;
+			void debug(const QString &rMessage,
+								 int arg1,
+								 int arg2,
+								 int arg3) const;
 			void debug(const char *pMessage,
+								 const QVariant &rArg1,
+								 const QVariant &rArg2,
+								 const QVariant &rArg3) const;
+			void debug(const QString &rMessage,
 								 const QVariant &rArg1,
 								 const QVariant &rArg2,
 								 const QVariant &rArg3) const;
@@ -386,24 +438,49 @@ namespace Log4Qt
 			void error(const char *pMessage) const;
 			void error(const char *pMessage,
 								 const QString &rArg1) const;
+			void error(const QString &rMessage,
+								 const QString &rArg1) const;
 			void error(const char *pMessage,
+								 int arg1) const;
+			void error(const QString &rMessage,
 								 int arg1) const;
 			void error(const char *pMessage,
 								 const QString &rArg1,
 								 const QString &rArg2) const;
+			void error(const QString &rMessage,
+								 const QString &rArg1,
+								 const QString &rArg2) const;
 			void error(const char *pMessage,
-								 const QString &rArg1, int arg2) const;
+								 const QString &rArg1,
+								 int arg2) const;
+			void error(const QString &rMessage,
+								 const QString &rArg1,
+								 int arg2) const;
 			void error(const char *pMessage,
 								 int arg1,
 								 const QString &rArg2) const;
+			void error(const QString &rMessage,
+								 int arg1,
+								 const QString &rArg2) const;
 			void error(const char *pMessage,
+								 int arg1,
+								 int arg2) const;
+			void error(const QString &rMessage,
 								 int arg1,
 								 int arg2) const;
 			void error(const char *pMessage,
 								 const QString &rArg1,
 								 const QString &rArg2,
 								 const QString &rArg3) const;
+			void error(const QString &rMessage,
+								 const QString &rArg1,
+								 const QString &rArg2,
+								 const QString &rArg3) const;
 			void error(const char *pMessage,
+								 const QString &rArg1,
+								 const QString &rArg2,
+								 int arg3) const;
+			void error(const QString &rMessage,
 								 const QString &rArg1,
 								 const QString &rArg2,
 								 int arg3) const;
@@ -411,7 +488,15 @@ namespace Log4Qt
 								 const QString &rArg1,
 								 int arg2,
 								 const QString &rArg3) const;
+			void error(const QString &rMessage,
+								 const QString &rArg1,
+								 int arg2,
+								 const QString &rArg3) const;
 			void error(const char *pMessage,
+								 const QString &rArg1,
+								 int arg2,
+								 int arg3) const;
+			void error(const QString &rMessage,
 								 const QString &rArg1,
 								 int arg2,
 								 int arg3) const;
@@ -419,7 +504,15 @@ namespace Log4Qt
 								 int arg1,
 								 const QString &rArg2,
 								 const QString &rArg3) const;
+			void error(const QString &rMessage,
+								 int arg1,
+								 const QString &rArg2,
+								 const QString &rArg3) const;
 			void error(const char *pMessage,
+								 int arg1,
+								 const QString &rArg2,
+								 int arg3) const;
+			void error(const QString &rMessage,
 								 int arg1,
 								 const QString &rArg2,
 								 int arg3) const;
@@ -427,11 +520,23 @@ namespace Log4Qt
 								 int arg1,
 								 int arg2,
 								 const QString &rArg3) const;
+			void error(const QString &rMessage,
+								 int arg1,
+								 int arg2,
+								 const QString &rArg3) const;
 			void error(const char *pMessage,
 								 int arg1,
 								 int arg2,
 								 int arg3) const;
+			void error(const QString &rMessage,
+								 int arg1,
+								 int arg2,
+								 int arg3) const;
 			void error(const char *pMessage,
+								 const QVariant &rArg1,
+								 const QVariant &rArg2,
+								 const QVariant &rArg3) const;
+			void error(const QString &rMessage,
 								 const QVariant &rArg1,
 								 const QVariant &rArg2,
 								 const QVariant &rArg3) const;
@@ -442,25 +547,49 @@ namespace Log4Qt
 			void fatal(const char *pMessage) const;
 			void fatal(const char *pMessage,
 								 const QString &rArg1) const;
+			void fatal(const QString &rMessage,
+								 const QString &rArg1) const;
 			void fatal(const char *pMessage,
+								 int arg1) const;
+			void fatal(const QString &rMessage,
 								 int arg1) const;
 			void fatal(const char *pMessage,
 								 const QString &rArg1,
 								 const QString &rArg2) const;
+			void fatal(const QString &rMessage,
+								 const QString &rArg1,
+								 const QString &rArg2) const;
 			void fatal(const char *pMessage,
+								 const QString &rArg1,
+								 int arg2) const;
+			void fatal(const QString &rMessage,
 								 const QString &rArg1,
 								 int arg2) const;
 			void fatal(const char *pMessage,
 								 int arg1,
 								 const QString &rArg2) const;
+			void fatal(const QString &rMessage,
+								 int arg1,
+								 const QString &rArg2) const;
 			void fatal(const char *pMessage,
+								 int arg1,
+								 int arg2) const;
+			void fatal(const QString &rMessage,
 								 int arg1,
 								 int arg2) const;
 			void fatal(const char *pMessage,
 								 const QString &rArg1,
 								 const QString &rArg2,
 								 const QString &rArg3) const;
+			void fatal(const QString &rMessage,
+								 const QString &rArg1,
+								 const QString &rArg2,
+								 const QString &rArg3) const;
 			void fatal(const char *pMessage,
+								 const QString &rArg1,
+								 const QString &rArg2,
+								 int arg3) const;
+			void fatal(const QString &rMessage,
 								 const QString &rArg1,
 								 const QString &rArg2,
 								 int arg3) const;
@@ -468,7 +597,15 @@ namespace Log4Qt
 								 const QString &rArg1,
 								 int arg2,
 								 const QString &rArg3) const;
+			void fatal(const QString &rMessage,
+								 const QString &rArg1,
+								 int arg2,
+								 const QString &rArg3) const;
 			void fatal(const char *pMessage,
+								 const QString &rArg1,
+								 int arg2,
+								 int arg3) const;
+			void fatal(const QString &rMessage,
 								 const QString &rArg1,
 								 int arg2,
 								 int arg3) const;
@@ -476,7 +613,15 @@ namespace Log4Qt
 								 int arg1,
 								 const QString &rArg2,
 								 const QString &rArg3) const;
+			void fatal(const QString &rMessage,
+								 int arg1,
+								 const QString &rArg2,
+								 const QString &rArg3) const;
 			void fatal(const char *pMessage,
+								 int arg1,
+								 const QString &rArg2,
+								 int arg3) const;
+			void fatal(const QString &rMessage,
 								 int arg1,
 								 const QString &rArg2,
 								 int arg3) const;
@@ -484,11 +629,23 @@ namespace Log4Qt
 								 int arg1,
 								 int arg2,
 								 const QString &rArg3) const;
+			void fatal(const QString &rMessage,
+								 int arg1,
+								 int arg2,
+								 const QString &rArg3) const;
 			void fatal(const char *pMessage,
 								 int arg1,
 								 int arg2,
 								 int arg3) const;
+			void fatal(const QString &rMessage,
+								 int arg1,
+								 int arg2,
+								 int arg3) const;
 			void fatal(const char *pMessage,
+								 const QVariant &rArg1,
+								 const QVariant &rArg2,
+								 const QVariant &rArg3) const;
+			void fatal(const QString &rMessage,
 								 const QVariant &rArg1,
 								 const QVariant &rArg2,
 								 const QVariant &rArg3) const;
@@ -499,25 +656,49 @@ namespace Log4Qt
 			void info(const char *pMessage) const;
 			void info(const char *pMessage,
 								const QString &rArg1) const;
+			void info(const QString &rMessage,
+								const QString &rArg1) const;
 			void info(const char *pMessage,
+								int arg1) const;
+			void info(const QString &rMessage,
 								int arg1) const;
 			void info(const char *pMessage,
 								const QString &rArg1,
 								const QString &rArg2) const;
+			void info(const QString &rMessage,
+								const QString &rArg1,
+								const QString &rArg2) const;
 			void info(const char *pMessage,
+								const QString &rArg1,
+								int arg2) const;
+			void info(const QString &rMessage,
 								const QString &rArg1,
 								int arg2) const;
 			void info(const char *pMessage,
 								int arg1,
 								const QString &rArg2) const;
+			void info(const QString &rMessage,
+								int arg1,
+								const QString &rArg2) const;
 			void info(const char *pMessage,
+								int arg1,
+								int arg2) const;
+			void info(const QString &rMessage,
 								int arg1,
 								int arg2) const;
 			void info(const char *pMessage,
 								const QString &rArg1,
 								const QString &rArg2,
 								const QString &rArg3) const;
+			void info(const QString &rMessage,
+								const QString &rArg1,
+								const QString &rArg2,
+								const QString &rArg3) const;
 			void info(const char *pMessage,
+								const QString &rArg1,
+								const QString &rArg2,
+								int arg3) const;
+			void info(const QString &rMessage,
 								const QString &rArg1,
 								const QString &rArg2,
 								int arg3) const;
@@ -525,7 +706,15 @@ namespace Log4Qt
 								const QString &rArg1,
 								int arg2,
 								const QString &rArg3) const;
+			void info(const QString &rMessage,
+								const QString &rArg1,
+								int arg2,
+								const QString &rArg3) const;
 			void info(const char *pMessage,
+								const QString &rArg1,
+								int arg2,
+								int arg3) const;
+			void info(const QString &rMessage,
 								const QString &rArg1,
 								int arg2,
 								int arg3) const;
@@ -533,7 +722,15 @@ namespace Log4Qt
 								int arg1,
 								const QString &rArg2,
 								const QString &rArg3) const;
+			void info(const QString &rMessage,
+								int arg1,
+								const QString &rArg2,
+								const QString &rArg3) const;
 			void info(const char *pMessage,
+								int arg1,
+								const QString &rArg2,
+								int arg3) const;
+			void info(const QString &rMessage,
 								int arg1,
 								const QString &rArg2,
 								int arg3) const;
@@ -541,11 +738,23 @@ namespace Log4Qt
 								int arg1,
 								int arg2,
 								const QString &rArg3) const;
+			void info(const QString &rMessage,
+								int arg1,
+								int arg2,
+								const QString &rArg3) const;
 			void info(const char *pMessage,
 								int arg1,
 								int arg2,
 								int arg3) const;
+			void info(const QString &rMessage,
+								int arg1,
+								int arg2,
+								int arg3) const;
 			void info(const char *pMessage,
+								const QVariant &rArg1,
+								const QVariant &rArg2,
+								const QVariant &rArg3) const;
+			void info(const QString &rMessage,
 								const QVariant &rArg1,
 								const QVariant &rArg2,
 								const QVariant &rArg3) const;
@@ -561,14 +770,28 @@ namespace Log4Qt
 							 const char *pMessage,
 							 const QString &rArg1) const;
 			void log(Level level,
+							 const QString &rMessage,
+							 const QString &rArg1) const;
+			void log(Level level,
 							 const char *pMessage,
+							 int arg1) const;
+			void log(Level level,
+							 const QString &rMessage,
 							 int arg1) const;
 			void log(Level level,
 							 const char *pMessage,
 							 const QString &rArg1,
 							 const QString &rArg2) const;
 			void log(Level level,
+							 const QString &rMessage,
+							 const QString &rArg1,
+							 const QString &rArg2) const;
+			void log(Level level,
 							 const char *pMessage,
+							 const QString &rArg1,
+							 int arg2) const;
+			void log(Level level,
+							 const QString &rMessage,
 							 const QString &rArg1,
 							 int arg2) const;
 			void log(Level level,
@@ -576,7 +799,15 @@ namespace Log4Qt
 							 int arg1,
 							 const QString &rArg2) const;
 			void log(Level level,
+							 const QString &rMessage,
+							 int arg1,
+							 const QString &rArg2) const;
+			void log(Level level,
 							 const char *pMessage,
+							 int arg1,
+							 int arg2) const;
+			void log(Level level,
+							 const QString &rMessage,
 							 int arg1,
 							 int arg2) const;
 			void log(Level level,
@@ -585,7 +816,17 @@ namespace Log4Qt
 							 const QString &rArg2,
 							 const QString &rArg3) const;
 			void log(Level level,
+							 const QString &rMessage,
+							 const QString &rArg1,
+							 const QString &rArg2,
+							 const QString &rArg3) const;
+			void log(Level level,
 							 const char *pMessage,
+							 const QString &rArg1,
+							 const QString &rArg2,
+							 int arg3) const;
+			void log(Level level,
+							 const QString &rMessage,
 							 const QString &rArg1,
 							 const QString &rArg2,
 							 int arg3) const;
@@ -595,7 +836,17 @@ namespace Log4Qt
 							 int arg2,
 							 const QString &rArg3) const;
 			void log(Level level,
+							 const QString &rMessage,
+							 const QString &rArg1,
+							 int arg2,
+							 const QString &rArg3) const;
+			void log(Level level,
 							 const char *pMessage,
+							 const QString &rArg1,
+							 int arg2,
+							 int arg3) const;
+			void log(Level level,
+							 const QString &rMessage,
 							 const QString &rArg1,
 							 int arg2,
 							 int arg3) const;
@@ -605,7 +856,17 @@ namespace Log4Qt
 							 const QString &rArg2,
 							 const QString &rArg3) const;
 			void log(Level level,
+							 const QString &rMessage,
+							 int arg1,
+							 const QString &rArg2,
+							 const QString &rArg3) const;
+			void log(Level level,
 							 const char *pMessage,
+							 int arg1,
+							 const QString &rArg2,
+							 int arg3) const;
+			void log(Level level,
+							 const QString &rMessage,
 							 int arg1,
 							 const QString &rArg2,
 							 int arg3) const;
@@ -615,12 +876,27 @@ namespace Log4Qt
 							 int arg2,
 							 const QString &rArg3) const;
 			void log(Level level,
+							 const QString &rMessage,
+							 int arg1,
+							 int arg2,
+							 const QString &rArg3) const;
+			void log(Level level,
 							 const char *pMessage,
 							 int arg1,
 							 int arg2,
 							 int arg3) const;
 			void log(Level level,
+							 const QString &rMessage,
+							 int arg1,
+							 int arg2,
+							 int arg3) const;
+			void log(Level level,
 							 const char *pMessage,
+							 const QVariant &rArg1,
+							 const QVariant &rArg2,
+							 const QVariant &rArg3) const;
+			void log(Level level,
+							 const QString &rMessage,
 							 const QVariant &rArg1,
 							 const QVariant &rArg2,
 							 const QVariant &rArg3) const;
@@ -637,25 +913,49 @@ namespace Log4Qt
 			void trace(const char *pMessage) const;
 			void trace(const char *pMessage,
 								 const QString &rArg1) const;
+			void trace(const QString &rMessage,
+								 const QString &rArg1) const;
 			void trace(const char *pMessage,
+								 int arg1) const;
+			void trace(const QString &rMessage,
 								 int arg1) const;
 			void trace(const char *pMessage,
 								 const QString &rArg1,
 								 const QString &rArg2) const;
+			void trace(const QString &rMessage,
+								 const QString &rArg1,
+								 const QString &rArg2) const;
 			void trace(const char *pMessage,
+								 const QString &rArg1,
+								 int arg2) const;
+			void trace(const QString &rMessage,
 								 const QString &rArg1,
 								 int arg2) const;
 			void trace(const char *pMessage,
 								 int arg1,
 								 const QString &rArg2) const;
+			void trace(const QString &rMessage,
+								 int arg1,
+								 const QString &rArg2) const;
 			void trace(const char *pMessage,
+								 int arg1,
+								 int arg2) const;
+			void trace(const QString &rMessage,
 								 int arg1,
 								 int arg2) const;
 			void trace(const char *pMessage,
 								 const QString &rArg1,
 								 const QString &rArg2,
 								 const QString &rArg3) const;
+			void trace(const QString &rMessage,
+								 const QString &rArg1,
+								 const QString &rArg2,
+								 const QString &rArg3) const;
 			void trace(const char *pMessage,
+								 const QString &rArg1,
+								 const QString &rArg2,
+								 int arg3) const;
+			void trace(const QString &rMessage,
 								 const QString &rArg1,
 								 const QString &rArg2,
 								 int arg3) const;
@@ -663,7 +963,15 @@ namespace Log4Qt
 								 const QString &rArg1,
 								 int arg2,
 								 const QString &rArg3) const;
+			void trace(const QString &rMessage,
+								 const QString &rArg1,
+								 int arg2,
+								 const QString &rArg3) const;
 			void trace(const char *pMessage,
+								 const QString &rArg1,
+								 int arg2,
+								 int arg3) const;
+			void trace(const QString &rMessage,
 								 const QString &rArg1,
 								 int arg2,
 								 int arg3) const;
@@ -671,7 +979,15 @@ namespace Log4Qt
 								 int arg1,
 								 const QString &rArg2,
 								 const QString &rArg3) const;
+			void trace(const QString &rMessage,
+								 int arg1,
+								 const QString &rArg2,
+								 const QString &rArg3) const;
 			void trace(const char *pMessage,
+								 int arg1,
+								 const QString &rArg2,
+								 int arg3) const;
+			void trace(const QString &rMessage,
 								 int arg1,
 								 const QString &rArg2,
 								 int arg3) const;
@@ -679,11 +995,23 @@ namespace Log4Qt
 								 int arg1,
 								 int arg2,
 								 const QString &rArg3) const;
+			void trace(const QString &rMessage,
+								 int arg1,
+								 int arg2,
+								 const QString &rArg3) const;
 			void trace(const char *pMessage,
 								 int arg1,
 								 int arg2,
 								 int arg3) const;
+			void trace(const QString &rMessage,
+								 int arg1,
+								 int arg2,
+								 int arg3) const;
 			void trace(const char *pMessage,
+								 const QVariant &rArg1,
+								 const QVariant &rArg2,
+								 const QVariant &rArg3) const;
+			void trace(const QString &rMessage,
 								 const QVariant &rArg1,
 								 const QVariant &rArg2,
 								 const QVariant &rArg3) const;
@@ -694,25 +1022,49 @@ namespace Log4Qt
 			void warn(const char *pMessage) const;
 			void warn(const char *pMessage,
 								const QString &rArg1) const;
+			void warn(const QString &rMessage,
+								const QString &rArg1) const;
 			void warn(const char *pMessage,
+								int arg1) const;
+			void warn(const QString &rMessage,
 								int arg1) const;
 			void warn(const char *pMessage,
 								const QString &rArg1,
 								const QString &rArg2) const;
+			void warn(const QString &rMessage,
+								const QString &rArg1,
+								const QString &rArg2) const;
 			void warn(const char *pMessage,
+								const QString &rArg1,
+								int arg2) const;
+			void warn(const QString &rMessage,
 								const QString &rArg1,
 								int arg2) const;
 			void warn(const char *pMessage,
 								int arg1,
 								const QString &rArg2) const;
+			void warn(const QString &rMessage,
+								int arg1,
+								const QString &rArg2) const;
 			void warn(const char *pMessage,
+								int arg1,
+								int arg2) const;
+			void warn(const QString &rMessage,
 								int arg1,
 								int arg2) const;
 			void warn(const char *pMessage,
 								const QString &rArg1,
 								const QString &rArg2,
 								const QString &rArg3) const;
+			void warn(const QString &rMessage,
+								const QString &rArg1,
+								const QString &rArg2,
+								const QString &rArg3) const;
 			void warn(const char *pMessage,
+								const QString &rArg1,
+								const QString &rArg2,
+								int arg3) const;
+			void warn(const QString &rMessage,
 								const QString &rArg1,
 								const QString &rArg2,
 								int arg3) const;
@@ -720,7 +1072,15 @@ namespace Log4Qt
 								const QString &rArg1,
 								int arg2,
 								const QString &rArg3) const;
+			void warn(const QString &rMessage,
+								const QString &rArg1,
+								int arg2,
+								const QString &rArg3) const;
 			void warn(const char *pMessage,
+								const QString &rArg1,
+								int arg2,
+								int arg3) const;
+			void warn(const QString &rMessage,
 								const QString &rArg1,
 								int arg2,
 								int arg3) const;
@@ -728,7 +1088,15 @@ namespace Log4Qt
 								int arg1,
 								const QString &rArg2,
 								const QString &rArg3) const;
+			void warn(const QString &rMessage,
+								int arg1,
+								const QString &rArg2,
+								const QString &rArg3) const;
 			void warn(const char *pMessage,
+								int arg1,
+								const QString &rArg2,
+								int arg3) const;
+			void warn(const QString &rMessage,
 								int arg1,
 								const QString &rArg2,
 								int arg3) const;
@@ -736,11 +1104,23 @@ namespace Log4Qt
 								int arg1,
 								int arg2,
 								const QString &rArg3) const;
+			void warn(const QString &rMessage,
+								int arg1,
+								int arg2,
+								const QString &rArg3) const;
 			void warn(const char *pMessage,
 								int arg1,
 								int arg2,
 								int arg3) const;
+			void warn(const QString &rMessage,
+								int arg1,
+								int arg2,
+								int arg3) const;
 			void warn(const char *pMessage,
+								const QVariant &rArg1,
+								const QVariant &rArg2,
+								const QVariant &rArg3) const;
+			void warn(const QString &rMessage,
 								const QVariant &rArg1,
 								const QVariant &rArg2,
 								const QVariant &rArg3) const;
