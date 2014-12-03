@@ -102,7 +102,7 @@ SOURCES += $$PWD/appenderskeleton.cpp \
 
 # add databaseappender and -layout if QT contains sql
 contains(QT, sql) {
-message("Including databaseappender and -layer")
+message("Including databaseappender and -layout")
 HEADERS += \
     $$PWD/databaseappender.h \
     $$PWD/databaselayout.h
@@ -114,5 +114,5 @@ SOURCES += \
 }
 
 !contains(QT, sql) {
-message("Skipping databaseappender and -layer")
+message("Skipping databaseappender and -layout")
 }
