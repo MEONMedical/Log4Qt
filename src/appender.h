@@ -78,8 +78,7 @@ public:
     Appender(QObject *pParent = 0);
     virtual ~Appender();
 private:
-    Appender(const Appender &rOther); // Not implemented
-    Appender &operator=(const Appender &rOther); // Not implemented
+    Q_DISABLE_COPY(Appender)
 
 public:
     // JAVA: ErrorHandler* errorHandler();

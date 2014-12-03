@@ -127,8 +127,7 @@ public:
 
     virtual ~TTCCLayout();
 private:
-    TTCCLayout(const TTCCLayout &rOther); // Not implemented
-    TTCCLayout &operator=(const TTCCLayout &rOther); // Not implemented
+    Q_DISABLE_COPY(TTCCLayout)
 
 public:
     bool categoryPrefixing() const;

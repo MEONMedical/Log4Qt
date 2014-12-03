@@ -89,8 +89,7 @@ public:
     virtual ~LogObject();
 
 private:
-    LogObject(const LogObject &rOther); // Not implemented
-    LogObject &operator=(const LogObject &rOther); // Not implemented
+    Q_DISABLE_COPY(LogObject)
 
 public:
     /*!

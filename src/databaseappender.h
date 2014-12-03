@@ -70,8 +70,7 @@ public:
     virtual ~DatabaseAppender();
 
 private:
-    DatabaseAppender(const DatabaseAppender &rOther); // Not implemented
-    DatabaseAppender &operator=(const DatabaseAppender &rOther); // Not implemented
+    Q_DISABLE_COPY(DatabaseAppender)
 
 public:
     virtual bool requiresLayout() const;

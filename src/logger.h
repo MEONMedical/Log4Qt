@@ -273,8 +273,7 @@ protected:
     Logger(LoggerRepository* pLoggerRepository, Level level, const QString &rName, Logger *pParent = 0);
     virtual ~Logger();
 private:
-    Logger(const Logger &rOther); // Not implemented
-    Logger &operator=(const Logger &rOther); // Not implemented
+    Q_DISABLE_COPY(Logger)
 
 public:
     bool additivity() const;

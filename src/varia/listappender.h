@@ -69,8 +69,7 @@ public:
     ListAppender(QObject *pParent = 0);
     virtual ~ListAppender();
 private:
-    ListAppender(const ListAppender &rOther); // Not implemented
-    ListAppender &operator=(const ListAppender &rOther); // Not implemented
+    Q_DISABLE_COPY(ListAppender)
 
 public:
     /*!

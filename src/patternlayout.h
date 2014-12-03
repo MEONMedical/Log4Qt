@@ -92,8 +92,7 @@ public:
 
     virtual ~PatternLayout();
 private:
-    PatternLayout(const PatternLayout &rOther); // Not implemented
-    PatternLayout &operator=(const PatternLayout &rOther); // Not implemented
+    Q_DISABLE_COPY(PatternLayout)
 
 public:
     QString conversionPattern() const;

@@ -53,8 +53,7 @@ public:
     PropertyConfigurator();
 
 private:
-    PropertyConfigurator(const PropertyConfigurator &rOther); // Not implemented
-    PropertyConfigurator &operator=(const PropertyConfigurator &rOther); // Not implemented
+    Q_DISABLE_COPY(PropertyConfigurator)
 
 public:
     /*!

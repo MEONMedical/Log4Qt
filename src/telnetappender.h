@@ -83,8 +83,7 @@ public:
     virtual ~TelnetAppender();
 
 private:
-    TelnetAppender(const TelnetAppender &rOther); // Not implemented
-    TelnetAppender &operator=(const TelnetAppender &rOther); // Not implemented
+    Q_DISABLE_COPY(TelnetAppender)
 
 public:
     virtual bool requiresLayout() const;

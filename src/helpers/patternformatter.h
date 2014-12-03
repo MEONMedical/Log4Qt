@@ -66,8 +66,7 @@ public:
     virtual ~PatternFormatter();
 
 private:
-    PatternFormatter(const PatternFormatter &rOther); // Not implemented
-    PatternFormatter &operator=(const PatternFormatter &rOther); // Not implemented
+    Q_DISABLE_COPY(PatternFormatter)
 
 public:
     /*!

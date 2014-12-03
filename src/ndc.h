@@ -45,9 +45,7 @@ class  LOG4QT_EXPORT NDC
 {
 private:
     NDC();
-    NDC(const NDC &rOther); // Not implemented
-    // virtual ~NDC(); // Use compiler default
-    NDC &operator=(const NDC &rOther); // Not implemented
+    Q_DISABLE_COPY(NDC)
 
 public:
     static void clear();
@@ -90,7 +88,6 @@ QDebug operator<<(QDebug debug,
 inline NDC::NDC() :
     mStack()
 {}
-
 
 } // namespace Log4Qt
 

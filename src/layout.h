@@ -68,8 +68,7 @@ public:
     Layout(QObject *pParent = 0);
     virtual ~Layout();
 private:
-    Layout(const Layout &rOther); // Not implemented
-    Layout &operator=(const Layout &rOther); // Not implemented
+    Q_DISABLE_COPY(Layout)
 
 public:
     virtual QString contentType() const;

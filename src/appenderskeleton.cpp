@@ -46,8 +46,7 @@ public:
     RecursionGuardLocker(bool *pGuard);
     ~RecursionGuardLocker();
 private:
-    RecursionGuardLocker(const RecursionGuardLocker &rOther); // Not implemented
-    RecursionGuardLocker &operator=(const RecursionGuardLocker &rOther); // Not implemented
+    Q_DISABLE_COPY(RecursionGuardLocker)
 private:
     bool *mpGuard;
 };

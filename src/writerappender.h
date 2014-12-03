@@ -80,8 +80,7 @@ public:
                    QObject *pParent = 0);
     virtual ~WriterAppender();
 private:
-    WriterAppender(const WriterAppender &rOther); // Not implemented
-    WriterAppender &operator=(const WriterAppender &rOther); // Not implemented
+    Q_DISABLE_COPY(WriterAppender)
 
 public:
     virtual bool requiresLayout() const;

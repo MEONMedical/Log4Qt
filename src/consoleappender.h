@@ -87,8 +87,7 @@ public:
 
     virtual ~ConsoleAppender();
 private:
-    ConsoleAppender(const ConsoleAppender &rOther); // Not implemented
-    ConsoleAppender &operator=(const ConsoleAppender &rOther); // Not implemented
+    Q_DISABLE_COPY(ConsoleAppender)
 
 public:
     // JAVA: bool follow() const;

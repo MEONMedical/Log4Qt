@@ -87,8 +87,7 @@ public:
 
 private:
     Factory();
-    Factory(const Factory &rOther); // Not implemented
-    Factory &operator=(const Factory &rOther); // Not implemented
+    Q_DISABLE_COPY(Factory)
 
 public:
     /*!

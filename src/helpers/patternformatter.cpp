@@ -87,8 +87,7 @@ public:
     virtual ~PatternConverter()
     {};
 private:
-    PatternConverter(const PatternConverter &rOther); // Not implemented
-    PatternConverter &operator=(const PatternConverter &rOther); // Not implemented
+    Q_DISABLE_COPY(PatternConverter)
 
 public:
     void format(QString &rFormat, const LoggingEvent &rLoggingEvent) const;
@@ -136,8 +135,7 @@ public:
     {};
     // virtual ~BasicPatternConverter(); // Use compiler default
 private:
-    BasicPatternConverter(const BasicPatternConverter &rOther); // Not implemented
-    BasicPatternConverter &operator=(const BasicPatternConverter &rOther); // Not implemented
+    Q_DISABLE_COPY(BasicPatternConverter)
 
 protected:
     virtual QString convert(const LoggingEvent &rLoggingEvent) const;
@@ -171,8 +169,7 @@ public:
     {};
 
 private:
-    DatePatternConverter(const DatePatternConverter &rOther); // Not implemented
-    DatePatternConverter &operator=(const DatePatternConverter &rOther); // Not implemented
+    Q_DISABLE_COPY(DatePatternConverter)
 
 protected:
     virtual QString convert(const LoggingEvent &rLoggingEvent) const;
@@ -204,8 +201,7 @@ public:
     {};
 
 private:
-    LiteralPatternConverter(const LiteralPatternConverter &rOther); // Not implemented
-    LiteralPatternConverter &operator=(const LiteralPatternConverter &rOther); // Not implemented
+    Q_DISABLE_COPY(LiteralPatternConverter)
 
 protected:
     virtual QString convert(const LoggingEvent &rLoggingEvent) const;
@@ -239,8 +235,7 @@ public:
     {};
 
 private:
-    LoggerPatternConverter(const LoggerPatternConverter &rOther); // Not implemented
-    LoggerPatternConverter &operator=(const LoggerPatternConverter &rOther); // Not implemented
+    Q_DISABLE_COPY(LoggerPatternConverter)
 
 protected:
     virtual QString convert(const LoggingEvent &rLoggingEvent) const;
@@ -275,8 +270,7 @@ public:
     {};
 
 private:
-    MDCPatternConverter(const MDCPatternConverter &rOther); // Not implemented
-    MDCPatternConverter &operator=(const MDCPatternConverter &rOther); // Not implemented
+    Q_DISABLE_COPY(MDCPatternConverter)
 
 protected:
     virtual QString convert(const LoggingEvent &rLoggingEvent) const;

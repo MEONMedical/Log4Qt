@@ -86,8 +86,7 @@ public:
                  QObject *pParent = 0);
     virtual ~FileAppender();
 private:
-    FileAppender(const FileAppender &rOther); // Not implemented
-    FileAppender &operator=(const FileAppender &rOther); // Not implemented
+    Q_DISABLE_COPY(FileAppender)
 
 public:
     bool appendFile() const;

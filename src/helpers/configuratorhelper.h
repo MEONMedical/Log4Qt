@@ -67,9 +67,9 @@ public:
 
 private:
     ConfiguratorHelper();
-    ConfiguratorHelper(const ConfiguratorHelper &rOther); // Not implemented
     virtual ~ConfiguratorHelper();
-    ConfiguratorHelper &operator=(const ConfiguratorHelper &rOther); // Not implemented
+
+    Q_DISABLE_COPY(ConfiguratorHelper)
 
 public:
 

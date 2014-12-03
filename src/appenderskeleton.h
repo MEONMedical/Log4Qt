@@ -82,9 +82,7 @@ protected:
 public:
     // virtual ~AppenderSkeleton(); Use compiler default
 private:
-    AppenderSkeleton(const AppenderSkeleton &rOther); // Not implemented
-    AppenderSkeleton &operator=(const AppenderSkeleton &rOther); // Not implemented
-
+    Q_DISABLE_COPY(AppenderSkeleton)
 public:
     // JAVA: ErrorHandler* errorHandler();
     virtual Filter *filter() const;

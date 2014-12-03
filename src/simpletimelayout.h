@@ -45,8 +45,7 @@ public:
     SimpleTimeLayout(QObject *pParent = 0);
 
 private:
-    SimpleTimeLayout(const SimpleTimeLayout &rOther); // Not implemented
-    SimpleTimeLayout &operator=(const SimpleTimeLayout &rOther); // Not implemented
+    Q_DISABLE_COPY(SimpleTimeLayout)
 
 public:
     virtual QString format(const LoggingEvent &rEvent);

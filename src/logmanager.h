@@ -70,9 +70,8 @@ class LOG4QT_EXPORT LogManager
 {
 private:
     LogManager();
-    LogManager(const LogManager &rOther); // Not implemented
     virtual ~LogManager();
-    LogManager &operator=(const LogManager &rOther); // Not implemented
+    Q_DISABLE_COPY(LogManager)
 
 public:
     /*!

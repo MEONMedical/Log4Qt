@@ -45,8 +45,7 @@ public:
     SimpleLayout(QObject *pParent = 0);
     // virtual ~SimpleLayout(); // Use compiler default
 private:
-    SimpleLayout(const SimpleLayout &rOther); // Not implemented
-    SimpleLayout &operator=(const SimpleLayout &rOther); // Not implemented
+    Q_DISABLE_COPY(SimpleLayout)
 
 public:
     virtual QString format(const LoggingEvent &rEvent);

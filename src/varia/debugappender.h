@@ -59,8 +59,7 @@ public:
                   QObject *pParent = 0);
 
 private:
-    DebugAppender(const DebugAppender &rOther); // Not implemented
-    DebugAppender &operator=(const DebugAppender &rOther); // Not implemented
+    Q_DISABLE_COPY(DebugAppender)
 
 public:
     /*!

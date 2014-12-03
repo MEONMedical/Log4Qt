@@ -46,8 +46,7 @@ public:
     NullAppender(QObject *pParent = 0);
     virtual ~NullAppender();
 private:
-    NullAppender(const NullAppender &rOther); // Not implemented
-    NullAppender &operator=(const NullAppender &rOther); // Not implemented
+    Q_DISABLE_COPY(NullAppender)
 
 public:
     virtual bool requiresLayout() const;

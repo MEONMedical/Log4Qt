@@ -84,9 +84,7 @@ public:
                              QObject *pParent = 0);
     virtual ~DailyRollingFileAppender();
 private:
-    DailyRollingFileAppender(const DailyRollingFileAppender &rOther); // Not implemented
-    DailyRollingFileAppender &operator=(const DailyRollingFileAppender &rOther); // Not implemented
-
+    Q_DISABLE_COPY(DailyRollingFileAppender)
 public:
     QString datePattern() const;
 

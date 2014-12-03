@@ -79,8 +79,7 @@ public:
                         QObject *pParent = 0);
     virtual ~RollingFileAppender();
 private:
-    RollingFileAppender(const RollingFileAppender &rOther); // Not implemented
-    RollingFileAppender &operator=(const RollingFileAppender &rOther); // Not implemented
+    Q_DISABLE_COPY(RollingFileAppender)
 
 public:
     int maxBackupIndex() const;

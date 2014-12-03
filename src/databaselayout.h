@@ -70,8 +70,7 @@ public:
     DatabaseLayout(QObject *pParent = 0);
     // virtual ~DatabaseLayout(); // Use compiler default
 private:
-    DatabaseLayout(const DatabaseLayout &rOther); // Not implemented
-    DatabaseLayout &operator=(const DatabaseLayout &rOther); // Not implemented
+    Q_DISABLE_COPY(DatabaseLayout)
 
 public:
     virtual QSqlRecord formatRecord(const LoggingEvent &rEvent);

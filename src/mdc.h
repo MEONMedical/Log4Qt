@@ -43,8 +43,7 @@ class  LOG4QT_EXPORT MDC
 {
 private:
     MDC();
-    MDC(const MDC &rOther); // Not implemented
-    MDC &operator=(const MDC &rOther); // Not implemented
+    Q_DISABLE_COPY(MDC)
 
 public:
     static QString get(const QString &rKey);

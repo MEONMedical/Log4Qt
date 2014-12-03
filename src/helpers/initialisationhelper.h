@@ -256,9 +256,9 @@ class  LOG4QT_EXPORT InitialisationHelper
 {
 private:
     InitialisationHelper();
-    InitialisationHelper(const InitialisationHelper &rOther); // Not implemented
     virtual ~InitialisationHelper();
-    InitialisationHelper &operator=(const InitialisationHelper &rOther); // Not implemented
+
+    Q_DISABLE_COPY(InitialisationHelper)
 
 public:
 
