@@ -26,18 +26,9 @@
 #define LOG4QT_PATTERNFORMATTER_H
 
 #include "../log4qtshared.h"
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
 
 #include <QtCore/QList>
 #include <QtCore/QString>
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
-
 
 namespace Log4Qt
 {
@@ -146,11 +137,6 @@ private:
     friend QDebug operator<<(QDebug, const PatternFormatter &rPatternFormatter);
 };
 
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
 #ifndef QT_NO_DEBUG_STREAM
 /*!
  * \relates PatternFormatter
@@ -179,12 +165,6 @@ private:
 QDebug operator<<(QDebug debug,
                   const PatternFormatter &rPatternFormatter);
 #endif // QT_NO_DEBUG_STREAM
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
-
 
 } // namespace Log4Qt
 

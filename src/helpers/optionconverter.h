@@ -26,10 +26,6 @@
 #define LOG4QT_OPTIONCONVERTER_H
 #include "../log4qtshared.h"
 
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include <QtCore/QString>
 #include "level.h"
 
@@ -46,7 +42,6 @@ class  LOG4QT_EXPORT OptionConverter
 private:
     OptionConverter();
     OptionConverter(const OptionConverter &rOther); // Not implemented
-    // virtual ~OptionConverter(); // Use compiler default
     OptionConverter &operator=(const OptionConverter &rOther); // Not implemented
 
 public:
@@ -120,17 +115,6 @@ public:
     static int toTarget(const QString &rOption,
                         bool *p_ok = 0);
 };
-
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
-
 
 } // namespace Log4Qt
 

@@ -26,18 +26,10 @@
 #define LOG4QT_HELPERS_FACTORY_H
 
 #include "../log4qtshared.h"
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
 
 #include <QtCore/QHash>
 #include <QtCore/QMutex>
 #include <QtCore/QStringList>
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 namespace Log4Qt
 {
@@ -96,7 +88,6 @@ public:
 private:
     Factory();
     Factory(const Factory &rOther); // Not implemented
-    // virtual ~Factory(); // Use compiler default
     Factory &operator=(const Factory &rOther); // Not implemented
 
 public:
@@ -310,11 +301,6 @@ private:
     QHash<QString, LayoutFactoryFunc> mLayoutRegistry;
 };
 
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
 #ifndef QT_NO_DEBUG_STREAM
 /*!
  * \relates Factory
@@ -346,12 +332,6 @@ private:
 QDebug operator<<(QDebug debug,
                   const Factory &rFactory);
 #endif // QT_NO_DEBUG_STREAM
-
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
 
 inline Appender *Factory::createAppender(const QString &rAppenderClassName)
 {

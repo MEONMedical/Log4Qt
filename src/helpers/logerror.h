@@ -26,17 +26,9 @@
 #define LOG4QT_LOGERROR_H
 
 #include "../log4qtshared.h"
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
 
 #include <QtCore/QString>
 #include <QtCore/QVariant>
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 namespace Log4Qt
 {
@@ -190,10 +182,6 @@ public:
              const char *pSymbol = 0,
              const char *pContext = 0,
              Encoding encoding = LATIN1);
-
-    // LogError(const LogError &rOther); // Use compiler default
-    // virtual ~LogError(); // Use compiler default
-    // LogError &operator=(const LogError &rOther); // Use compiler default
 
     /*!
      * Returns the error code.
@@ -422,11 +410,6 @@ private:
 #endif // QT_NO_DATASTREAM
 };
 
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
 #ifndef QT_NO_DATASTREAM
 /*!
  * \relates LogError
@@ -467,11 +450,6 @@ QDataStream &operator>>(QDataStream &rStream,
 QDebug operator<<(QDebug debug,
                   const LogError &rLogError);
 #endif // QT_NO_DEBUG_STREAM
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
 
 inline int LogError::code() const
 {

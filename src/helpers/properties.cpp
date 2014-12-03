@@ -22,13 +22,6 @@
  *
  ******************************************************************************/
 
-
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
-
 #include "helpers/properties.h"
 
 #include <QtCore/QDebug>
@@ -42,27 +35,7 @@
 namespace Log4Qt
 {
 
-
-
-/**************************************************************************
- *Declarations
- **************************************************************************/
-
-
-
-/**************************************************************************
- * C helper functions
- **************************************************************************/
-
-
 LOG4QT_DECLARE_STATIC_LOGGER(logger, Log4Qt::Properties)
-
-
-
-/**************************************************************************
- * Class implementation: Properties
- **************************************************************************/
-
 
 void Properties::load(QIODevice *pDevice)
 {
@@ -341,13 +314,6 @@ const char *Properties::msValueEscapeCodes = "tnr\\\"\' ";
 const char *Properties::msValueEscapeChars = "\t\n\r\\\"\' ";
 const char *Properties::msKeyEscapeCodes = " :=";
 const char *Properties::msKeyEscapeChars = " :=";
-
-
-
-/**************************************************************************
- * Implementation: Operators, Helper
- **************************************************************************/
-
 
 #ifndef QT_NO_DEBUG_STREAM
 QDebug operator<<(QDebug debug, const Properties &rProperties)

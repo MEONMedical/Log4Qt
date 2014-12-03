@@ -22,41 +22,14 @@
  *
  ******************************************************************************/
 
-
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
-
 #include "helpers/configuratorhelper.h"
 
 #include <QtCore/QDebug>
 #include <QtCore/QFileSystemWatcher>
 #include "helpers/initialisationhelper.h"
 
-
-
 namespace Log4Qt
 {
-
-
-/**************************************************************************
- * Declarations
- **************************************************************************/
-
-
-
-/**************************************************************************
- * C helper functions
- **************************************************************************/
-
-
-
-/**************************************************************************
- * Class implementation: ConfiguratorHelper
- **************************************************************************/
-
 
 ConfiguratorHelper::ConfiguratorHelper() :
     mObjectGuard(),
@@ -110,13 +83,6 @@ void ConfiguratorHelper::doSetConfigurationFile(const QString &rFileName,
             SLOT(configurationFileChanged(const QString &)));
 }
 
-
-
-/**************************************************************************
- * Implementation: Operators, Helper
- **************************************************************************/
-
-
 #ifndef QT_NO_DEBUG_STREAM
 QDebug operator<<(QDebug debug,
                   const ConfiguratorHelper &rConfiguratorHelper)
@@ -129,8 +95,6 @@ QDebug operator<<(QDebug debug,
     return debug.space();
 }
 #endif // QT_NO_DEBUG_STREAM
-
-
 
 } // namespace Log4Qt
 

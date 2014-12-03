@@ -22,40 +22,13 @@
  *
  ******************************************************************************/
 
-
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
-
 #include "helpers/datetime.h"
 
 #include <QtCore/QDebug>
 #include "helpers/initialisationhelper.h"
 
-
-
 namespace Log4Qt
 {
-
-
-/**************************************************************************
- *Declarations
- **************************************************************************/
-
-
-
-/**************************************************************************
- * C helper functions
- **************************************************************************/
-
-
-
-/**************************************************************************
- * Class implementation: DateTime
- **************************************************************************/
-
 
 QString DateTime::toString(const QString &rFormat) const
 {
@@ -80,7 +53,6 @@ QString DateTime::toString(const QString &rFormat) const
 
     return formatDateTime(format);
 }
-
 
 QString DateTime::formatDateTime(const QString &rFormat) const
 {
@@ -153,7 +125,6 @@ QString DateTime::formatDateTime(const QString &rFormat) const
     result += formatToken(token, am_pm);
     return result;
 }
-
 
 QString DateTime::formatToken(const QString &rToken, bool am_pm) const
 {
@@ -299,7 +270,6 @@ QString DateTime::formatToken(const QString &rToken, bool am_pm) const
         return result;
 }
 
-
 bool DateTime::hasAMPM(const QString &rToken)
 {
     bool in_literal = false;
@@ -315,13 +285,5 @@ bool DateTime::hasAMPM(const QString &rToken)
     }
     return false;
 }
-
-
-
-/**************************************************************************
- * Implementation: Operators, Helper
- **************************************************************************/
-
-
 
 } // namespace Log4Qt

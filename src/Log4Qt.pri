@@ -92,7 +92,6 @@ SOURCES += $$PWD/appenderskeleton.cpp \
            $$PWD/helpers/initialisationhelper.cpp \
            $$PWD/helpers/logerror.cpp \
            $$PWD/helpers/logobject.cpp \
-           $$PWD/helpers/logobjectptr.cpp \
            $$PWD/helpers/optionconverter.cpp \
            $$PWD/helpers/patternformatter.cpp \
            $$PWD/helpers/properties.cpp \

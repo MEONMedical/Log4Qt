@@ -31,10 +31,6 @@
 #define LOG4QT_HELPERS_INITIALISATIONHELPER_H
 #include "../log4qtshared.h"
 
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include <QtCore/QAtomicPointer>
 #include <QtCore/QHash>
 #include <QString>
@@ -44,11 +40,6 @@
 #		warning "QAtomicPointer test and set is not native. The macros Log4Qt::LOG4QT_GLOBAL_STATIC and Log4Qt::LOG4QT_IMPLEMENT_INSTANCE are not thread-safe."
 #	endif
 #endif
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 class QMutex;
 
@@ -384,11 +375,6 @@ private:
 #endif // QT_NO_DEBUG_STREAM
 };
 
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
 #ifndef QT_NO_DEBUG_STREAM
 /*!
  * \relates InitialisationHelper
@@ -407,11 +393,6 @@ private:
 QDebug operator<<(QDebug debug,
                   const InitialisationHelper &rInitialisationHelper);
 #endif // QT_NO_DEBUG_STREAM
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
 
 inline QHash<QString, QString> InitialisationHelper::environmentSettings()
 {

@@ -34,9 +34,6 @@
 #define LOG4QT_LOGOBJECT_H
 
 #include "../log4qtshared.h"
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
 
 #include <QtCore/QObject>
 
@@ -148,11 +145,6 @@ private:
     mutable ClassLogger mLog4QtClassLogger;
 };
 
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
 #ifndef QT_NO_DEBUG_STREAM
 /*!
  * \relates LogObject
@@ -168,11 +160,6 @@ private:
 QDebug operator<<(QDebug debug,
                   const LogObject &rLogObject);
 #endif
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
 
 inline LogObject::LogObject(QObject *pParent) :
     QObject(pParent),

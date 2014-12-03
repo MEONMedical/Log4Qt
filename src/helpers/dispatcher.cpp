@@ -32,9 +32,6 @@
 namespace Log4Qt
 {
 
-/**************************************************************************
- * Class implementation: Dispatcher
- **************************************************************************/
 Dispatcher::Dispatcher(QObject *parent) : QObject(parent)
     , mpAsyncAppender(0)
 {}
@@ -54,6 +51,5 @@ void Dispatcher::setAsyncAppender(AsyncAppender *pAsyncAppender)
 {
     mpAsyncAppender = pAsyncAppender;
 }
-
 
 } // namespace Log4Qt

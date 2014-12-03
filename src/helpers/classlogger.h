@@ -32,11 +32,6 @@
 
 #include "../log4qtshared.h"
 
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include <QtCore/QObject>
 #if QT_VERSION >= QT_VERSION_CHECK(4, 4, 0)
 #	include <QtCore/QAtomicPointer>
@@ -44,11 +39,6 @@
 #		warning "QAtomicPointer test and set is not native. The class Log4Qt::ClassLogger is not thread-safe."
 #	endif
 #endif
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 namespace Log4Qt
 {
@@ -73,9 +63,6 @@ public:
      * Creates a ClassLogger object.
      */
     ClassLogger();
-    // ~ClassLogger(); // Use compiler default
-    // ClassLogger(const ClassLogger &rOther); // Use compiler default
-    // ClassLogger &operator=(const ClassLogger &rOther); // Use compiler default
 
     /*!
      * Returns a pointer to a Logger named after the class of the object
@@ -97,21 +84,8 @@ private:
 #endif
 };
 
-
-/******************************************************************************
- * Operators, Helper
- ******************************************************************************/
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
-
-
 } // namespace Log4Qt
 
-
 // Q_DECLARE_TYPEinfo(Log4Qt::ClassLogger, Q_COMPLEX_TYPE); // Use default
-
 
 #endif // LOG4QT_CLASSLOGGER_H

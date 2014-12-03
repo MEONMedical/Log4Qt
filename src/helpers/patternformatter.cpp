@@ -27,12 +27,6 @@
  *
  ******************************************************************************/
 
-
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include "helpers/patternformatter.h"
 
 #include <QtCore/QString>
@@ -50,11 +44,6 @@ namespace Log4Qt
 {
 
 
-/**************************************************************************
- *Declarations
- **************************************************************************/
-
-
 /*!
  * \brief The class FormattingInfo stores the formatting modifier for a
  * pattern converter.
@@ -68,9 +57,6 @@ public:
     {
         clear();
     }
-    // FormattingInfo(const FormattingInfo &rOther); // Use compiler default
-    // virtual ~FormattingInfo(); // Use compiler default
-    // FormattingInfo &operator=(const FormattingInfo &rOther); // Use compiler default
 
     void clear();
     static QString intToString(int i);
@@ -183,7 +169,7 @@ public:
         PatternConverter(rFormattingInfo),
         mFormat(rFormat)
     {};
-    // virtual ~DatePatternConverter(); // Use compiler default
+
 private:
     DatePatternConverter(const DatePatternConverter &rOther); // Not implemented
     DatePatternConverter &operator=(const DatePatternConverter &rOther); // Not implemented
@@ -216,7 +202,7 @@ public:
         PatternConverter(),
         mLiteral(rLiteral)
     {};
-    // virtual ~LiteralPatternConverter(); // Use compiler default
+
 private:
     LiteralPatternConverter(const LiteralPatternConverter &rOther); // Not implemented
     LiteralPatternConverter &operator=(const LiteralPatternConverter &rOther); // Not implemented
@@ -251,7 +237,7 @@ public:
         PatternConverter(rFormattingInfo),
         mPrecision(precision)
     {};
-    // virtual ~LoggerPatternConverter(); // Use compiler default
+
 private:
     LoggerPatternConverter(const LoggerPatternConverter &rOther); // Not implemented
     LoggerPatternConverter &operator=(const LoggerPatternConverter &rOther); // Not implemented
@@ -287,7 +273,7 @@ public:
         PatternConverter(rFormattingInfo),
         mKey(rKey)
     {};
-    // virtual ~MDCPatternConverter(); // Use compiler default
+
 private:
     MDCPatternConverter(const MDCPatternConverter &rOther); // Not implemented
     MDCPatternConverter &operator=(const MDCPatternConverter &rOther); // Not implemented
@@ -312,21 +298,7 @@ QDebug operator<<(QDebug, const FormattingInfo &rFormattingInfo);
 QDebug operator<<(QDebug, const PatternConverter &rPatternConverter);
 #endif
 
-
-
-/**************************************************************************
- * C helper functions
- **************************************************************************/
-
-
 LOG4QT_DECLARE_STATIC_LOGGER(logger, Log4Qt::PatternFormatter)
-
-
-
-/**************************************************************************
- * Class implementation: PatternFormatter
- **************************************************************************/
-
 
 PatternFormatter::PatternFormatter(const QString &rPattern) :
     mIgnoreCharacters(QLatin1String("CFlLM")),
@@ -658,12 +630,6 @@ int PatternFormatter::parseIntegerOption(const QString &rOption)
     return result;
 }
 
-
-/**************************************************************************
- * Class implementation: FormattingInfo
- **************************************************************************/
-
-
 void FormattingInfo::clear()
 {
     mMinLength = 0;
@@ -680,13 +646,6 @@ QString FormattingInfo::intToString(int i)
         return QString::number(i);
 }
 
-
-
-/**************************************************************************
- * Class implementation: PatternConverter
- **************************************************************************/
-
-
 void PatternConverter::format(QString &rFormat, const LoggingEvent &rLoggingEvent) const
 {
     const QLatin1Char space(' ');
@@ -699,13 +658,6 @@ void PatternConverter::format(QString &rFormat, const LoggingEvent &rLoggingEven
     else
         rFormat += s.rightJustified(mFormattingInfo.mMinLength, space, false);
 }
-
-
-
-/**************************************************************************
- * Class implementation: BasicPatternConverter
- **************************************************************************/
-
 
 QString BasicPatternConverter::convert(const LoggingEvent &rLoggingEvent) const
 {
@@ -757,13 +709,6 @@ QDebug BasicPatternConverter::debug(QDebug &rDebug) const
     return rDebug.space();
 }
 
-
-
-/**************************************************************************
- * Class implementation: DatePatternConverter
- **************************************************************************/
-
-
 QString DatePatternConverter::convert(const LoggingEvent &rLoggingEvent) const
 {
     return DateTime::fromMilliSeconds(rLoggingEvent.timeStamp()).toString(mFormat);
@@ -778,13 +723,6 @@ QDebug DatePatternConverter::debug(QDebug &rDebug) const
                      << ")";
     return rDebug.space();
 }
-
-
-
-/**************************************************************************
- * Class implementation: LiteralPatternConverter
- **************************************************************************/
-
 
 QString LiteralPatternConverter::convert(const LoggingEvent &rLoggingEvent) const
 {
@@ -801,13 +739,6 @@ QDebug LiteralPatternConverter::debug(QDebug &rDebug) const
                      << ")";
     return rDebug.space();
 }
-
-
-
-/**************************************************************************
- * Class implementation: LoggerPatternConverter
- **************************************************************************/
-
 
 QString LoggerPatternConverter::convert(const LoggingEvent &rLoggingEvent) const
 {
@@ -844,12 +775,6 @@ QDebug LoggerPatternConverter::debug(QDebug &rDebug) const
 }
 
 
-
-/******************************************************************************
- * Class implementation: MDCPatternConverter
- ******************************************************************************/
-
-
 QString MDCPatternConverter::convert(const LoggingEvent &rLoggingEvent) const
 {
     return rLoggingEvent.mdc().value(mKey);
@@ -864,13 +789,6 @@ QDebug MDCPatternConverter::debug(QDebug &rDebug) const
                      << ")";
     return rDebug.space();
 }
-
-
-
-/**************************************************************************
- * Implementation: Operators, Helper
- **************************************************************************/
-
 
 #ifndef QT_NO_DEBUG_STREAM
 QDebug operator<<(QDebug debug, const PatternFormatter &rPatternFormatter)
@@ -910,7 +828,6 @@ QDebug operator<<(QDebug debug, const PatternConverter &rPatternConverter)
     return rPatternConverter.debug(debug);
 }
 #endif // QT_NO_DEBUG_STREAM
-
 
 
 } // namespace Log4Qt

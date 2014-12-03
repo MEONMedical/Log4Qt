@@ -28,12 +28,6 @@
  ******************************************************************************/
 
 
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
-
 #include "helpers/initialisationhelper.h"
 
 #include <QtCore/QCoreApplication>
@@ -45,28 +39,8 @@
 #include "helpers/logerror.h"
 #include "loggingevent.h"
 
-
-
 namespace Log4Qt
 {
-
-
-/**************************************************************************
- *Declarations
- **************************************************************************/
-
-
-
-/**************************************************************************
- * C helper functions
- **************************************************************************/
-
-
-
-/**************************************************************************
- * Class implementation: InitialisationHelper
- **************************************************************************/
-
 
 InitialisationHelper::InitialisationHelper() :
     mStartTime(DateTime::currentDateTime().toMilliSeconds()),
@@ -156,13 +130,6 @@ bool InitialisationHelper::staticInitialisation()
 
 bool InitialisationHelper::msStaticInitialisation = staticInitialisation();
 
-
-
-/**************************************************************************
- * Implementation: Operators, Helper
- **************************************************************************/
-
-
 #ifndef QT_NO_DEBUG_STREAM
 QDebug operator<<(QDebug debug,
                   const InitialisationHelper &rInitialisationHelper)
@@ -176,7 +143,5 @@ QDebug operator<<(QDebug debug,
     return debug.space();
 }
 #endif // QT_NO_DEBUG_STREAM
-
-
 
 } // namespace Log4Qt

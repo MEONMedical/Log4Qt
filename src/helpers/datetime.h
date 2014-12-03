@@ -30,17 +30,7 @@
 #define LOG4QT_HELPERS_DATETIME_H
 #include "../log4qtshared.h"
 
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include <QtCore/QDateTime>
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
-
 
 namespace Log4Qt
 {
@@ -61,8 +51,6 @@ public:
      */
     DateTime();
 
-    // DateTime(const DateTime &rOther); // Use compiler default
-
     /*!
      * Constructs a copy of another QDateTime.
      *
@@ -80,8 +68,6 @@ public:
     DateTime(const QDate &rDate,
              const QTime &rTime,
              Qt::TimeSpec timeSpec = Qt::LocalTime);
-
-    // virtual ~DateTime(); // Use compiler default
 
     /*!
      * Assigns \a rOther to this DateTime and returns a reference to it.
@@ -167,16 +153,6 @@ private:
     QString formatToken(const QString &rToken, bool am_pm) const;
     static bool hasAMPM(const QString &rFormat);
 };
-
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
 
 inline DateTime::DateTime() : QDateTime()
 {}

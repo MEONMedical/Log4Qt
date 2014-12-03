@@ -27,23 +27,13 @@
 
 #include "../log4qtshared.h"
 
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include <QtCore/QObject>
 
 #include <QtCore/QList>
 #include <QtCore/QMutex>
 #include "loggingevent.h"
 
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
-
 class QFileSystemWatcher;
-
 
 namespace Log4Qt
 {
@@ -158,11 +148,6 @@ private:
 #endif // QT_NO_DEBUG_STREAM
 };
 
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
 #ifndef QT_NO_DEBUG_STREAM
 /*!
  * \relates ConfiguratorHelper
@@ -179,12 +164,6 @@ private:
 QDebug operator<<(QDebug debug,
                   const ConfiguratorHelper &rConfiguratorHelper);
 #endif // QT_NO_DEBUG_STREAM
-
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
 
 inline QList<LoggingEvent> ConfiguratorHelper::configureError()
 {

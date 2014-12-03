@@ -26,21 +26,12 @@
 #define LOG4QT_PROPERTIES_H
 
 #include "../log4qtshared.h"
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
 
 #include <QtCore/QHash>
 #include <QtCore/QStringList>
 
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
-
 class QIODevice;
 class QSettings;
-
 
 namespace Log4Qt
 {
@@ -51,9 +42,6 @@ class  LOG4QT_EXPORT Properties : public QHash<QString, QString>
 {
 public:
     Properties(Properties *pDefaultProperties = 0);
-    // virtual ~Properties(); // Use compiler default
-    // Properties(const Properties &rOther); // Use compiler default
-    // Properties &operator=(const Properties &rOther); // Not implemented
 
 public:
     Properties *defaultProperties() const;
@@ -106,11 +94,6 @@ private:
     static const char *msKeyEscapeChars;
 };
 
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
 #ifndef QT_NO_DEBUG_STREAM
 /*!
  * \relates Properties
@@ -131,11 +114,6 @@ private:
 QDebug operator<<(QDebug debug,
                   const Properties &rProperties);
 #endif // QT_NO_DEBUG_STREAM
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
 
 inline Properties::Properties(Properties *pDefaultProperties) :
     mpDefaultProperties(pDefaultProperties)
