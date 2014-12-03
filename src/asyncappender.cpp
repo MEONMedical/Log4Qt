@@ -54,8 +54,8 @@ namespace Log4Qt
 
 
 AsyncAppender::AsyncAppender(QObject *parent) : AppenderSkeleton(parent)
-                                                ,mpThread(0)
-                                                ,mpDispatcher(0)
+    ,mpThread(0)
+    ,mpDispatcher(0)
 {
 }
 
@@ -116,13 +116,13 @@ bool AsyncAppender::checkEntryConditions() const
 {
     if (mpThread && !mpThread->isRunning())
     {
-      LogError
-          e =
-              LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' without a running dispatcher thread"),
-                  APPENDER_ASNC_DISPATCHER_NOT_RUNNING);
-      e << name();
-      logger()->error(e);
-      return false;
+        LogError
+        e =
+            LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' without a running dispatcher thread"),
+                                APPENDER_ASNC_DISPATCHER_NOT_RUNNING);
+        e << name();
+        logger()->error(e);
+        return false;
     }
 
     return AppenderSkeleton::checkEntryConditions();
@@ -141,8 +141,8 @@ bool AsyncAppender::checkEntryConditions() const
 QDebug AsyncAppender::debug(QDebug &rDebug) const
 {
     rDebug.nospace() << "AsyncAppender("
-        << "name:" << name() << " "
-        << ")";
+                     << "name:" << name() << " "
+                     << ")";
 
     return rDebug.space();
 }

@@ -44,85 +44,85 @@
 namespace Log4Qt
 {
 
-	class Filter;
-	class Layout;
-	class LoggingEvent;
+class Filter;
+class Layout;
+class LoggingEvent;
 
-	/*!
-	 * \brief The class Appender is the base class for all Appenders.
-	 *
-	 * To allow the whole hirarchy to be an ascendant of QObject Appender is
-	 * not an interface.
-	 *
-	 * \note All the functions declared in this class are thread-safe.
-	 *
-	 * \note The ownership and lifetime of objects of this class are managed.
-	 *       See \ref Ownership "Object ownership" for more details.
-	 */
-	class LOG4QT_EXPORT Appender : public LogObject
-	{
-			Q_OBJECT
+/*!
+ * \brief The class Appender is the base class for all Appenders.
+ *
+ * To allow the whole hirarchy to be an ascendant of QObject Appender is
+ * not an interface.
+ *
+ * \note All the functions declared in this class are thread-safe.
+ *
+ * \note The ownership and lifetime of objects of this class are managed.
+ *       See \ref Ownership "Object ownership" for more details.
+ */
+class LOG4QT_EXPORT Appender : public LogObject
+{
+    Q_OBJECT
 
-			/*!
-			 * The property holds the Layout used by the Appender.
-			 *
-			 * \sa layout(), setLayout()
-			 */
-			Q_PROPERTY(Layout* layout READ layout WRITE setLayout)
+    /*!
+     * The property holds the Layout used by the Appender.
+     *
+     * \sa layout(), setLayout()
+     */
+    Q_PROPERTY(Layout* layout READ layout WRITE setLayout)
 
-			/*!
-			 * The property holds the name of the Appender.
-			 *
-			 * \sa name(), setName()
-			 */
-			Q_PROPERTY(QString name READ name WRITE setName)
+    /*!
+     * The property holds the name of the Appender.
+     *
+     * \sa name(), setName()
+     */
+    Q_PROPERTY(QString name READ name WRITE setName)
 
-			/*!
-			 * The property holds if the Appender requires a Layout or not.
-			 *
-			 * \sa requiresLayout(), setRequiresLayout()
-			 */
-			Q_PROPERTY(bool requiresLayout READ requiresLayout)
+    /*!
+     * The property holds if the Appender requires a Layout or not.
+     *
+     * \sa requiresLayout(), setRequiresLayout()
+     */
+    Q_PROPERTY(bool requiresLayout READ requiresLayout)
 
-	public:
-			Appender(QObject *pParent = 0);
-			virtual ~Appender();
-	private:
-			Appender(const Appender &rOther); // Not implemented
-			Appender &operator=(const Appender &rOther); // Not implemented
+public:
+    Appender(QObject *pParent = 0);
+    virtual ~Appender();
+private:
+    Appender(const Appender &rOther); // Not implemented
+    Appender &operator=(const Appender &rOther); // Not implemented
 
-	public:
-			// JAVA: ErrorHandler* errorHandler();
-			virtual Filter *filter() const = 0;
-			virtual QString name() const = 0;
-			virtual Layout *layout() const = 0;
-			virtual bool requiresLayout() const = 0;
-			// JAVA: void setErrorHandler(ErrorHandler *pErrorHandler);
-			virtual void setLayout(Layout *pLayout) = 0;
-			virtual void setName(const QString &rName) = 0;
+public:
+    // JAVA: ErrorHandler* errorHandler();
+    virtual Filter *filter() const = 0;
+    virtual QString name() const = 0;
+    virtual Layout *layout() const = 0;
+    virtual bool requiresLayout() const = 0;
+    // JAVA: void setErrorHandler(ErrorHandler *pErrorHandler);
+    virtual void setLayout(Layout *pLayout) = 0;
+    virtual void setName(const QString &rName) = 0;
 
-			virtual void addFilter(Filter *pFilter) = 0;
-			virtual void clearFilters() = 0;
-			virtual void close() = 0;
-			virtual void doAppend(const LoggingEvent &rEvent) = 0;
-	};
-
-
-	/**************************************************************************
-	 * Operators, Helper
-	 **************************************************************************/
+    virtual void addFilter(Filter *pFilter) = 0;
+    virtual void clearFilters() = 0;
+    virtual void close() = 0;
+    virtual void doAppend(const LoggingEvent &rEvent) = 0;
+};
 
 
-	/**************************************************************************
-	 * Inline
-	 **************************************************************************/
+/**************************************************************************
+ * Operators, Helper
+ **************************************************************************/
 
-	inline Appender::Appender(QObject *pParent) :
-		 LogObject(pParent)
-	{}
 
-	inline Appender::~Appender()
-	{}
+/**************************************************************************
+ * Inline
+ **************************************************************************/
+
+inline Appender::Appender(QObject *pParent) :
+    LogObject(pParent)
+{}
+
+inline Appender::~Appender()
+{}
 
 
 } // namespace Log4Qt

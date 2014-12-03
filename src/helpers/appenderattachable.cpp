@@ -56,9 +56,9 @@ namespace Log4Qt
  **************************************************************************/
 AppenderAttachable::AppenderAttachable() :
 #if QT_VERSION < QT_VERSION_CHECK(4, 4, 0)
-        mAppenderGuard()
+    mAppenderGuard()
 #else
-        mAppenderGuard(QReadWriteLock::Recursive)
+    mAppenderGuard(QReadWriteLock::Recursive)
 #endif
 {
 }
@@ -86,14 +86,16 @@ void AppenderAttachable::addAppender(Appender *pAppender)
     {
         QReadLocker locker(&mAppenderGuard);
 
-        if (!p_appender) {
+        if (!p_appender)
+        {
             //logger()->warn("Adding null Appender to Logger '%1'", name());
             return;
         }
 
-        if (mAppenders.contains(p_appender)) {
+        if (mAppenders.contains(p_appender))
+        {
             //logger()->warn("Adding of duplicate appender '%2' to logger '%1'",
-                //name(), p_appender->name());
+            //name(), p_appender->name());
             return;
         }
     }
@@ -141,12 +143,14 @@ void AppenderAttachable::removeAllAppenders()
     {
         QWriteLocker locker(&mAppenderGuard);
         QMutableListIterator < LogObjectPtr<Appender> > i(mAppenders);
-        while (i.hasNext()) {
+        while (i.hasNext())
+        {
             Appender *p_appender = i.next();
             ListAppender *p_listappender = qobject_cast<ListAppender*> (p_appender);
             if (p_listappender && p_listappender->configuratorList())
                 continue;
-            else {
+            else
+            {
                 appenders << p_appender;
                 i.remove();
             }
@@ -155,8 +159,8 @@ void AppenderAttachable::removeAllAppenders()
     appenders.clear();
 }
 
-    void AppenderAttachable::removeAppender(Appender *pAppender)
-    {
+void AppenderAttachable::removeAppender(Appender *pAppender)
+{
     // Avoid deadlock:
     // - Only log warnings without having the write log aquired
     // - Hold a reference to the appender so that the remove does not
@@ -165,7 +169,8 @@ void AppenderAttachable::removeAllAppenders()
 
     LogObjectPtr < Appender > p_appender = pAppender;
 
-    if (!p_appender) {
+    if (!p_appender)
+    {
         //logger()->warn("Request to remove null Appender from Logger '%1'", name());
         return;
     }
@@ -175,11 +180,12 @@ void AppenderAttachable::removeAllAppenders()
 
         n = mAppenders.removeAll(p_appender);
     }
-    if (n == 0) {
+    if (n == 0)
+    {
         //logger()->warn(
         //      "Request to remove Appender '%2', which is not part of Logger '%1' appenders",
         //      name(), p_appender->name());
-    return;
+        return;
     }
 }
 

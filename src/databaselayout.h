@@ -43,97 +43,97 @@
 namespace Log4Qt
 {
 
-	/*!
-	 * \brief The class DatabaseLayout outputs loggin event into sql table.
-	 *
-	 * \note The ownership and lifetime of objects of this class are managed.
-	 *       See \ref Ownership "Object ownership" for more details.
-	 */
-	 class LOG4QT_EXPORT  DatabaseLayout : public Layout
-	{
-			Q_OBJECT
+/*!
+ * \brief The class DatabaseLayout outputs loggin event into sql table.
+ *
+ * \note The ownership and lifetime of objects of this class are managed.
+ *       See \ref Ownership "Object ownership" for more details.
+ */
+class LOG4QT_EXPORT  DatabaseLayout : public Layout
+{
+    Q_OBJECT
 
-			/*!
-				The property holds column name to save timestamp of log event
-			*/
-			Q_PROPERTY(QString timeStampColumn READ timeStampColumn WRITE setTimeStampColumn)
-			/*!
-				The property holds column name to save logger name of log event
-			*/
-			Q_PROPERTY(QString loggerNameColumn READ loggerNameColumn WRITE setLoggerNameColumn)
-			/*!
-				The property holds column name to save thread name of log event
-			*/
-			Q_PROPERTY(QString threadNameColumn READ threadNameColumn WRITE setThreadNameColumn)
-			/*!
-				The property holds column name to save level of log event
-			*/
-			Q_PROPERTY(QString levelColumn READ levelColumn WRITE setLevelColumn)
-			/*!
-				The property holds column name to save message of log event
-			*/
-			Q_PROPERTY(QString messageColumn READ messageColumn WRITE setMessageColumn)
+    /*!
+    	The property holds column name to save timestamp of log event
+    */
+    Q_PROPERTY(QString timeStampColumn READ timeStampColumn WRITE setTimeStampColumn)
+    /*!
+    	The property holds column name to save logger name of log event
+    */
+    Q_PROPERTY(QString loggerNameColumn READ loggerNameColumn WRITE setLoggerNameColumn)
+    /*!
+    	The property holds column name to save thread name of log event
+    */
+    Q_PROPERTY(QString threadNameColumn READ threadNameColumn WRITE setThreadNameColumn)
+    /*!
+    	The property holds column name to save level of log event
+    */
+    Q_PROPERTY(QString levelColumn READ levelColumn WRITE setLevelColumn)
+    /*!
+    	The property holds column name to save message of log event
+    */
+    Q_PROPERTY(QString messageColumn READ messageColumn WRITE setMessageColumn)
 
 
-	public:
-			DatabaseLayout(QObject *pParent = 0);
-			// virtual ~DatabaseLayout(); // Use compiler default
-	private:
-			DatabaseLayout(const DatabaseLayout &rOther); // Not implemented
-			DatabaseLayout &operator=(const DatabaseLayout &rOther); // Not implemented
+public:
+    DatabaseLayout(QObject *pParent = 0);
+    // virtual ~DatabaseLayout(); // Use compiler default
+private:
+    DatabaseLayout(const DatabaseLayout &rOther); // Not implemented
+    DatabaseLayout &operator=(const DatabaseLayout &rOther); // Not implemented
 
-	public:
-			virtual QSqlRecord formatRecord(const LoggingEvent &rEvent);
-			virtual QString format(const LoggingEvent &rEvent);
+public:
+    virtual QSqlRecord formatRecord(const LoggingEvent &rEvent);
+    virtual QString format(const LoggingEvent &rEvent);
 
-			QString timeStampColumn() const;
-			QString loggerNameColumn() const;
-			QString threadNameColumn() const;
-			QString levelColumn() const;
-			QString messageColumn() const;
+    QString timeStampColumn() const;
+    QString loggerNameColumn() const;
+    QString threadNameColumn() const;
+    QString levelColumn() const;
+    QString messageColumn() const;
 
-			void setTimeStampColumn(const QString& columnName);
-			void setLoggerNameColumn(const QString& columnName);
-			void setThreadNameColumn(const QString& columnName);
-			void setLevelColumn(const QString& columnName);
-			void setMessageColumn(const QString& columnName);
+    void setTimeStampColumn(const QString& columnName);
+    void setLoggerNameColumn(const QString& columnName);
+    void setThreadNameColumn(const QString& columnName);
+    void setLevelColumn(const QString& columnName);
+    void setMessageColumn(const QString& columnName);
 
-	protected:
+protected:
 
 
 #ifndef QT_NO_DEBUG_STREAM
-			/*!
-			 * Writes all object member variables to the given debug stream
-			 * \a rDebug and returns the stream.
-			 *
-			 * <tt>
-			 * %DatabaseLayout(name:"SL" referencecount:1)
-			 * </tt>
-			 * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
-			 */
-			virtual QDebug debug(QDebug &rDebug) const;
+    /*!
+     * Writes all object member variables to the given debug stream
+     * \a rDebug and returns the stream.
+     *
+     * <tt>
+     * %DatabaseLayout(name:"SL" referencecount:1)
+     * </tt>
+     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
+     */
+    virtual QDebug debug(QDebug &rDebug) const;
 #endif // QT_NO_DEBUG_STREAM
-	private:
-		QString mTimeStamp;
-		QString mLoggerName;
-		QString mThreadName;
-		QString mLevel;
-		QString mMessage;
-	};
+private:
+    QString mTimeStamp;
+    QString mLoggerName;
+    QString mThreadName;
+    QString mLevel;
+    QString mMessage;
+};
 
 
-	/**************************************************************************
-	 * Operators, Helper
-	 **************************************************************************/
+/**************************************************************************
+ * Operators, Helper
+ **************************************************************************/
 
 
-	/**************************************************************************
-	 * Inline
-	 **************************************************************************/
+/**************************************************************************
+ * Inline
+ **************************************************************************/
 
-	inline DatabaseLayout::DatabaseLayout(QObject *pParent) :
-			Layout(pParent)
-	{}
+inline DatabaseLayout::DatabaseLayout(QObject *pParent) :
+    Layout(pParent)
+{}
 
 
 } // namespace Log4Qt

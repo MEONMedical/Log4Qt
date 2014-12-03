@@ -42,106 +42,106 @@
 namespace Log4Qt
 {
 
-	/*!
-	 * \brief The class Level defines the level of a logging event.
-	 *
-	 * \note All the functions declared in this class are thread-safe.
-	 */
-	class LOG4QT_EXPORT Level
-	{
-	public:
-			// Comparisson operators rely on the order:
-			// NULL_INT < ALL_INT < TRACE_INT < ...
-			// Serialisation uses unsigned 8 bit int
+/*!
+ * \brief The class Level defines the level of a logging event.
+ *
+ * \note All the functions declared in this class are thread-safe.
+ */
+class LOG4QT_EXPORT Level
+{
+public:
+    // Comparisson operators rely on the order:
+    // NULL_INT < ALL_INT < TRACE_INT < ...
+    // Serialisation uses unsigned 8 bit int
 
-			/*!
-			 * The enumeration Value contains all possible Level values.
-			 */
-			enum Value
-			{
-					/*! NULL_INT is used for no level has been specified */
-					NULL_INT = 0,
-					ALL_INT = 32,
-					TRACE_INT = 64,
-					DEBUG_INT = 96,
-					INFO_INT = 128,
-					WARN_INT = 150,
-					ERROR_INT = 182,
-					FATAL_INT = 214,
-					OFF_INT = 255
-			};
+    /*!
+     * The enumeration Value contains all possible Level values.
+     */
+    enum Value
+    {
+        /*! NULL_INT is used for no level has been specified */
+        NULL_INT = 0,
+        ALL_INT = 32,
+        TRACE_INT = 64,
+        DEBUG_INT = 96,
+        INFO_INT = 128,
+        WARN_INT = 150,
+        ERROR_INT = 182,
+        FATAL_INT = 214,
+        OFF_INT = 255
+    };
 
-	public:
-			Level(Value value = NULL_INT);
-			// Level(const Level &rOther); // Use compiler default
-			// virtual ~Level(); // Use compiler default
-			// Level &operator=(const Level &rOther); // Use compiler default
+public:
+    Level(Value value = NULL_INT);
+    // Level(const Level &rOther); // Use compiler default
+    // virtual ~Level(); // Use compiler default
+    // Level &operator=(const Level &rOther); // Use compiler default
 
-			int syslogEquivalent() const;
-			int toInt() const;
+    int syslogEquivalent() const;
+    int toInt() const;
 
-			bool operator==(const Level &rOther) const;
-			bool operator!=(const Level &rOther) const;
-			bool operator<(const Level &rOther) const;
-			bool operator<=(const Level &rOther) const;
-			bool operator>(const Level &rOther) const;
-			bool operator>=(const Level &rOther) const;
-			QString toString() const;
+    bool operator==(const Level &rOther) const;
+    bool operator!=(const Level &rOther) const;
+    bool operator<(const Level &rOther) const;
+    bool operator<=(const Level &rOther) const;
+    bool operator>(const Level &rOther) const;
+    bool operator>=(const Level &rOther) const;
+    QString toString() const;
 
-			static Level fromString(const QString &rName, bool *pOk = 0);
+    static Level fromString(const QString &rName, bool *pOk = 0);
 
-	private:
-			// QMutex mObjectGuard;
-		volatile Value mValue;
+private:
+    // QMutex mObjectGuard;
+    volatile Value mValue;
 
 #ifndef QT_NO_DATASTREAM
-				// Needs to be friend to stream objects
-			friend QDataStream &operator<<(QDataStream &rStream,
-																		 const Level &rLevel);
-			friend QDataStream &operator>>(QDataStream &rStream,
-																		 Level &rLevel);
+    // Needs to be friend to stream objects
+    friend QDataStream &operator<<(QDataStream &rStream,
+                                   const Level &rLevel);
+    friend QDataStream &operator>>(QDataStream &rStream,
+                                   Level &rLevel);
 #endif // QT_NO_DATASTREAM
-	};
+};
 
 
-	/**************************************************************************
-	 * Operators, Helper
-	 **************************************************************************/
+/**************************************************************************
+ * Operators, Helper
+ **************************************************************************/
 
 #ifndef QT_NO_DATASTREAM
-		/*!
-		 * \relates Level
-		 *
-		 * Writes the given error \a rLevel to the given stream \a rStream,
-		 * and returns a reference to the stream.
-		 */
-		QDataStream &operator<<(QDataStream &rStream,
-														const Level &rLevel);
+/*!
+ * \relates Level
+ *
+ * Writes the given error \a rLevel to the given stream \a rStream,
+ * and returns a reference to the stream.
+ */
+QDataStream &operator<<(QDataStream &rStream,
+                        const Level &rLevel);
 
-		/*!
-		 * \relates Level
-		 *
-		 * Reads an error from the given stream \a rStream into the given
-		 * error \a rLevel, and returns a reference to the stream.
-		 */
-		QDataStream &operator>>(QDataStream &rStream,
-														Level &rLevel);
+/*!
+ * \relates Level
+ *
+ * Reads an error from the given stream \a rStream into the given
+ * error \a rLevel, and returns a reference to the stream.
+ */
+QDataStream &operator>>(QDataStream &rStream,
+                        Level &rLevel);
 #endif // QT_NO_DATASTREAM
 
 #ifndef QT_NO_DEBUG_STREAM
-	/*!
-	 * \relates Level
-	 *
-	 * Writes all object member variables to the given debug stream \a rDebug
-	 * and returns the stream.
-	 *
-	 * <tt>
-	 * %Level("ERROR")
-	 * </tt>
-	 * \sa QDebug
-	 */
-	QDebug operator<<(QDebug debug,
-										const Level &rLevel);
+/*!
+ * \relates Level
+ *
+ * Writes all object member variables to the given debug stream \a rDebug
+ * and returns the stream.
+ *
+ * <tt>
+ * %Level("ERROR")
+ * </tt>
+ * \sa QDebug
+ */
+QDebug operator<<(QDebug debug,
+                  const Level &rLevel);
 #endif // QT_NO_DEBUG_STREAM
 
 } // namespace Log4Qt

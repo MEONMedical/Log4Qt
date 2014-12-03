@@ -29,55 +29,58 @@
 
 #include "loggingevent.h"
 
-namespace Log4Qt {
+namespace Log4Qt
+{
 
-	/*!
-	\ingroup log4qt
-	Класс генерирующий сигнал при полчении какого-либо лог-сообщения. Удобно использовать для GUI интерфейса.
-	\note не объявлен в простанстве имен log4qt вроде из-за отстуствия у moc (Qt metaobject compiler) средств для обработки пространств имен.
+/*!
+\ingroup log4qt
+Класс генерирующий сигнал при полчении какого-либо лог-сообщения. Удобно использовать для GUI интерфейса.
+\note не объявлен в простанстве имен log4qt вроде из-за отстуствия у moc (Qt metaobject compiler) средств для обработки пространств имен.
 * @class SignalAppender signalappender.h "src/kernel/components/signalappender.h"
 */
-	class  LOG4QT_EXPORT SignalAppender : public AppenderSkeleton
-	{
-		Q_OBJECT
-	public:
-		explicit SignalAppender(QObject *parent = 0);
+class  LOG4QT_EXPORT SignalAppender : public AppenderSkeleton
+{
+    Q_OBJECT
+public:
+    explicit SignalAppender(QObject *parent = 0);
 
-		bool requiresLayout() const;
+    bool requiresLayout() const;
 
-	protected:
-		virtual void append(const Log4Qt::LoggingEvent &rEvent);
+protected:
+    virtual void append(const Log4Qt::LoggingEvent &rEvent);
 
 #ifndef QT_NO_DEBUG_STREAM
-		/*!
-		 * Writes all object member variables to the given debug stream
-		 * \a rDebug and returns the stream.
-		 *
-		 * The member function is used by
-		 * QDebug operator<<(QDebug debug, const LogObject &rLogObject) to
-		 * generate class specific output.
-		 *
-		 * \sa QDebug operator<<(QDebug debug, const LogObject &rLogObject)
-		 */
-		virtual QDebug debug(QDebug &rDebug) const;
+    /*!
+     * Writes all object member variables to the given debug stream
+     * \a rDebug and returns the stream.
+     *
+     * The member function is used by
+     * QDebug operator<<(QDebug debug, const LogObject &rLogObject) to
+     * generate class specific output.
+     *
+     * \sa QDebug operator<<(QDebug debug, const LogObject &rLogObject)
+     */
+    virtual QDebug debug(QDebug &rDebug) const;
 
-		// Needs to be friend to access internal data
-		friend QDebug operator<<(QDebug debug,
-														 const LogObject &rLogObject);
+    // Needs to be friend to access internal data
+    friend QDebug operator<<(QDebug debug,
+                             const LogObject &rLogObject);
 #endif // QT_NO_DEBUG_STREAM
 
-	signals:
-		/*!
-		Генерируется во время получения лог-сообщения.
-	* @param message
-	*/
-		void appended(const QString& message);
-	public slots:
+signals:
+    /*!
+    Генерируется во время получения лог-сообщения.
+    * @param message
+    */
+    void appended(const QString& message);
+public slots:
 
-	};
+};
 
-	inline bool SignalAppender::requiresLayout() const
-	{   return true;    }
+inline bool SignalAppender::requiresLayout() const
+{
+    return true;
+}
 
 } // namespace Log4Qt
 

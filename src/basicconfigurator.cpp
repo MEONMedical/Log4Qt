@@ -47,61 +47,61 @@ namespace Log4Qt
 {
 
 
-	/**************************************************************************
-	 * Declarations
-	 **************************************************************************/
+/**************************************************************************
+ * Declarations
+ **************************************************************************/
 
 
 
-	/**************************************************************************
-	 * C helper functions
-	 **************************************************************************/
+/**************************************************************************
+ * C helper functions
+ **************************************************************************/
 
 
 
-	/**************************************************************************
-	 * Class implementation: BasicConfigurator
-	 **************************************************************************/
+/**************************************************************************
+ * Class implementation: BasicConfigurator
+ **************************************************************************/
 
 
-	bool BasicConfigurator::configure()
-	{
-		LogObjectPtr<ListAppender> list = new ListAppender;
-		list->setName(QLatin1String("BasicConfigurator"));
-				list->setConfiguratorList(true);
-				list->setThreshold(Level::ERROR_INT);
-		LogManager::logLogger()->addAppender(list);
+bool BasicConfigurator::configure()
+{
+    LogObjectPtr<ListAppender> list = new ListAppender;
+    list->setName(QLatin1String("BasicConfigurator"));
+    list->setConfiguratorList(true);
+    list->setThreshold(Level::ERROR_INT);
+    LogManager::logLogger()->addAppender(list);
 
-		PatternLayout *p_layout = new PatternLayout(PatternLayout::TTCC_CONVERSION_PATTERN);
-		p_layout->setName(QLatin1String("BasicConfigurator TTCC"));
-		p_layout->activateOptions();
-		ConsoleAppender *p_appender = new ConsoleAppender(p_layout, ConsoleAppender::STDOUT_TARGET);
-		p_appender->setName(QLatin1String("BasicConfigurator stdout"));
-		p_appender->activateOptions();
-		LogManager::rootLogger()->addAppender(p_appender);
+    PatternLayout *p_layout = new PatternLayout(PatternLayout::TTCC_CONVERSION_PATTERN);
+    p_layout->setName(QLatin1String("BasicConfigurator TTCC"));
+    p_layout->activateOptions();
+    ConsoleAppender *p_appender = new ConsoleAppender(p_layout, ConsoleAppender::STDOUT_TARGET);
+    p_appender->setName(QLatin1String("BasicConfigurator stdout"));
+    p_appender->activateOptions();
+    LogManager::rootLogger()->addAppender(p_appender);
 
-		LogManager::logLogger()->removeAppender(list);
-		ConfiguratorHelper::setConfigureError(list->list());
-		return (list->list().count() == 0);
-	}
-
-
-	void BasicConfigurator::configure(Appender *pAppender)
-	{
-			LogManager::rootLogger()->addAppender(pAppender);
-	}
+    LogManager::logLogger()->removeAppender(list);
+    ConfiguratorHelper::setConfigureError(list->list());
+    return (list->list().count() == 0);
+}
 
 
-	void BasicConfigurator::resetConfiguration()
-	{
-			LogManager::resetConfiguration();
-	}
+void BasicConfigurator::configure(Appender *pAppender)
+{
+    LogManager::rootLogger()->addAppender(pAppender);
+}
+
+
+void BasicConfigurator::resetConfiguration()
+{
+    LogManager::resetConfiguration();
+}
 
 
 
-	/**************************************************************************
-	 * Implementation: Operators, Helper
-	 **************************************************************************/
+/**************************************************************************
+ * Implementation: Operators, Helper
+ **************************************************************************/
 
 
 } // namespace Log4Qt

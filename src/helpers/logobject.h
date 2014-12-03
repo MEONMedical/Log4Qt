@@ -52,163 +52,173 @@
 namespace Log4Qt
 {
 
-	class Logger;
+class Logger;
 
-	/*!
-	 * \brief The class LogObject is the common base class for many classes
-	 *        in the package.
-	 *
-	 * The class inherits QObject to allow its subclass to be accessed using
-	 * the Qt property system.
-	 *
-	 * LogObject objects provide a reference counter. A reference to the
-	 * object is established by calling retain() and freed by calling
-	 * release(). The object will delete itself when the reference counter
-	 * is decremented to 0.
-	 *
-	 * A class specific logger can be accessed over logger().
-	 *
-	 * The class also implements generic streaming to QDebug. Streaming an
-	 * object to QDebug will invoke debug() to create class specific output.
-	 *
-	 * \note All the functions declared in this class are thread-safe.
-	 *
-	 * \sa \ref Ownership "Object ownership",
-	 *     LOG4QT_DECLARE_QCLASS_LOGGER
-	 */
-	class LOG4QT_EXPORT LogObject : public QObject
-	{
-		Q_OBJECT
+/*!
+ * \brief The class LogObject is the common base class for many classes
+ *        in the package.
+ *
+ * The class inherits QObject to allow its subclass to be accessed using
+ * the Qt property system.
+ *
+ * LogObject objects provide a reference counter. A reference to the
+ * object is established by calling retain() and freed by calling
+ * release(). The object will delete itself when the reference counter
+ * is decremented to 0.
+ *
+ * A class specific logger can be accessed over logger().
+ *
+ * The class also implements generic streaming to QDebug. Streaming an
+ * object to QDebug will invoke debug() to create class specific output.
+ *
+ * \note All the functions declared in this class are thread-safe.
+ *
+ * \sa \ref Ownership "Object ownership",
+ *     LOG4QT_DECLARE_QCLASS_LOGGER
+ */
+class LOG4QT_EXPORT LogObject : public QObject
+{
+    Q_OBJECT
 
-	public:
-		/*!
-		 * Creates a LogObject which is a child of \a pObject.
-		 */
-		LogObject(QObject *pObject = 0);
+public:
+    /*!
+     * Creates a LogObject which is a child of \a pObject.
+     */
+    LogObject(QObject *pObject = 0);
 
-		/*!
-		 * Destroys the LogObject.
-		 */
-			virtual ~LogObject();
+    /*!
+     * Destroys the LogObject.
+     */
+    virtual ~LogObject();
 
-	private:
-			LogObject(const LogObject &rOther); // Not implemented
-			LogObject &operator=(const LogObject &rOther); // Not implemented
+private:
+    LogObject(const LogObject &rOther); // Not implemented
+    LogObject &operator=(const LogObject &rOther); // Not implemented
 
-	public:
-		/*!
-		 * Returns the value of the reference counter.
-		 */
-		int referenceCount() const;
+public:
+    /*!
+     * Returns the value of the reference counter.
+     */
+    int referenceCount() const;
 
-		/*!
-		 * Decrements the reference count of the object. If the reference count
-		 * count reaches zero and the object does not have a parent the object
-		 * is deleted.
-		 */
-		void release();
+    /*!
+     * Decrements the reference count of the object. If the reference count
+     * count reaches zero and the object does not have a parent the object
+     * is deleted.
+     */
+    void release();
 
-		/*!
-		 * Increments the reference count of the object.
-		 */
-		void retain();
+    /*!
+     * Increments the reference count of the object.
+     */
+    void retain();
 
-	protected:
-	#ifndef QT_NO_DEBUG_STREAM
-			/*!
-			 * Writes all object member variables to the given debug stream
-			 * \a rDebug and returns the stream.
-			 *
-			 * The member function is used by
-			 * QDebug operator<<(QDebug debug, const LogObject &rLogObject) to
-			 * generate class specific output.
-			 *
-			 * \sa QDebug operator<<(QDebug debug, const LogObject &rLogObject)
-			 */
-			virtual QDebug debug(QDebug &rDebug) const = 0;
+protected:
+#ifndef QT_NO_DEBUG_STREAM
+    /*!
+     * Writes all object member variables to the given debug stream
+     * \a rDebug and returns the stream.
+     *
+     * The member function is used by
+     * QDebug operator<<(QDebug debug, const LogObject &rLogObject) to
+     * generate class specific output.
+     *
+     * \sa QDebug operator<<(QDebug debug, const LogObject &rLogObject)
+     */
+    virtual QDebug debug(QDebug &rDebug) const = 0;
 
-			// Needs to be friend to access internal data
-			friend QDebug operator<<(QDebug debug,
-															 const LogObject &rLogObject);
-	#endif // QT_NO_DEBUG_STREAM
+    // Needs to be friend to access internal data
+    friend QDebug operator<<(QDebug debug,
+                             const LogObject &rLogObject);
+#endif // QT_NO_DEBUG_STREAM
 
-			/*!
-			 * Returns a pointer to a Logger named after of the object.
-			 *
-			 * \sa Logger::logger(const char *pName)
-			 */
-			Logger* logger() const;
+    /*!
+     * Returns a pointer to a Logger named after of the object.
+     *
+     * \sa Logger::logger(const char *pName)
+     */
+    Logger* logger() const;
 
-	private:
+private:
 #if QT_VERSION < QT_VERSION_CHECK(4, 4, 0)
-		volatile int mReferenceCount;
+    volatile int mReferenceCount;
 #else
-		mutable QAtomicInt mReferenceCount;
+    mutable QAtomicInt mReferenceCount;
 #endif
-				mutable ClassLogger mLog4QtClassLogger;
-	};
+    mutable ClassLogger mLog4QtClassLogger;
+};
 
 
-	/**************************************************************************
-	 * Operators, Helper
-	 **************************************************************************/
+/**************************************************************************
+ * Operators, Helper
+ **************************************************************************/
 
-	#ifndef QT_NO_DEBUG_STREAM
-	/*!
-	 * \relates LogObject
-	 *
-	 * Writes all object member variables to the given debug stream \a debug
-	 * and returns the stream.
-	 *
-	 * To handle sub-classing the function uses the virtual member function
-	 * debug(). This allows each class to generate its own output.
-	 *
-	 * \sa QDebug, debug()
-	 */
-	QDebug operator<<(QDebug debug,
-										const LogObject &rLogObject);
-	#endif
+#ifndef QT_NO_DEBUG_STREAM
+/*!
+ * \relates LogObject
+ *
+ * Writes all object member variables to the given debug stream \a debug
+ * and returns the stream.
+ *
+ * To handle sub-classing the function uses the virtual member function
+ * debug(). This allows each class to generate its own output.
+ *
+ * \sa QDebug, debug()
+ */
+QDebug operator<<(QDebug debug,
+                  const LogObject &rLogObject);
+#endif
 
 
-	/**************************************************************************
-	 * Inline
-	 **************************************************************************/
+/**************************************************************************
+ * Inline
+ **************************************************************************/
 
-	inline LogObject::LogObject(QObject *pParent) :
-		QObject(pParent),
-		mReferenceCount()
-	{}
+inline LogObject::LogObject(QObject *pParent) :
+    QObject(pParent),
+    mReferenceCount()
+{}
 
-	inline LogObject::~LogObject()
-	{}
+inline LogObject::~LogObject()
+{}
 
-	inline int LogObject::referenceCount() const
-	{
+inline int LogObject::referenceCount() const
+{
 #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-		return mReferenceCount;
+    return mReferenceCount;
 #else
-		return mReferenceCount.loadAcquire();
+    return mReferenceCount.loadAcquire();
 #endif
-	}
+}
 
-	inline void LogObject::release()
+inline void LogObject::release()
 #if QT_VERSION < QT_VERSION_CHECK(4, 4, 0)
-	{	if ((q_atomic_decrement(&mReferenceCount) == 0) && !parent())
-				delete(this);	}
+{
+    if ((q_atomic_decrement(&mReferenceCount) == 0) && !parent())
+        delete(this);
+}
 #else
-	{	if (!mReferenceCount.deref())
-			delete(this);	}
+{
+    if (!mReferenceCount.deref())
+        delete(this);
+}
 #endif
 
-	inline void LogObject::retain()
+inline void LogObject::retain()
 #if QT_VERSION < QT_VERSION_CHECK(4, 4, 0)
-	{	q_atomic_increment(&mReferenceCount);	}
+{
+    q_atomic_increment(&mReferenceCount);
+}
 #else
-	{	mReferenceCount.ref();	}
+{
+    mReferenceCount.ref();
+}
 #endif
 
-		inline Logger *LogObject::logger() const
-		{   return mLog4QtClassLogger.logger(this);    }
+inline Logger *LogObject::logger() const
+{
+    return mLog4QtClassLogger.logger(this);
+}
 
 } // namespace Log4Qt
 

@@ -26,19 +26,20 @@
 
 #include "appenderskeleton.h"
 
-namespace Log4Qt {
+namespace Log4Qt
+{
 
-  /*!
-   * \brief The class SystemLogAppender appends log events to a Event Log under win*
-   * and to syslog under *nix.
-   *
-   * \note All the functions declared in this class are thread-safe.
-   *
-   * \note The ownership and lifetime of objects of this class are managed.
-   *       See \ref Ownership "Object ownership" for more details.
-   */
-  class LOG4QT_EXPORT SystemLogAppender: public AppenderSkeleton
-  {
+/*!
+ * \brief The class SystemLogAppender appends log events to a Event Log under win*
+ * and to syslog under *nix.
+ *
+ * \note All the functions declared in this class are thread-safe.
+ *
+ * \note The ownership and lifetime of objects of this class are managed.
+ *       See \ref Ownership "Object ownership" for more details.
+ */
+class LOG4QT_EXPORT SystemLogAppender: public AppenderSkeleton
+{
     Q_OBJECT
 
     /**
@@ -49,8 +50,8 @@ namespace Log4Qt {
      * \sa serviceName(), setServiceName()
      */
     Q_PROPERTY(QString serviceName READ serviceName WRITE setServiceName)
-  public:
-        explicit SystemLogAppender(QObject *parent = 0);
+public:
+    explicit SystemLogAppender(QObject *parent = 0);
     ~SystemLogAppender();
 
     bool requiresLayout() const;
@@ -65,20 +66,20 @@ namespace Log4Qt {
      */
     void setServiceName(const QString& serviceName);
 
-  protected:
+protected:
     virtual void append(const Log4Qt::LoggingEvent &rEvent);
 
 #ifndef QT_NO_DEBUG_STREAM
     /*!
-   * Writes all object member variables to the given debug stream
-   * \a rDebug and returns the stream.
-   *
-   * The member function is used by
-   * QDebug operator<<(QDebug debug, const LogObject &rLogObject) to
-   * generate class specific output.
-   *
-   * \sa QDebug operator<<(QDebug debug, const LogObject &rLogObject)
-   */
+    * Writes all object member variables to the given debug stream
+    * \a rDebug and returns the stream.
+    *
+    * The member function is used by
+    * QDebug operator<<(QDebug debug, const LogObject &rLogObject) to
+    * generate class specific output.
+    *
+    * \sa QDebug operator<<(QDebug debug, const LogObject &rLogObject)
+    */
     virtual QDebug debug(QDebug &rDebug) const;
 
     // Needs to be friend to access internal data
@@ -86,12 +87,12 @@ namespace Log4Qt {
 #endif // QT_NO_DEBUG_STREAM
     QString mServiceName;
     char *ident;
-  };
+};
 
-  inline bool SystemLogAppender::requiresLayout() const
-  {
+inline bool SystemLogAppender::requiresLayout() const
+{
     return true;
-  }
+}
 
 }
 

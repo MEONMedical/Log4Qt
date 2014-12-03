@@ -52,60 +52,60 @@
 
 namespace Log4Qt
 {
-	class Logger;
+class Logger;
 
-	/*!
-	 * \brief The class ClassLogger provides logging for a QObject derived
-	 *        class.
-	 *
-	 * The class ClassLogger provides a logger for a specified QObject derived
-	 * object. It is used by \ref LOG4QT_DECLARE_QCLASS_LOGGER to implement the
-	 * member functions provided by the macro.
-	 *
-	 * \note All the functions declared in this class are thread-safe.
-	 *
-	 * \sa LOG4QT_DECLARE_QCLASS_LOGGER
-	 */
-	class LOG4QT_EXPORT ClassLogger
-	{
-	public:
-			/*!
-			 * Creates a ClassLogger object.
-			 */
-			ClassLogger();
-			// ~ClassLogger(); // Use compiler default
-			// ClassLogger(const ClassLogger &rOther); // Use compiler default
-			// ClassLogger &operator=(const ClassLogger &rOther); // Use compiler default
+/*!
+ * \brief The class ClassLogger provides logging for a QObject derived
+ *        class.
+ *
+ * The class ClassLogger provides a logger for a specified QObject derived
+ * object. It is used by \ref LOG4QT_DECLARE_QCLASS_LOGGER to implement the
+ * member functions provided by the macro.
+ *
+ * \note All the functions declared in this class are thread-safe.
+ *
+ * \sa LOG4QT_DECLARE_QCLASS_LOGGER
+ */
+class LOG4QT_EXPORT ClassLogger
+{
+public:
+    /*!
+     * Creates a ClassLogger object.
+     */
+    ClassLogger();
+    // ~ClassLogger(); // Use compiler default
+    // ClassLogger(const ClassLogger &rOther); // Use compiler default
+    // ClassLogger &operator=(const ClassLogger &rOther); // Use compiler default
 
-			/*!
-			 * Returns a pointer to a Logger named after the class of the object
-			 * \a pObject.
-			 *
-			 * On the first invocation the Logger is requested by a call to
-			 * LogManager::logger(const char *pName). The pointer is stored to be
-			 * returned on subsequent invocations.
-			 *
-			 * \sa LogManager::logger(const char *pName)
-			 */
-			Logger *logger(const QObject *pObject);
+    /*!
+     * Returns a pointer to a Logger named after the class of the object
+     * \a pObject.
+     *
+     * On the first invocation the Logger is requested by a call to
+     * LogManager::logger(const char *pName). The pointer is stored to be
+     * returned on subsequent invocations.
+     *
+     * \sa LogManager::logger(const char *pName)
+     */
+    Logger *logger(const QObject *pObject);
 
-	private:
+private:
 #if QT_VERSION < QT_VERSION_CHECK(4, 4, 0)
-			volatile Logger *mpLogger;
+    volatile Logger *mpLogger;
 #else
-			mutable QAtomicPointer<Logger> mpLogger;
+    mutable QAtomicPointer<Logger> mpLogger;
 #endif
-	};
+};
 
 
-	/******************************************************************************
-	 * Operators, Helper
-	 ******************************************************************************/
+/******************************************************************************
+ * Operators, Helper
+ ******************************************************************************/
 
 
-	/**************************************************************************
-	 * Inline
-	 **************************************************************************/
+/**************************************************************************
+ * Inline
+ **************************************************************************/
 
 
 } // namespace Log4Qt

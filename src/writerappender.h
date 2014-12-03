@@ -43,152 +43,160 @@ class QTextStream;
 namespace Log4Qt
 {
 
-	/*!
-	 * \brief The class WriterAppender appends log events to a QTextStream.
-	 *
-	 * \note All the functions declared in this class are thread-safe.
-	 * &nbsp;
-	 * \note The ownership and lifetime of objects of this class are managed.
-	 *       See \ref Ownership "Object ownership" for more details.
-	 */
-	class LOG4QT_EXPORT  WriterAppender : public AppenderSkeleton
-	{
-			Q_OBJECT
+/*!
+ * \brief The class WriterAppender appends log events to a QTextStream.
+ *
+ * \note All the functions declared in this class are thread-safe.
+ * &nbsp;
+ * \note The ownership and lifetime of objects of this class are managed.
+ *       See \ref Ownership "Object ownership" for more details.
+ */
+class LOG4QT_EXPORT  WriterAppender : public AppenderSkeleton
+{
+    Q_OBJECT
 
-			/*!
-			 * The property holds the codec the appender uses.
-			 *
-			 * The default is null to use the codec the writer has set.
-			 *
-			 * \sa encoding(), setEncoding()
-			 */
-			Q_PROPERTY(QTextCodec* encoding READ encoding WRITE setEncoding)
+    /*!
+     * The property holds the codec the appender uses.
+     *
+     * The default is null to use the codec the writer has set.
+     *
+     * \sa encoding(), setEncoding()
+     */
+    Q_PROPERTY(QTextCodec* encoding READ encoding WRITE setEncoding)
 
-			/*!
-			 * The property holds the writer the appender uses.
-			 *
-			 * \sa writer(), setWriter()
-			 */
-			Q_PROPERTY(QTextStream* writer READ writer WRITE setWriter)
+    /*!
+     * The property holds the writer the appender uses.
+     *
+     * \sa writer(), setWriter()
+     */
+    Q_PROPERTY(QTextStream* writer READ writer WRITE setWriter)
 
-			/*!
-			 * The property holds, if the writer flushes after all write operations.
-			 *
-			 * The default is true for flushing.
-			 *
-			 * \sa immediateFlush(), setImmediateFlush()
-			 */
-			Q_PROPERTY(bool immediateFlush READ immediateFlush WRITE setImmediateFlush)
+    /*!
+     * The property holds, if the writer flushes after all write operations.
+     *
+     * The default is true for flushing.
+     *
+     * \sa immediateFlush(), setImmediateFlush()
+     */
+    Q_PROPERTY(bool immediateFlush READ immediateFlush WRITE setImmediateFlush)
 
-	public:
-			WriterAppender(QObject *pParent = 0);
-			WriterAppender(Layout *pLayout,
-										 QObject *pParent = 0);
-			WriterAppender(Layout *pLayout,
-										 QTextStream *pTextStream,
-										 QObject *pParent = 0);
-			virtual ~WriterAppender();
-	private:
-			WriterAppender(const WriterAppender &rOther); // Not implemented
-			WriterAppender &operator=(const WriterAppender &rOther); // Not implemented
+public:
+    WriterAppender(QObject *pParent = 0);
+    WriterAppender(Layout *pLayout,
+                   QObject *pParent = 0);
+    WriterAppender(Layout *pLayout,
+                   QTextStream *pTextStream,
+                   QObject *pParent = 0);
+    virtual ~WriterAppender();
+private:
+    WriterAppender(const WriterAppender &rOther); // Not implemented
+    WriterAppender &operator=(const WriterAppender &rOther); // Not implemented
 
-	public:
-			virtual bool requiresLayout() const;
-			QTextCodec *encoding() const;
-			bool immediateFlush() const;
-			QTextStream *writer() const;
+public:
+    virtual bool requiresLayout() const;
+    QTextCodec *encoding() const;
+    bool immediateFlush() const;
+    QTextStream *writer() const;
 
-			/*!
-			 * Sets the codec used by the writer to \a pTextCoded.
-			 *
-			 * If a codec is set with setEncoding, it will overwrite the codec set
-			 * in the text stream. A subsequent call with \a pTextCoded equals null
-			 * will resets the codec to the default QTextCodec::codecForLocale().
-			 *
-			 * \sa encoding(), QTextSream::setCodec(), QTextCodec::codecForLocale()
-			 */
-			void setEncoding(QTextCodec *pTextCodec);
-			void setImmediateFlush(bool immediateFlush);
-			void setWriter(QTextStream *pTextStream);
+    /*!
+     * Sets the codec used by the writer to \a pTextCoded.
+     *
+     * If a codec is set with setEncoding, it will overwrite the codec set
+     * in the text stream. A subsequent call with \a pTextCoded equals null
+     * will resets the codec to the default QTextCodec::codecForLocale().
+     *
+     * \sa encoding(), QTextSream::setCodec(), QTextCodec::codecForLocale()
+     */
+    void setEncoding(QTextCodec *pTextCodec);
+    void setImmediateFlush(bool immediateFlush);
+    void setWriter(QTextStream *pTextStream);
 
-			virtual void activateOptions();
-			virtual void close();
+    virtual void activateOptions();
+    virtual void close();
 
-	protected:
-			virtual void append(const LoggingEvent &rEvent);
+protected:
+    virtual void append(const LoggingEvent &rEvent);
 
-			/*!
-			 * Tests if all entry conditions for using append() in this class are
-			 * met.
-			 *
-			 * If a conditions is not met, an error is logged and the function
-			 * returns false. Otherwise the result of
-			 * AppenderSkeleton::checkEntryConditions() is returned.
-			 *
-			 * The checked conditions are:
-			 * - A writer has been set (APPENDER_USE_MISSING_WRITER_ERROR)
-			 *
-			 * The function is called as part of the checkEntryConditions() chain
-			 * started by AppenderSkeleton::doAppend().
-			 *
-			 * \sa AppenderSkeleton::doAppend(),
-			 *     AppenderSkeleton::checkEntryConditions()
-			 */
-			virtual bool checkEntryConditions() const;
+    /*!
+     * Tests if all entry conditions for using append() in this class are
+     * met.
+     *
+     * If a conditions is not met, an error is logged and the function
+     * returns false. Otherwise the result of
+     * AppenderSkeleton::checkEntryConditions() is returned.
+     *
+     * The checked conditions are:
+     * - A writer has been set (APPENDER_USE_MISSING_WRITER_ERROR)
+     *
+     * The function is called as part of the checkEntryConditions() chain
+     * started by AppenderSkeleton::doAppend().
+     *
+     * \sa AppenderSkeleton::doAppend(),
+     *     AppenderSkeleton::checkEntryConditions()
+     */
+    virtual bool checkEntryConditions() const;
 
-			void closeWriter();
+    void closeWriter();
 
 #ifndef QT_NO_DEBUG_STREAM
-			/*!
-			 * Writes all object member variables to the given debug stream
-			 * \a rDebug and returns the stream.
-			 *
-			 * <tt>
-			 * %WriterAppender(name:"WA" encoding:"" immediateFlush:true
-			 *                 isactive:false isclosed:false layout:"TTCC"
-			 *                 referencecount:1 threshold:"NULL"
-			 *                 writer:0x0)
-			 * </tt>
-			 * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject	)
-			 */
-			virtual QDebug debug(QDebug &rDebug) const;
+    /*!
+     * Writes all object member variables to the given debug stream
+     * \a rDebug and returns the stream.
+     *
+     * <tt>
+     * %WriterAppender(name:"WA" encoding:"" immediateFlush:true
+     *                 isactive:false isclosed:false layout:"TTCC"
+     *                 referencecount:1 threshold:"NULL"
+     *                 writer:0x0)
+     * </tt>
+     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject	)
+     */
+    virtual QDebug debug(QDebug &rDebug) const;
 #endif // QT_NO_DEBUG_STREAM
 
-			virtual bool handleIoErrors() const;
-			void writeFooter() const;
-			void writeHeader() const;
+    virtual bool handleIoErrors() const;
+    void writeFooter() const;
+    void writeHeader() const;
 
-	private:
-			QTextCodec *mpEncoding;
-			QTextStream *mpWriter;
-			volatile bool mImmediateFlush;
-	};
-
-
-	/**************************************************************************
-	 * Operators, Helper
-	 **************************************************************************/
+private:
+    QTextCodec *mpEncoding;
+    QTextStream *mpWriter;
+    volatile bool mImmediateFlush;
+};
 
 
-	/**************************************************************************
-	 * Inline
-	 **************************************************************************/
+/**************************************************************************
+ * Operators, Helper
+ **************************************************************************/
 
-	inline QTextCodec *WriterAppender::encoding() const
-	{   QMutexLocker locker(&mObjectGuard);
-		return mpEncoding; }
 
-	inline bool WriterAppender::immediateFlush() const
-	{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-		return mImmediateFlush; }
+/**************************************************************************
+ * Inline
+ **************************************************************************/
 
-	inline QTextStream *WriterAppender::writer() const
-	{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-		return mpWriter;  }
+inline QTextCodec *WriterAppender::encoding() const
+{
+    QMutexLocker locker(&mObjectGuard);
+    return mpEncoding;
+}
 
-	inline void WriterAppender::setImmediateFlush(bool immediateFlush)
-	{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-		mImmediateFlush = immediateFlush;   }
+inline bool WriterAppender::immediateFlush() const
+{
+    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
+    return mImmediateFlush;
+}
+
+inline QTextStream *WriterAppender::writer() const
+{
+    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
+    return mpWriter;
+}
+
+inline void WriterAppender::setImmediateFlush(bool immediateFlush)
+{
+    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
+    mImmediateFlush = immediateFlush;
+}
 
 
 } // namespace Log4Qt

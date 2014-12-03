@@ -46,84 +46,86 @@ namespace Log4Qt
 {
 
 
-	/**************************************************************************
-	 * Declarations
-	 **************************************************************************/
+/**************************************************************************
+ * Declarations
+ **************************************************************************/
 
 
 
-	/**************************************************************************
-	 * C helper functions
-	 **************************************************************************/
+/**************************************************************************
+ * C helper functions
+ **************************************************************************/
 
 
 
-	/**************************************************************************
-	 * Class implementation: DebugAppender
-	 **************************************************************************/
+/**************************************************************************
+ * Class implementation: DebugAppender
+ **************************************************************************/
 
 
-	DebugAppender::DebugAppender(Layout *pLayout,
-															 QObject *pParent) :
-			AppenderSkeleton(pParent)
-	{
-		setLayout(pLayout);
-	}
+DebugAppender::DebugAppender(Layout *pLayout,
+                             QObject *pParent) :
+    AppenderSkeleton(pParent)
+{
+    setLayout(pLayout);
+}
 
 
-	bool DebugAppender::requiresLayout() const
-	{
-			return true;
-	}
+bool DebugAppender::requiresLayout() const
+{
+    return true;
+}
 
 
-	void DebugAppender::append(const LoggingEvent &rEvent)
-	{
-			// Q_ASSERT_X(, "DebugAppender::append()", "Lock must be held by caller");
-			Q_ASSERT_X(layout(), "DebugAppender::append()", "Layout must not be null");
+void DebugAppender::append(const LoggingEvent &rEvent)
+{
+    // Q_ASSERT_X(, "DebugAppender::append()", "Lock must be held by caller");
+    Q_ASSERT_X(layout(), "DebugAppender::append()", "Layout must not be null");
 
-			QString message(layout()->format(rEvent));
+    QString message(layout()->format(rEvent));
 #if defined(Q_OS_WIN32)
 #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-			QT_WA({
-					OutputDebugStringW(reinterpret_cast<const WCHAR*>(message.utf16()));
-			}, {
-					OutputDebugStringA(message.toLocal8Bit().data());
-			});
+    QT_WA(
+    {
+        OutputDebugStringW(reinterpret_cast<const WCHAR*>(message.utf16()));
+    },
+    {
+        OutputDebugStringA(message.toLocal8Bit().data());
+    });
 #else
-			OutputDebugStringW(reinterpret_cast<const WCHAR*>(message.utf16()));
+    OutputDebugStringW(reinterpret_cast<const WCHAR*>(message.utf16()));
 #endif
 #else
-            std::cerr << message.toLocal8Bit().constData() << std::endl;
-            std::cerr << std::flush;
+    std::cerr << message.toLocal8Bit().constData() << std::endl;
+    std::cerr << std::flush;
 #endif
-	}
+}
 
 
 
-	/**************************************************************************
-	 * Implementation: Operators, Helper
-	 **************************************************************************/
+/**************************************************************************
+ * Implementation: Operators, Helper
+ **************************************************************************/
 
 
 #ifndef QT_NO_DEBUG_STREAM
-	QDebug DebugAppender::debug(QDebug &rDebug) const
-	{
-			QString layout_name;
-			if (layout())
-					layout_name = layout()->name();
+QDebug DebugAppender::debug(QDebug &rDebug) const
+{
+    QString layout_name;
+    if (layout())
+        layout_name = layout()->name();
 
-			rDebug.nospace() << "DebugAppender("
-					<< "name:" << name() << " "
-					<< "filter:" << firstFilter() << " "
-					<< "isactive:" << isActive() << " "
-					<< "isclosed:" << isClosed() << " "
-					<< "layout:" << layout_name << " "
-					<< "referencecount:" << referenceCount() << " "
-					<< "threshold:" << threshold().toString()
-					<< ")";
-			return rDebug.space();
-	}
+    rDebug.nospace() << "DebugAppender("
+                     << "name:" << name() << " "
+                     << "filter:" << firstFilter() << " "
+                     << "isactive:" << isActive() << " "
+                     << "isclosed:" << isClosed() << " "
+                     << "layout:" << layout_name << " "
+                     << "referencecount:" << referenceCount() << " "
+                     << "threshold:" << threshold().toString()
+                     << ")";
+    return rDebug.space();
+}
 #endif // QT_NO_DEBUG_STREAM
 
 

@@ -49,68 +49,72 @@ namespace Log4Qt
 	 *
 	 * \note All the functions declared in this class are thread-safe.
 	 */
-	class  LOG4QT_EXPORT MDC
-	{
-	private:
-			MDC();
-			MDC(const MDC &rOther); // Not implemented
-			// virtual ~MDC(); // Use compiler default
-			MDC &operator=(const MDC &rOther); // Not implemented
+class  LOG4QT_EXPORT MDC
+{
+private:
+    MDC();
+    MDC(const MDC &rOther); // Not implemented
+    // virtual ~MDC(); // Use compiler default
+    MDC &operator=(const MDC &rOther); // Not implemented
 
-	public:
-			static QString get(const QString &rKey);
-			static QHash<QString, QString> context();
+public:
+    static QString get(const QString &rKey);
+    static QHash<QString, QString> context();
 
-				/*!
-				 * Returns the MDC instance.
-				 */
-				static MDC *instance();
+    /*!
+     * Returns the MDC instance.
+     */
+    static MDC *instance();
 
-			static void put(const QString &rKey, const QString &rValue);
-			static void remove(const QString &rKey);
+    static void put(const QString &rKey, const QString &rValue);
+    static void remove(const QString &rKey);
 
-		private:
-			static QHash<QString, QString> *localData();
+private:
+    static QHash<QString, QString> *localData();
 
-	private:
-			QThreadStorage< QHash<QString, QString> * > mHash;
-	};
-
-
-	/**************************************************************************
-	 * Operators, Helper
-	 **************************************************************************/
-
-	#ifndef QT_NO_DEBUG_STREAM
-	/*!
-	 * \relates MDC
-	 *
-	 * Writes all object member variables to the given debug stream \a rDebug
-	 * and returns the stream.
-	 *
-	 * <tt>
-	 * %MDC(thread:"main" context:QHash(("login", "Peter")("database", "UAT")) )
-	 * </tt>
-	 * \sa QDebug
-	 */
-	QDebug operator<<(QDebug debug,
-										const MDC &rMDC);
-	#endif // QT_NO_DEBUG_STREAM
+private:
+    QThreadStorage< QHash<QString, QString> * > mHash;
+};
 
 
-	/**************************************************************************
-	 * Inline
-	 **************************************************************************/
+/**************************************************************************
+ * Operators, Helper
+ **************************************************************************/
 
-	inline MDC::MDC() :
-			mHash()
-	{}
+#ifndef QT_NO_DEBUG_STREAM
+/*!
+ * \relates MDC
+ *
+ * Writes all object member variables to the given debug stream \a rDebug
+ * and returns the stream.
+ *
+ * <tt>
+ * %MDC(thread:"main" context:QHash(("login", "Peter")("database", "UAT")) )
+ * </tt>
+ * \sa QDebug
+ */
+QDebug operator<<(QDebug debug,
+                  const MDC &rMDC);
+#endif // QT_NO_DEBUG_STREAM
 
-	inline void MDC::put(const QString &rKey, const QString &rValue)
-	{   localData()->insert(rKey, rValue); }
 
-	inline void MDC::remove(const QString &rKey)
-	{   localData()->remove(rKey);  }
+/**************************************************************************
+ * Inline
+ **************************************************************************/
+
+inline MDC::MDC() :
+    mHash()
+{}
+
+inline void MDC::put(const QString &rKey, const QString &rValue)
+{
+    localData()->insert(rKey, rValue);
+}
+
+inline void MDC::remove(const QString &rKey)
+{
+    localData()->remove(rKey);
+}
 
 
 } // namespace Log4Qt

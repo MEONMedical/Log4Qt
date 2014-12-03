@@ -42,90 +42,98 @@
 namespace Log4Qt
 {
 
-	/*!
-	 * \brief The class LevelMatchFilter allows logging events with a specified
-	 *        level.
-	 *
-	 * \note The ownership and lifetime of objects of this class are managed.
-	 *       See \ref Ownership "Object ownership" for more details.
-	 */
-	class LOG4QT_EXPORT  LevelMatchFilter : public Filter
-	{
-		Q_OBJECT
+/*!
+ * \brief The class LevelMatchFilter allows logging events with a specified
+ *        level.
+ *
+ * \note The ownership and lifetime of objects of this class are managed.
+ *       See \ref Ownership "Object ownership" for more details.
+ */
+class LOG4QT_EXPORT  LevelMatchFilter : public Filter
+{
+    Q_OBJECT
 
-			/*!
-			 * The property holds if an event is accpeted on a match.
-			 *
-			 * The default is true.
-			 *
-			 * \sa acceptOnMatch(), setAcceptOnMatch()
-			 */
-			Q_PROPERTY(bool acceptOnMatch READ acceptOnMatch WRITE setAcceptOnMatch)
+    /*!
+     * The property holds if an event is accpeted on a match.
+     *
+     * The default is true.
+     *
+     * \sa acceptOnMatch(), setAcceptOnMatch()
+     */
+    Q_PROPERTY(bool acceptOnMatch READ acceptOnMatch WRITE setAcceptOnMatch)
 
-		/*!
-			 * The property holds the level to match for this filter.
-			 *
-			 * The default is Level::NULL_INT.
-			 *
-			 * \sa levelToMatch(), setLevelToMatch()
-			 */
-			Q_PROPERTY(Log4Qt::Level levelToMatch READ levelToMatch WRITE setLevelToMatch)
+    /*!
+    	 * The property holds the level to match for this filter.
+    	 *
+    	 * The default is Level::NULL_INT.
+    	 *
+    	 * \sa levelToMatch(), setLevelToMatch()
+    	 */
+    Q_PROPERTY(Log4Qt::Level levelToMatch READ levelToMatch WRITE setLevelToMatch)
 
-	public:
-		LevelMatchFilter(QObject *pParent = 0);
-			// LevelMatchFilter(const LevelMatchFilter &rOther); // Use compiler default
-			// virtual ~LevelMatchFilter(); // Use compiler default
-			// LevelMatchFilter &operator=(const LevelMatchFilter &rOther); // Use compiler default
+public:
+    LevelMatchFilter(QObject *pParent = 0);
+    // LevelMatchFilter(const LevelMatchFilter &rOther); // Use compiler default
+    // virtual ~LevelMatchFilter(); // Use compiler default
+    // LevelMatchFilter &operator=(const LevelMatchFilter &rOther); // Use compiler default
 
-			bool acceptOnMatch() const;
-			Level levelToMatch() const;
-			void setAcceptOnMatch(bool accept);
-			void setLevelToMatch(Level level);
+    bool acceptOnMatch() const;
+    Level levelToMatch() const;
+    void setAcceptOnMatch(bool accept);
+    void setLevelToMatch(Level level);
 
-			virtual Decision decide(const LoggingEvent &rEvent) const;
+    virtual Decision decide(const LoggingEvent &rEvent) const;
 
-	protected:
+protected:
 #ifndef QT_NO_DEBUG_STREAM
-			/*!
-			 * Writes all object member variables to the given debug stream \a rDebug
-			 * and returns the stream.
-			 *
-			 * <tt>
-			 * %LevelMatchFilter(acceptonmatch:true leveltomatch:"WARN"
-			 *                   next:Log4Qt::DenyAllFilter(0x3bce3a8)
-			 * 					 referencecount:1 )
-			 * </tt>
-			 * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
-			 */
-		virtual QDebug debug(QDebug &rDebug) const;
+    /*!
+     * Writes all object member variables to the given debug stream \a rDebug
+     * and returns the stream.
+     *
+     * <tt>
+     * %LevelMatchFilter(acceptonmatch:true leveltomatch:"WARN"
+     *                   next:Log4Qt::DenyAllFilter(0x3bce3a8)
+     * 					 referencecount:1 )
+     * </tt>
+     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
+     */
+    virtual QDebug debug(QDebug &rDebug) const;
 #endif // QT_NO_DEBUG_STREAM
 
-	private:
-		bool mAcceptOnMatch;
-		Level mLevelToMatch;
-	};
+private:
+    bool mAcceptOnMatch;
+    Level mLevelToMatch;
+};
 
 
-	/**************************************************************************
-	 * Operators, Helper
-	 **************************************************************************/
+/**************************************************************************
+ * Operators, Helper
+ **************************************************************************/
 
 
-	/**************************************************************************
-	 * Inline
-	 **************************************************************************/
+/**************************************************************************
+ * Inline
+ **************************************************************************/
 
-	inline bool LevelMatchFilter::acceptOnMatch() const
-	{	return mAcceptOnMatch;	}
+inline bool LevelMatchFilter::acceptOnMatch() const
+{
+    return mAcceptOnMatch;
+}
 
-	inline Level LevelMatchFilter::levelToMatch() const
-	{	return mLevelToMatch;	}
+inline Level LevelMatchFilter::levelToMatch() const
+{
+    return mLevelToMatch;
+}
 
-	inline void LevelMatchFilter::setAcceptOnMatch(bool accept)
-	{	mAcceptOnMatch = accept;	}
+inline void LevelMatchFilter::setAcceptOnMatch(bool accept)
+{
+    mAcceptOnMatch = accept;
+}
 
-	inline void LevelMatchFilter::setLevelToMatch(Level level)
-	{	mLevelToMatch = level;	}
+inline void LevelMatchFilter::setLevelToMatch(Level level)
+{
+    mLevelToMatch = level;
+}
 
 
 } // namespace Log4Qt

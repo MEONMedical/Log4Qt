@@ -53,57 +53,57 @@ class QTextStream;
 namespace Log4Qt
 {
 
-	/*!
-	 * \brief The class ColorConsoleAppender appends to stdout or stderr with color formatting.
-	 *
-	 * \note All the functions declared in this class are thread-safe.
-	 *
-	 * \note The ownership and lifetime of objects of this class are managed.
-	 *       See \ref Ownership "Object ownership" for more details.
-	 */
-	class LOG4QT_EXPORT ColorConsoleAppender : public ConsoleAppender
-	{
-			Q_OBJECT
+/*!
+ * \brief The class ColorConsoleAppender appends to stdout or stderr with color formatting.
+ *
+ * \note All the functions declared in this class are thread-safe.
+ *
+ * \note The ownership and lifetime of objects of this class are managed.
+ *       See \ref Ownership "Object ownership" for more details.
+ */
+class LOG4QT_EXPORT ColorConsoleAppender : public ConsoleAppender
+{
+    Q_OBJECT
 
-		public:
+public:
 
-			ColorConsoleAppender(QObject *pParent = 0);
-			ColorConsoleAppender(Layout *pLayout,
-											QObject *pParent = 0);
-				ColorConsoleAppender(Layout *pLayout,
-												const QString &rTarget,
-												QObject *pParent = 0);
+    ColorConsoleAppender(QObject *pParent = 0);
+    ColorConsoleAppender(Layout *pLayout,
+                         QObject *pParent = 0);
+    ColorConsoleAppender(Layout *pLayout,
+                         const QString &rTarget,
+                         QObject *pParent = 0);
 
-				/*!
-				 * Creates a ConsoleAppender with the layout \a pLayout, the target
-				 * value specified by the \a target constant and the parent
-				 * \a pParent.
-				 */
-				ColorConsoleAppender(Layout *pLayout,
-												Target target,
-												QObject *pParent = 0);
-	// if we are in WIN*
-	#if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
+    /*!
+     * Creates a ConsoleAppender with the layout \a pLayout, the target
+     * value specified by the \a target constant and the parent
+     * \a pParent.
+     */
+    ColorConsoleAppender(Layout *pLayout,
+                         Target target,
+                         QObject *pParent = 0);
+    // if we are in WIN*
+#if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
 
-				virtual void activateOptions();
+    virtual void activateOptions();
 
-				virtual void close();
+    virtual void close();
 protected:
-			virtual void append(const LoggingEvent& rEvent);
- private:
-			HANDLE hConsole;
-		#endif
+    virtual void append(const LoggingEvent& rEvent);
+private:
+    HANDLE hConsole;
+#endif
 
-	};
+};
 
-	/**************************************************************************
-	 * Operators, Helper
-	 **************************************************************************/
+/**************************************************************************
+ * Operators, Helper
+ **************************************************************************/
 
 
-	/**************************************************************************
-	 * Inline
-	 **************************************************************************/
+/**************************************************************************
+ * Inline
+ **************************************************************************/
 
 } // namespace Log4Qt
 

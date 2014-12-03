@@ -42,106 +42,118 @@
 namespace Log4Qt
 {
 
-	/*!
-	 * \brief The class LevelMatchFilter allows logging events with levels in a
-	 *        specified range.
-	 *
-	 * \note The ownership and lifetime of objects of this class are managed.
-	 *       See \ref Ownership "Object ownership" for more details.
-	 */
-	class  LOG4QT_EXPORT LevelRangeFilter : public Filter
-	{
-		Q_OBJECT
+/*!
+ * \brief The class LevelMatchFilter allows logging events with levels in a
+ *        specified range.
+ *
+ * \note The ownership and lifetime of objects of this class are managed.
+ *       See \ref Ownership "Object ownership" for more details.
+ */
+class  LOG4QT_EXPORT LevelRangeFilter : public Filter
+{
+    Q_OBJECT
 
-		/*!
-			 * The property holds if an event is accpeted on a match.
-			 *
-			 * The default is true.
-			 *
-			 * \sa acceptOnMatch(), acceptOnMatch()
-			 */
-			Q_PROPERTY(bool acceptOnMatch READ acceptOnMatch WRITE setAcceptOnMatch)
+    /*!
+    	 * The property holds if an event is accpeted on a match.
+    	 *
+    	 * The default is true.
+    	 *
+    	 * \sa acceptOnMatch(), acceptOnMatch()
+    	 */
+    Q_PROPERTY(bool acceptOnMatch READ acceptOnMatch WRITE setAcceptOnMatch)
 
-			/*!
-			 * The property holds the maximum level of the range for this filter.
-			 *
-			 * The default is Level::OFF_INT.
-			 *
-			 * \sa levelMax(), setLevelMax()
-			 */
-			Q_PROPERTY(Log4Qt::Level levelMax READ levelMax WRITE setLevelMax)
+    /*!
+     * The property holds the maximum level of the range for this filter.
+     *
+     * The default is Level::OFF_INT.
+     *
+     * \sa levelMax(), setLevelMax()
+     */
+    Q_PROPERTY(Log4Qt::Level levelMax READ levelMax WRITE setLevelMax)
 
-		/*!
-			 * The property holds the minimum level of the range for this filter.
-			 *
-			 * The default is Level::NULL_INT.
-			 *
-			 * \sa levelMin(), setLevelMin()
-			 */
-			Q_PROPERTY(Log4Qt::Level levelMin READ levelMin WRITE setLevelMin)
+    /*!
+    	 * The property holds the minimum level of the range for this filter.
+    	 *
+    	 * The default is Level::NULL_INT.
+    	 *
+    	 * \sa levelMin(), setLevelMin()
+    	 */
+    Q_PROPERTY(Log4Qt::Level levelMin READ levelMin WRITE setLevelMin)
 
-	public:
-		LevelRangeFilter(QObject *pParent = 0);
-			// LevelRangeFilter(const LevelRangeFilter &rOther); // Use compiler default
-			// virtual ~LevelRangeFilter(); // Use compiler default
-			// LevelRangeFilter &operator=(const LevelRangeFilter &rOther); // Use compiler default
+public:
+    LevelRangeFilter(QObject *pParent = 0);
+    // LevelRangeFilter(const LevelRangeFilter &rOther); // Use compiler default
+    // virtual ~LevelRangeFilter(); // Use compiler default
+    // LevelRangeFilter &operator=(const LevelRangeFilter &rOther); // Use compiler default
 
-			bool acceptOnMatch() const;
-			Level levelMax() const;
-			Level levelMin() const;
-			void setAcceptOnMatch(bool accept);
-			void setLevelMax(Level level);
-			void setLevelMin(Level level);
+    bool acceptOnMatch() const;
+    Level levelMax() const;
+    Level levelMin() const;
+    void setAcceptOnMatch(bool accept);
+    void setLevelMax(Level level);
+    void setLevelMin(Level level);
 
-			virtual Decision decide(const LoggingEvent &rEvent) const;
+    virtual Decision decide(const LoggingEvent &rEvent) const;
 
-	protected:
-			/*!
-			 * Writes all object member variables to the given debug stream \a rDebug
-			 * and returns the stream.
-			 *
-			 * <tt>
-			 * %LevelRangeFilter(acceptonmatch:true levelmin:"ERROR" levelmax:"FATAL"
-			 *                   next:Log4Qt::LevelMatchFilter(0x3bcd960)
-			 *                   referencecount:1 )
-			 * </tt>
-			 * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
-			 */
-		virtual QDebug debug(QDebug &rDebug) const;
+protected:
+    /*!
+     * Writes all object member variables to the given debug stream \a rDebug
+     * and returns the stream.
+     *
+     * <tt>
+     * %LevelRangeFilter(acceptonmatch:true levelmin:"ERROR" levelmax:"FATAL"
+     *                   next:Log4Qt::LevelMatchFilter(0x3bcd960)
+     *                   referencecount:1 )
+     * </tt>
+     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
+     */
+    virtual QDebug debug(QDebug &rDebug) const;
 
-	private:
-		bool mAcceptOnMatch;
-		Level mLevelMin;
-		Level mLevelMax;
-	};
-
-
-	/**************************************************************************
-	 * Operators, Helper
-	 **************************************************************************/
+private:
+    bool mAcceptOnMatch;
+    Level mLevelMin;
+    Level mLevelMax;
+};
 
 
-	/**************************************************************************
-	 * Inline
-	 **************************************************************************/
+/**************************************************************************
+ * Operators, Helper
+ **************************************************************************/
 
-	inline bool LevelRangeFilter::acceptOnMatch() const
-	{	return mAcceptOnMatch;	}
 
-	inline Level LevelRangeFilter::levelMax() const
-	{	return mLevelMax;	}
+/**************************************************************************
+ * Inline
+ **************************************************************************/
 
-	inline Level LevelRangeFilter::levelMin() const
-	{	return mLevelMin;	}
+inline bool LevelRangeFilter::acceptOnMatch() const
+{
+    return mAcceptOnMatch;
+}
 
-	inline void LevelRangeFilter::setAcceptOnMatch(bool accept)
-	{	mAcceptOnMatch = accept;	}
+inline Level LevelRangeFilter::levelMax() const
+{
+    return mLevelMax;
+}
 
-	inline void LevelRangeFilter::setLevelMax(Level level)
-	{	mLevelMax = level;	}
+inline Level LevelRangeFilter::levelMin() const
+{
+    return mLevelMin;
+}
 
-	inline void LevelRangeFilter::setLevelMin(Level level)
-	{	mLevelMin = level;	}
+inline void LevelRangeFilter::setAcceptOnMatch(bool accept)
+{
+    mAcceptOnMatch = accept;
+}
+
+inline void LevelRangeFilter::setLevelMax(Level level)
+{
+    mLevelMax = level;
+}
+
+inline void LevelRangeFilter::setLevelMin(Level level)
+{
+    mLevelMin = level;
+}
 
 
 } // namespace Log4Qt

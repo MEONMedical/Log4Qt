@@ -30,37 +30,39 @@
 #include "logger.h"
 
 
-namespace Log4Qt {
+namespace Log4Qt
+{
 
-  /**************************************************************************
-   * Class implementation: Logger
-   **************************************************************************/
+/**************************************************************************
+ * Class implementation: Logger
+ **************************************************************************/
 
-    LogStream::~LogStream()
+LogStream::~LogStream()
+{
+    if (!--stream->ref)
     {
-        if (!--stream->ref) {
-            switch (mLevel.toInt())
-            {
-            case Level::TRACE_INT:
-                mLogger.trace(stream->buffer);
-                break;
-            case  Level::DEBUG_INT:
-                mLogger.debug(stream->buffer);
-                break;
-            case  Level::INFO_INT:
-                mLogger.info(stream->buffer);
-                break;
-            case Level::WARN_INT:
-                mLogger.warn(stream->buffer);
-                break;
-            case  Level::ERROR_INT:
-                mLogger.error(stream->buffer);
-                break;
-            case  Level::FATAL_INT:
-                mLogger.fatal(stream->buffer);
-                break;
-            }
-            delete stream;
+        switch (mLevel.toInt())
+        {
+        case Level::TRACE_INT:
+            mLogger.trace(stream->buffer);
+            break;
+        case  Level::DEBUG_INT:
+            mLogger.debug(stream->buffer);
+            break;
+        case  Level::INFO_INT:
+            mLogger.info(stream->buffer);
+            break;
+        case Level::WARN_INT:
+            mLogger.warn(stream->buffer);
+            break;
+        case  Level::ERROR_INT:
+            mLogger.error(stream->buffer);
+            break;
+        case  Level::FATAL_INT:
+            mLogger.fatal(stream->buffer);
+            break;
         }
+        delete stream;
     }
+}
 } // namespace Log4Qt

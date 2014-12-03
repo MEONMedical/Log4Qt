@@ -540,81 +540,81 @@
  */
 namespace Log4Qt
 {
-		/*!
-		 * This macro expands a numeric value of the form 0xMMmmPP (MM = major,
-		 * mm = minor, PP = patch) that specifies Log4Qt's version number.
-		 * This is the version against which the application is compiled.
-		 *
-		 * \sa \ref Log4Qt::LOG4QT_VERSION_STR "LOG4QT_VERSION_STR",
-		 *     \ref Log4Qt::LogManager::version() "LogManager::version()"
-		 */
-		// Defined in CMakeLists.txt or pro file
-		//#define LOG4QT_VERSION 1.0.0
+/*!
+ * This macro expands a numeric value of the form 0xMMmmPP (MM = major,
+ * mm = minor, PP = patch) that specifies Log4Qt's version number.
+ * This is the version against which the application is compiled.
+ *
+ * \sa \ref Log4Qt::LOG4QT_VERSION_STR "LOG4QT_VERSION_STR",
+ *     \ref Log4Qt::LogManager::version() "LogManager::version()"
+ */
+// Defined in CMakeLists.txt or pro file
+//#define LOG4QT_VERSION 1.0.0
 
-		/*!
-		 * The macro expands to a string that specifies the Log4Qt's version
-		 * number. This is the version against which the application is compiled.
-		 *
-		 * \sa \ref Log4Qt::LOG4QT_VERSION "LOG4QT_VERSION",
-		 *     \ref Log4Qt::LogManager::version() "LogManager::version()"
-		 */
-		// Defined in CMakeLists.txt or pro file
-		//#define LOG4QT_VERSION_STR "1.0.0"
-
-
-	enum ErrorCode
-	{
-		OK = 0,
-		// AppenderSkeleton, FileAppender, WriterAppender
-		APPENDER_ACTIVATE_MISSING_LAYOUT_ERROR,
-		APPENDER_ACTIVATE_MISSING_WRITER_ERROR,
-		APPENDER_ACTIVATE_MISSING_FILE_ERROR,
-		APPENDER_CLOSED_ERROR,
-		APPENDER_INVALID_PATTERN_ERROR,
-		APPENDER_NO_OPEN_FILE_ERROR,
-		APPENDER_NOT_ACTIVATED_ERROR,
-		APPENDER_OPENING_FILE_ERROR,
-		APPENDER_RENAMING_FILE_ERROR,
-		APPENDER_REMOVE_FILE_ERROR,
-		APPENDER_USE_INVALID_PATTERN_ERROR,
-		APPENDER_USE_MISSING_LAYOUT_ERROR,
-		APPENDER_USE_MISSING_WRITER_ERROR,
-		APPENDER_WRITING_FILE_ERROR,
-		// Level
-		LEVEL_INVALID_LEVEL_STRING,
-		// Layouts, PatternFormatter
-		LAYOUT_EXPECTED_DIGIT_ERROR,
-		LAYOUT_OPTION_IS_NOT_INTEGER_ERROR,
-		LAYOUT_INTEGER_IS_NOT_POSITIVE_ERROR,
-		// Logger
-		LOGGER_INVALID_LEVEL_FOR_ROOT,
-		// PropertyConfigurator, OptionHandler
-		CONFIGURATOR_OPENING_FILE_ERROR,
-		CONFIGURATOR_READING_FILE_ERROR,
-		CONFIGURATOR_INVALID_SUBSTITUTION_ERROR,
-		CONFIGURATOR_INVALID_OPTION_ERROR,
-		CONFIGURATOR_MISSING_APPENDER_ERROR,
-		CONFIGURATOR_UNKNOWN_APPENDER_CLASS_ERROR,
-		CONFIGURATOR_MISSING_LAYOUT_ERROR,
-		CONFIGURATOR_UNKNOWN_LAYOUT_CLASS_ERROR,
-		CONFIGURATOR_PROPERTY_ERROR,
-		CONFIGURATOR_UNKNOWN_TYPE_ERROR,
-		APPENDER_MISSING_DATABASE_OR_TABLE_ERROR,
-		APPENDER_EXEC_SQL_QUERY_ERROR,
-		APPENDER_INVALID_DATABASE_LAYOUT_ERROR,
-        APPENDER_TELNET_SERVER_NOT_RUNNING,
-        APPENDER_ASNC_DISPATCHER_NOT_RUNNING
-	};
+/*!
+ * The macro expands to a string that specifies the Log4Qt's version
+ * number. This is the version against which the application is compiled.
+ *
+ * \sa \ref Log4Qt::LOG4QT_VERSION "LOG4QT_VERSION",
+ *     \ref Log4Qt::LogManager::version() "LogManager::version()"
+ */
+// Defined in CMakeLists.txt or pro file
+//#define LOG4QT_VERSION_STR "1.0.0"
 
 
-	/******************************************************************************
-	 * Operators, Helpers
-	 ******************************************************************************/
+enum ErrorCode
+{
+    OK = 0,
+    // AppenderSkeleton, FileAppender, WriterAppender
+    APPENDER_ACTIVATE_MISSING_LAYOUT_ERROR,
+    APPENDER_ACTIVATE_MISSING_WRITER_ERROR,
+    APPENDER_ACTIVATE_MISSING_FILE_ERROR,
+    APPENDER_CLOSED_ERROR,
+    APPENDER_INVALID_PATTERN_ERROR,
+    APPENDER_NO_OPEN_FILE_ERROR,
+    APPENDER_NOT_ACTIVATED_ERROR,
+    APPENDER_OPENING_FILE_ERROR,
+    APPENDER_RENAMING_FILE_ERROR,
+    APPENDER_REMOVE_FILE_ERROR,
+    APPENDER_USE_INVALID_PATTERN_ERROR,
+    APPENDER_USE_MISSING_LAYOUT_ERROR,
+    APPENDER_USE_MISSING_WRITER_ERROR,
+    APPENDER_WRITING_FILE_ERROR,
+    // Level
+    LEVEL_INVALID_LEVEL_STRING,
+    // Layouts, PatternFormatter
+    LAYOUT_EXPECTED_DIGIT_ERROR,
+    LAYOUT_OPTION_IS_NOT_INTEGER_ERROR,
+    LAYOUT_INTEGER_IS_NOT_POSITIVE_ERROR,
+    // Logger
+    LOGGER_INVALID_LEVEL_FOR_ROOT,
+    // PropertyConfigurator, OptionHandler
+    CONFIGURATOR_OPENING_FILE_ERROR,
+    CONFIGURATOR_READING_FILE_ERROR,
+    CONFIGURATOR_INVALID_SUBSTITUTION_ERROR,
+    CONFIGURATOR_INVALID_OPTION_ERROR,
+    CONFIGURATOR_MISSING_APPENDER_ERROR,
+    CONFIGURATOR_UNKNOWN_APPENDER_CLASS_ERROR,
+    CONFIGURATOR_MISSING_LAYOUT_ERROR,
+    CONFIGURATOR_UNKNOWN_LAYOUT_CLASS_ERROR,
+    CONFIGURATOR_PROPERTY_ERROR,
+    CONFIGURATOR_UNKNOWN_TYPE_ERROR,
+    APPENDER_MISSING_DATABASE_OR_TABLE_ERROR,
+    APPENDER_EXEC_SQL_QUERY_ERROR,
+    APPENDER_INVALID_DATABASE_LAYOUT_ERROR,
+    APPENDER_TELNET_SERVER_NOT_RUNNING,
+    APPENDER_ASNC_DISPATCHER_NOT_RUNNING
+};
 
 
-	/******************************************************************************
-	 * Inline
-	 ******************************************************************************/
+/******************************************************************************
+ * Operators, Helpers
+ ******************************************************************************/
+
+
+/******************************************************************************
+ * Inline
+ ******************************************************************************/
 
 
 } // namespace Log4Qt

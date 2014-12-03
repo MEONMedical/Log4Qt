@@ -41,119 +41,123 @@
 namespace Log4Qt
 {
 
-	/*!
-	 * \brief The class DatabaseAppender appends log events to a sql database.
-	 *
-	 * \note All the functions declared in this class are thread-safe.
-	 * &nbsp;
-	 * \note The ownership and lifetime of objects of this class are managed.
-	 *       See \ref Ownership "Object ownership" for more details.
-	 */
-	class LOG4QT_EXPORT DatabaseAppender : public AppenderSkeleton
-	{
-			Q_OBJECT
+/*!
+ * \brief The class DatabaseAppender appends log events to a sql database.
+ *
+ * \note All the functions declared in this class are thread-safe.
+ * &nbsp;
+ * \note The ownership and lifetime of objects of this class are managed.
+ *       See \ref Ownership "Object ownership" for more details.
+ */
+class LOG4QT_EXPORT DatabaseAppender : public AppenderSkeleton
+{
+    Q_OBJECT
 
-			/*!
-			 * The property holds sql database connection the appender uses.
-			 *
-			 * The default is null to use the codec the writer has set.
-			 *
-			 * \sa connection(), setConnection()
-			 */
-			Q_PROPERTY(QString connection READ connection WRITE setConnection)
+    /*!
+     * The property holds sql database connection the appender uses.
+     *
+     * The default is null to use the codec the writer has set.
+     *
+     * \sa connection(), setConnection()
+     */
+    Q_PROPERTY(QString connection READ connection WRITE setConnection)
 
-			/*!
-			 * The property holds sql database table name
-			 *
-			\sa table(), setTable()
-			 */
-			Q_PROPERTY(QString table READ table WRITE setTable)
-	public:
-			DatabaseAppender(QObject *pParent = 0);
-			DatabaseAppender(Layout *pLayout,
-										 QObject *pParent = 0);
-			DatabaseAppender(Layout *pLayout
-											 ,const QString& tableName
-											 ,const QString& connection = QSqlDatabase::defaultConnection
-											 ,QObject *pParent = 0);
-			virtual ~DatabaseAppender();
+    /*!
+     * The property holds sql database table name
+     *
+    \sa table(), setTable()
+     */
+    Q_PROPERTY(QString table READ table WRITE setTable)
+public:
+    DatabaseAppender(QObject *pParent = 0);
+    DatabaseAppender(Layout *pLayout,
+                     QObject *pParent = 0);
+    DatabaseAppender(Layout *pLayout
+                     ,const QString& tableName
+                     ,const QString& connection = QSqlDatabase::defaultConnection
+                             ,QObject *pParent = 0);
+    virtual ~DatabaseAppender();
 
-	private:
-			DatabaseAppender(const DatabaseAppender &rOther); // Not implemented
-			DatabaseAppender &operator=(const DatabaseAppender &rOther); // Not implemented
+private:
+    DatabaseAppender(const DatabaseAppender &rOther); // Not implemented
+    DatabaseAppender &operator=(const DatabaseAppender &rOther); // Not implemented
 
-	public:
-			virtual bool requiresLayout() const;
+public:
+    virtual bool requiresLayout() const;
 
-			QString connection() const;
-			QString table() const;
+    QString connection() const;
+    QString table() const;
 
-			void setConnection(const QString& connection);
-			void setTable(const QString& table);
+    void setConnection(const QString& connection);
+    void setTable(const QString& table);
 
-			virtual void activateOptions();
+    virtual void activateOptions();
 
-	protected:
-			virtual void append(const LoggingEvent &rEvent);
+protected:
+    virtual void append(const LoggingEvent &rEvent);
 
-			/*!
-			 * Tests if all entry conditions for using append() in this class are
-			 * met.
-			 *
-			 * If a conditions is not met, an error is logged and the function
-			 * returns false. Otherwise the result of
-			 * AppenderSkeleton::checkEntryConditions() is returned.
-			 *
-			 * The checked conditions are:
-			 * - A writer has been set (APPENDER_USE_MISSING_WRITER_ERROR)
-			 *
-			 * The function is called as part of the checkEntryConditions() chain
-			 * started by AppenderSkeleton::doAppend().
-			 *
-			 * \sa AppenderSkeleton::doAppend(),
-			 *     AppenderSkeleton::checkEntryConditions()
-			 */
-			virtual bool checkEntryConditions() const;
+    /*!
+     * Tests if all entry conditions for using append() in this class are
+     * met.
+     *
+     * If a conditions is not met, an error is logged and the function
+     * returns false. Otherwise the result of
+     * AppenderSkeleton::checkEntryConditions() is returned.
+     *
+     * The checked conditions are:
+     * - A writer has been set (APPENDER_USE_MISSING_WRITER_ERROR)
+     *
+     * The function is called as part of the checkEntryConditions() chain
+     * started by AppenderSkeleton::doAppend().
+     *
+     * \sa AppenderSkeleton::doAppend(),
+     *     AppenderSkeleton::checkEntryConditions()
+     */
+    virtual bool checkEntryConditions() const;
 
-			void closeWriter();
+    void closeWriter();
 
 #ifndef QT_NO_DEBUG_STREAM
-			/*!
-			 * Writes all object member variables to the given debug stream
-			 * \a rDebug and returns the stream.
-			 *
-			 * <tt>
-			 * %WriterAppender(name:"WA" encoding:"" immediateFlush:true
-			 *                 isactive:false isclosed:false layout:"TTCC"
-			 *                 referencecount:1 threshold:"NULL"
-			 *                 writer:0x0)
-			 * </tt>
-			 * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject	)
-			 */
-			virtual QDebug debug(QDebug &rDebug) const;
+    /*!
+     * Writes all object member variables to the given debug stream
+     * \a rDebug and returns the stream.
+     *
+     * <tt>
+     * %WriterAppender(name:"WA" encoding:"" immediateFlush:true
+     *                 isactive:false isclosed:false layout:"TTCC"
+     *                 referencecount:1 threshold:"NULL"
+     *                 writer:0x0)
+     * </tt>
+     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject	)
+     */
+    virtual QDebug debug(QDebug &rDebug) const;
 #endif // QT_NO_DEBUG_STREAM
-	private:
-			QString connectionName;
-			QString tableName;
-	};
+private:
+    QString connectionName;
+    QString tableName;
+};
 
 
-	/**************************************************************************
-	 * Operators, Helper
-	 **************************************************************************/
+/**************************************************************************
+ * Operators, Helper
+ **************************************************************************/
 
 
-	/**************************************************************************
-	 * Inline
-	 **************************************************************************/
+/**************************************************************************
+ * Inline
+ **************************************************************************/
 
-	inline QString DatabaseAppender::connection() const
-	{   QMutexLocker locker(&mObjectGuard);
-		return connectionName; }
+inline QString DatabaseAppender::connection() const
+{
+    QMutexLocker locker(&mObjectGuard);
+    return connectionName;
+}
 
-	inline QString DatabaseAppender::table() const
-	{   QMutexLocker locker(&mObjectGuard);
-		return tableName;  }
+inline QString DatabaseAppender::table() const
+{
+    QMutexLocker locker(&mObjectGuard);
+    return tableName;
+}
 
 } // namespace Log4Qt
 

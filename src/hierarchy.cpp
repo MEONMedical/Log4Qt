@@ -45,167 +45,167 @@ namespace Log4Qt
 {
 
 
-	/**************************************************************************
-	 * Declarations
-	 **************************************************************************/
+/**************************************************************************
+ * Declarations
+ **************************************************************************/
 
 
 
-	/**************************************************************************
-	 * C helper functions
-	 **************************************************************************/
+/**************************************************************************
+ * C helper functions
+ **************************************************************************/
 
 
-		LOG4QT_DECLARE_STATIC_LOGGER(static_logger, ::LoggerRepository)
+LOG4QT_DECLARE_STATIC_LOGGER(static_logger, ::LoggerRepository)
 
 
 
-	/**************************************************************************
-	 * Class implementation: Hierarchy
-	 **************************************************************************/
+/**************************************************************************
+ * Class implementation: Hierarchy
+ **************************************************************************/
 
 
-	Hierarchy::Hierarchy() :
+Hierarchy::Hierarchy() :
 #if QT_VERSION < QT_VERSION_CHECK(4, 4, 0)
-			mObjectGuard(),
+    mObjectGuard(),
 #else
-			mObjectGuard(QReadWriteLock::Recursive),
+    mObjectGuard(QReadWriteLock::Recursive),
 #endif
-			mLoggers(),
-			mThreshold(Level::NULL_INT),
-			mpRootLogger(logger(QString()))
-	{
-			// Store root logger to allow rootLogger() to be const
-	}
+    mLoggers(),
+    mThreshold(Level::NULL_INT),
+    mpRootLogger(logger(QString()))
+{
+    // Store root logger to allow rootLogger() to be const
+}
 
 
-	Hierarchy::~Hierarchy()
-	{
-				static_logger()->warn("Unexpected destruction of Hierarchy");
+Hierarchy::~Hierarchy()
+{
+    static_logger()->warn("Unexpected destruction of Hierarchy");
 
-				// QWriteLocker locker(&mObjectGuard);
-			//
-				// resetConfiguration();
-			// clear();
-			// delete mpRootLogger;
-	}
-
-
-	bool Hierarchy::exists(const QString &rName) const
-	{
-			QReadLocker locker(&mObjectGuard);
-
-			return mLoggers.contains(rName);
-	}
+    // QWriteLocker locker(&mObjectGuard);
+    //
+    // resetConfiguration();
+    // clear();
+    // delete mpRootLogger;
+}
 
 
-	Logger *Hierarchy::logger(const QString &rName)
-	{
-			QWriteLocker locker(&mObjectGuard);
+bool Hierarchy::exists(const QString &rName) const
+{
+    QReadLocker locker(&mObjectGuard);
 
-			return createLogger(rName);
-	}
-
-
-	QList<Logger *> Hierarchy::loggers() const
-	{
-			QReadLocker locker(&mObjectGuard);
-
-			return mLoggers.values();
-	}
+    return mLoggers.contains(rName);
+}
 
 
-	void Hierarchy::setThreshold(const QString &rThreshold)
-	{
-		setThreshold(Level::fromString(rThreshold));
-	}
+Logger *Hierarchy::logger(const QString &rName)
+{
+    QWriteLocker locker(&mObjectGuard);
+
+    return createLogger(rName);
+}
 
 
-	void Hierarchy::resetConfiguration()
-	{
-				QWriteLocker locker(&mObjectGuard);
+QList<Logger *> Hierarchy::loggers() const
+{
+    QReadLocker locker(&mObjectGuard);
 
-				// Reset all loggers.
-			// Leave log, qt and root logger to the last to allow debugging of shutdown.
-
-			Logger *p_logging_logger = logger(QLatin1String(""));
-			Logger *p_qt_logger = logger(QLatin1String("Qt"));
-			Logger *p_root_logger = rootLogger();
-
-			Logger *p_logger;
-			Q_FOREACH(p_logger, mLoggers)
-			{
-					if ((p_logger == p_logging_logger) || (p_logger == p_qt_logger) || (p_logger == p_root_logger))
-							continue;
-					resetLogger(p_logger, Level::NULL_INT);
-			}
-			resetLogger(p_qt_logger, Level::NULL_INT);
-			resetLogger(p_logging_logger, Level::NULL_INT);
-			resetLogger(p_root_logger, Level::DEBUG_INT);
-	}
+    return mLoggers.values();
+}
 
 
-	void Hierarchy::shutdown()
-	{
-			static_logger()->debug("Shutting down Hierarchy");
-			resetConfiguration();
-	}
+void Hierarchy::setThreshold(const QString &rThreshold)
+{
+    setThreshold(Level::fromString(rThreshold));
+}
+
+
+void Hierarchy::resetConfiguration()
+{
+    QWriteLocker locker(&mObjectGuard);
+
+    // Reset all loggers.
+    // Leave log, qt and root logger to the last to allow debugging of shutdown.
+
+    Logger *p_logging_logger = logger(QLatin1String(""));
+    Logger *p_qt_logger = logger(QLatin1String("Qt"));
+    Logger *p_root_logger = rootLogger();
+
+    Logger *p_logger;
+    Q_FOREACH(p_logger, mLoggers)
+    {
+        if ((p_logger == p_logging_logger) || (p_logger == p_qt_logger) || (p_logger == p_root_logger))
+            continue;
+        resetLogger(p_logger, Level::NULL_INT);
+    }
+    resetLogger(p_qt_logger, Level::NULL_INT);
+    resetLogger(p_logging_logger, Level::NULL_INT);
+    resetLogger(p_root_logger, Level::DEBUG_INT);
+}
+
+
+void Hierarchy::shutdown()
+{
+    static_logger()->debug("Shutting down Hierarchy");
+    resetConfiguration();
+}
 
 
 #ifndef QT_NO_DEBUG_STREAM
-	QDebug Hierarchy::debug(QDebug &rDebug) const
-	{
-			rDebug.nospace() << "Hierarchy("
-						<< "loggers:" << loggers().count() << " "
-						<< "threshold:" << threshold().toString() << " "
-					<< "root-level:" << rootLogger()->level().toString() << " "
-					<< "root-appenders:" << rootLogger()->appenders().count()
-					<< ")";
-			return rDebug.space();
-	}
+QDebug Hierarchy::debug(QDebug &rDebug) const
+{
+    rDebug.nospace() << "Hierarchy("
+                     << "loggers:" << loggers().count() << " "
+                     << "threshold:" << threshold().toString() << " "
+                     << "root-level:" << rootLogger()->level().toString() << " "
+                     << "root-appenders:" << rootLogger()->appenders().count()
+                     << ")";
+    return rDebug.space();
+}
 #endif // QT_NO_DEBUG_STREAM
 
 
-	Logger *Hierarchy::createLogger(const QString &rName)
-	{
-			// Q_ASSERT_X(, "Hierarchy::createLogger", "Lock must be held by caller")
+Logger *Hierarchy::createLogger(const QString &rName)
+{
+    // Q_ASSERT_X(, "Hierarchy::createLogger", "Lock must be held by caller")
 
-			const QString name_separator = QLatin1String("::");
+    const QString name_separator = QLatin1String("::");
 
-			Logger *p_logger = mLoggers.value(rName, 0);
-			if (p_logger != 0)
-					return p_logger;
+    Logger *p_logger = mLoggers.value(rName, 0);
+    if (p_logger != 0)
+        return p_logger;
 
-			if (rName.isEmpty())
-			{
-					p_logger = new Logger(this, Level::DEBUG_INT, QLatin1String("root"), 0);
-					mLoggers.insert(QString(), p_logger);
-					return p_logger;
-			}
-			QString parent_name;
-			int index = rName.lastIndexOf(name_separator);
-			if (index >=0)
-					parent_name = rName.left(index);
-			p_logger = new Logger(this, Level::NULL_INT, rName, createLogger(parent_name));
-			mLoggers.insert(rName, p_logger);
-			return p_logger;
-	}
-
-
-	void Hierarchy::resetLogger(Logger *pLogger, Level level) const
-	{
-				// Q_ASSERT_X(, "Hierarchy::resetLogger", "Lock must be held by caller")
-
-			pLogger->removeAllAppenders();
-			pLogger->setAdditivity(true);
-			pLogger->setLevel(level);
-	}
+    if (rName.isEmpty())
+    {
+        p_logger = new Logger(this, Level::DEBUG_INT, QLatin1String("root"), 0);
+        mLoggers.insert(QString(), p_logger);
+        return p_logger;
+    }
+    QString parent_name;
+    int index = rName.lastIndexOf(name_separator);
+    if (index >=0)
+        parent_name = rName.left(index);
+    p_logger = new Logger(this, Level::NULL_INT, rName, createLogger(parent_name));
+    mLoggers.insert(rName, p_logger);
+    return p_logger;
+}
 
 
+void Hierarchy::resetLogger(Logger *pLogger, Level level) const
+{
+    // Q_ASSERT_X(, "Hierarchy::resetLogger", "Lock must be held by caller")
 
-	/**************************************************************************
-	 * Implementation: Operators, Helper
-	 **************************************************************************/
+    pLogger->removeAllAppenders();
+    pLogger->setAdditivity(true);
+    pLogger->setLevel(level);
+}
+
+
+
+/**************************************************************************
+ * Implementation: Operators, Helper
+ **************************************************************************/
 
 
 

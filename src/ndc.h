@@ -43,73 +43,73 @@
 namespace Log4Qt
 {
 
-	/*!
-	 * \brief The class NDC implements a nested diagnostic context.
-	 *
-	 * The method remove() is not required. QThreadStorage cleans up on thread
-	 * exit.
-	 *
-	 * \note All the functions declared in this class are thread-safe.
-	 */
-	class  LOG4QT_EXPORT NDC
-	{
-	private:
-			NDC();
-			NDC(const NDC &rOther); // Not implemented
-			// virtual ~NDC(); // Use compiler default
-			NDC &operator=(const NDC &rOther); // Not implemented
+/*!
+ * \brief The class NDC implements a nested diagnostic context.
+ *
+ * The method remove() is not required. QThreadStorage cleans up on thread
+ * exit.
+ *
+ * \note All the functions declared in this class are thread-safe.
+ */
+class  LOG4QT_EXPORT NDC
+{
+private:
+    NDC();
+    NDC(const NDC &rOther); // Not implemented
+    // virtual ~NDC(); // Use compiler default
+    NDC &operator=(const NDC &rOther); // Not implemented
 
-	public:
-			static void clear();
-			// JAVA: static QStack<QString> cloneStack();
-			// JAVA: static QString get();
-			static int depth();
-			// JAVA: inherit(Stack stack)
+public:
+    static void clear();
+    // JAVA: static QStack<QString> cloneStack();
+    // JAVA: static QString get();
+    static int depth();
+    // JAVA: inherit(Stack stack)
 
-			/*!
-				 * Returns the NDC instance.
-				 */
-				static NDC *instance();
+    /*!
+    	 * Returns the NDC instance.
+    	 */
+    static NDC *instance();
 
-			static QString pop();
-			static void push(const QString &rMessage);
-			// JAVA: static void remove(); // Not required
-			static void setMaxDepth(int maxDepth);
-			static QString peek();
+    static QString pop();
+    static void push(const QString &rMessage);
+    // JAVA: static void remove(); // Not required
+    static void setMaxDepth(int maxDepth);
+    static QString peek();
 
-	private:
-			QThreadStorage< QStack<QString> * > mStack;
-	};
-
-
-	/******************************************************************************
-	 * Operators, Helper
-	 ******************************************************************************/
-
-	#ifndef QT_NO_DEBUG_STREAM
-	/*!
-	 * \relates NDC
-	 *
-	 * Writes all object member variables to the given debug stream \a rDebug and
-	 * returns the stream.
-	 *
-	 * <tt>
-	 * %NDC(thread:"main" peek:"i = 3" depth:4)
-	 * </tt>
-	 * \sa QDebug
-	 */
-	QDebug operator<<(QDebug debug,
-										const NDC &rNDC);
-	#endif // QT_NO_DEBUG_STREAM
+private:
+    QThreadStorage< QStack<QString> * > mStack;
+};
 
 
-	/******************************************************************************
-	 * Inline
-	 ******************************************************************************/
+/******************************************************************************
+ * Operators, Helper
+ ******************************************************************************/
 
-	inline NDC::NDC() :
-			mStack()
-	{}
+#ifndef QT_NO_DEBUG_STREAM
+/*!
+ * \relates NDC
+ *
+ * Writes all object member variables to the given debug stream \a rDebug and
+ * returns the stream.
+ *
+ * <tt>
+ * %NDC(thread:"main" peek:"i = 3" depth:4)
+ * </tt>
+ * \sa QDebug
+ */
+QDebug operator<<(QDebug debug,
+                  const NDC &rNDC);
+#endif // QT_NO_DEBUG_STREAM
+
+
+/******************************************************************************
+ * Inline
+ ******************************************************************************/
+
+inline NDC::NDC() :
+    mStack()
+{}
 
 
 } // namespace Log4Qt

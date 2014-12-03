@@ -109,8 +109,8 @@ bool MainThreadAppender::checkEntryConditions() const
 QDebug MainThreadAppender::debug(QDebug &rDebug) const
 {
     rDebug.nospace() << "MainThreadAppender("
-        << "name:" << name() << " "
-        << ")";
+                     << "name:" << name() << " "
+                     << ")";
 
     return rDebug.space();
 }

@@ -41,121 +41,125 @@
 namespace Log4Qt
 {
 
-	class PatternFormatter;
+class PatternFormatter;
 
-	/*!
-	 * \brief The class PatternLayout outputs a logging event based on a
-	 *        pattern string.
-			\li c{section_count} : logger name with optional parameter section_count. Section count from end of logger name, sections delimiter is "::";
-			\li d{format_string} : date with optional parameters in "{}"-brackets which used by QDateTime::toString();
-			\li m : message
-			\li p : level name
-			\li r : relative date/time to start application
-			\li t : thread name
-			\li x : ndc name
-			\li X : mdc name
-	 *
-	 * \note The ownership and lifetime of objects of this class are managed.
-	 *       See \ref Ownership "Object ownership" for more details.
-	 */
-	 class  LOG4QT_EXPORT PatternLayout : public Layout
-	{
-		Q_OBJECT
+/*!
+ * \brief The class PatternLayout outputs a logging event based on a
+ *        pattern string.
+		\li c{section_count} : logger name with optional parameter section_count. Section count from end of logger name, sections delimiter is "::";
+		\li d{format_string} : date with optional parameters in "{}"-brackets which used by QDateTime::toString();
+		\li m : message
+		\li p : level name
+		\li r : relative date/time to start application
+		\li t : thread name
+		\li x : ndc name
+		\li X : mdc name
+ *
+ * \note The ownership and lifetime of objects of this class are managed.
+ *       See \ref Ownership "Object ownership" for more details.
+ */
+class  LOG4QT_EXPORT PatternLayout : public Layout
+{
+    Q_OBJECT
 
-			/*!
-			 * The property holds the conversion pattern used by the appender.
-			 *
-			 * The default is "%m%n".
-			 *
-			 * \sa conversionPattern(), setConversionPattern()
-			 */
-			Q_PROPERTY(QString conversionPattern READ conversionPattern WRITE setConversionPattern)
+    /*!
+     * The property holds the conversion pattern used by the appender.
+     *
+     * The default is "%m%n".
+     *
+     * \sa conversionPattern(), setConversionPattern()
+     */
+    Q_PROPERTY(QString conversionPattern READ conversionPattern WRITE setConversionPattern)
 
-	public:
-			/*!
-			 * The enum ConversionPattern defines constants for pattern strings.
-			 *
-			 * \sa setConversionPattern(ConversionPattern);
-			 */
-			enum ConversionPattern
-			{
-				/*! The default conversion pattern string is "%m,%n". */
-				DEFAULT_CONVERSION_PATTERN,
-				/*!
-				 * The ttcc conversion pattern string is
-				 * "%r [%t] %p %c %x - %m%n".
-				 */
-				TTCC_CONVERSION_PATTERN
-			};
-			Q_ENUMS(ConversionPattern)
+public:
+    /*!
+     * The enum ConversionPattern defines constants for pattern strings.
+     *
+     * \sa setConversionPattern(ConversionPattern);
+     */
+    enum ConversionPattern
+    {
+        /*! The default conversion pattern string is "%m,%n". */
+        DEFAULT_CONVERSION_PATTERN,
+        /*!
+         * The ttcc conversion pattern string is
+         * "%r [%t] %p %c %x - %m%n".
+         */
+        TTCC_CONVERSION_PATTERN
+    };
+    Q_ENUMS(ConversionPattern)
 
-			PatternLayout(QObject *pParent = 0);
-			PatternLayout(const QString &rPattern,
-										QObject *pParent = 0);
+    PatternLayout(QObject *pParent = 0);
+    PatternLayout(const QString &rPattern,
+                  QObject *pParent = 0);
 
-		/*!
-		 * Creates a PatternLayout with the conversion pattern value specified
-		 * by the \a conversionPattern constant.
-		 */
-			PatternLayout(ConversionPattern conversionPattern,
-										QObject *pParent = 0);
+    /*!
+     * Creates a PatternLayout with the conversion pattern value specified
+     * by the \a conversionPattern constant.
+     */
+    PatternLayout(ConversionPattern conversionPattern,
+                  QObject *pParent = 0);
 
-			virtual ~PatternLayout();
-	private:
-			PatternLayout(const PatternLayout &rOther); // Not implemented
-			PatternLayout &operator=(const PatternLayout &rOther); // Not implemented
+    virtual ~PatternLayout();
+private:
+    PatternLayout(const PatternLayout &rOther); // Not implemented
+    PatternLayout &operator=(const PatternLayout &rOther); // Not implemented
 
-	public:
-		QString conversionPattern() const;
-		void setConversionPattern(const QString &rPattern);
+public:
+    QString conversionPattern() const;
+    void setConversionPattern(const QString &rPattern);
 
-		/*!
-		 * Sets the conversion pattern to the value specified by the
-		 * \a conversionPattern constant.
-		 */
-		void setConversionPattern(ConversionPattern conversionPattern);
+    /*!
+     * Sets the conversion pattern to the value specified by the
+     * \a conversionPattern constant.
+     */
+    void setConversionPattern(ConversionPattern conversionPattern);
 
-			virtual QString format(const LoggingEvent &rEvent);
+    virtual QString format(const LoggingEvent &rEvent);
 
-	protected:
+protected:
 #ifndef QT_NO_DEBUG_STREAM
-			/*!
-			 * Writes all object member variables to the given debug stream
-			 * \a rDebug and returns the stream.
-			 *
-			 * <tt>
-			 * %PatternLayout(name:"PL" pattern:"%r [%t] %p %c %x - %m%n"
-			 *                "referencecount:3")
-			 * </tt>
-			 * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
-			 */
-	virtual QDebug debug(QDebug &rDebug) const;
+    /*!
+     * Writes all object member variables to the given debug stream
+     * \a rDebug and returns the stream.
+     *
+     * <tt>
+     * %PatternLayout(name:"PL" pattern:"%r [%t] %p %c %x - %m%n"
+     *                "referencecount:3")
+     * </tt>
+     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
+     */
+    virtual QDebug debug(QDebug &rDebug) const;
 #endif // QT_NO_DEBUG_STREAM
 
-	private:
-		void updatePatternFormatter();
+private:
+    void updatePatternFormatter();
 
-	private:
-		QString mPattern;
-		PatternFormatter *mpPatternFormatter;
-	};
-
-
-	/**************************************************************************
-	 * Operators, Helper
-	 **************************************************************************/
+private:
+    QString mPattern;
+    PatternFormatter *mpPatternFormatter;
+};
 
 
-	/**************************************************************************
-	 * Inline
-	 **************************************************************************/
+/**************************************************************************
+ * Operators, Helper
+ **************************************************************************/
 
-	inline QString PatternLayout::conversionPattern() const
-	{	return PatternLayout::mPattern;	}
 
-	inline void PatternLayout::setConversionPattern(const QString &rPattern)
-	{	mPattern = rPattern;
-		updatePatternFormatter();	}
+/**************************************************************************
+ * Inline
+ **************************************************************************/
+
+inline QString PatternLayout::conversionPattern() const
+{
+    return PatternLayout::mPattern;
+}
+
+inline void PatternLayout::setConversionPattern(const QString &rPattern)
+{
+    mPattern = rPattern;
+    updatePatternFormatter();
+}
 
 
 } // namespace Log4Qt

@@ -28,36 +28,37 @@
 
 #include <QtCore/QDebug>
 
-namespace Log4Qt {
-	SignalAppender::SignalAppender(QObject *parent) :
-			AppenderSkeleton(parent)
-	{
-	}
+namespace Log4Qt
+{
+SignalAppender::SignalAppender(QObject *parent) :
+    AppenderSkeleton(parent)
+{
+}
 
-	void SignalAppender::append(const LoggingEvent &rEvent)
-	{
-		QString message(layout()->format(rEvent));
-		emit appended(message);
-	}
+void SignalAppender::append(const LoggingEvent &rEvent)
+{
+    QString message(layout()->format(rEvent));
+    emit appended(message);
+}
 
 #ifndef QT_NO_DEBUG_STREAM
-	QDebug SignalAppender::debug(QDebug &rDebug) const
-	{
-		QString layout_name;
-		if (layout())
-			layout_name = layout()->name();
+QDebug SignalAppender::debug(QDebug &rDebug) const
+{
+    QString layout_name;
+    if (layout())
+        layout_name = layout()->name();
 
-		rDebug.nospace() << "WriterAppender("
-				<< "name:" << name() << " "
-				<< "filter:" << firstFilter()
-				<< "isactive:" << isActive()
-				<< "isclosed:" << isClosed()
-				<< "layout:" << layout_name
-				<< "referencecount:" << referenceCount() << " "
-				<< "threshold:" << threshold().toString()
-				<< ")";
-		return rDebug.space();
-	}
+    rDebug.nospace() << "WriterAppender("
+                     << "name:" << name() << " "
+                     << "filter:" << firstFilter()
+                     << "isactive:" << isActive()
+                     << "isclosed:" << isClosed()
+                     << "layout:" << layout_name
+                     << "referencecount:" << referenceCount() << " "
+                     << "threshold:" << threshold().toString()
+                     << ")";
+    return rDebug.space();
+}
 #endif // QT_NO_DEBUG_STREAM
 
 }

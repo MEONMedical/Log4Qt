@@ -44,181 +44,203 @@
 namespace Log4Qt
 {
 
-	class Filter;
-	class Layout;
-	class Logger;
-	class LoggingEvent;
+class Filter;
+class Layout;
+class Logger;
+class LoggingEvent;
 
-	/*!
-	 * \brief The class AppenderSkeleton implements general Appender functionality.
-	 *
-	 * \note All the functions declared in this class are thread-safe.
-	 *
-	 * \note The ownership and lifetime of objects of this class are managed. See
-	 *       \ref Ownership "Object ownership" for more details.
-	 */
-	class LOG4QT_EXPORT AppenderSkeleton : public Appender
-	{
-			Q_OBJECT
+/*!
+ * \brief The class AppenderSkeleton implements general Appender functionality.
+ *
+ * \note All the functions declared in this class are thread-safe.
+ *
+ * \note The ownership and lifetime of objects of this class are managed. See
+ *       \ref Ownership "Object ownership" for more details.
+ */
+class LOG4QT_EXPORT AppenderSkeleton : public Appender
+{
+    Q_OBJECT
 
-			/*!
-			 * The property holds if the Appender has been activated.
-			 *
-			 * \sa isActive()
-			 */
-			Q_PROPERTY(bool isActive READ isActive)
+    /*!
+     * The property holds if the Appender has been activated.
+     *
+     * \sa isActive()
+     */
+    Q_PROPERTY(bool isActive READ isActive)
 
-			/*!
-			 * The property holds if the Appender has been closed.
-			 *
-			 * \sa isClosed()
-			 */
-			Q_PROPERTY(bool isClosed READ isClosed)
+    /*!
+     * The property holds if the Appender has been closed.
+     *
+     * \sa isClosed()
+     */
+    Q_PROPERTY(bool isClosed READ isClosed)
 
-			/*!
-			 * The property holds the threshold level used by the Appender.
-			 *
-			 * \sa threshold(), setThreshold()
-			 */
-                        Q_PROPERTY(Log4Qt::Level threshold READ threshold WRITE setThreshold)
+    /*!
+     * The property holds the threshold level used by the Appender.
+     *
+     * \sa threshold(), setThreshold()
+     */
+    Q_PROPERTY(Log4Qt::Level threshold READ threshold WRITE setThreshold)
 
-	public:
-			AppenderSkeleton(QObject *pParent = 0);
+public:
+    AppenderSkeleton(QObject *pParent = 0);
 
-	protected:
-			AppenderSkeleton(const bool isActive,
-											 QObject *pParent = 0);
+protected:
+    AppenderSkeleton(const bool isActive,
+                     QObject *pParent = 0);
 
-	public:
-			// virtual ~AppenderSkeleton(); Use compiler default
-	private:
-			AppenderSkeleton(const AppenderSkeleton &rOther); // Not implemented
-			AppenderSkeleton &operator=(const AppenderSkeleton &rOther); // Not implemented
+public:
+    // virtual ~AppenderSkeleton(); Use compiler default
+private:
+    AppenderSkeleton(const AppenderSkeleton &rOther); // Not implemented
+    AppenderSkeleton &operator=(const AppenderSkeleton &rOther); // Not implemented
 
-	public:
-			// JAVA: ErrorHandler* errorHandler();
-			virtual Filter *filter() const;
-			virtual Layout *layout() const;
-			bool isActive() const;
-			bool isClosed() const;
-			virtual QString name() const;
-			Level threshold() const;
-			// JAVA: void setErrorHandler(ErrorHandler *pErrorHandler);
-			virtual void setLayout(Layout *pLayout);
-			virtual void setName(const QString &rName);
-			void setThreshold(Level level);
+public:
+    // JAVA: ErrorHandler* errorHandler();
+    virtual Filter *filter() const;
+    virtual Layout *layout() const;
+    bool isActive() const;
+    bool isClosed() const;
+    virtual QString name() const;
+    Level threshold() const;
+    // JAVA: void setErrorHandler(ErrorHandler *pErrorHandler);
+    virtual void setLayout(Layout *pLayout);
+    virtual void setName(const QString &rName);
+    void setThreshold(Level level);
 
-			virtual void activateOptions();
-			virtual void addFilter(Filter *pFilter);
-			virtual void clearFilters();
-			virtual void close();
+    virtual void activateOptions();
+    virtual void addFilter(Filter *pFilter);
+    virtual void clearFilters();
+    virtual void close();
 
-			/*!
-			 * Performs checks and delegates the actuall appending to the subclass
-			 * specific append() function.
-			 *
-			 * \sa append(), checkEntryConditions(), isAsSevereAsThreshold(), Filter
-			 */
-			virtual void doAppend(const LoggingEvent &rEvent);
+    /*!
+     * Performs checks and delegates the actuall appending to the subclass
+     * specific append() function.
+     *
+     * \sa append(), checkEntryConditions(), isAsSevereAsThreshold(), Filter
+     */
+    virtual void doAppend(const LoggingEvent &rEvent);
 
-			// JAVA: void finalize();
-			Filter* firstFilter() const;
-			bool isAsSevereAsThreshold(Level level) const;
+    // JAVA: void finalize();
+    Filter* firstFilter() const;
+    bool isAsSevereAsThreshold(Level level) const;
 
-	protected:
-			virtual void append(const LoggingEvent &rEvent) = 0;
-			void customEvent(QEvent* event);
+protected:
+    virtual void append(const LoggingEvent &rEvent) = 0;
+    void customEvent(QEvent* event);
 
-			/*!
-			 * Tests if all entry conditions for using append() in this class are
-			 * met.
-			 *
-			 * If a conditions is not met, an error is logged and the function
-			 * returns false.
-			 *
-			 * The checked conditions are:
-			 * - That the appender has been activated (APPENDER_NOT_ACTIVATED_ERROR)
-			 * - That the appender was not closed (APPENDER_CLOSED_ERROR)
-			 * - That the appender has a layout set, if it requires one
-			 *   (logging_error(APPENDER_USE_MISSING_LAYOUT_ERROR)
-			 *
-			 * The function is called as part of the checkEntryConditions() chain
-			 * started by doAppend(). The doAppend() function calls the subclass
-			 * specific checkEntryConditions() function. The function checks the
-			 * class specific conditions and calls checkEntryConditions() of
-			 * it's parent class. The last function called is
-			 * AppenderSkeleton::checkEntryConditions().
-			 *
-			 * \sa doAppend()
-			 */
-			virtual bool checkEntryConditions() const;
+    /*!
+     * Tests if all entry conditions for using append() in this class are
+     * met.
+     *
+     * If a conditions is not met, an error is logged and the function
+     * returns false.
+     *
+     * The checked conditions are:
+     * - That the appender has been activated (APPENDER_NOT_ACTIVATED_ERROR)
+     * - That the appender was not closed (APPENDER_CLOSED_ERROR)
+     * - That the appender has a layout set, if it requires one
+     *   (logging_error(APPENDER_USE_MISSING_LAYOUT_ERROR)
+     *
+     * The function is called as part of the checkEntryConditions() chain
+     * started by doAppend(). The doAppend() function calls the subclass
+     * specific checkEntryConditions() function. The function checks the
+     * class specific conditions and calls checkEntryConditions() of
+     * it's parent class. The last function called is
+     * AppenderSkeleton::checkEntryConditions().
+     *
+     * \sa doAppend()
+     */
+    virtual bool checkEntryConditions() const;
 
-	protected:
-			mutable QMutex mObjectGuard;
+protected:
+    mutable QMutex mObjectGuard;
 
-	private:
-			bool mAppendRecursionGuard;
-			volatile bool mIsActive;
-			volatile bool mIsClosed;
-			LogObjectPtr<Layout> mpLayout;
-			Level mThreshold;
-			LogObjectPtr<Filter> mpHeadFilter;
-			LogObjectPtr<Filter> mpTailFilter;
-	};
-
-
-	/**************************************************************************
-	 * Operators, Helper
-	 **************************************************************************/
+private:
+    bool mAppendRecursionGuard;
+    volatile bool mIsActive;
+    volatile bool mIsClosed;
+    LogObjectPtr<Layout> mpLayout;
+    Level mThreshold;
+    LogObjectPtr<Filter> mpHeadFilter;
+    LogObjectPtr<Filter> mpTailFilter;
+};
 
 
-	/**************************************************************************
-	 * Inline
-	 **************************************************************************/
+/**************************************************************************
+ * Operators, Helper
+ **************************************************************************/
 
-	inline Filter *AppenderSkeleton::filter() const
-	{	QMutexLocker locker(&mObjectGuard);
-		return mpHeadFilter;    }
 
-	inline Layout *AppenderSkeleton::layout() const
-	{   QMutexLocker locker(&mObjectGuard);
-		return mpLayout;    }
+/**************************************************************************
+ * Inline
+ **************************************************************************/
 
-	inline QString AppenderSkeleton::name() const
-	{	QMutexLocker locker(&mObjectGuard);
-			return objectName();	}
+inline Filter *AppenderSkeleton::filter() const
+{
+    QMutexLocker locker(&mObjectGuard);
+    return mpHeadFilter;
+}
 
-	inline Level AppenderSkeleton::threshold() const
-	{   // QMutexLocker locker(&mObjectGuard); // Level is threadsafe
-		return mThreshold;  }
+inline Layout *AppenderSkeleton::layout() const
+{
+    QMutexLocker locker(&mObjectGuard);
+    return mpLayout;
+}
 
-	inline void AppenderSkeleton::setLayout(Layout *pLayout)
-	{   QMutexLocker locker(&mObjectGuard);
-		mpLayout = pLayout; }
+inline QString AppenderSkeleton::name() const
+{
+    QMutexLocker locker(&mObjectGuard);
+    return objectName();
+}
 
-	inline void AppenderSkeleton::setName(const QString &rName)
-	{   QMutexLocker locker(&mObjectGuard);
-			setObjectName(rName);  }
+inline Level AppenderSkeleton::threshold() const
+{
+    // QMutexLocker locker(&mObjectGuard); // Level is threadsafe
+    return mThreshold;
+}
 
-	inline void AppenderSkeleton::setThreshold(Level level)
-	{   // QMutexLocker locker(&mObjectGuard); // Level is threadsafe
-		mThreshold = level;    }
+inline void AppenderSkeleton::setLayout(Layout *pLayout)
+{
+    QMutexLocker locker(&mObjectGuard);
+    mpLayout = pLayout;
+}
 
-	inline bool AppenderSkeleton::isActive() const
-	{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-		return mIsActive;   }
+inline void AppenderSkeleton::setName(const QString &rName)
+{
+    QMutexLocker locker(&mObjectGuard);
+    setObjectName(rName);
+}
 
-	inline bool AppenderSkeleton::isClosed() const
-	{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-		return mIsClosed;   }
+inline void AppenderSkeleton::setThreshold(Level level)
+{
+    // QMutexLocker locker(&mObjectGuard); // Level is threadsafe
+    mThreshold = level;
+}
 
-	inline Filter *AppenderSkeleton::firstFilter() const
-	{	QMutexLocker locker(&mObjectGuard);
-			return filter();    }
+inline bool AppenderSkeleton::isActive() const
+{
+    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
+    return mIsActive;
+}
 
-	inline bool AppenderSkeleton::isAsSevereAsThreshold(Level level) const
-	{   // QMutexLocker locker(&mObjectGuard); // Level is threadsafe
-		return (mThreshold <= level);   }
+inline bool AppenderSkeleton::isClosed() const
+{
+    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
+    return mIsClosed;
+}
+
+inline Filter *AppenderSkeleton::firstFilter() const
+{
+    QMutexLocker locker(&mObjectGuard);
+    return filter();
+}
+
+inline bool AppenderSkeleton::isAsSevereAsThreshold(Level level) const
+{
+    // QMutexLocker locker(&mObjectGuard); // Level is threadsafe
+    return (mThreshold <= level);
+}
 
 
 } // namespace Log4Qt

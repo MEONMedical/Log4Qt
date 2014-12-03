@@ -43,75 +43,77 @@
 namespace Log4Qt
 {
 
-	class LoggingEvent;
+class LoggingEvent;
 
-	/*!
-	 * \brief The class Filter is the base class for all filters.
-	 *
-	 * \note The ownership and lifetime of objects of this class are managed.
-	 *       See \ref Ownership "Object ownership" for more details.
-	 */
-	class  LOG4QT_EXPORT Filter : public LogObject
-	{
-		Q_OBJECT
+/*!
+ * \brief The class Filter is the base class for all filters.
+ *
+ * \note The ownership and lifetime of objects of this class are managed.
+ *       See \ref Ownership "Object ownership" for more details.
+ */
+class  LOG4QT_EXPORT Filter : public LogObject
+{
+    Q_OBJECT
 
-			/*!
-			 * The property holds the next filter of this filter.
-			 *
-			 * The default is 0 for no next filter.
-			 *
-			 * \sa next(), setNext()
-			 */
-			Q_PROPERTY(Filter* next READ next WRITE setNext)
+    /*!
+     * The property holds the next filter of this filter.
+     *
+     * The default is 0 for no next filter.
+     *
+     * \sa next(), setNext()
+     */
+    Q_PROPERTY(Filter* next READ next WRITE setNext)
 
-	public:
-			enum Decision
-			{
-				ACCEPT,
-				DENY,
-				NEUTRAL
-			};
-			Q_ENUMS(Decision)
+public:
+    enum Decision
+    {
+        ACCEPT,
+        DENY,
+        NEUTRAL
+    };
+    Q_ENUMS(Decision)
 
-	public:
-			Filter(QObject *pObject = 0);
-			// Filter(const Filter &rOther); // Use compiler default
-			virtual ~Filter();
-			// Filter &operator=(const Filter &rOther); // Use compiler default
+public:
+    Filter(QObject *pObject = 0);
+    // Filter(const Filter &rOther); // Use compiler default
+    virtual ~Filter();
+    // Filter &operator=(const Filter &rOther); // Use compiler default
 
-			Filter* next() const;
-			void setNext(Filter *pFilter);
+    Filter* next() const;
+    void setNext(Filter *pFilter);
 
-			virtual void activateOptions();
-			virtual Decision decide(const LoggingEvent &rEvent) const = 0;
+    virtual void activateOptions();
+    virtual Decision decide(const LoggingEvent &rEvent) const = 0;
 
-	private:
-			LogObjectPtr<Filter> mpNext;
-	};
-
-
-	/**************************************************************************
-	 * Operators, Helper
-	 **************************************************************************/
+private:
+    LogObjectPtr<Filter> mpNext;
+};
 
 
-	/**************************************************************************
-	 * Inline
-	 **************************************************************************/
+/**************************************************************************
+ * Operators, Helper
+ **************************************************************************/
 
-	inline Filter::Filter(QObject *pObject) :
-			LogObject(pObject),
-			mpNext(0)
-	{}
 
-	inline Filter::~Filter()
-	{}
+/**************************************************************************
+ * Inline
+ **************************************************************************/
 
-	inline Filter* Filter::next() const
-	{	return mpNext;	}
+inline Filter::Filter(QObject *pObject) :
+    LogObject(pObject),
+    mpNext(0)
+{}
 
-	inline void Filter::activateOptions()
-	{}
+inline Filter::~Filter()
+{}
+
+inline Filter* Filter::next() const
+{
+    return mpNext;
+}
+
+inline void Filter::activateOptions()
+{}
 
 
 } // namespace Log4Qt

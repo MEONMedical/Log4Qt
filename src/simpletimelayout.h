@@ -41,56 +41,56 @@
 namespace Log4Qt
 {
 
-	/*!
-	 * \brief The class SimpleTimeLayout outputs the time, logger name, thread, level and message of a logging
-	 *        event.
-	 *
-	 * \note The ownership and lifetime of objects of this class are managed.
-	 *       See \ref Ownership "Object ownership" for more details.
-	 */
-	 class LOG4QT_EXPORT  SimpleTimeLayout : public Layout
-	{
-			Q_OBJECT
+/*!
+ * \brief The class SimpleTimeLayout outputs the time, logger name, thread, level and message of a logging
+ *        event.
+ *
+ * \note The ownership and lifetime of objects of this class are managed.
+ *       See \ref Ownership "Object ownership" for more details.
+ */
+class LOG4QT_EXPORT  SimpleTimeLayout : public Layout
+{
+    Q_OBJECT
 
-	public:
-			SimpleTimeLayout(QObject *pParent = 0);
-			// virtual ~SimpleTimeLayout(); // Use compiler default
-	private:
-			SimpleTimeLayout(const SimpleTimeLayout &rOther); // Not implemented
-			SimpleTimeLayout &operator=(const SimpleTimeLayout &rOther); // Not implemented
+public:
+    SimpleTimeLayout(QObject *pParent = 0);
+    // virtual ~SimpleTimeLayout(); // Use compiler default
+private:
+    SimpleTimeLayout(const SimpleTimeLayout &rOther); // Not implemented
+    SimpleTimeLayout &operator=(const SimpleTimeLayout &rOther); // Not implemented
 
-	public:
-			virtual QString format(const LoggingEvent &rEvent);
+public:
+    virtual QString format(const LoggingEvent &rEvent);
 
-	protected:
+protected:
 
 #ifndef QT_NO_DEBUG_STREAM
-			/*!
-			 * Writes all object member variables to the given debug stream
-			 * \a rDebug and returns the stream.
-			 *
-			 * <tt>
-			 * %SimpleTimeLayout(name:"SL" referencecount:1)
-			 * </tt>
-			 * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
-			 */
-			virtual QDebug debug(QDebug &rDebug) const;
+    /*!
+     * Writes all object member variables to the given debug stream
+     * \a rDebug and returns the stream.
+     *
+     * <tt>
+     * %SimpleTimeLayout(name:"SL" referencecount:1)
+     * </tt>
+     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
+     */
+    virtual QDebug debug(QDebug &rDebug) const;
 #endif // QT_NO_DEBUG_STREAM
-	};
+};
 
 
-	/**************************************************************************
-	 * Operators, Helper
-	 **************************************************************************/
+/**************************************************************************
+ * Operators, Helper
+ **************************************************************************/
 
 
-	/**************************************************************************
-	 * Inline
-	 **************************************************************************/
+/**************************************************************************
+ * Inline
+ **************************************************************************/
 
-	inline SimpleTimeLayout::SimpleTimeLayout(QObject *pParent) :
-			Layout(pParent)
-	{}
+inline SimpleTimeLayout::SimpleTimeLayout(QObject *pParent) :
+    Layout(pParent)
+{}
 
 
 } // namespace Log4Qt

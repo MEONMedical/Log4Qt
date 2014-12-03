@@ -50,32 +50,32 @@ namespace Log4Qt
  */
 class  LOG4QT_EXPORT NullAppender : public AppenderSkeleton
 {
-		Q_OBJECT
+    Q_OBJECT
 
 public:
-		NullAppender(QObject *pParent = 0);
-		virtual ~NullAppender();
+    NullAppender(QObject *pParent = 0);
+    virtual ~NullAppender();
 private:
-		NullAppender(const NullAppender &rOther); // Not implemented
-		NullAppender &operator=(const NullAppender &rOther); // Not implemented
+    NullAppender(const NullAppender &rOther); // Not implemented
+    NullAppender &operator=(const NullAppender &rOther); // Not implemented
 
 public:
-		virtual bool requiresLayout() const;
+    virtual bool requiresLayout() const;
 
 protected:
-		virtual void append(const LoggingEvent &rEvent);
+    virtual void append(const LoggingEvent &rEvent);
 
 #ifndef QT_NO_DEBUG_STREAM
-		/*!
-		 * Writes all object member variables to the given debug stream \a rDebug and
-		 * returns the stream.
-		 *
-		 * <tt>
-		 * %NullAppender()
-		 * </tt>
-		 * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
-		 */
-		virtual QDebug debug(QDebug &rDebug) const;
+    /*!
+     * Writes all object member variables to the given debug stream \a rDebug and
+     * returns the stream.
+     *
+     * <tt>
+     * %NullAppender()
+     * </tt>
+     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
+     */
+    virtual QDebug debug(QDebug &rDebug) const;
 #endif // QT_NO_DEBUG_STREAM
 };
 
@@ -90,7 +90,9 @@ protected:
  ******************************************************************************/
 
 inline bool NullAppender::requiresLayout() const
-{	return false;	}
+{
+    return false;
+}
 
 
 } // namespace Log4Qt

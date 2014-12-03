@@ -43,157 +43,157 @@ namespace Log4Qt
 {
 
 
-	/**************************************************************************
-	 * Declarations
-	 **************************************************************************/
+/**************************************************************************
+ * Declarations
+ **************************************************************************/
 
 
 
-	/**************************************************************************
-	 * C helper functions
-	 **************************************************************************/
+/**************************************************************************
+ * C helper functions
+ **************************************************************************/
 
 
 
-	/**************************************************************************
-	 * Class implementation: ConsoleAppender
-	 **************************************************************************/
+/**************************************************************************
+ * Class implementation: ConsoleAppender
+ **************************************************************************/
 
 
-	ConsoleAppender::ConsoleAppender(QObject *pParent) :
-	    WriterAppender(pParent),
-	    mTarget(STDOUT_TARGET),
-	    mpTextStream(0)
-	{
-	}
+ConsoleAppender::ConsoleAppender(QObject *pParent) :
+    WriterAppender(pParent),
+    mTarget(STDOUT_TARGET),
+    mpTextStream(0)
+{
+}
 
 
-	ConsoleAppender::ConsoleAppender(Layout *pLayout,
-	                                 QObject *pParent) :
-	    WriterAppender(pLayout, pParent),
-	    mTarget(STDOUT_TARGET),
-	    mpTextStream(0)
-	{
-	}
+ConsoleAppender::ConsoleAppender(Layout *pLayout,
+                                 QObject *pParent) :
+    WriterAppender(pLayout, pParent),
+    mTarget(STDOUT_TARGET),
+    mpTextStream(0)
+{
+}
 
 
-    ConsoleAppender::ConsoleAppender(Layout *pLayout,
-                                     const QString &rTarget,
-                                     QObject *pParent) :
-        WriterAppender(pLayout, pParent),
-        mTarget(STDOUT_TARGET),
-        mpTextStream(0)
-    {
-        setTarget(rTarget);
-    }
+ConsoleAppender::ConsoleAppender(Layout *pLayout,
+                                 const QString &rTarget,
+                                 QObject *pParent) :
+    WriterAppender(pLayout, pParent),
+    mTarget(STDOUT_TARGET),
+    mpTextStream(0)
+{
+    setTarget(rTarget);
+}
 
 
-    ConsoleAppender::ConsoleAppender(Layout *pLayout,
-	                                 Target target,
-	                                 QObject *pParent) :
-	    WriterAppender(pLayout, pParent),
-	    mTarget(target),
-	    mpTextStream(0)
-	{
-	}
+ConsoleAppender::ConsoleAppender(Layout *pLayout,
+                                 Target target,
+                                 QObject *pParent) :
+    WriterAppender(pLayout, pParent),
+    mTarget(target),
+    mpTextStream(0)
+{
+}
 
 
-	ConsoleAppender::~ConsoleAppender()
-	{
-		close();
+ConsoleAppender::~ConsoleAppender()
+{
+    close();
 
-	}
-
-
-    QString ConsoleAppender::target() const
-    {
-        // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-
-        if (mTarget == STDOUT_TARGET)
-            return QLatin1String("STDOUT_TARGET");
-        else
-            return QLatin1String("STDERR_TARGET");
-    }
+}
 
 
-    void ConsoleAppender::setTarget(const QString &rTarget)
-    {
-        bool ok;
-        Target target = static_cast<Target>(OptionConverter::toTarget(rTarget, &ok));
-        if (ok)
-            setTarget(target);
-    }
+QString ConsoleAppender::target() const
+{
+    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
+
+    if (mTarget == STDOUT_TARGET)
+        return QLatin1String("STDOUT_TARGET");
+    else
+        return QLatin1String("STDERR_TARGET");
+}
 
 
-	void ConsoleAppender::activateOptions()
-	{
-	    QMutexLocker locker(&mObjectGuard);
-
-	    closeStream();
-
-	    if (mTarget == STDOUT_TARGET)
-	        mpTextStream = new QTextStream(stdout);
-	    else
-	        mpTextStream = new QTextStream(stderr);
-	    setWriter(mpTextStream);
-
-	    WriterAppender::activateOptions();
-	}
+void ConsoleAppender::setTarget(const QString &rTarget)
+{
+    bool ok;
+    Target target = static_cast<Target>(OptionConverter::toTarget(rTarget, &ok));
+    if (ok)
+        setTarget(target);
+}
 
 
-	void ConsoleAppender::close()
-	{
-	    QMutexLocker locker(&mObjectGuard);
+void ConsoleAppender::activateOptions()
+{
+    QMutexLocker locker(&mObjectGuard);
 
-	    if (isClosed())
-	        return;
+    closeStream();
 
-	    WriterAppender::close();
-	    closeStream();
-	}
+    if (mTarget == STDOUT_TARGET)
+        mpTextStream = new QTextStream(stdout);
+    else
+        mpTextStream = new QTextStream(stderr);
+    setWriter(mpTextStream);
+
+    WriterAppender::activateOptions();
+}
 
 
-	void ConsoleAppender::closeStream()
-	{
-	    // Q_ASSERT_X(, "ConsoleAppender::closeStream()", "Lock must be held by caller")
+void ConsoleAppender::close()
+{
+    QMutexLocker locker(&mObjectGuard);
 
-	    setWriter(0);
-	    delete mpTextStream;
-	    mpTextStream = 0;
-	}
+    if (isClosed())
+        return;
+
+    WriterAppender::close();
+    closeStream();
+}
+
+
+void ConsoleAppender::closeStream()
+{
+    // Q_ASSERT_X(, "ConsoleAppender::closeStream()", "Lock must be held by caller")
+
+    setWriter(0);
+    delete mpTextStream;
+    mpTextStream = 0;
+}
 
 
 #ifndef QT_NO_DEBUG_STREAM
-	QDebug ConsoleAppender::debug(QDebug &rDebug) const
-	{
-	    QString layout_name;
-	    if (layout())
-	        layout_name = layout()->name();
-	    QString target;
-	    if (mTarget == STDOUT_TARGET)
-	        target = QLatin1String("STDOUT");
-	    else
-	        target = QLatin1String("STDERR");
+QDebug ConsoleAppender::debug(QDebug &rDebug) const
+{
+    QString layout_name;
+    if (layout())
+        layout_name = layout()->name();
+    QString target;
+    if (mTarget == STDOUT_TARGET)
+        target = QLatin1String("STDOUT");
+    else
+        target = QLatin1String("STDERR");
 
-	    rDebug.nospace() << "ConsoleAppender("
-	        << "name:" << name() << " "
-	        << "filter:" << firstFilter() << " "
-	        << "isactive:" << isActive() << " "
-	        << "isclosed:" << isClosed() << " "
-	        << "layout:" << layout_name << " "
-	        << "target:" << target << " "
-	        << "referencecount:" << referenceCount() << " "
-	        << "threshold:" << threshold().toString()
-	        << ")";
-	    return rDebug.space();
-	}
+    rDebug.nospace() << "ConsoleAppender("
+                     << "name:" << name() << " "
+                     << "filter:" << firstFilter() << " "
+                     << "isactive:" << isActive() << " "
+                     << "isclosed:" << isClosed() << " "
+                     << "layout:" << layout_name << " "
+                     << "target:" << target << " "
+                     << "referencecount:" << referenceCount() << " "
+                     << "threshold:" << threshold().toString()
+                     << ")";
+    return rDebug.space();
+}
 #endif // QT_NO_DEBUG_STREAM
 
 
 
-	/******************************************************************************
-	 * Implementation: Operators, Helper
-	 ******************************************************************************/
+/******************************************************************************
+ * Implementation: Operators, Helper
+ ******************************************************************************/
 
 
 } // namespace Log4Qt

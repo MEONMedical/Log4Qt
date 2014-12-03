@@ -55,53 +55,53 @@ namespace Log4Qt
  */
 class LOG4QT_EXPORT  MainThreadAppender : public AppenderSkeleton, public AppenderAttachable
 {
-Q_OBJECT
+    Q_OBJECT
 
 public:
-	MainThreadAppender(QObject *parent = 0);
-	virtual ~MainThreadAppender();
+    MainThreadAppender(QObject *parent = 0);
+    virtual ~MainThreadAppender();
 
-	virtual bool requiresLayout() const;
+    virtual bool requiresLayout() const;
 
-	virtual void activateOptions();
-	virtual void close();
+    virtual void activateOptions();
+    virtual void close();
 
-	/*!
-	 * Tests if all entry conditions for using append() in this class are
-	 * met.
-	 *
-	 * If a conditions is not met, an error is logged and the function
-	 * returns false. Otherwise the result of
-	 * AppenderSkeleton::checkEntryConditions() is returned.
-	 *
-	 * The checked conditions are:
-	 * - none
-	 *
-	 * The function is called as part of the checkEntryConditions() chain
-	 * started by AppenderSkeleton::doAppend().
-	 *
-	 * \sa AppenderSkeleton::doAppend(),
-	 *     AppenderSkeleton::checkEntryConditions()
-	 */
-	virtual bool checkEntryConditions() const;
+    /*!
+     * Tests if all entry conditions for using append() in this class are
+     * met.
+     *
+     * If a conditions is not met, an error is logged and the function
+     * returns false. Otherwise the result of
+     * AppenderSkeleton::checkEntryConditions() is returned.
+     *
+     * The checked conditions are:
+     * - none
+     *
+     * The function is called as part of the checkEntryConditions() chain
+     * started by AppenderSkeleton::doAppend().
+     *
+     * \sa AppenderSkeleton::doAppend(),
+     *     AppenderSkeleton::checkEntryConditions()
+     */
+    virtual bool checkEntryConditions() const;
 
 protected:
-	virtual void append(const LoggingEvent &rEvent);
+    virtual void append(const LoggingEvent &rEvent);
 
 #ifndef QT_NO_DEBUG_STREAM
-	/*!
-	 * Writes all object member variables to the given debug stream
-	 * \a rDebug and returns the stream.
-	 *
-	 * <tt>
-	 * %MainThreadAppender(name:"WA" encoding:"" immediateFlush:true
-	 *                 isactive:false isclosed:false layout:"TTCC"
-	 *                 referencecount:1 threshold:"NULL"
-	 *                 writer:0x0)
-	 * </tt>
-	 * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject	)
-	 */
-		virtual QDebug debug(QDebug &rDebug) const;
+    /*!
+     * Writes all object member variables to the given debug stream
+     * \a rDebug and returns the stream.
+     *
+     * <tt>
+     * %MainThreadAppender(name:"WA" encoding:"" immediateFlush:true
+     *                 isactive:false isclosed:false layout:"TTCC"
+     *                 referencecount:1 threshold:"NULL"
+     *                 writer:0x0)
+     * </tt>
+     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject	)
+     */
+    virtual QDebug debug(QDebug &rDebug) const;
 #endif // QT_NO_DEBUG_STREAM
 
 private:

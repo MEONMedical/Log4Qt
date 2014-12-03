@@ -41,56 +41,56 @@
 namespace Log4Qt
 {
 
-	/*!
-	 * \brief The class SimpleLayout outputs the level and message of a logging
-	 *        event.
-	 *
-	 * \note The ownership and lifetime of objects of this class are managed.
-	 *       See \ref Ownership "Object ownership" for more details.
-	 */
-	 class LOG4QT_EXPORT  SimpleLayout : public Layout
-	{
-			Q_OBJECT
+/*!
+ * \brief The class SimpleLayout outputs the level and message of a logging
+ *        event.
+ *
+ * \note The ownership and lifetime of objects of this class are managed.
+ *       See \ref Ownership "Object ownership" for more details.
+ */
+class LOG4QT_EXPORT  SimpleLayout : public Layout
+{
+    Q_OBJECT
 
-	public:
-			SimpleLayout(QObject *pParent = 0);
-			// virtual ~SimpleLayout(); // Use compiler default
-	private:
-			SimpleLayout(const SimpleLayout &rOther); // Not implemented
-			SimpleLayout &operator=(const SimpleLayout &rOther); // Not implemented
+public:
+    SimpleLayout(QObject *pParent = 0);
+    // virtual ~SimpleLayout(); // Use compiler default
+private:
+    SimpleLayout(const SimpleLayout &rOther); // Not implemented
+    SimpleLayout &operator=(const SimpleLayout &rOther); // Not implemented
 
-	public:
-			virtual QString format(const LoggingEvent &rEvent);
+public:
+    virtual QString format(const LoggingEvent &rEvent);
 
-	protected:
+protected:
 
 #ifndef QT_NO_DEBUG_STREAM
-			/*!
-			 * Writes all object member variables to the given debug stream
-			 * \a rDebug and returns the stream.
-			 *
-			 * <tt>
-			 * %SimpleLayout(name:"SL" referencecount:1)
-			 * </tt>
-			 * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
-			 */
-			virtual QDebug debug(QDebug &rDebug) const;
+    /*!
+     * Writes all object member variables to the given debug stream
+     * \a rDebug and returns the stream.
+     *
+     * <tt>
+     * %SimpleLayout(name:"SL" referencecount:1)
+     * </tt>
+     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
+     */
+    virtual QDebug debug(QDebug &rDebug) const;
 #endif // QT_NO_DEBUG_STREAM
-	};
+};
 
 
-	/**************************************************************************
-	 * Operators, Helper
-	 **************************************************************************/
+/**************************************************************************
+ * Operators, Helper
+ **************************************************************************/
 
 
-	/**************************************************************************
-	 * Inline
-	 **************************************************************************/
+/**************************************************************************
+ * Inline
+ **************************************************************************/
 
-	inline SimpleLayout::SimpleLayout(QObject *pParent) :
-			Layout(pParent)
-	{}
+inline SimpleLayout::SimpleLayout(QObject *pParent) :
+    Layout(pParent)
+{}
 
 
 } // namespace Log4Qt

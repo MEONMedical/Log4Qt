@@ -41,49 +41,49 @@ namespace Log4Qt
 {
 
 
-	/**************************************************************************
-	 * Declarations
-	 **************************************************************************/
+/**************************************************************************
+ * Declarations
+ **************************************************************************/
 
 
 
-	/**************************************************************************
-	 * C helper functions
-	 **************************************************************************/
+/**************************************************************************
+ * C helper functions
+ **************************************************************************/
 
 
 
-	/**************************************************************************
-	 * Class implementation: SimpleTimeLayout
-	 **************************************************************************/
+/**************************************************************************
+ * Class implementation: SimpleTimeLayout
+ **************************************************************************/
 
 
-	QString SimpleTimeLayout::format(const LoggingEvent &rEvent)
-	{
-		return DateTime::fromMilliSeconds(rEvent.timeStamp()).toString("dd.MM.yyyy hh:mm")
-				+ QLatin1String("[") + rEvent.threadName() + QLatin1String("]")
-				+ QLatin1String(" ") + rEvent.level().toString()
-				+ QLatin1String(" ") + rEvent.loggerName()
-				+ QLatin1String(" - ") + rEvent.message() + Layout::endOfLine();
-	}
+QString SimpleTimeLayout::format(const LoggingEvent &rEvent)
+{
+    return DateTime::fromMilliSeconds(rEvent.timeStamp()).toString("dd.MM.yyyy hh:mm")
+           + QLatin1String("[") + rEvent.threadName() + QLatin1String("]")
+           + QLatin1String(" ") + rEvent.level().toString()
+           + QLatin1String(" ") + rEvent.loggerName()
+           + QLatin1String(" - ") + rEvent.message() + Layout::endOfLine();
+}
 
 
 #ifndef QT_NO_DEBUG_STREAM
-	QDebug SimpleTimeLayout::debug(QDebug &rDebug) const
-	{
-			rDebug.nospace() << "SimpleTimeLayout("
-					<< "name:" << name() << " "
-					<< "referencecount:" << referenceCount()
-					<< ")";
-			return rDebug.space();
-	}
+QDebug SimpleTimeLayout::debug(QDebug &rDebug) const
+{
+    rDebug.nospace() << "SimpleTimeLayout("
+                     << "name:" << name() << " "
+                     << "referencecount:" << referenceCount()
+                     << ")";
+    return rDebug.space();
+}
 #endif // QT_NO_DEBUG_STREAM
 
 
 
-	/**************************************************************************
-	 * Implementation: Operators, Helper
-	 **************************************************************************/
+/**************************************************************************
+ * Implementation: Operators, Helper
+ **************************************************************************/
 
 
 } // namespace Log4Qt

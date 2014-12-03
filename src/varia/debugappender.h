@@ -40,88 +40,88 @@
 namespace Log4Qt
 {
 
-	/*!
-	 * \brief The class DebugAppender appends logging events to the platform
-	 *        specific debug output.
-	 *
-	 * A DebugAppender appends to the Debugger on Windows and to stderr on all
-	 * other systems.
-	 *
-	 * \note All the functions declared in this class are thread-safe.
-	 *
-	 * \note The ownership and lifetime of objects of this class are managed.
-	 *       See \ref Ownership "Object ownership" for more details.
-	 */
-	class  LOG4QT_EXPORT DebugAppender : public AppenderSkeleton
-	{
-			Q_OBJECT
+/*!
+ * \brief The class DebugAppender appends logging events to the platform
+ *        specific debug output.
+ *
+ * A DebugAppender appends to the Debugger on Windows and to stderr on all
+ * other systems.
+ *
+ * \note All the functions declared in this class are thread-safe.
+ *
+ * \note The ownership and lifetime of objects of this class are managed.
+ *       See \ref Ownership "Object ownership" for more details.
+ */
+class  LOG4QT_EXPORT DebugAppender : public AppenderSkeleton
+{
+    Q_OBJECT
 
-	public:
-		/*!
-		 * Creates a DebugAppender.
-		 */
-			DebugAppender(QObject *pParent = 0);
+public:
+    /*!
+     * Creates a DebugAppender.
+     */
+    DebugAppender(QObject *pParent = 0);
 
-		/*!
-		 * Creates a DebugAppender with the specified layout \a pLayout
-		 */
-			DebugAppender(Layout *pLayout,
-										QObject *pParent = 0);
+    /*!
+     * Creates a DebugAppender with the specified layout \a pLayout
+     */
+    DebugAppender(Layout *pLayout,
+                  QObject *pParent = 0);
 
-			// virtual ~DebugAppender(); // Use compiler default
-	private:
-			DebugAppender(const DebugAppender &rOther); // Not implemented
-			DebugAppender &operator=(const DebugAppender &rOther); // Not implemented
+    // virtual ~DebugAppender(); // Use compiler default
+private:
+    DebugAppender(const DebugAppender &rOther); // Not implemented
+    DebugAppender &operator=(const DebugAppender &rOther); // Not implemented
 
-	public:
-		/*!
-		 * The DebugAppended requires a layout. The function returns true.
-		 *
-		 * \sa setLayout()
-		 */
-			virtual bool requiresLayout() const;
+public:
+    /*!
+     * The DebugAppended requires a layout. The function returns true.
+     *
+     * \sa setLayout()
+     */
+    virtual bool requiresLayout() const;
 
-	protected:
-		/*!
-		 * Appends the specified logging event \a rEvent to the debug output.
-		 * The output is formatted using the appender's layout.
-		 *
-		 * The method is called by the AppenderSkeleton::doAppend() after it
-		 * the entry conditions have been tested and it has been found that the
-		 * logging event needs to be appended.
-		 *
-		 * \sa setLayout(), AppenderSkeleton::doAppend(), checkEntryConditions()
-		 */
-			virtual void append(const LoggingEvent &rEvent);
+protected:
+    /*!
+     * Appends the specified logging event \a rEvent to the debug output.
+     * The output is formatted using the appender's layout.
+     *
+     * The method is called by the AppenderSkeleton::doAppend() after it
+     * the entry conditions have been tested and it has been found that the
+     * logging event needs to be appended.
+     *
+     * \sa setLayout(), AppenderSkeleton::doAppend(), checkEntryConditions()
+     */
+    virtual void append(const LoggingEvent &rEvent);
 
 #ifndef QT_NO_DEBUG_STREAM
-			/*!
-			 * Writes all object member variables to the given debug stream \a rDebug
-			 * and returns the stream.
-			 *
-			 * <tt>
-			 * %DebugAppender(name:"DA" filter:0x3bee6b8 isactive:true isclosed:false
-			 *                layout:"SL" referencecount:1 threshold:"NULL")
-			 * </tt>
-			 * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
-			 */
-			virtual QDebug debug(QDebug &rDebug) const;
+    /*!
+     * Writes all object member variables to the given debug stream \a rDebug
+     * and returns the stream.
+     *
+     * <tt>
+     * %DebugAppender(name:"DA" filter:0x3bee6b8 isactive:true isclosed:false
+     *                layout:"SL" referencecount:1 threshold:"NULL")
+     * </tt>
+     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
+     */
+    virtual QDebug debug(QDebug &rDebug) const;
 #endif // QT_NO_DEBUG_STREAM
-	};
+};
 
 
-	/**************************************************************************
-	 * Operators, Helper
-	 **************************************************************************/
+/**************************************************************************
+ * Operators, Helper
+ **************************************************************************/
 
 
-	/**************************************************************************
-	 * Inline
-	 **************************************************************************/
+/**************************************************************************
+ * Inline
+ **************************************************************************/
 
-	inline DebugAppender::DebugAppender(QObject *pParent) :
-			AppenderSkeleton(pParent)
-	{}
+inline DebugAppender::DebugAppender(QObject *pParent) :
+    AppenderSkeleton(pParent)
+{}
 
 
 } // namespace Log4Qt
