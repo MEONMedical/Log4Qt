@@ -25,36 +25,25 @@
 #include "logstream.h"
 #include "logger.h"
 
-
 namespace Log4Qt
 {
 
-LogStream::~LogStream()
+LogStream::LogStream(const Logger &iLogger, Level iLevel)
+    : stream(new Stream(&iLogger, iLevel))
 {
-    if (!--stream->ref)
-    {
-        switch (mLevel.toInt())
-        {
-        case Level::TRACE_INT:
-            mLogger.trace(stream->buffer);
-            break;
-        case  Level::DEBUG_INT:
-            mLogger.debug(stream->buffer);
-            break;
-        case  Level::INFO_INT:
-            mLogger.info(stream->buffer);
-            break;
-        case Level::WARN_INT:
-            mLogger.warn(stream->buffer);
-            break;
-        case  Level::ERROR_INT:
-            mLogger.error(stream->buffer);
-            break;
-        case  Level::FATAL_INT:
-            mLogger.fatal(stream->buffer);
-            break;
-        }
-        delete stream;
-    }
 }
+
+LogStream::Stream::Stream(const Logger *iLogger, Level iLevel)
+    : ts(&buffer, QIODevice::WriteOnly)
+    , mLogger(iLogger)
+    , mLevel(iLevel)
+{
+}
+
+LogStream::Stream::~Stream()
+{
+    if (!mLogger.isNull())
+        mLogger->log(mLevel, buffer);
+}
+
 } // namespace Log4Qt

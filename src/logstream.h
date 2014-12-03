@@ -28,7 +28,12 @@
 
 #include <QtCore/QTextStream>
 #include <QtCore/QString>
+#include <QtCore/QSharedPointer>
+#include <QtCore/QPointer>
+
 #include "level.h"
+
+#include <QTextStream>
 
 namespace Log4Qt
 {
@@ -36,141 +41,28 @@ class Logger;
 
 class LOG4QT_EXPORT LogStream
 {
+public:
+    LogStream(const Logger& iLogger, Level iLevel);
 
-private:
+    template<typename T>
+    LogStream &operator<<(const T &t)
+    {
+        stream->ts << t;
+        return *this;
+    }
+
+private:    
     struct Stream
     {
-        Stream() : ts(&buffer, QIODevice::WriteOnly), ref(1) {}
+        Stream(const Logger *iLogger, Level iLevel);
+        ~Stream();
+
         QTextStream ts;
         QString buffer;
-        int ref;
-    } *stream;
-
-public:
-    inline LogStream(const Logger& iLogger, Level iLevel) : stream(new Stream()),  mLogger(iLogger), mLevel(iLevel)
-    {
-    }
-    inline LogStream(const LogStream &o):stream(o.stream),mLogger(o.mLogger),mLevel(o.mLevel)
-    {
-        ++stream->ref;
-    }
-    ~LogStream();
-
-    inline LogStream &operator<<(QChar t)
-    {
-        stream->ts << '\'' << t << '\'';
-        return *this;
-    }
-#if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
-    inline LogStream &operator<<(QBool t)
-    {
-        stream->ts << (bool(t != 0) ? "true" : "false");
-        return *this;
-    }
-#endif
-    inline LogStream &operator<<(bool t)
-    {
-        stream->ts << (t ? "true" : "false");
-        return *this;
-    }
-    inline LogStream &operator<<(char t)
-    {
-        stream->ts << t;
-        return *this;
-    }
-    inline LogStream &operator<<(signed short t)
-    {
-        stream->ts << t;
-        return *this;
-    }
-    inline LogStream &operator<<(unsigned short t)
-    {
-        stream->ts << t;
-        return *this;
-    }
-    inline LogStream &operator<<(signed int t)
-    {
-        stream->ts << t;
-        return *this;
-    }
-    inline LogStream &operator<<(unsigned int t)
-    {
-        stream->ts << t;
-        return *this;
-    }
-    inline LogStream &operator<<(signed long t)
-    {
-        stream->ts << t;
-        return *this;
-    }
-    inline LogStream &operator<<(unsigned long t)
-    {
-        stream->ts << t;
-        return *this;
-    }
-    inline LogStream &operator<<(qint64 t)
-    {
-        stream->ts << QString::number(t);
-        return *this;
-    }
-    inline LogStream &operator<<(quint64 t)
-    {
-        stream->ts << QString::number(t);
-        return *this;
-    }
-    inline LogStream &operator<<(float t)
-    {
-        stream->ts << t;
-        return *this;
-    }
-    inline LogStream &operator<<(double t)
-    {
-        stream->ts << t;
-        return *this;
-    }
-    inline LogStream &operator<<(const char* t)
-    {
-        stream->ts << QString::fromLatin1(t);
-        return *this;
-    }
-    inline LogStream &operator<<(const QString & t)
-    {
-        stream->ts << t ;
-        return *this;
-    }
-    inline LogStream &operator<<(const QStringRef & t)
-    {
-        return operator<<(t.toString());
-    }
-    inline LogStream &operator<<(const QLatin1String &t)
-    {
-        stream->ts << t.latin1();
-        return *this;
-    }
-    inline LogStream &operator<<(const QByteArray & t)
-    {
-        stream->ts  << t;
-        return *this;
-    }
-    inline LogStream &operator<<(const void * t)
-    {
-        stream->ts << t;
-        return *this;
-    }
-    inline LogStream &operator<<(QTextStreamFunction f)
-    {
-        stream->ts << f;
-        return *this;
-    }
-    inline LogStream &operator<<(QTextStreamManipulator m)
-    {
-        stream->ts << m;
-        return *this;
-    }
-
-private:
-    const Logger& mLogger;
-    Level mLevel;
+        QPointer<const Logger> mLogger;
+        Level mLevel;
+    };
+    QSharedPointer<Stream> stream;
 };
 }
 
