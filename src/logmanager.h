@@ -25,11 +25,6 @@
 #ifndef LOG4QT_LOGMANAGER_H
 #define LOG4QT_LOGMANAGER_H
 
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include <QtCore/QObject>
 
 #include <QtCore/QHash>
@@ -38,11 +33,6 @@
 #include <QtCore/QString>
 #include "level.h"
 #include "logger.h"
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 namespace Log4Qt
 {
@@ -276,10 +266,6 @@ private:
 };
 
 
-/***************************************************************************
- * Operators, Helper
- ***************************************************************************/
-
 #ifndef QT_NO_DEBUG_STREAM
 /*!
  * \relates LogManager
@@ -297,11 +283,6 @@ private:
 QDebug operator<<(QDebug debug,
                   const LogManager &rLogManager);
 #endif // QT_NO_DEBUG_STREAM
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
 
 inline LoggerRepository *LogManager::loggerRepository()
 {

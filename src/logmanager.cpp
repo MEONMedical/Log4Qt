@@ -29,13 +29,6 @@
  *
  ******************************************************************************/
 
-
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
-
 #include "logmanager.h"
 
 #include <QtCore/QCoreApplication>
@@ -59,26 +52,8 @@ namespace Log4Qt
 {
 
 
-/**************************************************************************
- * Declarations
- **************************************************************************/
-
-
-
-/**************************************************************************
- * C helper functions
- **************************************************************************/
-
-
 LOG4QT_DECLARE_STATIC_LOGGER(static_logger, Log4Qt::LogManager)
 LOG4QT_GLOBAL_STATIC(QMutex, singleton_guard)
-
-
-
-/**************************************************************************
- * Class implementation: LogManager
- **************************************************************************/
-
 
 LogManager::LogManager() :
     mObjectGuard(QMutex::Recursive), // Recursive for doStartup() to call doConfigureLogLogger()
@@ -428,15 +403,7 @@ void LogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &, co
     // } end
 }
 
-
 LogManager *LogManager::mspInstance = 0;
-
-
-
-/**************************************************************************
- * Implementation: Operators, Helper
- **************************************************************************/
-
 
 #ifndef QT_NO_DEBUG_STREAM
 QDebug operator<<(QDebug debug, const LogManager &rLogManager)

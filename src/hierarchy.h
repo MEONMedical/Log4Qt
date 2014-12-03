@@ -25,20 +25,10 @@
 #ifndef _HIERARCHY_H
 #define _HIERARCHY_H
 
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include "loggerrepository.h"
 
 #include <QtCore/QHash>
 #include <QtCore/QReadWriteLock>
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 namespace Log4Qt
 {
@@ -52,9 +42,8 @@ class  LOG4QT_EXPORT Hierarchy : public LoggerRepository
 {
 public:
     Hierarchy();
-    // Hierarchy(const Hierarchy &rOther); // Use compiler default
     virtual ~Hierarchy();
-    // Hierarchy &operator=(const Hierarchy &rOther); // Use compiler default
+
 
 public:
     virtual bool exists(const QString &rName) const;
@@ -104,16 +93,6 @@ private:
     Level mThreshold;
     Logger *mpRootLogger;
 };
-
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
 
 inline Logger *Hierarchy::rootLogger() const
 {

@@ -25,21 +25,11 @@
 #ifndef LOG4QT_LISTAPPENDER_H
 #define LOG4QT_LISTAPPENDER_H
 
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include "appenderskeleton.h"
 
 #include <QtCore/QList>
 #include <QtCore/QMutex>
 #include "loggingevent.h"
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 namespace Log4Qt
 {
@@ -140,16 +130,6 @@ private:
     volatile int mMaxCount;
 };
 
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
-
 inline bool ListAppender::configuratorList() const
 {
     // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
@@ -172,11 +152,8 @@ inline bool ListAppender::requiresLayout() const
     return false;
 }
 
-
 } // namespace Log4Qt
 
-
 // Q_DECLARE_TYPEINFO(Log4Qt::ListAppender, Q_COMPLEX_TYPE); // Use default
-
 
 #endif // LOG4QT_LISTAPPENDER_H

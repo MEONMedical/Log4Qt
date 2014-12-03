@@ -25,17 +25,7 @@
 #ifndef LOG4QT_STRINGMATCHFILTER_H
 #define LOG4QT_STRINGMATCHFILTER_H
 
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include "spi/filter.h"
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 namespace Log4Qt
 {
@@ -69,9 +59,6 @@ class  LOG4QT_EXPORT StringMatchFilter : public Filter
 
 public:
     StringMatchFilter(QObject *pParent = 0);
-    // StringMatchFilter(const StringMatchFilter &rOther); // Use compiler default
-    // virtual ~StringMatchFilter(); // Use compiler default
-    // StringMatchFilter &operator=(const StringMatchFilter &rOther); // Use compiler default
 
     bool acceptOnMatch() const;
     QString stringToMatch() const;
@@ -101,16 +88,6 @@ private:
     QString mStringToMatch;
 };
 
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
-
 inline bool StringMatchFilter::acceptOnMatch() const
 {
     return mAcceptOnMatch;
@@ -131,11 +108,8 @@ inline void StringMatchFilter::setStringToMatch(const QString &rString)
     mStringToMatch = rString;
 }
 
-
 } // namespace Log4Qt
 
-
 // Q_DECLARE_TYPEINFO(Log4Qt::StringMatchFilter, Q_MOVABLE_TYPE); // Use default
-
 
 #endif // LOG4QT_STRINGMATCHFILTER_H

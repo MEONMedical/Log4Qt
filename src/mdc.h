@@ -25,20 +25,10 @@
 #ifndef LOG4QT_MDC_H
 #define LOG4QT_MDC_H
 
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include <QtCore/QString>
 #include <QtCore/QHash>
 #include <QtCore/QThreadStorage>
 #include "log4qt.h"
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 namespace Log4Qt
 {
@@ -54,7 +44,6 @@ class  LOG4QT_EXPORT MDC
 private:
     MDC();
     MDC(const MDC &rOther); // Not implemented
-    // virtual ~MDC(); // Use compiler default
     MDC &operator=(const MDC &rOther); // Not implemented
 
 public:
@@ -76,11 +65,6 @@ private:
     QThreadStorage< QHash<QString, QString> * > mHash;
 };
 
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
 #ifndef QT_NO_DEBUG_STREAM
 /*!
  * \relates MDC
@@ -96,11 +80,6 @@ private:
 QDebug operator<<(QDebug debug,
                   const MDC &rMDC);
 #endif // QT_NO_DEBUG_STREAM
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
 
 inline MDC::MDC() :
     mHash()

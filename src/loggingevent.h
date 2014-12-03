@@ -25,22 +25,12 @@
 #ifndef LOG4QT_LOG4QTEVENT_H
 #define LOG4QT_LOG4QTEVENT_H
 
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include <QtCore/QDateTime>
 #include <QtCore/QHash>
 #include <QtCore/QMetaType>
 #include <QtCore/QStringList>
 #include <QtCore/QEvent>
 #include "level.h"
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 namespace Log4Qt
 {
@@ -74,9 +64,6 @@ public:
                  const QHash<QString, QString> &rProperties,
                  const QString &rThreadName,
                  qint64 timeStamp);
-    // LoggingEvent(const LoggingEvent &LoggingEvent::rOther); // Use compiler default
-    // virtual ~LoggingEvent(); // Use compiler default
-    // LoggingEvent &operator=(const LoggingEvent &LoggingEvent::rOther); // Use compiler default
 
     // JAVA: QString fqnOfLoggerClass() const;
     Level level() const;
@@ -125,11 +112,6 @@ private:
 #endif // QT_NO_DATASTREAM
 };
 
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
 #ifndef QT_NO_DATASTREAM
 /*!
  * \relates LoggingEvent
@@ -170,11 +152,6 @@ QDataStream &operator>>(QDataStream &rStream,
 QDebug operator<<(QDebug debug,
                   const LoggingEvent &rLoggingEvent);
 #endif // QT_NO_DEBUG_STREAM
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
 
 inline Level LoggingEvent::level() const
 {

@@ -25,20 +25,10 @@
 #ifndef LOG4QT_FILTER_H
 #define LOG4QT_FILTER_H
 
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include "helpers/logobject.h"
 
 #include "helpers/logobjectptr.h"
 #include "../log4qt.h"
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 namespace Log4Qt
 {
@@ -75,9 +65,7 @@ public:
 
 public:
     Filter(QObject *pObject = 0);
-    // Filter(const Filter &rOther); // Use compiler default
     virtual ~Filter();
-    // Filter &operator=(const Filter &rOther); // Use compiler default
 
     Filter* next() const;
     void setNext(Filter *pFilter);
@@ -88,16 +76,6 @@ public:
 private:
     LogObjectPtr<Filter> mpNext;
 };
-
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
 
 inline Filter::Filter(QObject *pObject) :
     LogObject(pObject),

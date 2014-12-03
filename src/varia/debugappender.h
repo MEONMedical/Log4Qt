@@ -25,17 +25,7 @@
 #ifndef LOG4QT_DEBUGAPPENDER_H
 #define LOG4QT_DEBUGAPPENDER_H
 
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include "appenderskeleton.h"
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 namespace Log4Qt
 {
@@ -68,7 +58,6 @@ public:
     DebugAppender(Layout *pLayout,
                   QObject *pParent = 0);
 
-    // virtual ~DebugAppender(); // Use compiler default
 private:
     DebugAppender(const DebugAppender &rOther); // Not implemented
     DebugAppender &operator=(const DebugAppender &rOther); // Not implemented
@@ -108,16 +97,6 @@ protected:
     virtual QDebug debug(QDebug &rDebug) const;
 #endif // QT_NO_DEBUG_STREAM
 };
-
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
 
 inline DebugAppender::DebugAppender(QObject *pParent) :
     AppenderSkeleton(pParent)

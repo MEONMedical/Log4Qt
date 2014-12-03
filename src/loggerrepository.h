@@ -26,17 +26,8 @@
 #define LOG4QT_LOGGERREPOSITORY_H
 
 
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include <QtCore/QList>
 #include "level.h"
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 namespace Log4Qt
 {
@@ -50,10 +41,6 @@ class Logger;
 class LOG4QT_EXPORT LoggerRepository
 {
 public:
-    // LoggerRepository(); // Use compiler default
-    // LoggerRepository(const LoggerRepository &rOther); // Use compiler default
-
-    // LoggerRepository &operator=(const LoggerRepository &rOther); // Use compiler default
     virtual ~LoggerRepository();
 
 public:
@@ -94,11 +81,6 @@ protected:
 #endif
 };
 
-
-/******************************************************************************
- * Operators, Helper
- ******************************************************************************/
-
 #ifndef QT_NO_DEBUG_STREAM
 /*!
  * \relates LoggerRepository
@@ -113,11 +95,6 @@ protected:
 QDebug operator<<(QDebug debug,
                   const LoggerRepository &rLoggerRepository);
 #endif
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
 
 
 } // namespace Log4Qt

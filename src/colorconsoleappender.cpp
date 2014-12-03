@@ -22,10 +22,6 @@
  *
  ******************************************************************************/
 
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include "colorconsoleappender.h"
 
 #include <QtCore/QTextStream>
@@ -219,17 +215,6 @@ static void colorOutputString(HANDLE hConsole, const QString& output)
 namespace Log4Qt
 {
 
-/**************************************************************************
- * Declarations
- **************************************************************************/
-
-/**************************************************************************
- * C helper functions
- **************************************************************************/
-
-/**************************************************************************
- * Class implementation: ColorConsoleAppender
- **************************************************************************/
 
 ColorConsoleAppender::ColorConsoleAppender(QObject *pParent) :
     ConsoleAppender(pParent)
@@ -260,7 +245,6 @@ void ColorConsoleAppender::append(const LoggingEvent &rEvent)
 
     colorOutputString(hConsole, message);
 
-    // обрабатываем ошибки, по умолчанию метод не реализован
     if (handleIoErrors())
         return;
 
@@ -289,10 +273,6 @@ void ColorConsoleAppender::close()
 }
 
 #endif
-
-/******************************************************************************
- * Implementation: Operators, Helper
- ******************************************************************************/
 
 } // namespace Log4Qt
 

@@ -56,14 +56,7 @@ public:
 
     bool requiresLayout() const;
 
-    /**
-     *
-     *
-     */
     QString serviceName() const;
-    /**
-     *
-     */
     void setServiceName(const QString& serviceName);
 
 protected:

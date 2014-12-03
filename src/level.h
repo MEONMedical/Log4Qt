@@ -25,19 +25,9 @@
 #ifndef LOG4QT_LEVEL_H
 #define LOG4QT_LEVEL_H
 
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include <QtCore/QString>
 #include <QtCore/QMetaType>
 #include "log4qt.h"
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 namespace Log4Qt
 {
@@ -73,9 +63,6 @@ public:
 
 public:
     Level(Value value = NULL_INT);
-    // Level(const Level &rOther); // Use compiler default
-    // virtual ~Level(); // Use compiler default
-    // Level &operator=(const Level &rOther); // Use compiler default
 
     int syslogEquivalent() const;
     int toInt() const;
@@ -102,11 +89,6 @@ private:
                                    Level &rLevel);
 #endif // QT_NO_DATASTREAM
 };
-
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
 
 #ifndef QT_NO_DATASTREAM
 /*!

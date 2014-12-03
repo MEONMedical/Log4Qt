@@ -1,4 +1,3 @@
-
 HEADERS += $$PWD/appender.h \
            $$PWD/appenderskeleton.h \
            $$PWD/basicconfigurator.h \
@@ -7,8 +6,6 @@ HEADERS += $$PWD/appender.h \
            $$PWD/dailyrollingfileappender.h \
            $$PWD/asyncappender.h \
            $$PWD/mainthreadappender.h \
-#          $$PWD/ databaseappender.h \
-#          $$PWD/ databaselayout.h \
            $$PWD/fileappender.h \
            $$PWD/hierarchy.h \
            $$PWD/layout.h \
@@ -61,13 +58,10 @@ SOURCES += $$PWD/appenderskeleton.cpp \
            $$PWD/dailyrollingfileappender.cpp \
            $$PWD/asyncappender.cpp \
            $$PWD/mainthreadappender.cpp \
-#           $$PWD/databaseappender.cpp \
-#           $$PWD/databaselayout.cpp \
            $$PWD/fileappender.cpp \
            $$PWD/hierarchy.cpp \
            $$PWD/layout.cpp \
            $$PWD/level.cpp \
-           $$PWD/log4qt.cpp \
            $$PWD/logger.cpp \
            $$PWD/loggerrepository.cpp \
            $$PWD/loggingevent.cpp \
@@ -105,3 +99,20 @@ SOURCES += $$PWD/appenderskeleton.cpp \
            $$PWD/varia/nullappender.cpp \
            $$PWD/varia/stringmatchfilter.cpp \
            $$PWD/logstream.cpp
+
+# add databaseappender and -layout if QT contains sql
+contains(QT, sql) {
+message("Including databaseappender and -layer")
+HEADERS += \
+    $$PWD/databaseappender.h \
+    $$PWD/databaselayout.h
+
+SOURCES += \
+    $$PWD/databaseappender.cpp \
+    $$PWD/databaselayout.cpp
+
+}
+
+!contains(QT, sql) {
+message("Skipping databaseappender and -layer")
+}

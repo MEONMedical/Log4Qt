@@ -25,18 +25,8 @@
 #ifndef LOG4QT_BASICCONFIGURATOR_H
 #define LOG4QT_BASICCONFIGURATOR_H
 
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
-
 #include <QtCore/Qt>
 #include "log4qt.h"
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 namespace Log4Qt
 {
@@ -53,25 +43,12 @@ class LOG4QT_EXPORT BasicConfigurator
 {
 private:
     BasicConfigurator(); // Not implemented
-    // BasicConfigurator(const BasicConfigurator &rOther); // Use compiler default
-    // virtual ~BasicConfigurator(); // Use compiler default
-    // BasicConfigurator &operator=(const BasicConfigurator &rOther); // Use compiler default
 
 public:
     static bool configure();
     static void configure(Appender *pAppender);
     static void resetConfiguration();
 };
-
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
 
 
 } // namspace

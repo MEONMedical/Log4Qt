@@ -22,13 +22,6 @@
  *
  ******************************************************************************/
 
-
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
-
 #include "appenderskeleton.h"
 
 #include <QtCore/QDebug>
@@ -40,12 +33,6 @@
 
 namespace Log4Qt
 {
-
-
-/**************************************************************************
-* Declarations
-***************************************************************************/
-
 
 /*!
  * \brief The class RecursionGuardLocker controls a boolean flag.
@@ -65,19 +52,6 @@ private:
     bool *mpGuard;
 };
 
-
-
-/**************************************************************************
- * C helper functions
- **************************************************************************/
-
-
-
-/**************************************************************************
- * Class implementation: RecursionGuardLocker
-***************************************************************************/
-
-
 inline RecursionGuardLocker::RecursionGuardLocker(bool *pGuard)
 {
     Q_ASSERT_X(pGuard != 0, "RecursionGuardLocker::RecursionGuardLocker()", "Pointer to guard bool must not be null");
@@ -91,12 +65,6 @@ inline RecursionGuardLocker::~RecursionGuardLocker()
 {
     *mpGuard = false;
 }
-
-
-/**************************************************************************
- * Class implementation: AppenderSkeleton
- **************************************************************************/
-
 
 AppenderSkeleton::AppenderSkeleton(QObject *pParent) :
     Appender(pParent),
@@ -259,12 +227,5 @@ bool AppenderSkeleton::checkEntryConditions() const
 
     return true;
 }
-
-
-
-/**************************************************************************
- * Implementation: Operators, Helper
- **************************************************************************/
-
 
 } // namespace Log4Qt

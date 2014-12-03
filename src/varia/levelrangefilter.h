@@ -25,19 +25,9 @@
 #ifndef LOG4QT_LEVELRANGEFILTER_H
 #define LOG4QT_LEVELRANGEFILTER_H
 
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include "spi/filter.h"
 
 #include "level.h"
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 namespace Log4Qt
 {
@@ -82,9 +72,6 @@ class  LOG4QT_EXPORT LevelRangeFilter : public Filter
 
 public:
     LevelRangeFilter(QObject *pParent = 0);
-    // LevelRangeFilter(const LevelRangeFilter &rOther); // Use compiler default
-    // virtual ~LevelRangeFilter(); // Use compiler default
-    // LevelRangeFilter &operator=(const LevelRangeFilter &rOther); // Use compiler default
 
     bool acceptOnMatch() const;
     Level levelMax() const;
@@ -114,16 +101,6 @@ private:
     Level mLevelMin;
     Level mLevelMax;
 };
-
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
 
 inline bool LevelRangeFilter::acceptOnMatch() const
 {
@@ -155,11 +132,8 @@ inline void LevelRangeFilter::setLevelMin(Level level)
     mLevelMin = level;
 }
 
-
 } // namespace Log4Qt
 
-
 // Q_DECLARE_TYPEINFO(Log4Qt::LevelRangeFilter, Q_MOVABLE_TYPE); // Use default
-
 
 #endif // LOG4QT_LEVELRANGEFILTER_H

@@ -30,11 +30,6 @@
 #ifndef LOG4QT_LOGGER_H
 #define LOG4QT_LOGGER_H
 
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include <QtCore/QObject>
 
 #include <QtCore/QAtomicPointer>
@@ -52,11 +47,6 @@
 #		warning "QAtomicPointer test and set is not native. The macro Log4Qt::LOG4QT_DECLARE_STATIC_LOGGER is not thread-safe."
 #	endif
 #endif
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 namespace Log4Qt
 {
@@ -1159,11 +1149,6 @@ private:
     // Needs to be friend to create Logger objects
     friend class Hierarchy;
 };
-
-
-/******************************************************************************
- * Operators, Helper
- ******************************************************************************/
 
 #ifndef QT_NO_DEBUG_STREAM
 /*!

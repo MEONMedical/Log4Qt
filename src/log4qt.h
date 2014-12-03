@@ -520,20 +520,11 @@
  *   - \ref Log4Qt::LOG4QT_IMPLEMENT_INSTANCE "LOG4QT_IMPLEMENT_INSTANCE"
  */
 
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include <QtCore/qglobal.h>
 
 #if QT_VERSION < QT_VERSION_CHECK(4, 3, 0)
 #	error "Log4Qt requires Qt version 4.3.0 or higher"
 #endif
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 /*!
  * \brief The namespace Log4Qt %Log4Qt encloses all parts of the package.
@@ -605,17 +596,6 @@ enum ErrorCode
     APPENDER_TELNET_SERVER_NOT_RUNNING,
     APPENDER_ASNC_DISPATCHER_NOT_RUNNING
 };
-
-
-/******************************************************************************
- * Operators, Helpers
- ******************************************************************************/
-
-
-/******************************************************************************
- * Inline
- ******************************************************************************/
-
 
 } // namespace Log4Qt
 

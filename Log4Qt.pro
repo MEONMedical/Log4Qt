@@ -1,4 +1,4 @@
-
+include(g++.pri)
 include(src/Log4Qt.pri)
 
 TEMPLATE = lib

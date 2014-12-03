@@ -25,21 +25,11 @@
 #ifndef LOG4QT_APPENDER_H
 #define LOG4QT_APPENDER_H
 
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include "helpers/logobject.h"
 
 #include "helpers/logobjectptr.h"
 
 #include "logger.h"
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 namespace Log4Qt
 {
@@ -107,16 +97,6 @@ public:
     virtual void doAppend(const LoggingEvent &rEvent) = 0;
 };
 
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
-
 inline Appender::Appender(QObject *pParent) :
     LogObject(pParent)
 {}
@@ -130,6 +110,5 @@ inline Appender::~Appender()
 
 //Q_DECLARE_TYPEINFO(::Appender, Q_COMPLEX_TYPE); // Use default
 //Q_DECLARE_TYPEINFO(Log4Qt::LogObjectPtr<Log4Qt::Appender>, Q_MOVABLE_TYPE);
-
 
 #endif // LOG4QT_APPENDER_H

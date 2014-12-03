@@ -25,18 +25,7 @@
 #ifndef LOG4QT_SIMPLETIMELAYOUT_H
 #define LOG4QT_SIMPLETIMELAYOUT_H
 
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include "layout.h"
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
-
 
 namespace Log4Qt
 {
@@ -54,7 +43,7 @@ class LOG4QT_EXPORT  SimpleTimeLayout : public Layout
 
 public:
     SimpleTimeLayout(QObject *pParent = 0);
-    // virtual ~SimpleTimeLayout(); // Use compiler default
+
 private:
     SimpleTimeLayout(const SimpleTimeLayout &rOther); // Not implemented
     SimpleTimeLayout &operator=(const SimpleTimeLayout &rOther); // Not implemented
@@ -78,20 +67,9 @@ protected:
 #endif // QT_NO_DEBUG_STREAM
 };
 
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
-
 inline SimpleTimeLayout::SimpleTimeLayout(QObject *pParent) :
     Layout(pParent)
 {}
-
 
 } // namespace Log4Qt
 

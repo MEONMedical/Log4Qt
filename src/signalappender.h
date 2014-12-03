@@ -33,11 +33,9 @@ namespace Log4Qt
 {
 
 /*!
-\ingroup log4qt
-Класс генерирующий сигнал при полчении какого-либо лог-сообщения. Удобно использовать для GUI интерфейса.
-\note не объявлен в простанстве имен log4qt вроде из-за отстуствия у moc (Qt metaobject compiler) средств для обработки пространств имен.
-* @class SignalAppender signalappender.h "src/kernel/components/signalappender.h"
-*/
+ * \ingroup log4qt
+ * @class SignalAppender signalappender.h "src/kernel/components/signalappender.h"
+ */
 class  LOG4QT_EXPORT SignalAppender : public AppenderSkeleton
 {
     Q_OBJECT
@@ -69,7 +67,6 @@ protected:
 
 signals:
     /*!
-    Генерируется во время получения лог-сообщения.
     * @param message
     */
     void appended(const QString& message);

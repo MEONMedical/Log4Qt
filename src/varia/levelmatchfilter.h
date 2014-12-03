@@ -25,19 +25,9 @@
 #ifndef LOG4QT_LEVELMATCHFILTER_H
 #define LOG4QT_LEVELMATCHFILTER_H
 
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include "spi/filter.h"
 
 #include "level.h"
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 namespace Log4Qt
 {
@@ -73,9 +63,6 @@ class LOG4QT_EXPORT  LevelMatchFilter : public Filter
 
 public:
     LevelMatchFilter(QObject *pParent = 0);
-    // LevelMatchFilter(const LevelMatchFilter &rOther); // Use compiler default
-    // virtual ~LevelMatchFilter(); // Use compiler default
-    // LevelMatchFilter &operator=(const LevelMatchFilter &rOther); // Use compiler default
 
     bool acceptOnMatch() const;
     Level levelToMatch() const;
@@ -105,16 +92,6 @@ private:
     Level mLevelToMatch;
 };
 
-
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
-
-/**************************************************************************
- * Inline
- **************************************************************************/
-
 inline bool LevelMatchFilter::acceptOnMatch() const
 {
     return mAcceptOnMatch;
@@ -135,11 +112,8 @@ inline void LevelMatchFilter::setLevelToMatch(Level level)
     mLevelToMatch = level;
 }
 
-
 } // namespace Log4Qt
 
-
 // Q_DECLARE_TYPEINFO(Log4Qt::LevelMatchFilter, Q_MOVABLE_TYPE); // Use default
-
 
 #endif // LOG4QT_LEVELMATCHFILTER_H

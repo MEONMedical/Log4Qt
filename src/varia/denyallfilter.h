@@ -30,17 +30,7 @@
 #ifndef LOG4QT_DENYALLFILTER_H
 #define LOG4QT_DENYALLFILTER_H
 
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
 #include "spi/filter.h"
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 namespace Log4Qt
 {
@@ -57,9 +47,6 @@ class  LOG4QT_EXPORT DenyAllFilter : public Filter
 
 public:
     DenyAllFilter(QObject *pParent = 0);
-    // DenyAllFilter(const DenyAllFilter &rOther); // Use compiler default
-    // virtual ~DenyAllFilter(); // Use compiler default
-    // DenyAllFilter &operator=(const DenyAllFilter &rOther); // Use compiler default
 
     virtual Decision decide(const LoggingEvent &rEvent) const;
 
@@ -77,16 +64,6 @@ protected:
     virtual QDebug debug(QDebug &rDebug) const;
 #endif // QT_NO_DEBUG_STREAM
 };
-
-
-/*************************************************************************
- * Operators, Helper
- *************************************************************************/
-
-
-/*************************************************************************
- * Inline
- *************************************************************************/
 
 inline DenyAllFilter::DenyAllFilter(QObject *pParent) :
     Filter(pParent)

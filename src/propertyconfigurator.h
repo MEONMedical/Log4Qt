@@ -25,20 +25,9 @@
 #ifndef LOG4QT_PROPERTYCONFIGURATOR_H
 #define LOG4QT_PROPERTYCONFIGURATOR_H
 
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
-
 #include <QtCore/QHash>
 #include "helpers/logobjectptr.h"
 #include "log4qt.h"
-
-
-/******************************************************************************
- * Declarations
- ******************************************************************************/
 
 class QSettings;
 
@@ -62,7 +51,7 @@ class  LOG4QT_EXPORT PropertyConfigurator
 {
 public:
     PropertyConfigurator();
-    // virtual ~PropertyConfigurator(); // Use compiler default
+
 private:
     PropertyConfigurator(const PropertyConfigurator &rOther); // Not implemented
     PropertyConfigurator &operator=(const PropertyConfigurator &rOther); // Not implemented
@@ -156,10 +145,6 @@ private:
     QHash< QString, LogObjectPtr<Appender> > mAppenderRegistry;
 };
 
-/**************************************************************************
- * Operators, Helper
- **************************************************************************/
-
 #ifndef QT_NO_DEBUG_STREAM
 /*!
  * \relates PropertyConfigurator
@@ -177,13 +162,8 @@ QDebug operator<<(QDebug debug,
 #endif
 
 
-/**************************************************************************
- * Inline
- **************************************************************************/
-
 inline PropertyConfigurator::PropertyConfigurator()
 {}
-
 
 } // namspace Logging
 

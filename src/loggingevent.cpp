@@ -22,13 +22,6 @@
  *
  *****************************************************************************/
 
-
-
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
-
 #include "loggingevent.h"
 
 #include <QtCore/QBuffer>
@@ -44,30 +37,10 @@
 #include "ndc.h"
 
 
-
 namespace Log4Qt
 {
 
-
-/**************************************************************************
- * Declarations
- **************************************************************************/
-
-
 LOG4QT_GLOBAL_STATIC(QMutex, sequence_guard)
-
-
-
-/**************************************************************************
- * C helper functions
- **************************************************************************/
-
-
-
-/**************************************************************************
- * Class implementation: LoggingEvent
- **************************************************************************/
-
 
 LoggingEvent::LoggingEvent() :
     QEvent(eventId),
@@ -189,11 +162,6 @@ qint64 LoggingEvent::nextSequenceNumber()
 
 qint64 LoggingEvent::msSequenceCount = 0;
 const QEvent::Type LoggingEvent::eventId = static_cast<QEvent::Type>(QEvent::registerEventType());
-
-/**************************************************************************
- * Implementation: Operators, Helper
- **************************************************************************/
-
 
 #ifndef QT_NO_DATASTREAM
 QDataStream &operator<<(QDataStream &rStream, const LoggingEvent &rLoggingEvent)

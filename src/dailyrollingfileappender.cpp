@@ -24,11 +24,6 @@
 
 
 
-/******************************************************************************
- * Dependencies
- ******************************************************************************/
-
-
 #include "dailyrollingfileappender.h"
 
 #include <QtCore/QDebug>
@@ -39,28 +34,8 @@
 #include "layout.h"
 #include "loggingevent.h"
 
-
-
 namespace Log4Qt
 {
-
-
-/**************************************************************************
- * Declarations
- **************************************************************************/
-
-
-
-/**************************************************************************
- * C helper functions
- **************************************************************************/
-
-
-
-/**************************************************************************
- * Class implementation: DailyRollingFileAppender
- **************************************************************************/
-
 
 DailyRollingFileAppender::DailyRollingFileAppender(QObject *pParent) :
     FileAppender(pParent),
@@ -312,13 +287,11 @@ void DailyRollingFileAppender::computeRollOverTime()
                     mRollOverTime);
 }
 
-
 QString DailyRollingFileAppender::frequencyToString() const
 {
     QMetaEnum meta_enum = metaObject()->enumerator(metaObject()->indexOfEnumerator("DatePattern"));
     return QLatin1String(meta_enum.valueToKey(mFrequency));
 }
-
 
 void DailyRollingFileAppender::rollOver()
 {
@@ -341,12 +314,6 @@ void DailyRollingFileAppender::rollOver()
         return;
     openFile();
 }
-
-
-
-/**************************************************************************
- * Implementation: Operators, Helper
- **************************************************************************/
 
 
 } // namespace Log4Qt
