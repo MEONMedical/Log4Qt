@@ -120,11 +120,18 @@ void AppenderSkeleton::addFilter(Filter *pFilter)
 
     QMutexLocker locker(&mObjectGuard);
 
-    mpTailFilter = pFilter;
-    if (mpHeadFilter)
-        mpHeadFilter->setNext(pFilter);
-    else
+    if (!mpTailFilter)
+    {
+        // filter list empty
         mpHeadFilter = pFilter;
+        mpTailFilter = pFilter;
+    }
+    else
+    {
+        // append filter to the end of the filter list
+        mpTailFilter->setNext(pFilter);
+        mpTailFilter = pFilter;
+    }
 }
 
 
