@@ -346,7 +346,7 @@ LogObjectPtr<Appender> PropertyConfigurator::parseAppender(const Properties &rPr
                                   "Log4Qt::PropertyConfigurator");
         e << rName;
         logger()->error(e);
-        return 0;
+        return nullptr;
     }
     LogObjectPtr<Appender> p_appender = Factory::createAppender(value);
     if (!p_appender)
@@ -356,7 +356,7 @@ LogObjectPtr<Appender> PropertyConfigurator::parseAppender(const Properties &rPr
                                   "Log4Qt::PropertyConfigurator");
         e << value << rName;
         logger()->error(e);
-        return 0;
+        return nullptr;
     }
     p_appender->setName(rName);
 
@@ -366,7 +366,7 @@ LogObjectPtr<Appender> PropertyConfigurator::parseAppender(const Properties &rPr
         if (p_layout)
             p_appender->setLayout(p_layout);
         else
-            return 0;
+            return nullptr;
     }
 
     QStringList exclusions;
@@ -404,7 +404,7 @@ LogObjectPtr<Layout> PropertyConfigurator::parseLayout(const Properties &rProper
                                   "Log4Qt::PropertyConfigurator");
         e << rAppenderKey;
         logger()->error(e);
-        return 0;
+        return nullptr;
     }
     LogObjectPtr<Layout> p_layout = Factory::createLayout(value);
     if (!p_layout)
@@ -414,7 +414,7 @@ LogObjectPtr<Layout> PropertyConfigurator::parseLayout(const Properties &rProper
                                   "Log4Qt::PropertyConfigurator");
         e << value << rAppenderKey;
         logger()->error(e);
-        return 0;
+        return nullptr;
     }
 
     QStringList exclusions;

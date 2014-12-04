@@ -42,7 +42,7 @@ class LOG4QT_EXPORT  SimpleTimeLayout : public Layout
     Q_OBJECT
 
 public:
-    SimpleTimeLayout(QObject *pParent = 0);
+    SimpleTimeLayout(QObject *pParent = nullptr);
 
 private:
     Q_DISABLE_COPY(SimpleTimeLayout)

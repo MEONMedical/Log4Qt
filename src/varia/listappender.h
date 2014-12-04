@@ -66,7 +66,7 @@ class  LOG4QT_EXPORT ListAppender : public AppenderSkeleton
     Q_PROPERTY(int maxCount READ maxCount WRITE setMaxCount)
 
 public:
-    ListAppender(QObject *pParent = 0);
+    ListAppender(QObject *pParent = nullptr);
     virtual ~ListAppender();
 private:
     Q_DISABLE_COPY(ListAppender)

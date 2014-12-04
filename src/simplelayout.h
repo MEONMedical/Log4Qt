@@ -42,7 +42,7 @@ class LOG4QT_EXPORT  SimpleLayout : public Layout
     Q_OBJECT
 
 public:
-    SimpleLayout(QObject *pParent = 0);
+    SimpleLayout(QObject *pParent = nullptr);
     // virtual ~SimpleLayout(); // Use compiler default
 private:
     Q_DISABLE_COPY(SimpleLayout)

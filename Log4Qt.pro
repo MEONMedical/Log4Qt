@@ -4,6 +4,7 @@ include(src/Log4Qt.pri)
 TEMPLATE = lib
 QT += core xml network
 TARGET = log4qt
+CONFIG += c++11
 
 LOG4QT_VERSION_MAJOR = 1
 LOG4QT_VERSION_MINOR = 1
