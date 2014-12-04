@@ -71,19 +71,19 @@ class LOG4QT_EXPORT  FileAppender : public WriterAppender
     Q_PROPERTY(QString file READ file WRITE setFile)
 
 public:
-    FileAppender(QObject *pParent = 0);
+    FileAppender(QObject *pParent = nullptr);
     FileAppender(Layout *pLayout,
                  const QString &rFileName,
-                 QObject *pParent = 0);
+                 QObject *pParent = nullptr);
     FileAppender(Layout *pLayout,
                  const QString &rFileName,
                  bool append,
-                 QObject *pParent = 0);
+                 QObject *pParent = nullptr);
     FileAppender(Layout *pLayout,
                  const QString &rFileName,
                  bool append,
                  bool buffered,
-                 QObject *pParent = 0);
+                 QObject *pParent = nullptr);
     virtual ~FileAppender();
 private:
     Q_DISABLE_COPY(FileAppender)

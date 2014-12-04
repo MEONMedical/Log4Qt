@@ -70,16 +70,16 @@ class LOG4QT_EXPORT  TelnetAppender : public AppenderSkeleton
     Q_PROPERTY(QHostAddress address READ address WRITE setAddress)
 
 public:
-    TelnetAppender(QObject *pParent = 0);
+    TelnetAppender(QObject *pParent = nullptr);
     TelnetAppender(Layout *pLayout,
-                   QObject *pParent = 0);
+                   QObject *pParent = nullptr);
     TelnetAppender(Layout *pLayout,
                    const QHostAddress& address,
                    int port,
-                   QObject *pParent = 0);
+                   QObject *pParent = nullptr);
     TelnetAppender(Layout *pLayout,
                    int port,
-                   QObject *pParent = 0);
+                   QObject *pParent = nullptr);
     virtual ~TelnetAppender();
 
 private:

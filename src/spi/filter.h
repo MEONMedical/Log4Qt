@@ -64,10 +64,12 @@ public:
     Q_ENUMS(Decision)
 
 public:
-    Filter(QObject *pObject = 0);
+    Filter(QObject *pParent = nullptr);
     virtual ~Filter();
 
-    Filter* next() const;
+    Filter* next() const
+    { return mpNext; }
+
     void setNext(Filter *pFilter);
 
     virtual void activateOptions();
@@ -76,22 +78,6 @@ public:
 private:
     LogObjectPtr<Filter> mpNext;
 };
-
-inline Filter::Filter(QObject *pObject) :
-    LogObject(pObject),
-    mpNext(0)
-{}
-
-inline Filter::~Filter()
-{}
-
-inline Filter* Filter::next() const
-{
-    return mpNext;
-}
-
-inline void Filter::activateOptions()
-{}
 
 
 } // namespace Log4Qt

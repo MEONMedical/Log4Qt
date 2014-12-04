@@ -73,11 +73,11 @@ class LOG4QT_EXPORT AppenderSkeleton : public Appender
     Q_PROPERTY(Log4Qt::Level threshold READ threshold WRITE setThreshold)
 
 public:
-    AppenderSkeleton(QObject *pParent = 0);
+    AppenderSkeleton(QObject *pParent = nullptr);
 
 protected:
     AppenderSkeleton(const bool isActive,
-                     QObject *pParent = 0);
+                     QObject *pParent = nullptr);
 
 public:
     // virtual ~AppenderSkeleton(); Use compiler default

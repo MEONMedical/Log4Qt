@@ -94,7 +94,7 @@ Appender *AppenderAttachable::appender(const QString &rName) const
     Q_FOREACH(p_appender, mAppenders)
         if (p_appender->name() == rName)
             return p_appender;
-    return 0;
+    return nullptr;
 }
 
 bool AppenderAttachable::isAttached(Appender *pAppender) const

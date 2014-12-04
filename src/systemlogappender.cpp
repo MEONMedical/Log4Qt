@@ -70,8 +70,8 @@ static QString encodeName(const QString &name, bool allowUpper = false)
 #endif //#if defined(Q_OS_WIN32)
 namespace Log4Qt
 {
-SystemLogAppender::SystemLogAppender(QObject *parent) :
-    AppenderSkeleton(parent), ident(0)
+SystemLogAppender::SystemLogAppender(QObject *pParent) :
+    AppenderSkeleton(pParent), ident(0)
 {
     setServiceName(QCoreApplication::applicationName());
 }

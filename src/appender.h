@@ -75,7 +75,7 @@ class LOG4QT_EXPORT Appender : public LogObject
     Q_PROPERTY(bool requiresLayout READ requiresLayout)
 
 public:
-    Appender(QObject *pParent = 0);
+    Appender(QObject *pParent = nullptr);
     virtual ~Appender();
 private:
     Q_DISABLE_COPY(Appender)

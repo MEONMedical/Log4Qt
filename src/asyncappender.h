@@ -54,7 +54,7 @@ class LOG4QT_EXPORT  AsyncAppender : public AppenderSkeleton, public AppenderAtt
     Q_OBJECT
 
 public:
-    AsyncAppender(QObject *parent = 0);
+    AsyncAppender(QObject *ppParent = nullptr);
     virtual ~AsyncAppender();
 
     virtual bool requiresLayout() const;

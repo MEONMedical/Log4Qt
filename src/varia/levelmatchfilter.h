@@ -62,7 +62,7 @@ class LOG4QT_EXPORT  LevelMatchFilter : public Filter
     Q_PROPERTY(Log4Qt::Level levelToMatch READ levelToMatch WRITE setLevelToMatch)
 
 public:
-    LevelMatchFilter(QObject *pParent = 0);
+    LevelMatchFilter(QObject *pParent = nullptr);
 
     bool acceptOnMatch() const;
     Level levelToMatch() const;

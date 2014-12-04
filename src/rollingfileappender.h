@@ -69,14 +69,14 @@ class  LOG4QT_EXPORT RollingFileAppender : public FileAppender
     Q_PROPERTY(QString maxFileSize READ maxFileSize WRITE setMaxFileSize)
 
 public:
-    RollingFileAppender(QObject *pParent = 0);
+    RollingFileAppender(QObject *pParent = nullptr);
     RollingFileAppender(Layout *pLayout,
                         const QString &rFileName,
-                        QObject *pParent = 0);
+                        QObject *pParent = nullptr);
     RollingFileAppender(Layout *pLayout,
                         const QString &rFileName,
                         bool append,
-                        QObject *pParent = 0);
+                        QObject *pParent = nullptr);
     virtual ~RollingFileAppender();
 private:
     Q_DISABLE_COPY(RollingFileAppender)

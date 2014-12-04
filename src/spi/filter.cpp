@@ -29,9 +29,20 @@
 namespace Log4Qt
 {
 
+Filter::Filter(QObject *pParent) :
+    LogObject(pParent),
+    mpNext(nullptr)
+{}
+
+Filter::~Filter()
+{}
+
 void Filter::setNext(Filter *pFilter)
 {
     mpNext = pFilter;
 }
+
+void Filter::activateOptions()
+{}
 
 } // namespace Log4Qt

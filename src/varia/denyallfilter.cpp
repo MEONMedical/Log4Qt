@@ -31,6 +31,10 @@
 namespace Log4Qt
 {
 
+DenyAllFilter::DenyAllFilter(QObject *pParent) :
+    Filter(pParent)
+{}
+
 #ifndef QT_NO_DEBUG_STREAM
 QDebug DenyAllFilter::debug(QDebug &rDebug) const
 {

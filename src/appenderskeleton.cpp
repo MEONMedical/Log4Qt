@@ -71,10 +71,10 @@ AppenderSkeleton::AppenderSkeleton(QObject *pParent) :
     mAppendRecursionGuard(false),
     mIsActive(true),
     mIsClosed(false),
-    mpLayout(0),
+    mpLayout(nullptr),
     mThreshold(Level::NULL_INT),
-    mpHeadFilter(0),
-    mpTailFilter(0)
+    mpHeadFilter(nullptr),
+    mpTailFilter(nullptr)
 {
 }
 
@@ -86,10 +86,10 @@ AppenderSkeleton::AppenderSkeleton(const bool isActive,
     mAppendRecursionGuard(false),
     mIsActive(isActive),
     mIsClosed(false),
-    mpLayout(0),
+    mpLayout(nullptr),
     mThreshold(Level::NULL_INT),
-    mpHeadFilter(0),
-    mpTailFilter(0)
+    mpHeadFilter(nullptr),
+    mpTailFilter(nullptr)
 {
 }
 

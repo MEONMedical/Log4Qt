@@ -46,9 +46,13 @@ class  LOG4QT_EXPORT DenyAllFilter : public Filter
     Q_OBJECT
 
 public:
-    DenyAllFilter(QObject *pParent = 0);
+    DenyAllFilter(QObject *pParent = nullptr);
 
-    virtual Decision decide(const LoggingEvent &rEvent) const;
+    virtual Decision decide(const LoggingEvent &rEvent) const
+    {
+        Q_UNUSED(&rEvent);
+        return Filter::DENY;
+    }
 
 protected:
 #ifndef QT_NO_DEBUG_STREAM
@@ -65,21 +69,9 @@ protected:
 #endif // QT_NO_DEBUG_STREAM
 };
 
-inline DenyAllFilter::DenyAllFilter(QObject *pParent) :
-    Filter(pParent)
-{}
-
-inline Filter::Decision DenyAllFilter::decide(const LoggingEvent &rEvent) const
-{
-    Q_UNUSED(&rEvent);
-    return Filter::DENY;
-}
-
-
 } // namespace Log4Qt
 
 
 // Q_DECLARE_TYPEINFO(Log4Qt::DenyAllFilter, Q_MOVABLE_TYPE); // Use default
-
 
 #endif // LOG4QT_DENYALLFILTER_H

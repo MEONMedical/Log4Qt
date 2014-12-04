@@ -42,7 +42,7 @@ TTCCLayout::TTCCLayout(QObject *pParent) :
     mContextPrinting(true),
     mDateFormat(),
     mThreadPrinting(true),
-    mpPatternFormatter(0)
+    mpPatternFormatter(nullptr)
 {
     setDateFormat(RELATIVE);
 }
@@ -55,7 +55,7 @@ TTCCLayout::TTCCLayout(const QString &rDateFormat,
     mContextPrinting(true),
     mDateFormat(rDateFormat),
     mThreadPrinting(true),
-    mpPatternFormatter(0)
+    mpPatternFormatter(nullptr)
 {
 }
 
@@ -67,7 +67,7 @@ TTCCLayout::TTCCLayout(DateFormat dateFormat,
     mContextPrinting(true),
     mDateFormat(),
     mThreadPrinting(true),
-    mpPatternFormatter(0)
+    mpPatternFormatter(nullptr)
 {
     setDateFormat(dateFormat);
 }

@@ -33,7 +33,7 @@
 namespace Log4Qt
 {
 
-MainThreadAppender::MainThreadAppender(QObject *parent) : AppenderSkeleton(parent)
+MainThreadAppender::MainThreadAppender(QObject *pParent) : AppenderSkeleton(pParent)
 {}
 
 MainThreadAppender::~MainThreadAppender()

@@ -38,20 +38,20 @@ namespace Log4Qt
 
 TelnetAppender::TelnetAppender(QObject *pParent) :
     AppenderSkeleton(false, pParent), mAddress(QHostAddress::Any), mPort(23),
-    mpTcpServer(0), mImmediateFlush(false)
+    mpTcpServer(nullptr), mImmediateFlush(false)
 {
 }
 
 TelnetAppender::TelnetAppender(Layout *pLayout, QObject *pParent) :
     AppenderSkeleton(false, pParent), mAddress(QHostAddress::Any), mPort(23),
-    mpTcpServer(0), mImmediateFlush(false)
+    mpTcpServer(nullptr), mImmediateFlush(false)
 {
     setLayout(pLayout);
 }
 
 TelnetAppender::TelnetAppender(Layout *pLayout, int port, QObject *pParent) :
     AppenderSkeleton(false, pParent), mAddress(QHostAddress::Any), mPort(port),
-    mpTcpServer(0), mImmediateFlush(false)
+    mpTcpServer(nullptr), mImmediateFlush(false)
 {
     setLayout(pLayout);
 }
@@ -59,7 +59,7 @@ TelnetAppender::TelnetAppender(Layout *pLayout, int port, QObject *pParent) :
 TelnetAppender::TelnetAppender(Layout *pLayout, const QHostAddress& address,
                                int port, QObject *pParent) :
     AppenderSkeleton(false, pParent), mAddress(address), mPort(port),
-    mpTcpServer(0), mImmediateFlush(false)
+    mpTcpServer(nullptr), mImmediateFlush(false)
 {
     setLayout(pLayout);
 }

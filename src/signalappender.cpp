@@ -30,8 +30,8 @@
 
 namespace Log4Qt
 {
-SignalAppender::SignalAppender(QObject *parent) :
-    AppenderSkeleton(parent)
+SignalAppender::SignalAppender(QObject *pParent) :
+    AppenderSkeleton(pParent)
 {
 }
 

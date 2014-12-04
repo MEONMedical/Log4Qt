@@ -71,7 +71,7 @@ class  LOG4QT_EXPORT LevelRangeFilter : public Filter
     Q_PROPERTY(Log4Qt::Level levelMin READ levelMin WRITE setLevelMin)
 
 public:
-    LevelRangeFilter(QObject *pParent = 0);
+    LevelRangeFilter(QObject *pParent = nullptr);
 
     bool acceptOnMatch() const;
     Level levelMax() const;
