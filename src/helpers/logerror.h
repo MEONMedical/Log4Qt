@@ -156,7 +156,7 @@ public:
      *
      * \sa translatedMessage(), translatedMessageWithArgs()
      */
-    LogError(const QString &rMessage,
+    explicit LogError(const QString &rMessage,
              int code = 0,
              const QString &rSymbol = QString(),
              const QString &rContext = QString());
@@ -177,7 +177,7 @@ public:
      *
      * \sa translatedMessage(), translatedMessageWithArgs()
      */
-    LogError(const char *pMessage,
+    explicit LogError(const char *pMessage,
              int code = 0,
              const char *pSymbol = 0,
              const char *pContext = 0,
