@@ -282,9 +282,9 @@ void DailyRollingFileAppender::computeRollOverTime()
                "DailyRollingFileAppender::computeRollOverTime()", "File name does not change with rollover");
 
     logger()->trace("Computing roll over time from %1: The interval start time is %2. The roll over time is %3",
-                    now,
-                    start,
-                    mRollOverTime);
+                    now.toString(),
+                    start.toString(),
+                    mRollOverTime.toString());
 }
 
 QString DailyRollingFileAppender::frequencyToString() const
