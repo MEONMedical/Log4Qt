@@ -32,7 +32,7 @@
 
 #include <QtCore/QDebug>
 #include "logger.h"
-
+#include "binarylogger.h"
 
 namespace Log4Qt
 {
@@ -140,9 +140,16 @@ QDebug Hierarchy::debug(QDebug &rDebug) const
 #endif // QT_NO_DEBUG_STREAM
 
 
-Logger *Hierarchy::createLogger(const QString &rName)
+Logger *Hierarchy::createLogger(const QString &orgName)
 {
-    // Q_ASSERT_X(, "Hierarchy::createLogger", "Lock must be held by caller")
+    static const char binaryIndicator[] = "@@binary@@";
+
+
+    QString rName(orgName);
+    bool needBinaryLogger = orgName.contains(binaryIndicator);
+
+    if (needBinaryLogger)
+        rName.remove(binaryIndicator);
 
     const QString name_separator = QLatin1String("::");
 
@@ -160,11 +167,14 @@ Logger *Hierarchy::createLogger(const QString &rName)
     int index = rName.lastIndexOf(name_separator);
     if (index >=0)
         parent_name = rName.left(index);
-    p_logger = new Logger(this, Level::NULL_INT, rName, createLogger(parent_name));
+
+    if (needBinaryLogger)
+        p_logger = new BinaryLogger(this, Level::NULL_INT, rName, createLogger(parent_name));
+    else
+        p_logger = new Logger(this, Level::NULL_INT, rName, createLogger(parent_name));
     mLoggers.insert(rName, p_logger);
     return p_logger;
 }
-
 
 void Hierarchy::resetLogger(Logger *pLogger, Level level) const
 {
