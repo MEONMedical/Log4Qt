@@ -71,7 +71,7 @@ class LOG4QT_EXPORT  FileAppender : public WriterAppender
     Q_PROPERTY(QString file READ file WRITE setFile)
 
 public:
-    FileAppender(QObject *pParent = nullptr);
+    explicit FileAppender(QObject *pParent = nullptr);
     FileAppender(Layout *pLayout,
                  const QString &rFileName,
                  QObject *pParent = nullptr);

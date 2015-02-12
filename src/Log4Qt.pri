@@ -5,6 +5,7 @@ HEADERS += $$PWD/appender.h \
            $$PWD/consoleappender.h \
            $$PWD/dailyrollingfileappender.h \
            $$PWD/asyncappender.h \
+           $$PWD/dailyfileappender.h \
            $$PWD/mainthreadappender.h \
            $$PWD/fileappender.h \
            $$PWD/hierarchy.h \
@@ -67,6 +68,7 @@ SOURCES += $$PWD/appenderskeleton.cpp \
            $$PWD/consoleappender.cpp \
            $$PWD/dailyrollingfileappender.cpp \
            $$PWD/asyncappender.cpp \
+           $$PWD/dailyfileappender.cpp \
            $$PWD/mainthreadappender.cpp \
            $$PWD/fileappender.cpp \
            $$PWD/hierarchy.cpp \

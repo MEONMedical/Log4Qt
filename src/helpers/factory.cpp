@@ -58,6 +58,7 @@
 #include "systemlogappender.h"
 #include "binaryfileappender.h"
 #include "rollingbinaryfileappender.h"
+#include "dailyfileappender.h"
 
 #include "varia/debugappender.h"
 #include "varia/denyallfilter.h"
@@ -158,6 +159,11 @@ Appender *create_binaryfile_appender()
 Appender *create_rollingbinaryfile_appender()
 {	
 	return new RollingBinaryFileAppender;	
+}
+
+Appender * create_dailyrollingfile_appender()
+{
+    return new DailyFileAppender;
 }
 
 // Filters
@@ -458,6 +464,9 @@ void Factory::registerDefaultAppenders()
 
     mAppenderRegistry.insert(QLatin1String("org.apache.log4j.RollingBinaryFileAppender"), create_rollingbinaryfile_appender);
     mAppenderRegistry.insert(QLatin1String("Log4Qt::RollingBinaryFileAppender"), create_rollingbinaryfile_appender);
+
+    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.DailyFileAppender"), create_dailyrollingfile_appender);
+    mAppenderRegistry.insert(QLatin1String("Log4Qt::DailyFileAppender"), create_dailyrollingfile_appender);
 }
 
 
