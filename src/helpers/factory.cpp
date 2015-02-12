@@ -41,6 +41,8 @@
 #include "simplelayout.h"
 #include "simpletimelayout.h"
 #include "ttcclayout.h"
+#include "binarylayout.h"
+#include "binarytotextlayout.h"
 
 #if defined(QT_NETWORK_LIB)
 #include "telnetappender.h"
@@ -51,6 +53,12 @@
 #include "databaselayout.h"
 #endif //#ifdef QT_SQL_LIB
 
+#include "asyncappender.h"
+#include "mainthreadappender.h"
+#include "systemlogappender.h"
+#include "binaryfileappender.h"
+#include "rollingbinaryfileappender.h"
+
 #include "varia/debugappender.h"
 #include "varia/denyallfilter.h"
 #include "varia/levelmatchfilter.h"
@@ -58,7 +66,7 @@
 #include "varia/listappender.h"
 #include "varia/nullappender.h"
 #include "varia/stringmatchfilter.h"
-
+#include "varia/binaryeventfilter.h"
 
 
 namespace Log4Qt
@@ -126,6 +134,32 @@ Appender *create_telnet_appender()
     return new TelnetAppender;
 }
 #endif
+
+Appender *create_async_appender()
+{	
+	return new AsyncAppender;	
+}
+
+Appender *create_mainthread_appender()
+{	
+	return new MainThreadAppender;	
+}
+
+Appender *create_systemlog_appender()
+{	
+	return new SystemLogAppender;	
+}
+
+Appender *create_binaryfile_appender()
+{	
+	return new BinaryFileAppender;	
+}
+
+Appender *create_rollingbinaryfile_appender()
+{	
+	return new RollingBinaryFileAppender;	
+}
+
 // Filters
 
 Filter *create_deny_all_filter()
@@ -147,7 +181,11 @@ Filter *create_string_match_filter()
 {
     return new StringMatchFilter;
 }
-
+    
+Filter *create_binaryevent_filter()
+{	
+	return new BinaryEventFilter;	
+}
 
 // Layouts
 
@@ -177,7 +215,15 @@ Layout *create_ttcc_layout()
 {
     return new TTCCLayout;
 }
+Layout *create_binary_layout()
+{	
+	return new BinaryLayout;	
+}
 
+Layout *create_binarytotext_layout()
+{	
+	return new BinaryToTextLayout;	
+}
 
 Factory::Factory() :
     mObjectGuard(),
@@ -398,6 +444,20 @@ void Factory::registerDefaultAppenders()
     mAppenderRegistry.insert(QLatin1String("org.apache.log4j.TelnetAppender"), create_telnet_appender);
     mAppenderRegistry.insert(QLatin1String("Log4Qt::TelnetAppender"), create_telnet_appender);
 #endif
+    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.AsyncAppender"), create_async_appender);
+    mAppenderRegistry.insert(QLatin1String("Log4Qt::AsyncAppender"), create_async_appender);
+
+    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.MainThreadAppender"), create_mainthread_appender);
+    mAppenderRegistry.insert(QLatin1String("Log4Qt::MainThreadAppender"), create_mainthread_appender);
+
+    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.SystemLogAppender"), create_systemlog_appender);
+    mAppenderRegistry.insert(QLatin1String("Log4Qt::SystemLogAppender"), create_systemlog_appender);
+
+    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.BinaryFileAppender"), create_binaryfile_appender);
+    mAppenderRegistry.insert(QLatin1String("Log4Qt::BinaryFileAppender"), create_binaryfile_appender);
+
+    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.RollingBinaryFileAppender"), create_rollingbinaryfile_appender);
+    mAppenderRegistry.insert(QLatin1String("Log4Qt::RollingBinaryFileAppender"), create_rollingbinaryfile_appender);
 }
 
 
@@ -411,6 +471,8 @@ void Factory::registerDefaultFilters()
     mFilterRegistry.insert(QLatin1String("Log4Qt::LevelRangeFilter"), create_level_range_filter);
     mFilterRegistry.insert(QLatin1String("org.apache.log4j.varia.StringMatchFilter"), create_string_match_filter);
     mFilterRegistry.insert(QLatin1String("Log4Qt::StringMatchFilter"), create_string_match_filter);
+    mFilterRegistry.insert(QLatin1String("org.apache.log4j.varia.BinaryEventFilter"), create_binaryevent_filter);
+    mFilterRegistry.insert(QLatin1String("Log4Qt::BinaryEventFilter"), create_binaryevent_filter);
 }
 
 
@@ -430,6 +492,12 @@ void Factory::registerDefaultLayouts()
     mLayoutRegistry.insert(QLatin1String("org.apache.log4j.DatabaseLayout"), create_database_layout);
     mLayoutRegistry.insert(QLatin1String("Log4Qt::DatabaseLayout"), create_database_layout);
 #endif //#ifdef (QT_SQL_LIB)
+
+    mLayoutRegistry.insert(QLatin1String("org.apache.log4j.BinaryLayout"), create_binary_layout);
+    mLayoutRegistry.insert(QLatin1String("Log4Qt::BinaryLayout"), create_binary_layout);
+
+    mLayoutRegistry.insert(QLatin1String("org.apache.log4j.BinaryToTextLayout"), create_binarytotext_layout);
+    mLayoutRegistry.insert(QLatin1String("Log4Qt::BinaryToTextLayout"), create_binarytotext_layout);
 }
 
 

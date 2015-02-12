@@ -93,7 +93,7 @@ LogError::LogError(const char *pMessage,
         mMessage = QString::fromUtf8(pMessage);
         break;
     default:
-        Q_ASSERT_X(false, "LogError::LogError", "Unkown encoding constant");
+        Q_ASSERT_X(false, "LogError::LogError", "Unknown encoding constant");
         mMessage = QString::fromLatin1(pMessage);
     }
     mMessage = cleanMessage(mMessage);

@@ -40,7 +40,7 @@ class  LOG4QT_EXPORT SignalAppender : public AppenderSkeleton
 {
     Q_OBJECT
 public:
-    explicit SignalAppender(QObject *ppParent = nullptr);
+    explicit SignalAppender(QObject *parent = nullptr);
 
     bool requiresLayout() const;
 

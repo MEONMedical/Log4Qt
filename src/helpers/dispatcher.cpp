@@ -32,7 +32,7 @@
 namespace Log4Qt
 {
 
-Dispatcher::Dispatcher(QObject *pParent) : QObject(pParent)
+Dispatcher::Dispatcher(QObject *parent) : QObject(parent)
     , mpAsyncAppender(nullptr)
 {}
 

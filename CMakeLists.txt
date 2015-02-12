@@ -81,6 +81,13 @@ set(LOG4QT_HEADERS
 set(LOG4QT_Q_HEADERS src/appender.h
     src/appenderskeleton.h
     src/asyncappender.h
+    src/binaryfileappender.h
+    src/binarylayout.h
+    src/binarylogger.h
+    src/binaryloggingevent.h
+    src/binarylogstream.h
+    src/binarytotextlayout.h
+    src/binarywriterappender.h
     src/colorconsoleappender.h
     src/consoleappender.h
     src/dailyrollingfileappender.h
@@ -89,6 +96,7 @@ set(LOG4QT_Q_HEADERS src/appender.h
     src/layout.h
     src/logger.h
     src/patternlayout.h
+    src/rollingbinaryfileappender.h
     src/rollingfileappender.h
     src/signalappender.h
     src/simplelayout.h
@@ -96,10 +104,12 @@ set(LOG4QT_Q_HEADERS src/appender.h
     src/ttcclayout.h
     src/writerappender.h
     src/systemlogappender.h
+    src/helpers/binaryclasslogger.h
     src/helpers/configuratorhelper.h
     src/helpers/logobject.h
     src/helpers/dispatcher.h
     src/spi/filter.h
+    src/varia/binaryeventfilter.h
     src/varia/debugappender.h
     src/varia/denyallfilter.h
     src/varia/levelmatchfilter.h
@@ -109,6 +119,7 @@ set(LOG4QT_Q_HEADERS src/appender.h
     src/varia/stringmatchfilter.h)
     
 set(LOG4QT_SOURCES
+    src/helpers/binaryclasslogger.cpp
     src/helpers/classlogger.cpp
     src/helpers/configuratorhelper.cpp
     src/helpers/datetime.cpp
@@ -123,6 +134,7 @@ set(LOG4QT_SOURCES
     src/helpers/properties.cpp
     src/helpers/appenderattachable.cpp
     src/spi/filter.cpp
+    src/varia/binaryeventfilter.cpp
     src/varia/debugappender.cpp
     src/varia/denyallfilter.cpp
     src/varia/levelmatchfilter.cpp
@@ -133,6 +145,13 @@ set(LOG4QT_SOURCES
     src/systemlogappender.cpp
     src/appenderskeleton.cpp
     src/basicconfigurator.cpp
+    src/binaryfileappender.cpp
+    src/binarylayout.cpp
+    src/binarylogger.cpp
+    src/binaryloggingevent.cpp
+    src/binarylogstream.cpp
+    src/binarytotextlayout.cpp
+    src/binarywriterappender.cpp
     src/colorconsoleappender.cpp
     src/consoleappender.cpp
     src/asyncappender.cpp
@@ -151,6 +170,7 @@ set(LOG4QT_SOURCES
     src/ndc.cpp
     src/patternlayout.cpp
     src/propertyconfigurator.cpp
+    src/rollingbinaryfileappender.cpp
     src/rollingfileappender.cpp
     src/signalappender.cpp
     src/simplelayout.cpp
@@ -159,7 +179,7 @@ set(LOG4QT_SOURCES
     src/writerappender.cpp
     src/logstream.cpp
 )
-
+ 
 # project version
 set(LOG4QT_VERSION_MAJOR 1)
 set(LOG4QT_VERSION_MINOR 0)

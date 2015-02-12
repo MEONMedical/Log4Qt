@@ -49,7 +49,17 @@ HEADERS += $$PWD/appender.h \
            $$PWD/varia/listappender.h \
            $$PWD/varia/nullappender.h \
            $$PWD/varia/stringmatchfilter.h \
-           $$PWD/logstream.h
+           $$PWD/logstream.h \
+           $$PWD/binaryloggingevent.h \
+           $$PWD/binarylogger.h \
+           $$PWD/varia/binaryeventfilter.h \
+           $$PWD/binarytotextlayout.h \
+           $$PWD/binarywriterappender.h \
+           $$PWD/binaryfileappender.h \
+           $$PWD/binarylogstream.h \
+           $$PWD/helpers/binaryclasslogger.h \
+           $$PWD/rollingbinaryfileappender.h \
+           $$PWD/binarylayout.h
 
 SOURCES += $$PWD/appenderskeleton.cpp \
            $$PWD/basicconfigurator.cpp \
@@ -98,7 +108,22 @@ SOURCES += $$PWD/appenderskeleton.cpp \
            $$PWD/varia/listappender.cpp \
            $$PWD/varia/nullappender.cpp \
            $$PWD/varia/stringmatchfilter.cpp \
-           $$PWD/logstream.cpp
+           $$PWD/logstream.cpp \
+           $$PWD/binaryloggingevent.cpp \
+           $$PWD/binarylogger.cpp \
+           $$PWD/varia/binaryeventfilter.cpp \
+           $$PWD/binarytotextlayout.cpp \
+           $$PWD/binarywriterappender.cpp \
+           $$PWD/binaryfileappender.cpp \
+           $$PWD/binarylogstream.cpp \
+           $$PWD/helpers/binaryclasslogger.cpp \
+           $$PWD/rollingbinaryfileappender.cpp \
+           $$PWD/binarylayout.cpp
+
+msvc {
+    QMAKE_CXXFLAGS_WARN_ON -= -w34100
+    QMAKE_CXXFLAGS += -wd4100
+}
 
 # add databaseappender and -layout if QT contains sql
 contains(QT, sql) {

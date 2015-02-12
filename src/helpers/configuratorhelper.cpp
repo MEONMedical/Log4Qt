@@ -57,8 +57,10 @@ void ConfiguratorHelper::doConfigurationFileChanged(const QString &rFileName)
     if (!mpConfigureFunc)
         return;
     mpConfigureFunc(rFileName);
-    // Shall we hold the lock while emitting the signal?
-    emit configurationFileChanged(rFileName, mConfigureError.count() > 0);
+    auto hasErrors = mConfigureError.count() > 0;
+    locker.unlock();
+    // Shall we hold the lock while emitting the signal? --> no
+    emit configurationFileChanged(rFileName, hasErrors);
 }
 
 
@@ -77,10 +79,14 @@ void ConfiguratorHelper::doSetConfigurationFile(const QString &rFileName,
     mConfigurationFile = rFileName;
     mpConfigureFunc = pConfigureFunc;
     mpConfigurationFileWatch = new QFileSystemWatcher();
-    mpConfigurationFileWatch->addPath(rFileName);
-    connect(mpConfigurationFileWatch,
-            SIGNAL(fileChanged(const QString &)),
-            SLOT(configurationFileChanged(const QString &)));
+    if (mpConfigurationFileWatch->addPath(rFileName))
+    {
+    	connect(mpConfigurationFileWatch,
+            	SIGNAL(fileChanged(const QString &)),
+            	SLOT(doConfigurationFileChanged(const QString &)));
+	}
+	else
+    	qWarning() << "Add Path '" << rFileName << "' to file system watcher failed!";
 }
 
 #ifndef QT_NO_DEBUG_STREAM

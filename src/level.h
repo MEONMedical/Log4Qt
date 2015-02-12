@@ -62,17 +62,47 @@ public:
     };
 
 public:
-    Level(Value value = NULL_INT);
+    Level(Value value = NULL_INT)
+    	: mValue(value)
+	{
+	}
 
     int syslogEquivalent() const;
-    int toInt() const;
+    int toInt() const
+	{
+		// QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
+		return mValue;
+	}
 
-    bool operator==(const Level &rOther) const;
-    bool operator!=(const Level &rOther) const;
-    bool operator<(const Level &rOther) const;
-    bool operator<=(const Level &rOther) const;
-    bool operator>(const Level &rOther) const;
-    bool operator>=(const Level &rOther) const;
+    bool operator==(const Level &rOther) const
+	{
+		// QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
+		return mValue == rOther.mValue;
+	}
+    bool operator!=(const Level &rOther) const
+	{
+		// QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
+		return mValue != rOther.mValue;
+	}
+    bool operator<(const Level &rOther) const
+	{
+		// QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
+		return mValue < rOther.mValue;
+	}
+    bool operator<=(const Level &rOther) const
+	{
+		// QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
+		return mValue <= rOther.mValue;
+	}
+    bool operator>(const Level &rOther) const
+	{
+		// QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
+		return mValue > rOther.mValue;
+	}
+    bool operator>=(const Level &rOther) const
+	{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
+		return mValue >= rOther.mValue;
+	}
     QString toString() const;
 
     static Level fromString(const QString &rName, bool *pOk = 0);

@@ -33,7 +33,7 @@
 namespace Log4Qt
 {
 
-AsyncAppender::AsyncAppender(QObject *pParent) : AppenderSkeleton(pParent)
+AsyncAppender::AsyncAppender(QObject *parent) : AppenderSkeleton(parent)
     ,mpThread(nullptr)
     ,mpDispatcher(nullptr)
 {

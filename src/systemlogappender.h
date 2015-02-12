@@ -51,7 +51,7 @@ class LOG4QT_EXPORT SystemLogAppender: public AppenderSkeleton
      */
     Q_PROPERTY(QString serviceName READ serviceName WRITE setServiceName)
 public:
-    explicit SystemLogAppender(QObject *ppParent = nullptr);
+    explicit SystemLogAppender(QObject *parent = nullptr);
     ~SystemLogAppender();
 
     bool requiresLayout() const;
