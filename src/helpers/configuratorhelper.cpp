@@ -52,15 +52,10 @@ LOG4QT_IMPLEMENT_INSTANCE(ConfiguratorHelper)
 
 void ConfiguratorHelper::doConfigurationFileChanged(const QString &rFileName)
 {
-    QMutexLocker locker(&mObjectGuard);
-
     if (!mpConfigureFunc)
         return;
     mpConfigureFunc(rFileName);
-    auto hasErrors = mConfigureError.count() > 0;
-    locker.unlock();
-    // Shall we hold the lock while emitting the signal? --> no
-    emit configurationFileChanged(rFileName, hasErrors);
+    emit configurationFileChanged(rFileName, mConfigureError.count() > 0);
 }
 
 
