@@ -43,6 +43,7 @@
 #include "ttcclayout.h"
 #include "binarylayout.h"
 #include "binarytotextlayout.h"
+#include "xmllayout.h"
 
 #if defined(QT_NETWORK_LIB)
 #include "telnetappender.h"
@@ -229,6 +230,11 @@ Layout *create_binary_layout()
 Layout *create_binarytotext_layout()
 {	
 	return new BinaryToTextLayout;	
+}
+
+Layout *create_xml_layout()
+{
+    return new XMLLayout;
 }
 
 Factory::Factory() :
@@ -507,6 +513,9 @@ void Factory::registerDefaultLayouts()
 
     mLayoutRegistry.insert(QLatin1String("org.apache.log4j.BinaryToTextLayout"), create_binarytotext_layout);
     mLayoutRegistry.insert(QLatin1String("Log4Qt::BinaryToTextLayout"), create_binarytotext_layout);
+
+    mLayoutRegistry.insert(QLatin1String("org.apache.log4j.XMLLayout"), create_xml_layout);
+    mLayoutRegistry.insert(QLatin1String("Log4Qt::XMLLayout"), create_xml_layout);
 }
 
 
