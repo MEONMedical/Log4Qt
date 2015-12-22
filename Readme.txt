@@ -1,3 +1,11 @@
+Original project
+
+http://log4qt.sourceforge.net/ Log4Qt is a C++ port of the Apache Software Foundation Log4j package using the Trolltech Qt Framework. It is intended to be used by open source and commercial Qt projects.
+
+Requirements
+    Minimum Qt version required Qt5.5.
+    C++11
+
 Build and install
 
 *NIX
