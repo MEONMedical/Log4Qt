@@ -31,6 +31,9 @@
 #include <QtCore/QMutex>
 #include <QtCore/QStringList>
 
+class QObject;
+class QMetaProperty;
+
 namespace Log4Qt
 {
 

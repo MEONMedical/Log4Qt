@@ -61,7 +61,7 @@ HEADERS += $$PWD/appender.h \
            $$PWD/helpers/binaryclasslogger.h \
            $$PWD/rollingbinaryfileappender.h \
            $$PWD/binarylayout.h \
-           $$PWD/xmllayout.h
+    $$PWD/xmllayout.h
 
 SOURCES += $$PWD/appenderskeleton.cpp \
            $$PWD/basicconfigurator.cpp \
@@ -122,8 +122,7 @@ SOURCES += $$PWD/appenderskeleton.cpp \
            $$PWD/helpers/binaryclasslogger.cpp \
            $$PWD/rollingbinaryfileappender.cpp \
            $$PWD/binarylayout.cpp \
-           $$PWD/xmllayout.cpp
-
+    $$PWD/xmllayout.cpp
 
 msvc {
     QMAKE_CXXFLAGS_WARN_ON -= -w34100

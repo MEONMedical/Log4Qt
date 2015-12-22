@@ -22,7 +22,7 @@ public:
     virtual QByteArray binaryFormat(const BinaryLoggingEvent &rEvent);
     virtual QString format(const LoggingEvent &rEvent) override;
 
-    virtual QString contentType() const;
+    virtual QString contentType() const override;
 
     virtual QByteArray binaryFooter() const;
     void setBinaryFooter(const QByteArray &rFooter);
@@ -32,7 +32,7 @@ public:
 
 protected:
 #ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const override;
 #endif // QT_NO_DEBUG_STREAM
 
 private:

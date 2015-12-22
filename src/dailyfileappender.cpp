@@ -80,8 +80,7 @@ void DailyFileAppender::activateOptions()
 
 QString DailyFileAppender::appendDateToFilename() const
 {
-    QString logfile{file()};
-    QFileInfo fi(logfile);
+    QFileInfo fi(mOriginalFilename);
     return fi.absolutePath() % QStringLiteral("/") % fi.baseName() %  mLastDate.toString(mDatePattern) % QStringLiteral(".") % fi.completeSuffix();
 }
 
@@ -125,6 +124,9 @@ QDebug DailyFileAppender::debug(QDebug &rDebug) const
 
 void DailyFileAppender::setLogFileForCurrentDay()
 {
+    if (mOriginalFilename.isEmpty())
+        mOriginalFilename = file();
+
     mLastDate = QDate::currentDate();
     setFile(appendDateToFilename());
 }

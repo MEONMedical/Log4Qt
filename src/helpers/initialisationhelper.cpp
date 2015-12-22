@@ -35,6 +35,11 @@
 #include <QtCore/QMutex>
 #include <QtCore/QProcess>
 #include <QtCore/QSettings>
+
+#ifndef QT_NO_DATASTREAM
+#include <QtCore/QDataStream>
+#endif
+
 #include "helpers/datetime.h"
 #include "helpers/logerror.h"
 #include "loggingevent.h"

@@ -4,6 +4,9 @@
 
 #include <QDebug>
 
+#ifndef QT_NO_DATASTREAM
+#include <QtCore/QDataStream>
+#endif
 
 namespace Log4Qt {
 

@@ -69,6 +69,7 @@ private:
 
     QString mDatePattern;
     QDate mLastDate;
+    QString mOriginalFilename;
 };
 
 }
