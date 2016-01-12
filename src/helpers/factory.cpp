@@ -138,28 +138,28 @@ Appender *create_telnet_appender()
 #endif
 
 Appender *create_async_appender()
-{	
-	return new AsyncAppender;	
+{
+    return new AsyncAppender;
 }
 
 Appender *create_mainthread_appender()
-{	
-	return new MainThreadAppender;	
+{
+    return new MainThreadAppender;
 }
 
 Appender *create_systemlog_appender()
-{	
-	return new SystemLogAppender;	
+{
+    return new SystemLogAppender;
 }
 
 Appender *create_binaryfile_appender()
-{	
-	return new BinaryFileAppender;	
+{
+    return new BinaryFileAppender;
 }
 
 Appender *create_rollingbinaryfile_appender()
-{	
-	return new RollingBinaryFileAppender;	
+{
+    return new RollingBinaryFileAppender;
 }
 
 Appender * create_dailyrollingfile_appender()
@@ -188,10 +188,10 @@ Filter *create_string_match_filter()
 {
     return new StringMatchFilter;
 }
-    
+
 Filter *create_binaryevent_filter()
-{	
-	return new BinaryEventFilter;	
+{
+    return new BinaryEventFilter;
 }
 
 // Layouts
@@ -223,13 +223,13 @@ Layout *create_ttcc_layout()
     return new TTCCLayout;
 }
 Layout *create_binary_layout()
-{	
-	return new BinaryLayout;	
+{
+    return new BinaryLayout;
 }
 
 Layout *create_binarytotext_layout()
-{	
-	return new BinaryToTextLayout;	
+{
+    return new BinaryToTextLayout;
 }
 
 Layout *create_xml_layout()
@@ -555,13 +555,13 @@ bool Factory::validateObjectProperty(QMetaProperty &rMetaProperty,
     }
     const QMetaObject *p_meta_object = pObject->metaObject();
     QString property = rProperty;
-    int i = p_meta_object->indexOfProperty(property.toLatin1());
+    int i = p_meta_object->indexOfProperty(property.toLatin1().constData());
     if (i < 0)
     {
         // Try name with lower case first character. Java properties names
         // start upper case
         property[0] = property[0].toLower();
-        i = p_meta_object->indexOfProperty(property.toLatin1());
+        i = p_meta_object->indexOfProperty(property.toLatin1().constData());
         if (i < 0)
         {
             LogError ce = LOG4QT_ERROR(QT_TR_NOOP("Property '%1' does not exist in class '%2'"),

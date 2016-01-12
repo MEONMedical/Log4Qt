@@ -105,7 +105,7 @@ LogError::LogError(const char *pMessage,
 
 QString LogError::translatedMessage() const
 {
-    return QCoreApplication::translate(mContext.toLatin1(), mMessage.toUtf8().data(), 0
+    return QCoreApplication::translate(mContext.toLatin1().constData(), mMessage.toUtf8().constData(), 0
 #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
                                        , QCoreApplication::UnicodeUTF8
 #endif
