@@ -33,11 +33,7 @@ namespace Log4Qt
 {
 
 AppenderAttachable::AppenderAttachable() :
-#if QT_VERSION < QT_VERSION_CHECK(4, 4, 0)
-    mAppenderGuard()
-#else
     mAppenderGuard(QReadWriteLock::Recursive)
-#endif
 {
 }
 

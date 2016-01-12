@@ -60,10 +60,10 @@ class LoggerRepository;
  * enabled all messages are logged using the logger qtLogger().
  *
  * The Log4Qt runtime version is accessible over version(). The macros
-	 * \ref Log4Qt::LOG4QT_VERSION "LOG4QT_VERSION" and
-	 * \ref Log4Qt::LOG4QT_VERSION_STR "LOG4QT_VERSION_STR" provide the
-	 * compile time version.
-	 *
+     * \ref Log4Qt::LOG4QT_VERSION "LOG4QT_VERSION" and
+     * \ref Log4Qt::LOG4QT_VERSION_STR "LOG4QT_VERSION_STR" provide the
+     * compile time version.
+     *
  * \note All the functions declared in this class are thread-safe.
  */
 class LOG4QT_EXPORT LogManager
@@ -117,27 +117,27 @@ public:
      *
      * The following mappping is used from QtMsgType to Level:
      *
-    	 * <table align="center" border="1" cellpadding="2" cellspacing="0" bordercolor="#84b0c7">
-    	 * <tr bgcolor="#d5e1e8">
-    	 * <th> &nbsp;&nbsp;&nbsp; QtMsgType &nbsp;&nbsp;&nbsp;</th>
-    	 * <th> %Level </th>
-    	 * </tr><tr>
-    	 * <td> QtDebugMsg </td>
-    	 * <td> Level::DEBUG_INT </td>
-    	 * </tr><tr bgcolor="#ffffff">
-    	 * <td> QtWarningMsg </td>
-    	 * <td> Level::WARN_INT </td>
-    	 * </tr><tr>
-    	 * <td> QtCriticalMsg </td>
-    	 * <td> Level::ERROR_INT </td>
-    	 * </tr><tr bgcolor="#ffffff">
-    	 * <td> QtFatalMsg </td>
-    	 * <td> Level::FATAL_INT </td>
-    	 * </tr><tr>
-    	 * <td> QtSystemMsg </td>
-    	 * <td> Level::TRACE_INT </td>
-    	 * </tr>
-    	 * </table>
+         * <table align="center" border="1" cellpadding="2" cellspacing="0" bordercolor="#84b0c7">
+         * <tr bgcolor="#d5e1e8">
+         * <th> &nbsp;&nbsp;&nbsp; QtMsgType &nbsp;&nbsp;&nbsp;</th>
+         * <th> %Level </th>
+         * </tr><tr>
+         * <td> QtDebugMsg </td>
+         * <td> Level::DEBUG_INT </td>
+         * </tr><tr bgcolor="#ffffff">
+         * <td> QtWarningMsg </td>
+         * <td> Level::WARN_INT </td>
+         * </tr><tr>
+         * <td> QtCriticalMsg </td>
+         * <td> Level::ERROR_INT </td>
+         * </tr><tr bgcolor="#ffffff">
+         * <td> QtFatalMsg </td>
+         * <td> Level::FATAL_INT </td>
+         * </tr><tr>
+         * <td> QtSystemMsg </td>
+         * <td> Level::TRACE_INT </td>
+         * </tr>
+         * </table>
      *
      * The default value is false for not handling Qt messages.
      *
@@ -244,22 +244,14 @@ private:
     void doConfigureLogLogger();
     void doStartup();
     void welcome();
-#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-    static void qtMessageHandler(QtMsgType type,
-                                 const char *pMessage);
-#else
+
     static void qtMessageHandler(QtMsgType type, const QMessageLogContext &, const QString & pMessage);
-#endif
 
 private:
     mutable QMutex mObjectGuard;
     LoggerRepository *mpLoggerRepository;
     bool mHandleQtMessages;
-#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-    QtMsgHandler mOldQtMsgHandler;
-#else
-    QtMessageHandler mOldQtMsgHandler;
-#endif
+    QtMessageHandler mQtMsgHandler;
     static LogManager *mspInstance;
 };
 

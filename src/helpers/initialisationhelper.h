@@ -35,10 +35,8 @@
 #include <QtCore/QHash>
 #include <QString>
 
-#if QT_VERSION >= QT_VERSION_CHECK(4, 4, 0)
-#	ifndef Q_ATOMIC_POINTER_TEST_AND_SET_IS_ALWAYS_NATIVE
-#		warning "QAtomicPointer test and set is not native. The macros Log4Qt::LOG4QT_GLOBAL_STATIC and Log4Qt::LOG4QT_IMPLEMENT_INSTANCE are not thread-safe."
-#	endif
+#ifndef Q_ATOMIC_POINTER_TEST_AND_SET_IS_ALWAYS_NATIVE
+#warning "QAtomicPointer test and set is not native. The macros Log4Qt::LOG4QT_GLOBAL_STATIC and Log4Qt::LOG4QT_IMPLEMENT_INSTANCE are not thread-safe."
 #endif
 
 class QMutex;
@@ -100,51 +98,20 @@ namespace Log4Qt
  * \sa \ref Log4Qt::LOG4QT_IMPLEMENT_INSTANCE "LOG4QT_IMPLEMENT_INSTANCE",
  *     \ref Log4Qt::InitialisationHelper "InitialisationHelper"
  */
-#if QT_VERSION < QT_VERSION_CHECK(4, 4, 0)
 #define LOG4QT_GLOBAL_STATIC(TYPE, FUNCTION)                              \
-		static volatile TYPE *sp_global_static_##FUNCTION = 0;                \
-		TYPE *FUNCTION()                                                      \
-		{                                                                     \
-			if (!sp_global_static_##FUNCTION)                                 \
-			{                                                                 \
-				TYPE *p_temp = new TYPE;                                      \
-				if (!q_atomic_test_and_set_ptr(&sp_global_static_##FUNCTION,  \
-												 0, p_temp))                    \
-					delete p_temp;                                            \
-			}                                                                 \
-			return const_cast<TYPE *>(sp_global_static_##FUNCTION);           \
-		}
-#elif QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-#define LOG4QT_GLOBAL_STATIC(TYPE, FUNCTION)                              \
-	static QBasicAtomicPointer<TYPE > sp_global_static_##FUNCTION =       \
-	Q_BASIC_ATOMIC_INITIALIZER(0);                                    \
-		TYPE *FUNCTION()                                                      \
-		{                                                                     \
-				if (!sp_global_static_##FUNCTION)                                 \
-				{                                                                 \
-						TYPE *p_temp = new TYPE;                                      \
-						if (!sp_global_static_##FUNCTION.testAndSetOrdered(0,         \
-															 p_temp))   \
-								delete p_temp;                                            \
-				}                                                                 \
-				return sp_global_static_##FUNCTION;                               \
-		}
-#else
-#define LOG4QT_GLOBAL_STATIC(TYPE, FUNCTION)                              \
-	static QBasicAtomicPointer<TYPE > sp_global_static_##FUNCTION =       \
-	Q_BASIC_ATOMIC_INITIALIZER(0);                                    \
-		TYPE *FUNCTION()                                                      \
-		{                                                                     \
-				if (!sp_global_static_##FUNCTION.loadAcquire())                   \
-				{                                                                 \
-						TYPE *p_temp = new TYPE;                                      \
-						if (!sp_global_static_##FUNCTION.testAndSetOrdered(0,         \
-															 p_temp))   \
-								delete p_temp;                                            \
-				}                                                                 \
-				return sp_global_static_##FUNCTION.loadAcquire();                 \
-		}
-#endif
+    static QBasicAtomicPointer<TYPE > sp_global_static_##FUNCTION =       \
+    Q_BASIC_ATOMIC_INITIALIZER(0);                                    \
+        TYPE *FUNCTION()                                                      \
+        {                                                                     \
+                if (!sp_global_static_##FUNCTION.loadAcquire())                   \
+                {                                                                 \
+                        TYPE *p_temp = new TYPE;                                      \
+                        if (!sp_global_static_##FUNCTION.testAndSetOrdered(0,         \
+                                                             p_temp))   \
+                                delete p_temp;                                            \
+                }                                                                 \
+                return sp_global_static_##FUNCTION.loadAcquire();                 \
+        }
 
 /*!
  * LOG4QT_IMPLEMENT_INSTANCE implements an instance function for a
@@ -188,49 +155,19 @@ namespace Log4Qt
  * \sa \ref Log4Qt::LOG4QT_GLOBAL_STATIC "LOG4QT_GLOBAL_STATIC",
  *     \ref Log4Qt::InitialisationHelper "InitialisationHelper"
  */
-#if QT_VERSION < QT_VERSION_CHECK(4, 4, 0)
 #define LOG4QT_IMPLEMENT_INSTANCE(TYPE)                                   \
-		static TYPE *sp_singleton_##TYPE = 0;                                 \
-		TYPE *TYPE::instance()                                                \
-		{                                                                     \
-			if (!sp_singleton_##TYPE)                                         \
-			{                                                                 \
-				TYPE *p_temp = new TYPE;                                      \
-				if (!q_atomic_test_and_set_ptr(&sp_singleton_##TYPE,          \
-												 0, p_temp))                    \
-					 delete p_temp;                                           \
-			}                                                                 \
-			return sp_singleton_##TYPE;                                       \
-		}
-#elif QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-#define LOG4QT_IMPLEMENT_INSTANCE(TYPE)                                   \
-	static QBasicAtomicPointer<TYPE > sp_singleton_##TYPE =               \
-	Q_BASIC_ATOMIC_INITIALIZER(0);                                    \
-		TYPE *TYPE::instance()                                                \
-		{                                                                     \
-				if (!sp_singleton_##TYPE)                                         \
-				{                                                                 \
-						TYPE *p_temp = new TYPE;                                      \
-						if (!sp_singleton_##TYPE.testAndSetOrdered(0, p_temp))        \
-								delete p_temp;                                            \
-				}                                                                 \
-				return sp_singleton_##TYPE;                                       \
-		}
-#else
-#define LOG4QT_IMPLEMENT_INSTANCE(TYPE)                                   \
-		static QBasicAtomicPointer<TYPE > sp_singleton_##TYPE =               \
-			Q_BASIC_ATOMIC_INITIALIZER(0);                                    \
-				TYPE *TYPE::instance()                                                \
-				{                                                                     \
-						if (!sp_singleton_##TYPE.loadAcquire())                            \
-						{                                                                 \
-								TYPE *p_temp = new TYPE;                                      \
-								if (!sp_singleton_##TYPE.testAndSetOrdered(0, p_temp))        \
-										delete p_temp;                                            \
-						}                                                                 \
-						return sp_singleton_##TYPE.loadAcquire();                         \
-				}
-#endif
+        static QBasicAtomicPointer<TYPE > sp_singleton_##TYPE =               \
+            Q_BASIC_ATOMIC_INITIALIZER(0);                                    \
+                TYPE *TYPE::instance()                                                \
+                {                                                                     \
+                        if (!sp_singleton_##TYPE.loadAcquire())                            \
+                        {                                                                 \
+                                TYPE *p_temp = new TYPE;                                      \
+                                if (!sp_singleton_##TYPE.testAndSetOrdered(0, p_temp))        \
+                                        delete p_temp;                                            \
+                        }                                                                 \
+                        return sp_singleton_##TYPE.loadAcquire();                         \
+                }
 
 /*!
  * \brief The class InitialisationHelper performs static initialisation
@@ -246,7 +183,7 @@ namespace Log4Qt
  * Settings for the package can be retrieved using setting(). Two macros
  * are available to help with the creation of singletons / global static
  * objects (\ref Log4Qt::LOG4QT_GLOBAL_STATIC "LOG4QT_GLOBAL_STATIC" and
-	 * \ref Log4Qt::LOG4QT_IMPLEMENT_INSTANCE "LOG4QT_IMPLEMENT_INSTANCE").
+     * \ref Log4Qt::LOG4QT_IMPLEMENT_INSTANCE "LOG4QT_IMPLEMENT_INSTANCE").
  *
  * \note All the functions declared in this class are thread-safe.
  *

@@ -59,7 +59,7 @@ LogManager::LogManager() :
     mObjectGuard(QMutex::Recursive), // Recursive for doStartup() to call doConfigureLogLogger()
     mpLoggerRepository(new Hierarchy()),
     mHandleQtMessages(false),
-    mOldQtMsgHandler(nullptr)
+    mQtMsgHandler(nullptr)
 {
 }
 
@@ -163,21 +163,12 @@ void LogManager::doSetHandleQtMessages(bool handleQtMessages)
     if (instance()->mHandleQtMessages)
     {
         static_logger()->trace("Activate Qt message handling");
-#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-        instance()->mOldQtMsgHandler = qInstallMsgHandler(qtMessageHandler);
-#else
-        instance()->mOldQtMsgHandler = qInstallMessageHandler(qtMessageHandler);
-#endif
-
+        instance()->mQtMsgHandler = qInstallMessageHandler(qtMessageHandler);
     }
     else
     {
         static_logger()->trace("Deactivate Qt message handling");
-#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-        qInstallMsgHandler(instance()->mOldQtMsgHandler);
-#else
-        qInstallMessageHandler(instance()->mOldQtMsgHandler);
-#endif
+        qInstallMessageHandler(instance()->mQtMsgHandler);
     }
 }
 
@@ -348,14 +339,8 @@ void LogManager::welcome()
     }
 }
 
-
-#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-void LogManager::qtMessageHandler(QtMsgType type, const char *pMessage)
-{
-#else
 void LogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &, const QString & pMessage)
 {
-#endif
     Level level;
     switch (type)
     {

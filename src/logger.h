@@ -42,10 +42,8 @@
 #include "level.h"
 #include "logstream.h"
 
-#if QT_VERSION >= QT_VERSION_CHECK(4, 4, 0)
-#	ifndef Q_ATOMIC_POINTER_TEST_AND_SET_IS_ALWAYS_NATIVE
-#		warning "QAtomicPointer test and set is not native. The macro Log4Qt::LOG4QT_DECLARE_STATIC_LOGGER is not thread-safe."
-#	endif
+#ifndef Q_ATOMIC_POINTER_TEST_AND_SET_IS_ALWAYS_NATIVE
+#warning "QAtomicPointer test and set is not native. The macro Log4Qt::LOG4QT_DECLARE_STATIC_LOGGER is not thread-safe."
 #endif
 
 namespace Log4Qt
@@ -103,47 +101,18 @@ namespace Log4Qt
  *
  * \sa \ref Log4Qt::Logger::logger(const char *pName) "Logger::logger(const char *pName)"
  */
-#if QT_VERSION < QT_VERSION_CHECK(4, 4, 0)
 #define LOG4QT_DECLARE_STATIC_LOGGER(FUNCTION, CLASS)                     \
-		static Log4Qt::Logger *FUNCTION()                                     \
-		{                                                                     \
-			static Log4Qt::Logger *p_logger = 0;                              \
-				if (!p_logger)                                                \
-				{                                                             \
-					q_atomic_test_and_set_ptr(                                \
-						&p_logger,                                            \
-						0,                                                    \
-						Log4Qt::Logger::logger( #CLASS ));                    \
-				}                                                             \
-			return p_logger;                                                  \
-		}
-#elif QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-#define LOG4QT_DECLARE_STATIC_LOGGER(FUNCTION, CLASS)                     \
-			static Log4Qt::Logger *FUNCTION()                                     \
-			{                                                                     \
-			static QBasicAtomicPointer<Log4Qt::Logger > p_logger =            \
-				Q_BASIC_ATOMIC_INITIALIZER(0);                                \
-					if (!p_logger)                                                    \
-					{                                                                 \
-						p_logger.testAndSetOrdered(0,                                 \
-					Log4Qt::Logger::logger( #CLASS ));                        \
-						}                                                                 \
-					return p_logger;                                                  \
-			}
-#else
-#define LOG4QT_DECLARE_STATIC_LOGGER(FUNCTION, CLASS)                     \
-		static Log4Qt::Logger *FUNCTION()                                     \
-		{                                                                     \
-		static QBasicAtomicPointer<Log4Qt::Logger > p_logger =            \
-			Q_BASIC_ATOMIC_INITIALIZER(0);                                \
-				if (!p_logger.loadAcquire())                                                    \
-				{                                                                 \
-					p_logger.testAndSetOrdered(0,                                 \
-				Log4Qt::Logger::logger( #CLASS ));                        \
-					}                                                                 \
-				return p_logger.loadAcquire();                                                  \
-		}
-#endif
+        static Log4Qt::Logger *FUNCTION()                                     \
+        {                                                                     \
+        static QBasicAtomicPointer<Log4Qt::Logger > p_logger =            \
+            Q_BASIC_ATOMIC_INITIALIZER(0);                                \
+                if (!p_logger.loadAcquire())                                                    \
+                {                                                                 \
+                    p_logger.testAndSetOrdered(0,                                 \
+                Log4Qt::Logger::logger( #CLASS ));                        \
+                    }                                                                 \
+                return p_logger.loadAcquire();                                                  \
+        }
 
 /*!
  * LOG4QT_DECLARE_QCLASS_LOGGER declares member functions to retrieve
@@ -200,12 +169,12 @@ namespace Log4Qt
  *     \ref Log4Qt::ClassLogger "ClassLogger"
  */
 #define LOG4QT_DECLARE_QCLASS_LOGGER                                      \
-			private:                                                              \
-					mutable Log4Qt::ClassLogger mLog4QtClassLogger;                   \
-			public:                                                               \
-					inline Log4Qt::Logger *logger() const                             \
-					{   return mLog4QtClassLogger.logger(this);    }                  \
-			private:
+            private:                                                              \
+                    mutable Log4Qt::ClassLogger mLog4QtClassLogger;                   \
+            public:                                                               \
+                    inline Log4Qt::Logger *logger() const                             \
+                    {   return mLog4QtClassLogger.logger(this);    }                  \
+            private:
 
 class Appender;
 class LoggingEvent;
