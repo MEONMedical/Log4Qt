@@ -110,6 +110,4 @@ inline void StringMatchFilter::setStringToMatch(const QString &rString)
 
 } // namespace Log4Qt
 
-// Q_DECLARE_TYPEINFO(Log4Qt::StringMatchFilter, Q_MOVABLE_TYPE); // Use default
-
 #endif // LOG4QT_STRINGMATCHFILTER_H

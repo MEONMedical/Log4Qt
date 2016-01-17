@@ -99,8 +99,4 @@ QDebug operator<<(QDebug debug,
 
 } // namespace Log4Qt
 
-
-// Q_DECLARE_TYPEINFO(Log4Qt::LoggerRepository, Q_COMPLEX_TYPE); // Use default
-
-
 #endif // LOG4QT_LOGGERREPOSITORY_H

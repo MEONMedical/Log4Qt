@@ -128,15 +128,10 @@ private:
 
 inline void ConsoleAppender::setTarget(Target target)
 {
-    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
     mTarget = target;
 }
 
 
 } // namespace Log4Qt
-
-
-// Q_DECLARE_TYPEINFO(::ConsoleAppender, Q_COMPLEX_TYPE); // Use default
-
 
 #endif // _CONSOLEAPPENDER_H

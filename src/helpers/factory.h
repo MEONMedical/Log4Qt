@@ -465,8 +465,4 @@ inline void Factory::unregisterLayout(const char *pLayoutClassName)
 
 } // namespace Log4Qt
 
-
-// Q_DECLARE_TYPEINFO(Log4Qt::Factory, Q_COMPLEX_TYPE); // use default
-
-
 #endif // LOG4QT_HELPERS_FACTORY_H

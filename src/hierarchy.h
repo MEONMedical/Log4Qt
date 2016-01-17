@@ -120,8 +120,4 @@ inline bool Hierarchy::isDisabled(Level level)
 
 } // namespace Log4Qt
 
-
-// Q_DECLARE_TYPEINFO(::Hierarchy, Q_COMPLEX_TYPE); // Use default
-
-
 #endif // _HIERARCHY_H

@@ -134,6 +134,4 @@ inline void LevelRangeFilter::setLevelMin(Level level)
 
 } // namespace Log4Qt
 
-// Q_DECLARE_TYPEINFO(Log4Qt::LevelRangeFilter, Q_MOVABLE_TYPE); // Use default
-
 #endif // LOG4QT_LEVELRANGEFILTER_H

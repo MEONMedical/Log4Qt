@@ -91,8 +91,4 @@ inline NDC::NDC() :
 
 } // namespace Log4Qt
 
-
-// Q_DECLARE_TYPEINFO(Log4Qt::NDC, Q_COMPLEX_TYPE); // Use default
-
-
 #endif // LOG4QT_NDC_H

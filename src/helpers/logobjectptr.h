@@ -185,8 +185,6 @@ inline void LogObjectPtr<T>::release() const
 
 } // namespace Log4Qt
 
-
 //Q_DECLARE_TYPEINFO(Log4Qt::LogObjectPtr<T>, Q_MOVABLE_TYPE); // Declare within T
-
 
 #endif // LOG4QT_LOGOBJECTPTR_H

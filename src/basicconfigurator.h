@@ -53,8 +53,4 @@ public:
 
 } // namspace
 
-
-// Q_DECLARE_TYPEINFO(::BasicConfigurator, Q_MOVABLE_TYPE); // Use default
-
-
 #endif // _BASICCONFIGURATOR_H

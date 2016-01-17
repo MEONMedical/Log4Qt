@@ -75,6 +75,4 @@ inline bool NullAppender::requiresLayout() const
 
 } // namespace Log4Qt
 
-// Q_DECLARE_TYPEINFO(Log4Qt::NullAppender, Q_COMPLEX_TYPE); // Use default
-
 #endif // LOG4QT_NULLAPPENDER_H

@@ -71,7 +71,4 @@ protected:
 
 } // namespace Log4Qt
 
-
-// Q_DECLARE_TYPEINFO(Log4Qt::DenyAllFilter, Q_MOVABLE_TYPE); // Use default
-
 #endif // LOG4QT_DENYALLFILTER_H

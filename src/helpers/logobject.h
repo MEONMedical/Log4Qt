@@ -184,8 +184,4 @@ inline Logger *LogObject::logger() const
 
 } // namespace Log4Qt
 
-
-// Q_DECLARE_TYPEINFO(Log4Qt::LogObject, Q_COMPLEX_TYPE); // Use default
-
-
 #endif // LOG4QT_LOGOBJECT_H

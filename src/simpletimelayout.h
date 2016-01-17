@@ -72,8 +72,4 @@ inline SimpleTimeLayout::SimpleTimeLayout(QObject *pParent) :
 
 } // namespace Log4Qt
 
-
-// Q_DECLARE_TYPEINFO(Log4Qt::SimpleTimeLayout, Q_COMPLEX_TYPE); // Use default
-
-
 #endif // LOG4QT_SIMPLETIMELAYOUT_H

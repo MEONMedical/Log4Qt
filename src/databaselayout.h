@@ -119,7 +119,4 @@ inline DatabaseLayout::DatabaseLayout(QObject *pParent) :
 
 } // namespace Log4Qt
 
-
-// Q_DECLARE_TYPEINFO(Log4Qt::DatabaseLayout, Q_COMPLEX_TYPE); // Use default
-
 #endif // LOG4QT_DATABASELAYOUT_H

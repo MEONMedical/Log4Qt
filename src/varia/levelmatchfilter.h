@@ -114,6 +114,4 @@ inline void LevelMatchFilter::setLevelToMatch(Level level)
 
 } // namespace Log4Qt
 
-// Q_DECLARE_TYPEINFO(Log4Qt::LevelMatchFilter, Q_MOVABLE_TYPE); // Use default
-
 #endif // LOG4QT_LEVELMATCHFILTER_H

@@ -191,8 +191,4 @@ inline void ConfiguratorHelper::setConfigurationFile(const QString &rFileName,
 
 } // namespace Log4Qt
 
-
-// Q_DECLARE_TYPEINFO(Log4Qt::ConfiguratorHelper, Q_COMPLEX_TYPE); // use default
-
-
 #endif // LOG4QT_HELPERS_CONFIGURATORHELPER_H

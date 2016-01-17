@@ -194,20 +194,14 @@ private:
 
 inline bool TelnetAppender::immediateFlush() const
 {
-    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
     return mImmediateFlush;
 }
 
 inline void TelnetAppender::setImmediateFlush(bool immediateFlush)
 {
-    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
     mImmediateFlush = immediateFlush;
 }
 
 } // namespace Log4Qt
-
-
-// Q_DECLARE_TYPEINFO(Log4Qt::TelnetAppender, Q_COMPLEX_TYPE); // Use default
-
 
 #endif // LOG4QT_TELNETAPPENDER_H

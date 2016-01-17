@@ -81,24 +81,29 @@ private:
 };
 
 inline bool BinaryFileAppender::appendFile() const
-{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-    return mAppendFile;   }
+{
+    return mAppendFile;
+}
 
 inline QString BinaryFileAppender::file() const
 {   QMutexLocker locker(&mObjectGuard);
-        return mFileName;   }
+        return mFileName;
+}
 
 inline bool BinaryFileAppender::bufferedIo() const
-{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-    return mBufferedIo;   }
+{
+    return mBufferedIo;
+}
 
 inline void BinaryFileAppender::setAppendFile(bool append)
-{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-    mAppendFile = append;   }
+{
+    mAppendFile = append;
+}
 
 inline void BinaryFileAppender::setBufferedIo(bool buffered)
-{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-    mBufferedIo = buffered;   }
+{
+    mBufferedIo = buffered;
+}
 
 inline void BinaryFileAppender::setFile(const QString &rFileName)
 {   QMutexLocker locker(&mObjectGuard);

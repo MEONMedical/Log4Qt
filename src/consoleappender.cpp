@@ -80,17 +80,13 @@ ConsoleAppender::~ConsoleAppender()
 
 }
 
-
 QString ConsoleAppender::target() const
 {
-    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-
     if (mTarget == STDOUT_TARGET)
         return QLatin1String("STDOUT_TARGET");
     else
         return QLatin1String("STDERR_TARGET");
 }
-
 
 void ConsoleAppender::setTarget(const QString &rTarget)
 {

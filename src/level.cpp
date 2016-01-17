@@ -39,8 +39,6 @@ LOG4QT_DECLARE_STATIC_LOGGER(logger, Log4Qt::Level)
 
 int Level::syslogEquivalent() const
 {
-    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-
     switch (mValue)
     {
     case NULL_INT:
@@ -66,8 +64,6 @@ int Level::syslogEquivalent() const
 
 QString Level::toString() const
 {
-    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-
     const char *p_context = "Level";
 
     switch (mValue)

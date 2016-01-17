@@ -104,8 +104,4 @@ inline DebugAppender::DebugAppender(QObject *pParent) :
 
 } // namespace Log4Qt
 
-
-// Q_DECLARE_TYPEINFO(Log4Qt::DebugAppender, Q_COMPLEX_TYPE); // Use default
-
-
 #endif // LOG4QT_DEBUGAPPENDER_H

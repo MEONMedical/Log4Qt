@@ -103,8 +103,4 @@ private:
 
 } // namespace Log4Qt
 
-
-// Q_DECLARE_TYPEINFO(Log4Qt::MainThreadAppender, Q_COMPLEX_TYPE); // Use default
-
-
 #endif

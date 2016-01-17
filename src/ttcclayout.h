@@ -223,8 +223,4 @@ inline void TTCCLayout::setThreadPrinting(bool threadPrinting)
 
 } // namespace Log4Qt
 
-
-// Q_DECLARE_TYPEINFO(Log4Qt::TTCCLayout, Q_COMPLEX_TYPE); // Use default
-
-
 #endif // LOG4QT_TTCCLAYOUT_H

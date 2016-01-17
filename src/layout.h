@@ -139,8 +139,6 @@ inline void Layout::setName(const QString &rName)
 
 } // namespace Log4Qt
 
-
-// Q_DECLARE_TYPEINFO(Log4Qt::Layout, Q_COMPLEX_TYPE); // Use default
 Q_DECLARE_TYPEINFO(Log4Qt::LogObjectPtr<Log4Qt::Layout>, Q_MOVABLE_TYPE);
 
 

@@ -112,8 +112,4 @@ private:
 
 } // namespace Log4Qt
 
-
-// Q_DECLARE_TYPEINFO(Log4Qt::AsyncAppender, Q_COMPLEX_TYPE); // Use default
-
-
 #endif // LOG4QT_AsyncAppender_H

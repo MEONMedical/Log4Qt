@@ -276,25 +276,21 @@ QDebug operator<<(QDebug debug,
 
 inline LoggerRepository *LogManager::loggerRepository()
 {
-    // QMutexLocker locker(&instance()->mObjectGuard); // Constant for object lifetime
     return instance()->mpLoggerRepository;
 }
 
 inline bool LogManager::handleQtMessages()
 {
-    // QMutexLocker locker(&instance()->mObjectGuard);  // Read/Write of bool is safe
     return instance()->mHandleQtMessages;
 }
 
 inline Logger *LogManager::logLogger()
 {
-    // QMutexLocker locker(&instance()->mObjectGuard); // Constant for object lifetime
     return logger(QLatin1String("Log4Qt"));
 }
 
 inline Logger *LogManager::qtLogger()
 {
-    // QMutexLocker locker(&instance()->mObjectGuard); // Constant for object lifetime
     return logger(QLatin1String("Qt"));
 }
 
@@ -314,9 +310,5 @@ inline void LogManager::startup()
 }
 
 } // namespace Log4Qt
-
-
-// Q_DECLARE_TYPEINFO(Log4Qt::LogManager, Q_COMPLEX_TYPE); // Use default
-
 
 #endif // LOG4QT_LOGMANAGER_H

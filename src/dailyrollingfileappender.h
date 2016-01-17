@@ -171,8 +171,4 @@ inline void DailyRollingFileAppender::setDatePattern(const QString &rDatePattern
 
 } // namespace Log4Qt
 
-
-// Q_DECLARE_TYPEINFO(::DailyRollingFileAppender, Q_COMPLEX_TYPE); // Use default
-
-
 #endif // _DAILYROLLINGFILEAPPENDER_H

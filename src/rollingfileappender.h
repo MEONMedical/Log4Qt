@@ -151,8 +151,4 @@ inline void RollingFileAppender::setMaximumFileSize(qint64 maximumFileSize)
 
 } // namespace Log4Qt
 
-
-// Q_DECLARE_TYPEINFO(Log4Qt::RollingFileAppender, Q_COMPLEX_TYPE); // Use default
-
-
 #endif // LOG4QT_ROLINGFILEAPPENDER_H

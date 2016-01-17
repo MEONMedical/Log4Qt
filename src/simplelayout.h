@@ -72,8 +72,4 @@ inline SimpleLayout::SimpleLayout(QObject *pParent) :
 
 } // namespace Log4Qt
 
-
-// Q_DECLARE_TYPEINFO(Log4Qt::SimpleLayout, Q_COMPLEX_TYPE); // Use default
-
-
 #endif // LOG4QT_SIMPLELAYOUT_H

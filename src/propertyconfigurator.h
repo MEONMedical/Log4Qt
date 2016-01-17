@@ -164,10 +164,6 @@ QDebug operator<<(QDebug debug,
 inline PropertyConfigurator::PropertyConfigurator()
 {}
 
-} // namspace Logging
-
-
-// Q_DECLARE_TYPEINFO(Log4Qt::PropertyConfigurator, Q_COMPLEX_TYPE); // Use default
-
+} // namspace Log4Qt
 
 #endif // LOG4QT_PROPERTYCONFIGURATOR_H

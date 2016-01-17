@@ -333,27 +333,20 @@ QDebug operator<<(QDebug debug,
 
 inline QHash<QString, QString> InitialisationHelper::environmentSettings()
 {
-    // QMutexLocker locker(&instance()->mObjectGuard); // Constant for object lifetime
     return instance()->mEnvironmentSettings;
 }
 
 inline QString InitialisationHelper::setting(const QString &rKey,
         const QString &rDefault)
 {
-    // QMutexLocker locker(&instance()->mObjectGuard); // Reentrant and const
     return instance()->doSetting(rKey, rDefault);
 }
 
 inline qint64 InitialisationHelper::startTime()
 {
-    // QMutexLocker locker(&instance()->mObjectGuard); // Constant for object lifetime
     return instance()->mStartTime;
 }
 
 } // namespace Log4Qt
-
-
-// Q_DECLARE_TYPEINFO(Log4Qt::InitialisationHelper, Q_COMPLEX_TYPE); // use default
-
 
 #endif // LOG4QT_HELPERS_INITIALISATIONHELPER_H

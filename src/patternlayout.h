@@ -144,7 +144,4 @@ inline void PatternLayout::setConversionPattern(const QString &rPattern)
 } // namespace Log4Qt
 
 
-// Q_DECLARE_TYPEINFO(Log4Qt::PatternLayout, Q_COMPLEX_TYPE); // Use default
-
-
 #endif // LOG4QT_PATTERNLAYOUT_H

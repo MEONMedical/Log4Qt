@@ -131,7 +131,6 @@ private:
 
 inline bool ListAppender::configuratorList() const
 {
-    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
     return mConfiguratorList;
 }
 
@@ -142,7 +141,6 @@ inline int ListAppender::maxCount() const
 
 inline void ListAppender::setConfiguratorList(bool isConfiguratorList)
 {
-    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
     mConfiguratorList = isConfiguratorList;
 }
 
@@ -153,6 +151,6 @@ inline bool ListAppender::requiresLayout() const
 
 } // namespace Log4Qt
 
-// Q_DECLARE_TYPEINFO(Log4Qt::ListAppender, Q_COMPLEX_TYPE); // Use default
+Q_DECLARE_TYPEINFO(Log4Qt::LogObjectPtr<Log4Qt::ListAppender>, Q_MOVABLE_TYPE);
 
 #endif // LOG4QT_LISTAPPENDER_H

@@ -49,8 +49,9 @@ private:
 };
 
 inline QDataStream *BinaryWriterAppender::writer() const
-{   // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
-    return mpWriter;  }
+{
+    return mpWriter;
+}
 
 } // namespace Log4Qt
 

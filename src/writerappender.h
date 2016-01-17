@@ -162,27 +162,20 @@ inline QTextCodec *WriterAppender::encoding() const
 
 inline bool WriterAppender::immediateFlush() const
 {
-    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
     return mImmediateFlush;
 }
 
 inline QTextStream *WriterAppender::writer() const
 {
-    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
     return mpWriter;
 }
 
 inline void WriterAppender::setImmediateFlush(bool immediateFlush)
 {
-    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
     mImmediateFlush = immediateFlush;
 }
 
 
 } // namespace Log4Qt
-
-
-// Q_DECLARE_TYPEINFO(Log4Qt::WriterAppender, Q_COMPLEX_TYPE); // Use default
-
 
 #endif // LOG4QT_WRITERAPPENDER_H

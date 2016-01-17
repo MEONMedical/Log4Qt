@@ -82,8 +82,6 @@ private:
 
 } // namespace Log4Qt
 
-
-// Q_DECLARE_TYPEINFO(Log4Qt::Filter, Q_COMPLEX_TYPE); // Use default
 Q_DECLARE_TYPEINFO(Log4Qt::LogObjectPtr<Log4Qt::Filter>, Q_MOVABLE_TYPE);
 
 

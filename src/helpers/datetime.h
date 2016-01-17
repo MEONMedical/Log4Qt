@@ -190,8 +190,6 @@ inline DateTime DateTime::fromMilliSeconds(qint64 milliSeconds)
 
 } // namespace Log4Qt
 
-
 Q_DECLARE_TYPEINFO(Log4Qt::DateTime, Q_MOVABLE_TYPE);
-
 
 #endif // LOG4QT_HELPERS_DATETIME_H

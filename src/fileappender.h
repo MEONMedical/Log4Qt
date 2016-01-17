@@ -180,7 +180,6 @@ private:
 
 inline bool FileAppender::appendFile() const
 {
-    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
     return mAppendFile;
 }
 
@@ -192,19 +191,16 @@ inline QString FileAppender::file() const
 
 inline bool FileAppender::bufferedIo() const
 {
-    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
     return mBufferedIo;
 }
 
 inline void FileAppender::setAppendFile(bool append)
 {
-    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
     mAppendFile = append;
 }
 
 inline void FileAppender::setBufferedIo(bool buffered)
 {
-    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
     mBufferedIo = buffered;
 }
 
@@ -216,9 +212,5 @@ inline void FileAppender::setFile(const QString &rFileName)
 
 
 } // namespace Log4Qt
-
-
-// Q_DECLARE_TYPEINFO(::FileAppender, Q_COMPLEX_TYPE); // Use default
-
 
 #endif // _FILEAPPENDER_H

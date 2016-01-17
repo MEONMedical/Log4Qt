@@ -106,8 +106,6 @@ inline Appender::~Appender()
 
 } // namespace Log4Qt
 
-
-//Q_DECLARE_TYPEINFO(::Appender, Q_COMPLEX_TYPE); // Use default
-//Q_DECLARE_TYPEINFO(Log4Qt::LogObjectPtr<Log4Qt::Appender>, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(Log4Qt::LogObjectPtr<Log4Qt::Appender>, Q_MOVABLE_TYPE);
 
 #endif // LOG4QT_APPENDER_H

@@ -97,8 +97,4 @@ inline void MDC::remove(const QString &rKey)
 
 } // namespace Log4Qt
 
-
-// Q_DECLARE_TYPEINFO(Log4Qt::MDC, Q_COMPLEX_TYPE); // Use default
-
-
 #endif // LOG4QT_MDC_H

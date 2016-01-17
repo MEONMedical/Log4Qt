@@ -174,7 +174,6 @@ inline QString AppenderSkeleton::name() const
 
 inline Level AppenderSkeleton::threshold() const
 {
-    // QMutexLocker locker(&mObjectGuard); // Level is threadsafe
     return mThreshold;
 }
 
@@ -192,19 +191,16 @@ inline void AppenderSkeleton::setName(const QString &rName)
 
 inline void AppenderSkeleton::setThreshold(Level level)
 {
-    // QMutexLocker locker(&mObjectGuard); // Level is threadsafe
     mThreshold = level;
 }
 
 inline bool AppenderSkeleton::isActive() const
 {
-    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
     return mIsActive;
 }
 
 inline bool AppenderSkeleton::isClosed() const
 {
-    // QMutexLocker locker(&mObjectGuard); // Read/Write of int is safe
     return mIsClosed;
 }
 
@@ -216,15 +212,9 @@ inline Filter *AppenderSkeleton::firstFilter() const
 
 inline bool AppenderSkeleton::isAsSevereAsThreshold(Level level) const
 {
-    // QMutexLocker locker(&mObjectGuard); // Level is threadsafe
     return (mThreshold <= level);
 }
 
-
 } // namespace Log4Qt
-
-
-// Q_DECLARE_TYPEINFO(::AppenderSkeleton, Q_COMPLEX_TYPE); // Use default
-
 
 #endif // _APPENDERSKELETON_H
