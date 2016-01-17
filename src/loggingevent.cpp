@@ -51,7 +51,7 @@ LoggingEvent::LoggingEvent() :
     mProperties(MDC::context()),
     mSequenceNumber(nextSequenceNumber()),
     mThreadName(),
-    mTimeStamp(DateTime::currentDateTime().toMilliSeconds())
+    mTimeStamp(QDateTime::currentDateTime().toMSecsSinceEpoch())
 {
     setThreadNameToCurrent();
 }
@@ -68,7 +68,7 @@ LoggingEvent::LoggingEvent(const Logger *pLogger,
     mProperties(MDC::context()),
     mSequenceNumber(nextSequenceNumber()),
     mThreadName(),
-    mTimeStamp(DateTime::currentDateTime().toMilliSeconds())
+    mTimeStamp(QDateTime::currentDateTime().toMSecsSinceEpoch())
 {
     setThreadNameToCurrent();
 }
@@ -236,7 +236,7 @@ QDebug operator<<(QDebug debug,
                     << "sequencenumber:" << rLoggingEvent.sequenceNumber() << " "
                     << "threadname:" << rLoggingEvent.threadName() << " "
                     << "timestamp:" << rLoggingEvent.timeStamp()
-                    << "(" << DateTime::fromMilliSeconds(rLoggingEvent.timeStamp()) << ")"
+                    << "(" << DateTime::fromMSecsSinceEpoch(rLoggingEvent.timeStamp()) << ")"
                     << "sequenceCount:" << rLoggingEvent.sequenceCount()
                     << ")";
     return debug.space();

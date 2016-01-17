@@ -42,7 +42,7 @@ QString DateTime::toString(const QString &rFormat) const
         return QString();
 
     if (format == QLatin1String("RELATIVE"))
-        return QString::number(toMilliSeconds() - InitialisationHelper::startTime());
+        return QString::number(toMSecsSinceEpoch() - InitialisationHelper::startTime());
 
     if (format == QLatin1String("ISO8601"))
         format = QLatin1String("yyyy-MM-dd hh:mm:ss.zzz");

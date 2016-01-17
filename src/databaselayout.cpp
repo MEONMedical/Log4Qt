@@ -46,7 +46,7 @@ QSqlRecord DatabaseLayout::formatRecord(const LoggingEvent &rEvent)
         field.setName(mTimeStamp);
         field.setType(QVariant::DateTime);
         field.setGenerated(true);
-        field.setValue(DateTime::fromMilliSeconds(rEvent.timeStamp()));
+        field.setValue(DateTime::fromMSecsSinceEpoch(rEvent.timeStamp()));
         record.append(field);
     }
 
@@ -97,7 +97,7 @@ QString DatabaseLayout::format(const LoggingEvent &rEvent)
     {
         result.append(mTimeStamp);
         result.append(":");
-        result.append(DateTime::fromMilliSeconds(rEvent.timeStamp()).toString("dd.MM.yyyy hh:mm"));
+        result.append(DateTime::fromMSecsSinceEpoch(rEvent.timeStamp()).toString("dd.MM.yyyy hh:mm"));
     }
 
     if (!mThreadName.isEmpty())

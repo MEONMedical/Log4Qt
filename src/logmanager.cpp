@@ -282,7 +282,7 @@ void LogManager::welcome()
     if (static_logger()->isDebugEnabled())
     {
         // Create a nice timestamp with UTC offset
-        DateTime start_time = DateTime::fromMilliSeconds(InitialisationHelper::startTime());
+        DateTime start_time = DateTime::fromMSecsSinceEpoch(InitialisationHelper::startTime());
         QString offset;
         {
             QDateTime utc = start_time.toUTC();

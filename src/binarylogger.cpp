@@ -37,7 +37,7 @@ void BinaryLogger::log(Level level, const QByteArray &rMessage, const QDateTime 
 {
     if (isEnabledFor(level))
     {
-        BinaryLoggingEvent event(this, level, rMessage, DateTime(timeStamp).toMilliSeconds());
+        BinaryLoggingEvent event(this, level, rMessage, timeStamp.toMSecsSinceEpoch());
         callAppenders(event);
     }
 }

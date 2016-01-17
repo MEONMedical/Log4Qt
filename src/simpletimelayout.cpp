@@ -35,7 +35,7 @@ namespace Log4Qt
 
 QString SimpleTimeLayout::format(const LoggingEvent &rEvent)
 {
-    return DateTime::fromMilliSeconds(rEvent.timeStamp()).toString("dd.MM.yyyy hh:mm")
+    return DateTime::fromMSecsSinceEpoch(rEvent.timeStamp()).toString("dd.MM.yyyy hh:mm")
            + QLatin1String("[") + rEvent.threadName() + QLatin1String("]")
            + QLatin1String(" ") + rEvent.level().toString()
            + QLatin1String(" ") + rEvent.loggerName()

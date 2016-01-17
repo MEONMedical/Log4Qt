@@ -705,7 +705,7 @@ QDebug BasicPatternConverter::debug(QDebug &rDebug) const
 
 QString DatePatternConverter::convert(const LoggingEvent &rLoggingEvent) const
 {
-    return DateTime::fromMilliSeconds(rLoggingEvent.timeStamp()).toString(mFormat);
+    return DateTime::fromMSecsSinceEpoch(rLoggingEvent.timeStamp()).toString(mFormat);
 }
 
 

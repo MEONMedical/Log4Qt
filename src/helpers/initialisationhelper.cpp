@@ -48,7 +48,7 @@ namespace Log4Qt
 {
 
 InitialisationHelper::InitialisationHelper() :
-    mStartTime(DateTime::currentDateTime().toMilliSeconds()),
+    mStartTime(QDateTime::currentDateTime().toMSecsSinceEpoch()),
     mEnvironmentSettings()
 {
     doRegisterTypes();
@@ -142,7 +142,7 @@ QDebug operator<<(QDebug debug,
     Q_UNUSED(rInitialisationHelper);
     debug.nospace() << "InitialisationHelper("
                     << "starttime:" << InitialisationHelper::startTime()
-                    << "(" << DateTime::fromMilliSeconds(InitialisationHelper::startTime()) << ")"
+                    << "(" << DateTime::fromMSecsSinceEpoch(InitialisationHelper::startTime()) << ")"
                     << "environmentsettings:" << InitialisationHelper::environmentSettings()
                     << ")";
     return debug.space();

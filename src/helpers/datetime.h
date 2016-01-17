@@ -74,13 +74,6 @@ public:
      */
     DateTime &operator=(const DateTime &rOther);
 
-    /*!
-     * Returns the datetime as the number of milliseconds that have passed
-     * since 1970-01-01T00:00:00,000, Coordinated Universal Time (Qt::UTC).
-     *
-     * \sa QDateTime::toTime_t()
-     */
-    qint64 toMilliSeconds() const;
 
     /*!
      * Returns the datetime as a string. The \a rFormat parameter
@@ -139,15 +132,6 @@ public:
      */
     static DateTime currentDateTime();
 
-    /*!
-     * Returns a datetime whose date and time are the number of
-     * milliseconds that have passed since 1970-01-01T00:00:00,
-     * Coordinated Universal Time (Qt::UTC).
-     *
-     * \sa QDateTime::fromTime_t(uint seconds)
-     */
-    static DateTime fromMilliSeconds(qint64 milliSeconds);
-
 private:
     QString formatDateTime(const QString &rFormat) const;
     QString formatToken(const QString &rToken, bool am_pm) const;
@@ -172,21 +156,10 @@ inline DateTime &DateTime::operator=(const DateTime &rOther)
     return *this;
 }
 
-inline qint64 DateTime::toMilliSeconds() const
-{
-    return static_cast<qint64>(1000) * toTime_t() + time().msec();
-}
-
 inline DateTime DateTime::currentDateTime()
 {
     return DateTime(QDateTime::currentDateTime());
 }
-
-inline DateTime DateTime::fromMilliSeconds(qint64 milliSeconds)
-{
-    return DateTime(QDateTime::fromTime_t(milliSeconds / 1000).addMSecs(milliSeconds % 1000));
-}
-
 
 } // namespace Log4Qt
 

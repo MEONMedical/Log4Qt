@@ -81,7 +81,7 @@ QString BinaryLoggingEvent::binaryMarker()
             << "sequencenumber:" << rLoggingEvent.sequenceNumber() << " "
             << "threadname:" << rLoggingEvent.threadName() << " "
             << "timestamp:" << rLoggingEvent.timeStamp()
-                << "(" << DateTime::fromMilliSeconds(rLoggingEvent.timeStamp()) << ")"
+                << "(" << DateTime::fromMSecsSinceEpoch(rLoggingEvent.timeStamp()) << ")"
             << "sequenceCount:" << rLoggingEvent.sequenceCount()
             << ")";
         return debug.space();
