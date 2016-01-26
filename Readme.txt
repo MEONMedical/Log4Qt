@@ -8,6 +8,19 @@ Requirements
 
 Build and install
 
+use qmake to build the project
+*NIX
+  qmake
+  make
+  make install
+WIN*
+  qmake
+  mingw32-make
+  mingw32-make install
+
+cmake (CMakeLists.txt) is out of date for Qt5 and not working at the moment.
+Help to fix cmake for Qt5 build welcome.
+
 *NIX
   STATIC
     cmake -DQT_USE_QTSQL=TRUE -DQT_USE_QTNETWORK=TRUE -DCMAKE_BUILD_TYPE=Release -DLOG4QT_BUILD_STATIC=True .
@@ -55,5 +68,3 @@ If your have cmake-based project
     add_subdirectory(../log4qt ${CMAKE_CURRENT_BINARY_DIR}/log4qt)
     include_directories(../log4qt/src)
     target_link_libraries(main ${QT_LIBRARIES} log4qt)
-
-
