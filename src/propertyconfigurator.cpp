@@ -245,8 +245,7 @@ void PropertyConfigurator::configureNonRootElements(const Properties &rPropertie
     // - Parse logger additivity
 
     QStringList keys = rProperties.propertyNames();
-    QString key;
-    Q_FOREACH(key, keys)
+    for(const auto & key : keys)
     {
         QString java_name;
         if (key.startsWith(logger_prefix))
@@ -499,8 +498,7 @@ void PropertyConfigurator::setProperties(const Properties &rProperties,
                     rPrefix);
 
     QStringList keys = rProperties.propertyNames();
-    QString key;
-    Q_FOREACH(key, keys)
+    for(const auto & key : keys)
     {
         if (!key.startsWith(rPrefix))
             continue;

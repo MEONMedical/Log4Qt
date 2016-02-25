@@ -42,10 +42,8 @@ QList<Appender *> AppenderAttachable::appenders() const
     QReadLocker locker(&mAppenderGuard);
 
     QList<Appender *> result;
-    Appender *p_appender;
-    Q_FOREACH(p_appender, mAppenders)
-        result << p_appender;
-
+    for (auto pAppender : mAppenders)
+        result << pAppender;
     return result;
 }
 
@@ -86,10 +84,9 @@ Appender *AppenderAttachable::appender(const QString &rName) const
 {
     QReadLocker locker(&mAppenderGuard);
 
-    Appender *p_appender;
-    Q_FOREACH(p_appender, mAppenders)
-        if (p_appender->name() == rName)
-            return p_appender;
+    for (auto pAppender : mAppenders)
+        if (pAppender->name() == rName)
+            return pAppender;
     return nullptr;
 }
 

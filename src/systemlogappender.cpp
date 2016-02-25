@@ -141,7 +141,7 @@ void SystemLogAppender::append(const LoggingEvent &rEvent)
     }
 
     openlog(ident, LOG_PID, LOG_DAEMON);
-    foreach(const QString& line, message.split('\n', QString::SkipEmptyParts))
+    for(const auto & line : message.split('\n', QString::SkipEmptyParts))
         syslog(st, "%s", line.toLocal8Bit().constData());
     closelog();
 

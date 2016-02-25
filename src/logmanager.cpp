@@ -309,7 +309,7 @@ void LogManager::welcome()
     {
         static_logger()->trace("Settings from the system environment:");
         QString entry;
-        Q_FOREACH (entry, InitialisationHelper::environmentSettings().keys())
+        for(const auto & entry : InitialisationHelper::environmentSettings().keys())
             static_logger()->trace("    %1: '%2'",
                                    entry,
                                    InitialisationHelper::environmentSettings().value(entry));
@@ -322,13 +322,13 @@ void LogManager::welcome()
             static_logger()->trace("    %1:", log4qt_group);
             QSettings s;
             s.beginGroup(log4qt_group);
-            Q_FOREACH (entry, s.childKeys())
+            for(const auto & entry : s.childKeys())
                 static_logger()->trace("        %1: '%2'",
                                        entry,
                                        s.value(entry).toString());
             static_logger()->trace("    %1/%2:", log4qt_group, properties_group);
             s.beginGroup(properties_group);
-            Q_FOREACH (entry, s.childKeys())
+            for(const auto & entry : s.childKeys())
                 static_logger()->trace("        %1: '%2'",
                                        entry,
                                        s.value(entry).toString());

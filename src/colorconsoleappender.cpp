@@ -118,7 +118,7 @@ static void colorOutputString(HANDLE hConsole, const QString& output)
         delete [] wideMessage;
         colorizedMessage.removeAt(0);
     }
-    foreach (QString it, colorizedMessage)
+    for (QString it : colorizedMessage)
     {
         // color setted
         if (it.startsWith("["))
@@ -130,7 +130,7 @@ static void colorOutputString(HANDLE hConsole, const QString& output)
                 parsedWordString = it.mid(1, indexOfM - 1);
 
                 escParams = parsedWordString.split(';');
-                foreach(QString param, escParams)
+                for(const auto &  param : escParams)
                 {
                     color = param.toUInt();
                     switch(color)

@@ -307,8 +307,7 @@ PatternFormatter::PatternFormatter(const QString &rPattern) :
 
 PatternFormatter::~PatternFormatter()
 {
-    PatternConverter *p_converter;
-    Q_FOREACH(p_converter, mPatternConverters)
+    for(auto p_converter : mPatternConverters)
         delete p_converter;
 }
 
@@ -316,8 +315,7 @@ PatternFormatter::~PatternFormatter()
 QString PatternFormatter::format(const LoggingEvent &rLoggingEvent) const
 {
     QString result;
-    PatternConverter *p_converter;
-    Q_FOREACH(p_converter, mPatternConverters)
+    for(auto p_converter : mPatternConverters)
         p_converter->format(result, rLoggingEvent);
     return result;
 }

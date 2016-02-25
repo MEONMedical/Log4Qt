@@ -76,7 +76,7 @@ void Properties::load(const QSettings &rSettings)
 {
     QStringList keys = rSettings.childKeys();
     QString key;
-    Q_FOREACH(key, keys)
+    for(const auto & key : keys)
         insert(key, rSettings.value(key).toString());
 }
 
@@ -119,8 +119,7 @@ QStringList Properties::propertyNames() const
         default_keys = mpDefaultProperties->propertyNames();
 
     QStringList keys = this->keys();
-    QString key;
-    Q_FOREACH(key, default_keys)
+    for(const auto & key : default_keys)
         if (!keys.contains(key))
             keys << key;
 

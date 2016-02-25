@@ -214,8 +214,7 @@ QString LogError::insertArgs(const QString &rMessage) const
     */
 
     result = rMessage;
-    QVariant arg;
-    Q_FOREACH(arg, mArgs)
+    for (const auto & arg : mArgs)
         result = result.arg(arg.toString());
     return result;
 }
