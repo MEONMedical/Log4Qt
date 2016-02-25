@@ -120,7 +120,7 @@ private:
     }
 };
 
-LOG4QT_DECLARE_STATIC_BINARYLOGGER(unitTestLogger, StaticBinaryLogger);
+LOG4QT_DECLARE_STATIC_BINARYLOGGER(unitTestLogger, StaticBinaryLogger)
 
 void BinaryLoggerTest::initTestCase()
 {
@@ -136,7 +136,7 @@ void BinaryLoggerTest::initTestCase()
     Log4Qt::ConsoleAppender *consoleAppender = new Log4Qt::ConsoleAppender(rootLogger);
     consoleAppender->setLayout(binlayout);
     consoleAppender->setTarget(Log4Qt::ConsoleAppender::STDOUT_TARGET);
-    consoleAppender->activateOptions();    
+    consoleAppender->activateOptions();
 
     Log4Qt::Filter *denyall = new Log4Qt::DenyAllFilter;
     denyall->activateOptions();
