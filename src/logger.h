@@ -9,6 +9,9 @@
  * changes:		Sep 2008, Martin Heinrich:
  * 				- Replaced usage of q_atomic_test_and_set_ptr with
  * 				  QBasicAtomicPointer
+ *      		Feb 2016, Andreas Bacher:
+ * 				- Replaced usage of QBasicAtomicPointer with
+ *                magic static initalization (thread safe with c++11)
  *
  *
  * Copyright 2007 - 2008 Martin Heinrich
@@ -32,7 +35,6 @@
 
 #include <QtCore/QObject>
 
-#include <QtCore/QAtomicPointer>
 #include <QtCore/QList>
 #include <QtCore/QReadWriteLock>
 #include "helpers/logerror.h"
@@ -41,10 +43,6 @@
 #include "helpers/appenderattachable.h"
 #include "level.h"
 #include "logstream.h"
-
-#ifndef Q_ATOMIC_POINTER_TEST_AND_SET_IS_ALWAYS_NATIVE
-#warning "QAtomicPointer test and set is not native. The macro Log4Qt::LOG4QT_DECLARE_STATIC_LOGGER is not thread-safe."
-#endif
 
 namespace Log4Qt
 {
@@ -102,16 +100,10 @@ namespace Log4Qt
  * \sa \ref Log4Qt::Logger::logger(const char *pName) "Logger::logger(const char *pName)"
  */
 #define LOG4QT_DECLARE_STATIC_LOGGER(FUNCTION, CLASS)                     \
-        static Log4Qt::Logger *FUNCTION()                                     \
-        {                                                                     \
-        static QBasicAtomicPointer<Log4Qt::Logger > p_logger =            \
-            Q_BASIC_ATOMIC_INITIALIZER(0);                                \
-                if (!p_logger.loadAcquire())                                                    \
-                {                                                                 \
-                    p_logger.testAndSetOrdered(0,                                 \
-                Log4Qt::Logger::logger( #CLASS ));                        \
-                    }                                                                 \
-                return p_logger.loadAcquire();                                                  \
+        static Log4Qt::Logger *FUNCTION()                                 \
+        {                                                                 \
+            static Log4Qt::Logger * p_logger(Log4Qt::Logger::logger(#CLASS )); \
+            return p_logger;                                               \
         }
 
 /*!

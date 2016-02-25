@@ -37,11 +37,6 @@
 #include "classlogger.h"
 
 #include <QtCore/QObject>
-#include <QtCore/QAtomicInt>
-
-#ifndef Q_ATOMIC_INT_REFERENCE_COUNTING_IS_ALWAYS_NATIVE
-#warning "QAtomicInt reference counting is not native. The class Log4Qt::LogObject is not thread-safe."
-#endif
 
 namespace Log4Qt
 {
@@ -183,5 +178,6 @@ inline Logger *LogObject::logger() const
 }
 
 } // namespace Log4Qt
+
 
 #endif // LOG4QT_LOGOBJECT_H

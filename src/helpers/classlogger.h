@@ -33,11 +33,6 @@
 #include "../log4qtshared.h"
 
 #include <QtCore/QObject>
-#include <QtCore/QAtomicPointer>
-
-#ifndef Q_ATOMIC_POINTER_TEST_AND_SET_IS_ALWAYS_NATIVE
-#warning "QAtomicPointer test and set is not native. The class Log4Qt::ClassLogger is not thread-safe."
-#endif
 
 namespace Log4Qt
 {
@@ -58,11 +53,6 @@ class Logger;
 class LOG4QT_EXPORT ClassLogger
 {
 public:
-    /*!
-     * Creates a ClassLogger object.
-     */
-    ClassLogger();
-
     /*!
      * Returns a pointer to a Logger named after the class of the object
      * \a pObject.

@@ -53,7 +53,7 @@ namespace Log4Qt
 
 
 LOG4QT_DECLARE_STATIC_LOGGER(static_logger, Log4Qt::LogManager)
-LOG4QT_GLOBAL_STATIC(QMutex, singleton_guard)
+Q_GLOBAL_STATIC(QMutex, singleton_guard)
 
 LogManager::LogManager() :
     mObjectGuard(QMutex::Recursive), // Recursive for doStartup() to call doConfigureLogLogger()
@@ -62,7 +62,6 @@ LogManager::LogManager() :
     mQtMsgHandler(nullptr)
 {
 }
-
 
 LogManager::~LogManager()
 {
@@ -105,7 +104,7 @@ bool LogManager::exists(const char *pName)
 
 LogManager *LogManager::instance()
 {
-    // Do not use LOG4QT_GLOBAL_STATIC. The LogManager is rather expensive
+    // Do not use Q_GLOBAL_STATIC. The LogManager is rather expensive
     // to construct, an exit handler must be set and doStartup must be
     // called.
 
@@ -282,7 +281,7 @@ void LogManager::welcome()
     if (static_logger()->isDebugEnabled())
     {
         // Create a nice timestamp with UTC offset
-        DateTime start_time = DateTime::fromMSecsSinceEpoch(InitialisationHelper::startTime());
+        DateTime start_time = QDateTime::fromMSecsSinceEpoch(InitialisationHelper::startTime());
         QString offset;
         {
             QDateTime utc = start_time.toUTC();

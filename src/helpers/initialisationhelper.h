@@ -9,6 +9,9 @@
  * changes:		Sep 2008, Martin Heinrich:
  * 				- Replaced usage of q_atomic_test_and_set_ptr with
  * 				  QBasicAtomicPointer
+ *      		Feb 2016, Andreas Bacher:
+ * 				- Replaced usage of QBasicAtomicPointer with
+ *                magic static initalization (thread safe with c++11)
  *
  *
  * Copyright 2007 - 2008 Martin Heinrich
@@ -31,94 +34,18 @@
 #define LOG4QT_HELPERS_INITIALISATIONHELPER_H
 #include "../log4qtshared.h"
 
-#include <QtCore/QAtomicPointer>
 #include <QtCore/QHash>
-#include <QString>
-
-#ifndef Q_ATOMIC_POINTER_TEST_AND_SET_IS_ALWAYS_NATIVE
-#warning "QAtomicPointer test and set is not native. The macros Log4Qt::LOG4QT_GLOBAL_STATIC and Log4Qt::LOG4QT_IMPLEMENT_INSTANCE are not thread-safe."
-#endif
+#include <QtCore/QString>
 
 class QMutex;
 
 namespace Log4Qt
 {
-/*!
- * LOG4QT_GLOBAL_STATIC declares a static function \a FUNCTION that
- * returns a pointer to a singleton object of the type \a TYPE.
- *
- * The macro uses a static variable to store a pointer to the singleton
- * object. On the first invocation an object of the type \a TYPE is created
- * on the heap and the pointer is set. Any further invocations will return
- * the stored pointer. If multiple threads are accessing the function
- * without the pointer being set, each thread will create an object of the
- * type \a TYPE. The threads that find the pointer already been set will
- * delete their object. The singleton object will not be deleted during static
- * de-initialisation.
- *
- * The following example uses a global global mutex object to synchronise
- * access to a static member variable.
- *
- * \code
- * #file: myclass.h
- *
- * class MyClass
- * {
- * public:
- *     MyClass();
- *     ~MyClass();
- * private:
- *     static qint64 msObjectCount;
- * }
- * \endcode
- * \code
- * #file: myclass.cpp
- *
- * #include myclass.h
- *
- * LOG4QT_GLOBAL_STATIC(QMutex, class_guard)
- *
- * MyClass::MyClass()
- * {
- *     QMutexLocker(class_guard());
- *     msObjectCount++;
- * }
- *
- * MyClass::~MyClass()
- * {
- *     QMutexLocker(class_guard());
- *     msObjectCount--;
- * }
- *
- * qint64 MyClass::msObjectCount = 0;
- * \endcode
- *
- * \note The function created by the macro is thread-safe.
- *
- * \sa \ref Log4Qt::LOG4QT_IMPLEMENT_INSTANCE "LOG4QT_IMPLEMENT_INSTANCE",
- *     \ref Log4Qt::InitialisationHelper "InitialisationHelper"
- */
-#define LOG4QT_GLOBAL_STATIC(TYPE, FUNCTION)                              \
-    static QBasicAtomicPointer<TYPE > sp_global_static_##FUNCTION =       \
-    Q_BASIC_ATOMIC_INITIALIZER(0);                                    \
-        TYPE *FUNCTION()                                                      \
-        {                                                                     \
-                if (!sp_global_static_##FUNCTION.loadAcquire())                   \
-                {                                                                 \
-                        TYPE *p_temp = new TYPE;                                      \
-                        if (!sp_global_static_##FUNCTION.testAndSetOrdered(0,         \
-                                                             p_temp))   \
-                                delete p_temp;                                            \
-                }                                                                 \
-                return sp_global_static_##FUNCTION.loadAcquire();                 \
-        }
 
 /*!
  * LOG4QT_IMPLEMENT_INSTANCE implements an instance function for a
  * singleton class \a TYPE.
  *
- * The function works like the one created by
- * \ref Log4Qt::LOG4QT_GLOBAL_STATIC "LOG4QT_GLOBAL_STATIC".
  *
  * The following example illustrates how to use the macro to create a
  * singleton class:
@@ -152,21 +79,13 @@ namespace Log4Qt
  *
  * \note The function created by the macro is thread-safe.
  *
- * \sa \ref Log4Qt::LOG4QT_GLOBAL_STATIC "LOG4QT_GLOBAL_STATIC",
- *     \ref Log4Qt::InitialisationHelper "InitialisationHelper"
+ * \sa \ref Log4Qt::InitialisationHelper "InitialisationHelper"
  */
-#define LOG4QT_IMPLEMENT_INSTANCE(TYPE)                                   \
-        static QBasicAtomicPointer<TYPE > sp_singleton_##TYPE =               \
-            Q_BASIC_ATOMIC_INITIALIZER(0);                                    \
-                TYPE *TYPE::instance()                                                \
-                {                                                                     \
-                        if (!sp_singleton_##TYPE.loadAcquire())                            \
-                        {                                                                 \
-                                TYPE *p_temp = new TYPE;                                      \
-                                if (!sp_singleton_##TYPE.testAndSetOrdered(0, p_temp))        \
-                                        delete p_temp;                                            \
-                        }                                                                 \
-                        return sp_singleton_##TYPE.loadAcquire();                         \
+#define LOG4QT_IMPLEMENT_INSTANCE(TYPE)                  \
+                TYPE *TYPE::instance()                   \
+                {                                        \
+                    static TYPE * singelton(new TYPE);   \
+                    return singelton;                    \
                 }
 
 /*!
@@ -182,8 +101,7 @@ namespace Log4Qt
  *
  * Settings for the package can be retrieved using setting(). Two macros
  * are available to help with the creation of singletons / global static
- * objects (\ref Log4Qt::LOG4QT_GLOBAL_STATIC "LOG4QT_GLOBAL_STATIC" and
-     * \ref Log4Qt::LOG4QT_IMPLEMENT_INSTANCE "LOG4QT_IMPLEMENT_INSTANCE").
+ * objects  and \ref Log4Qt::LOG4QT_IMPLEMENT_INSTANCE "LOG4QT_IMPLEMENT_INSTANCE").
  *
  * \note All the functions declared in this class are thread-safe.
  *
@@ -300,7 +218,6 @@ private:
     static bool staticInitialisation();
 
 private:
-    // QMutex mObjectGuard;
     const qint64 mStartTime;
     QHash <QString, QString> mEnvironmentSettings;
     static bool msStaticInitialisation;

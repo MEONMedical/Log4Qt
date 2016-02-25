@@ -40,7 +40,7 @@ namespace Log4Qt
 
 typedef QThreadStorage<LogError *> ThreadError;
 
-LOG4QT_GLOBAL_STATIC(ThreadError, thread_error)
+Q_GLOBAL_STATIC(ThreadError, thread_error)
 
 LogError::LogError() :
     mCode(0),

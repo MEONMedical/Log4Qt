@@ -484,16 +484,6 @@
  *
  * - QT_WA: The macro is used to call Windows A/W functions
  *    - \ref Log4Qt::DebugAppender "DebugAppender"
- * - QBasicAtomicPointer: The class is used instead of QAtomicPointer, because
- *   it allows the initialisation as plain old data type.
- *    - \ref Log4Qt::LOG4QT_GLOBAL_STATIC "LOG4QT_GLOBAL_STATIC"
- *    - \ref Log4Qt::LOG4QT_IMPLEMENT_INSTANCE "LOG4QT_IMPLEMENT_INSTANCE"
- *    - \ref Log4Qt::LOG4QT_DECLARE_STATIC_LOGGER "LOG4QT_DECLARE_STATIC_LOGGER"
- * - Q_BASIC_ATOMIC_INITIALIZER: The macro is used to initialise QAtomicPointer
- *   objects as plain old data type.
- *    - \ref Log4Qt::LOG4QT_GLOBAL_STATIC "LOG4QT_GLOBAL_STATIC"
- *    - \ref Log4Qt::LOG4QT_IMPLEMENT_INSTANCE "LOG4QT_IMPLEMENT_INSTANCE"
- *    - \ref Log4Qt::LOG4QT_DECLARE_STATIC_LOGGER "LOG4QT_DECLARE_STATIC_LOGGER"
  */
 
 /*!
@@ -516,7 +506,6 @@
  * - Being able to use singleton objects during static de-initialization without
  *   order issues is more valuable then their destruction.
  *   - \ref Log4Qt::LogManager "LogManager"
- *   - \ref Log4Qt::LOG4QT_GLOBAL_STATIC "LOG4QT_GLOBAL_STATIC"
  *   - \ref Log4Qt::LOG4QT_IMPLEMENT_INSTANCE "LOG4QT_IMPLEMENT_INSTANCE"
  */
 

@@ -40,7 +40,7 @@
 namespace Log4Qt
 {
 
-LOG4QT_GLOBAL_STATIC(QMutex, sequence_guard)
+Q_GLOBAL_STATIC(QMutex, sequence_guard)
 
 LoggingEvent::LoggingEvent() :
     QEvent(eventId),
@@ -236,7 +236,7 @@ QDebug operator<<(QDebug debug,
                     << "sequencenumber:" << rLoggingEvent.sequenceNumber() << " "
                     << "threadname:" << rLoggingEvent.threadName() << " "
                     << "timestamp:" << rLoggingEvent.timeStamp()
-                    << "(" << DateTime::fromMSecsSinceEpoch(rLoggingEvent.timeStamp()) << ")"
+                    << "(" << QDateTime::fromMSecsSinceEpoch(rLoggingEvent.timeStamp()) << ")"
                     << "sequenceCount:" << rLoggingEvent.sequenceCount()
                     << ")";
     return debug.space();

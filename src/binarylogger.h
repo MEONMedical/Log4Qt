@@ -18,11 +18,8 @@ class Hierarchy;
 #define LOG4QT_DECLARE_STATIC_BINARYLOGGER(FUNCTION, CLASS) \
     static Log4Qt::BinaryLogger *FUNCTION() \
     { \
-        static QBasicAtomicPointer<Log4Qt::Logger > p_logger = \
-        Q_BASIC_ATOMIC_INITIALIZER(0); \
-        if (!p_logger.loadAcquire()) \
-            p_logger.testAndSetOrdered(0, Log4Qt::Logger::logger( #CLASS"@@binary@@" )); \
-        return qobject_cast<Log4Qt::BinaryLogger *>(p_logger.loadAcquire()); \
+        static Log4Qt::Logger * p_logger(Log4Qt::Logger::logger(#CLASS"@@binary@@" )); \
+        return qobject_cast<Log4Qt::BinaryLogger*>(p_logger); \
     }
 
 #define LOG4QT_DECLARE_QCLASS_BINARYLOGGER \
