@@ -14,7 +14,7 @@ class LOG4QT_EXPORT BinaryToTextLayout : public Layout
 public:
     explicit BinaryToTextLayout(Layout *subLayout = 0, QObject *parent = 0);
 
-    virtual QString format(const LoggingEvent &rEvent);
+    virtual QString format(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
     Layout *subLayout() const {return mSubLayout;}
     void setSubLayout(Layout *layout) {mSubLayout = layout;}
@@ -22,7 +22,7 @@ public:
 protected:
 
 #ifndef QT_NO_DEBUG_STREAM
-        virtual QDebug debug(QDebug &rDebug) const;
+        virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 
 private:

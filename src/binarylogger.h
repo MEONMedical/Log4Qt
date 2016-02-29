@@ -58,7 +58,7 @@ protected:
     virtual ~BinaryLogger();
 
 #ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
     friend QDebug operator<<(QDebug debug, const BinaryLogger &rLogger);
 #endif // QT_NO_DEBUG_STREAM
 

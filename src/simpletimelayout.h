@@ -48,10 +48,9 @@ private:
     Q_DISABLE_COPY(SimpleTimeLayout)
 
 public:
-    virtual QString format(const LoggingEvent &rEvent);
+    virtual QString format(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
 protected:
-
 #ifndef QT_NO_DEBUG_STREAM
     /*!
      * Writes all object member variables to the given debug stream
@@ -62,7 +61,7 @@ protected:
      * </tt>
      * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
      */
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 };
 

@@ -52,10 +52,10 @@ public:
     MainThreadAppender(QObject *parent = Q_NULLPTR);
     virtual ~MainThreadAppender();
 
-    virtual bool requiresLayout() const;
+    virtual bool requiresLayout() const Q_DECL_OVERRIDE;
 
-    virtual void activateOptions();
-    virtual void close();
+    virtual void activateOptions() Q_DECL_OVERRIDE;
+    virtual void close() Q_DECL_OVERRIDE;
 
     /*!
      * Tests if all entry conditions for using append() in this class are
@@ -92,7 +92,7 @@ protected:
      * </tt>
      * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject	)
      */
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 
 private:

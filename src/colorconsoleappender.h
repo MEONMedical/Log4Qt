@@ -76,11 +76,11 @@ public:
     // if we are in WIN*
 #if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
 
-    virtual void activateOptions();
+    virtual void activateOptions() Q_DECL_OVERRIDE;
 
-    virtual void close();
+    virtual void close() Q_DECL_OVERRIDE;
 protected:
-    virtual void append(const LoggingEvent& rEvent);
+    virtual void append(const LoggingEvent& rEvent) Q_DECL_OVERRIDE;
 private:
     HANDLE hConsole;
 #endif

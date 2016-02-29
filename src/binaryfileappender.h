@@ -49,15 +49,15 @@ public:
     void setStreamVersion(QDataStream::Version version);
 
     // public members
-    virtual void activateOptions();
-    virtual void close();
+    virtual void activateOptions() Q_DECL_OVERRIDE;
+    virtual void close() Q_DECL_OVERRIDE;
 
 protected:
-    virtual bool checkEntryConditions() const;
-    virtual bool handleIoErrors() const;
+    virtual bool checkEntryConditions() const Q_DECL_OVERRIDE;
+    virtual bool handleIoErrors() const Q_DECL_OVERRIDE;
 
 #ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 
     void closeFile();

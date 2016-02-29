@@ -96,10 +96,10 @@ public:
 
     void setDatePattern(const QString &rDatePattern);
 
-    virtual void activateOptions();
+    virtual void activateOptions() Q_DECL_OVERRIDE;
 
 protected:
-    virtual void append(const LoggingEvent &rEvent);
+    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
     /*!
      * Tests if all entry conditions for using append() in this class are
@@ -118,7 +118,7 @@ protected:
      * \sa AppenderSkeleton::doAppend(),
      *     AppenderSkeleton::checkEntryConditions()
      */
-    virtual bool checkEntryConditions() const;
+    virtual bool checkEntryConditions() const Q_DECL_OVERRIDE;
 
 protected:
 #ifndef QT_NO_DEBUG_STREAM
@@ -139,7 +139,7 @@ protected:
      * </tt>
      * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
      */
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 
 private:

@@ -45,23 +45,23 @@ class LOG4QT_EXPORT  DatabaseLayout : public Layout
     Q_OBJECT
 
     /*!
-    	The property holds column name to save timestamp of log event
+        The property holds column name to save timestamp of log event
     */
     Q_PROPERTY(QString timeStampColumn READ timeStampColumn WRITE setTimeStampColumn)
     /*!
-    	The property holds column name to save logger name of log event
+        The property holds column name to save logger name of log event
     */
     Q_PROPERTY(QString loggerNameColumn READ loggerNameColumn WRITE setLoggerNameColumn)
     /*!
-    	The property holds column name to save thread name of log event
+        The property holds column name to save thread name of log event
     */
     Q_PROPERTY(QString threadNameColumn READ threadNameColumn WRITE setThreadNameColumn)
     /*!
-    	The property holds column name to save level of log event
+        The property holds column name to save level of log event
     */
     Q_PROPERTY(QString levelColumn READ levelColumn WRITE setLevelColumn)
     /*!
-    	The property holds column name to save message of log event
+        The property holds column name to save message of log event
     */
     Q_PROPERTY(QString messageColumn READ messageColumn WRITE setMessageColumn)
 
@@ -74,7 +74,7 @@ private:
 
 public:
     virtual QSqlRecord formatRecord(const LoggingEvent &rEvent);
-    virtual QString format(const LoggingEvent &rEvent);
+    virtual QString format(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
     QString timeStampColumn() const;
     QString loggerNameColumn() const;
@@ -101,7 +101,7 @@ protected:
      * </tt>
      * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
      */
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 private:
     QString mTimeStamp;

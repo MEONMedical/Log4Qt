@@ -48,7 +48,7 @@ private:
     Q_DISABLE_COPY(SimpleLayout)
 
 public:
-    virtual QString format(const LoggingEvent &rEvent);
+    virtual QString format(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
 protected:
 
@@ -62,7 +62,7 @@ protected:
      * </tt>
      * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
      */
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 };
 

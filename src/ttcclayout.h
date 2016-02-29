@@ -147,7 +147,7 @@ public:
 
     // JAVA: setIgnoresThrowable(bool ignoresThrowable);
     void setThreadPrinting(bool threadPrinting);
-    virtual QString format(const LoggingEvent &rEvent);
+    virtual QString format(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
 protected:
 #ifndef QT_NO_DEBUG_STREAM
@@ -162,7 +162,7 @@ protected:
      * </tt>
      * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
      */
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 
 private:

@@ -98,8 +98,8 @@ public:
     // JAVA: void setBufferSize(int bufferSize);
     void setFile(const QString &rFileName);
 
-    virtual void activateOptions();
-    virtual void close();
+    virtual void activateOptions() Q_DECL_OVERRIDE;
+    virtual void close() Q_DECL_OVERRIDE;
 
 protected:
     /*!
@@ -117,7 +117,7 @@ protected:
      *
      * \sa AppenderSkeleton::doAppend(), AppenderSkeleton::checkEntryConditions()
      */
-    virtual bool checkEntryConditions() const;
+    virtual bool checkEntryConditions() const Q_DECL_OVERRIDE;
 
     void closeFile();
 
@@ -134,14 +134,14 @@ protected:
      * </tt>
      * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
      */
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 
     /*!
      * Checks for file I/O errrors. If an error is found it is logged and the
      * function returns true. Otherwise false is returned.
      */
-    virtual bool handleIoErrors() const;
+    virtual bool handleIoErrors() const Q_DECL_OVERRIDE;
 
     /*!
      * Opens the file for the appender based on the specified file name and

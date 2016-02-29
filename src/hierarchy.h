@@ -46,19 +46,19 @@ public:
 
 
 public:
-    virtual bool exists(const QString &rName) const;
-    virtual Logger *logger(const QString &rName);
-    virtual QList<Logger *> loggers() const;
+    virtual bool exists(const QString &rName) const Q_DECL_OVERRIDE;
+    virtual Logger *logger(const QString &rName) Q_DECL_OVERRIDE;
+    virtual QList<Logger *> loggers() const Q_DECL_OVERRIDE;
     // JAVA: virtual Logger *logger(const String &rName, LoggerFactory *pFactory);
-    virtual Logger *rootLogger() const;
-    virtual Level threshold() const;
-    virtual void setThreshold(Level level);
-    virtual void setThreshold(const QString &rThreshold);
+    virtual Logger *rootLogger() const Q_DECL_OVERRIDE;
+    virtual Level threshold() const Q_DECL_OVERRIDE;
+    virtual void setThreshold(Level level) Q_DECL_OVERRIDE;
+    virtual void setThreshold(const QString &rThreshold) Q_DECL_OVERRIDE;
 
     // JAVA: void clear();
-    virtual bool isDisabled(Level level);
-    virtual void resetConfiguration();
-    virtual void shutdown();
+    virtual bool isDisabled(Level level) Q_DECL_OVERRIDE;
+    virtual void resetConfiguration() Q_DECL_OVERRIDE;
+    virtual void shutdown() Q_DECL_OVERRIDE;
 
     // JAVA: virtual void addHierarchyEventListener(HierarchyEventListener *pEventListener);
     // JAVA: virtual void emitNoAppenderWarning(Logger *plogger) const;

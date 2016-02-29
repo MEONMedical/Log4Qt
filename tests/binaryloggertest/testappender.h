@@ -16,13 +16,13 @@ public:
 
     QStringList list() const;
     QStringList clearList();
-    virtual bool requiresLayout() const;
+    virtual bool requiresLayout() const Q_DECL_OVERRIDE;
 
 protected:
-    virtual void append(const Log4Qt::LoggingEvent &rEvent);
+    virtual void append(const Log4Qt::LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
 #ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 
 private:

@@ -73,7 +73,7 @@ private:
     Q_DISABLE_COPY(DatabaseAppender)
 
 public:
-    virtual bool requiresLayout() const;
+    virtual bool requiresLayout() const Q_DECL_OVERRIDE;
 
     QString connection() const;
     QString table() const;
@@ -81,10 +81,10 @@ public:
     void setConnection(const QString& connection);
     void setTable(const QString& table);
 
-    virtual void activateOptions();
+    virtual void activateOptions() Q_DECL_OVERRIDE;
 
 protected:
-    virtual void append(const LoggingEvent &rEvent);
+    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
     /*!
      * Tests if all entry conditions for using append() in this class are
@@ -103,7 +103,7 @@ protected:
      * \sa AppenderSkeleton::doAppend(),
      *     AppenderSkeleton::checkEntryConditions()
      */
-    virtual bool checkEntryConditions() const;
+    virtual bool checkEntryConditions() const Q_DECL_OVERRIDE;
 
     void closeWriter();
 
@@ -120,7 +120,7 @@ protected:
      * </tt>
      * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject	)
      */
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 private:
     QString connectionName;

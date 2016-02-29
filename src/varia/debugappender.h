@@ -67,7 +67,7 @@ public:
      *
      * \sa setLayout()
      */
-    virtual bool requiresLayout() const;
+    virtual bool requiresLayout() const Q_DECL_OVERRIDE;
 
 protected:
     /*!
@@ -80,7 +80,7 @@ protected:
      *
      * \sa setLayout(), AppenderSkeleton::doAppend(), checkEntryConditions()
      */
-    virtual void append(const LoggingEvent &rEvent);
+    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
 #ifndef QT_NO_DEBUG_STREAM
     /*!
@@ -93,7 +93,7 @@ protected:
      * </tt>
      * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
      */
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 };
 

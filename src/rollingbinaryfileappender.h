@@ -37,8 +37,8 @@ public:
     void setDatePattern(const QString &rDatePattern);
 
 protected:
-    virtual void append(const LoggingEvent &rEvent);
-    virtual void activateOptions();
+    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
+    virtual void activateOptions() Q_DECL_OVERRIDE;
 
     virtual bool checkForTimeRollOver() const;
     virtual void rollOverTime();
@@ -46,7 +46,7 @@ protected:
     virtual void rollOverSize();
 
 #ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 
 private:

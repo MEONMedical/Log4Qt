@@ -20,9 +20,9 @@ public:
     explicit BinaryLayout(QObject *parent = 0);
 
     virtual QByteArray binaryFormat(const BinaryLoggingEvent &rEvent);
-    virtual QString format(const LoggingEvent &rEvent) override;
+    virtual QString format(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
-    virtual QString contentType() const override;
+    virtual QString contentType() const Q_DECL_OVERRIDE;
 
     virtual QByteArray binaryFooter() const;
     void setBinaryFooter(const QByteArray &rFooter);
@@ -32,7 +32,7 @@ public:
 
 protected:
 #ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const override;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 
 private:

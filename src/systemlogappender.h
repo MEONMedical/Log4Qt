@@ -60,7 +60,7 @@ public:
     void setServiceName(const QString& serviceName);
 
 protected:
-    virtual void append(const Log4Qt::LoggingEvent &rEvent);
+    virtual void append(const Log4Qt::LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
 #ifndef QT_NO_DEBUG_STREAM
     /*!
@@ -73,7 +73,7 @@ protected:
     *
     * \sa QDebug operator<<(QDebug debug, const LogObject &rLogObject)
     */
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 
     // Needs to be friend to access internal data
     friend QDebug operator<<(QDebug debug, const LogObject &rLogObject);

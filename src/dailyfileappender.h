@@ -51,15 +51,15 @@ public:
     QString datePattern() const;
     void setDatePattern(const QString &rDatePattern);
 
-    virtual void activateOptions();
+    virtual void activateOptions() Q_DECL_OVERRIDE;
 
     void setLogFileForCurrentDay();
 
 protected:
-    virtual void append(const LoggingEvent &rEvent);
+    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
 #ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 
 private:

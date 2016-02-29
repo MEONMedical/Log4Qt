@@ -194,11 +194,6 @@ QDebug TelnetAppender::debug(QDebug &rDebug) const
     return rDebug.space();
 }
 #endif // QT_NO_DEBUG_STREAM
-bool TelnetAppender::handleIoErrors() const
-{
-    // Q_ASSERT_X(, "FileAppender::handleIoErrors()", "Lock must be held by caller")
-    return false;
-}
 
 void TelnetAppender::onNewConnection()
 {

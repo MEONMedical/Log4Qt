@@ -83,7 +83,7 @@ private:
     Q_DISABLE_COPY(WriterAppender)
 
 public:
-    virtual bool requiresLayout() const;
+    virtual bool requiresLayout() const Q_DECL_OVERRIDE;
     QTextCodec *encoding() const;
     bool immediateFlush() const;
     QTextStream *writer() const;
@@ -101,11 +101,11 @@ public:
     void setImmediateFlush(bool immediateFlush);
     void setWriter(QTextStream *pTextStream);
 
-    virtual void activateOptions();
-    virtual void close();
+    virtual void activateOptions() Q_DECL_OVERRIDE;
+    virtual void close() Q_DECL_OVERRIDE;
 
 protected:
-    virtual void append(const LoggingEvent &rEvent);
+    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
     /*!
      * Tests if all entry conditions for using append() in this class are
@@ -124,7 +124,7 @@ protected:
      * \sa AppenderSkeleton::doAppend(),
      *     AppenderSkeleton::checkEntryConditions()
      */
-    virtual bool checkEntryConditions() const;
+    virtual bool checkEntryConditions() const Q_DECL_OVERRIDE;
 
     void closeWriter();
 
@@ -141,7 +141,7 @@ protected:
      * </tt>
      * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject	)
      */
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 
     virtual bool handleIoErrors() const;

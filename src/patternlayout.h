@@ -36,14 +36,14 @@ class PatternFormatter;
 /*!
  * \brief The class PatternLayout outputs a logging event based on a
  *        pattern string.
-		\li c{section_count} : logger name with optional parameter section_count. Section count from end of logger name, sections delimiter is "::";
-		\li d{format_string} : date with optional parameters in "{}"-brackets which used by QDateTime::toString();
-		\li m : message
-		\li p : level name
-		\li r : relative date/time to start application
-		\li t : thread name
-		\li x : ndc name
-		\li X : mdc name
+        \li c{section_count} : logger name with optional parameter section_count. Section count from end of logger name, sections delimiter is "::";
+        \li d{format_string} : date with optional parameters in "{}"-brackets which used by QDateTime::toString();
+        \li m : message
+        \li p : level name
+        \li r : relative date/time to start application
+        \li t : thread name
+        \li x : ndc name
+        \li X : mdc name
  *
  * \note The ownership and lifetime of objects of this class are managed.
  *       See \ref Ownership "Object ownership" for more details.
@@ -104,7 +104,7 @@ public:
      */
     void setConversionPattern(ConversionPattern conversionPattern);
 
-    virtual QString format(const LoggingEvent &rEvent);
+    virtual QString format(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
 protected:
 #ifndef QT_NO_DEBUG_STREAM
@@ -118,7 +118,7 @@ protected:
      * </tt>
      * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
      */
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 
 private:

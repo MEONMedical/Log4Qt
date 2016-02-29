@@ -19,21 +19,21 @@ public:
     BinaryWriterAppender(QDataStream *pDataStream, QObject *pParent = 0);
     virtual ~BinaryWriterAppender();
 
-    virtual bool requiresLayout() const;
+    virtual bool requiresLayout() const Q_DECL_OVERRIDE;
     QDataStream *writer() const;
 
     void setWriter(QDataStream *pDataStream);
 
-    virtual void activateOptions();
-    virtual void close();
+    virtual void activateOptions() Q_DECL_OVERRIDE;
+    virtual void close() Q_DECL_OVERRIDE;
 
 protected:
-    virtual void append(const LoggingEvent &rEvent);
-    virtual bool checkEntryConditions() const;
+    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
+    virtual bool checkEntryConditions() const Q_DECL_OVERRIDE;
 
     void closeWriter();
 #ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 
     virtual bool handleIoErrors() const;
