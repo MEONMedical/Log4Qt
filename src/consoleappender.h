@@ -69,12 +69,12 @@ public:
     };
     Q_ENUMS(Target)
 
-    ConsoleAppender(QObject *pParent = nullptr);
+    ConsoleAppender(QObject *pParent = Q_NULLPTR);
     ConsoleAppender(Layout *pLayout,
-                    QObject *pParent = nullptr);
+                    QObject *pParent = Q_NULLPTR);
     ConsoleAppender(Layout *pLayout,
                     const QString &rTarget,
-                    QObject *pParent = nullptr);
+                    QObject *pParent = Q_NULLPTR);
 
     /*!
      * Creates a ConsoleAppender with the layout \a pLayout, the target
@@ -83,7 +83,7 @@ public:
      */
     ConsoleAppender(Layout *pLayout,
                     Target target,
-                    QObject *pParent = nullptr);
+                    QObject *pParent = Q_NULLPTR);
 
     virtual ~ConsoleAppender();
 private:

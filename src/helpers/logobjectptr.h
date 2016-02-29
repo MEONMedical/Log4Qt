@@ -109,7 +109,7 @@ private:
 
 template <class T>
 inline LogObjectPtr<T>::LogObjectPtr() :
-    mpLogObject(nullptr)
+    mpLogObject(Q_NULLPTR)
 {}
 
 template <class T>

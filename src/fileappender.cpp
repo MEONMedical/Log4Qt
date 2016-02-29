@@ -47,8 +47,8 @@ FileAppender::FileAppender(QObject *pParent) :
     mAppendFile(false),
     mBufferedIo(true),
     mFileName(),
-    mpFile(nullptr),
-    mpTextStream(nullptr)
+    mpFile(Q_NULLPTR),
+    mpTextStream(Q_NULLPTR)
 {
 }
 
@@ -60,8 +60,8 @@ FileAppender::FileAppender(Layout *pLayout,
     mAppendFile(false),
     mBufferedIo(true),
     mFileName(rFileName),
-    mpFile(nullptr),
-    mpTextStream(nullptr)
+    mpFile(Q_NULLPTR),
+    mpTextStream(Q_NULLPTR)
 {
 }
 
@@ -74,8 +74,8 @@ FileAppender::FileAppender(Layout *pLayout,
     mAppendFile(append),
     mBufferedIo(true),
     mFileName(rFileName),
-    mpFile(nullptr),
-    mpTextStream(nullptr)
+    mpFile(Q_NULLPTR),
+    mpTextStream(Q_NULLPTR)
 {
 }
 
@@ -89,8 +89,8 @@ FileAppender::FileAppender(Layout *pLayout,
     mAppendFile(append),
     mBufferedIo(buffered),
     mFileName(rFileName),
-    mpFile(nullptr),
-    mpTextStream(nullptr)
+    mpFile(Q_NULLPTR),
+    mpTextStream(Q_NULLPTR)
 {
 }
 
@@ -155,7 +155,7 @@ void FileAppender::closeFile()
     if (mpFile)
         logger()->debug("Closing file '%1' for appender '%2'", mpFile->fileName(), name());
 
-    setWriter(nullptr);
+    setWriter(Q_NULLPTR);
     delete mpTextStream;
     mpTextStream = 0;
     delete mpFile;

@@ -58,7 +58,7 @@ class  LOG4QT_EXPORT StringMatchFilter : public Filter
     Q_PROPERTY(QString stringToMatch READ stringToMatch WRITE setStringToMatch)
 
 public:
-    StringMatchFilter(QObject *pParent = nullptr);
+    StringMatchFilter(QObject *pParent = Q_NULLPTR);
 
     bool acceptOnMatch() const;
     QString stringToMatch() const;

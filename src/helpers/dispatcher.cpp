@@ -33,7 +33,7 @@ namespace Log4Qt
 {
 
 Dispatcher::Dispatcher(QObject *parent) : QObject(parent)
-    , mpAsyncAppender(nullptr)
+    , mpAsyncAppender(Q_NULLPTR)
 {}
 
 void Dispatcher::customEvent(QEvent* event)

@@ -65,7 +65,7 @@ class LOG4QT_EXPORT Layout : public LogObject
     Q_PROPERTY(QString header READ header WRITE setHeader)
 
 public:
-    Layout(QObject *pParent = nullptr);
+    Layout(QObject *pParent = Q_NULLPTR);
     virtual ~Layout();
 private:
     Q_DISABLE_COPY(Layout)

@@ -114,16 +114,16 @@ public:
     };
     Q_ENUMS(DateFormat)
 
-    TTCCLayout(QObject *pParent = nullptr);
+    TTCCLayout(QObject *pParent = Q_NULLPTR);
     TTCCLayout(const QString &rDateFormat,
-               QObject *pParent = nullptr);
+               QObject *pParent = Q_NULLPTR);
 
     /*!
      * Creates a TTCCLayout with the date formar value specified by
      * the \a dateFormat constant and the parent \a pParent.
      */
     TTCCLayout(DateFormat dateFormat,
-               QObject *pParent = nullptr);
+               QObject *pParent = Q_NULLPTR);
 
     virtual ~TTCCLayout();
 private:

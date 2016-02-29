@@ -47,7 +47,7 @@ class Dispatcher : public QObject
 {
     Q_OBJECT
 public:
-    explicit Dispatcher(QObject *parent = nullptr);
+    explicit Dispatcher(QObject *parent = Q_NULLPTR);
 
     void setAsyncAppender(AsyncAppender *pAsyncAppender);
 

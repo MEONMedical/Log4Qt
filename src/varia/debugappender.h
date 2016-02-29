@@ -50,13 +50,13 @@ public:
     /*!
      * Creates a DebugAppender.
      */
-    DebugAppender(QObject *pParent = nullptr);
+    DebugAppender(QObject *pParent = Q_NULLPTR);
 
     /*!
      * Creates a DebugAppender with the specified layout \a pLayout
      */
     DebugAppender(Layout *pLayout,
-                  QObject *pParent = nullptr);
+                  QObject *pParent = Q_NULLPTR);
 
 private:
     Q_DISABLE_COPY(DebugAppender)

@@ -46,7 +46,7 @@ namespace Log4Qt
 
 Logger::Logger(LoggerRepository* pLoggerRepository, Level level,
                const QString &rName, Logger *pParent) :
-    QObject(nullptr),
+    QObject(Q_NULLPTR),
     mName(rName), mpLoggerRepository(pLoggerRepository), mAdditivity(true),
     mLevel(level), mpParent(pParent)
 {

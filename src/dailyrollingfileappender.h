@@ -77,11 +77,11 @@ public:
     };
     Q_ENUMS(DatePattern)
 
-    DailyRollingFileAppender(QObject *pParent = nullptr);
+    DailyRollingFileAppender(QObject *pParent = Q_NULLPTR);
     DailyRollingFileAppender(Layout *pLayout,
                              const QString &rFileName,
                              const QString &rDatePattern,
-                             QObject *pParent = nullptr);
+                             QObject *pParent = Q_NULLPTR);
     virtual ~DailyRollingFileAppender();
 private:
     Q_DISABLE_COPY(DailyRollingFileAppender)

@@ -36,8 +36,8 @@ namespace Log4Qt
 
 WriterAppender::WriterAppender(QObject *pParent) :
     AppenderSkeleton(false, pParent),
-    mpEncoding(nullptr),
-    mpWriter(nullptr),
+    mpEncoding(Q_NULLPTR),
+    mpWriter(Q_NULLPTR),
     mImmediateFlush(true)
 {
 }
@@ -46,8 +46,8 @@ WriterAppender::WriterAppender(QObject *pParent) :
 WriterAppender::WriterAppender(Layout *pLayout,
                                QObject *pParent) :
     AppenderSkeleton(false, pParent),
-    mpEncoding(nullptr),
-    mpWriter(nullptr),
+    mpEncoding(Q_NULLPTR),
+    mpWriter(Q_NULLPTR),
     mImmediateFlush(true)
 {
     setLayout(pLayout);
@@ -58,7 +58,7 @@ WriterAppender::WriterAppender(Layout *pLayout,
                                QTextStream *pTextStream,
                                QObject *pParent) :
     AppenderSkeleton(false, pParent),
-    mpEncoding(nullptr),
+    mpEncoding(Q_NULLPTR),
     mpWriter(pTextStream),
     mImmediateFlush(true)
 {

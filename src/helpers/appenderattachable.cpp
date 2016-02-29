@@ -87,7 +87,7 @@ Appender *AppenderAttachable::appender(const QString &rName) const
     for (auto pAppender : mAppenders)
         if (pAppender->name() == rName)
             return pAppender;
-    return nullptr;
+    return Q_NULLPTR;
 }
 
 bool AppenderAttachable::isAttached(Appender *pAppender) const

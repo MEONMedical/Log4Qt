@@ -67,7 +67,7 @@ class LOG4QT_EXPORT  DatabaseLayout : public Layout
 
 
 public:
-    DatabaseLayout(QObject *pParent = nullptr);
+    DatabaseLayout(QObject *pParent = Q_NULLPTR);
     // virtual ~DatabaseLayout(); // Use compiler default
 private:
     Q_DISABLE_COPY(DatabaseLayout)

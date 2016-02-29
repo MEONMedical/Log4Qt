@@ -49,7 +49,7 @@ class LOG4QT_EXPORT  MainThreadAppender : public AppenderSkeleton, public Append
     Q_OBJECT
 
 public:
-    MainThreadAppender(QObject *parent = nullptr);
+    MainThreadAppender(QObject *parent = Q_NULLPTR);
     virtual ~MainThreadAppender();
 
     virtual bool requiresLayout() const;

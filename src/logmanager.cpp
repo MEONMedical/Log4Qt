@@ -59,7 +59,7 @@ LogManager::LogManager() :
     mObjectGuard(QMutex::Recursive), // Recursive for doStartup() to call doConfigureLogLogger()
     mpLoggerRepository(new Hierarchy()),
     mHandleQtMessages(false),
-    mQtMsgHandler(nullptr)
+    mQtMsgHandler(Q_NULLPTR)
 {
 }
 

@@ -72,12 +72,12 @@ class LOG4QT_EXPORT  WriterAppender : public AppenderSkeleton
     Q_PROPERTY(bool immediateFlush READ immediateFlush WRITE setImmediateFlush)
 
 public:
-    WriterAppender(QObject *pParent = nullptr);
+    WriterAppender(QObject *pParent = Q_NULLPTR);
     WriterAppender(Layout *pLayout,
-                   QObject *pParent = nullptr);
+                   QObject *pParent = Q_NULLPTR);
     WriterAppender(Layout *pLayout,
                    QTextStream *pTextStream,
-                   QObject *pParent = nullptr);
+                   QObject *pParent = Q_NULLPTR);
     virtual ~WriterAppender();
 private:
     Q_DISABLE_COPY(WriterAppender)

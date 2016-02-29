@@ -79,16 +79,16 @@ public:
     };
     Q_ENUMS(ConversionPattern)
 
-    PatternLayout(QObject *pParent = nullptr);
+    PatternLayout(QObject *pParent = Q_NULLPTR);
     PatternLayout(const QString &rPattern,
-                  QObject *pParent = nullptr);
+                  QObject *pParent = Q_NULLPTR);
 
     /*!
      * Creates a PatternLayout with the conversion pattern value specified
      * by the \a conversionPattern constant.
      */
     PatternLayout(ConversionPattern conversionPattern,
-                  QObject *pParent = nullptr);
+                  QObject *pParent = Q_NULLPTR);
 
     virtual ~PatternLayout();
 private:

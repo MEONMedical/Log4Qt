@@ -43,7 +43,7 @@ class  LOG4QT_EXPORT NullAppender : public AppenderSkeleton
     Q_OBJECT
 
 public:
-    NullAppender(QObject *pParent = nullptr);
+    NullAppender(QObject *pParent = Q_NULLPTR);
     virtual ~NullAppender();
 private:
     Q_DISABLE_COPY(NullAppender)

@@ -58,12 +58,12 @@ class LOG4QT_EXPORT ColorConsoleAppender : public ConsoleAppender
 
 public:
 
-    ColorConsoleAppender(QObject *pParent = nullptr);
+    ColorConsoleAppender(QObject *pParent = Q_NULLPTR);
     ColorConsoleAppender(Layout *pLayout,
-                         QObject *pParent = nullptr);
+                         QObject *pParent = Q_NULLPTR);
     ColorConsoleAppender(Layout *pLayout,
                          const QString &rTarget,
-                         QObject *pParent = nullptr);
+                         QObject *pParent = Q_NULLPTR);
 
     /*!
      * Creates a ConsoleAppender with the layout \a pLayout, the target
@@ -72,7 +72,7 @@ public:
      */
     ColorConsoleAppender(Layout *pLayout,
                          Target target,
-                         QObject *pParent = nullptr);
+                         QObject *pParent = Q_NULLPTR);
     // if we are in WIN*
 #if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
 

@@ -96,8 +96,6 @@ private:
     QScopedPointer<Filter, QScopedPointerDeleteLater> mpNext;
 };
 
-
-
 #ifndef QT_NO_DEBUG_STREAM
 QDebug operator<<(QDebug debug,const Filter &rFilter);
 #endif // QT_NO_DEBUG_STREAM
