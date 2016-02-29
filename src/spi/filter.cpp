@@ -30,19 +30,28 @@ namespace Log4Qt
 {
 
 Filter::Filter(QObject *pParent) :
-    LogObject(pParent),
-    mpNext(nullptr)
+    QObject(pParent)
 {}
 
 Filter::~Filter()
 {}
 
+Filter *Filter::next() const
+{
+    return mpNext.data();
+}
+
 void Filter::setNext(Filter *pFilter)
 {
-    mpNext = pFilter;
+    mpNext.reset(pFilter);
 }
 
 void Filter::activateOptions()
 {}
+
+QDebug operator<<(QDebug debug, const Filter &rFilter)
+{
+    return rFilter.debug(debug);
+}
 
 } // namespace Log4Qt

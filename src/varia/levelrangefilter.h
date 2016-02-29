@@ -44,12 +44,12 @@ class  LOG4QT_EXPORT LevelRangeFilter : public Filter
     Q_OBJECT
 
     /*!
-    	 * The property holds if an event is accpeted on a match.
-    	 *
-    	 * The default is true.
-    	 *
-    	 * \sa acceptOnMatch(), acceptOnMatch()
-    	 */
+         * The property holds if an event is accpeted on a match.
+         *
+         * The default is true.
+         *
+         * \sa acceptOnMatch(), acceptOnMatch()
+         */
     Q_PROPERTY(bool acceptOnMatch READ acceptOnMatch WRITE setAcceptOnMatch)
 
     /*!
@@ -62,16 +62,16 @@ class  LOG4QT_EXPORT LevelRangeFilter : public Filter
     Q_PROPERTY(Log4Qt::Level levelMax READ levelMax WRITE setLevelMax)
 
     /*!
-    	 * The property holds the minimum level of the range for this filter.
-    	 *
-    	 * The default is Level::NULL_INT.
-    	 *
-    	 * \sa levelMin(), setLevelMin()
-    	 */
+         * The property holds the minimum level of the range for this filter.
+         *
+         * The default is Level::NULL_INT.
+         *
+         * \sa levelMin(), setLevelMin()
+         */
     Q_PROPERTY(Log4Qt::Level levelMin READ levelMin WRITE setLevelMin)
 
 public:
-    LevelRangeFilter(QObject *pParent = nullptr);
+    LevelRangeFilter(QObject *pParent = Q_NULLPTR);
 
     bool acceptOnMatch() const;
     Level levelMax() const;
@@ -80,7 +80,7 @@ public:
     void setLevelMax(Level level);
     void setLevelMin(Level level);
 
-    virtual Decision decide(const LoggingEvent &rEvent) const;
+    virtual Decision decide(const LoggingEvent &rEvent) const Q_DECL_OVERRIDE;
 
 protected:
     /*!
@@ -94,7 +94,7 @@ protected:
      * </tt>
      * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
      */
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 
 private:
     bool mAcceptOnMatch;

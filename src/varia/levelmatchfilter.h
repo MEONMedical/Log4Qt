@@ -53,24 +53,23 @@ class LOG4QT_EXPORT  LevelMatchFilter : public Filter
     Q_PROPERTY(bool acceptOnMatch READ acceptOnMatch WRITE setAcceptOnMatch)
 
     /*!
-    	 * The property holds the level to match for this filter.
-    	 *
-    	 * The default is Level::NULL_INT.
-    	 *
-    	 * \sa levelToMatch(), setLevelToMatch()
-    	 */
+         * The property holds the level to match for this filter.
+         *
+         * The default is Level::NULL_INT.
+         *
+         * \sa levelToMatch(), setLevelToMatch()
+         */
     Q_PROPERTY(Log4Qt::Level levelToMatch READ levelToMatch WRITE setLevelToMatch)
 
 public:
-    LevelMatchFilter(QObject *pParent = nullptr);
+    LevelMatchFilter(QObject *pParent = Q_NULLPTR);
 
     bool acceptOnMatch() const;
     Level levelToMatch() const;
     void setAcceptOnMatch(bool accept);
     void setLevelToMatch(Level level);
 
-    virtual Decision decide(const LoggingEvent &rEvent) const;
-
+    virtual Decision decide(const LoggingEvent &rEvent) const Q_DECL_OVERRIDE;
 protected:
 #ifndef QT_NO_DEBUG_STREAM
     /*!
@@ -84,7 +83,7 @@ protected:
      * </tt>
      * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
      */
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 
 private:

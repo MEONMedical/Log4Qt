@@ -46,9 +46,9 @@ class  LOG4QT_EXPORT DenyAllFilter : public Filter
     Q_OBJECT
 
 public:
-    DenyAllFilter(QObject *pParent = nullptr);
+    DenyAllFilter(QObject *pParent = Q_NULLPTR);
 
-    virtual Decision decide(const LoggingEvent &rEvent) const
+    virtual Decision decide(const LoggingEvent &rEvent) const Q_DECL_OVERRIDE
     {
         Q_UNUSED(&rEvent);
         return Filter::DENY;
@@ -65,7 +65,7 @@ protected:
      * </tt>
      * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
      */
-    virtual QDebug debug(QDebug &rDebug) const;
+    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 };
 

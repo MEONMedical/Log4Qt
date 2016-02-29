@@ -34,9 +34,9 @@ class BinaryLoggerTest: public QObject
     Q_OBJECT
     LOG4QT_DECLARE_QCLASS_BINARYLOGGER
 public:
-    explicit BinaryLoggerTest(QObject *parent = nullptr)
+    explicit BinaryLoggerTest(QObject *parent = Q_NULLPTR)
         : QObject(parent)
-        , mAppender{nullptr}
+        , mAppender{Q_NULLPTR}
     {
     }
 

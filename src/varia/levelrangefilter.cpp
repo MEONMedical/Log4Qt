@@ -63,7 +63,6 @@ QDebug LevelRangeFilter::debug(QDebug &rDebug) const
                      << "levelmin:" << mLevelMin.toString() << " "
                      << "levelmax:" << mLevelMax.toString() << " "
                      << "next:" << next()
-                     << "referencecount:" << referenceCount() << " "
                      << ")";
     return rDebug.space();
 }

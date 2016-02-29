@@ -32,14 +32,22 @@
 #include <QtCore/QDebug>
 #include "logmanager.h"
 
+
 namespace Log4Qt
 {
+
+ClassLogger::ClassLogger() :
+    mpLogger(nullptr)
+{
+}
 
 Logger *ClassLogger::logger(const QObject *pObject)
 {
     Q_ASSERT_X(pObject, "ClassLogger::logger()", "pObject must not be null");
-    static Logger* mpLogger(LogManager::logger(QLatin1String(pObject->metaObject()->className())));
-    return mpLogger;
+    if (!static_cast<Logger *>(mpLogger.loadAcquire()))
+        mpLogger.testAndSetOrdered(0,
+                                   LogManager::logger(QLatin1String(pObject->metaObject()->className())));
+    return const_cast<Logger *>(static_cast<Logger *>(mpLogger.loadAcquire()));
 }
 
 } // namespace Log4Qt

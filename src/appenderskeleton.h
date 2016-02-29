@@ -29,6 +29,7 @@
 #include "log4qtshared.h"
 
 #include <QtCore/QMutex>
+
 #include "helpers/logobjectptr.h"
 
 namespace Log4Qt
@@ -73,33 +74,33 @@ class LOG4QT_EXPORT AppenderSkeleton : public Appender
     Q_PROPERTY(Log4Qt::Level threshold READ threshold WRITE setThreshold)
 
 public:
-    AppenderSkeleton(QObject *pParent = nullptr);
+    AppenderSkeleton(QObject *pParent = Q_NULLPTR);
+    virtual ~AppenderSkeleton();
 
 protected:
     AppenderSkeleton(const bool isActive,
-                     QObject *pParent = nullptr);
+                     QObject *pParent = Q_NULLPTR);
 
-public:
-    // virtual ~AppenderSkeleton(); Use compiler default
 private:
     Q_DISABLE_COPY(AppenderSkeleton)
+
 public:
     // JAVA: ErrorHandler* errorHandler();
-    virtual Filter *filter() const;
-    virtual Layout *layout() const;
+    virtual Filter *filter() const Q_DECL_OVERRIDE;
+    virtual Layout *layout() const Q_DECL_OVERRIDE;
     bool isActive() const;
     bool isClosed() const;
-    virtual QString name() const;
+    virtual QString name() const Q_DECL_OVERRIDE;
     Level threshold() const;
     // JAVA: void setErrorHandler(ErrorHandler *pErrorHandler);
-    virtual void setLayout(Layout *pLayout);
-    virtual void setName(const QString &rName);
+    virtual void setLayout(Layout* pLayout) Q_DECL_OVERRIDE;
+    virtual void setName(const QString &rName) Q_DECL_OVERRIDE;
     void setThreshold(Level level);
 
     virtual void activateOptions();
-    virtual void addFilter(Filter *pFilter);
-    virtual void clearFilters();
-    virtual void close();
+    virtual void addFilter(Filter *pFilter) Q_DECL_OVERRIDE;
+    virtual void clearFilters() Q_DECL_OVERRIDE;
+    virtual void close() Q_DECL_OVERRIDE;
 
     /*!
      * Performs checks and delegates the actuall appending to the subclass
@@ -107,7 +108,7 @@ public:
      *
      * \sa append(), checkEntryConditions(), isAsSevereAsThreshold(), Filter
      */
-    virtual void doAppend(const LoggingEvent &rEvent);
+    virtual void doAppend(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
     // JAVA: void finalize();
     Filter* firstFilter() const;
@@ -150,20 +151,14 @@ private:
     volatile bool mIsClosed;
     LogObjectPtr<Layout> mpLayout;
     Level mThreshold;
-    LogObjectPtr<Filter> mpHeadFilter;
-    LogObjectPtr<Filter> mpTailFilter;
+    QScopedPointer<Filter, QScopedPointerDeleteLater> mpHeadFilter;
+    QPointer<Filter> mpTailFilter;
 };
 
 inline Filter *AppenderSkeleton::filter() const
 {
     QMutexLocker locker(&mObjectGuard);
-    return mpHeadFilter;
-}
-
-inline Layout *AppenderSkeleton::layout() const
-{
-    QMutexLocker locker(&mObjectGuard);
-    return mpLayout;
+    return mpHeadFilter.data();
 }
 
 inline QString AppenderSkeleton::name() const
@@ -175,12 +170,6 @@ inline QString AppenderSkeleton::name() const
 inline Level AppenderSkeleton::threshold() const
 {
     return mThreshold;
-}
-
-inline void AppenderSkeleton::setLayout(Layout *pLayout)
-{
-    QMutexLocker locker(&mObjectGuard);
-    mpLayout = pLayout;
 }
 
 inline void AppenderSkeleton::setName(const QString &rName)

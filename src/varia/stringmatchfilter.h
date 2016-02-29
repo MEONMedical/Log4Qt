@@ -65,7 +65,7 @@ public:
     void setAcceptOnMatch(bool accept);
     void setStringToMatch(const QString &rString);
 
-    virtual Decision decide(const LoggingEvent &rEvent) const;
+    virtual Decision decide(const LoggingEvent &rEvent) const Q_DECL_OVERRIDE;
 
 protected:
 #ifndef QT_NO_DEBUG_STREAM

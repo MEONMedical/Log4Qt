@@ -10,7 +10,7 @@ class  TestAppender : public Log4Qt::AppenderSkeleton
 {
     Q_OBJECT
 public:
-    explicit TestAppender(QObject *pParent = nullptr);
+    explicit TestAppender(QObject *pParent = Q_NULLPTR);
     TestAppender(const TestAppender &) = delete;
     TestAppender &operator=(const TestAppender &) = delete;
 

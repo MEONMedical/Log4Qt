@@ -25,10 +25,10 @@
 #ifndef LOG4QT_FILTER_H
 #define LOG4QT_FILTER_H
 
-#include "helpers/logobject.h"
-
-#include "helpers/logobjectptr.h"
 #include "../log4qt.h"
+
+#include <QObject>
+#include <QScopedPointer>
 
 namespace Log4Qt
 {
@@ -41,7 +41,7 @@ class LoggingEvent;
  * \note The ownership and lifetime of objects of this class are managed.
  *       See \ref Ownership "Object ownership" for more details.
  */
-class  LOG4QT_EXPORT Filter : public LogObject
+class  LOG4QT_EXPORT Filter : public QObject
 {
     Q_OBJECT
 
@@ -64,25 +64,45 @@ public:
     Q_ENUMS(Decision)
 
 public:
-    Filter(QObject *pParent = nullptr);
+    Filter(QObject *pParent = Q_NULLPTR);
     virtual ~Filter();
 
-    Filter* next() const
-    { return mpNext; }
-
+    Filter* next() const;
     void setNext(Filter *pFilter);
 
     virtual void activateOptions();
     virtual Decision decide(const LoggingEvent &rEvent) const = 0;
 
+protected:
+#ifndef QT_NO_DEBUG_STREAM
+    /*!
+     * Writes all object member variables to the given debug stream
+     * \a rDebug and returns the stream.
+     *
+     * The member function is used by
+     * QDebug operator<<(QDebug debug, const Filter &rFilter) to
+     * generate class specific output.
+     *
+     * \sa QDebug operator<<(QDebug debug, const Filter &rFilter)
+     */
+    virtual QDebug debug(QDebug &rDebug) const = 0;
+
+    // Needs to be friend to access internal data
+    friend QDebug operator<<(QDebug debug,
+                             const Filter &rFilter);
+#endif // QT_NO_DEBUG_STREAM
+
 private:
-    LogObjectPtr<Filter> mpNext;
+    QScopedPointer<Filter, QScopedPointerDeleteLater> mpNext;
 };
 
 
-} // namespace Log4Qt
 
-Q_DECLARE_TYPEINFO(Log4Qt::LogObjectPtr<Log4Qt::Filter>, Q_MOVABLE_TYPE);
+#ifndef QT_NO_DEBUG_STREAM
+QDebug operator<<(QDebug debug,const Filter &rFilter);
+#endif // QT_NO_DEBUG_STREAM
+
+} // namespace Log4Qt
 
 
 #endif // LOG4QT_FILTER_H

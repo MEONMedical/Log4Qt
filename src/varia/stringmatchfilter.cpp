@@ -58,7 +58,6 @@ QDebug StringMatchFilter::debug(QDebug &rDebug) const
 {
     rDebug.nospace() << "StringMatchFilter("
                      << "acceptonmatch:" << mAcceptOnMatch << " "
-                     << "referencecount:" << referenceCount() << " "
                      << "stringtomatch:" << mStringToMatch << " "
                      << "next:" << next()
                      << ")";

@@ -33,6 +33,7 @@
 #include "../log4qtshared.h"
 
 #include <QtCore/QObject>
+#include <QtCore/QAtomicPointer>
 
 namespace Log4Qt
 {
@@ -53,6 +54,11 @@ class Logger;
 class LOG4QT_EXPORT ClassLogger
 {
 public:
+    /*!
+     * Creates a ClassLogger object.
+     */
+    ClassLogger();
+
     /*!
      * Returns a pointer to a Logger named after the class of the object
      * \a pObject.

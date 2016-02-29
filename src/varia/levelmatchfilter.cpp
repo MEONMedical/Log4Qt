@@ -58,7 +58,6 @@ QDebug LevelMatchFilter::debug(QDebug &rDebug) const
                      << "acceptonmatch:" << mAcceptOnMatch << " "
                      << "leveltomatch:" << mLevelToMatch.toString() << " "
                      << "next:" << next()
-                     << "referencecount:" << referenceCount() << " "
                      << ")";
     return rDebug.space();
 }

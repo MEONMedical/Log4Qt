@@ -31,6 +31,8 @@
 
 #include "logger.h"
 
+#include <QSharedPointer>
+
 namespace Log4Qt
 {
 
@@ -75,7 +77,7 @@ class LOG4QT_EXPORT Appender : public LogObject
     Q_PROPERTY(bool requiresLayout READ requiresLayout)
 
 public:
-    Appender(QObject *pParent = nullptr);
+    Appender(QObject *pParent = Q_NULLPTR);
     virtual ~Appender();
 private:
     Q_DISABLE_COPY(Appender)

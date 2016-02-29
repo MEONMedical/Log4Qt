@@ -30,7 +30,6 @@
 #include "logmanager.h"
 #include "spi/filter.h"
 
-
 namespace Log4Qt
 {
 
@@ -72,9 +71,7 @@ AppenderSkeleton::AppenderSkeleton(QObject *pParent) :
     mIsActive(true),
     mIsClosed(false),
     mpLayout(nullptr),
-    mThreshold(Level::NULL_INT),
-    mpHeadFilter(nullptr),
-    mpTailFilter(nullptr)
+    mThreshold(Level::NULL_INT)
 {
 }
 
@@ -87,12 +84,13 @@ AppenderSkeleton::AppenderSkeleton(const bool isActive,
     mIsActive(isActive),
     mIsClosed(false),
     mpLayout(nullptr),
-    mThreshold(Level::NULL_INT),
-    mpHeadFilter(nullptr),
-    mpTailFilter(nullptr)
+    mThreshold(Level::NULL_INT)
 {
 }
 
+AppenderSkeleton::~AppenderSkeleton()
+{
+}
 
 void AppenderSkeleton::activateOptions()
 {
@@ -123,7 +121,7 @@ void AppenderSkeleton::addFilter(Filter *pFilter)
     if (!mpTailFilter)
     {
         // filter list empty
-        mpHeadFilter = pFilter;
+        mpHeadFilter.reset(pFilter);
         mpTailFilter = pFilter;
     }
     else
@@ -139,8 +137,7 @@ void AppenderSkeleton::clearFilters()
 {
     QMutexLocker locker(&mObjectGuard);
 
-    mpTailFilter = 0;
-    mpHeadFilter = 0;
+    mpHeadFilter.reset();
 }
 
 
@@ -186,7 +183,7 @@ void AppenderSkeleton::doAppend(const LoggingEvent &rEvent)
     if (!isAsSevereAsThreshold(rEvent.level()))
         return;
 
-    Filter *p_filter = mpHeadFilter;
+    Filter *p_filter = mpHeadFilter.data();
     while(p_filter)
     {
         Filter::Decision decision = p_filter->decide(rEvent);
@@ -232,6 +229,18 @@ bool AppenderSkeleton::checkEntryConditions() const
     }
 
     return true;
+}
+
+void Log4Qt::AppenderSkeleton::setLayout(Log4Qt::Layout *pLayout)
+{
+    QMutexLocker locker(&mObjectGuard);
+    mpLayout = pLayout;
+}
+
+Layout *Log4Qt::AppenderSkeleton::layout() const
+{
+    QMutexLocker locker(&mObjectGuard);
+    return mpLayout;
 }
 
 } // namespace Log4Qt

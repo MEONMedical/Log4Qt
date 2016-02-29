@@ -14,7 +14,7 @@ BinaryEventFilter::BinaryEventFilter(QObject *parent)
 
 Filter::Decision BinaryEventFilter::decide(const LoggingEvent &rEvent) const
 {
-    bool isBinaryEvent = dynamic_cast<const BinaryLoggingEvent *>(&rEvent) != nullptr;
+    bool isBinaryEvent = dynamic_cast<const BinaryLoggingEvent *>(&rEvent) != Q_NULLPTR;
 
     if (!isBinaryEvent)
         return Filter::NEUTRAL;
@@ -30,7 +30,6 @@ Filter::Decision BinaryEventFilter::decide(const LoggingEvent &rEvent) const
 QDebug BinaryEventFilter::debug(QDebug &rDebug) const
 {
     rDebug.nospace() << "BinaryEventFilter("
-        << "referencecount:" << referenceCount() << " "
         << "acceptbinaryevents:" << mAcceptBinaryEvents << " "
         << "next:" << next()
         << ")";

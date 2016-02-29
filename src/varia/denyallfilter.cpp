@@ -40,7 +40,6 @@ QDebug DenyAllFilter::debug(QDebug &rDebug) const
 {
     rDebug.nospace() << "DenyAllFilter("
                      << "next:" << next()
-                     << "referencecount:" << referenceCount() << " "
                      << ")";
     return rDebug.space();
 }
