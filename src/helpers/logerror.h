@@ -25,7 +25,7 @@
 #ifndef LOG4QT_LOGERROR_H
 #define LOG4QT_LOGERROR_H
 
-#include "../log4qtshared.h"
+#include "log4qtshared.h"
 
 #include <QtCore/QString>
 #include <QtCore/QVariant>

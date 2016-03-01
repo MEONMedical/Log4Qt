@@ -108,7 +108,7 @@ void AppenderSkeleton::activateOptions()
 }
 
 
-void AppenderSkeleton::addFilter(Filter *pFilter)
+void AppenderSkeleton::addFilter(FilterSharedPtr pFilter)
 {
     if(!pFilter)
     {
@@ -121,7 +121,7 @@ void AppenderSkeleton::addFilter(Filter *pFilter)
     if (!mpTailFilter)
     {
         // filter list empty
-        mpHeadFilter.reset(pFilter);
+        mpHeadFilter = pFilter;
         mpTailFilter = pFilter;
     }
     else
@@ -183,7 +183,7 @@ void AppenderSkeleton::doAppend(const LoggingEvent &rEvent)
     if (!isAsSevereAsThreshold(rEvent.level()))
         return;
 
-    Filter *p_filter = mpHeadFilter.data();
+    Filter  *p_filter = mpHeadFilter.data();
     while(p_filter)
     {
         Filter::Decision decision = p_filter->decide(rEvent);
@@ -192,7 +192,7 @@ void AppenderSkeleton::doAppend(const LoggingEvent &rEvent)
         else if (decision == Filter::DENY)
             return;
         else
-            p_filter = p_filter->next();
+            p_filter = p_filter->next().data();
     }
 
     append(rEvent);
@@ -231,13 +231,13 @@ bool AppenderSkeleton::checkEntryConditions() const
     return true;
 }
 
-void Log4Qt::AppenderSkeleton::setLayout(Log4Qt::Layout *pLayout)
+void Log4Qt::AppenderSkeleton::setLayout(LayoutSharedPtr pLayout)
 {
     QMutexLocker locker(&mObjectGuard);
     mpLayout = pLayout;
 }
 
-Layout *Log4Qt::AppenderSkeleton::layout() const
+LayoutSharedPtr Log4Qt::AppenderSkeleton::layout() const
 {
     QMutexLocker locker(&mObjectGuard);
     return mpLayout;

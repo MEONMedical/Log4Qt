@@ -36,10 +36,8 @@
 #include "varia/listappender.h"
 
 
-
 namespace Log4Qt
 {
-
 
 bool BasicConfigurator::configure()
 {
@@ -49,7 +47,7 @@ bool BasicConfigurator::configure()
     list->setThreshold(Level::ERROR_INT);
     LogManager::logLogger()->addAppender(list);
 
-    PatternLayout *p_layout = new PatternLayout(PatternLayout::TTCC_CONVERSION_PATTERN);
+    LayoutSharedPtr p_layout(new PatternLayout(PatternLayout::TTCC_CONVERSION_PATTERN));
     p_layout->setName(QLatin1String("BasicConfigurator TTCC"));
     p_layout->activateOptions();
     ConsoleAppender *p_appender = new ConsoleAppender(p_layout, ConsoleAppender::STDOUT_TARGET);
@@ -62,17 +60,14 @@ bool BasicConfigurator::configure()
     return (list->list().count() == 0);
 }
 
-
 void BasicConfigurator::configure(Appender *pAppender)
 {
     LogManager::rootLogger()->addAppender(pAppender);
 }
 
-
 void BasicConfigurator::resetConfiguration()
 {
     LogManager::resetConfiguration();
 }
-
 
 } // namespace Log4Qt

@@ -61,9 +61,9 @@ class LOG4QT_EXPORT DatabaseAppender : public AppenderSkeleton
     Q_PROPERTY(QString table READ table WRITE setTable)
 public:
     DatabaseAppender(QObject *pParent = Q_NULLPTR);
-    DatabaseAppender(Layout *pLayout,
+    DatabaseAppender(LayoutSharedPtr pLayout,
                      QObject *pParent = Q_NULLPTR);
-    DatabaseAppender(Layout *pLayout
+    DatabaseAppender(LayoutSharedPtr pLayout
                      ,const QString& tableName
                      ,const QString& connection = QSqlDatabase::defaultConnection
                              ,QObject *pParent = Q_NULLPTR);

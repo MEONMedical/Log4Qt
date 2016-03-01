@@ -27,6 +27,8 @@
 
 #include "appender.h"
 #include "log4qtshared.h"
+#include "layout.h"
+#include "filter.h"
 
 #include <QtCore/QMutex>
 
@@ -36,7 +38,6 @@ namespace Log4Qt
 {
 
 class Filter;
-class Layout;
 class Logger;
 class LoggingEvent;
 
@@ -86,19 +87,19 @@ private:
 
 public:
     // JAVA: ErrorHandler* errorHandler();
-    virtual Filter *filter() const Q_DECL_OVERRIDE;
-    virtual Layout *layout() const Q_DECL_OVERRIDE;
+    virtual FilterSharedPtr filter() const Q_DECL_OVERRIDE;
+    virtual LayoutSharedPtr layout() const Q_DECL_OVERRIDE;
     bool isActive() const;
     bool isClosed() const;
     virtual QString name() const Q_DECL_OVERRIDE;
     Level threshold() const;
     // JAVA: void setErrorHandler(ErrorHandler *pErrorHandler);
-    virtual void setLayout(Layout* pLayout) Q_DECL_OVERRIDE;
+    virtual void setLayout(LayoutSharedPtr pLayout) Q_DECL_OVERRIDE;
     virtual void setName(const QString &rName) Q_DECL_OVERRIDE;
     void setThreshold(Level level);
 
     virtual void activateOptions();
-    virtual void addFilter(Filter *pFilter) Q_DECL_OVERRIDE;
+    virtual void addFilter(FilterSharedPtr pFilter) Q_DECL_OVERRIDE;
     virtual void clearFilters() Q_DECL_OVERRIDE;
     virtual void close() Q_DECL_OVERRIDE;
 
@@ -111,7 +112,7 @@ public:
     virtual void doAppend(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
     // JAVA: void finalize();
-    Filter* firstFilter() const;
+    FilterSharedPtr firstFilter() const;
     bool isAsSevereAsThreshold(Level level) const;
 
 protected:
@@ -149,16 +150,16 @@ private:
     bool mAppendRecursionGuard;
     volatile bool mIsActive;
     volatile bool mIsClosed;
-    LogObjectPtr<Layout> mpLayout;
+    LayoutSharedPtr mpLayout;
     Level mThreshold;
-    QScopedPointer<Filter, QScopedPointerDeleteLater> mpHeadFilter;
-    QPointer<Filter> mpTailFilter;
+    FilterSharedPtr mpHeadFilter;
+    FilterSharedPtr mpTailFilter;
 };
 
-inline Filter *AppenderSkeleton::filter() const
+inline FilterSharedPtr AppenderSkeleton::filter() const
 {
     QMutexLocker locker(&mObjectGuard);
-    return mpHeadFilter.data();
+    return mpHeadFilter;
 }
 
 inline QString AppenderSkeleton::name() const
@@ -193,7 +194,7 @@ inline bool AppenderSkeleton::isClosed() const
     return mIsClosed;
 }
 
-inline Filter *AppenderSkeleton::firstFilter() const
+inline FilterSharedPtr AppenderSkeleton::firstFilter() const
 {
     QMutexLocker locker(&mObjectGuard);
     return filter();

@@ -151,6 +151,4 @@ inline bool ListAppender::requiresLayout() const
 
 } // namespace Log4Qt
 
-Q_DECLARE_TYPEINFO(Log4Qt::LogObjectPtr<Log4Qt::ListAppender>, Q_MOVABLE_TYPE);
-
 #endif // LOG4QT_LISTAPPENDER_H

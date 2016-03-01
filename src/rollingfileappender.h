@@ -70,10 +70,10 @@ class  LOG4QT_EXPORT RollingFileAppender : public FileAppender
 
 public:
     RollingFileAppender(QObject *pParent = Q_NULLPTR);
-    RollingFileAppender(Layout *pLayout,
+    RollingFileAppender(LayoutSharedPtr pLayout,
                         const QString &rFileName,
                         QObject *pParent = Q_NULLPTR);
-    RollingFileAppender(Layout *pLayout,
+    RollingFileAppender(LayoutSharedPtr pLayout,
                         const QString &rFileName,
                         bool append,
                         QObject *pParent = Q_NULLPTR);

@@ -61,7 +61,7 @@ HEADERS += $$PWD/appender.h \
            $$PWD/helpers/binaryclasslogger.h \
            $$PWD/rollingbinaryfileappender.h \
            $$PWD/binarylayout.h \
-    $$PWD/xmllayout.h
+           $$PWD/xmllayout.h
 
 SOURCES += $$PWD/appenderskeleton.cpp \
            $$PWD/basicconfigurator.cpp \

@@ -25,7 +25,7 @@
 #ifndef LOG4QT_LOGOBJECTPTR_H
 #define LOG4QT_LOGOBJECTPTR_H
 
-#include "../log4qtshared.h"
+#include "log4qtshared.h"
 
 #include "logobject.h"
 

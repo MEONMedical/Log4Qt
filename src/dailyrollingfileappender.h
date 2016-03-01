@@ -78,7 +78,7 @@ public:
     Q_ENUMS(DatePattern)
 
     DailyRollingFileAppender(QObject *pParent = Q_NULLPTR);
-    DailyRollingFileAppender(Layout *pLayout,
+    DailyRollingFileAppender(LayoutSharedPtr pLayout,
                              const QString &rFileName,
                              const QString &rDatePattern,
                              QObject *pParent = Q_NULLPTR);

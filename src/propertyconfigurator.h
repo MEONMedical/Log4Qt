@@ -28,6 +28,7 @@
 #include <QtCore/QHash>
 #include "helpers/logobjectptr.h"
 #include "log4qt.h"
+#include "layout.h"
 
 class QSettings;
 
@@ -35,7 +36,6 @@ namespace Log4Qt
 {
 
 class Appender;
-class Layout;
 class ListAppender;
 class Logger;
 class Properties;
@@ -126,7 +126,7 @@ private:
                                   const QString &rLog4jName) const;
     LogObjectPtr<Appender> parseAppender(const Properties &rProperties,
                                          const QString &rName);
-    LogObjectPtr<Layout> parseLayout(const Properties &rProperties,
+    LayoutSharedPtr parseLayout(const Properties &rProperties,
                                      const QString &rAppenderName);
     void parseLogger(const Properties &rProperties,
                      Logger *pLogger,

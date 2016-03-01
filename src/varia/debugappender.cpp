@@ -38,7 +38,7 @@
 namespace Log4Qt
 {
 
-DebugAppender::DebugAppender(Layout *pLayout,
+DebugAppender::DebugAppender(LayoutSharedPtr pLayout,
                              QObject *pParent) :
     AppenderSkeleton(pParent)
 {

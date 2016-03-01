@@ -76,9 +76,9 @@ void BinaryWriterAppender::append(const LoggingEvent &rEvent)
         *mpWriter << binEvent->binaryMessage();
     else
     {
-        if (Layout *l = layout())
+        if (LayoutSharedPtr l = layout())
         {
-            if (BinaryLayout *bl = qobject_cast<BinaryLayout*>(l))
+            if (BinaryLayout *bl = qobject_cast<BinaryLayout*>(l.data()))
                 *mpWriter << bl->binaryFormat(*binEvent);
             else
                 *mpWriter << l->format(rEvent);
@@ -170,7 +170,7 @@ void BinaryWriterAppender::writeRawData(const QByteArray &data) const
 
 BinaryLayout *BinaryWriterAppender::binaryLayout() const
 {
-    return qobject_cast<BinaryLayout *>(layout());
+    return qobject_cast<BinaryLayout *>(layout().data());
 }
 
 } // namespace Log4Qt

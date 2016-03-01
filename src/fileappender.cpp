@@ -53,7 +53,7 @@ FileAppender::FileAppender(QObject *pParent) :
 }
 
 
-FileAppender::FileAppender(Layout *pLayout,
+FileAppender::FileAppender(LayoutSharedPtr pLayout,
                            const QString &rFileName,
                            QObject *pParent) :
     WriterAppender(pLayout, pParent),
@@ -66,7 +66,7 @@ FileAppender::FileAppender(Layout *pLayout,
 }
 
 
-FileAppender::FileAppender(Layout *pLayout,
+FileAppender::FileAppender(LayoutSharedPtr pLayout,
                            const QString &rFileName,
                            bool append,
                            QObject *pParent) :
@@ -80,7 +80,7 @@ FileAppender::FileAppender(Layout *pLayout,
 }
 
 
-FileAppender::FileAppender(Layout *pLayout,
+FileAppender::FileAppender(LayoutSharedPtr pLayout,
                            const QString &rFileName,
                            bool append,
                            bool buffered,

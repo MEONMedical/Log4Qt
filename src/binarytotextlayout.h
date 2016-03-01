@@ -10,24 +10,23 @@ namespace Log4Qt
 class LOG4QT_EXPORT BinaryToTextLayout : public Layout
 {
     Q_OBJECT
-    Q_PROPERTY(Layout * subLayout READ subLayout WRITE setSubLayout)
+    Q_PROPERTY(LayoutSharedPtr subLayout READ subLayout WRITE setSubLayout)
 public:
-    explicit BinaryToTextLayout(Layout *subLayout = 0, QObject *parent = 0);
+    explicit BinaryToTextLayout(LayoutSharedPtr subLayout = LayoutSharedPtr(), QObject *parent = 0);
 
     virtual QString format(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
-    Layout *subLayout() const {return mSubLayout;}
-    void setSubLayout(Layout *layout) {mSubLayout = layout;}
+    LayoutSharedPtr subLayout() const {return mSubLayout;}
+    void setSubLayout(LayoutSharedPtr layout) {mSubLayout = layout;}
 
 protected:
-
 #ifndef QT_NO_DEBUG_STREAM
         virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
 
 private:
     Q_DISABLE_COPY(BinaryToTextLayout)
-    Layout *mSubLayout;
+    LayoutSharedPtr mSubLayout;
 };
 
 } // namespace Log4Qt

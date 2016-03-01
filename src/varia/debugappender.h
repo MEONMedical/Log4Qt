@@ -55,7 +55,7 @@ public:
     /*!
      * Creates a DebugAppender with the specified layout \a pLayout
      */
-    DebugAppender(Layout *pLayout,
+    DebugAppender(LayoutSharedPtr pLayout,
                   QObject *pParent = Q_NULLPTR);
 
 private:

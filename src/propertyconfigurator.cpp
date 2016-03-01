@@ -361,7 +361,7 @@ LogObjectPtr<Appender> PropertyConfigurator::parseAppender(const Properties &rPr
 
     if (p_appender->requiresLayout())
     {
-        LogObjectPtr<Layout> p_layout = parseLayout(rProperties, key);
+        LayoutSharedPtr p_layout = parseLayout(rProperties, key);
         if (p_layout)
             p_appender->setLayout(p_layout);
         else
@@ -380,7 +380,7 @@ LogObjectPtr<Appender> PropertyConfigurator::parseAppender(const Properties &rPr
 }
 
 
-LogObjectPtr<Layout> PropertyConfigurator::parseLayout(const Properties &rProperties,
+LayoutSharedPtr PropertyConfigurator::parseLayout(const Properties &rProperties,
         const QString &rAppenderKey)
 {
     Q_ASSERT_X(!rAppenderKey.isEmpty(), "PropertyConfigurator::parseLayout()", "rAppenderKey must not be empty.");
@@ -396,6 +396,7 @@ LogObjectPtr<Layout> PropertyConfigurator::parseLayout(const Properties &rProper
 
     QString key = rAppenderKey + layout_suffix;
     QString value = OptionConverter::findAndSubst(rProperties, key);
+    LayoutSharedPtr p_layout;
     if (value.isNull())
     {
         LogError e = LOG4QT_ERROR(QT_TR_NOOP("Missing layout definition for appender '%1'"),
@@ -403,9 +404,9 @@ LogObjectPtr<Layout> PropertyConfigurator::parseLayout(const Properties &rProper
                                   "Log4Qt::PropertyConfigurator");
         e << rAppenderKey;
         logger()->error(e);
-        return Q_NULLPTR;
+        return p_layout;
     }
-    LogObjectPtr<Layout> p_layout = Factory::createLayout(value);
+    p_layout.reset(Factory::createLayout(value));
     if (!p_layout)
     {
         LogError e = LOG4QT_ERROR(QT_TR_NOOP("Unable to create layoput of class '%1' requested by appender '%2'"),
@@ -413,11 +414,10 @@ LogObjectPtr<Layout> PropertyConfigurator::parseLayout(const Properties &rProper
                                   "Log4Qt::PropertyConfigurator");
         e << value << rAppenderKey;
         logger()->error(e);
-        return Q_NULLPTR;
+        return p_layout;
     }
 
-    QStringList exclusions;
-    setProperties(rProperties, key + QLatin1String("."), QStringList(), p_layout);
+    setProperties(rProperties, key + QLatin1String("."), QStringList(), p_layout.data());
     p_layout->activateOptions();
 
     return p_layout;

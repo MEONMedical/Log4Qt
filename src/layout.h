@@ -25,10 +25,10 @@
 #ifndef LOG4QT_LAYOUT_H
 #define LOG4QT_LAYOUT_H
 
-#include "helpers/logobject.h"
-
-#include "helpers/logobjectptr.h"
 #include "log4qt.h"
+
+#include <QObject>
+#include <QSharedPointer>
 
 namespace Log4Qt
 {
@@ -41,7 +41,7 @@ class LoggingEvent;
  * \note The ownership and lifetime of objects of this class are managed. See
  *       \ref Ownership "Object ownership" for more details.
  */
-class LOG4QT_EXPORT Layout : public LogObject
+class LOG4QT_EXPORT Layout : public QObject
 {
     Q_OBJECT
 
@@ -67,19 +67,34 @@ class LOG4QT_EXPORT Layout : public LogObject
 public:
     Layout(QObject *pParent = Q_NULLPTR);
     virtual ~Layout();
-private:
-    Q_DISABLE_COPY(Layout)
+
+protected:
+#ifndef QT_NO_DEBUG_STREAM
+    /*!
+     * Writes all object member variables to the given debug stream
+     * \a rDebug and returns the stream.
+     *
+     * The member function is used by
+     * QDebug operator<<(QDebug debug, const Filter &rFilter) to
+     * generate class specific output.
+     *
+     * \sa QDebug operator<<(QDebug debug, const Filter &rFilter)
+     */
+    virtual QDebug debug(QDebug &rDebug) const = 0;
+
+    // Needs to be friend to access internal data
+    friend QDebug operator<<(QDebug debug,
+                             const Layout &rLayout);
+#endif // QT_NO_DEBUG_STREAM
 
 public:
     virtual QString contentType() const;
     QString footer() const;
     QString header() const;
-    // JAVA: virtual bool ignoresThrowable() const;
     QString name() const;
     void setFooter(const QString &rFooter);
     void setHeader(const QString &rHeader);
     void setName(const QString &rName);
-    // JAVA: void setIgnoresThrowable(bool) const;
 
     virtual void activateOptions();
     virtual QString format(const LoggingEvent &rEvent) = 0;
@@ -95,16 +110,16 @@ public:
 
     // Member variables
 private:
+    Q_DISABLE_COPY(Layout)
     QString mFooter;
     QString mHeader;
 };
 
-inline Layout::Layout(QObject *pParent) :
-    LogObject(pParent)
-{}
+using LayoutSharedPtr = QSharedPointer<Layout>;
 
-inline Layout::~Layout()
-{}
+#ifndef QT_NO_DEBUG_STREAM
+QDebug operator<<(QDebug debug,const Layout &rLayout);
+#endif // QT_NO_DEBUG_STREAM
 
 inline QString Layout::footer() const
 {
@@ -136,10 +151,6 @@ inline void Layout::setName(const QString &rName)
     setObjectName(rName);
 }
 
-
 } // namespace Log4Qt
-
-Q_DECLARE_TYPEINFO(Log4Qt::LogObjectPtr<Log4Qt::Layout>, Q_MOVABLE_TYPE);
-
 
 #endif // LOG4QT_LAYOUT_H

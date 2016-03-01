@@ -105,7 +105,6 @@ QDebug PatternLayout::debug(QDebug &rDebug) const
     rDebug.nospace() << "PatternLayout("
                      << "name:" << name() << " "
                      << "pattern:" << conversionPattern() << " "
-                     << "referencecount:" << referenceCount()
                      << ")";
     return rDebug.space();
 }

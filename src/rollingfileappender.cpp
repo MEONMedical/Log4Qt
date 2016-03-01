@@ -46,7 +46,7 @@ RollingFileAppender::RollingFileAppender(QObject *pParent) :
 }
 
 
-RollingFileAppender::RollingFileAppender(Layout *pLayout,
+RollingFileAppender::RollingFileAppender(LayoutSharedPtr pLayout,
         const QString &rFileName,
         QObject *pParent) :
     FileAppender(pLayout, rFileName, pParent),
@@ -56,7 +56,7 @@ RollingFileAppender::RollingFileAppender(Layout *pLayout,
 }
 
 
-RollingFileAppender::RollingFileAppender(Layout *pLayout,
+RollingFileAppender::RollingFileAppender(LayoutSharedPtr pLayout,
         const QString &rFileName,
         bool append,
         QObject *pParent) :

@@ -8,7 +8,7 @@
 namespace Log4Qt
 {
 
-BinaryToTextLayout::BinaryToTextLayout(Layout *subLayout, QObject *pParent)
+BinaryToTextLayout::BinaryToTextLayout(LayoutSharedPtr subLayout, QObject *pParent)
     : Layout(pParent)
     , mSubLayout(subLayout)
 {
@@ -40,12 +40,11 @@ QDebug BinaryToTextLayout::debug(QDebug &rDebug) const
         << "name:" << name() << " ";
 
     if (mSubLayout)
-        rDebug.nospace() << "sublayout: " << *mSubLayout << " ";
+        rDebug.nospace() << "sublayout: " << *mSubLayout.data() << " ";
     else
         rDebug.nospace() << "sublayout: <null> ";
 
-    rDebug.nospace() << "referencecount:" << referenceCount()
-        << ")";
+    rDebug.nospace() << ")";
     return rDebug.space();
 }
 #endif // QT_NO_DEBUG_STREAM

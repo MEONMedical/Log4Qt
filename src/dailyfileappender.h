@@ -45,7 +45,7 @@ class  LOG4QT_EXPORT DailyFileAppender : public FileAppender
     Q_PROPERTY(QString datePattern READ datePattern WRITE setDatePattern)
 public:
     explicit DailyFileAppender(QObject *pParent = 0);
-    DailyFileAppender(Layout *pLayout, const QString &rFileName, const QString &rDatePattern = QString(), QObject *pParent = 0);
+    DailyFileAppender(LayoutSharedPtr pLayout, const QString &rFileName, const QString &rDatePattern = QString(), QObject *pParent = 0);
     virtual ~DailyFileAppender();
 
     QString datePattern() const;

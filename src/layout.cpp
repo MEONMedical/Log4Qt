@@ -28,27 +28,37 @@
 #include "loggingevent.h"
 #include "logmanager.h"
 
-
 namespace Log4Qt
 {
 
+Layout::Layout(QObject *pParent) :
+    QObject(pParent)
+{}
+
+Layout::~Layout()
+{}
 
 QString Layout::contentType() const
 {
     return QString::fromLatin1("text/plain");
 }
 
-
 void Layout::activateOptions()
 {
 }
-
 
 QString Layout::endOfLine()
 {
     // There seams to be no function in Qt for this. MinGW enter '\r\n' automatically
     return QLatin1String("\n");
 }
+
+QDebug operator<<(QDebug debug, const Layout &rLayout)
+{
+    return rLayout.debug(debug);
+}
+
+
 
 
 } // namespace Log4Qt

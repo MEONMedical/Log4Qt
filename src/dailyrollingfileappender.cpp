@@ -45,7 +45,7 @@ DailyRollingFileAppender::DailyRollingFileAppender(QObject *pParent) :
 }
 
 
-DailyRollingFileAppender::DailyRollingFileAppender(Layout *pLayout,
+DailyRollingFileAppender::DailyRollingFileAppender(LayoutSharedPtr pLayout,
         const QString &rFileName,
         const QString &rDatePattern,
         QObject *pParent) :

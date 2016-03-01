@@ -25,15 +25,18 @@
 #ifndef LOG4QT_FILTER_H
 #define LOG4QT_FILTER_H
 
-#include "../log4qt.h"
+#include "log4qt.h"
 
 #include <QObject>
-#include <QScopedPointer>
+#include <QSharedPointer>
 
 namespace Log4Qt
 {
 
 class LoggingEvent;
+class Filter;
+
+using FilterSharedPtr = QSharedPointer<Filter>;
 
 /*!
  * \brief The class Filter is the base class for all filters.
@@ -52,7 +55,7 @@ class  LOG4QT_EXPORT Filter : public QObject
      *
      * \sa next(), setNext()
      */
-    Q_PROPERTY(Filter* next READ next WRITE setNext)
+    Q_PROPERTY(FilterSharedPtr next READ next WRITE setNext)
 
 public:
     enum Decision
@@ -67,8 +70,8 @@ public:
     Filter(QObject *pParent = Q_NULLPTR);
     virtual ~Filter();
 
-    Filter* next() const;
-    void setNext(Filter *pFilter);
+    FilterSharedPtr next() const;
+    void setNext(FilterSharedPtr pFilter);
 
     virtual void activateOptions();
     virtual Decision decide(const LoggingEvent &rEvent) const = 0;
@@ -93,7 +96,7 @@ protected:
 #endif // QT_NO_DEBUG_STREAM
 
 private:
-    QScopedPointer<Filter, QScopedPointerDeleteLater> mpNext;
+    FilterSharedPtr mpNext;
 };
 
 #ifndef QT_NO_DEBUG_STREAM

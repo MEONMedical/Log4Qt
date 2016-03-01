@@ -62,7 +62,6 @@ QDebug XMLLayout::debug(QDebug &rDebug) const
 {
     rDebug.nospace() << "XMLLayout("
                      << "name:" << name() << " "
-                     << "referencecount:" << referenceCount()
                      << ")";
     return rDebug.space();
 }

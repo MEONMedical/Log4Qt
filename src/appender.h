@@ -29,15 +29,14 @@
 
 #include "helpers/logobjectptr.h"
 
-#include "logger.h"
+#include "filter.h"
+#include "layout.h"
 
-#include <QSharedPointer>
+#include "logger.h"
 
 namespace Log4Qt
 {
 
-class Filter;
-class Layout;
 class LoggingEvent;
 
 /*!
@@ -60,7 +59,7 @@ class LOG4QT_EXPORT Appender : public LogObject
      *
      * \sa layout(), setLayout()
      */
-    Q_PROPERTY(Layout* layout READ layout WRITE setLayout)
+    Q_PROPERTY(LayoutSharedPtr layout READ layout WRITE setLayout)
 
     /*!
      * The property holds the name of the Appender.
@@ -77,22 +76,22 @@ class LOG4QT_EXPORT Appender : public LogObject
     Q_PROPERTY(bool requiresLayout READ requiresLayout)
 
 public:
-    Appender(QObject *pParent = Q_NULLPTR);
+    Appender(QObject *pParent = nullptr);
     virtual ~Appender();
 private:
     Q_DISABLE_COPY(Appender)
 
 public:
     // JAVA: ErrorHandler* errorHandler();
-    virtual Filter *filter() const = 0;
+    virtual FilterSharedPtr filter() const = 0;
     virtual QString name() const = 0;
-    virtual Layout *layout() const = 0;
+    virtual LayoutSharedPtr layout() const = 0;
     virtual bool requiresLayout() const = 0;
     // JAVA: void setErrorHandler(ErrorHandler *pErrorHandler);
-    virtual void setLayout(Layout *pLayout) = 0;
+    virtual void setLayout(LayoutSharedPtr pLayout) = 0;
     virtual void setName(const QString &rName) = 0;
 
-    virtual void addFilter(Filter *pFilter) = 0;
+    virtual void addFilter(FilterSharedPtr pFilter) = 0;
     virtual void clearFilters() = 0;
     virtual void close() = 0;
     virtual void doAppend(const LoggingEvent &rEvent) = 0;

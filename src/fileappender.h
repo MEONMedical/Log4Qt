@@ -72,14 +72,14 @@ class LOG4QT_EXPORT  FileAppender : public WriterAppender
 
 public:
     explicit FileAppender(QObject *pParent = Q_NULLPTR);
-    FileAppender(Layout *pLayout,
+    FileAppender(LayoutSharedPtr pLayout,
                  const QString &rFileName,
                  QObject *pParent = Q_NULLPTR);
-    FileAppender(Layout *pLayout,
+    FileAppender(LayoutSharedPtr pLayout,
                  const QString &rFileName,
                  bool append,
                  QObject *pParent = Q_NULLPTR);
-    FileAppender(Layout *pLayout,
+    FileAppender(LayoutSharedPtr pLayout,
                  const QString &rFileName,
                  bool append,
                  bool buffered,

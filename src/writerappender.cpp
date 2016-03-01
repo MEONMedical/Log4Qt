@@ -43,7 +43,7 @@ WriterAppender::WriterAppender(QObject *pParent) :
 }
 
 
-WriterAppender::WriterAppender(Layout *pLayout,
+WriterAppender::WriterAppender(LayoutSharedPtr pLayout,
                                QObject *pParent) :
     AppenderSkeleton(false, pParent),
     mpEncoding(Q_NULLPTR),
@@ -54,7 +54,7 @@ WriterAppender::WriterAppender(Layout *pLayout,
 }
 
 
-WriterAppender::WriterAppender(Layout *pLayout,
+WriterAppender::WriterAppender(LayoutSharedPtr pLayout,
                                QTextStream *pTextStream,
                                QObject *pParent) :
     AppenderSkeleton(false, pParent),

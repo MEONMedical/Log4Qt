@@ -32,7 +32,7 @@
 
 #ifndef LOG4QT_HELPERS_INITIALISATIONHELPER_H
 #define LOG4QT_HELPERS_INITIALISATIONHELPER_H
-#include "../log4qtshared.h"
+#include "log4qtshared.h"
 
 #include <QtCore/QHash>
 #include <QtCore/QString>

@@ -46,7 +46,7 @@ DailyFileAppender::DailyFileAppender(QObject *pParent)
 {
 }
 
-DailyFileAppender::DailyFileAppender(Layout *pLayout, const QString &rFileName, const QString &rDatePattern, QObject *pParent)
+DailyFileAppender::DailyFileAppender(LayoutSharedPtr pLayout, const QString &rFileName, const QString &rDatePattern, QObject *pParent)
     : FileAppender(pLayout, rFileName, pParent)
     , mDatePattern(rDatePattern.isEmpty() ? defaultDatePattern : rDatePattern)
 {

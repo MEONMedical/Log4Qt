@@ -36,14 +36,14 @@ Filter::Filter(QObject *pParent) :
 Filter::~Filter()
 {}
 
-Filter *Filter::next() const
+FilterSharedPtr Filter::next() const
 {
-    return mpNext.data();
+    return mpNext;
 }
 
-void Filter::setNext(Filter *pFilter)
+void Filter::setNext(FilterSharedPtr pFilter)
 {
-    mpNext.reset(pFilter);
+    mpNext = pFilter;
 }
 
 void Filter::activateOptions()

@@ -51,7 +51,7 @@ DatabaseAppender::DatabaseAppender(QObject *pParent) :
 }
 
 
-DatabaseAppender::DatabaseAppender(Layout *pLayout,
+DatabaseAppender::DatabaseAppender(LayoutSharedPtr pLayout,
                                    QObject *pParent) :
     AppenderSkeleton(false, pParent)
     , connectionName(QSqlDatabase::defaultConnection)
@@ -61,7 +61,7 @@ DatabaseAppender::DatabaseAppender(Layout *pLayout,
 }
 
 
-DatabaseAppender::DatabaseAppender(Layout *pLayout
+DatabaseAppender::DatabaseAppender(LayoutSharedPtr pLayout
                                    ,const QString& tableName
                                    ,const QString& connection
                                    ,QObject *pParent) :

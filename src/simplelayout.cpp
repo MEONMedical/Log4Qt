@@ -43,7 +43,6 @@ QDebug SimpleLayout::debug(QDebug &rDebug) const
 {
     rDebug.nospace() << "SimpleLayout("
                      << "name:" << name() << " "
-                     << "referencecount:" << referenceCount()
                      << ")";
     return rDebug.space();
 }

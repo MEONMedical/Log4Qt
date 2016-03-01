@@ -140,7 +140,6 @@ QDebug TTCCLayout::debug(QDebug &rDebug) const
                      << "categoryprefixing:" << categoryPrefixing() << " "
                      << "contextprinting:" << contextPrinting() << " "
                      << "dateformat:" << dateFormat() << " "
-                     << "referencecount:" << referenceCount() << " "
                      << "threadprinting:" << threadPrinting()
                      << ")";
     return rDebug.space();

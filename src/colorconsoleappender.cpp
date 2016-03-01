@@ -221,18 +221,18 @@ ColorConsoleAppender::ColorConsoleAppender(QObject *pParent) :
 {
 }
 
-ColorConsoleAppender::ColorConsoleAppender(Layout *pLayout, QObject *pParent) :
+ColorConsoleAppender::ColorConsoleAppender(LayoutSharedPtr pLayout, QObject *pParent) :
     ConsoleAppender(pLayout, pParent)
 {
 }
 
-ColorConsoleAppender::ColorConsoleAppender(Layout *pLayout,
+ColorConsoleAppender::ColorConsoleAppender(LayoutSharedPtr pLayout,
         const QString &rTarget, QObject *pParent) :
     ConsoleAppender(pLayout, rTarget, pParent)
 {
 }
 
-ColorConsoleAppender::ColorConsoleAppender(Layout *pLayout, Target target,
+ColorConsoleAppender::ColorConsoleAppender(LayoutSharedPtr pLayout, Target target,
         QObject *pParent) :
     ConsoleAppender(pLayout, target, pParent)
 {

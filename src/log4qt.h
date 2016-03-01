@@ -182,19 +182,8 @@
  * either mean to impose restriction on how objects can be created or to move
  * objects to a specific thread.
  *
- * To allow an automatic deletion of not required objects the package
- * implements reference counting for Appenders, Layouts and Filters. The
- * reference counting is implemented in \ref Log4Qt::LogObject "LogObject",
- * which is used as a common base class. The reference count can be explicitly
- * changed using the methods \ref Log4Qt::LogObject::retain() "retain()" and
- * \ref Log4Qt::LogObject::release() "release()". Alternatively an auto pointer
- * is available \ref Log4Qt::LogObjectPtr "LogObjectPtr", which is used
- * throughout the package.
- *
- * The reference counting mechanism will test, if an object has a QObject
- * parent object set. If a parent is set, the object will not be deleted, if
- * the reference count reaches 0. This allows to mix the reference counted
- * paradigm with the QObject parent child one.
+ * To allow an automatic deletion of not required objects as  Appenders,
+ * Layouts and Filters QSharedPointer is used
  *
  * The following example configures a logger and uses reference counting to
  * manage the ownership of objects.

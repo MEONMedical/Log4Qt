@@ -42,21 +42,21 @@ TelnetAppender::TelnetAppender(QObject *pParent) :
 {
 }
 
-TelnetAppender::TelnetAppender(Layout *pLayout, QObject *pParent) :
+TelnetAppender::TelnetAppender(LayoutSharedPtr pLayout, QObject *pParent) :
     AppenderSkeleton(false, pParent), mAddress(QHostAddress::Any), mPort(23),
     mpTcpServer(Q_NULLPTR), mImmediateFlush(false)
 {
     setLayout(pLayout);
 }
 
-TelnetAppender::TelnetAppender(Layout *pLayout, int port, QObject *pParent) :
+TelnetAppender::TelnetAppender(LayoutSharedPtr pLayout, int port, QObject *pParent) :
     AppenderSkeleton(false, pParent), mAddress(QHostAddress::Any), mPort(port),
     mpTcpServer(Q_NULLPTR), mImmediateFlush(false)
 {
     setLayout(pLayout);
 }
 
-TelnetAppender::TelnetAppender(Layout *pLayout, const QHostAddress& address,
+TelnetAppender::TelnetAppender(LayoutSharedPtr pLayout, const QHostAddress& address,
                                int port, QObject *pParent) :
     AppenderSkeleton(false, pParent), mAddress(address), mPort(port),
     mpTcpServer(Q_NULLPTR), mImmediateFlush(false)

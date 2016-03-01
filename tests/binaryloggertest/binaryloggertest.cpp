@@ -127,11 +127,11 @@ void BinaryLoggerTest::initTestCase()
     Log4Qt::Logger *rootLogger = Log4Qt::Logger::rootLogger();
     Log4Qt::LogManager::setHandleQtMessages(true);
 
-    Log4Qt::TTCCLayout *layout = new Log4Qt::TTCCLayout(rootLogger);
-    layout->setDateFormat("dd.MM.yyyy hh:mm:ss.zzz");
-    layout->setContextPrinting(false);
+    Log4Qt::LayoutSharedPtr layout(new Log4Qt::TTCCLayout(rootLogger));
+    static_cast<Log4Qt::TTCCLayout*>(layout.data())->setDateFormat("dd.MM.yyyy hh:mm:ss.zzz");
+    static_cast<Log4Qt::TTCCLayout*>(layout.data())->setContextPrinting(false);
 
-    Log4Qt::BinaryToTextLayout *binlayout = new Log4Qt::BinaryToTextLayout(layout, rootLogger);
+    Log4Qt::LayoutSharedPtr binlayout(new Log4Qt::BinaryToTextLayout(layout, rootLogger));
 
     Log4Qt::ConsoleAppender *consoleAppender = new Log4Qt::ConsoleAppender(rootLogger);
     consoleAppender->setLayout(binlayout);
@@ -141,16 +141,16 @@ void BinaryLoggerTest::initTestCase()
     Log4Qt::Filter *denyall = new Log4Qt::DenyAllFilter;
     denyall->activateOptions();
     Log4Qt::LevelRangeFilter *levelFilter = new Log4Qt::LevelRangeFilter(rootLogger);
-    levelFilter->setNext(denyall);
+    levelFilter->setNext(Log4Qt::FilterSharedPtr(denyall));
     levelFilter->setLevelMin(Log4Qt::Level::NULL_INT);
     levelFilter->setLevelMax(loggingLevel);
     levelFilter->activateOptions();
-    consoleAppender->addFilter(levelFilter);
+    consoleAppender->addFilter(Log4Qt::FilterSharedPtr(levelFilter));
     rootLogger->addAppender(consoleAppender);
 
     // add appender for tests
-    Log4Qt::SimpleLayout *simpleLayout = new Log4Qt::SimpleLayout(rootLogger);
-    Log4Qt::BinaryToTextLayout *binlayout1 = new Log4Qt::BinaryToTextLayout(simpleLayout, rootLogger);
+    Log4Qt::LayoutSharedPtr simpleLayout(new Log4Qt::SimpleLayout(rootLogger));
+    Log4Qt::LayoutSharedPtr binlayout1(new Log4Qt::BinaryToTextLayout(simpleLayout, rootLogger));
     TestAppender *appender = new TestAppender(rootLogger);
     appender->setLayout(binlayout1);
     appender->activateOptions();
@@ -202,10 +202,10 @@ void BinaryLoggerTest::testBinaryEventFilter()
     Log4Qt::BinaryEventFilter *binfilter = new Log4Qt::BinaryEventFilter(blogger);
 
     binfilter->setAcceptBinaryEvents(true);
-    binfilter->setNext(denyall);
+    binfilter->setNext(Log4Qt::FilterSharedPtr(denyall));
     binfilter->activateOptions();
 
-    mAppender->addFilter(binfilter);
+    mAppender->addFilter(Log4Qt::FilterSharedPtr(binfilter));
 
     auto _ = createScopeExitGuard([this, binfilter]{mAppender->removeEventFilter(binfilter);});
 
@@ -322,7 +322,7 @@ void BinaryLoggerTest::testBinaryLayout()
     auto layout = new Log4Qt::BinaryLayout(appender);
     layout->setBinaryHeader("This is the header:");
     layout->setBinaryFooter(":This is the footer");
-    appender->setLayout(layout);
+    appender->setLayout(Log4Qt::LayoutSharedPtr(layout));
     clogger->addAppender(appender);
     auto _ = createScopeExitGuard([clogger, appender]{clogger->removeAppender(appender);});
     QByteArray data;

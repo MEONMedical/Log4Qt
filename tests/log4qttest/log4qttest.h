@@ -5,21 +5,21 @@
  * created:     September 2007
  * author:      Martin Heinrich
  *
- * 
+ *
  * Copyright 2007 Martin Heinrich
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  ******************************************************************************/
 
 #ifndef LOG4QT_LOG4QTTEST_H
@@ -40,14 +40,14 @@
 class Log4QtTest : public QObject
 {
     Q_OBJECT
-    
-public:		
+
+public:
     Log4QtTest();
     virtual ~Log4QtTest();
 private:
     Log4QtTest(const Log4QtTest &rOther); // Not implemented
     Log4QtTest &operator=(const Log4QtTest &rOther); // Not implemented
-	
+
 private slots:
     void initTestCase();
     void cleanupTestCase();
@@ -59,21 +59,21 @@ private slots:
     void DateTime_week();
     void DateTime_milliseconds_data();
     void DateTime_milliseconds();
-	void PatternFormatter_data();
-	void PatternFormatter();
+    void PatternFormatter_data();
+    void PatternFormatter();
     void Properties_default_data();
     void Properties_default();
     void Properties_names();
     void Properties_load_device_data();
     void Properties_load_device();
     void Properties_load_settings();
-    
-    // OptionConverter requires Properties  
-    void OptionConverter_boolean_data(); 
+
+    // OptionConverter requires Properties
+    void OptionConverter_boolean_data();
     void OptionConverter_boolean();
-    void OptionConverter_filesize_data(); 
+    void OptionConverter_filesize_data();
     void OptionConverter_filesize();
-    void OptionConverter_int_data(); 
+    void OptionConverter_int_data();
     void OptionConverter_int();
     void OptionConverter_level_data();
     void OptionConverter_level();
@@ -81,8 +81,8 @@ private slots:
     void OptionConverter_substitution();
     void OptionConverter_target_data();
     void OptionConverter_target();
-	
-    // Factory requires OptionConverter 
+
+    // Factory requires OptionConverter
     void Factory_createAppender_data();
     void Factory_createAppender();
     void Factory_createFilter_data();
@@ -91,24 +91,24 @@ private slots:
     void Factory_createLayout();
     void Factory_setObjectProperty_data();
     void Factory_setObjectProperty();
-    
-    // log4qt/varia
-	void ListAppender();
-	void DenyAllFilter();
-	void LevelMatchFilter_data();
-	void LevelMatchFilter();
-	void LevelRangeFilter_data();
-	void LevelRangeFilter();
-	void StringMatchFilter_data();
-	void StringMatchFilter();
 
-	// log4qt
-	void AppenderSkeleton_threshold();
-	void AppenderSkeleton_filter_data();
-	void AppenderSkeleton_filter();
-	void BasicConfigurator();
+    // log4qt/varia
+    void ListAppender();
+    void DenyAllFilter();
+    void LevelMatchFilter_data();
+    void LevelMatchFilter();
+    void LevelRangeFilter_data();
+    void LevelRangeFilter();
+    void StringMatchFilter_data();
+    void StringMatchFilter();
+
+    // log4qt
+    void AppenderSkeleton_threshold();
+    void AppenderSkeleton_filter_data();
+    void AppenderSkeleton_filter();
+    void BasicConfigurator();
     void FileAppender();
-    void DailyRollingFileAppender();
+    //void DailyRollingFileAppender();
     //void LoggingEvent_stream_data();
     //void LoggingEvent_stream();
     void LogManager_configureLogLogger();
@@ -124,8 +124,8 @@ private slots:
     void RollingFileAppender();
 
 private:
-	QString dailyRollingFileAppenderSuffix(const QDateTime &rDateTime);
-	QString enumValueToKey(QObject *pObject,
+    QString dailyRollingFileAppenderSuffix(const QDateTime &rDateTime);
+    QString enumValueToKey(QObject *pObject,
                            const char* pEnumeration,
                            int value);
     void resetLogging();
@@ -135,15 +135,15 @@ private:
                                    const QString &rEntries,
                                    QString &rResult);
     static bool deleteDirectoryTree(const QString &rName);
-    static bool validateDirContents(const QString &rName, 
+    static bool validateDirContents(const QString &rName,
                                     const QStringList &rExpected,
                                     QString &rResult);
     static bool validateFileContents(const QString &rName,
                                      const QStringList &rExpected,
                                      QString &rResult);
-    
+
 private:
-	bool mSkipLongTests;
+    bool mSkipLongTests;
     QDir mTemporaryDirectory;
     Log4Qt::ListAppender *mpLoggingEvents;
     Log4Qt::Properties mDefaultProperties;

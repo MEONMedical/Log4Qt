@@ -31,7 +31,6 @@ QDebug BinaryLayout::debug(QDebug &rDebug) const
 {
     rDebug.nospace() << "BinaryLayout("
         << "name:" << name() << " "
-        << "referencecount:" << referenceCount()
         << ")";
     return rDebug.space();
 }

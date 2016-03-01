@@ -73,9 +73,9 @@ class LOG4QT_EXPORT  WriterAppender : public AppenderSkeleton
 
 public:
     WriterAppender(QObject *pParent = Q_NULLPTR);
-    WriterAppender(Layout *pLayout,
+    WriterAppender(LayoutSharedPtr pLayout,
                    QObject *pParent = Q_NULLPTR);
-    WriterAppender(Layout *pLayout,
+    WriterAppender(LayoutSharedPtr pLayout,
                    QTextStream *pTextStream,
                    QObject *pParent = Q_NULLPTR);
     virtual ~WriterAppender();

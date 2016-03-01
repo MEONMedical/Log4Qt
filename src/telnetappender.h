@@ -71,13 +71,13 @@ class LOG4QT_EXPORT  TelnetAppender : public AppenderSkeleton
 
 public:
     TelnetAppender(QObject *pParent = Q_NULLPTR);
-    TelnetAppender(Layout *pLayout,
+    TelnetAppender(LayoutSharedPtr pLayout,
                    QObject *pParent = Q_NULLPTR);
-    TelnetAppender(Layout *pLayout,
+    TelnetAppender(LayoutSharedPtr pLayout,
                    const QHostAddress& address,
                    int port,
                    QObject *pParent = Q_NULLPTR);
-    TelnetAppender(Layout *pLayout,
+    TelnetAppender(LayoutSharedPtr pLayout,
                    int port,
                    QObject *pParent = Q_NULLPTR);
     virtual ~TelnetAppender();

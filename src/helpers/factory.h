@@ -25,7 +25,7 @@
 #ifndef LOG4QT_HELPERS_FACTORY_H
 #define LOG4QT_HELPERS_FACTORY_H
 
-#include "../log4qtshared.h"
+#include "log4qtshared.h"
 
 #include <QtCore/QHash>
 #include <QtCore/QMutex>

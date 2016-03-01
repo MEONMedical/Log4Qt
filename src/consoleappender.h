@@ -70,9 +70,9 @@ public:
     Q_ENUMS(Target)
 
     ConsoleAppender(QObject *pParent = Q_NULLPTR);
-    ConsoleAppender(Layout *pLayout,
+    ConsoleAppender(LayoutSharedPtr pLayout,
                     QObject *pParent = Q_NULLPTR);
-    ConsoleAppender(Layout *pLayout,
+    ConsoleAppender(LayoutSharedPtr pLayout,
                     const QString &rTarget,
                     QObject *pParent = Q_NULLPTR);
 
@@ -81,7 +81,7 @@ public:
      * value specified by the \a target constant and the parent
      * \a pParent.
      */
-    ConsoleAppender(Layout *pLayout,
+    ConsoleAppender(LayoutSharedPtr pLayout,
                     Target target,
                     QObject *pParent = Q_NULLPTR);
 

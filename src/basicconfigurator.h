@@ -42,7 +42,7 @@ class Appender;
 class LOG4QT_EXPORT BasicConfigurator
 {
 private:
-    BasicConfigurator(); // Not implemented
+    Q_DISABLE_COPY(BasicConfigurator)
 
 public:
     static bool configure();

@@ -182,42 +182,40 @@ void LogManager::doConfigureLogLogger()
     logLogger()->setLevel(OptionConverter::toLevel(value, Level::DEBUG_INT));
 
     // Common layout
-    TTCCLayout *p_layout = new TTCCLayout();
+    LayoutSharedPtr p_layout(new TTCCLayout());
     p_layout->setName(QLatin1String("LogLog TTCC"));
-    p_layout->setContextPrinting(false);
+    static_cast<TTCCLayout*>(p_layout.data())->setContextPrinting(false);
     p_layout->activateOptions();
 
     // Common deny all filter
-    Filter *p_denyall = new DenyAllFilter();
+    FilterSharedPtr p_denyall(new DenyAllFilter());
     p_denyall->activateOptions();
 
     // ConsoleAppender on stdout for all events <= INFO
     ConsoleAppender *p_appender;
-    LevelRangeFilter *p_filter;
     p_appender = new ConsoleAppender(p_layout, ConsoleAppender::STDOUT_TARGET);
-    p_filter = new LevelRangeFilter();
-    p_filter->setNext(p_denyall);
-    p_filter->setLevelMin(Level::NULL_INT);
-    p_filter->setLevelMax(Level::INFO_INT);
-    p_filter->activateOptions();
+    LevelRangeFilter *pFilterStdout = new LevelRangeFilter();
+    pFilterStdout->setNext(p_denyall);
+    pFilterStdout->setLevelMin(Level::NULL_INT);
+    pFilterStdout->setLevelMax(Level::INFO_INT);
+    pFilterStdout->activateOptions();
     p_appender->setName(QLatin1String("LogLog stdout"));
-    p_appender->addFilter(p_filter);
+    p_appender->addFilter(FilterSharedPtr(pFilterStdout));
     p_appender->activateOptions();
     logLogger()->addAppender(p_appender);
 
     // ConsoleAppender on stderr for all events >= WARN
     p_appender = new ConsoleAppender(p_layout, ConsoleAppender::STDERR_TARGET);
-    p_filter = new LevelRangeFilter();
-    p_filter->setNext(p_denyall);
-    p_filter->setLevelMin(Level::WARN_INT);
-    p_filter->setLevelMax(Level::OFF_INT);
-    p_filter->activateOptions();
+    LevelRangeFilter *pFilterStderr = new LevelRangeFilter();
+    pFilterStderr->setNext(p_denyall);
+    pFilterStderr->setLevelMin(Level::WARN_INT);
+    pFilterStderr->setLevelMax(Level::OFF_INT);
+    pFilterStderr->activateOptions();
     p_appender->setName(QLatin1String("LogLog stderr"));
-    p_appender->addFilter(p_filter);
+    p_appender->addFilter(FilterSharedPtr(pFilterStderr));
     p_appender->activateOptions();
     logLogger()->addAppender(p_appender);
 }
-
 
 void LogManager::doStartup()
 {
