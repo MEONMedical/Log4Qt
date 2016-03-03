@@ -117,7 +117,7 @@ private:
 
 };
 
-class AppenderSharedPtr : public QSharedPointer<Appender>
+class LOG4QT_EXPORT AppenderSharedPtr : public QSharedPointer<Appender>
 {
 public:
     AppenderSharedPtr(Appender * ptr)

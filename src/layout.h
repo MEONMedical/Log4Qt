@@ -150,7 +150,7 @@ inline void Layout::setName(const QString &rName)
     setObjectName(rName);
 }
 
-class LayoutSharedPtr : public QSharedPointer<Layout>
+class LOG4QT_EXPORT LayoutSharedPtr : public QSharedPointer<Layout>
 {
 public:
     LayoutSharedPtr(Layout * ptr)
