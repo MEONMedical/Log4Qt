@@ -29,9 +29,9 @@
 
 #include "mdc.h"
 
-#include <QtCore/QDebug>
-#include <QtCore/QMutex>
-#include <QtCore/QThread>
+#include <QDebug>
+#include <QMutex>
+#include <QThread>
 #include "helpers/initialisationhelper.h"
 #include "logger.h"
 

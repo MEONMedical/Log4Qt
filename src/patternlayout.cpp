@@ -24,7 +24,7 @@
 
 #include "patternlayout.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 #include "helpers/patternformatter.h"
 #include "loggingevent.h"
 

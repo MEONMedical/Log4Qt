@@ -148,10 +148,6 @@
  *     for Appender, Filter and Layout objects.
  *   - \ref Log4Qt::InitialisationHelper "InitialisationHelper": The class
  *     InitialisationHelper performs static initialisation tasks.
- *   - \ref Log4Qt::LogObject "LogObject": The class LogObject is the common
- *     base class for many classes in the package.
- *   - \ref Log4Qt::LogObjectPtr "LogObjectPtr": The class LogObjectPtr
- *     implements automatic reference counting for LogObject objects.
  *   - \ref Log4Qt::PatternFormatter "PatternFormatter": The class
  *     PatternFormatter formats a logging event based on a pattern string.
  *   - \ref Log4Qt::Properties "Properties": The class Properties implements a
@@ -218,12 +214,12 @@
  *
  * // Configure appender
  * p_appender->setTarget(ConsoleAppender::STDOUT_TARGET);
- * p_appender->setLayout(p_layout);
+ * p_appender->setLayout(LayoutSharedPtr(p_layout));
  * p_appender->activateOptions();
  *
  * // Get logger
  * Logger *p_logger = Logger::logger("MyClass");
- * p_logger->addAppender(p_appender);
+ * p_logger->addAppender(AppenderSharedPtr(p_appender));
  *
  * // ...
  *
@@ -233,30 +229,6 @@
  * delete p_parent; // p_appender and p_layout are deleted here
  * \endcode
  *
- * The following example shows how to use objects created on the stack.
- *
- * \code
- * {
- *     // Create layout
- *     TTCCLayout layout;
- *     layout.retain();
- *
- *     // Create appender
- *     ConsoleAppender appender(&layout, ConsoleAppender::STDOUT_TARGET);
- *     appender.retain();
- *     appender.activateOptions();
- *
- *     // Get logger
- *     Logger *p_logger = Logger::logger("MyClass");
- *     p_logger->addAppender(&appender);
- *
- *     // ...
- *
- *     // Remove appender from Logger
- *     p_logger->removeAllAppenders(); // Without retain() program crashes here
- *
- * } // p_appender and p_layout are deleted here
- * \endcode
  */
 
 /*!
@@ -498,7 +470,7 @@
  *   - \ref Log4Qt::LOG4QT_IMPLEMENT_INSTANCE "LOG4QT_IMPLEMENT_INSTANCE"
  */
 
-#include <QtCore/qglobal.h>
+#include <qglobal.h>
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 5, 0)
 #	error "Log4Qt requires Qt version 5.5.0 or higher"

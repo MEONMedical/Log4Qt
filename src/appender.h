@@ -25,14 +25,9 @@
 #ifndef LOG4QT_APPENDER_H
 #define LOG4QT_APPENDER_H
 
-#include "helpers/logobject.h"
-
-#include "helpers/logobjectptr.h"
-
-#include "filter.h"
+#include "spi/filter.h"
 #include "layout.h"
-
-#include "logger.h"
+#include "helpers/classlogger.h"
 
 namespace Log4Qt
 {
@@ -50,7 +45,7 @@ class LoggingEvent;
  * \note The ownership and lifetime of objects of this class are managed.
  *       See \ref Ownership "Object ownership" for more details.
  */
-class LOG4QT_EXPORT Appender : public LogObject
+class LOG4QT_EXPORT Appender : public QObject
 {
     Q_OBJECT
 
@@ -76,18 +71,13 @@ class LOG4QT_EXPORT Appender : public LogObject
     Q_PROPERTY(bool requiresLayout READ requiresLayout)
 
 public:
-    Appender(QObject *pParent = nullptr);
+    Appender(QObject *pParent = Q_NULLPTR);
     virtual ~Appender();
-private:
-    Q_DISABLE_COPY(Appender)
 
-public:
-    // JAVA: ErrorHandler* errorHandler();
     virtual FilterSharedPtr filter() const = 0;
     virtual QString name() const = 0;
     virtual LayoutSharedPtr layout() const = 0;
     virtual bool requiresLayout() const = 0;
-    // JAVA: void setErrorHandler(ErrorHandler *pErrorHandler);
     virtual void setLayout(LayoutSharedPtr pLayout) = 0;
     virtual void setName(const QString &rName) = 0;
 
@@ -95,18 +85,57 @@ public:
     virtual void clearFilters() = 0;
     virtual void close() = 0;
     virtual void doAppend(const LoggingEvent &rEvent) = 0;
+
+protected:
+#ifndef QT_NO_DEBUG_STREAM
+    /*!
+     * Writes all object member variables to the given debug stream
+     * \a rDebug and returns the stream.
+     *
+     * The member function is used by
+     * QDebug operator<<(QDebug debug, const Filter &rFilter) to
+     * generate class specific output.
+     *
+     * \sa QDebug operator<<(QDebug debug, const Filter &rFilter)
+     */
+    virtual QDebug debug(QDebug &rDebug) const = 0;
+
+    // Needs to be friend to access internal data
+    friend QDebug operator<<(QDebug debug,
+                             const Appender &rAppender);
+#endif // QT_NO_DEBUG_STREAM
+    /*!
+     * Returns a pointer to a Logger named after of the object.
+     *
+     * \sa Logger::logger(const char *pName)
+     */
+    Logger* logger() const;
+
+private:
+    Q_DISABLE_COPY(Appender)
+    mutable ClassLogger mLog4QtClassLogger;
+
 };
 
-inline Appender::Appender(QObject *pParent) :
-    LogObject(pParent)
-{}
+class AppenderSharedPtr : public QSharedPointer<Appender>
+{
+public:
+    AppenderSharedPtr(Appender * ptr)
+        : QSharedPointer<Appender>(ptr, &Appender::deleteLater)
+    {}
 
-inline Appender::~Appender()
-{}
+    AppenderSharedPtr() : QSharedPointer<Appender>()
+    {}
 
+    AppenderSharedPtr(const QSharedPointer<Appender> &other) :
+        QSharedPointer<Appender>(other)
+    {}
+
+    AppenderSharedPtr(const QWeakPointer<Appender> &other) :
+        QSharedPointer<Appender>(other)
+    {}
+};
 
 } // namespace Log4Qt
-
-Q_DECLARE_TYPEINFO(Log4Qt::LogObjectPtr<Log4Qt::Appender>, Q_MOVABLE_TYPE);
 
 #endif // LOG4QT_APPENDER_H

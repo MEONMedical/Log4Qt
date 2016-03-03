@@ -27,7 +27,7 @@
 
 #include "fileappender.h"
 
-#include <QtCore/QDateTime>
+#include <QDateTime>
 
 namespace Log4Qt
 {
@@ -137,7 +137,7 @@ protected:
      *                           rollovertime:QDateTime("Mon Oct 22 05:23:00 2007")
      *                           threshold: "NULL" writer: 0x0 )
      * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
+     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender)
      */
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM

@@ -92,7 +92,7 @@ protected:
      *                   next:Log4Qt::LevelMatchFilter(0x3bcd960)
      *                   referencecount:1 )
      * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
+     * \sa QDebug, operator<<(QDebug debug, const Filter &rFilter)
      */
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 

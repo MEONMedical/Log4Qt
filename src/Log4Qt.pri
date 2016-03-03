@@ -36,8 +36,6 @@ HEADERS += $$PWD/appender.h \
            $$PWD/helpers/factory.h \
            $$PWD/helpers/initialisationhelper.h \
            $$PWD/helpers/logerror.h \
-           $$PWD/helpers/logobject.h \
-           $$PWD/helpers/logobjectptr.h \
            $$PWD/helpers/optionconverter.h \
            $$PWD/helpers/patternformatter.h \
            $$PWD/helpers/properties.h \
@@ -63,7 +61,8 @@ HEADERS += $$PWD/appender.h \
            $$PWD/binarylayout.h \
            $$PWD/xmllayout.h
 
-SOURCES += $$PWD/appenderskeleton.cpp \
+SOURCES += $$PWD/appender.cpp \
+           $$PWD/appenderskeleton.cpp \
            $$PWD/basicconfigurator.cpp \
            $$PWD/colorconsoleappender.cpp \
            $$PWD/consoleappender.cpp \
@@ -98,7 +97,6 @@ SOURCES += $$PWD/appenderskeleton.cpp \
            $$PWD/helpers/factory.cpp \
            $$PWD/helpers/initialisationhelper.cpp \
            $$PWD/helpers/logerror.cpp \
-           $$PWD/helpers/logobject.cpp \
            $$PWD/helpers/optionconverter.cpp \
            $$PWD/helpers/patternformatter.cpp \
            $$PWD/helpers/properties.cpp \

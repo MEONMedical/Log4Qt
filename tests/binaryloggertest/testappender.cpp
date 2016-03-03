@@ -44,7 +44,6 @@ QDebug TestAppender::debug(QDebug &rDebug) const
                      << "filter:" << firstFilter() << " "
                      << "isactive:" << isActive() << " "
                      << "isclosed:" << isClosed() << " "
-                     << "referencecount:" << referenceCount() << " "
                      << "threshold:" << threshold().toString()
                      << ")";
     return rDebug.space();

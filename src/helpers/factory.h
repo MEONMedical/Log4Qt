@@ -27,9 +27,9 @@
 
 #include "log4qtshared.h"
 
-#include <QtCore/QHash>
-#include <QtCore/QMutex>
-#include <QtCore/QStringList>
+#include <QHash>
+#include <QMutex>
+#include <QStringList>
 
 class QObject;
 class QMetaProperty;

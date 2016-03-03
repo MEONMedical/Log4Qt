@@ -30,7 +30,7 @@
 
 #include "hierarchy.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 #include "logger.h"
 #include "binarylogger.h"
 
@@ -173,8 +173,6 @@ Logger *Hierarchy::createLogger(const QString &orgName)
 
 void Hierarchy::resetLogger(Logger *pLogger, Level level) const
 {
-    // Q_ASSERT_X(, "Hierarchy::resetLogger", "Lock must be held by caller")
-
     pLogger->removeAllAppenders();
     pLogger->setAdditivity(true);
     pLogger->setLevel(level);

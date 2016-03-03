@@ -25,12 +25,12 @@
 #ifndef LOG4QT_LOGMANAGER_H
 #define LOG4QT_LOGMANAGER_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
-#include <QtCore/QHash>
-#include <QtCore/QList>
-#include <QtCore/QMutex>
-#include <QtCore/QString>
+#include <QHash>
+#include <QList>
+#include <QMutex>
+#include <QString>
 #include "level.h"
 #include "logger.h"
 
@@ -168,7 +168,6 @@ public:
     static void configureLogLogger();
 
     static bool exists(const char *pName);
-    // JAVA: void fireAddAppenderEvent(Logger *pLogger, Appender *pAppender);
 
     /*!
      * Returns the LogManager instance.

@@ -29,7 +29,7 @@
 
 #include "helpers/classlogger.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 #include "logmanager.h"
 
 

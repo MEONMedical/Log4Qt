@@ -27,8 +27,8 @@
 
 #include "log4qtshared.h"
 
-#include <QtCore/QList>
-#include <QtCore/QString>
+#include <QList>
+#include <QString>
 
 namespace Log4Qt
 {

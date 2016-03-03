@@ -28,16 +28,14 @@
 #include "appender.h"
 #include "log4qtshared.h"
 #include "layout.h"
-#include "filter.h"
+#include "spi/filter.h"
+#include "logger.h"
 
-#include <QtCore/QMutex>
-
-#include "helpers/logobjectptr.h"
+#include <QMutex>
 
 namespace Log4Qt
 {
 
-class Filter;
 class Logger;
 class LoggingEvent;
 
@@ -86,14 +84,12 @@ private:
     Q_DISABLE_COPY(AppenderSkeleton)
 
 public:
-    // JAVA: ErrorHandler* errorHandler();
     virtual FilterSharedPtr filter() const Q_DECL_OVERRIDE;
     virtual LayoutSharedPtr layout() const Q_DECL_OVERRIDE;
     bool isActive() const;
     bool isClosed() const;
     virtual QString name() const Q_DECL_OVERRIDE;
     Level threshold() const;
-    // JAVA: void setErrorHandler(ErrorHandler *pErrorHandler);
     virtual void setLayout(LayoutSharedPtr pLayout) Q_DECL_OVERRIDE;
     virtual void setName(const QString &rName) Q_DECL_OVERRIDE;
     void setThreshold(Level level);
@@ -111,13 +107,12 @@ public:
      */
     virtual void doAppend(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
-    // JAVA: void finalize();
     FilterSharedPtr firstFilter() const;
     bool isAsSevereAsThreshold(Level level) const;
 
 protected:
     virtual void append(const LoggingEvent &rEvent) = 0;
-    void customEvent(QEvent* event);
+    void customEvent(QEvent* event) Q_DECL_OVERRIDE;
 
     /*!
      * Tests if all entry conditions for using append() in this class are

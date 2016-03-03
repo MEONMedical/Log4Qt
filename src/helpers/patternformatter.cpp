@@ -29,16 +29,14 @@
 
 #include "helpers/patternformatter.h"
 
-#include <QtCore/QString>
-#include <QtCore/QDebug>
+#include <QString>
+#include <QDebug>
 #include <limits.h>
 #include "helpers/datetime.h"
 #include "helpers/logerror.h"
 #include "layout.h"
 #include "logger.h"
 #include "loggingevent.h"
-
-
 
 namespace Log4Qt
 {
@@ -138,7 +136,7 @@ private:
     Q_DISABLE_COPY(BasicPatternConverter)
 
 protected:
-    virtual QString convert(const LoggingEvent &rLoggingEvent) const;
+    virtual QString convert(const LoggingEvent &rLoggingEvent) const Q_DECL_OVERRIDE;
 #ifndef QT_NO_DEBUG_STREAM
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif
@@ -172,7 +170,7 @@ private:
     Q_DISABLE_COPY(DatePatternConverter)
 
 protected:
-    virtual QString convert(const LoggingEvent &rLoggingEvent) const;
+    virtual QString convert(const LoggingEvent &rLoggingEvent) const Q_DECL_OVERRIDE;
 #ifndef QT_NO_DEBUG_STREAM
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif
@@ -204,7 +202,7 @@ private:
     Q_DISABLE_COPY(LiteralPatternConverter)
 
 protected:
-    virtual QString convert(const LoggingEvent &rLoggingEvent) const;
+    virtual QString convert(const LoggingEvent &rLoggingEvent) const Q_DECL_OVERRIDE;
 #ifndef QT_NO_DEBUG_STREAM
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif
@@ -238,7 +236,7 @@ private:
     Q_DISABLE_COPY(LoggerPatternConverter)
 
 protected:
-    virtual QString convert(const LoggingEvent &rLoggingEvent) const;
+    virtual QString convert(const LoggingEvent &rLoggingEvent) const Q_DECL_OVERRIDE;
 #ifndef QT_NO_DEBUG_STREAM
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif
@@ -273,7 +271,7 @@ private:
     Q_DISABLE_COPY(MDCPatternConverter)
 
 protected:
-    virtual QString convert(const LoggingEvent &rLoggingEvent) const;
+    virtual QString convert(const LoggingEvent &rLoggingEvent) const Q_DECL_OVERRIDE;
 #ifndef QT_NO_DEBUG_STREAM
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif

@@ -25,17 +25,17 @@
 #ifndef LOG4QT_PROPERTYCONFIGURATOR_H
 #define LOG4QT_PROPERTYCONFIGURATOR_H
 
-#include <QtCore/QHash>
-#include "helpers/logobjectptr.h"
+#include <QHash>
+
 #include "log4qt.h"
 #include "layout.h"
+#include "appender.h"
 
 class QSettings;
 
 namespace Log4Qt
 {
 
-class Appender;
 class ListAppender;
 class Logger;
 class Properties;
@@ -78,7 +78,6 @@ public:
     bool doConfigure(const QSettings &rSettings,
                      LoggerRepository *pLoggerRepository = 0);
 
-    // JAVA: void doConfigure(const QUrl &rUrl, LoggerRepository *pLoggerRepository);
 
     /*!
      * \sa ConfiguratorHelper::configureError()
@@ -99,8 +98,6 @@ public:
      *     ConfiguratorHelper::configureError()
      */
     static bool configure(const QSettings &rSettings);
-
-    // JAVA: static void configure(const QUrl &rUrl);
 
     /*!
      * \sa ConfiguratorHelper::configureError(),
@@ -124,7 +121,7 @@ private:
     void parseAdditivityForLogger(const Properties &rProperties,
                                   Logger *pLogger,
                                   const QString &rLog4jName) const;
-    LogObjectPtr<Appender> parseAppender(const Properties &rProperties,
+    AppenderSharedPtr parseAppender(const Properties &rProperties,
                                          const QString &rName);
     LayoutSharedPtr parseLayout(const Properties &rProperties,
                                      const QString &rAppenderName);
@@ -140,8 +137,8 @@ private:
     bool stopCaptureErrors();
 
 private:
-    LogObjectPtr<ListAppender> mpConfigureErrors;
-    QHash< QString, LogObjectPtr<Appender> > mAppenderRegistry;
+    AppenderSharedPtr mpConfigureErrors;
+    QHash<QString, AppenderSharedPtr> mAppenderRegistry;
 };
 
 #ifndef QT_NO_DEBUG_STREAM

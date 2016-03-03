@@ -26,10 +26,10 @@
 #define LOG4QT_LOGSTREAM_H
 
 
-#include <QtCore/QTextStream>
-#include <QtCore/QString>
-#include <QtCore/QSharedPointer>
-#include <QtCore/QPointer>
+#include <QTextStream>
+#include <QString>
+#include <QSharedPointer>
+#include <QPointer>
 
 #include "level.h"
 

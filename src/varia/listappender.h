@@ -27,8 +27,8 @@
 
 #include "appenderskeleton.h"
 
-#include <QtCore/QList>
-#include <QtCore/QMutex>
+#include <QList>
+#include <QMutex>
 #include "loggingevent.h"
 
 namespace Log4Qt
@@ -111,7 +111,7 @@ protected:
      *               isclosed:false maxcount:170 referencecount:1
      *               threshold:"TRACE_SET")
      * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
+     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender)
      */
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM

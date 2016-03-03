@@ -29,8 +29,8 @@
 
 #include "propertyconfigurator.h"
 
-#include <QtCore/QDebug>
-#include <QtCore/QFile>
+#include <QDebug>
+#include <QFile>
 #include "helpers/configuratorhelper.h"
 #include "helpers/factory.h"
 #include "helpers/optionconverter.h"
@@ -315,7 +315,7 @@ void PropertyConfigurator::parseAdditivityForLogger(const Properties &rPropertie
 }
 
 
-LogObjectPtr<Appender> PropertyConfigurator::parseAppender(const Properties &rProperties,
+AppenderSharedPtr PropertyConfigurator::parseAppender(const Properties &rProperties,
         const QString &rName)
 {
     // - Test if appender has been parsed before
@@ -347,7 +347,7 @@ LogObjectPtr<Appender> PropertyConfigurator::parseAppender(const Properties &rPr
         logger()->error(e);
         return Q_NULLPTR;
     }
-    LogObjectPtr<Appender> p_appender = Factory::createAppender(value);
+    AppenderSharedPtr p_appender(Factory::createAppender(value));
     if (!p_appender)
     {
         LogError e = LOG4QT_ERROR(QT_TR_NOOP("Unable to create appender of class '%1' named '%2'"),
@@ -370,8 +370,8 @@ LogObjectPtr<Appender> PropertyConfigurator::parseAppender(const Properties &rPr
 
     QStringList exclusions;
     exclusions << QLatin1String("layout");
-    setProperties(rProperties, key + QLatin1String("."), exclusions, p_appender);
-    AppenderSkeleton *p_appenderskeleton = qobject_cast<AppenderSkeleton *>(p_appender);
+    setProperties(rProperties, key + QLatin1String("."), exclusions, p_appender.data());
+    AppenderSkeleton *p_appenderskeleton = qobject_cast<AppenderSkeleton *>(p_appender.data());
     if (p_appenderskeleton)
         p_appenderskeleton->activateOptions();
 
@@ -472,7 +472,7 @@ void PropertyConfigurator::parseLogger(const Properties &rProperties,
         value = i.next().trimmed();
         if(value.isEmpty())
             continue;
-        LogObjectPtr<Appender> p_appender = parseAppender(rProperties, value);
+        AppenderSharedPtr p_appender = parseAppender(rProperties, value);
         if (p_appender)
             pLogger->addAppender(p_appender);
     }
@@ -513,27 +513,25 @@ void PropertyConfigurator::setProperties(const Properties &rProperties,
     }
 }
 
-
 void PropertyConfigurator::startCaptureErrors()
 {
     Q_ASSERT_X(!mpConfigureErrors, "PropertyConfigurator::startCaptureErrors()", "mpConfigureErrors must be empty.");
 
-    mpConfigureErrors = new ListAppender;
-    mpConfigureErrors->setName(QLatin1String("PropertyConfigurator"));
-    mpConfigureErrors->setConfiguratorList(true);
-    mpConfigureErrors->setThreshold(Level::ERROR_INT);
+    ListAppender * listAppender = new ListAppender();
+    mpConfigureErrors.reset(listAppender);
+    listAppender->setName(QLatin1String("PropertyConfigurator"));
+    listAppender->setConfiguratorList(true);
+    listAppender->setThreshold(Level::ERROR_INT);
     LogManager::logLogger()->addAppender(mpConfigureErrors);
 }
-
 
 bool PropertyConfigurator::stopCaptureErrors()
 {
     Q_ASSERT_X(mpConfigureErrors, "PropertyConfigurator::stopCaptureErrors()", "mpConfigureErrors must not be empty.");
-
+    ListAppender * listAppender = static_cast<ListAppender*>(mpConfigureErrors.data());
     LogManager::logLogger()->removeAppender(mpConfigureErrors);
-    ConfiguratorHelper::setConfigureError(mpConfigureErrors->list());
-    bool result = (mpConfigureErrors->list().count() == 0);
-    mpConfigureErrors = 0;
+    ConfiguratorHelper::setConfigureError(listAppender->list());
+    bool result = (listAppender->list().count() == 0);
     return result;
 }
 

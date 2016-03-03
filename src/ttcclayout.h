@@ -133,7 +133,6 @@ public:
     bool categoryPrefixing() const;
     bool contextPrinting() const;
     QString dateFormat() const;
-    // JAVA: bool ignoresThrowable() const;
     bool threadPrinting() const;
     void setCategoryPrefixing(bool categoryPrefixing);
     void setContextPrinting(bool contextPrinting);
@@ -145,7 +144,6 @@ public:
     */
     void setDateFormat(DateFormat dateFormat);
 
-    // JAVA: setIgnoresThrowable(bool ignoresThrowable);
     void setThreadPrinting(bool threadPrinting);
     virtual QString format(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
@@ -160,7 +158,7 @@ protected:
      *             contextprinting:true dateformat:"ISO8601"
      *             referencecount:1 threadprinting:true)
      * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
+     * \sa QDebug, operator<<(QDebug debug, const Layout &Layout)
      */
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM

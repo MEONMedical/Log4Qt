@@ -24,7 +24,7 @@
 
 #include "simplelayout.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 #include "loggingevent.h"
 
 

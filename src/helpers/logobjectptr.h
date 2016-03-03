@@ -25,7 +25,7 @@
 #ifndef LOG4QT_LOGOBJECTPTR_H
 #define LOG4QT_LOGOBJECTPTR_H
 
-#include "log4qtshared.h"
+#include "../log4qtshared.h"
 
 #include "logobject.h"
 
@@ -109,7 +109,7 @@ private:
 
 template <class T>
 inline LogObjectPtr<T>::LogObjectPtr() :
-    mpLogObject(Q_NULLPTR)
+    mpLogObject(nullptr)
 {}
 
 template <class T>

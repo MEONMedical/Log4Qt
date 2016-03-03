@@ -27,10 +27,10 @@
 
 #include "log4qtshared.h"
 
-#include <QtCore/QObject>
+#include <QObject>
 
-#include <QtCore/QList>
-#include <QtCore/QMutex>
+#include <QList>
+#include <QMutex>
 #include "loggingevent.h"
 
 class QFileSystemWatcher;

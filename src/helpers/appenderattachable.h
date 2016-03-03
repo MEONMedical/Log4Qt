@@ -26,15 +26,14 @@
 #define LOG4QT_APPENDERATTACHABLE_H
 
 #include "../log4qt.h"
-#include "logobjectptr.h"
 
-#include <QtCore/QList>
-#include <QtCore/QReadWriteLock>
+#include "appender.h"
+
+#include <QList>
+#include <QReadWriteLock>
 
 namespace Log4Qt
 {
-
-class Appender;
 
 /*!
  * \brief Implementation for attaching appenders to objects
@@ -49,23 +48,23 @@ public:
     /*!
      * Add an appender.
      */
-    virtual void addAppender(Appender *pAppender);
+    virtual void addAppender(AppenderSharedPtr pAppender);
 
     /*!
      * Get all previously added appenders as an Enumeration.
      */
-    virtual QList<Appender *> appenders() const;
+    virtual QList<AppenderSharedPtr> appenders() const;
 
     /*!
      * Get an appender by name.
      */
-    virtual Appender *appender(const QString &rName) const;
+    virtual AppenderSharedPtr appender(const QString &rName) const;
 
     /*!
      Returns <code>true</code> if the specified appender is in the
      list of attached appenders, <code>false</code> otherwise.
     */
-    virtual bool isAttached(Appender *pAppender) const;
+    virtual bool isAttached(AppenderSharedPtr pAppender) const;
 
     /*!
      * Removes all appenders that have been previously added from this
@@ -82,7 +81,7 @@ public:
     /*!
      * Remove the appender passed as parameter from the list of appenders.
      */
-    virtual void removeAppender(Appender *pAppender);
+    virtual void removeAppender(AppenderSharedPtr pAppender);
 
     /*!
      * Remove the appender with the name passed as parameter from the
@@ -91,7 +90,7 @@ public:
     virtual void removeAppender(const QString &rName);
 
 protected:
-    QList< LogObjectPtr<Appender> > mAppenders;
+    QList<AppenderSharedPtr> mAppenders;
     mutable QReadWriteLock mAppenderGuard;
 };
 

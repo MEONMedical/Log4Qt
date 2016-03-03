@@ -24,11 +24,11 @@
 
 #include "telnetappender.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 
-#include <QtNetwork/QTcpServer>
-#include <QtNetwork/QTcpSocket>
-#include <QtNetwork/QHostAddress>
+#include <QTcpServer>
+#include <QTcpSocket>
+#include <QHostAddress>
 
 #include "layout.h"
 #include "loggingevent.h"
@@ -122,7 +122,6 @@ bool TelnetAppender::requiresLayout() const
 
 void TelnetAppender::append(const LoggingEvent &rEvent)
 {
-    // Q_ASSERT_X(, "TelnetAppender::append()", "Lock must be held by caller");
     Q_ASSERT_X(layout(), "TelnetAppender::append()", "Layout must not be null");
 
     QString message(layout()->format(rEvent));
@@ -136,8 +135,6 @@ void TelnetAppender::append(const LoggingEvent &rEvent)
 
 bool TelnetAppender::checkEntryConditions() const
 {
-    // Q_ASSERT_X(, "TelnetAppender::checkEntryConditions()", "Lock must be held by caller")
-
     if (!mpTcpServer && !mpTcpServer->isListening())
     {
         LogError
@@ -188,7 +185,7 @@ QDebug TelnetAppender::debug(QDebug &rDebug) const
     rDebug.nospace() << "TelnetAppender(" << "name:" << name() << " "
                      << "filter:" << firstFilter() << "isactive:" << isActive()
                      << "isclosed:" << isClosed() << "layout:" << layout_name
-                     << "referencecount:" << referenceCount() << " " << "threshold:"
+                     << " " << "threshold:"
                      << threshold().toString() << "address:" << address() << "port:"
                      << port() << " " << ")";
     return rDebug.space();

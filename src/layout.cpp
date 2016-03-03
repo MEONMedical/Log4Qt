@@ -24,7 +24,7 @@
 
 #include "layout.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 #include "loggingevent.h"
 #include "logmanager.h"
 

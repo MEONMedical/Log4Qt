@@ -25,8 +25,8 @@
 #ifndef LOG4QTDISPATCHER_H
 #define LOG4QTDISPATCHER_H
 
-#include <QtCore/QThread>
-#include <QtCore/QList>
+#include <QThread>
+#include <QList>
 
 #include "loggingevent.h"
 

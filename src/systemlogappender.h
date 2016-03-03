@@ -54,8 +54,7 @@ public:
     explicit SystemLogAppender(QObject *parent = Q_NULLPTR);
     ~SystemLogAppender();
 
-    bool requiresLayout() const;
-
+    bool requiresLayout() const Q_DECL_OVERRIDE;
     QString serviceName() const;
     void setServiceName(const QString& serviceName);
 
@@ -68,15 +67,15 @@ protected:
     * \a rDebug and returns the stream.
     *
     * The member function is used by
-    * QDebug operator<<(QDebug debug, const LogObject &rLogObject) to
+    * QDebug operator<<(QDebug debug, const Appender &rAppender) to
     * generate class specific output.
     *
-    * \sa QDebug operator<<(QDebug debug, const LogObject &rLogObject)
+    * \sa QDebug operator<<(QDebug debug, const Appender &rAppender)
     */
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 
     // Needs to be friend to access internal data
-    friend QDebug operator<<(QDebug debug, const LogObject &rLogObject);
+    friend QDebug operator<<(QDebug debug, const Appender &rAppender);
 #endif // QT_NO_DEBUG_STREAM
     QString mServiceName;
     char *ident;

@@ -27,8 +27,8 @@
 
 #include "loggerrepository.h"
 
-#include <QtCore/QHash>
-#include <QtCore/QReadWriteLock>
+#include <QHash>
+#include <QReadWriteLock>
 
 namespace Log4Qt
 {
@@ -49,24 +49,14 @@ public:
     virtual bool exists(const QString &rName) const Q_DECL_OVERRIDE;
     virtual Logger *logger(const QString &rName) Q_DECL_OVERRIDE;
     virtual QList<Logger *> loggers() const Q_DECL_OVERRIDE;
-    // JAVA: virtual Logger *logger(const String &rName, LoggerFactory *pFactory);
     virtual Logger *rootLogger() const Q_DECL_OVERRIDE;
     virtual Level threshold() const Q_DECL_OVERRIDE;
     virtual void setThreshold(Level level) Q_DECL_OVERRIDE;
     virtual void setThreshold(const QString &rThreshold) Q_DECL_OVERRIDE;
 
-    // JAVA: void clear();
     virtual bool isDisabled(Level level) Q_DECL_OVERRIDE;
     virtual void resetConfiguration() Q_DECL_OVERRIDE;
     virtual void shutdown() Q_DECL_OVERRIDE;
-
-    // JAVA: virtual void addHierarchyEventListener(HierarchyEventListener *pEventListener);
-    // JAVA: virtual void emitNoAppenderWarning(Logger *plogger) const;
-    // JAVA: virtual void fireAddAppenderEvent(Logger *plogger, Appender *pAppender) const;
-
-    // JAVA: void addRenderer(const QString &rClass, ObjectRenderer *pObjectRenderer);
-    // JAVA: QHash<QString, ObjectRenderer *> getRendererMap() const;
-    // JAVA: setRenderer(const QString &rClass, ObjectRenderer *pObjectRenderer);
 
 protected:
 #ifndef QT_NO_DEBUG_STREAM
@@ -79,7 +69,7 @@ protected:
      * </tt>
      * \sa QDebug, operator<<(QDebug debug, const LoggerRepository &rLoggerRepository)
      */
-    virtual QDebug debug(QDebug &rdebug) const;
+    virtual QDebug debug(QDebug &rdebug) const Q_DECL_OVERRIDE;
 #endif
 
 private:

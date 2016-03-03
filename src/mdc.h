@@ -25,9 +25,9 @@
 #ifndef LOG4QT_MDC_H
 #define LOG4QT_MDC_H
 
-#include <QtCore/QString>
-#include <QtCore/QHash>
-#include <QtCore/QThreadStorage>
+#include <QString>
+#include <QHash>
+#include <QThreadStorage>
 #include "log4qt.h"
 
 namespace Log4Qt

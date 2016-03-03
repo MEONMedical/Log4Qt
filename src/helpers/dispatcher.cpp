@@ -22,12 +22,12 @@
  *
  ******************************************************************************/
 
-#include "dispatcher.h"
+#include "helpers/dispatcher.h"
 #include "loggingevent.h"
 #include "asyncappender.h"
 
-#include <QtCore/QCoreApplication>
-#include <QtCore/QDebug>
+#include <QCoreApplication>
+#include <QDebug>
 
 namespace Log4Qt
 {

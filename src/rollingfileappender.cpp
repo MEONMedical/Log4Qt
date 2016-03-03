@@ -25,9 +25,9 @@
 
 #include "rollingfileappender.h"
 
-#include <QtCore/QDebug>
-#include <QtCore/QFile>
-#include <QtCore/QTextCodec>
+#include <QDebug>
+#include <QFile>
+#include <QTextCodec>
 #include "helpers/optionconverter.h"
 #include "layout.h"
 #include "loggingevent.h"
@@ -84,8 +84,6 @@ void RollingFileAppender::setMaxFileSize(const QString &rMaxFileSize)
 
 void RollingFileAppender::append(const LoggingEvent &rEvent)
 {
-    // Q_ASSERT_X(, "RollingFileAppender::append()", "Lock must be held by caller")
-
     FileAppender::append(rEvent);
     if (writer()->device()->size() > this->mMaximumFileSize)
         rollOver();
@@ -94,8 +92,6 @@ void RollingFileAppender::append(const LoggingEvent &rEvent)
 
 void RollingFileAppender::rollOver()
 {
-    // Q_ASSERT_X(, "RollingFileAppender::rollOver()", "Lock must be held by caller")
-
     logger()->debug("Rolling over with maxBackupIndex = %1", mMaxBackupIndex);
 
     closeFile();
@@ -150,7 +146,6 @@ QDebug RollingFileAppender::debug(QDebug &rDebug) const
                      << "layout:" << layout_name << " "
                      << "maxbackupindex:" << maxBackupIndex() << " "
                      << "maximumfilesize:" << maximumFileSize() << " "
-                     << "referencecount:" << referenceCount() << " "
                      << "threshold:" << threshold().toString() << " "
                      << "writer:" << writer()
                      << ")";

@@ -33,13 +33,12 @@
 #ifndef LOG4QT_LOGGER_H
 #define LOG4QT_LOGGER_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
-#include <QtCore/QList>
-#include <QtCore/QReadWriteLock>
+#include <QList>
+#include <QReadWriteLock>
 #include "helpers/logerror.h"
 #include "helpers/classlogger.h"
-#include "helpers/logobjectptr.h"
 #include "helpers/appenderattachable.h"
 #include "level.h"
 #include "logstream.h"
@@ -242,14 +241,11 @@ public:
     LoggerRepository *loggerRepository() const;
     QString name() const;
     Logger *parentLogger() const;
-    // JAVA: ResourceBundle *resourceBundle() const;
-    // JAVA: void setResourceBundle(ResourceBundle *pResourceBundle);
+
     void setAdditivity(bool additivity);
     virtual void setLevel(Level level);
 
     void callAppenders(const LoggingEvent &rEvent) const;
-
-    // JAVA: QString resourceBundleString(const QString &rKey) const;
 
     Level effectiveLevel() const;
     bool isDebugEnabled() const;
@@ -324,9 +320,6 @@ public:
         log(level, message.arg(std::forward<T>(t)), std::forward<Ts>(ts)...);
     }
 
-    // JAVA: void l7dlog(Level level, const QString &rKey);
-    // JAVA: void l7dlog(Level level, const QString &rKey, const QList<Object *> rParameters);
-
     LogStream trace() const;
     void trace(const LogError &rLogError) const;
     void trace(const QString &rMessage) const;
@@ -399,9 +392,6 @@ QDebug operator<<(QDebug debug,
 #endif // QT_NO_DEBUG_STREAM
 
 } // namespace Log4Qt
-
-
-// Q_DECLARE_TYPEinfo(Log4Qt::Logger, Q_COMPLEX_TYPE); // Use default
 
 
 #endif // LOG4QT_LOGGER_H

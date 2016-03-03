@@ -2,7 +2,7 @@
 #include "binaryloggingevent.h"
 #include "simplelayout.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 #include <QStringBuilder>
 
 namespace Log4Qt

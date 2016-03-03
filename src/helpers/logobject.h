@@ -33,7 +33,7 @@
 #ifndef LOG4QT_LOGOBJECT_H
 #define LOG4QT_LOGOBJECT_H
 
-#include "log4qtshared.h"
+#include "../log4qtshared.h"
 #include "classlogger.h"
 
 #include <QtCore/QObject>

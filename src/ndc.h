@@ -25,9 +25,9 @@
 #ifndef LOG4QT_NDC_H
 #define LOG4QT_NDC_H
 
-#include <QtCore/QString>
-#include <QtCore/QStack>
-#include <QtCore/QThreadStorage>
+#include <QString>
+#include <QStack>
+#include <QThreadStorage>
 #include "log4qt.h"
 
 namespace Log4Qt
@@ -49,19 +49,15 @@ private:
 
 public:
     static void clear();
-    // JAVA: static QStack<QString> cloneStack();
-    // JAVA: static QString get();
     static int depth();
-    // JAVA: inherit(Stack stack)
 
     /*!
-    	 * Returns the NDC instance.
-    	 */
+         * Returns the NDC instance.
+         */
     static NDC *instance();
 
     static QString pop();
     static void push(const QString &rMessage);
-    // JAVA: static void remove(); // Not required
     static void setMaxDepth(int maxDepth);
     static QString peek();
 

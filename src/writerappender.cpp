@@ -24,8 +24,8 @@
 
 #include "writerappender.h"
 
-#include <QtCore/QDebug>
-#include <QtCore/QTextCodec>
+#include <QDebug>
+#include <QTextCodec>
 #include "layout.h"
 #include "loggingevent.h"
 
@@ -140,7 +140,6 @@ bool WriterAppender::requiresLayout() const
 
 void WriterAppender::append(const LoggingEvent &rEvent)
 {
-    // Q_ASSERT_X(, "WriterAppender::append()", "Lock must be held by caller");
     Q_ASSERT_X(layout(), "WriterAppender::append()", "Layout must not be null");
 
     QString message(layout()->format(rEvent));
@@ -160,8 +159,6 @@ void WriterAppender::append(const LoggingEvent &rEvent)
 
 bool WriterAppender::checkEntryConditions() const
 {
-    // Q_ASSERT_X(, "WriterAppender::checkEntryConditions()", "Lock must be held by caller")
-
     if (!writer())
     {
         LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' without a writer set"),
@@ -177,8 +174,6 @@ bool WriterAppender::checkEntryConditions() const
 
 void WriterAppender::closeWriter()
 {
-    // Q_ASSERT_X(, "WriterAppender::closeWriter()", "Lock must be held by caller")
-
     if (!mpWriter)
         return;
 
@@ -205,7 +200,6 @@ QDebug WriterAppender::debug(QDebug &rDebug) const
                      << "isactive:" << isActive()
                      << "isclosed:" << isClosed()
                      << "layout:" << layout_name
-                     << "referencecount:" << referenceCount() << " "
                      << "threshold:" << threshold().toString()
                      << "writer:" << writer()
                      << ")";
@@ -222,8 +216,6 @@ bool WriterAppender::handleIoErrors() const
 
 void WriterAppender::writeFooter() const
 {
-    // Q_ASSERT_X(, "WriterAppender::writeFooter()", "Lock must be held by caller")
-
     if (!layout() || !mpWriter)
         return;
 
@@ -239,8 +231,6 @@ void WriterAppender::writeFooter() const
 
 void WriterAppender::writeHeader() const
 {
-    // Q_ASSERT_X(, "WriterAppender::writeHeader()", "Lock must be held by caller")
-
     if (!layout() || !mpWriter)
         return;
 

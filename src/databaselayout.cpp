@@ -25,7 +25,7 @@
 
 #include "databaselayout.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 
 #include <QtSql/QSqlField>
 #include "loggingevent.h"

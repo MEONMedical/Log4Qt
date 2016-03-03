@@ -78,7 +78,7 @@ protected:
      *                    stringtomatch:"LDAP_STRONG_AUTH_REQUIRED"
      *                    next:Log4Qt::LevelMatchFilter(0x3bdd960) )
      * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
+     * \sa QDebug, operator<<(QDebug debug, const Filter &rFilter)
      */
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM

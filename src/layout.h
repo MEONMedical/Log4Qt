@@ -29,6 +29,7 @@
 
 #include <QObject>
 #include <QSharedPointer>
+#include <QDebug>
 
 namespace Log4Qt
 {
@@ -115,8 +116,6 @@ private:
     QString mHeader;
 };
 
-using LayoutSharedPtr = QSharedPointer<Layout>;
-
 #ifndef QT_NO_DEBUG_STREAM
 QDebug operator<<(QDebug debug,const Layout &rLayout);
 #endif // QT_NO_DEBUG_STREAM
@@ -150,6 +149,25 @@ inline void Layout::setName(const QString &rName)
 {
     setObjectName(rName);
 }
+
+class LayoutSharedPtr : public QSharedPointer<Layout>
+{
+public:
+    LayoutSharedPtr(Layout * ptr)
+        : QSharedPointer<Layout>(ptr, &Layout::deleteLater)
+    {}
+
+    LayoutSharedPtr() : QSharedPointer<Layout>()
+    {}
+
+    LayoutSharedPtr(const QSharedPointer<Layout> &other) :
+        QSharedPointer<Layout>(other)
+    {}
+
+    LayoutSharedPtr(const QWeakPointer<Layout> &other) :
+        QSharedPointer<Layout>(other)
+    {}
+};
 
 } // namespace Log4Qt
 

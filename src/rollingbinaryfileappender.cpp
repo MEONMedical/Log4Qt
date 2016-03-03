@@ -3,9 +3,9 @@
 #include "layout.h"
 #include "helpers/datetime.h"
 
-#include <QtCore/QMetaEnum>
-#include <QtCore/QFile>
-#include <QtCore/QDebug>
+#include <QMetaEnum>
+#include <QFile>
+#include <QDebug>
 
 namespace Log4Qt
 {
@@ -265,7 +265,6 @@ QDebug RollingBinaryFileAppender::debug(QDebug &rDebug) const
             << "layout:" << layout_name << " "
             << "maxbackupindex:" << maxBackupIndex() << " "
             << "maximumfilesize:" << maximumFileSize() << " "
-            << "referencecount:" << referenceCount() << " "
             << "rollovertime:" << mRollOverTime << " "
             << "threshold:" << threshold().toString() << " "
             << "writer:" << writer()

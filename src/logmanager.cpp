@@ -31,12 +31,12 @@
 
 #include "logmanager.h"
 
-#include <QtCore/QCoreApplication>
-#include <QtCore/QDebug>
-#include <QtCore/QFile>
-#include <QtCore/QMutex>
-#include <QtCore/QSettings>
-#include <QtCore/QStringList>
+#include <QCoreApplication>
+#include <QDebug>
+#include <QFile>
+#include <QMutex>
+#include <QSettings>
+#include <QStringList>
 #include "consoleappender.h"
 #include "helpers/datetime.h"
 #include "helpers/initialisationhelper.h"
@@ -202,7 +202,7 @@ void LogManager::doConfigureLogLogger()
     p_appender->setName(QLatin1String("LogLog stdout"));
     p_appender->addFilter(FilterSharedPtr(pFilterStdout));
     p_appender->activateOptions();
-    logLogger()->addAppender(p_appender);
+    logLogger()->addAppender(AppenderSharedPtr(p_appender));
 
     // ConsoleAppender on stderr for all events >= WARN
     p_appender = new ConsoleAppender(p_layout, ConsoleAppender::STDERR_TARGET);
@@ -214,7 +214,7 @@ void LogManager::doConfigureLogLogger()
     p_appender->setName(QLatin1String("LogLog stderr"));
     p_appender->addFilter(FilterSharedPtr(pFilterStderr));
     p_appender->activateOptions();
-    logLogger()->addAppender(p_appender);
+    logLogger()->addAppender(AppenderSharedPtr(p_appender));
 }
 
 void LogManager::doStartup()
@@ -306,7 +306,6 @@ void LogManager::welcome()
     if (static_logger()->isTraceEnabled())
     {
         static_logger()->trace("Settings from the system environment:");
-        QString entry;
         for(const auto & entry : InitialisationHelper::environmentSettings().keys())
             static_logger()->trace("    %1: '%2'",
                                    entry,

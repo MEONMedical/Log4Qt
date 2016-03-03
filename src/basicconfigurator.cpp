@@ -25,12 +25,11 @@
 
 #include "basicconfigurator.h"
 
-#include <QtCore/QCoreApplication>
-#include <QtCore/QDebug>
-#include <QtCore/QThread>
+#include <QCoreApplication>
+#include <QDebug>
+#include <QThread>
 #include "consoleappender.h"
 #include "helpers/configuratorhelper.h"
-#include "helpers/logobjectptr.h"
 #include "logmanager.h"
 #include "patternlayout.h"
 #include "varia/listappender.h"
@@ -41,11 +40,11 @@ namespace Log4Qt
 
 bool BasicConfigurator::configure()
 {
-    LogObjectPtr<ListAppender> list = new ListAppender;
+    ListAppender *list = new ListAppender;
     list->setName(QLatin1String("BasicConfigurator"));
     list->setConfiguratorList(true);
     list->setThreshold(Level::ERROR_INT);
-    LogManager::logLogger()->addAppender(list);
+    LogManager::logLogger()->addAppender(AppenderSharedPtr(list));
 
     LayoutSharedPtr p_layout(new PatternLayout(PatternLayout::TTCC_CONVERSION_PATTERN));
     p_layout->setName(QLatin1String("BasicConfigurator TTCC"));

@@ -27,9 +27,9 @@
 
 #include "consoleappender.h"
 
-#include <QtCore/QHash>
-#include <QtCore/QPair>
-#include <QtCore/QRegExp>
+#include <QHash>
+#include <QPair>
+#include <QRegExp>
 
 // if we are in WIN*
 #if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)

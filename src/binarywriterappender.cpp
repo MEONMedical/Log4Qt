@@ -2,7 +2,7 @@
 #include "binaryloggingevent.h"
 #include "binarylayout.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 
 namespace Log4Qt
 {
@@ -70,8 +70,6 @@ bool BinaryWriterAppender::requiresLayout() const
 
 void BinaryWriterAppender::append(const LoggingEvent &rEvent)
 {
-    // Q_ASSERT_X(, "WriterAppender::append()", "Lock must be held by caller");
-
     if (const BinaryLoggingEvent *binEvent = dynamic_cast<const BinaryLoggingEvent *>(&rEvent))
         *mpWriter << binEvent->binaryMessage();
     else
@@ -93,8 +91,6 @@ void BinaryWriterAppender::append(const LoggingEvent &rEvent)
 
 bool BinaryWriterAppender::checkEntryConditions() const
 {
-    // Q_ASSERT_X(, "BinaryWriterAppender::checkEntryConditions()", "Lock must be held by caller")
-
     if (!writer())
     {
         LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' without a writer set"),
@@ -110,8 +106,6 @@ bool BinaryWriterAppender::checkEntryConditions() const
 
 void BinaryWriterAppender::closeWriter()
 {
-    // Q_ASSERT_X(, "BinaryWriterAppender::closeWriter()", "Lock must be held by caller")
-
     if (!mpWriter)
         return;
 
@@ -132,7 +126,6 @@ QDebug BinaryWriterAppender::debug(QDebug &rDebug) const
         << "isactive:" << isActive()
         << "isclosed:" << isClosed()
         << "layout:" << layout_name
-        << "referencecount:" << referenceCount() << " "
         << "threshold:" << threshold().toString()
         << "writer:" << writer()
         << ")";

@@ -8,10 +8,10 @@
 #include "consoleappender.h"
 #include "loggerrepository.h"
 #include "simplelayout.h"
-#include "levelrangefilter.h"
-#include "denyallfilter.h"
+#include "varia/levelrangefilter.h"
+#include "varia/denyallfilter.h"
 
-#include "binaryeventfilter.h"
+#include "varia/binaryeventfilter.h"
 #include "binarytotextlayout.h"
 #include "binarylayout.h"
 #include "binaryloggingevent.h"
@@ -22,7 +22,6 @@
 
 #include "atscopeexit.h"
 #include "elementsinarray.h"
-#include "logging.h"
 
 #include <QDataStream>
 

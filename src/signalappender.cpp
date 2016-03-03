@@ -26,7 +26,7 @@
 
 #include "layout.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 
 namespace Log4Qt
 {
@@ -54,7 +54,6 @@ QDebug SignalAppender::debug(QDebug &rDebug) const
                      << "isactive:" << isActive()
                      << "isclosed:" << isClosed()
                      << "layout:" << layout_name
-                     << "referencecount:" << referenceCount() << " "
                      << "threshold:" << threshold().toString()
                      << ")";
     return rDebug.space();

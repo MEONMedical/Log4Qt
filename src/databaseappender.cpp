@@ -25,7 +25,7 @@
 
 #include "databaseappender.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 
 #include <QtSql/QSqlDriver>
 #include <QtSql/QSqlQuery>
@@ -157,8 +157,6 @@ void DatabaseAppender::append(const LoggingEvent &rEvent)
 
 bool DatabaseAppender::checkEntryConditions() const
 {
-    // Q_ASSERT_X(, "DatabaseAppender::checkEntryConditions()", "Lock must be held by caller")
-
     if (!QSqlDatabase::contains(connectionName) || tableName.isEmpty())
     {
         LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' with invalid database or empty table name"),

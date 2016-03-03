@@ -25,8 +25,8 @@
 
 #include "ttcclayout.h"
 
-#include <QtCore/QDebug>
-#include <QtCore/QDateTime>
+#include <QDebug>
+#include <QDateTime>
 #include "helpers/datetime.h"
 #include "helpers/patternformatter.h"
 #include "logger.h"

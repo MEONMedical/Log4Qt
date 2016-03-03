@@ -25,12 +25,12 @@
 
 #include "fileappender.h"
 
-#include <QtCore/QDir>
-#include <QtCore/QFile>
-#include <QtCore/QFileInfo>
-#include <QtCore/QDebug>
-#include <QtCore/QTextStream>
-#include <QtCore/QTextCodec>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QDebug>
+#include <QTextStream>
+#include <QTextCodec>
 #include "layout.h"
 #include "loggingevent.h"
 
@@ -133,8 +133,6 @@ void FileAppender::close()
 
 bool FileAppender::checkEntryConditions() const
 {
-    // Q_ASSERT_X(, "FileAppender::checkEntryConditions()", "Lock must be held by caller")
-
     if (!mpFile || !mpTextStream)
     {
         LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' without open file"),
@@ -150,8 +148,6 @@ bool FileAppender::checkEntryConditions() const
 
 void FileAppender::closeFile()
 {
-    // Q_ASSERT_X(, "FileAppender::closeFile()", "Lock must be held by caller")
-
     if (mpFile)
         logger()->debug("Closing file '%1' for appender '%2'", mpFile->fileName(), name());
 
@@ -184,7 +180,6 @@ QDebug FileAppender::debug(QDebug &rDebug) const
                      << "isactive:" << isActive() << " "
                      << "isclosed:" << isClosed() << " "
                      << "layout:" << layout_name << " "
-                     << "referencecount:" << referenceCount() << " "
                      << "threshold:" << threshold().toString() << " "
                      << "writer:" << writer()
                      << ")";
@@ -195,8 +190,6 @@ QDebug FileAppender::debug(QDebug &rDebug) const
 
 bool FileAppender::handleIoErrors() const
 {
-    // Q_ASSERT_X(, "FileAppender::handleIoErrors()", "Lock must be held by caller")
-
     if (mpFile->error() == QFile::NoError)
         return false;
 

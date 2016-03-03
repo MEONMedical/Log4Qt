@@ -29,7 +29,7 @@
 
 #include "helpers/optionconverter.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 #include "helpers/logerror.h"
 #include "helpers/properties.h"
 #include "logger.h"

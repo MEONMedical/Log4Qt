@@ -114,7 +114,6 @@ QDebug DailyFileAppender::debug(QDebug &rDebug) const
                     << "isactive:" << isActive() << " "
                     << "isclosed:" << isClosed() << " "
                     << "layout:" << layout_name << " "
-                    << "referencecount:" << referenceCount() << " "
                     << "threshold:" << threshold().toString()
                     << "writer:" << writer()
                     << ")";

@@ -25,13 +25,13 @@
 
 #include "helpers/logerror.h"
 
-#include <QtCore/QBuffer>
-#include <QtCore/QByteArray>
-#include <QtCore/QDataStream>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QDebug>
-#include <QtCore/QTextCodec>
-#include <QtCore/QThreadStorage>
+#include <QBuffer>
+#include <QByteArray>
+#include <QDataStream>
+#include <QCoreApplication>
+#include <QDebug>
+#include <QTextCodec>
+#include <QThreadStorage>
 #include "helpers/initialisationhelper.h"
 
 

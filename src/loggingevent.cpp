@@ -24,12 +24,12 @@
 
 #include "loggingevent.h"
 
-#include <QtCore/QBuffer>
-#include <QtCore/QByteArray>
-#include <QtCore/QDataStream>
-#include <QtCore/QDebug>
-#include <QtCore/QMutex>
-#include <QtCore/QThread>
+#include <QBuffer>
+#include <QByteArray>
+#include <QDataStream>
+#include <QDebug>
+#include <QMutex>
+#include <QThread>
 #include "helpers/datetime.h"
 #include "helpers/initialisationhelper.h"
 #include "logger.h"

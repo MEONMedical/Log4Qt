@@ -24,7 +24,7 @@
 
 #include "varia/listappender.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 
 namespace Log4Qt
 {
@@ -80,8 +80,6 @@ QList<LoggingEvent> ListAppender::clearList()
 
 void ListAppender::append(const LoggingEvent &rEvent)
 {
-    // Q_ASSERT_X(, "ListAppender::append()", "Lock must be held by caller")
-
     if ((mMaxCount <= 0) || (mList.size() < mMaxCount))
         mList << rEvent;
 }
@@ -97,7 +95,6 @@ QDebug ListAppender::debug(QDebug &rDebug) const
                      << "isactive:" << isActive() << " "
                      << "isclosed:" << isClosed() << " "
                      << "maxcount:" <<  maxCount() << " "
-                     << "referencecount:" << referenceCount() << " "
                      << "threshold:" << threshold().toString()
                      << ")";
     return rDebug.space();
@@ -107,8 +104,6 @@ QDebug ListAppender::debug(QDebug &rDebug) const
 
 void ListAppender::ensureMaxCount()
 {
-    // Q_ASSERT_X(, "ListAppender::ensureMaxCount()", "Lock must be held by caller")
-
     if (mMaxCount <= 0)
         return;
 

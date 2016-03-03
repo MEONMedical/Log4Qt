@@ -42,7 +42,7 @@ class  LOG4QT_EXPORT SignalAppender : public AppenderSkeleton
 public:
     explicit SignalAppender(QObject *parent = Q_NULLPTR);
 
-    bool requiresLayout() const;
+    bool requiresLayout() const Q_DECL_OVERRIDE;
 
 protected:
     virtual void append(const Log4Qt::LoggingEvent &rEvent) Q_DECL_OVERRIDE;
@@ -53,16 +53,16 @@ protected:
      * \a rDebug and returns the stream.
      *
      * The member function is used by
-     * QDebug operator<<(QDebug debug, const LogObject &rLogObject) to
+     * QDebug operator<<(QDebug debug, const Appender &rAppender) to
      * generate class specific output.
      *
-     * \sa QDebug operator<<(QDebug debug, const LogObject &rLogObject)
+     * \sa QDebug operator<<(QDebug debug, const Appender &rAppender)
      */
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 
     // Needs to be friend to access internal data
     friend QDebug operator<<(QDebug debug,
-                             const LogObject &rLogObject);
+                             const Appender &rAppender);
 #endif // QT_NO_DEBUG_STREAM
 
 signals:

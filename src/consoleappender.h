@@ -90,9 +90,7 @@ private:
     Q_DISABLE_COPY(ConsoleAppender)
 
 public:
-    // JAVA: bool follow() const;
     QString target() const;
-    // JAVA: void setFollow(bool follow);
     void setTarget(const QString &rTarget);
 
     /*!
@@ -116,7 +114,7 @@ protected:
      *                  layout:"PL" target:"STDERR" referenceCount:1
      *                  threshold:"WARN_SET")
      * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
+     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender)
      */
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM

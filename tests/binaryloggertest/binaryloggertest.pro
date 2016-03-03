@@ -9,15 +9,10 @@ TEMPLATE = app
 HEADERS += \
     testappender.h \
     elementsinarray.h \
-    logging.h \
     atscopeexit.h \
 
 SOURCES += binaryloggertest.cpp \
-    testappender.cpp \
-    logging.cpp
-
-
-
+    testappender.cpp
 
 DESTDIR=../../bin
 DEPENDPATH+=../../bin

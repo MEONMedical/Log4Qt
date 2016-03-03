@@ -63,7 +63,7 @@ protected:
      * <tt>
      * %DenyAllFilter(next:QObject(0x0) referencecount:1 )
      * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
+     * \sa QDebug, operator<<(QDebug debug, const Filter &rFilter)
      */
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM

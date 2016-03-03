@@ -27,8 +27,8 @@
 
 #include "log4qtshared.h"
 
-#include <QtCore/QHash>
-#include <QtCore/QStringList>
+#include <QHash>
+#include <QStringList>
 
 class QIODevice;
 class QSettings;
@@ -52,7 +52,6 @@ public:
     void setProperty(const QString &rKey,
                      const QString &rValue);
 
-    // JAVA: void list(QTextStream &rTextStream);
     void load(QIODevice *pDevice);
 
     /*!
@@ -77,7 +76,6 @@ public:
     void load(const QSettings &rSettings);
 
     QStringList propertyNames() const;
-    // JAVA: void save(QIODevice *pDevice) const;
 
 private:
     void parseProperty(const QString &rProperty,

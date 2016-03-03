@@ -3,10 +3,10 @@
 
 #include "layout.h"
 
-#include <QtCore/QDir>
-#include <QtCore/QFile>
-#include <QtCore/QFileInfo>
-#include <QtCore/QDebug>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QDebug>
 
 // if we are in WIN*
 #if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
@@ -103,8 +103,6 @@ void BinaryFileAppender::close()
 
 bool BinaryFileAppender::checkEntryConditions() const
 {
-    // Q_ASSERT_X(, "BinaryWriterAppender::checkEntryConditions()", "Lock must be held by caller")
-
     if (!mpFile || !mpDataStream)
     {
         LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' without open file"),
@@ -120,8 +118,6 @@ bool BinaryFileAppender::checkEntryConditions() const
 
 void BinaryFileAppender::closeFile()
 {
-    // Q_ASSERT_X(, "BinaryWriterAppender::closeFile()", "Lock must be held by caller")
-
     if (mpFile)
         logger()->debug("Closing file '%1' for appender '%2'", mpFile->fileName(), name());
 
@@ -148,7 +144,6 @@ QDebug BinaryFileAppender::debug(QDebug &rDebug) const
             << "isactive:" << isActive() << " "
             << "isclosed:" << isClosed() << " "
             << "layout:" << layout_name << " "
-            << "referencecount:" << referenceCount() << " "
             << "threshold:" << threshold().toString() << " "
             << "writer:" << writer()
             << ")";
@@ -158,8 +153,6 @@ QDebug BinaryFileAppender::debug(QDebug &rDebug) const
 
 bool BinaryFileAppender::handleIoErrors() const
 {
-    // Q_ASSERT_X(, "BinaryFileAppender::handleIoErrors()", "Lock must be held by caller")
-
     if (mpFile->error() == QFile::NoError)
         return false;
 

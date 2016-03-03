@@ -24,8 +24,8 @@
 
 #include "helpers/configuratorhelper.h"
 
-#include <QtCore/QDebug>
-#include <QtCore/QFileSystemWatcher>
+#include <QDebug>
+#include <QFileSystemWatcher>
 #include "helpers/initialisationhelper.h"
 
 namespace Log4Qt
@@ -76,12 +76,12 @@ void ConfiguratorHelper::doSetConfigurationFile(const QString &rFileName,
     mpConfigurationFileWatch = new QFileSystemWatcher();
     if (mpConfigurationFileWatch->addPath(rFileName))
     {
-    	connect(mpConfigurationFileWatch,
-            	SIGNAL(fileChanged(const QString &)),
-            	SLOT(doConfigurationFileChanged(const QString &)));
-	}
-	else
-    	qWarning() << "Add Path '" << rFileName << "' to file system watcher failed!";
+        connect(mpConfigurationFileWatch,
+                SIGNAL(fileChanged(const QString &)),
+                SLOT(doConfigurationFileChanged(const QString &)));
+    }
+    else
+        qWarning() << "Add Path '" << rFileName << "' to file system watcher failed!";
 }
 
 #ifndef QT_NO_DEBUG_STREAM

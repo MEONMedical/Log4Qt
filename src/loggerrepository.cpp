@@ -25,7 +25,7 @@
 
 #include "loggerrepository.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 
 
 namespace Log4Qt

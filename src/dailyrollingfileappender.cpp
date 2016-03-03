@@ -26,10 +26,10 @@
 
 #include "dailyrollingfileappender.h"
 
-#include <QtCore/QDebug>
-#include <QtCore/QFile>
-#include <QtCore/QMetaEnum>
-#include <QtCore/QTextCodec>
+#include <QDebug>
+#include <QFile>
+#include <QMetaEnum>
+#include <QTextCodec>
 #include "helpers/datetime.h"
 #include "layout.h"
 #include "loggingevent.h"
@@ -106,8 +106,6 @@ void DailyRollingFileAppender::activateOptions()
 
 void DailyRollingFileAppender::append(const LoggingEvent &rEvent)
 {
-    // Q_ASSERT_X(, "DailyRollingFileAppender::append()", "Lock must be held by caller")
-
     if (QDateTime::currentDateTime() > mRollOverTime)
         rollOver();
     FileAppender::append(rEvent);
@@ -116,8 +114,6 @@ void DailyRollingFileAppender::append(const LoggingEvent &rEvent)
 
 bool DailyRollingFileAppender::checkEntryConditions() const
 {
-    // Q_ASSERT_X(, "DailyRollingFileAppender::checkEntryConditions()", "Lock must be held by caller")
-
     if (mActiveDatePattern.isEmpty())
     {
         LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' without having a valid date pattern set"),
@@ -155,7 +151,6 @@ QDebug DailyRollingFileAppender::debug(QDebug &rDebug) const
                      << "isactive:" << isActive() << " "
                      << "isclosed:" << isClosed() << " "
                      << "layout:" << layout_name << " "
-                     << "referencecount:" << referenceCount() << " "
                      << "rollovertime:" << mRollOverTime
                      << "threshold:" << threshold().toString()
                      << "writer:" << writer()
@@ -167,8 +162,6 @@ QDebug DailyRollingFileAppender::debug(QDebug &rDebug) const
 
 void DailyRollingFileAppender::computeFrequency()
 {
-    // Q_ASSERT_X(, "DailyRollingFileAppender::computeFrequency()", "Lock must be held by caller")
-
     const DateTime start_time(QDate(1999, 1, 1), QTime(0, 0));
     const QString start_string = start_time.toString(mDatePattern);
     mActiveDatePattern.clear();
@@ -203,7 +196,6 @@ void DailyRollingFileAppender::computeFrequency()
 
 void DailyRollingFileAppender::computeRollOverTime()
 {
-    // Q_ASSERT_X(, "DailyRollingFileAppender::computeRollOverTime()", "Lock must be held by caller")
     Q_ASSERT_X(!mActiveDatePattern.isEmpty(), "DailyRollingFileAppender::computeRollOverTime()", "No active date pattern");
 
     QDateTime now = QDateTime::currentDateTime();
@@ -295,7 +287,6 @@ QString DailyRollingFileAppender::frequencyToString() const
 
 void DailyRollingFileAppender::rollOver()
 {
-    // Q_ASSERT_X(, "DailyRollingFileAppender::rollOver()", "Lock must be held by caller")
     Q_ASSERT_X(!mActiveDatePattern.isEmpty(), "DailyRollingFileAppender::rollOver()", "No active date pattern");
 
     QString roll_over_suffix = mRollOverSuffix;

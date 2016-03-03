@@ -81,7 +81,7 @@ protected:
      *                   next:Log4Qt::DenyAllFilter(0x3bce3a8)
      * 					 referencecount:1 )
      * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
+     * \sa QDebug, operator<<(QDebug debug, const Filter &rFilter)
      */
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM

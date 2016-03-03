@@ -29,9 +29,9 @@
 
 #include "logger.h"
 
-#include <QtCore/QDebug>
-#include <QtCore/QThread>
-#include <QtCore/QCoreApplication>
+#include <QDebug>
+#include <QThread>
+#include <QCoreApplication>
 
 #include "appenderskeleton.h"
 #include "varia/listappender.h"
@@ -72,8 +72,6 @@ Logger::~Logger()
 
 void Logger::setLevel(Level level)
 {
-    // QWriteLocker locker(&mObjectGuard); // Read/Write int is safe
-
     if ((parentLogger() == 0) && (level == Level::NULL_INT))
     {
         logger()->warn(
@@ -163,19 +161,16 @@ QDebug operator<<(QDebug debug, const Logger &rLogger)
 
 bool Logger::additivity() const
 {
-    // QReadLocker locker(&mObjectGuard); // Read/Write of int is safe
     return mAdditivity;
 }
 
 Level Logger::level() const
 {
-    // QReadLocker locker(&mObjectGuard); // Level is thread-safe
     return mLevel;
 }
 
 LoggerRepository *Logger::loggerRepository() const
 {
-    // QReadLocker locker(&mObjectGuard); // Constant for object lifetime
     return mpLoggerRepository;
 }
 
@@ -187,13 +182,11 @@ QString Logger::name() const
 
 Logger *Logger::parentLogger() const
 {
-    // QReadLocker locker(&mObjectGuard); // Constant for object lifetime
     return mpParent;
 }
 
 void Logger::setAdditivity(bool additivity)
 {
-    // QWriteLocker locker(&mObjectGuard); // Read/Write of int is safe
     mAdditivity = additivity;
 }
 

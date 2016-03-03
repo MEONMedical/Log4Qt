@@ -1,7 +1,7 @@
 #ifndef LOG4QT_SHARED_H
 #define LOG4QT_SHARED_H
 
-#include <QtCore/QtGlobal>
+#include <QtGlobal>
 
 #if defined(LOG4QT_LIBRARY)
 #  define LOG4QT_EXPORT Q_DECL_EXPORT

@@ -24,11 +24,12 @@
 
 #include "appenderskeleton.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 #include "layout.h"
 #include "loggingevent.h"
 #include "logmanager.h"
 #include "spi/filter.h"
+#include "logger.h"
 
 namespace Log4Qt
 {
@@ -70,7 +71,6 @@ AppenderSkeleton::AppenderSkeleton(QObject *pParent) :
     mAppendRecursionGuard(false),
     mIsActive(true),
     mIsClosed(false),
-    mpLayout(Q_NULLPTR),
     mThreshold(Level::NULL_INT)
 {
 }
@@ -83,7 +83,6 @@ AppenderSkeleton::AppenderSkeleton(const bool isActive,
     mAppendRecursionGuard(false),
     mIsActive(isActive),
     mIsClosed(false),
-    mpLayout(Q_NULLPTR),
     mThreshold(Level::NULL_INT)
 {
 }
@@ -201,8 +200,6 @@ void AppenderSkeleton::doAppend(const LoggingEvent &rEvent)
 
 bool AppenderSkeleton::checkEntryConditions() const
 {
-    // Q_ASSERT_X(, "WriterAppender::checkEntryConditions()", "Lock must be held by caller")
-
     if (!isActive())
     {
         LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of non activated appender '%1'"),

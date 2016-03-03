@@ -5,7 +5,7 @@ CONFIG += testlib \
 QT += core testlib
 QT -= gui
 
-include(tests.pri)
+include(../tests.pri)
 
 DEPENDPATH += ../../src ../../src/helpers ../../src/spi ../../src/varia
 INCLUDEPATH += ../../src ../../src/helpers ../../src/spi ../../src/varia

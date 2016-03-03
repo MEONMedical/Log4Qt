@@ -36,8 +36,14 @@ namespace Log4Qt
 class LoggingEvent;
 class Filter;
 
-using FilterSharedPtr = QSharedPointer<Filter>;
-
+class LOG4QT_EXPORT FilterSharedPtr : public QSharedPointer<Filter>
+{
+public:
+    FilterSharedPtr(Filter * ptr);
+    FilterSharedPtr();
+    FilterSharedPtr(const QSharedPointer<Filter> &other);
+    FilterSharedPtr(const QWeakPointer<Filter> &other);
+};
 /*!
  * \brief The class Filter is the base class for all filters.
  *
@@ -102,6 +108,7 @@ private:
 #ifndef QT_NO_DEBUG_STREAM
 QDebug operator<<(QDebug debug,const Filter &rFilter);
 #endif // QT_NO_DEBUG_STREAM
+
 
 } // namespace Log4Qt
 

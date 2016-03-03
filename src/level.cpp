@@ -25,8 +25,8 @@
 
 #include "level.h"
 
-#include <QtCore/QCoreApplication>
-#include <QtCore/QDebug>
+#include <QCoreApplication>
+#include <QDebug>
 #include "logger.h"
 #include <QDataStream>
 

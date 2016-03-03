@@ -24,7 +24,7 @@
 
 #include "varia/nullappender.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 #include "layout.h"
 #include "loggingevent.h"
 

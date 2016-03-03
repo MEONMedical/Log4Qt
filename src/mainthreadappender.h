@@ -28,8 +28,8 @@
 #include "appenderskeleton.h"
 #include "helpers/appenderattachable.h"
 
-#include <QtCore/QQueue>
-#include <QtCore/QMutex>
+#include <QQueue>
+#include <QMutex>
 
 namespace Log4Qt
 {
@@ -74,10 +74,10 @@ public:
      * \sa AppenderSkeleton::doAppend(),
      *     AppenderSkeleton::checkEntryConditions()
      */
-    virtual bool checkEntryConditions() const;
+    virtual bool checkEntryConditions() const Q_DECL_OVERRIDE;
 
 protected:
-    virtual void append(const LoggingEvent &rEvent);
+    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
 #ifndef QT_NO_DEBUG_STREAM
     /*!
@@ -90,7 +90,7 @@ protected:
      *                 referencecount:1 threshold:"NULL"
      *                 writer:0x0)
      * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject	)
+     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender	)
      */
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM

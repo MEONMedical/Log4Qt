@@ -1,11 +1,11 @@
 #include "binaryloggingevent.h"
 #include "logger.h"
-#include "datetime.h"
+#include "helpers/datetime.h"
 
 #include <QDebug>
 
 #ifndef QT_NO_DATASTREAM
-#include <QtCore/QDataStream>
+#include <QDataStream>
 #endif
 
 namespace Log4Qt {

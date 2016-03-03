@@ -1,6 +1,6 @@
-#include "binaryeventfilter.h"
+#include "varia/binaryeventfilter.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 #include "binaryloggingevent.h"
 
 namespace Log4Qt

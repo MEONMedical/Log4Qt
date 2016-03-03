@@ -3,8 +3,8 @@
 
 #include "log4qtshared.h"
 
-#include <QtCore/QObject>
-#include <QtCore/QAtomicPointer>
+#include <QObject>
+#include <QAtomicPointer>
 
 namespace Log4Qt
 {

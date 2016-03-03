@@ -92,10 +92,8 @@ public:
     bool appendFile() const;
     QString file() const;
     bool bufferedIo() const;
-    // JAVA: int bufferSize() const;
     void setAppendFile(bool append);
     void setBufferedIo(bool buffered);
-    // JAVA: void setBufferSize(int bufferSize);
     void setFile(const QString &rFileName);
 
     virtual void activateOptions() Q_DECL_OVERRIDE;
@@ -132,7 +130,7 @@ protected:
      *               isclosed:false layout:"TTCC" referencecount:2
      *               threshold:"NULL" writer:0x0)
      * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
+     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender)
      */
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM
@@ -167,8 +165,6 @@ protected:
      */
     bool renameFile(QFile &rFile,
                     const QString &rFileName) const;
-
-    // JAVA: void setQWForFiles(Writer writer);
 
 private:
     volatile bool mAppendFile;

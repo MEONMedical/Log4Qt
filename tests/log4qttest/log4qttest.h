@@ -25,8 +25,8 @@
 #ifndef LOG4QT_LOG4QTTEST_H
 #define LOG4QT_LOG4QTTEST_H
 
-#include <QtCore/QDir>
-#include <QtCore/QObject>
+#include <QDir>
+#include <QObject>
 
 #include "helpers/properties.h"
 #include "logger.h"
@@ -52,7 +52,7 @@ private slots:
     void initTestCase();
     void cleanupTestCase();
 
-    // log4qt/helpers
+    // log4qt/
     void DateTime_compability_data();
     void DateTime_compability();
     void DateTime_week_data();

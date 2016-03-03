@@ -25,9 +25,9 @@
 
 #include "helpers/factory.h"
 
-#include <QtCore/QDebug>
-#include <QtCore/QMetaObject>
-#include <QtCore/QMetaProperty>
+#include <QDebug>
+#include <QMetaObject>
+#include <QMetaProperty>
 #include "consoleappender.h"
 #include "colorconsoleappender.h"
 #include "dailyrollingfileappender.h"

@@ -30,7 +30,7 @@
 #define LOG4QT_HELPERS_DATETIME_H
 #include "log4qtshared.h"
 
-#include <QtCore/QDateTime>
+#include <QDateTime>
 
 namespace Log4Qt
 {

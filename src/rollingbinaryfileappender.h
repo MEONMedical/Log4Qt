@@ -3,7 +3,7 @@
 
 #include "binaryfileappender.h"
 
-#include <QtCore/QDateTime>
+#include <QDateTime>
 
 namespace Log4Qt
 {

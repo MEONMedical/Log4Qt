@@ -25,8 +25,8 @@
 
 #include "consoleappender.h"
 
-#include <QtCore/QDebug>
-#include <QtCore/QTextStream>
+#include <QDebug>
+#include <QTextStream>
 #include "helpers/optionconverter.h"
 #include "layout.h"
 #include "loggingevent.h"
@@ -127,8 +127,6 @@ void ConsoleAppender::close()
 
 void ConsoleAppender::closeStream()
 {
-    // Q_ASSERT_X(, "ConsoleAppender::closeStream()", "Lock must be held by caller")
-
     setWriter(Q_NULLPTR);
     delete mpTextStream;
     mpTextStream = 0;
@@ -154,7 +152,6 @@ QDebug ConsoleAppender::debug(QDebug &rDebug) const
                      << "isclosed:" << isClosed() << " "
                      << "layout:" << layout_name << " "
                      << "target:" << target << " "
-                     << "referencecount:" << referenceCount() << " "
                      << "threshold:" << threshold().toString()
                      << ")";
     return rDebug.space();

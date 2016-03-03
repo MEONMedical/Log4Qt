@@ -25,7 +25,7 @@
 
 #include "varia/stringmatchfilter.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 #include "loggingevent.h"
 
 

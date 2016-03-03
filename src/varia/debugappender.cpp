@@ -24,7 +24,7 @@
 
 #include "varia/debugappender.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 #include <iostream>
 
 #include "layout.h"
@@ -54,7 +54,6 @@ bool DebugAppender::requiresLayout() const
 
 void DebugAppender::append(const LoggingEvent &rEvent)
 {
-    // Q_ASSERT_X(, "DebugAppender::append()", "Lock must be held by caller");
     Q_ASSERT_X(layout(), "DebugAppender::append()", "Layout must not be null");
 
     QString message(layout()->format(rEvent));
@@ -79,7 +78,6 @@ QDebug DebugAppender::debug(QDebug &rDebug) const
                      << "isactive:" << isActive() << " "
                      << "isclosed:" << isClosed() << " "
                      << "layout:" << layout_name << " "
-                     << "referencecount:" << referenceCount() << " "
                      << "threshold:" << threshold().toString()
                      << ")";
     return rDebug.space();

@@ -27,9 +27,9 @@
 
 #include "appenderskeleton.h"
 
-#include <QtCore/QString>
+#include <QString>
 
-#include <QtNetwork/QHostAddress>
+#include <QHostAddress>
 
 class QTcpServer;
 class QTcpSocket;
@@ -86,9 +86,9 @@ private:
     Q_DISABLE_COPY(TelnetAppender)
 
 public:
-    virtual bool requiresLayout() const;
-    virtual void activateOptions();
-    virtual void close();
+    virtual bool requiresLayout() const Q_DECL_OVERRIDE;
+    virtual void activateOptions() Q_DECL_OVERRIDE;
+    virtual void close() Q_DECL_OVERRIDE;
 
     /*!
      * Sets the listening port of the telnet server (default = 23)
@@ -121,7 +121,7 @@ public:
     void setWelcomeMessage(const QString & welcomeMessage);
 
 protected:
-    virtual void append(const LoggingEvent &rEvent);
+    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
     /*!
      * Tests if all entry conditions for using append() in this class are
@@ -140,7 +140,7 @@ protected:
      * \sa AppenderSkeleton::doAppend(),
      *     AppenderSkeleton::checkEntryConditions()
      */
-    virtual bool checkEntryConditions() const;
+    virtual bool checkEntryConditions() const Q_DECL_OVERRIDE;
 
     /*!
      *  Creates and starts (listening) the TCP server
@@ -163,7 +163,7 @@ protected:
      *                 isactive:false isclosed:false layout:"TTCC"
      *                 referencecount:1 threshold:"NULL port:"23")
      * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject	)
+     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender	)
      */
 
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;

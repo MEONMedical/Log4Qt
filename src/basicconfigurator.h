@@ -25,7 +25,7 @@
 #ifndef LOG4QT_BASICCONFIGURATOR_H
 #define LOG4QT_BASICCONFIGURATOR_H
 
-#include <QtCore/Qt>
+#include <Qt>
 #include "log4qt.h"
 
 namespace Log4Qt

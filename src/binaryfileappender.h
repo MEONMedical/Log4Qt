@@ -3,7 +3,7 @@
 
 #include "binarywriterappender.h"
 
-#include <QtCore/QDataStream>
+#include <QDataStream>
 
 class QFile;
 

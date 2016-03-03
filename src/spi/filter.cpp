@@ -24,7 +24,7 @@
 
 #include "spi/filter.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 
 namespace Log4Qt
 {
@@ -53,5 +53,20 @@ QDebug operator<<(QDebug debug, const Filter &rFilter)
 {
     return rFilter.debug(debug);
 }
+
+FilterSharedPtr::FilterSharedPtr(Filter *ptr)
+    : QSharedPointer<Filter>(ptr, &Filter::deleteLater)
+{}
+
+FilterSharedPtr::FilterSharedPtr() : QSharedPointer<Filter>()
+{}
+
+FilterSharedPtr::FilterSharedPtr(const QSharedPointer<Filter> &other) :
+    QSharedPointer<Filter>(other)
+{}
+
+FilterSharedPtr::FilterSharedPtr(const QWeakPointer<Filter> &other) :
+    QSharedPointer<Filter>(other)
+{}
 
 } // namespace Log4Qt

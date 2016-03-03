@@ -24,7 +24,7 @@
 
 #include "colorconsoleappender.h"
 
-#include <QtCore/QTextStream>
+#include <QTextStream>
 
 #include "loggingevent.h"
 #include "layout.h"

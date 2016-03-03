@@ -116,7 +116,7 @@ protected:
      * %PatternLayout(name:"PL" pattern:"%r [%t] %p %c %x - %m%n"
      *                "referencecount:3")
      * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject)
+     * \sa QDebug, operator<<(QDebug debug, const Layout &Layout)
      */
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM

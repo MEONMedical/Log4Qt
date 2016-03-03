@@ -4,15 +4,15 @@
 #include "level.h"
 #include "loggingevent.h"
 
-#include <QtCore/QDebug>
-#include <QtCore/QCoreApplication>
+#include <QDebug>
+#include <QCoreApplication>
 
 #if defined(Q_OS_WIN32)
 #ifndef UNICODE
 #define UNICODE
 #endif
 #include <qt_windows.h>
-#include <QtCore/QLibrary>
+#include <QLibrary>
 
 
 
@@ -178,7 +178,7 @@ QDebug SystemLogAppender::debug(QDebug &rDebug) const
     rDebug.nospace() << "WriterAppender(" << "name:" << name() << " "
                      << "filter:" << firstFilter() << "isactive:" << isActive() << "isclosed:"
                      << isClosed() << "layout:" << layout_name << "referencecount:"
-                     << referenceCount() << " " << "threshold:" << threshold().toString()
+                     << "threshold:" << threshold().toString()
                      << "serviceName:" << serviceName() << ")";
     return rDebug.space();
 }

@@ -30,14 +30,14 @@
 
 #include "helpers/initialisationhelper.h"
 
-#include <QtCore/QCoreApplication>
-#include <QtCore/QDebug>
-#include <QtCore/QMutex>
-#include <QtCore/QProcess>
-#include <QtCore/QSettings>
+#include <QCoreApplication>
+#include <QDebug>
+#include <QMutex>
+#include <QProcess>
+#include <QSettings>
 
 #ifndef QT_NO_DATASTREAM
-#include <QtCore/QDataStream>
+#include <QDataStream>
 #endif
 
 #include "helpers/datetime.h"

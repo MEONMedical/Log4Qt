@@ -26,9 +26,9 @@
 #include "loggingevent.h"
 #include "helpers/dispatcher.h"
 
-#include <QtCore/QDebug>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QReadLocker>
+#include <QDebug>
+#include <QCoreApplication>
+#include <QReadLocker>
 
 namespace Log4Qt
 {
@@ -115,7 +115,7 @@ bool AsyncAppender::checkEntryConditions() const
  * <tt>
  * %AsyncAppender(name:"WA" )
  * </tt>
- * \sa QDebug, operator<<(QDebug debug, const LogObject &rLogObject	)
+ * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender	)
  */
 QDebug AsyncAppender::debug(QDebug &rDebug) const
 {

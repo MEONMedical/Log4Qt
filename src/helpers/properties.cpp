@@ -24,10 +24,10 @@
 
 #include "helpers/properties.h"
 
-#include <QtCore/QDebug>
-#include <QtCore/QIODevice>
-#include <QtCore/QSettings>
-#include <QtCore/QTextStream>
+#include <QDebug>
+#include <QIODevice>
+#include <QSettings>
+#include <QTextStream>
 #include "logger.h"
 
 
@@ -75,7 +75,6 @@ void Properties::load(QIODevice *pDevice)
 void Properties::load(const QSettings &rSettings)
 {
     QStringList keys = rSettings.childKeys();
-    QString key;
     for(const auto & key : keys)
         insert(key, rSettings.value(key).toString());
 }

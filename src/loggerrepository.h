@@ -26,7 +26,7 @@
 #define LOG4QT_LOGGERREPOSITORY_H
 
 
-#include <QtCore/QList>
+#include <QList>
 #include "level.h"
 
 namespace Log4Qt
@@ -46,7 +46,6 @@ public:
 public:
     virtual bool exists(const QString &rName) const = 0;
     virtual Logger *logger(const QString &rName) = 0;
-    // JAVA: virtual Logger *logger(const String &rName, LoggerFactory *pFactory);
     virtual QList<Logger *> loggers() const = 0;
     virtual Logger *rootLogger() const = 0;
     virtual Level threshold() const = 0;
@@ -56,10 +55,6 @@ public:
     virtual bool isDisabled(Level level) = 0;
     virtual void resetConfiguration() = 0;
     virtual void shutdown() = 0;
-
-    // JAVA: virtual void addHierarchyEventListener(HierarchyEventListener *pEventListener);
-    // JAVA: virtual void emitNoAppenderWarning(Logger *plogger) const;
-    // JAVA: virtual void fireAddAppenderEvent(Logger *plogger, Appender *pAppender) const;
 
 protected:
 #ifndef QT_NO_DEBUG_STREAM

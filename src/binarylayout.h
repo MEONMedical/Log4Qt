@@ -3,7 +3,7 @@
 
 #include "layout.h"
 
-#include <QtCore/QByteArray>
+#include <QByteArray>
 
 namespace Log4Qt
 {

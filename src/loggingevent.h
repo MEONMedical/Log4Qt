@@ -25,11 +25,11 @@
 #ifndef LOG4QT_LOG4QTEVENT_H
 #define LOG4QT_LOG4QTEVENT_H
 
-#include <QtCore/QDateTime>
-#include <QtCore/QHash>
-#include <QtCore/QMetaType>
-#include <QtCore/QStringList>
-#include <QtCore/QEvent>
+#include <QDateTime>
+#include <QHash>
+#include <QMetaType>
+#include <QStringList>
+#include <QEvent>
 #include "level.h"
 
 namespace Log4Qt
@@ -65,7 +65,6 @@ public:
                  const QString &rThreadName,
                  qint64 timeStamp);
 
-    // JAVA: QString fqnOfLoggerClass() const;
     Level level() const;
     // LocationInformation locationInformation() const;
     const Logger *logger() const;
@@ -75,15 +74,12 @@ public:
     QHash<QString, QString> properties() const;
     qint64 sequenceNumber() const;
     QString threadName() const;
-    // JAVA: ThrowableInformation throwableInformation() const;
     qint64 timeStamp() const;
 
-    // JAVA: bool locationInformationExists() const;
     QString loggerName() const;
     QString property(const QString &rKey) const;
     QStringList propertyKeys() const;
     void setProperty(const QString &rKey, const QString &rValue);
-    // JAVA: QString throwableStrRep() const;
     QString toString() const;
     static qint64 sequenceCount();
     static qint64 startTime();

@@ -1,7 +1,7 @@
 #ifndef LOG4QT_BINARYLOGSTREAM_H
 #define LOG4QT_BINARYLOGSTREAM_H
 
-#include <QtCore/QSharedPointer>
+#include <QSharedPointer>
 
 #include "level.h"
 
