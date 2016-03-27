@@ -226,7 +226,7 @@ QDebug operator<<(QDebug debug,
                   const LoggingEvent &rLoggingEvent)
 {
     QString logger;
-    if (rLoggingEvent.logger() != 0)
+    if (rLoggingEvent.logger() != Q_NULLPTR)
         logger = rLoggingEvent.logger()->name();
 
     debug.nospace() << "LoggingEvent("

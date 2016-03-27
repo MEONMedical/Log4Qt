@@ -799,7 +799,7 @@ void Log4QtTest::Factory_createAppender()
 
     mpLoggingEvents->clearList();
     QObject *p_object = Factory::createAppender(classname);
-    QVERIFY(p_object != 0);
+    QVERIFY(p_object != Q_NULLPTR);
     QCOMPARE(QString::fromLatin1(p_object->metaObject()->className()), result);
     delete p_object;
     QCOMPARE(mpLoggingEvents->list().count(), event_count);
@@ -839,7 +839,7 @@ void Log4QtTest::Factory_createFilter()
 
     mpLoggingEvents->clearList();
     QObject *p_object = Factory::createFilter(classname);
-    QVERIFY(p_object != 0);
+    QVERIFY(p_object != Q_NULLPTR);
     QCOMPARE(QString::fromLatin1(p_object->metaObject()->className()), result);
     delete p_object;
     QCOMPARE(mpLoggingEvents->list().count(), event_count);
@@ -875,7 +875,7 @@ void Log4QtTest::Factory_createLayout()
 
     mpLoggingEvents->clearList();
     QObject *p_object = Factory::createLayout(classname);
-    QVERIFY(p_object != 0);
+    QVERIFY(p_object != Q_NULLPTR);
     QCOMPARE(QString::fromLatin1(p_object->metaObject()->className()), result);
     delete p_object;
     QCOMPARE(mpLoggingEvents->list().count(), event_count);
@@ -1219,7 +1219,7 @@ void Log4QtTest::BasicConfigurator()
     QCOMPARE(p_appender->target(), QString::fromLatin1("STDOUT_TARGET"));
     PatternLayout *p_layout =
                     qobject_cast<PatternLayout *>(p_appender->layout().data());
-    QVERIFY(p_layout != 0);
+    QVERIFY(p_layout != Q_NULLPTR);
     QCOMPARE(p_layout->conversionPattern(), QString("%r [%t] %p %c %x - %m%n"));
 
     // Log4Qt::Logger *logger = LogManager::rootLogger();
@@ -1453,7 +1453,7 @@ void Log4QtTest::LogManager_configureLogLogger()
     QVERIFY(!p_appender->isClosed());
     QCOMPARE(p_appender->target(), QString::fromLatin1("STDOUT_TARGET"));
     p_layout = qobject_cast<TTCCLayout *>(p_appender->layout().data());
-    QVERIFY(p_layout != 0);
+    QVERIFY(p_layout != Q_NULLPTR);
 
     p_appender = qobject_cast<ConsoleAppender *>(p_logger->appenders().at(1).data());
     QCOMPARE(p_appender != 0, true);
@@ -1461,7 +1461,7 @@ void Log4QtTest::LogManager_configureLogLogger()
     QVERIFY(!p_appender->isClosed());
     QCOMPARE(p_appender->target(), QString::fromLatin1("STDERR_TARGET"));
     p_layout = qobject_cast<TTCCLayout *>(p_appender->layout().data());
-    QVERIFY(p_layout != 0);
+    QVERIFY(p_layout != Q_NULLPTR);
 
 }
 
@@ -1748,13 +1748,13 @@ void Log4QtTest::PropertyConfigurator_example()
     QCOMPARE(p_logger->appenders().count(), 1);
     Log4Qt::RollingFileAppender *p_a2 =
         qobject_cast<Log4Qt::RollingFileAppender *>(p_logger->appenders().at(0).data());
-    QVERIFY(p_a2 != 0);
+    QVERIFY(p_a2 != Q_NULLPTR);
     QCOMPARE(p_a2->file(), file);
     QCOMPARE(p_a2->maximumFileSize(), Q_INT64_C(13*1024*1024));
     QCOMPARE(p_a2->maxBackupIndex(), 7);
     Log4Qt::TTCCLayout *p_a2layout =
         qobject_cast<Log4Qt::TTCCLayout *>(p_a2->layout().data());
-    QVERIFY(p_a2layout != 0);
+    QVERIFY(p_a2layout != Q_NULLPTR);
     QCOMPARE(p_a2layout->contextPrinting(), false);
     QCOMPARE(p_a2layout->dateFormat(), QString::fromLatin1("ISO8601"));
 
@@ -1765,11 +1765,11 @@ void Log4QtTest::PropertyConfigurator_example()
     QCOMPARE(p_logger->appenders().count(), 1);
     Log4Qt::ConsoleAppender *p_a1 =
         qobject_cast<Log4Qt::ConsoleAppender *>(p_logger->appenders().at(0).data());
-    QVERIFY(p_a1 != 0);
+    QVERIFY(p_a1 != Q_NULLPTR);
     QCOMPARE(p_a1->target(), QString::fromLatin1("STDOUT_TARGET"));
     Log4Qt::PatternLayout *p_a1layout =
         qobject_cast<Log4Qt::PatternLayout *>(p_a1->layout().data());
-    QVERIFY(p_a1layout != 0);
+    QVERIFY(p_a1layout != Q_NULLPTR);
     QCOMPARE(p_a1layout->conversionPattern(), QString::fromLatin1("%-4r %-5p %c{2} %M.%L %x - %m\n"));
 
     // Logger SECURITY::access

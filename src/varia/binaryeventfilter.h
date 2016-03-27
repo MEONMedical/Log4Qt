@@ -11,7 +11,7 @@ class LOG4QT_EXPORT BinaryEventFilter : public Filter
     Q_OBJECT
     Q_PROPERTY(bool acceptBinaryEvents READ acceptBinaryEvents WRITE setAcceptBinaryEvents)
 public:
-    explicit BinaryEventFilter(QObject *parent = 0);
+    explicit BinaryEventFilter(QObject *parent = Q_NULLPTR);
 
     bool acceptBinaryEvents() const;
     void setAcceptBinaryEvents(bool accept);

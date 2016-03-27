@@ -60,13 +60,13 @@ public:
      * \sa ConfiguratorHelper::configureError()
      */
     bool doConfigure(const Properties &rProperties,
-                     LoggerRepository *pLoggerRepository = 0);
+                     LoggerRepository *pLoggerRepository = Q_NULLPTR);
 
     /*!
      * \sa ConfiguratorHelper::configureError()
      */
     bool doConfigure(const QString &rConfigFileName,
-                     LoggerRepository *pLoggerRepository = 0);
+                     LoggerRepository *pLoggerRepository = Q_NULLPTR);
 
     /*!
      * Reads the configuration data from the QSettings object
@@ -76,7 +76,7 @@ public:
      *     ConfiguratorHelper::configureError()
      */
     bool doConfigure(const QSettings &rSettings,
-                     LoggerRepository *pLoggerRepository = 0);
+                     LoggerRepository *pLoggerRepository = Q_NULLPTR);
 
 
     /*!

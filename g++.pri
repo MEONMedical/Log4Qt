@@ -4,7 +4,9 @@
     -Wnon-virtual-dtor -Wundef -Wcast-align \
     -Wchar-subscripts -Wpointer-arith \
     -Wwrite-strings -Wpacked -Wformat-security \
-    -Wmissing-format-attribute -Woverloaded-virtual
+    -Wmissing-format-attribute -Woverloaded-virtual \
+#    -Wzero-as-null-pointer-constant
+
 
   # NORMAL_CXXFLAGS += -Wconversion
 

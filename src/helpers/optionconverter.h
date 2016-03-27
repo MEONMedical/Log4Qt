@@ -61,7 +61,7 @@ public:
      * and false is returned.
      */
     static bool toBoolean(const QString &rOption,
-                          bool *p_ok = 0);
+                          bool *p_ok = Q_NULLPTR);
 
     static bool toBoolean(const QString &rOption,
                           bool default_value);
@@ -76,7 +76,7 @@ public:
      * and 0 is returned.
      */
     static qint64 toFileSize(const QString &rOption,
-                             bool *p_ok = 0);
+                             bool *p_ok = Q_NULLPTR);
 
     /*!
     	* Converts the option \a rOption to a integer value using
@@ -85,7 +85,7 @@ public:
     	* to the log, \a p_ok is set to false and 0 is returned.
     	*/
     static int toInt(const QString &rOption,
-                     bool *p_ok = 0);
+                     bool *p_ok = Q_NULLPTR);
 
     /*!
      * Converts the option \a rOption to a level value using
@@ -97,7 +97,7 @@ public:
      * \sa Level::fromString()
      */
     static Level toLevel(const QString &rOption,
-                         bool *p_ok = 0);
+                         bool *p_ok = Q_NULLPTR);
 
     static Level toLevel(const QString &rOption,
                          const Level &rDefaultValue);
@@ -111,7 +111,7 @@ public:
      * ConsoleAppender::STDOUT_TARGET is returned.
      */
     static int toTarget(const QString &rOption,
-                        bool *p_ok = 0);
+                        bool *p_ok = Q_NULLPTR);
 };
 
 } // namespace Log4Qt

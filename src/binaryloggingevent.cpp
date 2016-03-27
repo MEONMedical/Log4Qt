@@ -71,7 +71,7 @@ QString BinaryLoggingEvent::binaryMarker()
     QDebug operator<<(QDebug debug, const BinaryLoggingEvent &rLoggingEvent)
     {
         QString logger;
-        if (rLoggingEvent.logger() != 0)
+        if (rLoggingEvent.logger() != Q_NULLPTR)
             logger = rLoggingEvent.logger()->name();
 
         debug.nospace() << "BinaryLoggingEvent("

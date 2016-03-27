@@ -72,7 +72,7 @@ Logger::~Logger()
 
 void Logger::setLevel(Level level)
 {
-    if ((parentLogger() == 0) && (level == Level::NULL_INT))
+    if ((parentLogger() == Q_NULLPTR) && (level == Level::NULL_INT))
     {
         logger()->warn(
             "Invalid root logger level NULL_INT. Using DEBUG_INT instead");
@@ -89,7 +89,7 @@ void Logger::callAppenders(const LoggingEvent &rEvent) const
 
     for (auto pAppender : mAppenders)
         pAppender->doAppend(rEvent);
-    if (additivity() && (parentLogger() != 0))
+    if (additivity() && (parentLogger() != Q_NULLPTR))
         parentLogger()->callAppenders(rEvent);
 }
 

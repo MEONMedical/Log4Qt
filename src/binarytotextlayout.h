@@ -12,7 +12,7 @@ class LOG4QT_EXPORT BinaryToTextLayout : public Layout
     Q_OBJECT
     Q_PROPERTY(LayoutSharedPtr subLayout READ subLayout WRITE setSubLayout)
 public:
-    explicit BinaryToTextLayout(LayoutSharedPtr subLayout = LayoutSharedPtr(), QObject *parent = 0);
+    explicit BinaryToTextLayout(LayoutSharedPtr subLayout = LayoutSharedPtr(), QObject *parent = Q_NULLPTR);
 
     virtual QString format(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 

@@ -115,7 +115,7 @@ public:
      *     configureError()
      */
     static void setConfigurationFile(const QString &rFileName = QString(),
-                                     ConfigureFunc pConfigureFunc = 0);
+                                     ConfigureFunc pConfigureFunc = Q_NULLPTR);
 
 signals:
     /*!

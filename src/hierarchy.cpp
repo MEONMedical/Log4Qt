@@ -149,7 +149,7 @@ Logger *Hierarchy::createLogger(const QString &orgName)
     const QString name_separator = QLatin1String("::");
 
     Logger *p_logger = mLoggers.value(rName, 0);
-    if (p_logger != 0)
+    if (p_logger != Q_NULLPTR)
         return p_logger;
 
     if (rName.isEmpty())

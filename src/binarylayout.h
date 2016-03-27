@@ -17,7 +17,7 @@ class LOG4QT_EXPORT BinaryLayout : public Layout
     Q_PROPERTY(QByteArray binaryFooter READ binaryFooter WRITE setBinaryFooter)
     Q_PROPERTY(QByteArray binaryHeader READ binaryHeader WRITE setBinaryHeader)
 public:
-    explicit BinaryLayout(QObject *parent = 0);
+    explicit BinaryLayout(QObject *parent = Q_NULLPTR);
 
     virtual QByteArray binaryFormat(const BinaryLoggingEvent &rEvent);
     virtual QString format(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;

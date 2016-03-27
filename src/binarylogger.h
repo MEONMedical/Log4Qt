@@ -54,7 +54,7 @@ public:
     void log(Level level, const QByteArray &rMessage, const QDateTime &timeStamp) const;
 
 protected:
-    BinaryLogger(LoggerRepository* pLoggerRepository, Level level, const QString &rName, Logger *pParent = 0);
+    BinaryLogger(LoggerRepository* pLoggerRepository, Level level, const QString &rName, Logger *pParent = Q_NULLPTR);
     virtual ~BinaryLogger();
 
 #ifndef QT_NO_DEBUG_STREAM

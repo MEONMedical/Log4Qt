@@ -41,7 +41,7 @@ namespace Log4Qt
 class  LOG4QT_EXPORT Properties : public QHash<QString, QString>
 {
 public:
-    Properties(Properties *pDefaultProperties = 0);
+    Properties(Properties *pDefaultProperties = Q_NULLPTR);
 
 public:
     Properties *defaultProperties() const;

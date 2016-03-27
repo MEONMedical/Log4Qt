@@ -15,7 +15,7 @@ class RollingBinaryFileAppender : public BinaryFileAppender
     Q_PROPERTY(qint64 maximumFileSize READ maximumFileSize WRITE setMaximumFileSize)
     Q_PROPERTY(QString datePattern READ datePattern WRITE setDatePattern)
 public:
-    explicit RollingBinaryFileAppender(QObject *parent = 0);
+    explicit RollingBinaryFileAppender(QObject *parent = Q_NULLPTR);
 
     enum DatePattern
     {
