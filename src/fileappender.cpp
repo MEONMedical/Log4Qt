@@ -219,7 +219,7 @@ void FileAppender::openFile()
 #if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
     // Let windows resolve any environment variables included in the file path
     wchar_t buffer[MAX_PATH];
-    if (ExpandEnvironmentStringsW((wchar_t*)mFileName.utf16(), buffer, MAX_PATH))
+    if (ExpandEnvironmentStringsW(mFileName.toStdWString().c_str(), buffer, MAX_PATH))
     {
         mFileName = QString::fromWCharArray(buffer);
     }

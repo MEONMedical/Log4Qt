@@ -25,15 +25,6 @@
 
 #include "log4qttest.h"
 
-#include <QBuffer>
-#include <QBitArray>
-#include <QDebug>
-#include <QFile>
-#include <QMetaEnum>
-#include <QSettings>
-#include <QTextStream>
-#include <QThread>
-#include <QtTest/QtTest>
 #include "basicconfigurator.h"
 #include "consoleappender.h"
 #include "dailyrollingfileappender.h"
@@ -56,6 +47,18 @@
 #include "varia/levelmatchfilter.h"
 #include "varia/levelrangefilter.h"
 #include "varia/stringmatchfilter.h"
+
+#include <QBuffer>
+#include <QBitArray>
+#include <QDebug>
+#include <QFile>
+#include <QMetaEnum>
+#include <QSettings>
+#include <QTextStream>
+#include <QThread>
+#include <QtTest/QtTest>
+
+#include <type_traits>
 
 using namespace Log4Qt;
 
@@ -720,17 +723,17 @@ void Log4QtTest::OptionConverter_target_data()
     QTest::addColumn<int>("event_count");
 
     QTest::newRow("stdout cpp")
-    << "STDOUT_TARGET" << true << (int)ConsoleAppender::STDOUT_TARGET << 0;
+    << "STDOUT_TARGET" << true << static_cast<int>(ConsoleAppender::STDOUT_TARGET) << 0;
     QTest::newRow("stdout java")
-    << "System.out" << true << (int)ConsoleAppender::STDOUT_TARGET << 0;
+    << "System.out" << true << static_cast<int>(ConsoleAppender::STDOUT_TARGET) << 0;
     QTest::newRow("stderr cpp")
-    << "STDERR_TARGET" << true << (int)ConsoleAppender::STDERR_TARGET << 0;
+    << "STDERR_TARGET" << true << static_cast<int>(ConsoleAppender::STDERR_TARGET) << 0;
     QTest::newRow("stderr java")
-    << "System.err" << true << (int)ConsoleAppender::STDERR_TARGET << 0;
+    << "System.err" << true << static_cast<int>(ConsoleAppender::STDERR_TARGET) << 0;
     QTest::newRow("trim")
-    << "  STDOUT_TARGET  " << true << (int)ConsoleAppender::STDOUT_TARGET << 0;
+    << "  STDOUT_TARGET  " << true << static_cast<int>(ConsoleAppender::STDOUT_TARGET) << 0;
     QTest::newRow("error")
-    << "Hello" << false << (int)ConsoleAppender::STDOUT_TARGET << 1;
+    << "Hello" << false << static_cast<int>(ConsoleAppender::STDOUT_TARGET) << 1;
 }
 
 

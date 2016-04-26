@@ -35,8 +35,6 @@
 #include "logger.h"
 #include "consoleappender.h"
 
-
-
 namespace Log4Qt
 {
 

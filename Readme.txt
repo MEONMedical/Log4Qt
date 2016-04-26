@@ -6,6 +6,9 @@ Requirements
     Minimum Qt version required Qt5.5.
     C++11
 
+License:
+Apache License 2, Version 2.0
+
 Build and install
 
 use qmake to build the project
@@ -53,7 +56,7 @@ If your have cmake-based project
     1. add log4qt package to your CMakeLists.txt;
     2. include header directory;
     3. link library to target.
-    
+
     For example:
     find_package(log4qt REQUIRED HINTS "${QT_MKSPECS_DIR}/cmake/Log4Qt" NO_DEFAULT_PATHS)
     include_directories(${LOG4QT_INCLUDE_DIRS})
@@ -63,7 +66,7 @@ If your have cmake-based project
     1. add subdirectory to your project
     2. include log4qt/src
     3. link library to target
-    
+
     For example:
     add_subdirectory(../log4qt ${CMAKE_CURRENT_BINARY_DIR}/log4qt)
     include_directories(../log4qt/src)

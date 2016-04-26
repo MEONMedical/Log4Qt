@@ -24,10 +24,12 @@
 
 #ifndef LOG4QT_OPTIONCONVERTER_H
 #define LOG4QT_OPTIONCONVERTER_H
+
 #include "log4qtshared.h"
 
-#include <QString>
 #include "level.h"
+
+#include <QString>
 
 namespace Log4Qt
 {
@@ -79,11 +81,11 @@ public:
                              bool *p_ok = Q_NULLPTR);
 
     /*!
-    	* Converts the option \a rOption to a integer value using
-    	* QString::toInt(). If the conversion is successful, the integer is
-    	* returned and \a p_ok is set to true. Otherwise an error is written
-    	* to the log, \a p_ok is set to false and 0 is returned.
-    	*/
+        * Converts the option \a rOption to a integer value using
+        * QString::toInt(). If the conversion is successful, the integer is
+        * returned and \a p_ok is set to true. Otherwise an error is written
+        * to the log, \a p_ok is set to false and 0 is returned.
+        */
     static int toInt(const QString &rOption,
                      bool *p_ok = Q_NULLPTR);
 

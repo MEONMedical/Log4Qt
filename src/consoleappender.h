@@ -129,7 +129,6 @@ inline void ConsoleAppender::setTarget(Target target)
     mTarget = target;
 }
 
-
 } // namespace Log4Qt
 
 #endif // _CONSOLEAPPENDER_H

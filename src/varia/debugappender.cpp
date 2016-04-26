@@ -58,7 +58,7 @@ void DebugAppender::append(const LoggingEvent &rEvent)
 
     QString message(layout()->format(rEvent));
 #if defined(Q_OS_WIN32)
-    OutputDebugStringW(reinterpret_cast<const WCHAR*>(message.utf16()));
+    OutputDebugStringW(message.toStdWString().c_str());
 #else
     std::cerr << message.toLocal8Bit().constData() << std::endl;
     std::cerr << std::flush;
