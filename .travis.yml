@@ -1,0 +1,29 @@
+language: cpp
+
+sudo: required
+
+dist: trusty
+
+compiler:
+- gcc
+
+os:
+- linux
+
+env:
+- QT_VERSION=qt55 QT_PPA=qt551
+- QT_VERSION=qt56 QT_PPA=qt56
+- QT_VERSION=qt57 QT_PPA=qt57-beta
+
+before_install:
+  - sudo add-apt-repository --yes ppa:beineri/opt-$QT_PPA-trusty
+  - sudo apt-get update -qq
+
+install:
+  - sudo apt-get -y install $QT_VERSION-meta-minimal
+
+script:
+  - . /opt/$QT_VERSION/bin/$QT_VERSION-env.sh
+  - qmake
+  - make
+#  - make check
