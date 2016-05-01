@@ -1,6 +1,7 @@
 Original project
 
-http://log4qt.sourceforge.net/ Log4Qt is a C++ port of the Apache Software Foundation Log4j package using the Trolltech Qt Framework. It is intended to be used by open source and commercial Qt projects.
+http://log4qt.sourceforge.net/ Log4Qt is a C++ port of the Apache Software Foundation Log4j package using the Trolltech Qt Framework. 
+It is intended to be used by open source and commercial Qt projects.
 
 Requirements
     Minimum Qt version required Qt5.5.
@@ -21,7 +22,7 @@ WIN*
   mingw32-make
   mingw32-make install
 
-cmake (CMakeLists.txt) is out of date for Qt5 and not working at the moment.
+!! cmake (CMakeLists.txt) is out of date for Qt5 and not working at the moment.
 Help to fix cmake for Qt5 build welcome.
 
 *NIX
@@ -71,3 +72,6 @@ If your have cmake-based project
     add_subdirectory(../log4qt ${CMAKE_CURRENT_BINARY_DIR}/log4qt)
     include_directories(../log4qt/src)
     target_link_libraries(main ${QT_LIBRARIES} log4qt)
+
+Can also be used by adding the log4qt source directly to your Qt project file by adding the following line
+  include(<unpackdir>/src/Log4Qt.pri)
