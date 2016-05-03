@@ -65,18 +65,15 @@ using namespace Log4Qt;
 QTEST_MAIN(Log4QtTest)
 LOG4QT_DECLARE_STATIC_LOGGER(test_logger, Test::TestLog4Qt)
 
-
-Log4QtTest::Log4QtTest() :
-QObject(),
-mSkipLongTests(false),
-mTemporaryDirectory(),
-mpLoggingEvents(0),
-mDefaultProperties(),
-mProperties(&mDefaultProperties)
+Log4QtTest::Log4QtTest() : QObject(),
+                            mSkipLongTests(false),
+                            mTemporaryDirectory(),
+                            mpLoggingEvents(0),
+                            mDefaultProperties(),
+                            mProperties(&mDefaultProperties)
 {
     // mSkipLongTests = true;
 }
-
 
 Log4QtTest::~Log4QtTest()
 {
@@ -112,87 +109,31 @@ void Log4QtTest::cleanupTestCase()
         QFAIL("Cleanup of temporary directory failed");
 }
 
-
-void Log4QtTest::DateTime_compability_data()
+void Log4QtTest::DateTime_alternativelyFormat_data()
 {
-    QTest::addColumn<QString>("pattern");
-    QTest::addColumn<bool>("expectedFail");
-
-    QTest::newRow("date d") << "d" << false;
-    QTest::newRow("date dd") << "dd" << false;
-    QTest::newRow("date ddd") << "ddd" << false;
-    QTest::newRow("date dddd") << "dddd" << false;
-    QTest::newRow("date M") << "M" << false;
-    QTest::newRow("date MM") << "MM" << false;
-    QTest::newRow("date MMM") << "MMM" << false;
-    QTest::newRow("date MMMM") << "MMMM" << false;
-    QTest::newRow("date YY") << "YY" << false;
-    QTest::newRow("date YYYY") << "YYYY" << false;
-    QTest::newRow("time h") << "h" << false;
-    QTest::newRow("time hh") << "hh" << false;
-    QTest::newRow("time H") << "H" << false;
-    QTest::newRow("time HH") << "HH" << false;
-    QTest::newRow("time m") << "m" << false;
-    QTest::newRow("time mm") << "mm" << false;
-    QTest::newRow("time s") << "s" << false;
-    QTest::newRow("time ss") << "ss" << false;
-    QTest::newRow("time z") << "z" << false;
-    QTest::newRow("time zz") << "zz" << false;
-    //QTest::newRow("time a") << "a" << true;
-    //QTest::newRow("time ap") << "ap" << true;
-    //QTest::newRow("time A") << "A" << true;
-    //QTest::newRow("time AP") << "AP" << true;
-    QTest::newRow("datetime") << "" << false;
-    QTest::newRow("datetime HHh") << "HHh" << false;
-    QTest::newRow("datetime 'M'M'd'd'y'yyhh:mm:ss") << "'M'M'd'd'y'yyhh:mm:ss" << false;
-    QTest::newRow("datetime M.d.s") << "M.d.s" << false;
-    QTest::newRow("datetime YYYY-MM-ddTHH:mm:ss") << "YYYY-MM-ddTHH:mm:ss" << false;
-    QTest::newRow("datetime YYYY-MM-ddTHH:mm:ss.zzz") << "YYYY-MM-ddTHH:mm:ss.zzz" << false;
-    QTest::newRow("datetime yyyy-MM-dd HH:mm:ss,zzz") << "yyyy-MM-dd HH:mm:ss,zzz" << false;
-    QTest::newRow("datetime dd MMM yyyy HH:mm:ss.zzz") << "dd MMM yyyy HH:mm:ss.zzz" << false;
-    QTest::newRow("datetime HH:mm:ss.zzz") << "HH:mm:ss.zzz" << false;
-    // Quotes are not handled like in JAVA. 'x''x' -> xx not x'x
-    //QTest::newRow("datetime 'This is a'''' test'") << "'This is a'''' test'" << true;
-    // Qt does not ignore literals outside of quotes x'x' -> xx not x
-    //QTest::newRow("datetime This 'is a'''' test'") << "This 'is a'''' test'" << true;
-    // HH is handled by toString even if not documented
-    //QTest::newRow("datetime h:m:s ap") << "h:m:s ap" << true;
-}
-
-void Log4QtTest::DateTime_compability()
-{
-    QDateTime reference = QDateTime(QDate(2001, 9, 7), QTime(15, 7, 5, 9));
-    QDateTime q_date_time(reference);
-    DateTime date_time(reference);
-
-    QFETCH(QString, pattern);
-    QFETCH(bool, expectedFail);
-    if (expectedFail)
-        QEXPECT_FAIL("", "Not compatible to log4j.", Continue);
-    QCOMPARE(date_time.toString(pattern), q_date_time.toString(pattern));
-}
-
-
-void Log4QtTest::DateTime_week_data()
-{
+    QTest::addColumn<QString>("format");
     QTest::addColumn<QDateTime>("datetime");
-    QTest::addColumn<QString>("pattern");
-    QTest::addColumn<QString>("result");
-
-    QTest::newRow("week 6") << QDateTime(QDate(2001,2,9), QTime(15,7,5,9)) << "w" << "6";
-    QTest::newRow("week 06") << QDateTime(QDate(2001,2,9), QTime(15,7,5,9)) << "ww" << "06";
-    QTest::newRow("week 36") << QDateTime(QDate(2001,9,7), QTime(15,7,5,9)) << "w" << "36";
+    QTest::addColumn<QString>("datetimestring");
+    QDateTime reference(QDate(2016,5,3), QTime(15,7,5,9));
+    qint64 diffTime = reference.toMSecsSinceEpoch() - InitialisationHelper::startTime();
+    QTest::newRow("EMPTY") << QString("") << reference << QString();
+    QTest::newRow("INVALID") << QString("ISO8601") << QDateTime() << QString();
+    QTest::newRow("NONE") << QString("NONE") << reference << QString();
+    QTest::newRow("RELATIVE") << QString("RELATIVE") << reference << QString::number(diffTime);
+    QTest::newRow("ISO8601") << QString("ISO8601") << reference << QString("2016-05-03 15:07:05.009");
+    QTest::newRow("ABSOLUTE") << QString("ABSOLUTE") << reference << QString("15:07:05.009");
+    QTest::newRow("DATE") << QString("DATE") << reference << QString("03 Mai 2016 15:07:05.0099");
+    QTest::newRow("CUSTOM1") << QString("yyyy-MM-dd hh:mm:ss.zzz") << reference << QString("2016-05-03 15:07:05.009");
 }
 
-void Log4QtTest::DateTime_week()
+void Log4QtTest::DateTime_alternativelyFormat()
 {
+    QFETCH(QString, format);
     QFETCH(QDateTime, datetime);
-    QFETCH(QString, pattern);
-    QFETCH(QString, result);
+    QFETCH(QString, datetimestring);
 
-    QCOMPARE(static_cast<DateTime>(datetime).toString(pattern), result);
+    QCOMPARE(DateTime(datetime).toString(format), datetimestring);
 }
-
 
 void Log4QtTest::DateTime_milliseconds_data()
 {
@@ -211,7 +152,7 @@ void Log4QtTest::DateTime_milliseconds()
     QCOMPARE(DateTime::fromMSecsSinceEpoch(milliseconds).toUTC(), datetime);
 }
 
-/*void Log4QtTest::PatternFormatter_data()
+void Log4QtTest::PatternFormatter_data()
 {
     QTest::addColumn<LoggingEvent>("event");
     QTest::addColumn<QString>("pattern");
@@ -313,7 +254,6 @@ void Log4QtTest::DateTime_milliseconds()
     resetLogging();
 }
 
-
 void Log4QtTest::PatternFormatter()
 {
     QFETCH(LoggingEvent, event);
@@ -325,8 +265,7 @@ void Log4QtTest::PatternFormatter()
     QCOMPARE(pattern_formatter.format(event), result);
 
     QCOMPARE(mpLoggingEvents->list().count(), event_count);
-}*/
-
+}
 
 void Log4QtTest::Properties_default_data()
 {
@@ -348,7 +287,6 @@ void Log4QtTest::Properties_default_data()
     QTest::newRow("Non existing value") << "D" << QString();
 }
 
-
 void Log4QtTest::Properties_default()
 {
     QFETCH(QString, key);
@@ -356,7 +294,6 @@ void Log4QtTest::Properties_default()
 
     QCOMPARE(mProperties.property(key), value);
 }
-
 
 void Log4QtTest::Properties_names()
 {
@@ -1371,7 +1308,7 @@ void Log4QtTest::DailyRollingFileAppender()
         QFAIL(qPrintable(result));
 }
 
-void Log4QtTest::LoggingEvent_stream_data()
+/*void Log4QtTest::LoggingEvent_stream_data()
 {
     QTest::addColumn<LoggingEvent>("original");
 
@@ -1439,8 +1376,7 @@ void Log4QtTest::LoggingEvent_stream()
     QCOMPARE(original.timeStamp(), streamed.timeStamp());
 
     QCOMPARE(mpLoggingEvents->list().count(), 0);
-}
-
+}*/
 
 void Log4QtTest::LogManager_configureLogLogger()
 {

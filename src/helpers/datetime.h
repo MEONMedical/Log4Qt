@@ -79,21 +79,6 @@ public:
      * Returns the datetime as a string. The \a rFormat parameter
      * determines the format of the result string.
      *
-     * In addition to the expressions of QDateTime::toString(const QString
-     * &rFormat) the following expression can be used.
-     *
-     * <table align="center" border="1" cellpadding="2" cellspacing="0" bordercolor="#84b0c7">
-     * <tr bgcolor="#d5e1e8">
-     * <th width="20%"> Expression </th>
-     * <th> Output </th>
-     * </tr><tr>
-     * <td> w </td>
-     * <td> the week of the year as number without a leading zero (1 to 53) </td>
-     * </tr><tr bgcolor="#ffffff">
-     * <td> ww </td>
-     * <td> the week of the year as number with a leading zero (01 to 53) </td>
-     * </tr>
-     * </table>
      *
      * Alternatively the \a rFormat parameter can specify one of the
      * following strings.
@@ -131,11 +116,11 @@ public:
      * \sa QDateTime::currentDateTime()
      */
     static DateTime currentDateTime();
+    static DateTime fromMSecsSinceEpoch(qint64 msecs, Qt::TimeSpec spec, int offsetSeconds = 0);
+    static DateTime fromMSecsSinceEpoch(qint64 msecs);
 
 private:
     QString formatDateTime(const QString &rFormat) const;
-    QString formatToken(const QString &rToken, bool am_pm) const;
-    static bool hasAMPM(const QString &rFormat);
 };
 
 inline DateTime::DateTime() : QDateTime()
@@ -159,6 +144,17 @@ inline DateTime &DateTime::operator=(const DateTime &rOther)
 inline DateTime DateTime::currentDateTime()
 {
     return DateTime(QDateTime::currentDateTime());
+}
+
+inline DateTime DateTime::fromMSecsSinceEpoch(qint64 msecs)
+{
+    return DateTime(QDateTime::fromMSecsSinceEpoch(msecs));
+}
+
+inline DateTime DateTime::fromMSecsSinceEpoch(qint64 msecs, Qt::TimeSpec spec, int offsetSeconds)
+{
+    return DateTime(QDateTime::fromMSecsSinceEpoch(msecs, spec, offsetSeconds));
+
 }
 
 } // namespace Log4Qt

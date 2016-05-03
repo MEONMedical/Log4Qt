@@ -52,15 +52,14 @@ private slots:
     void initTestCase();
     void cleanupTestCase();
 
-    // log4qt/
-    void DateTime_compability_data();
-    void DateTime_compability();
-    void DateTime_week_data();
-    void DateTime_week();
+    // log4qt
+    void DateTime_alternativelyFormat_data();
+    void DateTime_alternativelyFormat();
+
     void DateTime_milliseconds_data();
     void DateTime_milliseconds();
-    //void PatternFormatter_data();
-    //void PatternFormatter();
+    void PatternFormatter_data();
+    void PatternFormatter();
     void Properties_default_data();
     void Properties_default();
     void Properties_names();
@@ -109,8 +108,8 @@ private slots:
     void BasicConfigurator();
     void FileAppender();
     void DailyRollingFileAppender();
-    void LoggingEvent_stream_data();
-    void LoggingEvent_stream();
+    //void LoggingEvent_stream_data();
+    //void LoggingEvent_stream();
     void LogManager_configureLogLogger();
     void PropertyConfigurator_missing_appender();
     void PropertyConfigurator_unknown_appender_class();

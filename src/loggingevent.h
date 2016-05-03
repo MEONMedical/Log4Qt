@@ -115,7 +115,7 @@ private:
  * Writes the given error \a rLoggingEvent to the given stream \a rStream,
  * and returns a reference to the stream.
  */
-LOG4QT_EXPORT QDataStream &operator<<(QDataStream &rStream,
+QDataStream &operator<<(QDataStream &rStream,
                         const LoggingEvent &rLoggingEvent);
 
 /*!
@@ -124,7 +124,7 @@ LOG4QT_EXPORT QDataStream &operator<<(QDataStream &rStream,
  * Reads an error from the given stream \a rStream into the given
  * error \a rLoggingEvent, and returns a reference to the stream.
  */
-LOG4QT_EXPORT QDataStream &operator>>(QDataStream &rStream,
+QDataStream &operator>>(QDataStream &rStream,
                         LoggingEvent &rLoggingEvent);
 #endif // QT_NO_DATASTREAM
 

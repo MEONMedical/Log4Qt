@@ -701,9 +701,8 @@ QDebug BasicPatternConverter::debug(QDebug &rDebug) const
 
 QString DatePatternConverter::convert(const LoggingEvent &rLoggingEvent) const
 {
-    return static_cast<const DateTime &>(DateTime::fromMSecsSinceEpoch(rLoggingEvent.timeStamp())).toString(mFormat);
+    return DateTime::fromMSecsSinceEpoch(rLoggingEvent.timeStamp()).toString(mFormat);
 }
-
 
 QDebug DatePatternConverter::debug(QDebug &rDebug) const
 {
