@@ -48,7 +48,7 @@ QString DateTime::toString(const QString &rFormat) const
     if (format == QLatin1String("ABSOLUTE"))
         format = QLatin1String("HH:mm:ss.zzz");
     if (format == QLatin1String("DATE"))
-        format = QLatin1String("dd MMM yyyy HH:mm:ss.zzzz");
+        format = QLatin1String("dd MM yyyy HH:mm:ss.zzzz");
 
     return formatDateTime(format);
 }

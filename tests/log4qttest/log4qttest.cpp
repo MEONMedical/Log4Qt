@@ -122,7 +122,7 @@ void Log4QtTest::DateTime_alternativelyFormat_data()
     QTest::newRow("RELATIVE") << QString("RELATIVE") << reference << QString::number(diffTime);
     QTest::newRow("ISO8601") << QString("ISO8601") << reference << QString("2016-05-03 15:07:05.009");
     QTest::newRow("ABSOLUTE") << QString("ABSOLUTE") << reference << QString("15:07:05.009");
-    QTest::newRow("DATE") << QString("DATE") << reference << QString("03 Mai 2016 15:07:05.0099");
+    QTest::newRow("DATE") << QString("DATE") << reference << QString("03 05 2016 15:07:05.0099");
     QTest::newRow("CUSTOM1") << QString("yyyy-MM-dd hh:mm:ss.zzz") << reference << QString("2016-05-03 15:07:05.009");
 }
 
