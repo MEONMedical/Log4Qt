@@ -6,5 +6,5 @@ SUBDIRS +=  src \
 
 
 OTHER_FILES += LICENSE \
-               Readme.txt \
+               Readme.md \
                .travis.yml
