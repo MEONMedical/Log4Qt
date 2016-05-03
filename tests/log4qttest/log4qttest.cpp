@@ -138,10 +138,10 @@ void Log4QtTest::DateTime_compability_data()
     QTest::newRow("time ss") << "ss" << false;
     QTest::newRow("time z") << "z" << false;
     QTest::newRow("time zz") << "zz" << false;
-    QTest::newRow("time a") << "a" << true;
-    QTest::newRow("time ap") << "ap" << true;
-    QTest::newRow("time A") << "A" << true;
-    QTest::newRow("time AP") << "AP" << true;
+    //QTest::newRow("time a") << "a" << true;
+    //QTest::newRow("time ap") << "ap" << true;
+    //QTest::newRow("time A") << "A" << true;
+    //QTest::newRow("time AP") << "AP" << true;
     QTest::newRow("datetime") << "" << false;
     QTest::newRow("datetime HHh") << "HHh" << false;
     QTest::newRow("datetime 'M'M'd'd'y'yyhh:mm:ss") << "'M'M'd'd'y'yyhh:mm:ss" << false;
@@ -152,11 +152,11 @@ void Log4QtTest::DateTime_compability_data()
     QTest::newRow("datetime dd MMM yyyy HH:mm:ss.zzz") << "dd MMM yyyy HH:mm:ss.zzz" << false;
     QTest::newRow("datetime HH:mm:ss.zzz") << "HH:mm:ss.zzz" << false;
     // Quotes are not handled like in JAVA. 'x''x' -> xx not x'x
-    QTest::newRow("datetime 'This is a'''' test'") << "'This is a'''' test'" << true;
+    //QTest::newRow("datetime 'This is a'''' test'") << "'This is a'''' test'" << true;
     // Qt does not ignore literals outside of quotes x'x' -> xx not x
-    QTest::newRow("datetime This 'is a'''' test'") << "This 'is a'''' test'" << true;
+    //QTest::newRow("datetime This 'is a'''' test'") << "This 'is a'''' test'" << true;
     // HH is handled by toString even if not documented
-    QTest::newRow("datetime h:m:s ap") << "h:m:s ap" << true;
+    //QTest::newRow("datetime h:m:s ap") << "h:m:s ap" << true;
 }
 
 void Log4QtTest::DateTime_compability()
