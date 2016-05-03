@@ -59,8 +59,8 @@ private slots:
     void DateTime_week();
     void DateTime_milliseconds_data();
     void DateTime_milliseconds();
-    void PatternFormatter_data();
-    void PatternFormatter();
+    //void PatternFormatter_data();
+    //void PatternFormatter();
     void Properties_default_data();
     void Properties_default();
     void Properties_names();
@@ -108,9 +108,9 @@ private slots:
     void AppenderSkeleton_filter();
     void BasicConfigurator();
     void FileAppender();
-    //void DailyRollingFileAppender();
-    //void LoggingEvent_stream_data();
-    //void LoggingEvent_stream();
+    void DailyRollingFileAppender();
+    void LoggingEvent_stream_data();
+    void LoggingEvent_stream();
     void LogManager_configureLogLogger();
     void PropertyConfigurator_missing_appender();
     void PropertyConfigurator_unknown_appender_class();

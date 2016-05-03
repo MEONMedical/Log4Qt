@@ -26,4 +26,4 @@ script:
   - . /opt/$QT_VERSION/bin/$QT_VERSION-env.sh
   - qmake
   - make
-#  - make check
+  - make check
