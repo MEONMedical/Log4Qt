@@ -35,14 +35,14 @@ private:
 
 #ifndef QT_NO_DATASTREAM
     // Needs to be friend to stream objects
-    friend QDataStream &operator<<(QDataStream &rStream, const BinaryLoggingEvent &rLoggingEvent);
-    friend QDataStream &operator>>(QDataStream &rStream, BinaryLoggingEvent &rLoggingEvent);
+    friend LOG4QT_EXPORT QDataStream &operator<<(QDataStream &rStream, const BinaryLoggingEvent &rLoggingEvent);
+    friend LOG4QT_EXPORT QDataStream &operator>>(QDataStream &rStream, BinaryLoggingEvent &rLoggingEvent);
 #endif // QT_NO_DATASTREAM
 };
 
 #ifndef QT_NO_DATASTREAM
-    QDataStream &operator<<(QDataStream &rStream, const BinaryLoggingEvent &rLoggingEvent);
-    QDataStream &operator>>(QDataStream &rStream, BinaryLoggingEvent &rLoggingEvent);
+    LOG4QT_EXPORT QDataStream &operator<<(QDataStream &rStream, const BinaryLoggingEvent &rLoggingEvent);
+    LOG4QT_EXPORT QDataStream &operator>>(QDataStream &rStream, BinaryLoggingEvent &rLoggingEvent);
 #endif // QT_NO_DATASTREAM
 
 #ifndef QT_NO_DEBUG_STREAM

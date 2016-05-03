@@ -1308,7 +1308,7 @@ void Log4QtTest::DailyRollingFileAppender()
         QFAIL(qPrintable(result));
 }
 
-/*void Log4QtTest::LoggingEvent_stream_data()
+void Log4QtTest::LoggingEvent_stream_data()
 {
     QTest::addColumn<LoggingEvent>("original");
 
@@ -1376,7 +1376,7 @@ void Log4QtTest::LoggingEvent_stream()
     QCOMPARE(original.timeStamp(), streamed.timeStamp());
 
     QCOMPARE(mpLoggingEvents->list().count(), 0);
-}*/
+}
 
 void Log4QtTest::LogManager_configureLogLogger()
 {

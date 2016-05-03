@@ -108,8 +108,8 @@ private slots:
     void BasicConfigurator();
     void FileAppender();
     void DailyRollingFileAppender();
-    //void LoggingEvent_stream_data();
-    //void LoggingEvent_stream();
+    void LoggingEvent_stream_data();
+    void LoggingEvent_stream();
     void LogManager_configureLogLogger();
     void PropertyConfigurator_missing_appender();
     void PropertyConfigurator_unknown_appender_class();
