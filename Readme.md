@@ -2,7 +2,8 @@ Log4Qt - Logging for the Qt cross-platform application framework
 ================================================================
 
 [![Build Status](https://travis-ci.org/MEONMedical/Log4Qt.svg?branch=master)](https://travis-ci.org/MEONMedical/Log4Qt)
-[![Build status](https://ci.appveyor.com/api/projects/status/4i3366pyqt8rs09u?svg=true)](https://ci.appveyor.com/project/MeobMedical/log4qt)
+
+[![Build status](https://ci.appveyor.com/api/projects/status/yhlqvbqeooy7ds2l?svg=true)](https://ci.appveyor.com/project/MeonMedical/log4qt)
 
 Description
 -----------
