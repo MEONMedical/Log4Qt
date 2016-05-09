@@ -14,5 +14,5 @@ install:
 build_script:
   - qmake
   - nmake
-  - nmake test
+  - nmake check
   
