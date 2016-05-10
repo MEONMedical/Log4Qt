@@ -11,6 +11,8 @@ os:
 - linux
 
 env:
+- QT_VERSION=qt53 QT_PPA=qt532
+- QT_VERSION=qt54 QT_PPA=qt542
 - QT_VERSION=qt55 QT_PPA=qt551
 - QT_VERSION=qt56 QT_PPA=qt56
 - QT_VERSION=qt57 QT_PPA=qt57-beta
