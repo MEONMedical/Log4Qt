@@ -1,18 +1,30 @@
-version: 1.0.{build}
+version: 1.3.{build}
 build:
   verbosity: minimal
 os: Visual Studio 2015
 environment:
-  QTDIR: C:\Qt\5.6\msvc2015_64
+    matrix:
+    # Qt 5.3
+    - QTDIR: C:\Qt\5.3\msvc2013_64_opengl
+      CMD_VCVARSALL: '"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall" x64'
+    # Qt 5.4
+    - QTDIR: C:\Qt\5.4\msvc2013_64_opengl
+      CMD_VCVARSALL: '"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall" x64'
+    # Qt 5.5
+    - QTDIR: C:\Qt\5.5\msvc2013_64
+      CMD_VCVARSALL: '"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall" x64'
+    # Qt 5.6
+    - QTDIR: C:\Qt\5.6\msvc2015_64
+      CMD_VCVARSALL: '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall" x64'
 branches:
   only:
     - master
 install:
-  - '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall" x64'
-  - set QTDIR=C:\Qt\5.6\msvc2015_64
-  - set PATH=%PATH%;%QTDIR%\bin;C:\Qt\Tools\QtCreator\bin
+  - call %CMD_VCVARSALL%
+  - set PATH=%PATH%;%QTDIR%\bin
 build_script:
   - qmake
   - nmake
   - nmake check
+
   

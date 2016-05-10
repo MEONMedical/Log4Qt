@@ -1,9 +1,13 @@
 Log4Qt - Logging for the Qt cross-platform application framework
 ================================================================
 
-[![Build Status](https://travis-ci.org/MEONMedical/Log4Qt.svg?branch=master)](https://travis-ci.org/MEONMedical/Log4Qt)
+Continuous Integration
+----------------------
 
-[![Build status](https://ci.appveyor.com/api/projects/status/yhlqvbqeooy7ds2l?svg=true)](https://ci.appveyor.com/project/MeonMedical/log4qt)
+Travis CI (Linux) [![Build Status](https://travis-ci.org/MEONMedical/Log4Qt.svg?branch=master)](https://travis-ci.org/MEONMedical/Log4Qt)
+
+Appveyor CI (Windows) [![Build status](https://ci.appveyor.com/api/projects/status/yhlqvbqeooy7ds2l?svg=true)](https://ci.appveyor.com/project/MeonMedical/log4qt)
+
 
 Description
 -----------
@@ -30,6 +34,7 @@ Additional features
 * XMLLayout to support apache chainsaw
 * DailyFileAppender which generates a logfile for each day (add current date formatted to the filename)
 * Binary logger
+* Windows Debug Console Appender
 
 Requirements
 ------------
