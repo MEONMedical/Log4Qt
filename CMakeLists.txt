@@ -192,6 +192,11 @@ if (QT_USE_QTNETWORK)
     list(APPEND LOG4QT_SOURCES src/telnetappender.cpp)
 endif (QT_USE_QTNETWORK)
 
+if (WIN32)
+	list(APPEND LOG4QT_Q_HEADERS src/wdcappender.h)
+	list(APPEND LOG4QT_SOURCES src/wdcappender.cpp)
+endif (WIN32)
+
 include_directories(src)
 
 # COMPILATION

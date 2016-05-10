@@ -120,7 +120,7 @@ SOURCES += $$PWD/appender.cpp \
            $$PWD/helpers/binaryclasslogger.cpp \
            $$PWD/rollingbinaryfileappender.cpp \
            $$PWD/binarylayout.cpp \
-    $$PWD/xmllayout.cpp
+           $$PWD/xmllayout.cpp
 
 msvc {
     QMAKE_CXXFLAGS_WARN_ON -= -w34100
@@ -138,6 +138,11 @@ SOURCES += \
     $$PWD/databaseappender.cpp \
     $$PWD/databaselayout.cpp
 
+}
+
+win32 {
+    HEADERS+=$$PWD/wdcappender.h
+    SOURCES+=$$PWD/wdcappender.cpp
 }
 
 !contains(QT, sql) {

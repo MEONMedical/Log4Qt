@@ -60,6 +60,9 @@
 #include "binaryfileappender.h"
 #include "rollingbinaryfileappender.h"
 #include "dailyfileappender.h"
+#ifdef Q_OS_WIN
+#include "wdcappender.h"
+#endif
 
 #include "varia/debugappender.h"
 #include "varia/denyallfilter.h"
@@ -166,6 +169,13 @@ Appender * create_dailyrollingfile_appender()
 {
     return new DailyFileAppender;
 }
+
+#ifdef Q_OS_WIN
+Appender * create_wdc_appender()
+{
+    return new WDCAppender;
+}
+#endif
 
 // Filters
 
@@ -473,6 +483,10 @@ void Factory::registerDefaultAppenders()
 
     mAppenderRegistry.insert(QLatin1String("org.apache.log4j.DailyFileAppender"), create_dailyrollingfile_appender);
     mAppenderRegistry.insert(QLatin1String("Log4Qt::DailyFileAppender"), create_dailyrollingfile_appender);
+#ifdef Q_OS_WIN
+    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.WDCAppender"), create_wdc_appender);
+    mAppenderRegistry.insert(QLatin1String("Log4Qt::WDCAppender"), create_wdc_appender);
+#endif
 }
 
 
