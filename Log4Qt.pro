@@ -7,4 +7,5 @@ SUBDIRS +=  src \
 
 OTHER_FILES += LICENSE \
                Readme.md \
-               .travis.yml
+               .travis.yml \
+               appveyor.yml

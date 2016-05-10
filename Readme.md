@@ -33,7 +33,7 @@ Additional features
 
 Requirements
 ------------
-* Minimum Qt version required Qt5.5.
+* Minimum Qt version required Qt5.3
 * C++11
 
 License
