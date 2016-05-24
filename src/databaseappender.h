@@ -22,8 +22,8 @@
  *
  ******************************************************************************/
 
-#ifndef _DATABASEAPPENDER_H
-#define _DATABASEAPPENDER_H
+#ifndef LOG4QT_DATABASEAPPENDER_H
+#define LOG4QT_DATABASEAPPENDER_H
 
 #include "appenderskeleton.h"
 
@@ -142,4 +142,4 @@ inline QString DatabaseAppender::table() const
 } // namespace Log4Qt
 
 
-#endif // _DATABASEAPPENDER_H
+#endif // LOG4QT_DATABASEAPPENDER_H

@@ -22,8 +22,8 @@
  *
  ******************************************************************************/
 
-#ifndef _CONSOLEAPPENDER_H
-#define _CONSOLEAPPENDER_H
+#ifndef LOG4QT_CONSOLEAPPENDER_H
+#define LOG4QT_CONSOLEAPPENDER_H
 
 #include "writerappender.h"
 

@@ -22,8 +22,8 @@
  *
  ******************************************************************************/
 
-#ifndef _APPENDERSKELETON_H
-#define _APPENDERSKELETON_H
+#ifndef LOG4QT_APPENDERSKELETON_H
+#define LOG4QT_APPENDERSKELETON_H
 
 #include "appender.h"
 #include "log4qtshared.h"
@@ -202,4 +202,4 @@ inline bool AppenderSkeleton::isAsSevereAsThreshold(Level level) const
 
 } // namespace Log4Qt
 
-#endif // _APPENDERSKELETON_H
+#endif // LOG4QT_APPENDERSKELETON_H

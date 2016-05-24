@@ -6,7 +6,7 @@
  * author:      Johann Anhofer
  *
  *
- * Copyright 2007 Martin Heinrich
+ * Copyright 2015 Johann Anhofer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +55,6 @@ public:
 
     void setLogFileForCurrentDay();
 
-protected:
     virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
 #ifndef QT_NO_DEBUG_STREAM

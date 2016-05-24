@@ -22,8 +22,8 @@
  *
  ******************************************************************************/
 
-#ifndef _DAILYROLLINGFILEAPPENDER_H
-#define _DAILYROLLINGFILEAPPENDER_H
+#ifndef LOG4QT_DAILYROLLINGFILEAPPENDER_H
+#define LOG4QT_DAILYROLLINGFILEAPPENDER_H
 
 #include "fileappender.h"
 
@@ -171,4 +171,4 @@ inline void DailyRollingFileAppender::setDatePattern(const QString &rDatePattern
 
 } // namespace Log4Qt
 
-#endif // _DAILYROLLINGFILEAPPENDER_H
+#endif // LOG4QT_DAILYROLLINGFILEAPPENDER_H

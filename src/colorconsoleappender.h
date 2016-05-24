@@ -22,8 +22,8 @@
  *
  ******************************************************************************/
 
-#ifndef _COLORCONSOLEAPPENDER_H
-#define _COLORCONSOLEAPPENDER_H
+#ifndef LOG4QT_COLORCONSOLEAPPENDER_H
+#define  LOG4QT_COLORCONSOLEAPPENDER_H
 
 #include "consoleappender.h"
 
@@ -91,4 +91,4 @@ private:
 } // namespace Log4Qt
 
 
-#endif // #ifndef _COLORCONSOLEAPPENDER_H
+#endif // #ifndef  LOG4QT_COLORCONSOLEAPPENDER_H

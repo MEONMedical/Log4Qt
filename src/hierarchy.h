@@ -22,8 +22,8 @@
  *
  ******************************************************************************/
 
-#ifndef _HIERARCHY_H
-#define _HIERARCHY_H
+#ifndef LOG4QT_HIERARCHY_H
+#define LOG4QT_HIERARCHY_H
 
 #include "loggerrepository.h"
 
@@ -110,4 +110,4 @@ inline bool Hierarchy::isDisabled(Level level)
 
 } // namespace Log4Qt
 
-#endif // _HIERARCHY_H
+#endif // LOG4QT_HIERARCHY_H

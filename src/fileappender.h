@@ -22,8 +22,8 @@
  *
  ******************************************************************************/
 
-#ifndef _FILEAPPENDER_H
-#define _FILEAPPENDER_H
+#ifndef LOG4QT_FILEAPPENDER_H
+#define LOG4QT_FILEAPPENDER_H
 
 #include "writerappender.h"
 
@@ -209,4 +209,4 @@ inline void FileAppender::setFile(const QString &rFileName)
 
 } // namespace Log4Qt
 
-#endif // _FILEAPPENDER_H
+#endif // LOG4QT_FILEAPPENDER_H
