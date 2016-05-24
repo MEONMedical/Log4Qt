@@ -232,6 +232,7 @@ class LOG4QT_EXPORT  Logger : public QObject, public AppenderAttachable
 protected:
     Logger(LoggerRepository* pLoggerRepository, Level level, const QString &rName, Logger *pParent = Q_NULLPTR);
     virtual ~Logger();
+
 private:
     Q_DISABLE_COPY(Logger)
 
