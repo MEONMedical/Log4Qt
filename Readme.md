@@ -65,7 +65,7 @@ use qmake to build the project
         mingw32-make install
 
 ### cmake
-!! cmake (CMakeLists.txt) is out of date for Qt5 and not working at the moment.
+:bangbang: cmake (CMakeLists.txt) is out of date for Qt5 and not working at the moment.
 Help to fix cmake for Qt5 build welcome.
 
     *NIX

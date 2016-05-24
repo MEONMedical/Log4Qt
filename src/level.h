@@ -63,40 +63,40 @@ public:
 
 public:
     Level(Value value = NULL_INT)
-    	: mValue(value)
-	{
-	}
+        : mValue(value)
+    {
+    }
 
     int syslogEquivalent() const;
     int toInt() const
-	{
-		return mValue;
-	}
+    {
+        return mValue;
+    }
 
     bool operator==(const Level &rOther) const
-	{
-		return mValue == rOther.mValue;
-	}
+    {
+        return mValue == rOther.mValue;
+    }
     bool operator!=(const Level &rOther) const
-	{
-		return mValue != rOther.mValue;
-	}
+    {
+        return mValue != rOther.mValue;
+    }
     bool operator<(const Level &rOther) const
-	{
-		return mValue < rOther.mValue;
-	}
+    {
+        return mValue < rOther.mValue;
+    }
     bool operator<=(const Level &rOther) const
-	{
-		return mValue <= rOther.mValue;
-	}
+    {
+        return mValue <= rOther.mValue;
+    }
     bool operator>(const Level &rOther) const
-	{
-		return mValue > rOther.mValue;
-	}
+    {
+        return mValue > rOther.mValue;
+    }
     bool operator>=(const Level &rOther) const
     {
-		return mValue >= rOther.mValue;
-	}
+        return mValue >= rOther.mValue;
+    }
     QString toString() const;
 
     static Level fromString(const QString &rName, bool *pOk = Q_NULLPTR);
