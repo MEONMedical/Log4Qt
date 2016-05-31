@@ -6,11 +6,11 @@
  * author:      Martin Heinrich
  *
  *
- * changes:		Sep 2008, Martin Heinrich:
- * 				- Replaced usage of q_atomic_test_and_set_ptr with
- * 				  QBasicAtomicPointer
- *      		Feb 2016, Andreas Bacher:
- * 				- Replaced usage of QBasicAtomicPointer with
+ * changes:     Sep 2008, Martin Heinrich:
+ *              - Replaced usage of q_atomic_test_and_set_ptr with
+ *                QBasicAtomicPointer
+ *              Feb 2016, Andreas Bacher:
+ *              - Replaced usage of QBasicAtomicPointer with
  *                magic static initalization (thread safe with c++11)
  *
  *

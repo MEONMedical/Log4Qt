@@ -122,9 +122,9 @@ private:
                                   Logger *pLogger,
                                   const QString &rLog4jName) const;
     AppenderSharedPtr parseAppender(const Properties &rProperties,
-                                         const QString &rName);
+                                    const QString &rName);
     LayoutSharedPtr parseLayout(const Properties &rProperties,
-                                     const QString &rAppenderName);
+                                const QString &rAppenderName);
     void parseLogger(const Properties &rProperties,
                      Logger *pLogger,
                      const QString &rKey,

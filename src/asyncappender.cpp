@@ -34,8 +34,8 @@ namespace Log4Qt
 {
 
 AsyncAppender::AsyncAppender(QObject *parent) : AppenderSkeleton(parent)
-    ,mpThread(Q_NULLPTR)
-    ,mpDispatcher(Q_NULLPTR)
+    , mpThread(Q_NULLPTR)
+    , mpDispatcher(Q_NULLPTR)
 {
 }
 
@@ -115,7 +115,7 @@ bool AsyncAppender::checkEntryConditions() const
  * <tt>
  * %AsyncAppender(name:"WA" )
  * </tt>
- * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender	)
+ * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender   )
  */
 QDebug AsyncAppender::debug(QDebug &rDebug) const
 {

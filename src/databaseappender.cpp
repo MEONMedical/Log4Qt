@@ -62,9 +62,9 @@ DatabaseAppender::DatabaseAppender(LayoutSharedPtr pLayout,
 
 
 DatabaseAppender::DatabaseAppender(LayoutSharedPtr pLayout
-                                   ,const QString& tableName
-                                   ,const QString& connection
-                                   ,QObject *pParent) :
+                                   , const QString &tableName
+                                   , const QString &connection
+                                   , QObject *pParent) :
     AppenderSkeleton(false, pParent)
     , connectionName(connection)
     , tableName(tableName)
@@ -79,7 +79,7 @@ DatabaseAppender::~DatabaseAppender()
 }
 
 
-void DatabaseAppender::setConnection(const QString& connection)
+void DatabaseAppender::setConnection(const QString &connection)
 {
     QMutexLocker locker(&mObjectGuard);
 
@@ -90,7 +90,7 @@ void DatabaseAppender::setConnection(const QString& connection)
 }
 
 
-void DatabaseAppender::setTable(const QString& table)
+void DatabaseAppender::setTable(const QString &table)
 {
     QMutexLocker locker(&mObjectGuard);
 

@@ -56,7 +56,7 @@ TelnetAppender::TelnetAppender(LayoutSharedPtr pLayout, int port, QObject *pPare
     setLayout(pLayout);
 }
 
-TelnetAppender::TelnetAppender(LayoutSharedPtr pLayout, const QHostAddress& address,
+TelnetAppender::TelnetAppender(LayoutSharedPtr pLayout, const QHostAddress &address,
                                int port, QObject *pParent) :
     AppenderSkeleton(false, pParent), mAddress(address), mPort(port),
     mpTcpServer(Q_NULLPTR), mImmediateFlush(false)
@@ -90,7 +90,7 @@ void TelnetAppender::close()
     closeServer();
 }
 
-void TelnetAppender::setAddress(const QHostAddress& address)
+void TelnetAppender::setAddress(const QHostAddress &address)
 {
     mAddress = address;
 }
@@ -110,7 +110,7 @@ int TelnetAppender::port() const
     return mPort;
 }
 
-void TelnetAppender::setWelcomeMessage(const QString & welcomeMessage)
+void TelnetAppender::setWelcomeMessage(const QString &welcomeMessage)
 {
     mWelcomeMessage = welcomeMessage;
 }
@@ -125,7 +125,7 @@ void TelnetAppender::append(const LoggingEvent &rEvent)
     Q_ASSERT_X(layout(), "TelnetAppender::append()", "Layout must not be null");
 
     QString message(layout()->format(rEvent));
-    for(auto pClientConnection : mTcpSockets)
+    for (auto pClientConnection : mTcpSockets)
     {
         pClientConnection->write(message.toLocal8Bit().constData());
         if (immediateFlush())
@@ -161,7 +161,7 @@ void TelnetAppender::closeServer()
     if (mpTcpServer)
         mpTcpServer->close();
 
-    for(auto pClientConnection : mTcpSockets)
+    for (auto pClientConnection : mTcpSockets)
         delete pClientConnection;
 
     mTcpSockets.clear();
@@ -170,7 +170,7 @@ void TelnetAppender::closeServer()
     mpTcpServer = 0;
 }
 
-QList<QTcpSocket*> TelnetAppender::clients() const
+QList<QTcpSocket *> TelnetAppender::clients() const
 {
     return mTcpSockets;
 }
@@ -198,7 +198,7 @@ void TelnetAppender::onNewConnection()
 
     if (mpTcpServer && mpTcpServer->hasPendingConnections())
     {
-        QTcpSocket * pClientConnection = mpTcpServer->nextPendingConnection();
+        QTcpSocket *pClientConnection = mpTcpServer->nextPendingConnection();
         if (pClientConnection)
         {
             mTcpSockets.append(pClientConnection);
@@ -209,7 +209,7 @@ void TelnetAppender::onNewConnection()
     }
 }
 
-void TelnetAppender::sendWelcomeMessage(QTcpSocket * pClientConnection)
+void TelnetAppender::sendWelcomeMessage(QTcpSocket *pClientConnection)
 {
     if (mWelcomeMessage.isEmpty())
         return;
@@ -221,7 +221,7 @@ void TelnetAppender::onClientDisconnected()
 {
     QMutexLocker locker(&mObjectGuard);
 
-    QTcpSocket* pClientConnection = qobject_cast<QTcpSocket*> (sender());
+    QTcpSocket *pClientConnection = qobject_cast<QTcpSocket *> (sender());
     if (pClientConnection)
     {
         mTcpSockets.removeOne(pClientConnection);

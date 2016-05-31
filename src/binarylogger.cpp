@@ -5,7 +5,8 @@
 
 #include <QDebug>
 
-namespace Log4Qt {
+namespace Log4Qt
+{
 
 BinaryLogger::BinaryLogger(LoggerRepository *pLoggerRepository, Level level, const QString &rName, Logger *pParent)
     : Logger(pLoggerRepository, level, rName, pParent)
@@ -49,14 +50,14 @@ QDebug BinaryLogger::debug(QDebug &rDebug) const
 
     QString parent_logger;
     if (Logger *parent = parentLogger())
-      parent_logger = parent->name();
+        parent_logger = parent->name();
 
     rDebug.nospace() << "BinaryLogger("
-        << "name:" << name() << " "
-        << "appenders:" << mAppenders.count() << " "
-        << "additivity:" << additivity() << " "
-        << level() << "parentLogger:" << parent_logger
-        << ")";
+                     << "name:" << name() << " "
+                     << "appenders:" << mAppenders.count() << " "
+                     << "additivity:" << additivity() << " "
+                     << level() << "parentLogger:" << parent_logger
+                     << ")";
     return rDebug.space();
 }
 

@@ -109,7 +109,7 @@ void AppenderSkeleton::activateOptions()
 
 void AppenderSkeleton::addFilter(FilterSharedPtr pFilter)
 {
-    if(!pFilter)
+    if (!pFilter)
     {
         logger()->warn("Adding null Filter to Appender '%1'", name());
         return;
@@ -148,11 +148,11 @@ void AppenderSkeleton::close()
     mIsActive = false;
 }
 
-void AppenderSkeleton::customEvent(QEvent* event)
+void AppenderSkeleton::customEvent(QEvent *event)
 {
     if (event->type() == LoggingEvent::eventId)
     {
-        LoggingEvent *logEvent = static_cast<LoggingEvent*>(event);
+        LoggingEvent *logEvent = static_cast<LoggingEvent *>(event);
         doAppend(*logEvent);
         return ;
     }
@@ -183,7 +183,7 @@ void AppenderSkeleton::doAppend(const LoggingEvent &rEvent)
         return;
 
     Filter  *p_filter = mpHeadFilter.data();
-    while(p_filter)
+    while (p_filter)
     {
         Filter::Decision decision = p_filter->decide(rEvent);
         if (decision == Filter::ACCEPT)

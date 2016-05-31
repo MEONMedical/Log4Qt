@@ -30,9 +30,9 @@ Filter::Decision BinaryEventFilter::decide(const LoggingEvent &rEvent) const
 QDebug BinaryEventFilter::debug(QDebug &rDebug) const
 {
     rDebug.nospace() << "BinaryEventFilter("
-        << "acceptbinaryevents:" << mAcceptBinaryEvents << " "
-        << "next:" << next()
-        << ")";
+                     << "acceptbinaryevents:" << mAcceptBinaryEvents << " "
+                     << "next:" << next()
+                     << ")";
     return rDebug.space();
 }
 #endif // QT_NO_DEBUG_STREAM

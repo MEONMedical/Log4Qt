@@ -56,12 +56,12 @@ class  LOG4QT_EXPORT ConfiguratorHelper : public QObject
 
 public:
     /*!
-    	 * Prototype for a configure callback function. The function is called
-    	 * when then configuration file is changed and takes the
-    	 * configuration file as a parameter.
-    	 *
-    	 * \sa setConfigurationFile(),
-    	 *     PropertyConfigurator::configure(const QString &)
+         * Prototype for a configure callback function. The function is called
+         * when then configuration file is changed and takes the
+         * configuration file as a parameter.
+         *
+         * \sa setConfigurationFile(),
+         *     PropertyConfigurator::configure(const QString &)
      */
     typedef bool (*ConfigureFunc)(const QString &rFileName);
 
@@ -92,8 +92,8 @@ public:
     static QString configurationFile();
 
     /*!
-    	 * Returns the ConfiguratorHelper instance.
-    	 */
+         * Returns the ConfiguratorHelper instance.
+         */
     static ConfiguratorHelper *instance();
 
     /*!

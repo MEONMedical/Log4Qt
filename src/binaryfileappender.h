@@ -23,14 +23,14 @@ class LOG4QT_EXPORT BinaryFileAppender : public BinaryWriterAppender
 public:
     explicit BinaryFileAppender(QObject *pParent = Q_NULLPTR);
     BinaryFileAppender(const QString &rFileName,
-                             QObject *pParent = Q_NULLPTR);
+                       QObject *pParent = Q_NULLPTR);
     BinaryFileAppender(const QString &rFileName,
-                             bool append,
-                             QObject *pParent = Q_NULLPTR);
+                       bool append,
+                       QObject *pParent = Q_NULLPTR);
     BinaryFileAppender(const QString &rFileName,
-                             bool append,
-                             bool buffered,
-                             QObject *pParent = Q_NULLPTR);
+                       bool append,
+                       bool buffered,
+                       QObject *pParent = Q_NULLPTR);
     virtual ~BinaryFileAppender();
 
     // properties
@@ -86,8 +86,9 @@ inline bool BinaryFileAppender::appendFile() const
 }
 
 inline QString BinaryFileAppender::file() const
-{   QMutexLocker locker(&mObjectGuard);
-        return mFileName;
+{
+    QMutexLocker locker(&mObjectGuard);
+    return mFileName;
 }
 
 inline bool BinaryFileAppender::bufferedIo() const
@@ -106,8 +107,10 @@ inline void BinaryFileAppender::setBufferedIo(bool buffered)
 }
 
 inline void BinaryFileAppender::setFile(const QString &rFileName)
-{   QMutexLocker locker(&mObjectGuard);
-    mFileName = rFileName;   }
+{
+    QMutexLocker locker(&mObjectGuard);
+    mFileName = rFileName;
+}
 
 inline QDataStream::ByteOrder BinaryFileAppender::byteOrder() const
 {

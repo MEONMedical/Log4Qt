@@ -75,7 +75,7 @@ void Properties::load(QIODevice *pDevice)
 void Properties::load(const QSettings &rSettings)
 {
     QStringList keys = rSettings.childKeys();
-    for(const auto & key : keys)
+    for (const auto &key : keys)
         insert(key, rSettings.value(key).toString());
 }
 
@@ -118,7 +118,7 @@ QStringList Properties::propertyNames() const
         default_keys = mpDefaultProperties->propertyNames();
 
     QStringList keys = this->keys();
-    for(const auto & key : default_keys)
+    for (const auto &key : default_keys)
         if (!keys.contains(key))
             keys << key;
 
@@ -141,7 +141,7 @@ void Properties::parseProperty(const QString &rProperty,
         VALUEESCAPE_STATE,
         UNICODEESCAPE_STATE
     };
-    const QString value_escape_codes =QLatin1String(msValueEscapeCodes);
+    const QString value_escape_codes = QLatin1String(msValueEscapeCodes);
     const QString value_escape_chars = QLatin1String(msValueEscapeChars);
     Q_ASSERT_X(value_escape_codes.length() == value_escape_chars.length(), "parseProperty()", "Value escape sequence character definition does not map");
     const QString key_escape_codes = QLatin1String(msKeyEscapeCodes);
@@ -307,7 +307,7 @@ QString Properties::trimLeft(const QString &rLine)
 }
 
 
-const char Properties::msEscapeChar ='\\';
+const char Properties::msEscapeChar = '\\';
 const char *Properties::msValueEscapeCodes = "tnr\\\"\' ";
 const char *Properties::msValueEscapeChars = "\t\n\r\\\"\' ";
 const char *Properties::msKeyEscapeCodes = " :=";
@@ -318,7 +318,7 @@ QDebug operator<<(QDebug debug, const Properties &rProperties)
 {
     debug.nospace() << "Properties("
                     << "default:" << rProperties.defaultProperties() << " "
-                    << "properties:" << *reinterpret_cast<const QHash <QString, QString > *>(&rProperties)
+                    << "properties:" << *reinterpret_cast<const QHash <QString, QString> *>(&rProperties)
                     << ")";
     return debug.space();
 }

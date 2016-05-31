@@ -84,7 +84,7 @@ bool MainThreadAppender::checkEntryConditions() const
  * <tt>
  * %MainThreadAppender(name:"WA" )
  * </tt>
- * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender	)
+ * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender   )
  */
 QDebug MainThreadAppender::debug(QDebug &rDebug) const
 {

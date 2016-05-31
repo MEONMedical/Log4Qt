@@ -106,7 +106,7 @@ private:
     {
         auto &appenderData = getAppenderDataFromLogger(mylogger);
         auto writerAppender = new Log4Qt::BinaryWriterAppender(mylogger);
-        writerAppender->setName(QString{"Appender for '%1'"}.arg(mylogger->name()));
+        writerAppender->setName(QString{"Appender for '%1'"} .arg(mylogger->name()));
         appenderData.setAppender(writerAppender);
         mylogger->addAppender(writerAppender);
         mylogger->setAdditivity(false);
@@ -127,8 +127,8 @@ void BinaryLoggerTest::initTestCase()
     Log4Qt::LogManager::setHandleQtMessages(true);
 
     Log4Qt::LayoutSharedPtr layout(new Log4Qt::TTCCLayout(rootLogger));
-    static_cast<Log4Qt::TTCCLayout*>(layout.data())->setDateFormat("dd.MM.yyyy hh:mm:ss.zzz");
-    static_cast<Log4Qt::TTCCLayout*>(layout.data())->setContextPrinting(false);
+    static_cast<Log4Qt::TTCCLayout *>(layout.data())->setDateFormat("dd.MM.yyyy hh:mm:ss.zzz");
+    static_cast<Log4Qt::TTCCLayout *>(layout.data())->setContextPrinting(false);
 
     Log4Qt::LayoutSharedPtr binlayout(new Log4Qt::BinaryToTextLayout(layout, rootLogger));
 
@@ -179,7 +179,7 @@ void BinaryLoggerTest::cleanupTestCase()
 
 void BinaryLoggerTest::init()
 {
-    for(auto &appenderData : mAppenderData)
+    for (auto &appenderData : mAppenderData)
         appenderData.reset();
 }
 
@@ -206,7 +206,7 @@ void BinaryLoggerTest::testBinaryEventFilter()
 
     mAppender->addFilter(Log4Qt::FilterSharedPtr(binfilter));
 
-    auto _ = createScopeExitGuard([this, binfilter]{mAppender->removeEventFilter(binfilter);});
+    auto _ = createScopeExitGuard([this, binfilter] {mAppender->removeEventFilter(binfilter);});
 
     log("Hello world!");
     auto list = mAppender->clearList();
@@ -228,7 +228,8 @@ void BinaryLoggerTest::testBinaryWriterAppender()
     char expected[] = {0x18, 0x00, 0x00, 0x00, 0x48, 0x00, 0x65, 0x00,
                        0x6C, 0x00, 0x6C, 0x00, 0x6F, 0x00, 0x20, 0x00,
                        0x77, 0x00, 0x6F, 0x00, 0x72, 0x00, 0x6C, 0x00,
-                       0x64, 0x00, 0x21, 0x00};
+                       0x64, 0x00, 0x21, 0x00
+                      };
     QCOMPARE(flushLogger(blogger), QByteArray(expected, elementsInArray(expected)));
 
     Log4Qt::BinaryLoggingEvent event(blogger, Log4Qt::Level::INFO_INT, QByteArray("\0\1\2\3", 4));
@@ -237,7 +238,8 @@ void BinaryLoggerTest::testBinaryWriterAppender()
                         0x6C, 0x00, 0x6C, 0x00, 0x6F, 0x00, 0x20, 0x00,
                         0x77, 0x00, 0x6F, 0x00, 0x72, 0x00, 0x6C, 0x00,
                         0x64, 0x00, 0x21, 0x00, 0x04, 0x00, 0x00, 0x00,
-                        0x00, 0x01, 0x02, 0x03};
+                        0x00, 0x01, 0x02, 0x03
+                       };
     QCOMPARE(flushLogger(blogger), QByteArray(expected1, elementsInArray(expected1)));
 }
 
@@ -252,7 +254,7 @@ void BinaryLoggerTest::testBinaryFileAppender()
     bfa->activateOptions();
     blogger->addAppender(bfa);
 
-    auto _ = createScopeExitGuard([blogger, bfa]{blogger->removeAppender(bfa);});
+    auto _ = createScopeExitGuard([blogger, bfa] {blogger->removeAppender(bfa);});
 
     blogger->debug("Hello world!");
     Log4Qt::BinaryLoggingEvent event(blogger, Log4Qt::Level::INFO_INT, QByteArray("\0\1\2\3", 4));
@@ -277,7 +279,8 @@ void BinaryLoggerTest::testBinaryLogStream()
                        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0c, 0x40,
                        0x0d, 0x00, 0x00, 0x00, 0x48, 0x65, 0x6c, 0x6c,
                        0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21,
-                       0x00};
+                       0x00
+                      };
     {
         Log4Qt::BinaryLogStream bls{Log4Qt::Logger::logger(binLogger), Log4Qt::Level::INFO_INT};
         bls << QByteArray(expected + 4, 4);
@@ -297,7 +300,8 @@ void BinaryLoggerTest::testBinaryLogger()
     ulogger->debug(QByteArray("Hello world!"));
 
     char expected[] = {0x0c, 0x00, 0x00, 0x00, 0x48, 0x65, 0x6c, 0x6c,
-                       0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21};
+                       0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21
+                      };
 
     QCOMPARE(flushLogger(ulogger), QByteArray(expected, elementsInArray(expected)));
 }
@@ -309,7 +313,8 @@ void BinaryLoggerTest::testBinaryClassLogger()
     clogger->debug(QByteArray("Hello world!"));
 
     char expected[] = {0x0c, 0x00, 0x00, 0x00, 0x48, 0x65, 0x6c, 0x6c,
-                       0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21};
+                       0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21
+                      };
 
     QCOMPARE(flushLogger(clogger), QByteArray(expected, elementsInArray(expected)));
 }
@@ -323,7 +328,7 @@ void BinaryLoggerTest::testBinaryLayout()
     layout->setBinaryFooter(":This is the footer");
     appender->setLayout(Log4Qt::LayoutSharedPtr(layout));
     clogger->addAppender(appender);
-    auto _ = createScopeExitGuard([clogger, appender]{clogger->removeAppender(appender);});
+    auto _ = createScopeExitGuard([clogger, appender] {clogger->removeAppender(appender);});
     QByteArray data;
     QDataStream ds(&data, QIODevice::WriteOnly);
     ds.setByteOrder(QDataStream::LittleEndian);
@@ -333,11 +338,12 @@ void BinaryLoggerTest::testBinaryLayout()
     clogger->debug("Hello world!");
     appender->close();
 
-    char expected[] = {
-                        0x54, 0x68, 0x69, 0x73, 0x20, 0x69, 0x73, 0x20, 0x74, 0x68, 0x65, 0x20, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x3a,
-                        0x0c, 0x00, 0x00, 0x00, 0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21,
-                        0x3a, 0x54, 0x68, 0x69, 0x73, 0x20, 0x69, 0x73, 0x20, 0x74, 0x68, 0x65, 0x20, 0x66, 0x6f, 0x6f, 0x74, 0x65, 0x72
-                      };
+    char expected[] =
+    {
+        0x54, 0x68, 0x69, 0x73, 0x20, 0x69, 0x73, 0x20, 0x74, 0x68, 0x65, 0x20, 0x68, 0x65, 0x61, 0x64, 0x65, 0x72, 0x3a,
+        0x0c, 0x00, 0x00, 0x00, 0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21,
+        0x3a, 0x54, 0x68, 0x69, 0x73, 0x20, 0x69, 0x73, 0x20, 0x74, 0x68, 0x65, 0x20, 0x66, 0x6f, 0x6f, 0x74, 0x65, 0x72
+    };
     QCOMPARE(QByteArray(expected, elementsInArray(expected)), data);
 }
 

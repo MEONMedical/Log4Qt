@@ -39,7 +39,7 @@ class Filter;
 class LOG4QT_EXPORT FilterSharedPtr : public QSharedPointer<Filter>
 {
 public:
-    FilterSharedPtr(Filter * ptr);
+    FilterSharedPtr(Filter *ptr);
     FilterSharedPtr();
     FilterSharedPtr(const QSharedPointer<Filter> &other);
     FilterSharedPtr(const QWeakPointer<Filter> &other);
@@ -106,7 +106,7 @@ private:
 };
 
 #ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug,const Filter &rFilter);
+QDebug operator<<(QDebug debug, const Filter &rFilter);
 #endif // QT_NO_DEBUG_STREAM
 
 

@@ -6,12 +6,12 @@
  * author:      Martin Heinrich
  *
  *
- * changes:		Sep 2008, Martin Heinrich:
- * 				- Added a compile time version check for the Qt version
- * 				Jan 2009, Martin Heinrich:
- * 				- Updated documentation and version information for version 0.2
- * 				Feb 2009, Martin Heinrich:
- * 				- Updated version information for version 0.3
+ * changes:     Sep 2008, Martin Heinrich:
+ *              - Added a compile time version check for the Qt version
+ *              Jan 2009, Martin Heinrich:
+ *              - Updated documentation and version information for version 0.2
+ *              Feb 2009, Martin Heinrich:
+ *              - Updated version information for version 0.3
  *
  *
  * Copyright 2007 - 2009 Martin Heinrich
@@ -473,7 +473,7 @@
 #include <qglobal.h>
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 3, 0)
-#	error "Log4Qt requires Qt version 5.3.0 or higher"
+#   error "Log4Qt requires Qt version 5.3.0 or higher"
 #endif
 
 /*!

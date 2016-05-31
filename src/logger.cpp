@@ -6,9 +6,9 @@
  * author:      Martin Heinrich
  *
  *
- * changes:		Sep 2008, Martin Heinrich:
- * 				- Fixed problem in Qt 4.4 where QReadWriteLock is by default
- *  			  non-recursive.
+ * changes:     Sep 2008, Martin Heinrich:
+ *              - Fixed problem in Qt 4.4 where QReadWriteLock is by default
+ *                non-recursive.
  *
  *
  * Copyright 2007 - 2008 Martin Heinrich
@@ -44,7 +44,7 @@
 namespace Log4Qt
 {
 
-Logger::Logger(LoggerRepository* pLoggerRepository, Level level,
+Logger::Logger(LoggerRepository *pLoggerRepository, Level level,
                const QString &rName, Logger *pParent) :
     QObject(Q_NULLPTR),
     mName(rName), mpLoggerRepository(pLoggerRepository), mAdditivity(true),

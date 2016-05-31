@@ -38,7 +38,7 @@
 namespace Log4Qt
 {
 
-LOG4QT_DECLARE_STATIC_LOGGER(logger, Log4Qt:NDC)
+LOG4QT_DECLARE_STATIC_LOGGER(logger, Log4Qt: NDC)
 
 
 void NDC::clear()

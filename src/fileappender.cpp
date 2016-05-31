@@ -220,9 +220,7 @@ void FileAppender::openFile()
     // Let windows resolve any environment variables included in the file path
     wchar_t buffer[MAX_PATH];
     if (ExpandEnvironmentStringsW(mFileName.toStdWString().c_str(), buffer, MAX_PATH))
-    {
         mFileName = QString::fromWCharArray(buffer);
-    }
 #endif
 
     mpFile = new QFile(mFileName);

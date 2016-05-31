@@ -8,7 +8,8 @@
 #include <QDataStream>
 #endif
 
-namespace Log4Qt {
+namespace Log4Qt
+{
 
 static const char binMarker[] = "@@@ binary message @@@";
 
@@ -51,41 +52,41 @@ QString BinaryLoggingEvent::binaryMarker()
 }
 
 #ifndef QT_NO_DATASTREAM
-    QDataStream &operator<<(QDataStream &rStream, const BinaryLoggingEvent &rLoggingEvent)
-    {
-        rStream << static_cast<const LoggingEvent &>(rLoggingEvent);
-        rStream << rLoggingEvent.mBinaryMessage;
-        return rStream;
-    }
+QDataStream &operator<<(QDataStream &rStream, const BinaryLoggingEvent &rLoggingEvent)
+{
+    rStream << static_cast<const LoggingEvent &>(rLoggingEvent);
+    rStream << rLoggingEvent.mBinaryMessage;
+    return rStream;
+}
 
-    QDataStream &operator>>(QDataStream &rStream, BinaryLoggingEvent &rLoggingEvent)
-    {
-        rStream >> static_cast<LoggingEvent &>(rLoggingEvent);
-        rStream >> rLoggingEvent.mBinaryMessage;
-        return rStream;
-    }
+QDataStream &operator>>(QDataStream &rStream, BinaryLoggingEvent &rLoggingEvent)
+{
+    rStream >> static_cast<LoggingEvent &>(rLoggingEvent);
+    rStream >> rLoggingEvent.mBinaryMessage;
+    return rStream;
+}
 #endif // QT_NO_DATASTREAM
 
 
 #ifndef QT_NO_DEBUG_STREAM
-    QDebug operator<<(QDebug debug, const BinaryLoggingEvent &rLoggingEvent)
-    {
-        QString logger;
-        if (rLoggingEvent.logger() != Q_NULLPTR)
-            logger = rLoggingEvent.logger()->name();
+QDebug operator<<(QDebug debug, const BinaryLoggingEvent &rLoggingEvent)
+{
+    QString logger;
+    if (rLoggingEvent.logger() != Q_NULLPTR)
+        logger = rLoggingEvent.logger()->name();
 
-        debug.nospace() << "BinaryLoggingEvent("
-            << "level:" << rLoggingEvent.level().toString() << " "
-            << "logger:" << logger << " "
-            << "message:" << rLoggingEvent.binaryMessage().toHex() << " "
-            << "sequencenumber:" << rLoggingEvent.sequenceNumber() << " "
-            << "threadname:" << rLoggingEvent.threadName() << " "
-            << "timestamp:" << rLoggingEvent.timeStamp()
-                << "(" << DateTime::fromMSecsSinceEpoch(rLoggingEvent.timeStamp()) << ")"
-            << "sequenceCount:" << rLoggingEvent.sequenceCount()
-            << ")";
-        return debug.space();
-    }
+    debug.nospace() << "BinaryLoggingEvent("
+                    << "level:" << rLoggingEvent.level().toString() << " "
+                    << "logger:" << logger << " "
+                    << "message:" << rLoggingEvent.binaryMessage().toHex() << " "
+                    << "sequencenumber:" << rLoggingEvent.sequenceNumber() << " "
+                    << "threadname:" << rLoggingEvent.threadName() << " "
+                    << "timestamp:" << rLoggingEvent.timeStamp()
+                    << "(" << DateTime::fromMSecsSinceEpoch(rLoggingEvent.timeStamp()) << ")"
+                    << "sequenceCount:" << rLoggingEvent.sequenceCount()
+                    << ")";
+    return debug.space();
+}
 #endif // QT_NO_DEBUG_STREAM
 
 } // namespace Log4Qt

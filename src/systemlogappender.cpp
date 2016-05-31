@@ -16,11 +16,11 @@
 
 
 
-typedef HANDLE(WINAPI*PDeregisterEventSource)(HANDLE);
+typedef HANDLE(WINAPI *PDeregisterEventSource)(HANDLE);
 static PDeregisterEventSource pDeregisterEventSource = 0;
-typedef BOOL(WINAPI*PReportEvent)(HANDLE,WORD,WORD,DWORD,PSID,WORD,DWORD,LPCTSTR*,LPVOID);
+typedef BOOL(WINAPI *PReportEvent)(HANDLE, WORD, WORD, DWORD, PSID, WORD, DWORD, LPCTSTR *, LPVOID);
 static PReportEvent pReportEvent = 0;
-typedef HANDLE(WINAPI*PRegisterEventSource)(LPCTSTR,LPCTSTR);
+typedef HANDLE(WINAPI *PRegisterEventSource)(LPCTSTR, LPCTSTR);
 static PRegisterEventSource pRegisterEventSource = 0;
 
 #define RESOLVE(name) p##name = reinterpret_cast<P##name>(lib.resolve(#name));
@@ -142,7 +142,7 @@ void SystemLogAppender::append(const LoggingEvent &rEvent)
     }
 
     openlog(ident, LOG_PID, LOG_DAEMON);
-    for(const auto & line : message.split('\n', QString::SkipEmptyParts))
+    for (const auto &line : message.split('\n', QString::SkipEmptyParts))
         syslog(st, "%s", line.toLocal8Bit().constData());
     closelog();
 
@@ -154,7 +154,7 @@ QString SystemLogAppender::serviceName() const
     return mServiceName;
 }
 
-void SystemLogAppender::setServiceName(const QString& serviceName)
+void SystemLogAppender::setServiceName(const QString &serviceName)
 {
     mServiceName = serviceName;
 

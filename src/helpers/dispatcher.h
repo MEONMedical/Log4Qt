@@ -52,7 +52,7 @@ public:
     void setAsyncAppender(AsyncAppender *pAsyncAppender);
 
 protected:
-    virtual void customEvent(QEvent* event) Q_DECL_OVERRIDE;
+    virtual void customEvent(QEvent *event) Q_DECL_OVERRIDE;
 
 private:
     AsyncAppender *mpAsyncAppender;

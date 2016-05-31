@@ -53,14 +53,14 @@ class LOG4QT_EXPORT  WriterAppender : public AppenderSkeleton
      *
      * \sa encoding(), setEncoding()
      */
-    Q_PROPERTY(QTextCodec* encoding READ encoding WRITE setEncoding)
+    Q_PROPERTY(QTextCodec *encoding READ encoding WRITE setEncoding)
 
     /*!
      * The property holds the writer the appender uses.
      *
      * \sa writer(), setWriter()
      */
-    Q_PROPERTY(QTextStream* writer READ writer WRITE setWriter)
+    Q_PROPERTY(QTextStream *writer READ writer WRITE setWriter)
 
     /*!
      * The property holds, if the writer flushes after all write operations.
@@ -139,7 +139,7 @@ protected:
      *                 referencecount:1 threshold:"NULL"
      *                 writer:0x0)
      * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender	)
+     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender   )
      */
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM

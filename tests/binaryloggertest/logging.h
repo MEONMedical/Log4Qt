@@ -9,7 +9,7 @@ class QVariant;
 class Logging
 {
 public:
-    static QString createDumpString(const QByteArray &data, const bool withCaption=true);
+    static QString createDumpString(const QByteArray &data, const bool withCaption = true);
     static QString toString(const QVariant &value);
     static QString indentString(const QString &string, const QStringList &indentBrackets);
 };

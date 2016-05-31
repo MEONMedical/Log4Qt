@@ -125,7 +125,7 @@ private slots:
 private:
     QString dailyRollingFileAppenderSuffix(const QDateTime &rDateTime);
     QString enumValueToKey(QObject *pObject,
-                           const char* pEnumeration,
+                           const char *pEnumeration,
                            int value);
     void resetLogging();
     static bool compareStringLists(const QStringList &rActual,

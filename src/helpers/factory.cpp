@@ -165,13 +165,13 @@ Appender *create_rollingbinaryfile_appender()
     return new RollingBinaryFileAppender;
 }
 
-Appender * create_dailyrollingfile_appender()
+Appender *create_dailyrollingfile_appender()
 {
     return new DailyFileAppender;
 }
 
 #ifdef Q_OS_WIN
-Appender * create_wdc_appender()
+Appender *create_wdc_appender()
 {
     return new WDCAppender;
 }
@@ -306,7 +306,7 @@ void Factory::doRegisterAppender(const QString &rAppenderClassName,
 {
     QMutexLocker locker(&mObjectGuard);
 
-    if(rAppenderClassName.isEmpty())
+    if (rAppenderClassName.isEmpty())
     {
         logger()->warn("Registering Appender factory function with empty class name");
         return;
@@ -320,7 +320,7 @@ void Factory::doRegisterFilter(const QString &rFilterClassName,
 {
     QMutexLocker locker(&mObjectGuard);
 
-    if(rFilterClassName.isEmpty())
+    if (rFilterClassName.isEmpty())
     {
         logger()->warn("Registering Filter factory function with empty class name");
         return;
@@ -334,7 +334,7 @@ void Factory::doRegisterLayout(const QString &rLayoutClassName,
 {
     QMutexLocker locker(&mObjectGuard);
 
-    if(rLayoutClassName.isEmpty())
+    if (rLayoutClassName.isEmpty())
     {
         logger()->warn("Registering Layout factory function with empty class name");
         return;

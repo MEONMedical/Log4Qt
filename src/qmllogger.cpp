@@ -53,7 +53,7 @@ QString QmlLogger::name() const
     return mName;
 }
 
-void QmlLogger::setName(const QString & name)
+void QmlLogger::setName(const QString &name)
 {
     if (mName != name)
     {

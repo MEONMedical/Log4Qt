@@ -69,7 +69,7 @@ signals:
     /*!
     * @param message
     */
-    void appended(const QString& message);
+    void appended(const QString &message);
 public slots:
 
 };

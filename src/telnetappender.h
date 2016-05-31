@@ -74,7 +74,7 @@ public:
     TelnetAppender(LayoutSharedPtr pLayout,
                    QObject *pParent = Q_NULLPTR);
     TelnetAppender(LayoutSharedPtr pLayout,
-                   const QHostAddress& address,
+                   const QHostAddress &address,
                    int port,
                    QObject *pParent = Q_NULLPTR);
     TelnetAppender(LayoutSharedPtr pLayout,
@@ -110,7 +110,7 @@ public:
     /*!
      * Sets the listenning address of the telnet server (default QHostAddress::Any)
      */
-    void setAddress(const QHostAddress& address);
+    void setAddress(const QHostAddress &address);
     /*!
      * Returns the listenning address of the telnet server
      */
@@ -118,7 +118,7 @@ public:
     /*!
      *  Set the welcome message which is send on
      */
-    void setWelcomeMessage(const QString & welcomeMessage);
+    void setWelcomeMessage(const QString &welcomeMessage);
 
 protected:
     virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
@@ -151,7 +151,7 @@ protected:
      */
     void closeServer();
 
-    QList<QTcpSocket*> clients() const;
+    QList<QTcpSocket *> clients() const;
 
 #ifndef QT_NO_DEBUG_STREAM
     /*!
@@ -163,7 +163,7 @@ protected:
      *                 isactive:false isclosed:false layout:"TTCC"
      *                 referencecount:1 threshold:"NULL port:"23")
      * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender	)
+     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender   )
      */
 
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
@@ -181,13 +181,13 @@ private slots:
 
 private:
     QHostAddress mAddress;
-    int				mPort;
-    QTcpServer *	mpTcpServer;
-    QList<QTcpSocket*> mTcpSockets;
-    QString			mWelcomeMessage;
-    volatile bool	mImmediateFlush;
+    int             mPort;
+    QTcpServer     *mpTcpServer;
+    QList<QTcpSocket *> mTcpSockets;
+    QString         mWelcomeMessage;
+    volatile bool   mImmediateFlush;
 
-    void sendWelcomeMessage(QTcpSocket * pClientConnection);
+    void sendWelcomeMessage(QTcpSocket *pClientConnection);
 };
 
 inline bool TelnetAppender::immediateFlush() const

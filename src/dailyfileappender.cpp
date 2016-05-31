@@ -103,20 +103,20 @@ QDebug DailyFileAppender::debug(QDebug &rDebug) const
         codec_name = QLatin1String(encoding()->name());
 
     rDebug.nospace() << "DailyFileAppender("
-                    << "name:" << name() << " "
-                    << "appendfile:" << appendFile() << " "
-                    << "bufferedio:" << bufferedIo() << " "
-                    << "datepattern:" << datePattern() << " "
-                    << "encoding:" << codec_name << " "
-                    << "file:" << file() << " "
-                    << "filter:" << firstFilter() << " "
-                    << "immediateflush:" << immediateFlush() << " "
-                    << "isactive:" << isActive() << " "
-                    << "isclosed:" << isClosed() << " "
-                    << "layout:" << layout_name << " "
-                    << "threshold:" << threshold().toString()
-                    << "writer:" << writer()
-                    << ")";
+                     << "name:" << name() << " "
+                     << "appendfile:" << appendFile() << " "
+                     << "bufferedio:" << bufferedIo() << " "
+                     << "datepattern:" << datePattern() << " "
+                     << "encoding:" << codec_name << " "
+                     << "file:" << file() << " "
+                     << "filter:" << firstFilter() << " "
+                     << "immediateflush:" << immediateFlush() << " "
+                     << "isactive:" << isActive() << " "
+                     << "isclosed:" << isClosed() << " "
+                     << "layout:" << layout_name << " "
+                     << "threshold:" << threshold().toString()
+                     << "writer:" << writer()
+                     << ")";
     return rDebug.space();
 }
 #endif // QT_NO_DEBUG_STREAM

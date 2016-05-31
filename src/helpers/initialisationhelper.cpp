@@ -77,11 +77,11 @@ void InitialisationHelper::doInitialiseEnvironmentSettings()
     setting_keys << QLatin1String("ConfiguratorClass");
 
     QHash<QString, QString> env_keys;
-    for (const auto & entry : setting_keys)
+    for (const auto &entry : setting_keys)
         env_keys.insert(QString::fromLatin1("log4qt_").append(entry).toUpper(), entry);
 
     QStringList sys_env = QProcess::systemEnvironment();
-    for (const auto & entry : sys_env)
+    for (const auto &entry : sys_env)
     {
         int i = entry.indexOf(QLatin1Char('='));
         if (i == -1)

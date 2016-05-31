@@ -6,9 +6,9 @@
  * author:      Martin Heinrich
  *
  *
- * changes:		Sep 2008, Martin Heinrich:
- * 				- Replaced usage of q_atomic_test_and_set_ptr with
- * 				  QAtomicPointer
+ * changes:     Sep 2008, Martin Heinrich:
+ *              - Replaced usage of q_atomic_test_and_set_ptr with
+ *                QAtomicPointer
  *
  *
  * Copyright 2007 - 2008 Martin Heinrich

@@ -41,17 +41,17 @@ namespace Log4Qt
  *
  * \code
  * if (!c.isDigit())
-	 * {
-	 *     Error e = LOG4QT_ERROR(QT_TR_NOOP("Found character '%1' where digit was expected."),
-	 *                            LAYOUT_EXPECTED_DIGIT_ERROR,
-	 *                            "Log4Qt::PatternFormatter");
-	 *     e << QString(c);
+     * {
+     *     Error e = LOG4QT_ERROR(QT_TR_NOOP("Found character '%1' where digit was expected."),
+     *                            LAYOUT_EXPECTED_DIGIT_ERROR,
+     *                            "Log4Qt::PatternFormatter");
+     *     e << QString(c);
  *     logger()->error(e);
-	 * }
+     * }
  * \endcode
  */
 #define LOG4QT_ERROR(message, code, context)                              \
-		LogError(message, code, #code, context)
+        LogError(message, code, #code, context)
 
 /*!
  * Creates an LogError object with the error message \a message and the
@@ -65,7 +65,7 @@ namespace Log4Qt
  * if (!mpFile->open(mode))
  * {
  *      LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Unable to open file '%1' for appender '%2'"),
-	 *                                       APPENDER_OPENING_FILE_ERROR);
+     *                                       APPENDER_OPENING_FILE_ERROR);
  *      e << mFileName << name();
  *      e.addCausingError(LogError(mpFile->errorString(), mpFile->error()));
  *      logger()->error(e);
@@ -74,7 +74,7 @@ namespace Log4Qt
  * \endcode
  */
 #define LOG4QT_QCLASS_ERROR(message, code)                                \
-		LogError(message, code, #code, this->metaObject()->className())
+        LogError(message, code, #code, this->metaObject()->className())
 
 /*!
  * \brief The class LogError represents an error.
@@ -157,9 +157,9 @@ public:
      * \sa translatedMessage(), translatedMessageWithArgs()
      */
     explicit LogError(const QString &rMessage,
-             int code = 0,
-             const QString &rSymbol = QString(),
-             const QString &rContext = QString());
+                      int code = 0,
+                      const QString &rSymbol = QString(),
+                      const QString &rContext = QString());
 
     /*!
      * Creates an error with the Message \a pMessage and the error code
@@ -178,10 +178,10 @@ public:
      * \sa translatedMessage(), translatedMessageWithArgs()
      */
     explicit LogError(const char *pMessage,
-             int code = 0,
-             const char *pSymbol = 0,
-             const char *pContext = 0,
-             Encoding encoding = LATIN1);
+                      int code = 0,
+                      const char *pSymbol = 0,
+                      const char *pContext = 0,
+                      Encoding encoding = LATIN1);
 
     /*!
      * Returns the error code.

@@ -13,7 +13,7 @@ class BinaryLayout;
 class LOG4QT_EXPORT BinaryWriterAppender : public AppenderSkeleton
 {
     Q_OBJECT
-    Q_PROPERTY(QDataStream* writer READ writer WRITE setWriter)
+    Q_PROPERTY(QDataStream *writer READ writer WRITE setWriter)
 public:
     BinaryWriterAppender(QObject *pParent = Q_NULLPTR);
     BinaryWriterAppender(QDataStream *pDataStream, QObject *pParent = Q_NULLPTR);

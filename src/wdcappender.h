@@ -12,7 +12,7 @@ class LOG4QT_EXPORT WDCAppender : public AppenderSkeleton
 public:
     WDCAppender(QObject *pParent = Q_NULLPTR);
     WDCAppender(LayoutSharedPtr pLayout,
-                   QObject *pParent = Q_NULLPTR);
+                QObject *pParent = Q_NULLPTR);
 private:
     Q_DISABLE_COPY(WDCAppender)
 public:

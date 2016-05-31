@@ -5,7 +5,7 @@
 LoggerObject::LoggerObject(QObject *parent) : QObject(parent),
     mCounter(0)
 {
-    QTimer *timer= new QTimer(this);
+    QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &LoggerObject::onTimeout);
     timer->start(10);
 }

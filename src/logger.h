@@ -6,11 +6,11 @@
  * author:      Martin Heinrich
  *
  *
- * changes:		Sep 2008, Martin Heinrich:
- * 				- Replaced usage of q_atomic_test_and_set_ptr with
- * 				  QBasicAtomicPointer
- *      		Feb 2016, Andreas Bacher:
- * 				- Replaced usage of QBasicAtomicPointer with
+ * changes:     Sep 2008, Martin Heinrich:
+ *              - Replaced usage of q_atomic_test_and_set_ptr with
+ *                QBasicAtomicPointer
+ *              Feb 2016, Andreas Bacher:
+ *              - Replaced usage of QBasicAtomicPointer with
  *                magic static initalization (thread safe with c++11)
  *
  *
@@ -211,7 +211,7 @@ class LOG4QT_EXPORT  Logger : public QObject, public AppenderAttachable
      *
      * \sa loggerRepository()
      */
-    Q_PROPERTY(LoggerRepository* loggerRepository READ loggerRepository)
+    Q_PROPERTY(LoggerRepository *loggerRepository READ loggerRepository)
 
     /*!
      * The property holds the name of the logger.
@@ -225,12 +225,12 @@ class LOG4QT_EXPORT  Logger : public QObject, public AppenderAttachable
      *
      * \sa parentLogger()
      */
-    Q_PROPERTY(Logger* parentLogger READ parentLogger)
+    Q_PROPERTY(Logger *parentLogger READ parentLogger)
 
     LOG4QT_DECLARE_QCLASS_LOGGER
 
 protected:
-    Logger(LoggerRepository* pLoggerRepository, Level level, const QString &rName, Logger *pParent = Q_NULLPTR);
+    Logger(LoggerRepository *pLoggerRepository, Level level, const QString &rName, Logger *pParent = Q_NULLPTR);
     virtual ~Logger();
 
 private:
@@ -275,7 +275,7 @@ public:
     void debug(const QString &rMessage) const;
 
     template<typename T, typename ...Ts>
-    void debug(const QString &message, T && t, Ts && ...ts)
+    void debug(const QString &message, T &&t, Ts &&...ts)
     {
         debug(message.arg(std::forward<T>(t)), std::forward<Ts>(ts)...);
     }
@@ -286,7 +286,7 @@ public:
     void error(const QString &rMessage) const;
 
     template<typename T, typename ...Ts>
-    void error(const QString &message, T && t, Ts && ...ts)
+    void error(const QString &message, T &&t, Ts &&...ts)
     {
         error(message.arg(std::forward<T>(t)), std::forward<Ts>(ts)...);
     }
@@ -296,7 +296,7 @@ public:
     void fatal(const QString &rMessage) const;
 
     template<typename T, typename ...Ts>
-    void fatal(const QString &message, T && t, Ts && ...ts)
+    void fatal(const QString &message, T &&t, Ts &&...ts)
     {
         fatal(message.arg(std::forward<T>(t)), std::forward<Ts>(ts)...);
     }
@@ -306,7 +306,7 @@ public:
     void info(const QString &rMessage) const;
 
     template<typename T, typename ...Ts>
-    void info(const QString &message, T && t, Ts && ...ts)
+    void info(const QString &message, T &&t, Ts &&...ts)
     {
         info(message.arg(std::forward<T>(t)), std::forward<Ts>(ts)...);
     }
@@ -316,7 +316,7 @@ public:
     void log(Level level, const QString &rMessage) const;
 
     template<typename T, typename ...Ts>
-    void log(Level level, const QString &message, T && t, Ts && ...ts)
+    void log(Level level, const QString &message, T &&t, Ts &&...ts)
     {
         log(level, message.arg(std::forward<T>(t)), std::forward<Ts>(ts)...);
     }
@@ -326,7 +326,7 @@ public:
     void trace(const QString &rMessage) const;
 
     template<typename T, typename ...Ts>
-    void trace(const QString &message, T && t, Ts && ...ts)
+    void trace(const QString &message, T &&t, Ts &&...ts)
     {
         trace(message.arg(std::forward<T>(t)), std::forward<Ts>(ts)...);
     }
@@ -336,7 +336,7 @@ public:
     void warn(const QString &rMessage) const;
 
     template<typename T, typename ...Ts>
-    void warn(const QString &message, T && t, Ts && ...ts)
+    void warn(const QString &message, T &&t, Ts &&...ts)
     {
         warn(message.arg(std::forward<T>(t)), std::forward<Ts>(ts)...);
     }
@@ -367,7 +367,7 @@ protected:
 
 private:
     const QString mName;
-    LoggerRepository* mpLoggerRepository;
+    LoggerRepository *mpLoggerRepository;
     volatile bool mAdditivity;
     Level mLevel;
     Logger *mpParent;

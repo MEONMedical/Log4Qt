@@ -25,8 +25,8 @@ int main(int argc, char *argv[])
 {
     QCoreApplication application(argc, argv);
 
-    LoggerObject * object = new LoggerObject(&application);
-    LoggerObjectPrio * object1 = new LoggerObjectPrio(&application);
+    LoggerObject *object = new LoggerObject(&application);
+    LoggerObjectPrio *object1 = new LoggerObjectPrio(&application);
     Q_UNUSED(object1)
 
     QObject::connect(object, &LoggerObject::exit, &application, &QCoreApplication::exit);
@@ -36,9 +36,9 @@ int main(int argc, char *argv[])
 
     int ret;
     {
-    QScopedPointer<LoggerStatic> object2(new LoggerStatic());
+        QScopedPointer<LoggerStatic> object2(new LoggerStatic());
 
-    ret = application.exec();
+        ret = application.exec();
     }
 
     logShutdown();

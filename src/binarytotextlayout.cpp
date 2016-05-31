@@ -20,10 +20,10 @@ QString BinaryToTextLayout::format(const LoggingEvent &rEvent)
     {
         if (const BinaryLoggingEvent *binaryEvent = dynamic_cast<const BinaryLoggingEvent *>(&rEvent))
         {
-            QString hexData =binaryEvent->binaryMessage().toHex();
+            QString hexData = binaryEvent->binaryMessage().toHex();
             QString spacedHexData;
 
-            for(int i=0; i < hexData.length(); i+=2)
+            for (int i = 0; i < hexData.length(); i += 2)
                 spacedHexData.append(hexData.mid(i, 2) % " ");
 
             // replace binary marker in output with hexdump
@@ -37,7 +37,7 @@ QString BinaryToTextLayout::format(const LoggingEvent &rEvent)
 QDebug BinaryToTextLayout::debug(QDebug &rDebug) const
 {
     rDebug.nospace() << "BinaryToTextLayout("
-        << "name:" << name() << " ";
+                     << "name:" << name() << " ";
 
     if (mSubLayout)
         rDebug.nospace() << "sublayout: " << *mSubLayout.data() << " ";

@@ -6,8 +6,8 @@
  * author:      Martin Heinrich
  *
  *
- * changes:		Sep 2008, Martin Heinrich:
- * 				- Resolved compilation problem with Microsoft Visual Studio 2005
+ * changes:     Sep 2008, Martin Heinrich:
+ *              - Resolved compilation problem with Microsoft Visual Studio 2005
  *
  *
  * Copyright 2007 - 2008 Martin Heinrich

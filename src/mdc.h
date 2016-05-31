@@ -35,10 +35,10 @@ namespace Log4Qt
 
 
 /*!
-	 * \brief The class MDC implements a mapped diagnostic context.
-	 *
-	 * \note All the functions declared in this class are thread-safe.
-	 */
+     * \brief The class MDC implements a mapped diagnostic context.
+     *
+     * \note All the functions declared in this class are thread-safe.
+     */
 class  LOG4QT_EXPORT MDC
 {
 private:
@@ -61,7 +61,7 @@ private:
     static QHash<QString, QString> *localData();
 
 private:
-    QThreadStorage< QHash<QString, QString> * > mHash;
+    QThreadStorage<QHash<QString, QString> *> mHash;
 };
 
 #ifndef QT_NO_DEBUG_STREAM

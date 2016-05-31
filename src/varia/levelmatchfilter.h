@@ -79,7 +79,7 @@ protected:
      * <tt>
      * %LevelMatchFilter(acceptonmatch:true leveltomatch:"WARN"
      *                   next:Log4Qt::DenyAllFilter(0x3bce3a8)
-     * 					 referencecount:1 )
+     *                   referencecount:1 )
      * </tt>
      * \sa QDebug, operator<<(QDebug debug, const Filter &rFilter)
      */

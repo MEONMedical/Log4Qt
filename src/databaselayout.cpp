@@ -158,27 +158,27 @@ QString DatabaseLayout::messageColumn() const
 }
 
 
-void DatabaseLayout::setTimeStampColumn(const QString& columnName)
+void DatabaseLayout::setTimeStampColumn(const QString &columnName)
 {
     mTimeStamp = columnName;
 }
 
-void DatabaseLayout::setLoggerNameColumn(const QString& columnName)
+void DatabaseLayout::setLoggerNameColumn(const QString &columnName)
 {
     mLoggerName = columnName;
 }
 
-void DatabaseLayout::setThreadNameColumn(const QString& columnName)
+void DatabaseLayout::setThreadNameColumn(const QString &columnName)
 {
     mThreadName = columnName;
 }
 
-void DatabaseLayout::setLevelColumn(const QString& columnName)
+void DatabaseLayout::setLevelColumn(const QString &columnName)
 {
     mLevel = columnName;
 }
 
-void DatabaseLayout::setMessageColumn(const QString& columnName)
+void DatabaseLayout::setMessageColumn(const QString &columnName)
 {
     mMessage = columnName;
 }

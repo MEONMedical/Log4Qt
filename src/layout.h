@@ -117,7 +117,7 @@ private:
 };
 
 #ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug,const Layout &rLayout);
+QDebug operator<<(QDebug debug, const Layout &rLayout);
 #endif // QT_NO_DEBUG_STREAM
 
 inline QString Layout::footer() const
@@ -153,7 +153,7 @@ inline void Layout::setName(const QString &rName)
 class LOG4QT_EXPORT LayoutSharedPtr : public QSharedPointer<Layout>
 {
 public:
-    LayoutSharedPtr(Layout * ptr)
+    LayoutSharedPtr(Layout *ptr)
         : QSharedPointer<Layout>(ptr, &Layout::deleteLater)
     {}
 

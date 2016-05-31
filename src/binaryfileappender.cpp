@@ -80,7 +80,7 @@ void BinaryFileAppender::activateOptions()
     if (mFileName.isEmpty())
     {
         LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Activation of Appender '%1' that requires file and has no file set"),
-                                                                         APPENDER_ACTIVATE_MISSING_FILE_ERROR);
+                                         APPENDER_ACTIVATE_MISSING_FILE_ERROR);
         e << name();
         logger()->error(e);
         return;
@@ -106,7 +106,7 @@ bool BinaryFileAppender::checkEntryConditions() const
     if (!mpFile || !mpDataStream)
     {
         LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' without open file"),
-                                                                             APPENDER_NO_OPEN_FILE_ERROR);
+                                         APPENDER_NO_OPEN_FILE_ERROR);
         e << name();
         logger()->error(e);
         return false;
@@ -133,20 +133,20 @@ QDebug BinaryFileAppender::debug(QDebug &rDebug) const
 {
     QString layout_name;
     if (layout())
-            layout_name = layout()->name();
+        layout_name = layout()->name();
 
     rDebug.nospace() << "BinaryFileAppender("
-            << "name:" << name() << " "
-            << "appendfile:" << appendFile() << " "
-            << "bufferedio:" << bufferedIo() << " "
-            << "file:" << file() << " "
-            << "filter:" << firstFilter() << " "
-            << "isactive:" << isActive() << " "
-            << "isclosed:" << isClosed() << " "
-            << "layout:" << layout_name << " "
-            << "threshold:" << threshold().toString() << " "
-            << "writer:" << writer()
-            << ")";
+                     << "name:" << name() << " "
+                     << "appendfile:" << appendFile() << " "
+                     << "bufferedio:" << bufferedIo() << " "
+                     << "file:" << file() << " "
+                     << "filter:" << firstFilter() << " "
+                     << "isactive:" << isActive() << " "
+                     << "isclosed:" << isClosed() << " "
+                     << "layout:" << layout_name << " "
+                     << "threshold:" << threshold().toString() << " "
+                     << "writer:" << writer()
+                     << ")";
     return rDebug.space();
 }
 #endif // QT_NO_DEBUG_STREAM
@@ -157,7 +157,7 @@ bool BinaryFileAppender::handleIoErrors() const
         return false;
 
     LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Unable to write to file '%1' for appender '%2'"),
-                                                                     APPENDER_WRITING_FILE_ERROR);
+                                     APPENDER_WRITING_FILE_ERROR);
     e << mFileName << name();
     e.addCausingError(LogError(mpFile->errorString(), mpFile->error()));
     logger()->error(e);
@@ -189,9 +189,8 @@ void BinaryFileAppender::openFile()
 #if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
     // Let windows resolve any environment variables included in the file path
     wchar_t buffer[MAX_PATH];
-    if (ExpandEnvironmentStringsW(mFileName.toStdWString().c_str(), buffer, MAX_PATH)) {
+    if (ExpandEnvironmentStringsW(mFileName.toStdWString().c_str(), buffer, MAX_PATH))
         mFileName = QString::fromWCharArray(buffer);
-    }
 #endif
 
     mpFile = new QFile(mFileName);
@@ -205,7 +204,7 @@ void BinaryFileAppender::openFile()
     if (!mpFile->open(mode))
     {
         LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Unable to open file '%1' for appender '%2'"),
-                                                                         APPENDER_OPENING_FILE_ERROR);
+                                         APPENDER_OPENING_FILE_ERROR);
         e << mFileName << name();
         e.addCausingError(LogError(mpFile->errorString(), mpFile->error()));
         logger()->error(e);
@@ -223,7 +222,7 @@ bool BinaryFileAppender::removeFile(QFile &rFile) const
         return true;
 
     LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Unable to remove file '%1' for appender '%2'"),
-                                                                     APPENDER_REMOVE_FILE_ERROR);
+                                     APPENDER_REMOVE_FILE_ERROR);
     e << rFile.fileName() << name();
     e.addCausingError(LogError(rFile.errorString(), rFile.error()));
     logger()->error(e);
@@ -231,14 +230,14 @@ bool BinaryFileAppender::removeFile(QFile &rFile) const
 }
 
 bool BinaryFileAppender::renameFile(QFile &rFile,
-                                                            const QString &rFileName) const
+                                    const QString &rFileName) const
 {
     logger()->debug("Renaming file '%1' to '%2'", rFile.fileName(), rFileName);
     if (rFile.rename(rFileName))
         return true;
 
     LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Unable to rename file '%1' to '%2' for appender '%3'"),
-                                                                     APPENDER_RENAMING_FILE_ERROR);
+                                     APPENDER_RENAMING_FILE_ERROR);
     e << rFile.fileName() << rFileName << name();
     e.addCausingError(LogError(rFile.errorString(), rFile.error()));
     logger()->error(e);

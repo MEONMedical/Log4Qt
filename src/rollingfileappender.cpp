@@ -41,7 +41,7 @@ namespace Log4Qt
 RollingFileAppender::RollingFileAppender(QObject *pParent) :
     FileAppender(pParent),
     mMaxBackupIndex(1),
-    mMaximumFileSize(10*1024*1024)
+    mMaximumFileSize(10 * 1024 * 1024)
 {
 }
 
@@ -51,7 +51,7 @@ RollingFileAppender::RollingFileAppender(LayoutSharedPtr pLayout,
         QObject *pParent) :
     FileAppender(pLayout, rFileName, pParent),
     mMaxBackupIndex(1),
-    mMaximumFileSize(10*1024*1024)
+    mMaximumFileSize(10 * 1024 * 1024)
 {
 }
 
@@ -62,7 +62,7 @@ RollingFileAppender::RollingFileAppender(LayoutSharedPtr pLayout,
         QObject *pParent) :
     FileAppender(pLayout, rFileName, append, pParent),
     mMaxBackupIndex(1),
-    mMaximumFileSize(10*1024*1024)
+    mMaximumFileSize(10 * 1024 * 1024)
 {
 }
 
@@ -103,7 +103,7 @@ void RollingFileAppender::rollOver()
 
     QString target_file_name;
     int i;
-    for (i = mMaxBackupIndex - 1; i >=1; i--)
+    for (i = mMaxBackupIndex - 1; i >= 1; i--)
     {
         f.setFileName(file() + QLatin1Char('.') + QString::number(i));
         if (f.exists())

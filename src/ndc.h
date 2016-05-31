@@ -62,7 +62,7 @@ public:
     static QString peek();
 
 private:
-    QThreadStorage< QStack<QString> * > mStack;
+    QThreadStorage<QStack<QString> *> mStack;
 };
 
 #ifndef QT_NO_DEBUG_STREAM

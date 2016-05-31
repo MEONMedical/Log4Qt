@@ -90,7 +90,7 @@ protected:
      *                 referencecount:1 threshold:"NULL"
      *                 writer:0x0)
      * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender	)
+     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender   )
      */
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM

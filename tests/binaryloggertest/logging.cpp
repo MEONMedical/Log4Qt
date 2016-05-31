@@ -22,7 +22,7 @@ static bool isCloseBracket(const QStringList &brackets, const QChar &c);
 
 QString Logging::createDumpString(const QByteArray &data, const bool withCaption)
 {
-    const int bytesPerLine	= 16;
+    const int bytesPerLine  = 16;
     const QByteArray dist("  ");
     const QByteArray placeHolder("   ");
     const QByteArray intention("      ");
@@ -31,17 +31,16 @@ QString Logging::createDumpString(const QByteArray &data, const bool withCaption
     unsigned char fromChar = 0x20;
     unsigned char toChar   = 0x7e;
     QByteArray out;
-    if (withCaption) {
+    if (withCaption)
         out.append("Dump:\n      offset (hex) - data (hex) - data (text)\n");
-    }
 
     QByteArray hexData = data.toHex();
 
     line.append(intention);
     line.append("00000000  ");
-    for ( int i=1, ii=0; i<=data.size(); ++i, ii+=2 )
+    for ( int i = 1, ii = 0; i <= data.size(); ++i, ii += 2 )
     {
-        unsigned char byte = data[i-1];
+        unsigned char byte = data[i - 1];
 
         line.append(hexData.mid(ii, 2));
         line.append(' ');
@@ -68,7 +67,7 @@ QString Logging::createDumpString(const QByteArray &data, const bool withCaption
         else if (i == data.size())
         {
             int remaining = bytesPerLine - ( i % bytesPerLine );
-            for ( int j=0;j<remaining;j++ )
+            for ( int j = 0; j < remaining; j++ )
                 line.append(placeHolder);
 
             // end if data
@@ -86,7 +85,7 @@ QString Logging::toString(const QVariant &value)
 
 QString toString(const QVariant &value)
 {
-    switch(value.type())
+    switch (value.type())
     {
     case QVariant::Invalid:
         return "<Invalid>";
@@ -217,7 +216,7 @@ QString toString(const QVariant &value)
 QString toString(const QVariantMap &map)
 {
     QStringList result;
-    for(auto pos = map.cbegin(); pos != map.cend(); ++pos)
+    for (auto pos = map.cbegin(); pos != map.cend(); ++pos)
         result << QString("%1=%2").arg(toString(pos.key()), toString(pos.value()));
     return QStringLiteral("{") % result.join(", ") % QStringLiteral("}");
 }
@@ -225,7 +224,7 @@ QString toString(const QVariantMap &map)
 QString toString(const QVariantList &list)
 {
     QStringList result;
-    for (const auto &value: list)
+    for (const auto &value : list)
         result << toString(value);
     return QStringLiteral("[") % result.join(", ") % QStringLiteral("]");
 }
@@ -233,7 +232,7 @@ QString toString(const QVariantList &list)
 QString toString(const QVariantHash &hash)
 {
     QStringList result;
-    for(auto pos = hash.cbegin(); pos != hash.cend(); ++pos)
+    for (auto pos = hash.cbegin(); pos != hash.cend(); ++pos)
         result << QString("%1=%2").arg(toString(pos.key()), toString(pos.value()));
     return QStringLiteral("{") % result.join(", ") % QStringLiteral("}");
 }
@@ -249,7 +248,7 @@ QString toString(const QStringList &stringList)
 QString toString(const QByteArray &byteArray)
 {
     QStringList result;
-    for(auto byte: byteArray)
+    for (auto byte : byteArray)
         result << QString("%1").arg(byte, 2, 16, QChar('0'));
     return QStringLiteral("[") % result.join(", ") % QStringLiteral("]");
 }
@@ -278,9 +277,9 @@ QString escape(const QString &string)
 {
     QString copy(string);
     return copy.replace('"', "\\\"")
-                 .replace('\n', "\\n")
-                 .replace('\r', "\\r")
-                 .replace('\t', "\\t");
+           .replace('\n', "\\n")
+           .replace('\r', "\\r")
+           .replace('\t', "\\t");
 }
 
 QString toString(const QVariant &value, int userType)
@@ -291,7 +290,7 @@ QString toString(const QVariant &value, int userType)
 
 bool isOpenBracket(const QStringList &brackets, const QChar &c)
 {
-    for (const auto &b: brackets)
+    for (const auto &b : brackets)
     {
         if (!b.isEmpty() && b[0] == c)
             return true;
@@ -301,7 +300,7 @@ bool isOpenBracket(const QStringList &brackets, const QChar &c)
 
 bool isCloseBracket(const QStringList &brackets, const QChar &c)
 {
-    for (const auto &b: brackets)
+    for (const auto &b : brackets)
     {
         if (b.length() > 1 && b[1] == c)
             return true;
@@ -317,7 +316,7 @@ QString Logging::indentString(const QString &string, const QStringList &indentBr
     QChar current{'\0'};
     int indent = 0;
 
-    for(int i = 0; i < string.length(); ++i)
+    for (int i = 0; i < string.length(); ++i)
     {
         current = string[i];
 
@@ -328,25 +327,25 @@ QString Logging::indentString(const QString &string, const QStringList &indentBr
         }
         else
         {
-            switch(current.toLatin1())
+            switch (current.toLatin1())
             {
             case '\'':
             case '"':
-                quote=current;
+                quote = current;
                 break;
             case ',':
-                result+="\n" + QString(indent, QChar(' '));
+                result += "\n" + QString(indent, QChar(' '));
                 break;
             default:
                 if (isOpenBracket(indentBrackets, current))
                 {
-                    result+="\n" + QString(indent, QChar(' '));
+                    result += "\n" + QString(indent, QChar(' '));
                     indent++;
                 }
                 else if (isCloseBracket(indentBrackets, current))
                 {
                     indent--;
-                    result+="\n" + QString(indent, QChar(' '));
+                    result += "\n" + QString(indent, QChar(' '));
                 }
                 break;
             }
@@ -354,9 +353,9 @@ QString Logging::indentString(const QString &string, const QStringList &indentBr
         if (isOpenBracket(indentBrackets, last))
         {
             if (!isCloseBracket(indentBrackets, current))
-                result+="\n" + QString(indent, QChar(' '));
+                result += "\n" + QString(indent, QChar(' '));
         }
-        result+= QString(current);
+        result += QString(current);
         last = string[i];
     }
     return result;

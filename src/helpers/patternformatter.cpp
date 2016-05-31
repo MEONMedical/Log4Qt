@@ -305,7 +305,7 @@ PatternFormatter::PatternFormatter(const QString &rPattern) :
 
 PatternFormatter::~PatternFormatter()
 {
-    for(auto p_converter : mPatternConverters)
+    for (auto p_converter : mPatternConverters)
         delete p_converter;
 }
 
@@ -313,7 +313,7 @@ PatternFormatter::~PatternFormatter()
 QString PatternFormatter::format(const LoggingEvent &rLoggingEvent) const
 {
     QString result;
-    for(auto p_converter : mPatternConverters)
+    for (auto p_converter : mPatternConverters)
         p_converter->format(result, rLoggingEvent);
     return result;
 }
@@ -358,25 +358,15 @@ void PatternFormatter::createConverter(const QChar &rChar,
     {
         QString option = rOption;
         if (rOption.isEmpty())
-        {
             option = QLatin1String("ISO8601");
-        }
         else if (rOption == "locale:long")
-        {
             option = QLocale().dateTimeFormat(QLocale::LongFormat);
-        }
         else if (rOption == "locale:short")
-        {
             option = QLocale().dateTimeFormat(QLocale::ShortFormat);
-        }
         else if (rOption == "locale:narrow")
-        {
             option = QLocale().dateTimeFormat(QLocale::NarrowFormat);
-        }
         else if (rOption == "locale")
-        {
             option = QLocale().dateTimeFormat(QLocale::ShortFormat);
-        }
         mPatternConverters << new DatePatternConverter(rFormattingInfo,
                            option);
         break;

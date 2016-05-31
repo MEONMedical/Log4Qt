@@ -82,11 +82,11 @@ public:
     QString levelColumn() const;
     QString messageColumn() const;
 
-    void setTimeStampColumn(const QString& columnName);
-    void setLoggerNameColumn(const QString& columnName);
-    void setThreadNameColumn(const QString& columnName);
-    void setLevelColumn(const QString& columnName);
-    void setMessageColumn(const QString& columnName);
+    void setTimeStampColumn(const QString &columnName);
+    void setLoggerNameColumn(const QString &columnName);
+    void setThreadNameColumn(const QString &columnName);
+    void setLevelColumn(const QString &columnName);
+    void setMessageColumn(const QString &columnName);
 
 protected:
 

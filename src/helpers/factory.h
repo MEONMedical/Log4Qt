@@ -65,26 +65,26 @@ class  LOG4QT_EXPORT Factory
 {
 public:
     /*!
-    	 * Prototype for an Appender factory function. The function creates
-    	 * an Appender object on the heap and returns a pointer to it.
-    	 *
-    	 * \sa registerAppender(), createAppender()
+         * Prototype for an Appender factory function. The function creates
+         * an Appender object on the heap and returns a pointer to it.
+         *
+         * \sa registerAppender(), createAppender()
      */
     typedef Appender *(*AppenderFactoryFunc)();
 
     /*!
-    	 * Prototype for a Filter factory function. The function creates
-    	 * a Filter object on the heap and returns a pointer to it.
-    	 *
-    	 * \sa registerFilter(), createFilter()
+         * Prototype for a Filter factory function. The function creates
+         * a Filter object on the heap and returns a pointer to it.
+         *
+         * \sa registerFilter(), createFilter()
      */
     typedef Filter *(*FilterFactoryFunc)();
 
     /*!
-    	 * Prototype for a Layout factory function. The function creates
-    	 * a Layout object on the heap and returns a pointer to it.
-    	 *
-    	 * \sa registerLayout(), createLayout()
+         * Prototype for a Layout factory function. The function creates
+         * a Layout object on the heap and returns a pointer to it.
+         *
+         * \sa registerLayout(), createLayout()
      */
     typedef Layout *(*LayoutFactoryFunc)();
 

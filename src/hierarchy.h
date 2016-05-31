@@ -78,7 +78,7 @@ private:
 
 private:
     mutable QReadWriteLock mObjectGuard;
-    QHash<QString, Logger*> mLoggers;
+    QHash<QString, Logger *> mLoggers;
     Level mThreshold;
     Logger *mpRootLogger;
 };

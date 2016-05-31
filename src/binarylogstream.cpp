@@ -8,7 +8,8 @@
 namespace Log4Qt
 {
 
-struct BinaryLogStream::Stream {
+struct BinaryLogStream::Stream
+{
     Stream(const Logger *iLogger, Level iLevel)
         : logger(iLogger)
         , level(iLevel)

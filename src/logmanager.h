@@ -103,7 +103,7 @@ public:
     static Logger *qtLogger();
 
     static Logger *rootLogger();
-    static QList<Logger*> loggers();
+    static QList<Logger *> loggers();
     static Level threshold();
     static void setThreshold(Level level);
 
@@ -236,7 +236,7 @@ public:
      *     \ref Log4Qt::LOG4QT_VERSION_STR "LOG4QT_VERSION_STR"
 
      */
-    static const char* version();
+    static const char *version();
 
 private:
     void doSetHandleQtMessages(bool handleQtMessages);
@@ -244,7 +244,7 @@ private:
     void doStartup();
     void welcome();
 
-    static void qtMessageHandler(QtMsgType type, const QMessageLogContext &, const QString & pMessage);
+    static void qtMessageHandler(QtMsgType type, const QMessageLogContext &, const QString &pMessage);
 
 private:
     mutable QMutex mObjectGuard;

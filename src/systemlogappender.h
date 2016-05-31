@@ -56,7 +56,7 @@ public:
 
     bool requiresLayout() const Q_DECL_OVERRIDE;
     QString serviceName() const;
-    void setServiceName(const QString& serviceName);
+    void setServiceName(const QString &serviceName);
 
 protected:
     virtual void append(const Log4Qt::LoggingEvent &rEvent) Q_DECL_OVERRIDE;

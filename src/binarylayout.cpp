@@ -30,8 +30,8 @@ QString BinaryLayout::contentType() const
 QDebug BinaryLayout::debug(QDebug &rDebug) const
 {
     rDebug.nospace() << "BinaryLayout("
-        << "name:" << name() << " "
-        << ")";
+                     << "name:" << name() << " "
+                     << ")";
     return rDebug.space();
 }
 #endif // QT_NO_DEBUG_STREAM

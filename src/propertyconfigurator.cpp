@@ -245,7 +245,7 @@ void PropertyConfigurator::configureNonRootElements(const Properties &rPropertie
     // - Parse logger additivity
 
     QStringList keys = rProperties.propertyNames();
-    for(const auto & key : keys)
+    for (const auto &key : keys)
     {
         QString java_name;
         if (key.startsWith(logger_prefix))
@@ -452,7 +452,7 @@ void PropertyConfigurator::parseLogger(const Properties &rProperties,
     if (!value.isEmpty())
     {
         Level level;
-        if (value.compare(keyword_inherited,Qt::CaseInsensitive) == 0)
+        if (value.compare(keyword_inherited, Qt::CaseInsensitive) == 0)
             level = Level::NULL_INT;
         else
             level = OptionConverter::toLevel(value, Level::DEBUG_INT);
@@ -467,10 +467,10 @@ void PropertyConfigurator::parseLogger(const Properties &rProperties,
     }
 
     pLogger->removeAllAppenders();
-    while(i.hasNext())
+    while (i.hasNext())
     {
         value = i.next().trimmed();
-        if(value.isEmpty())
+        if (value.isEmpty())
             continue;
         AppenderSharedPtr p_appender = parseAppender(rProperties, value);
         if (p_appender)
@@ -498,7 +498,7 @@ void PropertyConfigurator::setProperties(const Properties &rProperties,
                     rPrefix);
 
     QStringList keys = rProperties.propertyNames();
-    for(const auto & key : keys)
+    for (const auto &key : keys)
     {
         if (!key.startsWith(rPrefix))
             continue;
@@ -517,7 +517,7 @@ void PropertyConfigurator::startCaptureErrors()
 {
     Q_ASSERT_X(!mpConfigureErrors, "PropertyConfigurator::startCaptureErrors()", "mpConfigureErrors must be empty.");
 
-    ListAppender * listAppender = new ListAppender();
+    ListAppender *listAppender = new ListAppender();
     mpConfigureErrors.reset(listAppender);
     listAppender->setName(QLatin1String("PropertyConfigurator"));
     listAppender->setConfiguratorList(true);
@@ -528,7 +528,7 @@ void PropertyConfigurator::startCaptureErrors()
 bool PropertyConfigurator::stopCaptureErrors()
 {
     Q_ASSERT_X(mpConfigureErrors, "PropertyConfigurator::stopCaptureErrors()", "mpConfigureErrors must not be empty.");
-    ListAppender * listAppender = static_cast<ListAppender*>(mpConfigureErrors.data());
+    ListAppender *listAppender = static_cast<ListAppender *>(mpConfigureErrors.data());
     LogManager::logLogger()->removeAppender(mpConfigureErrors);
     ConfiguratorHelper::setConfigureError(listAppender->list());
     bool result = (listAppender->list().count() == 0);

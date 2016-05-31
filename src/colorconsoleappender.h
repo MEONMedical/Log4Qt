@@ -80,7 +80,7 @@ public:
 
     virtual void close() Q_DECL_OVERRIDE;
 protected:
-    virtual void append(const LoggingEvent& rEvent) Q_DECL_OVERRIDE;
+    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 private:
     HANDLE hConsole;
 #endif

@@ -18,7 +18,7 @@ Logger *Appender::logger() const
 }
 
 #ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug,const Appender &rAppender)
+QDebug operator<<(QDebug debug, const Appender &rAppender)
 {
     return rAppender.debug(debug);
 }

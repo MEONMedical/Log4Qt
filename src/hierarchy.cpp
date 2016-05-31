@@ -6,9 +6,9 @@
  * author:      Martin Heinrich
  *
  *
- * changes:		Sep 2008, Martin Heinrich:
- * 				- Fixed problem in Qt 4.4 where QReadWriteLock is by default
- *  			  non-recursive.
+ * changes:     Sep 2008, Martin Heinrich:
+ *              - Fixed problem in Qt 4.4 where QReadWriteLock is by default
+ *                non-recursive.
  *
  *
  * Copyright 2007 - 2008 Martin Heinrich
@@ -102,7 +102,7 @@ void Hierarchy::resetConfiguration()
     Logger *p_qt_logger = logger(QLatin1String("Qt"));
     Logger *p_root_logger = rootLogger();
 
-    for(auto p_logger : mLoggers)
+    for (auto p_logger : mLoggers)
     {
         if ((p_logger == p_logging_logger) || (p_logger == p_qt_logger) || (p_logger == p_root_logger))
             continue;
@@ -160,7 +160,7 @@ Logger *Hierarchy::createLogger(const QString &orgName)
     }
     QString parent_name;
     int index = rName.lastIndexOf(name_separator);
-    if (index >=0)
+    if (index >= 0)
         parent_name = rName.left(index);
 
     if (needBinaryLogger)

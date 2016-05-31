@@ -1,6 +1,6 @@
 /******************************************************************************
  *
- * package:			Log4Qt
+ * package:         Log4Qt
  * file:        databaseappender.h
  * created:     Marth 2010
  * author:      Michael Filonenko
@@ -64,9 +64,9 @@ public:
     DatabaseAppender(LayoutSharedPtr pLayout,
                      QObject *pParent = Q_NULLPTR);
     DatabaseAppender(LayoutSharedPtr pLayout
-                     ,const QString& tableName
-                     ,const QString& connection = QSqlDatabase::defaultConnection
-                             ,QObject *pParent = Q_NULLPTR);
+                     , const QString &tableName
+                     , const QString &connection = QSqlDatabase::defaultConnection
+                             , QObject *pParent = Q_NULLPTR);
     virtual ~DatabaseAppender();
 
 private:
@@ -78,8 +78,8 @@ public:
     QString connection() const;
     QString table() const;
 
-    void setConnection(const QString& connection);
-    void setTable(const QString& table);
+    void setConnection(const QString &connection);
+    void setTable(const QString &table);
 
     virtual void activateOptions() Q_DECL_OVERRIDE;
 
@@ -118,7 +118,7 @@ protected:
      *                 referencecount:1 threshold:"NULL"
      *                 writer:0x0)
      * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender	)
+     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender   )
      */
     virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
 #endif // QT_NO_DEBUG_STREAM

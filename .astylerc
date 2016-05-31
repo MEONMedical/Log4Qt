@@ -1,0 +1,19 @@
+# brace style
+--style=allman
+--remove-brackets
+
+# indent style
+--indent=spaces=4
+
+# padding options
+--align-pointer=name
+--align-reference=name
+--pad-header
+--pad-oper
+
+# formating options
+--keep-one-line-blocks
+--close-templates
+--convert-tabs
+
+

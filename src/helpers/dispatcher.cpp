@@ -36,11 +36,11 @@ Dispatcher::Dispatcher(QObject *parent) : QObject(parent)
     , mpAsyncAppender(Q_NULLPTR)
 {}
 
-void Dispatcher::customEvent(QEvent* event)
+void Dispatcher::customEvent(QEvent *event)
 {
     if (event->type() == LoggingEvent::eventId)
     {
-        LoggingEvent *logEvent = static_cast<LoggingEvent*>(event);
+        LoggingEvent *logEvent = static_cast<LoggingEvent *>(event);
         if (mpAsyncAppender)
             mpAsyncAppender->callAppenders(*logEvent);
     }

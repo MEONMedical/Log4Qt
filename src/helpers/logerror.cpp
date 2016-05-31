@@ -79,7 +79,7 @@ LogError::LogError(const char *pMessage,
     mArgs(),
     mCausingErrors()
 {
-    switch(encoding)
+    switch (encoding)
     {
     case LATIN1:
         mMessage = QString::fromLatin1(pMessage);
@@ -214,7 +214,7 @@ QString LogError::insertArgs(const QString &rMessage) const
     */
 
     result = rMessage;
-    for (const auto & arg : mArgs)
+    for (const auto &arg : mArgs)
         result = result.arg(arg.toString());
     return result;
 }

@@ -219,7 +219,7 @@ void DailyRollingFileAppender::computeRollOverTime()
         start = QDateTime(now_date,
                           QTime(now_time.hour(),
                                 0, 0, 0));
-        mRollOverTime = start.addSecs(60*60);
+        mRollOverTime = start.addSecs(60 * 60);
     }
     break;
     case HALFDAILY_ROLLOVER:
@@ -231,7 +231,7 @@ void DailyRollingFileAppender::computeRollOverTime()
             hour = 0;
         start = QDateTime(now_date,
                           QTime(hour, 0, 0, 0));
-        mRollOverTime = start.addSecs(60*60*12);
+        mRollOverTime = start.addSecs(60 * 60 * 12);
     }
     break;
     case DAILY_ROLLOVER:

@@ -71,13 +71,13 @@ public:
     Level level() const;
 
 public slots:
-    void setName(const QString & name);
+    void setName(const QString &name);
     void setContext(const QString &context);
     void setLevel(Level level);
 
 signals:
-    void nameChanged(const QString & name);
-    void contextChanged(const QString & context);
+    void nameChanged(const QString &name);
+    void contextChanged(const QString &context);
     void levelChanged(Level level);
 
 private:
@@ -92,7 +92,7 @@ private:
 }
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 5, 0)
-    Q_DECLARE_METATYPE(Log4Qt::QmlLogger::Level)
+Q_DECLARE_METATYPE(Log4Qt::QmlLogger::Level)
 #endif
 
 #endif // LOG4QT_QMLLOGGER_H

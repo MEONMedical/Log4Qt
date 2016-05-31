@@ -14,7 +14,7 @@ BinaryWriterAppender::BinaryWriterAppender(QObject *pParent) :
 }
 
 BinaryWriterAppender::BinaryWriterAppender(QDataStream *pDataStream,
-                               QObject *pParent) :
+        QObject *pParent) :
     AppenderSkeleton(false, pParent),
     mpWriter(pDataStream)
 {
@@ -71,13 +71,13 @@ bool BinaryWriterAppender::requiresLayout() const
 void BinaryWriterAppender::append(const LoggingEvent &rEvent)
 {
     if (const BinaryLoggingEvent *binEvent = dynamic_cast<const BinaryLoggingEvent *>(&rEvent))
-        *mpWriter << binEvent->binaryMessage();
+        * mpWriter << binEvent->binaryMessage();
     else
     {
         if (LayoutSharedPtr l = layout())
         {
-            if (BinaryLayout *bl = qobject_cast<BinaryLayout*>(l.data()))
-                *mpWriter << bl->binaryFormat(*binEvent);
+            if (BinaryLayout *bl = qobject_cast<BinaryLayout *>(l.data()))
+                * mpWriter << bl->binaryFormat(*binEvent);
             else
                 *mpWriter << l->format(rEvent);
         }
@@ -121,14 +121,14 @@ QDebug BinaryWriterAppender::debug(QDebug &rDebug) const
         layout_name = layout()->name();
 
     rDebug.nospace() << "BinaryWriterAppender("
-        << "name:" << name() << " "
-        << "filter:" << firstFilter()
-        << "isactive:" << isActive()
-        << "isclosed:" << isClosed()
-        << "layout:" << layout_name
-        << "threshold:" << threshold().toString()
-        << "writer:" << writer()
-        << ")";
+                     << "name:" << name() << " "
+                     << "filter:" << firstFilter()
+                     << "isactive:" << isActive()
+                     << "isclosed:" << isClosed()
+                     << "layout:" << layout_name
+                     << "threshold:" << threshold().toString()
+                     << "writer:" << writer()
+                     << ")";
     return rDebug.space();
 }
 #endif // QT_NO_DEBUG_STREAM

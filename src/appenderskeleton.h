@@ -112,7 +112,7 @@ public:
 
 protected:
     virtual void append(const LoggingEvent &rEvent) = 0;
-    void customEvent(QEvent* event) Q_DECL_OVERRIDE;
+    void customEvent(QEvent *event) Q_DECL_OVERRIDE;
 
     /*!
      * Tests if all entry conditions for using append() in this class are

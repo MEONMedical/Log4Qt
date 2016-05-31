@@ -42,7 +42,7 @@ class Logger;
 class LOG4QT_EXPORT LogStream
 {
 public:
-    LogStream(const Logger& iLogger, Level iLevel);
+    LogStream(const Logger &iLogger, Level iLevel);
 
     template<typename T>
     LogStream &operator<<(const T &t)
@@ -51,7 +51,7 @@ public:
         return *this;
     }
 
-private:    
+private:
     struct Stream
     {
         Stream(const Logger *iLogger, Level iLevel);

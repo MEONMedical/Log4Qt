@@ -102,9 +102,9 @@ private:
 #ifndef QT_NO_DATASTREAM
     // Needs to be friend to stream objects
     friend LOG4QT_EXPORT QDataStream &operator<<(QDataStream &rStream,
-                                   const LoggingEvent &rLoggingEvent);
+            const LoggingEvent &rLoggingEvent);
     friend LOG4QT_EXPORT QDataStream &operator>>(QDataStream &rStream,
-                                   LoggingEvent &rLoggingEvent);
+            LoggingEvent &rLoggingEvent);
 #endif // QT_NO_DATASTREAM
 };
 
@@ -116,7 +116,7 @@ private:
  * and returns a reference to the stream.
  */
 LOG4QT_EXPORT QDataStream &operator<<(QDataStream &rStream,
-                        const LoggingEvent &rLoggingEvent);
+                                      const LoggingEvent &rLoggingEvent);
 
 /*!
  * \relates LoggingEvent
@@ -125,7 +125,7 @@ LOG4QT_EXPORT QDataStream &operator<<(QDataStream &rStream,
  * error \a rLoggingEvent, and returns a reference to the stream.
  */
 LOG4QT_EXPORT QDataStream &operator>>(QDataStream &rStream,
-                        LoggingEvent &rLoggingEvent);
+                                      LoggingEvent &rLoggingEvent);
 #endif // QT_NO_DATASTREAM
 
 #ifndef QT_NO_DEBUG_STREAM

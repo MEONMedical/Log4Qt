@@ -6,8 +6,8 @@
  * author:      Martin Heinrich
  *
  *
- * changes:		Sep 2008, Martin Heinrich:
- * 				- Resolved compilation problem with Microsoft Visual Studio 2005
+ * changes:     Sep 2008, Martin Heinrich:
+ *              - Resolved compilation problem with Microsoft Visual Studio 2005
  *              Feb 2009, Martin Heinrich
  *              - Fixed VS 2008 unreferenced formal parameter warning by using
  *                Q_UNUSED in operator<<.
@@ -78,7 +78,7 @@ Logger *LogManager::rootLogger()
 }
 
 
-QList<Logger*> LogManager::loggers()
+QList<Logger *> LogManager::loggers()
 {
     return instance()->mpLoggerRepository->loggers();
 }
@@ -139,7 +139,7 @@ void LogManager::resetConfiguration()
 }
 
 
-const char* LogManager::version()
+const char *LogManager::version()
 {
     return LOG4QT_VERSION_STR;
 }
@@ -184,7 +184,7 @@ void LogManager::doConfigureLogLogger()
     // Common layout
     LayoutSharedPtr p_layout(new TTCCLayout());
     p_layout->setName(QLatin1String("LogLog TTCC"));
-    static_cast<TTCCLayout*>(p_layout.data())->setContextPrinting(false);
+    static_cast<TTCCLayout *>(p_layout.data())->setContextPrinting(false);
     p_layout->activateOptions();
 
     // Common deny all filter
@@ -306,7 +306,7 @@ void LogManager::welcome()
     if (static_logger()->isTraceEnabled())
     {
         static_logger()->trace("Settings from the system environment:");
-        for(const auto & entry : InitialisationHelper::environmentSettings().keys())
+        for (const auto &entry : InitialisationHelper::environmentSettings().keys())
             static_logger()->trace("    %1: '%2'",
                                    entry,
                                    InitialisationHelper::environmentSettings().value(entry));
@@ -319,13 +319,13 @@ void LogManager::welcome()
             static_logger()->trace("    %1:", log4qt_group);
             QSettings s;
             s.beginGroup(log4qt_group);
-            for(const auto & entry : s.childKeys())
+            for (const auto &entry : s.childKeys())
                 static_logger()->trace("        %1: '%2'",
                                        entry,
                                        s.value(entry).toString());
             static_logger()->trace("    %1/%2:", log4qt_group, properties_group);
             s.beginGroup(properties_group);
-            for(const auto & entry : s.childKeys())
+            for (const auto &entry : s.childKeys())
                 static_logger()->trace("        %1: '%2'",
                                        entry,
                                        s.value(entry).toString());
@@ -335,7 +335,7 @@ void LogManager::welcome()
     }
 }
 
-void LogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &, const QString & pMessage)
+void LogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &, const QString &pMessage)
 {
     Level level;
     switch (type)

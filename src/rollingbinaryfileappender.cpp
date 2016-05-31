@@ -13,7 +13,7 @@ namespace Log4Qt
 RollingBinaryFileAppender::RollingBinaryFileAppender(QObject *parent)
     : BinaryFileAppender(parent)
     , mMaxBackupIndex(1)
-    , mMaximumFileSize(10*1024*1024)
+    , mMaximumFileSize(10 * 1024 * 1024)
     , mFrequency(DAILY_ROLLOVER)
 {
     setDatePattern(DAILY_ROLLOVER);
@@ -51,7 +51,7 @@ void RollingBinaryFileAppender::computeFrequency()
     else
     {
         LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("The pattern '%1' does not specify a frequency for appender '%2'"),
-                                                                             APPENDER_INVALID_PATTERN_ERROR);
+                                         APPENDER_INVALID_PATTERN_ERROR);
         e << mDatePattern << name();
         logger()->error(e);
         return;
@@ -99,7 +99,7 @@ void RollingBinaryFileAppender::rollOverSize()
     // now move all lower files one step up, e.g. file.log.9 --> file.log.10, file.log.8 --> file.log.9, ..., file.log.1 --> file.log.2
     QString target_file_name;
     int i;
-    for (i = mMaxBackupIndex - 1; i >=1; i--)
+    for (i = mMaxBackupIndex - 1; i >= 1; i--)
     {
         f.setFileName(file() + QLatin1Char('.') + QString::number(i));
         if (f.exists())
@@ -187,34 +187,34 @@ void RollingBinaryFileAppender::computeRollOverTime()
         break;
     case HOURLY_ROLLOVER:
         start = QDateTime(now_date, QTime(now_time.hour(), 0, 0, 0));
-        mRollOverTime = start.addSecs(60*60);
+        mRollOverTime = start.addSecs(60 * 60);
         break;
     case HALFDAILY_ROLLOVER:
-        {
-            int hour = now_time.hour();
-            if (hour >=  12)
-                hour = 12;
-            else
-                hour = 0;
-            start = QDateTime(now_date, QTime(hour, 0, 0, 0));
-            mRollOverTime = start.addSecs(60*60*12);
-        }
-        break;
+    {
+        int hour = now_time.hour();
+        if (hour >=  12)
+            hour = 12;
+        else
+            hour = 0;
+        start = QDateTime(now_date, QTime(hour, 0, 0, 0));
+        mRollOverTime = start.addSecs(60 * 60 * 12);
+    }
+    break;
     case DAILY_ROLLOVER:
         start = QDateTime(now_date, QTime(0, 0, 0, 0));
         mRollOverTime = start.addDays(1);
         break;
     case WEEKLY_ROLLOVER:
-        {
-            // QT numbers the week days 1..7. The week starts on Monday.
-            // Change it to being numbered 0..6, starting with Sunday.
-            int day = now_date.dayOfWeek();
-            if (day == Qt::Sunday)
-                day = 0;
-            start = QDateTime(now_date, QTime(0, 0, 0, 0)).addDays(-1 * day);
-            mRollOverTime = start.addDays(7);
-        }
-        break;
+    {
+        // QT numbers the week days 1..7. The week starts on Monday.
+        // Change it to being numbered 0..6, starting with Sunday.
+        int day = now_date.dayOfWeek();
+        if (day == Qt::Sunday)
+            day = 0;
+        start = QDateTime(now_date, QTime(0, 0, 0, 0)).addDays(-1 * day);
+        mRollOverTime = start.addDays(7);
+    }
+    break;
     case MONTHLY_ROLLOVER:
         start = QDateTime(QDate(now_date.year(), now_date.month(), 1), QTime(0, 0, 0, 0));
         mRollOverTime = start.addMonths(1);
@@ -227,14 +227,14 @@ void RollingBinaryFileAppender::computeRollOverTime()
 
     mRollOverSuffix = static_cast<DateTime>(start).toString(mActiveDatePattern);
     Q_ASSERT_X(static_cast<DateTime>(now).toString(mActiveDatePattern) == mRollOverSuffix,
-                         "BinaryFileAppender::computeRollOverTime()", "File name changes within interval");
+               "BinaryFileAppender::computeRollOverTime()", "File name changes within interval");
     Q_ASSERT_X(mRollOverSuffix != static_cast<DateTime>(mRollOverTime).toString(mActiveDatePattern),
-                         "BinaryFileAppender::computeRollOverTime()", "File name does not change with rollover");
+               "BinaryFileAppender::computeRollOverTime()", "File name does not change with rollover");
 
     logger()->trace("Computing roll over time from %1: The interval start time is %2. The roll over time is %3",
-                                    now.toString(),
-                                    start.toString(),
-                                    mRollOverTime.toString());
+                    now.toString(),
+                    start.toString(),
+                    mRollOverTime.toString());
 }
 
 
@@ -249,26 +249,26 @@ QDebug RollingBinaryFileAppender::debug(QDebug &rDebug) const
 {
     QString layout_name;
     if (layout())
-            layout_name = layout()->name();
+        layout_name = layout()->name();
 
     rDebug.nospace() << "RollingBinaryFileAppender("
-            << "name:" << name() << " "
-            << "activedatepattern:" << mActiveDatePattern << " "
-            << "appendfile:" << appendFile() << " "
-            << "bufferedio:" << bufferedIo() << " "
-            << "datepattern:" << datePattern() << " "
-            << "file:" << file() << " "
-            << "filter:" << firstFilter() << " "
-            << "frequency:" << frequencyToString() << " "
-            << "isactive:" << isActive() << " "
-            << "isclosed:" << isClosed() << " "
-            << "layout:" << layout_name << " "
-            << "maxbackupindex:" << maxBackupIndex() << " "
-            << "maximumfilesize:" << maximumFileSize() << " "
-            << "rollovertime:" << mRollOverTime << " "
-            << "threshold:" << threshold().toString() << " "
-            << "writer:" << writer()
-            << ")";
+                     << "name:" << name() << " "
+                     << "activedatepattern:" << mActiveDatePattern << " "
+                     << "appendfile:" << appendFile() << " "
+                     << "bufferedio:" << bufferedIo() << " "
+                     << "datepattern:" << datePattern() << " "
+                     << "file:" << file() << " "
+                     << "filter:" << firstFilter() << " "
+                     << "frequency:" << frequencyToString() << " "
+                     << "isactive:" << isActive() << " "
+                     << "isclosed:" << isClosed() << " "
+                     << "layout:" << layout_name << " "
+                     << "maxbackupindex:" << maxBackupIndex() << " "
+                     << "maximumfilesize:" << maximumFileSize() << " "
+                     << "rollovertime:" << mRollOverTime << " "
+                     << "threshold:" << threshold().toString() << " "
+                     << "writer:" << writer()
+                     << ")";
     return rDebug.space();
 }
 #endif // QT_NO_DEBUG_STREAM

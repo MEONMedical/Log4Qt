@@ -109,7 +109,7 @@ protected:
      *
      * \sa Logger::logger(const char *pName)
      */
-    Logger* logger() const;
+    Logger *logger() const;
 
 private:
     Q_DISABLE_COPY(Appender)
@@ -120,7 +120,7 @@ private:
 class LOG4QT_EXPORT AppenderSharedPtr : public QSharedPointer<Appender>
 {
 public:
-    AppenderSharedPtr(Appender * ptr)
+    AppenderSharedPtr(Appender *ptr)
         : QSharedPointer<Appender>(ptr, &Appender::deleteLater)
     {}
 
