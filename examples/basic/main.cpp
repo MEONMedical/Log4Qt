@@ -94,6 +94,7 @@ void setupRootLogger(const QString &introMessage)
     // Create a file appender
     Log4Qt::FileAppender *fileAppender = new Log4Qt::FileAppender(layout, QCoreApplication::applicationDirPath() + "/basic.log", true);
     fileAppender->setName(QLatin1String("My file appender"));
+    fileAppender->activateOptions();
     // Add appender on root logger
     logger->addAppender(fileAppender);
 
