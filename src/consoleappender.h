@@ -67,7 +67,12 @@ public:
         /*! The output target is standard error. */
         STDERR_TARGET
     };
-    Q_ENUMS(Target)
+    #if QT_VERSION < QT_VERSION_CHECK(5, 5, 0)
+        Q_ENUMS(Target)
+    #else
+        Q_ENUM(Target)
+    #endif
+
 
     ConsoleAppender(QObject *pParent = Q_NULLPTR);
     ConsoleAppender(LayoutSharedPtr pLayout,

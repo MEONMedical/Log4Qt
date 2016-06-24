@@ -77,7 +77,12 @@ public:
          */
         TTCC_CONVERSION_PATTERN
     };
+#if QT_VERSION < QT_VERSION_CHECK(5, 5, 0)
     Q_ENUMS(ConversionPattern)
+#else
+    Q_ENUM(ConversionPattern)
+#endif
+
 
     PatternLayout(QObject *pParent = Q_NULLPTR);
     PatternLayout(const QString &rPattern,

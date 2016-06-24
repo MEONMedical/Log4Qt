@@ -53,7 +53,7 @@ public:
 #if QT_VERSION < QT_VERSION_CHECK(5, 5, 0)
     Q_ENUMS(Level)
 #else
-    Q_ENUMS(Level)
+    Q_ENUM(Level)
 #endif
 
     explicit QmlLogger(QObject *parent = nullptr);

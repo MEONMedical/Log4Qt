@@ -134,7 +134,6 @@ public:
         /*! UTF-8 */
         UNICODEUTF8
     };
-    //Q_ENUMS(Encoding)
 
     /*!
     * Creates an empty error. The error code is set to 0 and all other
