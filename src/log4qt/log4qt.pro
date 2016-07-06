@@ -1,5 +1,5 @@
 QT += core xml network
-include(Log4Qt.pri)
+include(log4qt.pri)
 include(../g++.pri)
 
 CONFIG += c++11 \
