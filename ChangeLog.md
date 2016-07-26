@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [v1.3.0] -
 
 ### Added
+- Changed directory layout
 - Wrapper logger object for logging from Qml (QmlLogger)
 - Appender for windows debug console (OutputDebugString)
 - continuous integration windows - appveyor ci config files

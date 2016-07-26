@@ -1,6 +1,6 @@
 QT += core xml network
 include(log4qt.pri)
-include(../g++.pri)
+include(../../g++.pri)
 
 CONFIG += c++11 \
           hide_symbols
