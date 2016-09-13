@@ -37,6 +37,8 @@
 #include <QMutex>
 #include <QSettings>
 #include <QStringList>
+#include <QFileInfo>
+
 #include "consoleappender.h"
 #include "helpers/datetime.h"
 #include "helpers/initialisationhelper.h"
@@ -46,7 +48,7 @@
 #include "ttcclayout.h"
 #include "varia/denyallfilter.h"
 #include "varia/levelrangefilter.h"
-
+#include "configuratorhelper.h"
 
 namespace Log4Qt
 {
@@ -59,6 +61,7 @@ LogManager::LogManager() :
     mObjectGuard(QMutex::Recursive), // Recursive for doStartup() to call doConfigureLogLogger()
     mpLoggerRepository(new Hierarchy()),
     mHandleQtMessages(false),
+    mWatchThisFile(false),
     mQtMsgHandler(Q_NULLPTR)
 {
 }
@@ -171,6 +174,17 @@ void LogManager::doSetHandleQtMessages(bool handleQtMessages)
     }
 }
 
+void LogManager::doSetWatchThisFile(bool watchThisFile)
+{
+    QMutexLocker locker(&mObjectGuard);
+
+    if (instance()->mWatchThisFile == watchThisFile)
+        return;
+
+    instance()->mWatchThisFile = watchThisFile;
+    static_logger()->trace("%1able watching the current properties file", watchThisFile ? "En" : "Dis");
+}
+
 
 void LogManager::doConfigureLogLogger()
 {
@@ -217,6 +231,17 @@ void LogManager::doConfigureLogLogger()
     logLogger()->addAppender(AppenderSharedPtr(p_appender));
 }
 
+/*!
+ * \brief LogManager::doStartup
+ *
+ * 1. If "DefaultInitOverride" or LOG4QT_DEFAULTINITOVERRIDE is not "false" then the initialization is skipped.
+ * 2. If the file from "Configuration" or from LOG4QT_CONFIGURATION exists this file is used
+ * 3. Check Settings from [Log4Qt/Properties] exists the configdata from there is used
+ * 4. Check if <application binaryname>.log4qt.properties exists this file is used
+ * 5. Check if <application binaryname.exe.log4qt.properties exists this file is used
+ * 6. Check if "log4qt.properties" exists in the executables path
+ * 7. Check if "log4qt.properties" exists in the current working directory
+ */
 void LogManager::doStartup()
 {
     QMutexLocker locker(&instance()->mObjectGuard);
@@ -240,8 +265,11 @@ void LogManager::doStartup()
         return;
     }
 
+    const QString default_file(QLatin1String("log4qt.properties"));
+    QStringList filesToCheck;
+
     // Configuration using setting
-    if (QCoreApplication::instance())
+    if (auto app = QCoreApplication::instance())
     {
         const QLatin1String log4qt_group("Log4Qt");
         const QLatin1String properties_group("Properties");
@@ -255,15 +283,33 @@ void LogManager::doStartup()
             PropertyConfigurator::configure(s);
             return;
         }
+
+        // Configuration using executable file name + .log4qt.properties
+        auto binConfigFile = app->applicationFilePath() + "." + default_file;
+
+        filesToCheck << binConfigFile;
+        if (binConfigFile.contains(".exe.", Qt::CaseInsensitive))
+        {
+            binConfigFile.replace(".exe.", ".", Qt::CaseInsensitive);
+            filesToCheck << binConfigFile;
+        }
+
+        filesToCheck << QFileInfo(app->applicationFilePath()).path() + "/" + default_file;
     }
 
-    // Configuration using default file
-    const QString default_file(QLatin1String("log4qt.properties"));
-    if (QFile::exists(default_file))
+    filesToCheck << default_file;
+
+    for (const auto &rConfigFileName: filesToCheck)
     {
-        static_logger()->debug("Default initialisation configures from default file '%1'", default_file);
-        PropertyConfigurator::configure(default_file);
-        return;
+        // Configuration using default file
+        if (QFile::exists(rConfigFileName))
+        {
+            static_logger()->debug("Default initialisation configures from default file '%1'", rConfigFileName);
+            PropertyConfigurator::configure(rConfigFileName);
+            if (mWatchThisFile)
+               ConfiguratorHelper::setConfigurationFile(rConfigFileName, PropertyConfigurator::configure);
+            return;
+        }
     }
 
     static_logger()->debug("Default initialisation leaves package unconfigured");

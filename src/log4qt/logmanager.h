@@ -82,6 +82,13 @@ public:
      */
     static bool handleQtMessages();
 
+    /*!
+     * Returns true, if the current properties file is watched with a QFileWatcher
+     *
+     * \sa setWatchThisFile()
+     */
+    static bool watchThisFile();
+
     static LoggerRepository *loggerRepository();
 
     /*!
@@ -144,6 +151,15 @@ public:
      * \sa handleQtMessages(), qInstallMsgHandler(), qFatal()
      */
     static void setHandleQtMessages(bool handleQtMessages);
+
+    /*!
+     * Enables/disables watching of the current properties file
+     *
+     * The default value is false for not watching the properties file.
+     *
+     * \sa watchThisFile()
+     */
+    static void setWatchThisFile(bool watchThisFile);
 
     /*!
      * Configures the logging for the package to its default behaviour.
@@ -240,6 +256,7 @@ public:
 
 private:
     void doSetHandleQtMessages(bool handleQtMessages);
+    void doSetWatchThisFile(bool watchThisFile);
     void doConfigureLogLogger();
     void doStartup();
     void welcome();
@@ -249,7 +266,7 @@ private:
 private:
     mutable QMutex mObjectGuard;
     LoggerRepository *mpLoggerRepository;
-    bool mHandleQtMessages;
+    bool mHandleQtMessages, mWatchThisFile;
     QtMessageHandler mQtMsgHandler;
     static LogManager *mspInstance;
 };
@@ -283,6 +300,11 @@ inline bool LogManager::handleQtMessages()
     return instance()->mHandleQtMessages;
 }
 
+inline bool LogManager::watchThisFile()
+{
+    return instance()->mWatchThisFile;
+}
+
 inline Logger *LogManager::logLogger()
 {
     return logger(QLatin1String("Log4Qt"));
@@ -296,6 +318,11 @@ inline Logger *LogManager::qtLogger()
 inline void LogManager::setHandleQtMessages(bool handleQtMessages)
 {
     instance()->doSetHandleQtMessages(handleQtMessages);
+}
+
+inline void LogManager::setWatchThisFile(bool watchThisFile)
+{
+    instance()->doSetWatchThisFile(watchThisFile);
 }
 
 inline void LogManager::configureLogLogger()

@@ -10,9 +10,18 @@ All notable changes to this project will be documented in this file.
 - Appender for windows debug console (OutputDebugString)
 - continuous integration windows - appveyor ci config files
 - Changelog
+- New global boolean property for *.properties files	
+    log4j.watchThisFile=[true]|[false]
+    If set to true an file system watcher is installed for the *.properties file
+	and the loggers are automatically reconfigured if this file changes.
 
 ### Improvements
 - Replaced old-c-style casts
+- Searching for *.properties files are extended:
+  1. If <application binaryname.exe.log4qt.properties exists this file is used (Windows only)
+  2. If <application binaryname>.log4qt.properties exists this file is used
+  3. If "log4qt.properties" exists in the executables path this file is used 
+  4. If "log4qt.properties" exists in the current working directory this file is used (the default before)
 
 ### Fixed
 - Minimum required Qt version is 5.3
