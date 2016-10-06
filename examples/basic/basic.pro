@@ -1,4 +1,5 @@
 include(../examples.pri)
+include(../../build.pri)
 
 QT       += core network
 

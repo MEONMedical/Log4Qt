@@ -1,4 +1,6 @@
 include (../g++.pri)
+include (../build.pri)
+
 CONFIG += c++11 \
           testcase
 

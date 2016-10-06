@@ -1,4 +1,5 @@
 include(../examples.pri)
+include(../../build.pri)
 
 QT       += core network
 
@@ -24,3 +25,5 @@ INCLUDEPATH += ../../src/log4qt ../../src/log4qt/helpers ../../src/log4qt/spi ..
 
 DISTFILES += \
     propertyconfigurator.exe.log4qt.properties
+
+
