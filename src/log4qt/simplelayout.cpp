@@ -34,7 +34,10 @@ namespace Log4Qt
 
 QString SimpleLayout::format(const LoggingEvent &rEvent)
 {
-    return rEvent.level().toString() + QLatin1String(" - ") + rEvent.message() + Layout::endOfLine();
+    if (mShowLevel)
+        return rEvent.level().toString() + QLatin1String(" - ") + rEvent.message() + Layout::endOfLine();
+    else
+        return rEvent.message() + Layout::endOfLine();
 }
 
 
@@ -43,6 +46,7 @@ QDebug SimpleLayout::debug(QDebug &rDebug) const
 {
     rDebug.nospace() << "SimpleLayout("
                      << "name:" << name() << " "
+                     << "show level: " << (mShowLevel ? "true " : "false ")
                      << ")";
     return rDebug.space();
 }

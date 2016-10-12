@@ -40,14 +40,19 @@ namespace Log4Qt
 class LOG4QT_EXPORT  SimpleLayout : public Layout
 {
     Q_OBJECT
+    Q_PROPERTY(bool showLevel READ showLevel WRITE setShowLevel)
 
 public:
     SimpleLayout(QObject *pParent = Q_NULLPTR);
     // virtual ~SimpleLayout(); // Use compiler default
 private:
     Q_DISABLE_COPY(SimpleLayout)
+    bool mShowLevel;
 
 public:
+    bool showLevel() const;
+    void setShowLevel(bool show);
+
     virtual QString format(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
 protected:
@@ -66,9 +71,21 @@ protected:
 #endif // QT_NO_DEBUG_STREAM
 };
 
-inline SimpleLayout::SimpleLayout(QObject *pParent) :
-    Layout(pParent)
-{}
+inline SimpleLayout::SimpleLayout(QObject *pParent)
+    : Layout(pParent)
+    , mShowLevel{true}
+{
+}
+
+inline bool SimpleLayout::showLevel() const
+{
+    return mShowLevel;
+}
+
+inline void SimpleLayout::setShowLevel(bool show)
+{
+    mShowLevel = show;
+}
 
 } // namespace Log4Qt
 
