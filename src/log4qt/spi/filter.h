@@ -26,9 +26,9 @@
 #define LOG4QT_FILTER_H
 
 #include "log4qt.h"
+#include "log4qtsharedptr.h"
 
 #include <QObject>
-#include <QSharedPointer>
 
 namespace Log4Qt
 {
@@ -36,14 +36,8 @@ namespace Log4Qt
 class LoggingEvent;
 class Filter;
 
-class LOG4QT_EXPORT FilterSharedPtr : public QSharedPointer<Filter>
-{
-public:
-    FilterSharedPtr(Filter *ptr);
-    FilterSharedPtr();
-    FilterSharedPtr(const QSharedPointer<Filter> &other);
-    FilterSharedPtr(const QWeakPointer<Filter> &other);
-};
+using FilterSharedPtr = Log4QtSharedPtr<Filter>;
+
 /*!
  * \brief The class Filter is the base class for all filters.
  *

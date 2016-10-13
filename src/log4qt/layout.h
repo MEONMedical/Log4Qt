@@ -26,9 +26,9 @@
 #define LOG4QT_LAYOUT_H
 
 #include "log4qt.h"
+#include "log4qtsharedptr.h"
 
 #include <QObject>
-#include <QSharedPointer>
 #include <QDebug>
 
 namespace Log4Qt
@@ -150,24 +150,7 @@ inline void Layout::setName(const QString &rName)
     setObjectName(rName);
 }
 
-class LOG4QT_EXPORT LayoutSharedPtr : public QSharedPointer<Layout>
-{
-public:
-    LayoutSharedPtr(Layout *ptr)
-        : QSharedPointer<Layout>(ptr, &Layout::deleteLater)
-    {}
-
-    LayoutSharedPtr() : QSharedPointer<Layout>()
-    {}
-
-    LayoutSharedPtr(const QSharedPointer<Layout> &other) :
-        QSharedPointer<Layout>(other)
-    {}
-
-    LayoutSharedPtr(const QWeakPointer<Layout> &other) :
-        QSharedPointer<Layout>(other)
-    {}
-};
+using LayoutSharedPtr = Log4QtSharedPtr<Layout>;
 
 } // namespace Log4Qt
 

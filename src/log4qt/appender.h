@@ -27,6 +27,7 @@
 
 #include "spi/filter.h"
 #include "layout.h"
+#include "log4qtsharedptr.h"
 #include "helpers/classlogger.h"
 
 namespace Log4Qt
@@ -117,24 +118,7 @@ private:
 
 };
 
-class LOG4QT_EXPORT AppenderSharedPtr : public QSharedPointer<Appender>
-{
-public:
-    AppenderSharedPtr(Appender *ptr)
-        : QSharedPointer<Appender>(ptr, &Appender::deleteLater)
-    {}
-
-    AppenderSharedPtr() : QSharedPointer<Appender>()
-    {}
-
-    AppenderSharedPtr(const QSharedPointer<Appender> &other) :
-        QSharedPointer<Appender>(other)
-    {}
-
-    AppenderSharedPtr(const QWeakPointer<Appender> &other) :
-        QSharedPointer<Appender>(other)
-    {}
-};
+using AppenderSharedPtr = Log4QtSharedPtr<Appender>;
 
 } // namespace Log4Qt
 

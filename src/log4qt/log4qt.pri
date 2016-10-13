@@ -60,7 +60,8 @@ HEADERS += $$PWD/appender.h \
            $$PWD/rollingbinaryfileappender.h \
            $$PWD/binarylayout.h \
            $$PWD/xmllayout.h \
-    	   $$PWD/qmllogger.h
+    	   $$PWD/qmllogger.h \
+           $$PWD/log4qtsharedptr.h
 
 SOURCES += $$PWD/appender.cpp \
            $$PWD/appenderskeleton.cpp \
