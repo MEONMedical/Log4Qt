@@ -24,8 +24,6 @@
 
 #include "varia/listappender.h"
 
-#include <QDebug>
-
 namespace Log4Qt
 {
 
@@ -73,10 +71,6 @@ QList<LoggingEvent> ListAppender::clearList()
     mList.clear();
     return result;
 }
-
-
-// bool ListAppender::requiresLayout() const;
-
 
 void ListAppender::append(const LoggingEvent &rEvent)
 {

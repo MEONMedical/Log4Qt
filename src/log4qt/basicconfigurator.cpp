@@ -22,18 +22,16 @@
  *
  ******************************************************************************/
 
-
 #include "basicconfigurator.h"
 
-#include <QCoreApplication>
-#include <QDebug>
-#include <QThread>
 #include "consoleappender.h"
 #include "helpers/configuratorhelper.h"
 #include "logmanager.h"
 #include "patternlayout.h"
 #include "varia/listappender.h"
 
+#include <QCoreApplication>
+#include <QThread>
 
 namespace Log4Qt
 {

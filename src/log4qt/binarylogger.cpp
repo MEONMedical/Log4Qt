@@ -3,8 +3,6 @@
 #include "helpers/classlogger.h"
 #include "helpers/datetime.h"
 
-#include <QDebug>
-
 namespace Log4Qt
 {
 

@@ -22,16 +22,13 @@
  *
  ******************************************************************************/
 
-
 #include "consoleappender.h"
 
-#include <QDebug>
-#include <QTextStream>
 #include "helpers/optionconverter.h"
 #include "layout.h"
 #include "loggingevent.h"
 
-
+#include <QTextStream>
 
 namespace Log4Qt
 {

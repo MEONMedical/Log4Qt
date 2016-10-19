@@ -26,9 +26,9 @@
 #include "loggingevent.h"
 #include "helpers/dispatcher.h"
 
-#include <QDebug>
 #include <QCoreApplication>
 #include <QReadLocker>
+#include <QThread>
 
 namespace Log4Qt
 {

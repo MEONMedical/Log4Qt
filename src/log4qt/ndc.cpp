@@ -29,11 +29,11 @@
 
 #include "ndc.h"
 
-#include <QDebug>
-#include <QMutex>
-#include <QThread>
 #include "helpers/initialisationhelper.h"
 #include "logger.h"
+
+#include <QMutex>
+#include <QThread>
 
 namespace Log4Qt
 {

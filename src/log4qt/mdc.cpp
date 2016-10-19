@@ -29,7 +29,6 @@
 
 #include "mdc.h"
 
-#include <QDebug>
 #include <QMutex>
 #include <QThread>
 #include "helpers/initialisationhelper.h"

@@ -22,12 +22,9 @@
  *
  ******************************************************************************/
 
-
 #include "helpers/appenderattachable.h"
 #include "varia/listappender.h"
 #include "appender.h"
-
-#include <QDebug>
 
 namespace Log4Qt
 {

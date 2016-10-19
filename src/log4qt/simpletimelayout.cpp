@@ -25,7 +25,6 @@
 
 #include "simpletimelayout.h"
 
-#include <QDebug>
 #include "loggingevent.h"
 #include "helpers/datetime.h"
 

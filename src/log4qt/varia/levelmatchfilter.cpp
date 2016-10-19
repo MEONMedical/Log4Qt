@@ -24,9 +24,7 @@
 
 #include "varia/levelmatchfilter.h"
 
-#include <QDebug>
 #include "loggingevent.h"
-
 
 namespace Log4Qt
 {

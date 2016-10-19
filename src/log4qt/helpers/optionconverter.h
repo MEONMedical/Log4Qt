@@ -26,7 +26,6 @@
 #define LOG4QT_OPTIONCONVERTER_H
 
 #include "log4qtshared.h"
-
 #include "level.h"
 
 #include <QString>

@@ -24,9 +24,6 @@
 
 #include "varia/debugappender.h"
 
-#include <QDebug>
-#include <iostream>
-
 #include "layout.h"
 #include "loggingevent.h"
 
@@ -34,6 +31,7 @@
 #include <windows.h>
 #endif
 
+#include <iostream>
 
 namespace Log4Qt
 {

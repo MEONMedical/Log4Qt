@@ -24,8 +24,6 @@
 
 #include "spi/filter.h"
 
-#include <QDebug>
-
 namespace Log4Qt
 {
 

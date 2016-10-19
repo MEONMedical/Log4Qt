@@ -25,9 +25,6 @@
 
 #include "varia/denyallfilter.h"
 
-#include <QDebug>
-
-
 namespace Log4Qt
 {
 

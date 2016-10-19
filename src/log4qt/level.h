@@ -25,9 +25,10 @@
 #ifndef LOG4QT_LEVEL_H
 #define LOG4QT_LEVEL_H
 
+#include "log4qt.h"
+
 #include <QString>
 #include <QMetaType>
-#include "log4qt.h"
 
 namespace Log4Qt
 {

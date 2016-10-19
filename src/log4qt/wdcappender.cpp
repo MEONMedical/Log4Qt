@@ -1,6 +1,5 @@
 #include "wdcappender.h"
 
-#include <QDebug>
 #include "layout.h"
 #include "loggingevent.h"
 

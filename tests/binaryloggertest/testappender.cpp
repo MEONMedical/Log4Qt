@@ -3,8 +3,6 @@
 
 #include "layout.h"
 
-#include <QDebug>
-
 TestAppender::TestAppender(QObject *pParent)
     : Log4Qt::AppenderSkeleton(pParent)
 {

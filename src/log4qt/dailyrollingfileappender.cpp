@@ -22,17 +22,16 @@
  *
  ******************************************************************************/
 
-
-
 #include "dailyrollingfileappender.h"
 
-#include <QDebug>
-#include <QFile>
-#include <QMetaEnum>
-#include <QTextCodec>
 #include "helpers/datetime.h"
 #include "layout.h"
 #include "loggingevent.h"
+
+#include <QFile>
+#include <QMetaEnum>
+#include <QTextCodec>
+
 
 namespace Log4Qt
 {

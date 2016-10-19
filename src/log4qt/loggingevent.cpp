@@ -24,18 +24,17 @@
 
 #include "loggingevent.h"
 
-#include <QBuffer>
-#include <QByteArray>
-#include <QDataStream>
-#include <QDebug>
-#include <QMutex>
-#include <QThread>
 #include "helpers/datetime.h"
 #include "helpers/initialisationhelper.h"
 #include "logger.h"
 #include "mdc.h"
 #include "ndc.h"
 
+#include <QBuffer>
+#include <QByteArray>
+#include <QDataStream>
+#include <QMutex>
+#include <QThread>
 
 namespace Log4Qt
 {

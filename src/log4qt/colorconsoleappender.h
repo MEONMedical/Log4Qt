@@ -23,7 +23,7 @@
  ******************************************************************************/
 
 #ifndef LOG4QT_COLORCONSOLEAPPENDER_H
-#define  LOG4QT_COLORCONSOLEAPPENDER_H
+#define LOG4QT_COLORCONSOLEAPPENDER_H
 
 #include "consoleappender.h"
 

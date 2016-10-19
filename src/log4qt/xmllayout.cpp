@@ -1,7 +1,6 @@
 #include "xmllayout.h"
 #include "loggingevent.h"
 
-#include <QDebug>
 #include <QXmlStreamWriter>
 
 namespace Log4Qt

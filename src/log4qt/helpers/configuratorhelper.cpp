@@ -24,9 +24,10 @@
 
 #include "helpers/configuratorhelper.h"
 
-#include <QDebug>
-#include <QFileSystemWatcher>
 #include "helpers/initialisationhelper.h"
+
+#include <QFileSystemWatcher>
+#include <QDebug>
 
 namespace Log4Qt
 {

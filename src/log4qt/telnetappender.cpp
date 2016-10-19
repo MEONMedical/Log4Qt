@@ -24,14 +24,12 @@
 
 #include "telnetappender.h"
 
-#include <QDebug>
+#include "layout.h"
+#include "loggingevent.h"
 
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QHostAddress>
-
-#include "layout.h"
-#include "loggingevent.h"
 
 namespace Log4Qt
 {

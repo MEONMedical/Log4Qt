@@ -4,7 +4,6 @@
 #include "level.h"
 
 #include <QStringBuilder>
-#include <QDebug>
 #include <QTimer>
 
 namespace Log4Qt

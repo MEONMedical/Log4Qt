@@ -27,11 +27,13 @@
  *
  ******************************************************************************/
 
-
 #include "helpers/initialisationhelper.h"
 
+#include "helpers/datetime.h"
+#include "helpers/logerror.h"
+#include "loggingevent.h"
+
 #include <QCoreApplication>
-#include <QDebug>
 #include <QMutex>
 #include <QProcess>
 #include <QSettings>
@@ -39,10 +41,6 @@
 #ifndef QT_NO_DATASTREAM
 #include <QDataStream>
 #endif
-
-#include "helpers/datetime.h"
-#include "helpers/logerror.h"
-#include "loggingevent.h"
 
 namespace Log4Qt
 {

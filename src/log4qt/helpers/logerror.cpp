@@ -24,16 +24,14 @@
 
 
 #include "helpers/logerror.h"
+#include "helpers/initialisationhelper.h"
 
 #include <QBuffer>
 #include <QByteArray>
 #include <QDataStream>
 #include <QCoreApplication>
-#include <QDebug>
 #include <QTextCodec>
 #include <QThreadStorage>
-#include "helpers/initialisationhelper.h"
-
 
 namespace Log4Qt
 {

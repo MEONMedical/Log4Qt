@@ -29,7 +29,6 @@
 
 #include "helpers/optionconverter.h"
 
-#include <QDebug>
 #include "helpers/logerror.h"
 #include "helpers/properties.h"
 #include "logger.h"

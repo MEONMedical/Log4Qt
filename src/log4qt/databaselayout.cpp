@@ -25,13 +25,11 @@
 
 #include "databaselayout.h"
 
-#include <QDebug>
-
-#include <QtSql/QSqlField>
 #include "loggingevent.h"
 
 #include "helpers/datetime.h"
 
+#include <QtSql/QSqlField>
 
 namespace Log4Qt
 {

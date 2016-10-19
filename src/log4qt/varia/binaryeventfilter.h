@@ -18,7 +18,6 @@ public:
 
     virtual Decision decide(const LoggingEvent &rEvent) const Q_DECL_OVERRIDE;
 
-
 private:
     bool mAcceptBinaryEvents;
 };

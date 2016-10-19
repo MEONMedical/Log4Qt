@@ -28,6 +28,7 @@
 
 #ifndef LOG4QT_HELPERS_DATETIME_H
 #define LOG4QT_HELPERS_DATETIME_H
+
 #include "log4qtshared.h"
 
 #include <QDateTime>

@@ -24,7 +24,6 @@
 
 #include "appenderskeleton.h"
 
-#include <QDebug>
 #include "layout.h"
 #include "loggingevent.h"
 #include "logmanager.h"

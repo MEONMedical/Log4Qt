@@ -31,14 +31,6 @@
 
 #include "logmanager.h"
 
-#include <QCoreApplication>
-#include <QDebug>
-#include <QFile>
-#include <QMutex>
-#include <QSettings>
-#include <QStringList>
-#include <QFileInfo>
-
 #include "consoleappender.h"
 #include "helpers/datetime.h"
 #include "helpers/initialisationhelper.h"
@@ -49,6 +41,13 @@
 #include "varia/denyallfilter.h"
 #include "varia/levelrangefilter.h"
 #include "configuratorhelper.h"
+
+#include <QCoreApplication>
+#include <QFile>
+#include <QMutex>
+#include <QSettings>
+#include <QStringList>
+#include <QFileInfo>
 
 namespace Log4Qt
 {

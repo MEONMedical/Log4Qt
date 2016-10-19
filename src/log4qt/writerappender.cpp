@@ -24,12 +24,10 @@
 
 #include "writerappender.h"
 
-#include <QDebug>
-#include <QTextCodec>
 #include "layout.h"
 #include "loggingevent.h"
 
-
+#include <QTextCodec>
 
 namespace Log4Qt
 {

@@ -50,7 +50,6 @@
 
 #include <QBuffer>
 #include <QBitArray>
-#include <QDebug>
 #include <QFile>
 #include <QMetaEnum>
 #include <QSettings>

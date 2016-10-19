@@ -25,10 +25,8 @@
 #ifndef LOG4QTDISPATCHER_H
 #define LOG4QTDISPATCHER_H
 
-#include <QThread>
 #include <QList>
-
-#include "loggingevent.h"
+#include <QObject>
 
 namespace Log4Qt
 {

@@ -24,13 +24,11 @@
 
 #include "helpers/properties.h"
 
-#include <QDebug>
+#include "logger.h"
+
 #include <QIODevice>
 #include <QSettings>
 #include <QTextStream>
-#include "logger.h"
-
-
 
 namespace Log4Qt
 {

@@ -27,7 +27,6 @@
 #include "asyncappender.h"
 
 #include <QCoreApplication>
-#include <QDebug>
 
 namespace Log4Qt
 {

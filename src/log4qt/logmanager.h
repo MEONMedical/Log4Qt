@@ -25,14 +25,14 @@
 #ifndef LOG4QT_LOGMANAGER_H
 #define LOG4QT_LOGMANAGER_H
 
-#include <QObject>
+#include "level.h"
+#include "logger.h"
 
+#include <QObject>
 #include <QHash>
 #include <QList>
 #include <QMutex>
 #include <QString>
-#include "level.h"
-#include "logger.h"
 
 namespace Log4Qt
 {

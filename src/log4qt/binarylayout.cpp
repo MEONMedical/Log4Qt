@@ -1,8 +1,6 @@
 #include "binarylayout.h"
 #include "binaryloggingevent.h"
 
-#include <QDebug>
-
 namespace Log4Qt
 {
 

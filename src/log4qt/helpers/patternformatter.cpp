@@ -29,14 +29,15 @@
 
 #include "helpers/patternformatter.h"
 
-#include <QString>
-#include <QDebug>
-#include <limits.h>
 #include "helpers/datetime.h"
 #include "helpers/logerror.h"
 #include "layout.h"
 #include "logger.h"
 #include "loggingevent.h"
+
+#include <QString>
+
+#include <limits>
 
 namespace Log4Qt
 {

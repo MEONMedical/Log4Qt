@@ -24,13 +24,12 @@
 
 #include "rollingfileappender.h"
 
-#include <QDebug>
-#include <QFile>
-#include <QTextCodec>
 #include "helpers/optionconverter.h"
 #include "layout.h"
 #include "loggingevent.h"
 
+#include <QFile>
+#include <QTextCodec>
 
 namespace Log4Qt
 {

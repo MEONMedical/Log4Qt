@@ -29,7 +29,6 @@
 #include "log4qtsharedptr.h"
 
 #include <QObject>
-#include <QDebug>
 
 namespace Log4Qt
 {

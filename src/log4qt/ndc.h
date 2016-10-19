@@ -25,10 +25,11 @@
 #ifndef LOG4QT_NDC_H
 #define LOG4QT_NDC_H
 
+#include "log4qt.h"
+
 #include <QString>
 #include <QStack>
 #include <QThreadStorage>
-#include "log4qt.h"
 
 namespace Log4Qt
 {

@@ -27,10 +27,8 @@
  *
  ******************************************************************************/
 
-
 #include "hierarchy.h"
 
-#include <QDebug>
 #include "logger.h"
 #include "binarylogger.h"
 

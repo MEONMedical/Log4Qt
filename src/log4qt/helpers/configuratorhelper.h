@@ -26,12 +26,11 @@
 #define LOG4QT_HELPERS_CONFIGURATORHELPER_H
 
 #include "log4qtshared.h"
+#include "loggingevent.h"
 
 #include <QObject>
-
 #include <QList>
 #include <QMutex>
-#include "loggingevent.h"
 
 class QFileSystemWatcher;
 

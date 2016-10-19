@@ -28,7 +28,6 @@
 #include "layout.h"
 #include "loggingevent.h"
 
-#include <QDebug>
 #include <QFile>
 #include <QMetaEnum>
 #include <QTextCodec>

@@ -25,9 +25,9 @@
 #ifndef LOG4QT_LOGGERREPOSITORY_H
 #define LOG4QT_LOGGERREPOSITORY_H
 
+#include "level.h"
 
 #include <QList>
-#include "level.h"
 
 namespace Log4Qt
 {

@@ -25,20 +25,16 @@
 
 #include "databaseappender.h"
 
-#include <QDebug>
+#include "databaselayout.h"
+#include "loggingevent.h"
+
+#include "helpers/datetime.h"
 
 #include <QtSql/QSqlDriver>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlRecord>
 #include <QtSql/QSqlField>
 #include <QtSql/QSqlError>
-
-
-#include "databaselayout.h"
-#include "loggingevent.h"
-
-#include "helpers/datetime.h"
-
 
 namespace Log4Qt
 {

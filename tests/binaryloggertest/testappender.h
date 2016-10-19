@@ -4,7 +4,6 @@
 #include "appenderskeleton.h"
 
 #include <QStringList>
-class QDebug;
 
 class  TestAppender : public Log4Qt::AppenderSkeleton
 {

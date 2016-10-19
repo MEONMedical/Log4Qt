@@ -25,9 +25,6 @@
 
 #include "helpers/factory.h"
 
-#include <QDebug>
-#include <QMetaObject>
-#include <QMetaProperty>
 #include "consoleappender.h"
 #include "colorconsoleappender.h"
 #include "dailyrollingfileappender.h"
@@ -73,6 +70,8 @@
 #include "varia/stringmatchfilter.h"
 #include "varia/binaryeventfilter.h"
 
+#include <QMetaObject>
+#include <QMetaProperty>
 
 namespace Log4Qt
 {

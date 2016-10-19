@@ -29,10 +29,6 @@
 
 #include "logger.h"
 
-#include <QDebug>
-#include <QThread>
-#include <QCoreApplication>
-
 #include "appenderskeleton.h"
 #include "varia/listappender.h"
 #include "loggingevent.h"
@@ -40,6 +36,9 @@
 #include "loggerrepository.h"
 #include "logmanager.h"
 #include "logstream.h"
+
+#include <QThread>
+#include <QCoreApplication>
 
 namespace Log4Qt
 {

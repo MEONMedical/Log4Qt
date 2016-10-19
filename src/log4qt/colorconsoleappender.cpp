@@ -24,10 +24,10 @@
 
 #include "colorconsoleappender.h"
 
-#include <QTextStream>
-
 #include "loggingevent.h"
 #include "layout.h"
+
+#include <QTextStream>
 
 #define NIX_BACK_BLACK      40
 #define NIX_BACK_RED            41

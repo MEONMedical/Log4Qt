@@ -29,8 +29,6 @@
 
 #include "propertyconfigurator.h"
 
-#include <QDebug>
-#include <QFile>
 #include "helpers/configuratorhelper.h"
 #include "helpers/factory.h"
 #include "helpers/optionconverter.h"
@@ -42,7 +40,7 @@
 #include "loggerrepository.h"
 #include "varia/listappender.h"
 
-
+#include <QFile>
 
 namespace Log4Qt
 {

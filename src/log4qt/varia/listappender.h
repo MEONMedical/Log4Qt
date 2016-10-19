@@ -26,10 +26,10 @@
 #define LOG4QT_LISTAPPENDER_H
 
 #include "appenderskeleton.h"
+#include "loggingevent.h"
 
 #include <QList>
 #include <QMutex>
-#include "loggingevent.h"
 
 namespace Log4Qt
 {

@@ -53,9 +53,6 @@
  * - \ref Undocumented "Undocumented functions"
  * - \ref Assumptions "Assumptions"
  *
- * \author Martin Heinrich
- * \version 0.3 (January 2009)
- *
  */
 
 /*!

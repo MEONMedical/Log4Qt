@@ -27,7 +27,6 @@
 
 #include "layout.h"
 
-
 namespace Log4Qt
 {
 

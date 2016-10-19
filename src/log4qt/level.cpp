@@ -24,10 +24,9 @@
 
 
 #include "level.h"
+#include "logger.h"
 
 #include <QCoreApplication>
-#include <QDebug>
-#include "logger.h"
 #include <QDataStream>
 
 namespace Log4Qt

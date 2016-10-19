@@ -24,7 +24,6 @@
 
 #include "helpers/datetime.h"
 
-#include <QDebug>
 #include "helpers/initialisationhelper.h"
 
 namespace Log4Qt

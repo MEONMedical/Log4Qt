@@ -26,7 +26,6 @@
 #define SIGNALAPPENDER_H
 
 #include "appenderskeleton.h"
-
 #include "loggingevent.h"
 
 namespace Log4Qt

@@ -24,7 +24,6 @@
 
 #include "patternlayout.h"
 
-#include <QDebug>
 #include "helpers/patternformatter.h"
 #include "loggingevent.h"
 

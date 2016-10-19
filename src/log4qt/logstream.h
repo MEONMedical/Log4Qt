@@ -25,15 +25,13 @@
 #ifndef LOG4QT_LOGSTREAM_H
 #define LOG4QT_LOGSTREAM_H
 
+#include "level.h"
 
+#include <QTextStream>
 #include <QTextStream>
 #include <QString>
 #include <QSharedPointer>
 #include <QPointer>
-
-#include "level.h"
-
-#include <QTextStream>
 
 namespace Log4Qt
 {

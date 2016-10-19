@@ -25,11 +25,11 @@
 #ifndef LOG4QT_PROPERTYCONFIGURATOR_H
 #define LOG4QT_PROPERTYCONFIGURATOR_H
 
-#include <QHash>
-
 #include "log4qt.h"
 #include "layout.h"
 #include "appender.h"
+
+#include <QHash>
 
 class QSettings;
 

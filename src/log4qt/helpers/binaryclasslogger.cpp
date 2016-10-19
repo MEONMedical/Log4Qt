@@ -1,8 +1,5 @@
 #include "helpers/binaryclasslogger.h"
 
-#include <QDebug>
-#include <QString>
-
 #include "logmanager.h"
 #include "binarylogger.h"
 

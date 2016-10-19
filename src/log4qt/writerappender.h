@@ -27,7 +27,6 @@
 
 #include "appenderskeleton.h"
 
-
 class QTextCodec;
 class QTextStream;
 

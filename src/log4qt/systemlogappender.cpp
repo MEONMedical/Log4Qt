@@ -4,7 +4,6 @@
 #include "level.h"
 #include "loggingevent.h"
 
-#include <QDebug>
 #include <QCoreApplication>
 
 #if defined(Q_OS_WIN32)
@@ -12,9 +11,8 @@
 #define UNICODE
 #endif
 #include <qt_windows.h>
+
 #include <QLibrary>
-
-
 
 typedef HANDLE(WINAPI *PDeregisterEventSource)(HANDLE);
 static PDeregisterEventSource pDeregisterEventSource = 0;

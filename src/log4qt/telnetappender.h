@@ -28,7 +28,6 @@
 #include "appenderskeleton.h"
 
 #include <QString>
-
 #include <QHostAddress>
 
 class QTcpServer;

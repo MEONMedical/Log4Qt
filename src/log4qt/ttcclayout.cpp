@@ -25,13 +25,12 @@
 
 #include "ttcclayout.h"
 
-#include <QDebug>
-#include <QDateTime>
 #include "helpers/datetime.h"
 #include "helpers/patternformatter.h"
 #include "logger.h"
 #include "loggingevent.h"
 
+#include <QDateTime>
 
 namespace Log4Qt
 {

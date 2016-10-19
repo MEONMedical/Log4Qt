@@ -5,7 +5,6 @@
 
 #include <QMetaEnum>
 #include <QFile>
-#include <QDebug>
 
 namespace Log4Qt
 {

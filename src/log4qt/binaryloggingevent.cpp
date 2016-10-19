@@ -2,8 +2,6 @@
 #include "logger.h"
 #include "helpers/datetime.h"
 
-#include <QDebug>
-
 #ifndef QT_NO_DATASTREAM
 #include <QDataStream>
 #endif

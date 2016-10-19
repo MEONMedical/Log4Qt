@@ -24,7 +24,6 @@
 
 #include "layout.h"
 
-#include <QDebug>
 #include "loggingevent.h"
 #include "logmanager.h"
 

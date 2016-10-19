@@ -25,12 +25,13 @@
 #ifndef LOG4QT_LOG4QTEVENT_H
 #define LOG4QT_LOG4QTEVENT_H
 
+#include "level.h"
+
 #include <QDateTime>
 #include <QHash>
 #include <QMetaType>
 #include <QStringList>
 #include <QEvent>
-#include "level.h"
 
 namespace Log4Qt
 {

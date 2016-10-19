@@ -25,9 +25,9 @@
 #ifndef LOG4QT_APPENDER_H
 #define LOG4QT_APPENDER_H
 
-#include "spi/filter.h"
 #include "layout.h"
 #include "log4qtsharedptr.h"
+#include "spi/filter.h"
 #include "helpers/classlogger.h"
 
 namespace Log4Qt
