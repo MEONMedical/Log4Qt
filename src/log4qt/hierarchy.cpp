@@ -120,21 +120,6 @@ void Hierarchy::shutdown()
     resetConfiguration();
 }
 
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug Hierarchy::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "Hierarchy("
-                     << "loggers:" << loggers().count() << " "
-                     << "threshold:" << threshold().toString() << " "
-                     << "root-level:" << rootLogger()->level().toString() << " "
-                     << "root-appenders:" << rootLogger()->appenders().count()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
-
 Logger *Hierarchy::createLogger(const QString &orgName)
 {
     static const char binaryIndicator[] = "@@binary@@";

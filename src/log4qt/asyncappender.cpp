@@ -107,25 +107,5 @@ bool AsyncAppender::checkEntryConditions() const
     return AppenderSkeleton::checkEntryConditions();
 }
 
-#ifndef QT_NO_DEBUG_STREAM
-/*!
- * Writes all object member variables to the given debug stream
- * \a rDebug and returns the stream.
- *
- * <tt>
- * %AsyncAppender(name:"WA" )
- * </tt>
- * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender   )
- */
-QDebug AsyncAppender::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "AsyncAppender("
-                     << "name:" << name() << " "
-                     << ")";
-
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 } // namespace Log4Qt
 

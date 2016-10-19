@@ -64,22 +64,6 @@ private:
     QThreadStorage<QHash<QString, QString> *> mHash;
 };
 
-#ifndef QT_NO_DEBUG_STREAM
-/*!
- * \relates MDC
- *
- * Writes all object member variables to the given debug stream \a rDebug
- * and returns the stream.
- *
- * <tt>
- * %MDC(thread:"main" context:QHash(("login", "Peter")("database", "UAT")) )
- * </tt>
- * \sa QDebug
- */
-QDebug operator<<(QDebug debug,
-                  const MDC &rMDC);
-#endif // QT_NO_DEBUG_STREAM
-
 inline MDC::MDC() :
     mHash()
 {}

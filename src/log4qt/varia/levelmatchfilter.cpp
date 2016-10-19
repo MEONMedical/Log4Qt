@@ -50,17 +50,4 @@ Filter::Decision LevelMatchFilter::decide(const LoggingEvent &rEvent) const
         return Filter::DENY;
 }
 
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug LevelMatchFilter::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "LevelMatchFilter("
-                     << "acceptonmatch:" << mAcceptOnMatch << " "
-                     << "leveltomatch:" << mLevelToMatch.toString() << " "
-                     << "next:" << next()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 } // namespace Log4Qt

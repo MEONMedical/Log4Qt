@@ -32,9 +32,6 @@ protected:
     virtual bool checkEntryConditions() const Q_DECL_OVERRIDE;
 
     void closeWriter();
-#ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif // QT_NO_DEBUG_STREAM
 
     virtual bool handleIoErrors() const;
     void writeFooter() const;

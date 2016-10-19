@@ -284,26 +284,4 @@ QDataStream &operator>>(QDataStream &rStream,
 }
 #endif // QT_NO_DATASTREAM
 
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug,
-                  const LogError &rLogError)
-{
-    // Escape % sign
-    QString message = rLogError.message();
-    message.replace(QLatin1String("%"), QLatin1String("%%"));
-
-    debug.nospace() << "LogError("
-                    << "code:" << rLogError.code() << " "
-                    << "context:" << rLogError.context() << " "
-                    << "message:" << message << " "
-                    << "symbol:" << rLogError.symbol() << " "
-                    << "args:" << rLogError.args()
-                    << "translatedMessage:" << rLogError.translatedMessage()
-                    << ")";
-    return debug.maybeSpace();
-}
-#endif // QT_NO_DEBUG_STREAM
-
-
 } // namespace Log4Qt

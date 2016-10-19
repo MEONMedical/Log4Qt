@@ -124,28 +124,6 @@ protected:
      */
     virtual bool checkEntryConditions() const Q_DECL_OVERRIDE;
 
-protected:
-#ifndef QT_NO_DEBUG_STREAM
-    /*!
-     * Writes all object member variables to the given debug stream
-     * \a rDebug and returns the stream.
-     *
-     * <tt>
-     * %DailyRollingFileAppender(name:"DRFA" activedatepattern:"'.'yyyy-MM-dd-hh-mm"
-     *                           appendfile:false bufferedio:true
-     *                           datepattern:"'.'yyyy-MM-dd-hh-mm"
-     *                           encoding:"" frequency:"MINUTELY_ROLLOVER"
-     *                           file:"log.txt" filter:0x0 immediateflush:true
-     *                           isactive:true isclosed:false layout:"TTCC"
-     *                           referencecount:1
-     *                           rollovertime:QDateTime("Mon Oct 22 05:23:00 2007")
-     *                           threshold: "NULL" writer: 0x0 )
-     * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender)
-     */
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif // QT_NO_DEBUG_STREAM
-
 private:
     void computeFrequency();
     void computeRollOverTime();

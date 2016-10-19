@@ -76,26 +76,5 @@ bool MainThreadAppender::checkEntryConditions() const
     return AppenderSkeleton::checkEntryConditions();
 }
 
-#ifndef QT_NO_DEBUG_STREAM
-/*!
- * Writes all object member variables to the given debug stream
- * \a rDebug and returns the stream.
- *
- * <tt>
- * %MainThreadAppender(name:"WA" )
- * </tt>
- * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender   )
- */
-QDebug MainThreadAppender::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "MainThreadAppender("
-                     << "name:" << name() << " "
-                     << ")";
-
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
-
 } // namespace Log4Qt
 

@@ -303,38 +303,6 @@ private:
     QHash<QString, LayoutFactoryFunc> mLayoutRegistry;
 };
 
-#ifndef QT_NO_DEBUG_STREAM
-/*!
- * \relates Factory
- *
- * Writes all object member variables to the given debug stream \a rDebug and
- * returns the stream.
- *
- * <tt>
- * %Factory(appenderfactories:("Log4Qt::DebugAppender", "Log4Qt::NullAppender",
- *          "Log4Qt::ConsoleAppender", "org.apache.log4j.varia.DebugAppender",
- *          "org.apache.log4j.FileAppender", "org.apache.log4j.RollingFileAppender",
- *          "org.apache.log4j.DailyRollingFileAppender",
- *          "org.apache.log4j.varia.ListAppender",
- *          "org.apache.log4j.varia.NullAppender",
- *          "Log4Qt::FileAppender", "org.apache.log4j.ConsoleAppender",
- *          "Log4Qt::DailyRollingFileAppender", "Log4Qt::ListAppender",
- *          "Log4Qt::RollingFileAppender") filterfactories:
- *          ("Log4Qt::DenyAllFilter", "Log4Qt::StringMatchFilter",
- *          "Log4Qt::LevelRangeFilter", "org.apache.log4j.varia.DenyAllFilter",
- *          "org.apache.log4j.varia.LevelRangeFilter",
- *          "org.apache.log4j.varia.StringMatchFilter", "Log4Qt::LevelMatchFilter",
- *          "org.apache.log4j.varia.LevelMatchFilter") layoutfactories:
- *          ("org.apache.log4j.SimpleLayout", "Log4Qt::PatternLayout",
- *          "Log4Qt::SimpleLayout", "org.apache.log4j.TTCCLayout",
- *          "Log4Qt::TTCCLayout", "org.apache.log4j.PatternLayout") )
- * </tt>
- * \sa QDebug, Factory::logManager()
- */
-QDebug operator<<(QDebug debug,
-                  const Factory &rFactory);
-#endif // QT_NO_DEBUG_STREAM
-
 inline Appender *Factory::createAppender(const QString &rAppenderClassName)
 {
     return instance()->doCreateAppender(rAppenderClassName);

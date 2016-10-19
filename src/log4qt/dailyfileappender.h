@@ -57,10 +57,6 @@ public:
 
     virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
-#ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif // QT_NO_DEBUG_STREAM
-
 private:
     Q_DISABLE_COPY(DailyFileAppender)
     void rollOver();

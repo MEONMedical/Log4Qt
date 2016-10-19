@@ -26,16 +26,6 @@ QString BinaryLayout::contentType() const
     return "application/octet-stream";
 }
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug BinaryLayout::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "BinaryLayout("
-                     << "name:" << name() << " "
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 } // namespace Log4Qt
 
 #include "moc_binarylayout.cpp"

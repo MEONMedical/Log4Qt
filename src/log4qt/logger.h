@@ -347,22 +347,6 @@ public:
     static Logger *rootLogger();
 
 protected:
-#ifndef QT_NO_DEBUG_STREAM
-    /*!
-     * Writes all object member variables to the given debug stream \a rDebug
-     * and returns the stream.
-     *
-     * <tt>
-     * %Logger(name:"Log4Qt" appenders:0 additivity:true Level("NULL")
-     *         parentLogger: "root" )
-     * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender)
-     */
-    virtual QDebug debug(QDebug &rDebug) const;
-    friend QDebug operator<<(QDebug debug,
-                             const Logger &rLogger);
-#endif // QT_NO_DEBUG_STREAM
-
     void forcedLog(Level level, const QString &rMessage) const;
 
 private:
@@ -375,22 +359,6 @@ private:
     // Needs to be friend to create Logger objects
     friend class Hierarchy;
 };
-
-#ifndef QT_NO_DEBUG_STREAM
-/*!
- * \relates Logger
- *
- * Writes all object member variables to the given debug stream \a debug and
- * returns the stream.
- *
- * To handle subclassing the function uses the virtual member function debug().
- * This allows each class to generate its own output.
- *
- * \sa QDebug, debug()
- */
-QDebug operator<<(QDebug debug,
-                  const Logger &rLogger);
-#endif // QT_NO_DEBUG_STREAM
 
 } // namespace Log4Qt
 

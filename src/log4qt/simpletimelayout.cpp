@@ -43,14 +43,4 @@ QString SimpleTimeLayout::format(const LoggingEvent &rEvent)
 }
 
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug SimpleTimeLayout::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "SimpleTimeLayout("
-                     << "name:" << name() << " "
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 } // namespace Log4Qt

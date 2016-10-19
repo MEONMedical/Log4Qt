@@ -54,18 +54,4 @@ Filter::Decision LevelRangeFilter::decide(const LoggingEvent &rEvent) const
         return Filter::NEUTRAL;
 }
 
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug LevelRangeFilter::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "LevelRangeFilter("
-                     << "acceptonmatch:" << mAcceptOnMatch << " "
-                     << "levelmin:" << mLevelMin.toString() << " "
-                     << "levelmax:" << mLevelMax.toString() << " "
-                     << "next:" << next()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 } // namespace Log4Qt

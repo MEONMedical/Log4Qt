@@ -82,20 +82,6 @@ public:
 
     virtual Decision decide(const LoggingEvent &rEvent) const Q_DECL_OVERRIDE;
 
-protected:
-    /*!
-     * Writes all object member variables to the given debug stream \a rDebug
-     * and returns the stream.
-     *
-     * <tt>
-     * %LevelRangeFilter(acceptonmatch:true levelmin:"ERROR" levelmax:"FATAL"
-     *                   next:Log4Qt::LevelMatchFilter(0x3bcd960)
-     *                   referencecount:1 )
-     * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const Filter &rFilter)
-     */
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-
 private:
     bool mAcceptOnMatch;
     Level mLevelMin;

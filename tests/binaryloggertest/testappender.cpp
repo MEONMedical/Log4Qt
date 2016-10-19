@@ -35,19 +35,4 @@ void TestAppender::append(const Log4Qt::LoggingEvent &rEvent)
     mMessages << layout()->format(rEvent);
 }
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug TestAppender::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "TestAppender("
-                     << "name:" << name() << " "
-                     << "count:" <<  list().count() << " "
-                     << "filter:" << firstFilter() << " "
-                     << "isactive:" << isActive() << " "
-                     << "isclosed:" << isClosed() << " "
-                     << "threshold:" << threshold().toString()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 #include "moc_testappender.cpp"

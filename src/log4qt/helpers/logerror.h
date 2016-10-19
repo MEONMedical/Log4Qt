@@ -429,27 +429,6 @@ QDataStream &operator>>(QDataStream &rStream,
                         LogError &rLogError);
 #endif // QT_NO_DATASTREAM
 
-#ifndef QT_NO_DEBUG_STREAM
-/*!
- * \relates LogError
- *
- * Writes all object member variables to the given debug stream \a debug and
- * returns the stream.
- *
- * <tt>
- * %LogError(code:7 context:"Log4Qt::FileAppender"
- *           message:"Unable to open file '%1' for appender '%2'"
- *           symbol:"APPENDER_OPENING_FILE_ERROR"
- *           args:(QVariant(QString, "G:\logs\client.log") ,  QVariant(QString, "Client FileAppender") )
- *           translatedMessage: "Unable to open file '%1' for appender '%2'" )
- * </tt>
- *
- * \sa QDebug
- */
-QDebug operator<<(QDebug debug,
-                  const LogError &rLogError);
-#endif // QT_NO_DEBUG_STREAM
-
 inline int LogError::code() const
 {
     return mCode;

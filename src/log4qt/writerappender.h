@@ -128,22 +128,6 @@ protected:
 
     void closeWriter();
 
-#ifndef QT_NO_DEBUG_STREAM
-    /*!
-     * Writes all object member variables to the given debug stream
-     * \a rDebug and returns the stream.
-     *
-     * <tt>
-     * %WriterAppender(name:"WA" encoding:"" immediateFlush:true
-     *                 isactive:false isclosed:false layout:"TTCC"
-     *                 referencecount:1 threshold:"NULL"
-     *                 writer:0x0)
-     * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender   )
-     */
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif // QT_NO_DEBUG_STREAM
-
     virtual bool handleIoErrors() const;
     void writeFooter() const;
     void writeHeader() const;

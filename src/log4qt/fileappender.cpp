@@ -158,36 +158,6 @@ void FileAppender::closeFile()
     mpFile = 0;
 }
 
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug FileAppender::debug(QDebug &rDebug) const
-{
-    QString layout_name;
-    if (layout())
-        layout_name = layout()->name();
-    QString codec_name;
-    if (encoding())
-        codec_name = QLatin1String(encoding()->name());
-
-    rDebug.nospace() << "FileAppender("
-                     << "name:" << name() << " "
-                     << "appendfile:" << appendFile() << " "
-                     << "bufferedio:" << bufferedIo() << " "
-                     << "encoding:" << codec_name << " "
-                     << "file:" << file() << " "
-                     << "filter:" << firstFilter() << " "
-                     << "immediateflush:" << immediateFlush() << " "
-                     << "isactive:" << isActive() << " "
-                     << "isclosed:" << isClosed() << " "
-                     << "layout:" << layout_name << " "
-                     << "threshold:" << threshold().toString() << " "
-                     << "writer:" << writer()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
-
 bool FileAppender::handleIoErrors() const
 {
     if (mpFile->error() == QFile::NoError)

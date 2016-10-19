@@ -69,25 +69,6 @@ public:
     Layout(QObject *pParent = Q_NULLPTR);
     virtual ~Layout();
 
-protected:
-#ifndef QT_NO_DEBUG_STREAM
-    /*!
-     * Writes all object member variables to the given debug stream
-     * \a rDebug and returns the stream.
-     *
-     * The member function is used by
-     * QDebug operator<<(QDebug debug, const Filter &rFilter) to
-     * generate class specific output.
-     *
-     * \sa QDebug operator<<(QDebug debug, const Filter &rFilter)
-     */
-    virtual QDebug debug(QDebug &rDebug) const = 0;
-
-    // Needs to be friend to access internal data
-    friend QDebug operator<<(QDebug debug,
-                             const Layout &rLayout);
-#endif // QT_NO_DEBUG_STREAM
-
 public:
     virtual QString contentType() const;
     QString footer() const;
@@ -115,10 +96,6 @@ private:
     QString mFooter;
     QString mHeader;
 };
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug, const Layout &rLayout);
-#endif // QT_NO_DEBUG_STREAM
 
 inline QString Layout::footer() const
 {

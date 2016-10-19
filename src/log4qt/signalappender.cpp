@@ -41,23 +41,4 @@ void SignalAppender::append(const LoggingEvent &rEvent)
     emit appended(message);
 }
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug SignalAppender::debug(QDebug &rDebug) const
-{
-    QString layout_name;
-    if (layout())
-        layout_name = layout()->name();
-
-    rDebug.nospace() << "WriterAppender("
-                     << "name:" << name() << " "
-                     << "filter:" << firstFilter()
-                     << "isactive:" << isActive()
-                     << "isclosed:" << isClosed()
-                     << "layout:" << layout_name
-                     << "threshold:" << threshold().toString()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 }

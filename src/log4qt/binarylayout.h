@@ -30,11 +30,6 @@ public:
     virtual QByteArray binaryHeader() const;
     void setBinaryHeader(const QByteArray &rHeader);
 
-protected:
-#ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif // QT_NO_DEBUG_STREAM
-
 private:
     Q_DISABLE_COPY(BinaryLayout)
 

@@ -84,24 +84,6 @@ void ListAppender::append(const LoggingEvent &rEvent)
         mList << rEvent;
 }
 
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug ListAppender::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "ListAppender("
-                     << "name:" << name() << " "
-                     << "count:" <<  list().count() << " "
-                     << "filter:" << firstFilter() << " "
-                     << "isactive:" << isActive() << " "
-                     << "isclosed:" << isClosed() << " "
-                     << "maxcount:" <<  maxCount() << " "
-                     << "threshold:" << threshold().toString()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
-
 void ListAppender::ensureMaxCount()
 {
     if (mMaxCount <= 0)

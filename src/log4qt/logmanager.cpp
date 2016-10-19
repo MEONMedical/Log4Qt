@@ -432,22 +432,4 @@ void LogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &, co
 
 LogManager *LogManager::mspInstance = 0;
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug, const LogManager &rLogManager)
-{
-    Q_UNUSED(rLogManager); // To avoid warning C4100 on VS 2008
-    QList<Logger *> loggers = rLogManager.loggers();
-    debug.nospace() << "LogManager("
-                    << "loggerrepository:" << *rLogManager.loggerRepository()
-                    << "log-level:" << rLogManager.logLogger()->level().toString()
-                    << "log-appenders:" << rLogManager.logLogger()->appenders().count()
-                    << "qt-level:" << rLogManager.qtLogger()->level().toString()
-                    << "qt-appenders:" << rLogManager.qtLogger()->appenders().count()
-                    << "handleqtmessages:" << rLogManager.handleQtMessages()
-                    << ")";
-    return debug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
-
 }  // namespace Log4Qt

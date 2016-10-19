@@ -57,11 +57,6 @@ protected:
     BinaryLogger(LoggerRepository *pLoggerRepository, Level level, const QString &rName, Logger *pParent = Q_NULLPTR);
     virtual ~BinaryLogger();
 
-#ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-    friend QDebug operator<<(QDebug debug, const BinaryLogger &rLogger);
-#endif // QT_NO_DEBUG_STREAM
-
     void forcedLog(Level level, const QByteArray &rMessage) const;
 
 private:
@@ -70,10 +65,6 @@ private:
     // Needs to be friend to create BinaryLogger objects
     friend class Hierarchy;
 };
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug, const BinaryLogger &rLogger);
-#endif // QT_NO_DEBUG_STREAM
 
 } // namespace Log4Qt
 

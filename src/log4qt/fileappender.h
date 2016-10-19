@@ -119,22 +119,6 @@ protected:
 
     void closeFile();
 
-#ifndef QT_NO_DEBUG_STREAM
-    /*!
-     * Writes all object member variables to the given debug stream \a rDebug
-     * and returns the stream.
-     *
-     * <tt>
-     * %FileAppender(name:"FA" appendfile:false bufferedio:true encoding:""
-     *               file:"log.txt" filter: 0x0 immediateflush:true isactive:false
-     *               isclosed:false layout:"TTCC" referencecount:2
-     *               threshold:"NULL" writer:0x0)
-     * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender)
-     */
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif // QT_NO_DEBUG_STREAM
-
     /*!
      * Checks for file I/O errrors. If an error is found it is logged and the
      * function returns true. Otherwise false is returned.

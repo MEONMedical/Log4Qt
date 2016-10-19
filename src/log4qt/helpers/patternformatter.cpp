@@ -92,10 +92,6 @@ public:
 
 protected:
     virtual QString convert(const LoggingEvent &rLoggingEvent) const = 0;
-#ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const = 0;
-    friend QDebug operator<<(QDebug, const PatternConverter &rPatternConverter);
-#endif
 
 protected:
     FormattingInfo mFormattingInfo;
@@ -137,9 +133,6 @@ private:
 
 protected:
     virtual QString convert(const LoggingEvent &rLoggingEvent) const Q_DECL_OVERRIDE;
-#ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif
 
 private:
     Type mType;
@@ -171,9 +164,6 @@ private:
 
 protected:
     virtual QString convert(const LoggingEvent &rLoggingEvent) const Q_DECL_OVERRIDE;
-#ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif
 
 private:
     QString mFormat;
@@ -203,9 +193,6 @@ private:
 
 protected:
     virtual QString convert(const LoggingEvent &rLoggingEvent) const Q_DECL_OVERRIDE;
-#ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif
 
 private:
     QString mLiteral;
@@ -237,9 +224,6 @@ private:
 
 protected:
     virtual QString convert(const LoggingEvent &rLoggingEvent) const Q_DECL_OVERRIDE;
-#ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif
 
 private:
     int mPrecision;
@@ -272,23 +256,10 @@ private:
 
 protected:
     virtual QString convert(const LoggingEvent &rLoggingEvent) const Q_DECL_OVERRIDE;
-#ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif
 
 private:
     QString mKey;
 };
-
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug, const FormattingInfo &rFormattingInfo);
-#endif
-
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug, const PatternConverter &rPatternConverter);
-#endif
 
 LOG4QT_DECLARE_STATIC_LOGGER(logger, Log4Qt::PatternFormatter)
 
@@ -661,62 +632,15 @@ QString BasicPatternConverter::convert(const LoggingEvent &rLoggingEvent) const
     }
 }
 
-
-QDebug BasicPatternConverter::debug(QDebug &rDebug) const
-{
-    QString type;
-    switch (mType)
-    {
-    case MESSAGE_CONVERTER:
-        type = QLatin1String("MESSAGE_CONVERTER");
-        break;
-    case NDC_CONVERTER:
-        type = QLatin1String("NDC_CONVERTER");
-        break;
-    case LEVEL_CONVERTER:
-        type = QLatin1String("LEVEL_CONVERTER");
-        break;
-    case THREAD_CONVERTER:
-        type = QLatin1String("THREAD_CONVERTER");
-        break;
-    default:
-        Q_ASSERT_X(false, "BasicPatternConverter::debug()", "Unkown type constant");
-    }
-    rDebug.nospace() << "BasicPatternConverter("
-                     << mFormattingInfo
-                     << "type:" << type
-                     << ")";
-    return rDebug.space();
-}
-
 QString DatePatternConverter::convert(const LoggingEvent &rLoggingEvent) const
 {
     return DateTime::fromMSecsSinceEpoch(rLoggingEvent.timeStamp()).toString(mFormat);
-}
-
-QDebug DatePatternConverter::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "DatePatternConverter("
-                     << mFormattingInfo
-                     << "format:" << mFormat
-                     << ")";
-    return rDebug.space();
 }
 
 QString LiteralPatternConverter::convert(const LoggingEvent &rLoggingEvent) const
 {
     Q_UNUSED(rLoggingEvent);
     return mLiteral;
-}
-
-
-QDebug LiteralPatternConverter::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "LiteralPatternConverter("
-                     << mFormattingInfo
-                     << "literal:" << mLiteral
-                     << ")";
-    return rDebug.space();
 }
 
 QString LoggerPatternConverter::convert(const LoggingEvent &rLoggingEvent) const
@@ -743,70 +667,9 @@ QString LoggerPatternConverter::convert(const LoggingEvent &rLoggingEvent) const
     return name.mid(begin);
 }
 
-
-QDebug LoggerPatternConverter::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "LoggerPatternConverter("
-                     << mFormattingInfo
-                     << "precision:" << mPrecision
-                     << ")";
-    return rDebug.space();
-}
-
-
 QString MDCPatternConverter::convert(const LoggingEvent &rLoggingEvent) const
 {
     return rLoggingEvent.mdc().value(mKey);
 }
-
-
-QDebug MDCPatternConverter::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "MDCPatternConverter("
-                     << mFormattingInfo
-                     << "key:" << mKey
-                     << ")";
-    return rDebug.space();
-}
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug, const PatternFormatter &rPatternFormatter)
-{
-    debug.nospace() << "PatternFormatter("
-                    << "pattern:" << rPatternFormatter.mPattern << " "
-                    << "converters:(";
-    int i;
-    for (i = 0; i < rPatternFormatter.mPatternConverters.size(); i++)
-    {
-        if (i > 0)
-            debug.nospace() << ", ";
-        debug.nospace() << *rPatternFormatter.mPatternConverters.at(i);
-    }
-    debug.nospace() << ") )";
-    return debug.space();
-}
-#endif
-
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug, const FormattingInfo &rFormattingInfo)
-{
-    debug.nospace() << "FormattingInfo("
-                    << "min:" << FormattingInfo::intToString(rFormattingInfo.mMinLength) << " "
-                    << "max:" << FormattingInfo::intToString(rFormattingInfo.mMaxLength) << " "
-                    << "left:" << rFormattingInfo.mLeftAligned
-                    << ")";
-    return debug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug, const PatternConverter &rPatternConverter)
-{
-    return rPatternConverter.debug(debug);
-}
-#endif // QT_NO_DEBUG_STREAM
-
 
 } // namespace Log4Qt

@@ -58,8 +58,6 @@ void ConfiguratorHelper::doConfigurationFileChanged(const QString &rFileName)
     emit configurationFileChanged(rFileName, mConfigureError.count() > 0);
 }
 
-
-
 void ConfiguratorHelper::doSetConfigurationFile(const QString &rFileName,
         ConfigureFunc pConfigureFunc)
 {
@@ -83,19 +81,6 @@ void ConfiguratorHelper::doSetConfigurationFile(const QString &rFileName,
     else
         qWarning() << "Add Path '" << rFileName << "' to file system watcher failed!";
 }
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug,
-                  const ConfiguratorHelper &rConfiguratorHelper)
-{
-    debug.nospace() << "ConfiguratorHelper("
-                    << "configurationfile:" << ConfiguratorHelper::configurationFile()
-                    << "configurefunc:" << rConfiguratorHelper.mpConfigureFunc
-                    << "filesystemwatcher:" << rConfiguratorHelper.mpConfigurationFileWatch
-                    << ")";
-    return debug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
 
 } // namespace Log4Qt
 

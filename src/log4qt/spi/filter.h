@@ -80,32 +80,9 @@ public:
     virtual void activateOptions();
     virtual Decision decide(const LoggingEvent &rEvent) const = 0;
 
-protected:
-#ifndef QT_NO_DEBUG_STREAM
-    /*!
-     * Writes all object member variables to the given debug stream
-     * \a rDebug and returns the stream.
-     *
-     * The member function is used by
-     * QDebug operator<<(QDebug debug, const Filter &rFilter) to
-     * generate class specific output.
-     *
-     * \sa QDebug operator<<(QDebug debug, const Filter &rFilter)
-     */
-    virtual QDebug debug(QDebug &rDebug) const = 0;
-
-    // Needs to be friend to access internal data
-    friend QDebug operator<<(QDebug debug,
-                             const Filter &rFilter);
-#endif // QT_NO_DEBUG_STREAM
-
 private:
     FilterSharedPtr mpNext;
 };
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug, const Filter &rFilter);
-#endif // QT_NO_DEBUG_STREAM
 
 
 } // namespace Log4Qt

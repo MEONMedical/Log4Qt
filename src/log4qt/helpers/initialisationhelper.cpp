@@ -55,15 +55,12 @@ InitialisationHelper::InitialisationHelper() :
     doInitialiseEnvironmentSettings();
 }
 
-
 InitialisationHelper::~InitialisationHelper()
 {
     Q_ASSERT_X(false, "InitialisationHelper::~InitialisationHelper()", "Unexpected destruction of singleton object");
 }
 
-
 LOG4QT_IMPLEMENT_INSTANCE(InitialisationHelper)
-
 
 void InitialisationHelper::doInitialiseEnvironmentSettings()
 {
@@ -107,7 +104,6 @@ void InitialisationHelper::doRegisterTypes()
 #endif
 }
 
-
 QString InitialisationHelper::doSetting(const QString &rKey,
                                         const QString &rDefault) const
 {
@@ -133,19 +129,5 @@ bool InitialisationHelper::staticInitialisation()
 
 
 bool InitialisationHelper::msStaticInitialisation = staticInitialisation();
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug,
-                  const InitialisationHelper &rInitialisationHelper)
-{
-    Q_UNUSED(rInitialisationHelper);
-    debug.nospace() << "InitialisationHelper("
-                    << "starttime:" << InitialisationHelper::startTime()
-                    << "(" << DateTime::fromMSecsSinceEpoch(InitialisationHelper::startTime()) << ")"
-                    << "environmentsettings:" << InitialisationHelper::environmentSettings()
-                    << ")";
-    return debug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
 
 } // namespace Log4Qt

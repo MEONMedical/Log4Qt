@@ -126,40 +126,6 @@ bool DailyRollingFileAppender::checkEntryConditions() const
     return FileAppender::checkEntryConditions();
 }
 
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug DailyRollingFileAppender::debug(QDebug &rDebug) const
-{
-    QString layout_name;
-    if (layout())
-        layout_name = layout()->name();
-    QString codec_name;
-    if (encoding())
-        codec_name = QLatin1String(encoding()->name());
-
-    rDebug.nospace() << "DailyRollingFileAppender("
-                     << "name:" << name() << " "
-                     << "activedatepattern:" << mActiveDatePattern << " "
-                     << "appendfile:" << appendFile() << " "
-                     << "bufferedio:" << bufferedIo() << " "
-                     << "datepattern:" << datePattern() << " "
-                     << "encoding:" << codec_name << " "
-                     << "frequency:" << frequencyToString() << " "
-                     << "file:" << file() << " "
-                     << "filter:" << firstFilter() << " "
-                     << "immediateflush:" << immediateFlush() << " "
-                     << "isactive:" << isActive() << " "
-                     << "isclosed:" << isClosed() << " "
-                     << "layout:" << layout_name << " "
-                     << "rollovertime:" << mRollOverTime
-                     << "threshold:" << threshold().toString()
-                     << "writer:" << writer()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
-
 void DailyRollingFileAppender::computeFrequency()
 {
     const DateTime start_time(QDate(1999, 1, 1), QTime(0, 0));

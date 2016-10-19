@@ -18,10 +18,6 @@ public:
 
     virtual Decision decide(const LoggingEvent &rEvent) const Q_DECL_OVERRIDE;
 
-protected:
-#ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif // QT_NO_DEBUG_STREAM
 
 private:
     bool mAcceptBinaryEvents;

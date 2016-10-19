@@ -61,22 +61,6 @@ public:
 protected:
     virtual void append(const Log4Qt::LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
-#ifndef QT_NO_DEBUG_STREAM
-    /*!
-    * Writes all object member variables to the given debug stream
-    * \a rDebug and returns the stream.
-    *
-    * The member function is used by
-    * QDebug operator<<(QDebug debug, const Appender &rAppender) to
-    * generate class specific output.
-    *
-    * \sa QDebug operator<<(QDebug debug, const Appender &rAppender)
-    */
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-
-    // Needs to be friend to access internal data
-    friend QDebug operator<<(QDebug debug, const Appender &rAppender);
-#endif // QT_NO_DEBUG_STREAM
     QString mServiceName;
     char *ident;
 };

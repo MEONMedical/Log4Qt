@@ -154,16 +154,4 @@ QDataStream &operator>>(QDataStream &rStream,
 }
 #endif // QT_NO_DATASTREAM
 
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug,
-                  const Level &rLevel)
-{
-    debug.nospace() << "Level("
-                    << rLevel.toString()
-                    << ")";
-    return debug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 } // namespace Log4Qt

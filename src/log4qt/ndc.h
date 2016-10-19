@@ -65,22 +65,6 @@ private:
     QThreadStorage<QStack<QString> *> mStack;
 };
 
-#ifndef QT_NO_DEBUG_STREAM
-/*!
- * \relates NDC
- *
- * Writes all object member variables to the given debug stream \a rDebug and
- * returns the stream.
- *
- * <tt>
- * %NDC(thread:"main" peek:"i = 3" depth:4)
- * </tt>
- * \sa QDebug
- */
-QDebug operator<<(QDebug debug,
-                  const NDC &rNDC);
-#endif // QT_NO_DEBUG_STREAM
-
 inline NDC::NDC() :
     mStack()
 {}

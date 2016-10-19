@@ -131,39 +131,8 @@ private:
     const QString mOptionCharacters;
     QString mPattern;
     QList<PatternConverter *> mPatternConverters;
-
-    // Needs to be friend to access internal data
-    friend QDebug operator<<(QDebug, const PatternFormatter &rPatternFormatter);
 };
 
-#ifndef QT_NO_DEBUG_STREAM
-/*!
- * \relates PatternFormatter
- *
- * Writes all object member variables to the given debug stream \a rDebug and
- * returns the stream.
- *
- * <tt>
- * %PatternFormatter(pattern:"%r [%t] %p %c %x - %m%n"
- *                   converters:(
- *                   DatePatternConverter(FormattingInfo(min:"0" max:"INT_MAX" left:false) format: "RELATIVE" )  ,
- *                   LiteralPatternConverter(FormattingInfo(min:"0" max:"INT_MAX" left:false) literal: " [" )  ,
- *                   BasicPatternConverter(FormattingInfo(min:"0" max:"INT_MAX" left:false) type: "THREAD_CONVERTER" )  ,
- *                   LiteralPatternConverter(FormattingInfo(min:"0" max:"INT_MAX" left:false) literal: "] " )  ,
- *                   BasicPatternConverter(FormattingInfo(min:"0" max:"INT_MAX" left:false) type: "LEVEL_CONVERTER" )  ,
- *                   LiteralPatternConverter(FormattingInfo(min:"0" max:"INT_MAX" left:false) literal: " " )  ,
- *                   LoggerPatternConverter(FormattingInfo(min:"0" max:"INT_MAX" left:false) precision: 0 )  ,
- *                   LiteralPatternConverter(FormattingInfo(min:"0" max:"INT_MAX" left:false) literal: " " )  ,
- *                   BasicPatternConverter(FormattingInfo(min:"0" max:"INT_MAX" left:false) type: "NDC_CONVERTER" )  ,
- *                   LiteralPatternConverter(FormattingInfo(min:"0" max:"INT_MAX" left:false) literal: " - " ) ,
- *                   BasicPatternConverter(FormattingInfo(min:"0" max:"INT_MAX" left:false) type: "MESSAGE_CONVERTER" )  ,
- *                   LiteralPatternConverter(FormattingInfo(min:"0" max:"INT_MAX" left:false) literal: "" ) ) )
- * </tt>
- * \sa QDebug
- */
-QDebug operator<<(QDebug debug,
-                  const PatternFormatter &rPatternFormatter);
-#endif // QT_NO_DEBUG_STREAM
 
 } // namespace Log4Qt
 

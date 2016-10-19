@@ -36,7 +36,6 @@
 #include "logger.h"
 
 
-
 namespace Log4Qt
 {
 
@@ -48,7 +47,6 @@ QString MDC::get(const QString &rKey)
     return instance()->mHash.localData()->value(rKey);
 }
 
-
 QHash<QString, QString> MDC::context()
 {
     if (!instance()->mHash.hasLocalData())
@@ -57,9 +55,7 @@ QHash<QString, QString> MDC::context()
     return *instance()->mHash.localData();
 }
 
-
 LOG4QT_IMPLEMENT_INSTANCE(MDC)
-
 
 QHash<QString, QString> *MDC::localData()
 {
@@ -67,19 +63,4 @@ QHash<QString, QString> *MDC::localData()
         instance()->mHash.setLocalData(new QHash<QString, QString>);
     return instance()->mHash.localData();
 }
-
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug, const MDC &rMDC)
-{
-    Q_UNUSED(rMDC); // To avoid warning C4100 on VS 2008
-    debug.nospace() << "MDC("
-                    << "thread:" << QThread::currentThread()->objectName() << " "
-                    << "context:" << rMDC.context()
-                    << ")";
-    return debug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
-
 } // namespace Log4Qt

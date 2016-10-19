@@ -92,27 +92,6 @@ private:
     static const char *msKeyEscapeChars;
 };
 
-#ifndef QT_NO_DEBUG_STREAM
-/*!
- * \relates Properties
- *
- * Writes all object member variables to the given debug stream \a rDebug and
- * returns the stream.
- *
- * <tt>
- * %Properties(default:0x0 properties:QHash(("log4j.appender.testAppender.layout", "org.apache.log4j.PatternLayout ")
- *             ("log4j.appender.testAppender.layout.ConversionPattern", "[%t] %-5p %l: %m%n")
- *             ("log4j.appender.testAppender.Append", "false ")
- *             ("log4j.appender.testAppender.File", "output/temp ")
- *             ("log4j.rootCategory", "TRACE, testAppender")
- *             ("log4j.appender.testAppender", "org.apache.log4j.FileAppender")) )
- * </tt>
- * \sa QDebug
- */
-QDebug operator<<(QDebug debug,
-                  const Properties &rProperties);
-#endif // QT_NO_DEBUG_STREAM
-
 inline Properties::Properties(Properties *pDefaultProperties) :
     mpDefaultProperties(pDefaultProperties)
 {}

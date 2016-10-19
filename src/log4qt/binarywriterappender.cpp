@@ -113,26 +113,6 @@ void BinaryWriterAppender::closeWriter()
     mpWriter = 0;
 }
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug BinaryWriterAppender::debug(QDebug &rDebug) const
-{
-    QString layout_name;
-    if (layout())
-        layout_name = layout()->name();
-
-    rDebug.nospace() << "BinaryWriterAppender("
-                     << "name:" << name() << " "
-                     << "filter:" << firstFilter()
-                     << "isactive:" << isActive()
-                     << "isclosed:" << isClosed()
-                     << "layout:" << layout_name
-                     << "threshold:" << threshold().toString()
-                     << "writer:" << writer()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 bool BinaryWriterAppender::handleIoErrors() const
 {
     return false;

@@ -33,20 +33,4 @@ QString BinaryToTextLayout::format(const LoggingEvent &rEvent)
     return QString();
 }
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug BinaryToTextLayout::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "BinaryToTextLayout("
-                     << "name:" << name() << " ";
-
-    if (mSubLayout)
-        rDebug.nospace() << "sublayout: " << *mSubLayout.data() << " ";
-    else
-        rDebug.nospace() << "sublayout: <null> ";
-
-    rDebug.nospace() << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 } // namespace Log4Qt

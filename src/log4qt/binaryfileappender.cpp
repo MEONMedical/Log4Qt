@@ -128,29 +128,6 @@ void BinaryFileAppender::closeFile()
     mpFile = 0;
 }
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug BinaryFileAppender::debug(QDebug &rDebug) const
-{
-    QString layout_name;
-    if (layout())
-        layout_name = layout()->name();
-
-    rDebug.nospace() << "BinaryFileAppender("
-                     << "name:" << name() << " "
-                     << "appendfile:" << appendFile() << " "
-                     << "bufferedio:" << bufferedIo() << " "
-                     << "file:" << file() << " "
-                     << "filter:" << firstFilter() << " "
-                     << "isactive:" << isActive() << " "
-                     << "isclosed:" << isClosed() << " "
-                     << "layout:" << layout_name << " "
-                     << "threshold:" << threshold().toString() << " "
-                     << "writer:" << writer()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 bool BinaryFileAppender::handleIoErrors() const
 {
     if (mpFile->error() == QFile::NoError)

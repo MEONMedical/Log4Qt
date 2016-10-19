@@ -171,7 +171,6 @@ bool WriterAppender::checkEntryConditions() const
     return AppenderSkeleton::checkEntryConditions();
 }
 
-
 void WriterAppender::closeWriter()
 {
     if (!mpWriter)
@@ -180,33 +179,6 @@ void WriterAppender::closeWriter()
     writeFooter();
     mpWriter = 0;
 }
-
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug WriterAppender::debug(QDebug &rDebug) const
-{
-    QString layout_name;
-    if (layout())
-        layout_name = layout()->name();
-    QString codec_name;
-    if (encoding())
-        codec_name = QLatin1String(encoding()->name());
-
-    rDebug.nospace() << "WriterAppender("
-                     << "name:" << name() << " "
-                     << "encoding:" << codec_name << " "
-                     << "filter:" << firstFilter()
-                     << "immediateFlush:" << immediateFlush()
-                     << "isactive:" << isActive()
-                     << "isclosed:" << isClosed()
-                     << "layout:" << layout_name
-                     << "threshold:" << threshold().toString()
-                     << "writer:" << writer()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 
 bool WriterAppender::handleIoErrors() const
 {

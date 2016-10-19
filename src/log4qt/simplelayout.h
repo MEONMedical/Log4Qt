@@ -55,20 +55,6 @@ public:
 
     virtual QString format(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
-protected:
-
-#ifndef QT_NO_DEBUG_STREAM
-    /*!
-     * Writes all object member variables to the given debug stream
-     * \a rDebug and returns the stream.
-     *
-     * <tt>
-     * %SimpleLayout(name:"SL" referencecount:1)
-     * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const Layout &Layout)
-     */
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif // QT_NO_DEBUG_STREAM
 };
 
 inline SimpleLayout::SimpleLayout(QObject *pParent)

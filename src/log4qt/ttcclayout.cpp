@@ -131,20 +131,4 @@ void TTCCLayout::updatePatternFormatter()
     mpPatternFormatter = new PatternFormatter(pattern);
 }
 
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug TTCCLayout::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "TTCCLayout("
-                     << "name:" << name() << " "
-                     << "categoryprefixing:" << categoryPrefixing() << " "
-                     << "contextprinting:" << contextPrinting() << " "
-                     << "dateformat:" << dateFormat() << " "
-                     << "threadprinting:" << threadPrinting()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
-
 } // namespace Log4Qt

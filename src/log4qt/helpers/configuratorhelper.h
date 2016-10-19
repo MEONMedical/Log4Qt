@@ -140,30 +140,8 @@ private:
     ConfigureFunc mpConfigureFunc;
     QFileSystemWatcher *mpConfigurationFileWatch;
     QList<LoggingEvent> mConfigureError;
-
-#ifndef QT_NO_DEBUG_STREAM
-    // Needs to be friend to access details
-    friend QDebug operator<<(QDebug debug,
-                             const ConfiguratorHelper &rConfiguratorHelper);
-#endif // QT_NO_DEBUG_STREAM
 };
 
-#ifndef QT_NO_DEBUG_STREAM
-/*!
- * \relates ConfiguratorHelper
- *
- * Writes all object member variables to the given debug stream \a rDebug and
- * returns the stream.
- *
- * <tt>
- * %ConfiguratorHelper(configurationfile: "" configurefunc: false
- *                     filesystemwatcher: QObject(0x0) )
- * </tt>
- * \sa QDebug, ConfiguratorHelper::logManager()
- */
-QDebug operator<<(QDebug debug,
-                  const ConfiguratorHelper &rConfiguratorHelper);
-#endif // QT_NO_DEBUG_STREAM
 
 inline QList<LoggingEvent> ConfiguratorHelper::configureError()
 {

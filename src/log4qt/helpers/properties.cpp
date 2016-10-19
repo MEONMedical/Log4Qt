@@ -110,7 +110,6 @@ QString Properties::property(const QString &rKey,
         return value;
 }
 
-
 QStringList Properties::propertyNames() const
 {
     QStringList default_keys;
@@ -286,7 +285,6 @@ void Properties::parseProperty(const QString &rProperty,
     insert(key, value);
 }
 
-
 int Properties::hexDigitValue(const QChar &rDigit)
 {
     bool ok;
@@ -297,7 +295,6 @@ int Properties::hexDigitValue(const QChar &rDigit)
         return result;
 }
 
-
 QString Properties::trimLeft(const QString &rLine)
 {
     int i = 0;
@@ -306,24 +303,10 @@ QString Properties::trimLeft(const QString &rLine)
     return rLine.right(rLine.length() - i);
 }
 
-
 const char Properties::msEscapeChar = '\\';
 const char *Properties::msValueEscapeCodes = "tnr\\\"\' ";
 const char *Properties::msValueEscapeChars = "\t\n\r\\\"\' ";
 const char *Properties::msKeyEscapeCodes = " :=";
 const char *Properties::msKeyEscapeChars = " :=";
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug, const Properties &rProperties)
-{
-    debug.nospace() << "Properties("
-                    << "default:" << rProperties.defaultProperties() << " "
-                    << "properties:" << *reinterpret_cast<const QHash <QString, QString> *>(&rProperties)
-                    << ")";
-    return debug.space();
-}
-#endif
-
-
 
 } // namespace Log4Qt

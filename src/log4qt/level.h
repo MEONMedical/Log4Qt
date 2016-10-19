@@ -134,24 +134,7 @@ QDataStream &operator>>(QDataStream &rStream,
                         Level &rLevel);
 #endif // QT_NO_DATASTREAM
 
-#ifndef QT_NO_DEBUG_STREAM
-/*!
- * \relates Level
- *
- * Writes all object member variables to the given debug stream \a rDebug
- * and returns the stream.
- *
- * <tt>
- * %Level("ERROR")
- * </tt>
- * \sa QDebug
- */
-QDebug operator<<(QDebug debug,
-                  const Level &rLevel);
-#endif // QT_NO_DEBUG_STREAM
-
 } // namespace Log4Qt
-
 
 Q_DECLARE_METATYPE(Log4Qt::Level)
 Q_DECLARE_TYPEINFO(Log4Qt::Level, Q_MOVABLE_TYPE);

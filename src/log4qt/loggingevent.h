@@ -128,27 +128,6 @@ LOG4QT_EXPORT QDataStream &operator>>(QDataStream &rStream,
                                       LoggingEvent &rLoggingEvent);
 #endif // QT_NO_DATASTREAM
 
-#ifndef QT_NO_DEBUG_STREAM
-/*!
- * \relates LoggingEvent
- *
- * Writes all object member variables to the given debug stream \a debug and
- * returns the stream.
- *
- * <tt>
- * %LoggingEvent(level:"WARN" logger:"Log4Qt::Properties"
- *               message:"Unknown escape sequence '\j' in property starting at line 1"
- *               sequencenumber:14 threadname:"main"
- *               timestamp:1194337148937(QDateTime("Tue Nov 6 03:19:08 2007") )
- *               sequenceCount: 14 )
- * </tt>
- *
- * \sa QDebug
- */
-QDebug operator<<(QDebug debug,
-                  const LoggingEvent &rLoggingEvent);
-#endif // QT_NO_DEBUG_STREAM
-
 inline Level LoggingEvent::level() const
 {
     return mLevel;

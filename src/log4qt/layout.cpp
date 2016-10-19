@@ -53,12 +53,4 @@ QString Layout::endOfLine()
     return QLatin1String("\n");
 }
 
-QDebug operator<<(QDebug debug, const Layout &rLayout)
-{
-    return rLayout.debug(debug);
-}
-
-
-
-
 } // namespace Log4Qt

@@ -58,20 +58,6 @@ public:
     virtual void resetConfiguration() Q_DECL_OVERRIDE;
     virtual void shutdown() Q_DECL_OVERRIDE;
 
-protected:
-#ifndef QT_NO_DEBUG_STREAM
-    /*!
-     * Writes all object member variables to the given debug stream \a rDebug and
-     * returns the stream.
-     *
-     * <tt>
-     * %Hierarchy(loggers:6 threshold:"ALL" root-level:"DEBUG" root-appenders:0)
-     * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const LoggerRepository &rLoggerRepository)
-     */
-    virtual QDebug debug(QDebug &rdebug) const Q_DECL_OVERRIDE;
-#endif
-
 private:
     Logger *createLogger(const QString &rName);
     void resetLogger(Logger *pLogger, Level level) const;

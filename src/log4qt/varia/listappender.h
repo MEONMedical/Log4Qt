@@ -101,21 +101,6 @@ public:
 protected:
     virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
-#ifndef QT_NO_DEBUG_STREAM
-    /*!
-     * Writes all object member variables to the given debug stream
-     * \a rDebug and returns the stream.
-     *
-     * <tt>
-     * %ListAppender(name:"LA" count:1 filter:0x41fa488 isactive:true
-     *               isclosed:false maxcount:170 referencecount:1
-     *               threshold:"TRACE_SET")
-     * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender)
-     */
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif // QT_NO_DEBUG_STREAM
-
     /*!
      * Ensures that the count of events is less or equal then the maxium
      * count. If the list contains too many items, items are deleted from

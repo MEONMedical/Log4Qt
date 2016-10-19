@@ -169,28 +169,4 @@ bool DatabaseAppender::checkEntryConditions() const
     return AppenderSkeleton::checkEntryConditions();
 }
 
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug DatabaseAppender::debug(QDebug &rDebug) const
-{
-    QString layout_name;
-    if (layout())
-        layout_name = layout()->name();
-
-    rDebug.nospace() << "DatabaseAppender("
-                     << "name:" << name() << " "
-                     << "connection:" << connectionName << " "
-                     << "table:" << tableName
-                     << "filter:" << firstFilter()
-                     << "isactive:" << isActive()
-                     << "isclosed:" << isClosed()
-                     << "layout:" << layout_name
-                     << "referencecount:" << referenceCount() << " "
-                     << "threshold:" << threshold().toString()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
-
 } // namespace Log4Qt

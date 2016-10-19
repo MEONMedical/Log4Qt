@@ -102,19 +102,4 @@ QString NDC::peek()
     return instance()->mStack.localData()->top();
 }
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug,
-                  const NDC &rNDC)
-{
-    Q_UNUSED(rNDC); // To avoid warning C4100 on VS 2008
-    debug.nospace() << "NDC("
-                    << "thread:" << QThread::currentThread()->objectName() << " "
-                    << "peek:" << rNDC.peek() << " "
-                    << "depth:" << rNDC.depth()
-                    << ")";
-    return debug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
-
 } // namespace Log4Qt

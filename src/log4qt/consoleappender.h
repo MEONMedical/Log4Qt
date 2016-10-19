@@ -109,21 +109,6 @@ public:
 protected:
     void closeStream();
 
-#ifndef QT_NO_DEBUG_STREAM
-    /*!
-     * Writes all object member variables to the given debug stream
-     * \a rDebug and returns the stream.
-     *
-     * <tt>
-     * %ConsoleAppender(name:"CA" filter:0x0 isactive:true isclosed:false
-     *                  layout:"PL" target:"STDERR" referenceCount:1
-     *                  threshold:"WARN_SET")
-     * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender)
-     */
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif // QT_NO_DEBUG_STREAM
-
 private:
     volatile Target mTarget;
     QTextStream *mpTextStream;

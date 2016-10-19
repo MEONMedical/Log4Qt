@@ -45,10 +45,6 @@ LOG4QT_EXPORT QDataStream &operator<<(QDataStream &rStream, const BinaryLoggingE
 LOG4QT_EXPORT QDataStream &operator>>(QDataStream &rStream, BinaryLoggingEvent &rLoggingEvent);
 #endif // QT_NO_DATASTREAM
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug, const BinaryLoggingEvent &rLoggingEvent);
-#endif // QT_NO_DEBUG_STREAM
-
 } // namespace Log4Qt
 
 Q_DECLARE_METATYPE(Log4Qt::BinaryLoggingEvent)

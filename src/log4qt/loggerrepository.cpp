@@ -33,14 +33,4 @@ namespace Log4Qt
 
 LoggerRepository::~LoggerRepository() {}
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug,
-                  const LoggerRepository &rLoggerRepository)
-{
-    return rLoggerRepository.debug(debug);
-}
-#endif // QT_NO_DEBUG_STREAM
-
-
-
 }  // namespace Log4Qt

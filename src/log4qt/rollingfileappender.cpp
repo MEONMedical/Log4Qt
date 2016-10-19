@@ -22,7 +22,6 @@
  *
  ******************************************************************************/
 
-
 #include "rollingfileappender.h"
 
 #include <QDebug>
@@ -33,10 +32,8 @@
 #include "loggingevent.h"
 
 
-
 namespace Log4Qt
 {
-
 
 RollingFileAppender::RollingFileAppender(QObject *pParent) :
     FileAppender(pParent),
@@ -44,7 +41,6 @@ RollingFileAppender::RollingFileAppender(QObject *pParent) :
     mMaximumFileSize(10 * 1024 * 1024)
 {
 }
-
 
 RollingFileAppender::RollingFileAppender(LayoutSharedPtr pLayout,
         const QString &rFileName,
@@ -54,7 +50,6 @@ RollingFileAppender::RollingFileAppender(LayoutSharedPtr pLayout,
     mMaximumFileSize(10 * 1024 * 1024)
 {
 }
-
 
 RollingFileAppender::RollingFileAppender(LayoutSharedPtr pLayout,
         const QString &rFileName,
@@ -72,7 +67,6 @@ RollingFileAppender::~RollingFileAppender()
     close();
 }
 
-
 void RollingFileAppender::setMaxFileSize(const QString &rMaxFileSize)
 {
     bool ok;
@@ -80,7 +74,6 @@ void RollingFileAppender::setMaxFileSize(const QString &rMaxFileSize)
     if (ok)
         setMaximumFileSize(max_file_size);
 }
-
 
 void RollingFileAppender::append(const LoggingEvent &rEvent)
 {
@@ -121,37 +114,5 @@ void RollingFileAppender::rollOver()
 
     openFile();
 }
-
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug RollingFileAppender::debug(QDebug &rDebug) const
-{
-    QString layout_name;
-    if (layout())
-        layout_name = layout()->name();
-    QString codec_name;
-    if (encoding())
-        codec_name = QLatin1String(encoding()->name());
-
-    rDebug.nospace() << "RollingFileAppender("
-                     << "name:" << name() << " "
-                     << "appendfile:" << appendFile() << " "
-                     << "bufferedio:" << bufferedIo() << " "
-                     << "encoding:" << codec_name << " "
-                     << "file:" << file() << " "
-                     << "filter:" << firstFilter() << " "
-                     << "immediateflush:" << immediateFlush() << " "
-                     << "isactive:" << isActive() << " "
-                     << "isclosed:" << isClosed() << " "
-                     << "layout:" << layout_name << " "
-                     << "maxbackupindex:" << maxBackupIndex() << " "
-                     << "maximumfilesize:" << maximumFileSize() << " "
-                     << "threshold:" << threshold().toString() << " "
-                     << "writer:" << writer()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 
 } // namespace Log4Qt

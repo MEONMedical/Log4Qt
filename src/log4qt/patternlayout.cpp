@@ -98,16 +98,4 @@ void PatternLayout::updatePatternFormatter()
     mpPatternFormatter = new PatternFormatter(mPattern);
 }
 
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug PatternLayout::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "PatternLayout("
-                     << "name:" << name() << " "
-                     << "pattern:" << conversionPattern() << " "
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 } // namespace Log4Qt

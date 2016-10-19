@@ -175,23 +175,6 @@ QList<QTcpSocket *> TelnetAppender::clients() const
     return mTcpSockets;
 }
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug TelnetAppender::debug(QDebug &rDebug) const
-{
-    QString layout_name;
-    if (layout())
-        layout_name = layout()->name();
-
-    rDebug.nospace() << "TelnetAppender(" << "name:" << name() << " "
-                     << "filter:" << firstFilter() << "isactive:" << isActive()
-                     << "isclosed:" << isClosed() << "layout:" << layout_name
-                     << " " << "threshold:"
-                     << threshold().toString() << "address:" << address() << "port:"
-                     << port() << " " << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 void TelnetAppender::onNewConnection()
 {
     QMutexLocker locker(&mObjectGuard);

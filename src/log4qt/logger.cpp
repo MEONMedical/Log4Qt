@@ -128,22 +128,6 @@ Logger *Logger::rootLogger()
     return LogManager::rootLogger();
 }
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug Logger::debug(QDebug &rDebug) const
-{
-    QReadLocker locker(&mAppenderGuard);
-
-    QString parent_logger;
-    if (mpParent)
-        parent_logger = mpParent->name();
-
-    rDebug.nospace() << "Logger(" << "name:" << name() << " " << "appenders:"
-                     << mAppenders.count() << " " << "additivity:" << mAdditivity << " "
-                     << mLevel << "parentLogger:" << parent_logger << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 void Logger::forcedLog(Level level, const QString &rMessage) const
 {
     QReadLocker locker(&mAppenderGuard);
@@ -151,13 +135,6 @@ void Logger::forcedLog(Level level, const QString &rMessage) const
     LoggingEvent event(this, level, rMessage);
     callAppenders(event);
 }
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug, const Logger &rLogger)
-{
-    return rLogger.debug(debug);
-}
-#endif // QT_NO_DEBUG_STREAM
 
 bool Logger::additivity() const
 {

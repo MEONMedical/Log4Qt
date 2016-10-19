@@ -153,22 +153,6 @@ protected:
 
     QList<QTcpSocket *> clients() const;
 
-#ifndef QT_NO_DEBUG_STREAM
-    /*!
-     * Writes all object member variables to the given debug stream
-     * \a rDebug and returns the stream.
-     *
-     * <tt>
-     * %TelnetAppender(name:"WA" filter:"0x0"
-     *                 isactive:false isclosed:false layout:"TTCC"
-     *                 referencecount:1 threshold:"NULL port:"23")
-     * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender   )
-     */
-
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif // QT_NO_DEBUG_STREAM
-
 private slots:
     /*!
      *  Handles a new incomming connection

@@ -546,18 +546,4 @@ bool PropertyConfigurator::stopCaptureErrors()
     return result;
 }
 
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug,
-                  const PropertyConfigurator &rPropertyConfigurator)
-{
-    Q_UNUSED(rPropertyConfigurator);
-    debug.nospace() << "PropertyConfigurator("
-                    << ")";
-    return debug.space();
-}
-#endif
-
-
-
 } // namespace Log4Qt Logging

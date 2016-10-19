@@ -169,20 +169,5 @@ void SystemLogAppender::setServiceName(const QString &serviceName)
 #endif
 }
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug SystemLogAppender::debug(QDebug &rDebug) const
-{
-    QString layout_name;
-    if (layout())
-        layout_name = layout()->name();
-
-    rDebug.nospace() << "WriterAppender(" << "name:" << name() << " "
-                     << "filter:" << firstFilter() << "isactive:" << isActive() << "isclosed:"
-                     << isClosed() << "layout:" << layout_name << "referencecount:"
-                     << "threshold:" << threshold().toString()
-                     << "serviceName:" << serviceName() << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
 }
 

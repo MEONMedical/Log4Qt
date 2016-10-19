@@ -237,40 +237,10 @@ void RollingBinaryFileAppender::computeRollOverTime()
                     mRollOverTime.toString());
 }
 
-
 QString RollingBinaryFileAppender::frequencyToString() const
 {
     QMetaEnum meta_enum = metaObject()->enumerator(metaObject()->indexOfEnumerator("DatePattern"));
     return QLatin1String(meta_enum.valueToKey(mFrequency));
 }
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug RollingBinaryFileAppender::debug(QDebug &rDebug) const
-{
-    QString layout_name;
-    if (layout())
-        layout_name = layout()->name();
-
-    rDebug.nospace() << "RollingBinaryFileAppender("
-                     << "name:" << name() << " "
-                     << "activedatepattern:" << mActiveDatePattern << " "
-                     << "appendfile:" << appendFile() << " "
-                     << "bufferedio:" << bufferedIo() << " "
-                     << "datepattern:" << datePattern() << " "
-                     << "file:" << file() << " "
-                     << "filter:" << firstFilter() << " "
-                     << "frequency:" << frequencyToString() << " "
-                     << "isactive:" << isActive() << " "
-                     << "isclosed:" << isClosed() << " "
-                     << "layout:" << layout_name << " "
-                     << "maxbackupindex:" << maxBackupIndex() << " "
-                     << "maximumfilesize:" << maximumFileSize() << " "
-                     << "rollovertime:" << mRollOverTime << " "
-                     << "threshold:" << threshold().toString() << " "
-                     << "writer:" << writer()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
 
 }

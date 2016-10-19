@@ -53,19 +53,6 @@ public:
 
 protected:
     virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
-
-#ifndef QT_NO_DEBUG_STREAM
-    /*!
-     * Writes all object member variables to the given debug stream \a rDebug and
-     * returns the stream.
-     *
-     * <tt>
-     * %NullAppender()
-     * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender)
-     */
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif // QT_NO_DEBUG_STREAM
 };
 
 inline bool NullAppender::requiresLayout() const

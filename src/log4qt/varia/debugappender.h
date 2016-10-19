@@ -82,19 +82,6 @@ protected:
      */
     virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
-#ifndef QT_NO_DEBUG_STREAM
-    /*!
-     * Writes all object member variables to the given debug stream \a rDebug
-     * and returns the stream.
-     *
-     * <tt>
-     * %DebugAppender(name:"DA" filter:0x3bee6b8 isactive:true isclosed:false
-     *                layout:"SL" referencecount:1 threshold:"NULL")
-     * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const Appender &rAppender)
-     */
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif // QT_NO_DEBUG_STREAM
 };
 
 inline DebugAppender::DebugAppender(QObject *pParent) :

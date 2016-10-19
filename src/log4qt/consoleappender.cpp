@@ -124,38 +124,11 @@ void ConsoleAppender::close()
     closeStream();
 }
 
-
 void ConsoleAppender::closeStream()
 {
     setWriter(Q_NULLPTR);
     delete mpTextStream;
-    mpTextStream = 0;
+    mpTextStream = Q_NULLPTR;
 }
-
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug ConsoleAppender::debug(QDebug &rDebug) const
-{
-    QString layout_name;
-    if (layout())
-        layout_name = layout()->name();
-    QString target;
-    if (mTarget == STDOUT_TARGET)
-        target = QLatin1String("STDOUT");
-    else
-        target = QLatin1String("STDERR");
-
-    rDebug.nospace() << "ConsoleAppender("
-                     << "name:" << name() << " "
-                     << "filter:" << firstFilter() << " "
-                     << "isactive:" << isActive() << " "
-                     << "isclosed:" << isClosed() << " "
-                     << "layout:" << layout_name << " "
-                     << "target:" << target << " "
-                     << "threshold:" << threshold().toString()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
 
 } // namespace Log4Qt

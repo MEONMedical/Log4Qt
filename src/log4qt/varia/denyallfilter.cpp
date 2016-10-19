@@ -35,14 +35,4 @@ DenyAllFilter::DenyAllFilter(QObject *pParent) :
     Filter(pParent)
 {}
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug DenyAllFilter::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "DenyAllFilter("
-                     << "next:" << next()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 } // namespace Log4Qt

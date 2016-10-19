@@ -55,41 +55,7 @@ public:
     virtual bool isDisabled(Level level) = 0;
     virtual void resetConfiguration() = 0;
     virtual void shutdown() = 0;
-
-protected:
-#ifndef QT_NO_DEBUG_STREAM
-    /*!
-     *\relates LoggerRepository
-     *
-     * Writes all object member variables to the given debug stream \a rDebug
-     * and returns the stream.
-     *
-     * The member function is used by
-     * QDebug operator<<(QDebug debug, const LoggerRepository &rLoggerRepository)
-     * to generate class specific output.
-     *
-     * \sa QDebug operator<<(QDebug debug, const LoggerRepository &rLoggerRepository)
-     */
-    virtual QDebug debug(QDebug &rDebug) const = 0;
-    friend QDebug operator<<(QDebug debug,
-                             const LoggerRepository &rLoggerRepository);
-#endif
 };
-
-#ifndef QT_NO_DEBUG_STREAM
-/*!
- * \relates LoggerRepository
- * Writes all object member variables to the given debug stream \a debug
- * and returns the stream.
- *
- * To handle subclassing the function uses the virtual member function
- * debug(). This allows each class to generate its own output.
- *
- * \sa QDebug, debug()
- */
-QDebug operator<<(QDebug debug,
-                  const LoggerRepository &rLoggerRepository);
-#endif
 
 
 } // namespace Log4Qt

@@ -141,23 +141,6 @@ private:
     QHash<QString, AppenderSharedPtr> mAppenderRegistry;
 };
 
-#ifndef QT_NO_DEBUG_STREAM
-/*!
- * \relates PropertyConfigurator
- *
- * Writes all object member variables to the given debug stream \a debug
- * and returns the stream.
- *
- * <tt>
- * %PropertyConfigurator()
- * </tt>
- * \sa QDebug
- */
-QDebug operator<<(QDebug debug,
-                  const PropertyConfigurator &rPropertyConfigurator);
-#endif
-
-
 inline PropertyConfigurator::PropertyConfigurator()
 {}
 

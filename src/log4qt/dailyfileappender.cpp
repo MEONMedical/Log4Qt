@@ -91,36 +91,6 @@ void DailyFileAppender::append(const LoggingEvent &rEvent)
     FileAppender::append(rEvent);
 }
 
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug DailyFileAppender::debug(QDebug &rDebug) const
-{
-    QString layout_name;
-    if (layout())
-        layout_name = layout()->name();
-    QString codec_name;
-    if (encoding())
-        codec_name = QLatin1String(encoding()->name());
-
-    rDebug.nospace() << "DailyFileAppender("
-                     << "name:" << name() << " "
-                     << "appendfile:" << appendFile() << " "
-                     << "bufferedio:" << bufferedIo() << " "
-                     << "datepattern:" << datePattern() << " "
-                     << "encoding:" << codec_name << " "
-                     << "file:" << file() << " "
-                     << "filter:" << firstFilter() << " "
-                     << "immediateflush:" << immediateFlush() << " "
-                     << "isactive:" << isActive() << " "
-                     << "isclosed:" << isClosed() << " "
-                     << "layout:" << layout_name << " "
-                     << "threshold:" << threshold().toString()
-                     << "writer:" << writer()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 void DailyFileAppender::setLogFileForCurrentDay()
 {
     if (mOriginalFilename.isEmpty())

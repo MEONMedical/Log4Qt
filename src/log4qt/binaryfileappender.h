@@ -56,10 +56,6 @@ protected:
     virtual bool checkEntryConditions() const Q_DECL_OVERRIDE;
     virtual bool handleIoErrors() const Q_DECL_OVERRIDE;
 
-#ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif // QT_NO_DEBUG_STREAM
-
     void closeFile();
     void openFile();
     bool removeFile(QFile &rFile) const;

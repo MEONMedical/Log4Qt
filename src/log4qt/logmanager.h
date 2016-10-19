@@ -271,25 +271,6 @@ private:
     static LogManager *mspInstance;
 };
 
-
-#ifndef QT_NO_DEBUG_STREAM
-/*!
- * \relates LogManager
- *
- * Writes all object member variables to the given debug stream \a rDebug and
- * returns the stream.
- *
- * <tt>
- * %LogManager(loggerrepository:Hierarchy(loggers:6 root-level:"DEBUG"
- *             root-appenders:0 log-level: "NULL" log-appenders:0
- *             qt-level: "NULL" qt-appenders:0 handleqtmessages: false )
- * </tt>
- * \sa QDebug
- */
-QDebug operator<<(QDebug debug,
-                  const LogManager &rLogManager);
-#endif // QT_NO_DEBUG_STREAM
-
 inline LoggerRepository *LogManager::loggerRepository()
 {
     return instance()->mpLoggerRepository;

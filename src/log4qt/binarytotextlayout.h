@@ -19,11 +19,6 @@ public:
     LayoutSharedPtr subLayout() const {return mSubLayout;}
     void setSubLayout(LayoutSharedPtr layout) {mSubLayout = layout;}
 
-protected:
-#ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif // QT_NO_DEBUG_STREAM
-
 private:
     Q_DISABLE_COPY(BinaryToTextLayout)
     LayoutSharedPtr mSubLayout;

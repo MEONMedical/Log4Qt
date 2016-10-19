@@ -221,28 +221,4 @@ QDataStream &operator>>(QDataStream &rStream, LoggingEvent &rLoggingEvent)
 }
 #endif // QT_NO_DATASTREAM
 
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug,
-                  const LoggingEvent &rLoggingEvent)
-{
-    QString logger;
-    if (rLoggingEvent.logger() != Q_NULLPTR)
-        logger = rLoggingEvent.logger()->name();
-
-    debug.nospace() << "LoggingEvent("
-                    << "level:" << rLoggingEvent.level().toString() << " "
-                    << "logger:" << logger << " "
-                    << "message:" << rLoggingEvent.message() << " "
-                    << "sequencenumber:" << rLoggingEvent.sequenceNumber() << " "
-                    << "threadname:" << rLoggingEvent.threadName() << " "
-                    << "timestamp:" << rLoggingEvent.timeStamp()
-                    << "(" << QDateTime::fromMSecsSinceEpoch(rLoggingEvent.timeStamp()) << ")"
-                    << "sequenceCount:" << rLoggingEvent.sequenceCount()
-                    << ")";
-    return debug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
-
 } // namespace Log4Qt

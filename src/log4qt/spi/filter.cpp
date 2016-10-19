@@ -49,9 +49,4 @@ void Filter::setNext(FilterSharedPtr pFilter)
 void Filter::activateOptions()
 {}
 
-QDebug operator<<(QDebug debug, const Filter &rFilter)
-{
-    return rFilter.debug(debug);
-}
-
 } // namespace Log4Qt

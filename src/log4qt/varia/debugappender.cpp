@@ -65,24 +65,5 @@ void DebugAppender::append(const LoggingEvent &rEvent)
 #endif
 }
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug DebugAppender::debug(QDebug &rDebug) const
-{
-    QString layout_name;
-    if (layout())
-        layout_name = layout()->name();
-
-    rDebug.nospace() << "DebugAppender("
-                     << "name:" << name() << " "
-                     << "filter:" << firstFilter() << " "
-                     << "isactive:" << isActive() << " "
-                     << "isclosed:" << isClosed() << " "
-                     << "layout:" << layout_name << " "
-                     << "threshold:" << threshold().toString()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 
 } // namspace Log4Qt

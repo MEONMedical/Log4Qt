@@ -604,20 +604,5 @@ bool Factory::validateObjectProperty(QMetaProperty &rMetaProperty,
     return true;
 }
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug operator<<(QDebug debug,
-                  const Factory &rFactory)
-{
-    debug.nospace() << "Factory("
-                    << "appenderfactories:" << rFactory.registeredAppenders()
-                    << "filterfactories:" << rFactory.registeredFilters()
-                    << "layoutfactories:" << rFactory.registeredLayouts()
-                    << ")";
-    return debug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
-
-
 } // namespace Log4Qt
 

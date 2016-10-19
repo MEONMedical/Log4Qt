@@ -67,22 +67,6 @@ public:
 
     virtual Decision decide(const LoggingEvent &rEvent) const Q_DECL_OVERRIDE;
 
-protected:
-#ifndef QT_NO_DEBUG_STREAM
-    /*!
-     * Writes all object member variables to the given debug stream
-     * \a rDebug and returns the stream.
-     *
-     * <tt>
-     * %StringMatchFilter(acceptonmatch:true referencecount:1
-     *                    stringtomatch:"LDAP_STRONG_AUTH_REQUIRED"
-     *                    next:Log4Qt::LevelMatchFilter(0x3bdd960) )
-     * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const Filter &rFilter)
-     */
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif // QT_NO_DEBUG_STREAM
-
 private:
     bool mAcceptOnMatch;
     QString mStringToMatch;

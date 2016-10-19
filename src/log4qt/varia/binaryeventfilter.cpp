@@ -26,15 +26,4 @@ Filter::Decision BinaryEventFilter::decide(const LoggingEvent &rEvent) const
 }
 
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug BinaryEventFilter::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "BinaryEventFilter("
-                     << "acceptbinaryevents:" << mAcceptBinaryEvents << " "
-                     << "next:" << next()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 } // namespace Log4Qt

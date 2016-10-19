@@ -43,31 +43,6 @@ void BinaryLogger::log(Level level, const QByteArray &rMessage, const QDateTime 
     }
 }
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug BinaryLogger::debug(QDebug &rDebug) const
-{
-    QReadLocker locker(&mAppenderGuard);
-
-    QString parent_logger;
-    if (Logger *parent = parentLogger())
-        parent_logger = parent->name();
-
-    rDebug.nospace() << "BinaryLogger("
-                     << "name:" << name() << " "
-                     << "appenders:" << mAppenders.count() << " "
-                     << "additivity:" << additivity() << " "
-                     << level() << "parentLogger:" << parent_logger
-                     << ")";
-    return rDebug.space();
-}
-
-QDebug operator<<(QDebug debug, const BinaryLogger &rLogger)
-{
-    return rLogger.debug(debug);
-}
-
-#endif // QT_NO_DEBUG_STREAM
-
 } // namespace Log4Qt
 
 #include "moc_binarylogger.cpp"

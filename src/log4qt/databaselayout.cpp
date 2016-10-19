@@ -183,17 +183,4 @@ void DatabaseLayout::setMessageColumn(const QString &columnName)
     mMessage = columnName;
 }
 
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug DatabaseLayout::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "DatabaseLayout("
-                     << "name:" << name() << " "
-                     << "referencecount:" << referenceCount()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
-
 } // namespace Log4Qt

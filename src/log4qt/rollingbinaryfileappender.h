@@ -49,10 +49,6 @@ protected:
     virtual bool checkForSizeRollOver() const;
     virtual void rollOverSize();
 
-#ifndef QT_NO_DEBUG_STREAM
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif // QT_NO_DEBUG_STREAM
-
 private:
     void computeFrequency();
     void computeRollOverTime();

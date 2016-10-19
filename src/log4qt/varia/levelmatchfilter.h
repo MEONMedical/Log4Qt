@@ -70,21 +70,6 @@ public:
     void setLevelToMatch(Level level);
 
     virtual Decision decide(const LoggingEvent &rEvent) const Q_DECL_OVERRIDE;
-protected:
-#ifndef QT_NO_DEBUG_STREAM
-    /*!
-     * Writes all object member variables to the given debug stream \a rDebug
-     * and returns the stream.
-     *
-     * <tt>
-     * %LevelMatchFilter(acceptonmatch:true leveltomatch:"WARN"
-     *                   next:Log4Qt::DenyAllFilter(0x3bce3a8)
-     *                   referencecount:1 )
-     * </tt>
-     * \sa QDebug, operator<<(QDebug debug, const Filter &rFilter)
-     */
-    virtual QDebug debug(QDebug &rDebug) const Q_DECL_OVERRIDE;
-#endif // QT_NO_DEBUG_STREAM
 
 private:
     bool mAcceptOnMatch;

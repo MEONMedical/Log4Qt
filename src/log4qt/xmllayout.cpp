@@ -57,16 +57,6 @@ QString XMLLayout::format(const LoggingEvent &rEvent)
     return output;
 }
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug XMLLayout::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "XMLLayout("
-                     << "name:" << name() << " "
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 }
 
 #include "moc_xmllayout.cpp"

@@ -53,16 +53,4 @@ Filter::Decision StringMatchFilter::decide(const LoggingEvent &rEvent) const
 }
 
 
-#ifndef QT_NO_DEBUG_STREAM
-QDebug StringMatchFilter::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "StringMatchFilter("
-                     << "acceptonmatch:" << mAcceptOnMatch << " "
-                     << "stringtomatch:" << mStringToMatch << " "
-                     << "next:" << next()
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
-
 } // namespace Log4Qt

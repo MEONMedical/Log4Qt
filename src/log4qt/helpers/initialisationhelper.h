@@ -222,31 +222,7 @@ private:
     QHash <QString, QString> mEnvironmentSettings;
     static bool msStaticInitialisation;
 
-#ifndef QT_NO_DEBUG_STREAM
-    // Needs to be friend to access details
-    friend QDebug operator<<(QDebug debug,
-                             const InitialisationHelper &rInitialisationHelper);
-#endif // QT_NO_DEBUG_STREAM
 };
-
-#ifndef QT_NO_DEBUG_STREAM
-/*!
- * \relates InitialisationHelper
- *
- * Writes all object member variables to the given debug stream \a rDebug and
- * returns the stream.
- *
- * <tt>
- * %InitialisationHelper(InitialisationHelper(starttime:1193883677438(
- *                   QDateTime("Wed Oct 31 21:21:17 2007") )
- *                   environmentsettings: QHash(("configuration", "\myapp.log4j")
- *                   ("Debug", "DEBUG")) )  )
- * </tt>
- * \sa QDebug, InitialisationHelper::logManager()
- */
-QDebug operator<<(QDebug debug,
-                  const InitialisationHelper &rInitialisationHelper);
-#endif // QT_NO_DEBUG_STREAM
 
 inline QHash<QString, QString> InitialisationHelper::environmentSettings()
 {

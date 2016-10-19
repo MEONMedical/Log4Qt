@@ -28,7 +28,6 @@
 #include "loggingevent.h"
 
 
-
 namespace Log4Qt
 {
 
@@ -39,18 +38,6 @@ QString SimpleLayout::format(const LoggingEvent &rEvent)
     else
         return rEvent.message() + Layout::endOfLine();
 }
-
-
-#ifndef QT_NO_DEBUG_STREAM
-QDebug SimpleLayout::debug(QDebug &rDebug) const
-{
-    rDebug.nospace() << "SimpleLayout("
-                     << "name:" << name() << " "
-                     << "show level: " << (mShowLevel ? "true " : "false ")
-                     << ")";
-    return rDebug.space();
-}
-#endif // QT_NO_DEBUG_STREAM
 
 
 } // namespace Log4Qt
