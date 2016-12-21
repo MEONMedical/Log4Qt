@@ -473,6 +473,19 @@
 #   error "Log4Qt requires Qt version 5.3.0 or higher"
 #endif
 
+
+#if (defined(Q_CC_MSVC) && _MSC_VER < 1900)
+#   error "Log4Qt requires at least msvc version 14 (VS2015) or higher for used c++11 features"
+#endif
+
+#if (defined(Q_CC_GNU) && Q_CC_GNU < 408)
+#   error "Log4Qt requires at least gcc version 4.8 or higher for used c++11 features"
+#endif
+
+#if (defined(Q_CC_CLANG) && Q_CC_CLANG < 303)
+#   error "Log4Qt requires at least gcc version 4.8 or higher for used c++11 features"
+#endif
+
 /*!
  * \brief The namespace Log4Qt %Log4Qt encloses all parts of the package.
  */

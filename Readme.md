@@ -39,7 +39,7 @@ Additional features
 Requirements
 ------------
 * Minimum Qt version required Qt5.3
-* C++11
+* C++11 feature required (minimum compiler version MSVC14, GCC 4.8 or CLANG 3.3)
 
 License
 -------

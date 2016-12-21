@@ -4,15 +4,6 @@ build:
 os: Visual Studio 2015
 environment:
     matrix:
-    # Qt 5.3
-    - QTDIR: C:\Qt\5.3\msvc2013_64_opengl
-      CMD_VCVARSALL: '"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall" x64'
-    # Qt 5.4
-    - QTDIR: C:\Qt\5.4\msvc2013_64_opengl
-      CMD_VCVARSALL: '"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall" x64'
-    # Qt 5.5
-    - QTDIR: C:\Qt\5.5\msvc2013_64
-      CMD_VCVARSALL: '"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall" x64'
     # Qt 5.6
     - QTDIR: C:\Qt\5.6\msvc2015_64
       CMD_VCVARSALL: '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall" x64'
