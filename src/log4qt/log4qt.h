@@ -483,7 +483,7 @@
 #endif
 
 #if (defined(Q_CC_CLANG) && Q_CC_CLANG < 303)
-#   error "Log4Qt requires at least gcc version 4.8 or higher for used c++11 features"
+#   error "Log4Qt requires at least clang version 3.3 or higher for used c++11 features"
 #endif
 
 /*!
