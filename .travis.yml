@@ -11,11 +11,11 @@ os:
 - linux
 
 env:
-- QT_VERSION=qt53 QT_PPA=qt532
 - QT_VERSION=qt54 QT_PPA=qt542
 - QT_VERSION=qt55 QT_PPA=qt551
 - QT_VERSION=qt56 QT_PPA=qt562
 - QT_VERSION=qt57 QT_PPA=qt571
+- QT_VERSION=qt58 QT_PPA=qt58
 
 before_install:
   - sudo add-apt-repository --yes ppa:beineri/opt-$QT_PPA-trusty
