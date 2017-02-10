@@ -483,7 +483,7 @@
 #   error "Log4Qt requires at least msvc version 14 (VS2015) or higher for used c++11 features"
 #endif
 
-#if (defined(Q_CC_GNU) && Q_CC_GNU < 408)
+#if (!defined(Q_CC_CLANG) && defined(Q_CC_GNU) && Q_CC_GNU < 408)
 #   error "Log4Qt requires at least gcc version 4.8 or higher for used c++11 features"
 #endif
 
