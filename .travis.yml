@@ -30,3 +30,4 @@ script:
   - qmake
   - make
   - make check
+
