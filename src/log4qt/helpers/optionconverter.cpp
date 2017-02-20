@@ -81,7 +81,11 @@ QString OptionConverter::findAndSubst(const Properties &rProperties,
             }
             else
             {
-                result += findAndSubst(rProperties, value.mid(begin + begin_length, end - begin - end_length - 1));
+                auto keyName = value.mid(begin + begin_length, end - begin - end_length - 1);
+                auto subValue = findAndSubst(rProperties, keyName);
+                if (subValue.isNull() && keyName.startsWith("LOG4QT_"))
+                    subValue = qgetenv(qPrintable(keyName));
+                result +=subValue;
                 i = end + end_length;
             }
         }

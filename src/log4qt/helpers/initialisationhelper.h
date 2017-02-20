@@ -137,9 +137,6 @@ public:
      * </tr><tr>
      * <td> LOG4QT_CONFIGURATION </td>
      * <td> Configuration </td>
-     * </tr><tr bgcolor="#ffffff">
-     * <td> LOG4QT_CONFIGURATORCLASS </td>
-     * <td> ConfiguratorClass </td>
      * </tr>
      * </table>
      *

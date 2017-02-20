@@ -5,11 +5,11 @@ All notable changes to this project will be documented in this file.
 ## [v1.4.0] - ??
 
 ### Added
-
+- Environment variables starting with LOG4QT_ can now be used within a log4qt.properties file ${LOG4QT_...}
 
 ### Improvements
 - Support static builds
-
+- detect minimum required compiler version (log4qt depends on magic statics c++11)
 
 ## [v1.3.0] - 2016-09-13
 

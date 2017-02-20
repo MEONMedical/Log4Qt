@@ -69,7 +69,6 @@ void InitialisationHelper::doInitialiseEnvironmentSettings()
     setting_keys << QLatin1String("Debug");
     setting_keys << QLatin1String("DefaultInitOverride");
     setting_keys << QLatin1String("Configuration");
-    setting_keys << QLatin1String("ConfiguratorClass");
 
     QHash<QString, QString> env_keys;
     for (const auto &entry : setting_keys)

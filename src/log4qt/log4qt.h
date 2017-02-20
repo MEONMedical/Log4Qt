@@ -413,9 +413,6 @@
  *   package.
  *   - \ref Log4Qt::LogManager::startup() "LogManager::startup()"
  *
- * - LOG4QT_CONFIGURATORCLASS<br>
- *   The variable specifies the configurator class used for initialising the
- *   package.
  *
  * Environment variables are read during static initialisation on creation of
  * the \ref Log4Qt::InitialisationHelper "InitialisationHelper". They can be
