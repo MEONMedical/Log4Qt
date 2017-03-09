@@ -10,6 +10,9 @@ environment:
     # Qt 5.7
     - QTDIR: C:\Qt\5.7\msvc2015_64
       CMD_VCVARSALL: '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall" x64'
+    # Qt 5.8
+    - QTDIR: C:\Qt\5.8\msvc2015_64
+      CMD_VCVARSALL: '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall" x64'
 branches:
   only:
     - master
