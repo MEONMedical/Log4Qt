@@ -133,11 +133,9 @@ void TelnetAppender::append(const LoggingEvent &rEvent)
 
 bool TelnetAppender::checkEntryConditions() const
 {
-    if (!mpTcpServer && !mpTcpServer->isListening())
+    if (!mpTcpServer || !mpTcpServer->isListening())
     {
-        LogError
-        e =
-            LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' without a listing telnet server"),
+        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' without a listing telnet server"),
                                 APPENDER_TELNET_SERVER_NOT_RUNNING);
         e << name();
         logger()->error(e);
