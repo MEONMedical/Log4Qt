@@ -123,7 +123,7 @@ bool DatabaseAppender::requiresLayout() const
 
 void DatabaseAppender::append(const LoggingEvent &rEvent)
 {
-    DatabaseLayout *databaseLayout = qobject_cast<DatabaseLayout *>(layout());
+    DatabaseLayout *databaseLayout = qobject_cast<DatabaseLayout *>(layout().data());
 
     if (databaseLayout)
     {

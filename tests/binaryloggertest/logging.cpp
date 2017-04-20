@@ -46,7 +46,7 @@ QString Logging::createDumpString(const QByteArray &data, const bool withCaption
         line.append(' ');
 
         if ( byte >= fromChar && byte <= toChar )
-            details.append(QChar::fromLatin1(byte));
+            details.append(static_cast<char>(byte));
         else
             details.append('.');
 
@@ -59,7 +59,7 @@ QString Logging::createDumpString(const QByteArray &data, const bool withCaption
             line.clear();
 
             line.append(intention);
-            line.append(QString::fromLatin1("%0  ").arg(i, 8, 16, QLatin1Char('0')));
+            line.append(QStringLiteral("%0  ").arg(i, 8, 16, QLatin1Char('0')).toLatin1());
 
             details.clear();
             details.append(dist);

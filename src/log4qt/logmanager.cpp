@@ -40,7 +40,7 @@
 #include "ttcclayout.h"
 #include "varia/denyallfilter.h"
 #include "varia/levelrangefilter.h"
-#include "configuratorhelper.h"
+#include "helpers/configuratorhelper.h"
 
 #include <QCoreApplication>
 #include <QFile>
