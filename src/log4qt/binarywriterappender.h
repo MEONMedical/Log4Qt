@@ -3,8 +3,7 @@
 
 #include "appenderskeleton.h"
 
-#include <QDataStream>
-
+class QDataStream;
 namespace Log4Qt
 {
 

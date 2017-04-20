@@ -27,7 +27,6 @@
 
 #include "writerappender.h"
 
-class QFile;
 class QTextStream;
 
 namespace Log4Qt

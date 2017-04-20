@@ -29,7 +29,6 @@
 #include "loggingevent.h"
 
 #include <QList>
-#include <QMutex>
 
 namespace Log4Qt
 {

@@ -3,9 +3,9 @@
 
 #include "log4qtshared.h"
 
-#include <QObject>
 #include <QAtomicPointer>
 
+class QObject;
 namespace Log4Qt
 {
 

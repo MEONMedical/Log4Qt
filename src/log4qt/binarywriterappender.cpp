@@ -1,6 +1,7 @@
 #include "binarywriterappender.h"
 #include "binaryloggingevent.h"
 #include "binarylayout.h"
+#include <QDataStream>
 
 namespace Log4Qt
 {

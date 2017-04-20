@@ -27,10 +27,6 @@
 
 #include "consoleappender.h"
 
-#include <QHash>
-#include <QPair>
-#include <QRegExp>
-
 // if we are in WIN*
 #if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
 #define WIN32_LEAN_AND_MEAN

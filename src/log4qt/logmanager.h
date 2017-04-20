@@ -28,8 +28,6 @@
 #include "level.h"
 #include "logger.h"
 
-#include <QObject>
-#include <QHash>
 #include <QList>
 #include <QMutex>
 #include <QString>

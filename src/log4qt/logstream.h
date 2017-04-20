@@ -28,7 +28,6 @@
 #include "level.h"
 
 #include <QTextStream>
-#include <QTextStream>
 #include <QString>
 #include <QSharedPointer>
 #include <QPointer>

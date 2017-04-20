@@ -28,9 +28,6 @@
 #include "appenderskeleton.h"
 #include "helpers/appenderattachable.h"
 
-#include <QQueue>
-#include <QMutex>
-
 namespace Log4Qt
 {
 
