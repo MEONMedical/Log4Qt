@@ -27,8 +27,8 @@
 
 #include "fileappender.h"
 
-#include <QDateTime>
 #include <QString>
+#include <QDate>
 
 namespace Log4Qt
 {

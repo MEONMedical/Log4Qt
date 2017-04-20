@@ -25,7 +25,6 @@
 #ifndef LOG4QTDISPATCHER_H
 #define LOG4QTDISPATCHER_H
 
-#include <QList>
 #include <QObject>
 
 namespace Log4Qt

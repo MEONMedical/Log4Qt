@@ -27,9 +27,7 @@
 
 #include "level.h"
 
-#include <QDateTime>
 #include <QHash>
-#include <QMetaType>
 #include <QStringList>
 #include <QEvent>
 
