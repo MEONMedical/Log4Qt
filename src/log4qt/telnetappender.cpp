@@ -150,7 +150,7 @@ bool TelnetAppender::checkEntryConditions() const
 void TelnetAppender::openServer()
 {
     mpTcpServer = new QTcpServer(this);
-    connect(mpTcpServer, SIGNAL(newConnection()), this, SLOT(onNewConnection()));
+    connect(mpTcpServer, &QTcpServer::newConnection, this, &TelnetAppender::onNewConnection);
     mpTcpServer->listen(mAddress, mPort);
 }
 
@@ -183,8 +183,8 @@ void TelnetAppender::onNewConnection()
         if (pClientConnection)
         {
             mTcpSockets.append(pClientConnection);
-            connect(pClientConnection, SIGNAL(disconnected()), this,
-                    SLOT(onClientDisconnected()));
+            connect(pClientConnection, &QTcpSocket::disconnected,
+                    this, &TelnetAppender::onClientDisconnected);
             sendWelcomeMessage(pClientConnection);
         }
     }

@@ -75,9 +75,8 @@ void ConfiguratorHelper::doSetConfigurationFile(const QString &rFileName,
     mpConfigurationFileWatch = new QFileSystemWatcher();
     if (mpConfigurationFileWatch->addPath(rFileName))
     {
-        connect(mpConfigurationFileWatch,
-                SIGNAL(fileChanged(const QString &)),
-                SLOT(doConfigurationFileChanged(const QString &)));
+        connect(mpConfigurationFileWatch, &QFileSystemWatcher::fileChanged,
+                this, &ConfiguratorHelper::doConfigurationFileChanged);
     }
     else
         qWarning() << "Add Path '" << rFileName << "' to file system watcher failed!";
