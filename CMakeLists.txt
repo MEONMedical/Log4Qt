@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.3.0)
 project(Log4Qt VERSION 1.0.0)
 
+enable_testing()
+
 option(BUILD_STATIC_LOG4CXX_LIB "Build a static log4cxx library (default: off)" OFF)
 include(GNUInstallDirs)
 
