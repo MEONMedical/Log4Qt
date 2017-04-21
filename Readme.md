@@ -79,3 +79,17 @@ use qmake to build the project
 Can also be used by adding the log4qt source directly to your Qt project file by adding the following line:
 include(<unpackdir>/src/log4qt/log4qt.pri)
 
+### cmake
+cmake is the second option to build Log4Qt. An out-of-source build is required:
+    <unpack/fetch to Log4Qt directory>
+    mkdir Log4Qt-build
+    cd Log4Qt-build
+    cmake ../Log4Qt
+    make/mingw32-make/msbuild Log4Qt.sln (same as with qmake)
+    make/mingw32-make install
+    or:
+    msbuild /t:INSTALL Log4Qt.sln
+
+    Addition cmake options are
+        * '-DBUILD_STATIC_LOG4CXX_LIB=ON|OFF' to build static log4qt lib (default: OFF)
+        * '-DBUILD_WITH_DB_LOGGING=ON|OFF' to build with database logging support

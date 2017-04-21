@@ -1,24 +1,54 @@
 cmake_minimum_required(VERSION 3.3.0)
 project(Log4Qt VERSION 1.0.0)
 
-enable_testing()
-
-option(BUILD_STATIC_LOG4CXX_LIB "Build a static log4cxx library (default: off)" OFF)
-include(GNUInstallDirs)
-
+#
+# in-source builds should be avoided
+#
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")
 include(MacroEnsureOutOfSourceBuild)
 
+#
+# support for 'make test'
+#
+enable_testing()
+
+#
+# Shared or static build of log4qt library
+#
+option(BUILD_STATIC_LOG4CXX_LIB "Build a static log4cxx library (default: off)" OFF)
+
+#
+# With Database logging support or without
+#
+option(BUILD_WITH_DB_LOGGING "Build with database logging support (default: on)" ON)
+
+#
+# Helper to be able to properly install into the correct directories (esp. lib/lib64)
+#
+include(GNUInstallDirs)
+
+#
+# Automatically include ${CMAKE_CURRENT_SOURCE_DIR} and ${CMAKE_CURRENT_BINARY_DIR}
+#
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+#
+# We need C++11 and don't want to export all symbols, only the ones we mark for export
+#
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
+#
+# Min. Qt version is 5.3, we want to use cmake automoc feature
+# and settings some defines for Qt
+#
 set(CMAKE_AUTOMOC TRUE)
 set(QT_MIN_VERSION 5.3.0)
 # TODO: make Network also optional?
 find_package(Qt5 COMPONENTS Core Network Test REQUIRED)
-find_package(Qt5 COMPONENTS Sql)
+if(BUILD_WITH_DB_LOGGING)
+  find_package(Qt5 COMPONENTS Sql REQUIRED)
+endif()
 message(STATUS "Qt version is ${Qt5Core_VERSION_STRING}")
 add_definitions(-DQT_USE_QSTRINGBUILDER)
 add_definitions(-DQT_NO_CAST_TO_ASCII)
@@ -30,9 +60,15 @@ if(NOT MSVC)
     add_definitions(-DQT_STRICT_ITERATORS)
 endif()
 
+#
+# Pass version as a string to the compiler (for LogManager::version())
+#
 # TODO: LOG4QT_VERSION = 0x010000
 add_definitions(-DLOG4QT_VERSION_STR="${Log4Qt_VERSION_MAJOR}.${Log4Qt_VERSION_MINOR}.${Log4Qt_VERSION_PATCH}")
 
+#
+# We need gcc >= 4.8 or clang >= 3.3 or msvc >= 2015
+#
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8.0)
     message(FATAL_ERROR "gcc 4.8 or higher required!")

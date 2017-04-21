@@ -141,7 +141,9 @@ if(WIN32)
         wdcappender.h
     )
 endif()
-# TODO: add cmake option?
+#
+# Only add database logging support of Qt5::Sql was found
+#
 if(TARGET Qt5::Sql)
     list(APPEND log4qt_SRCS
         databaseappender.cpp
@@ -155,6 +157,10 @@ if(TARGET Qt5::Sql)
 else()
     message(STATUS "Not adding sql database logging support - Qt5::Sql not available")
 endif()
+
+#
+# build lib shared/static
+#
 set(_shared_static SHARED)
 if(BUILD_STATIC_LOG4CXX_LIB)
   set(_shared_static STATIC)
@@ -165,6 +171,9 @@ target_link_libraries(log4qt
         Qt5::Core
         Qt5::Network
 )
+#
+# need to link against Qt5::Sql if database logging support was enabled
+#
 if(TARGET Qt5::Sql)
     target_link_libraries(log4qt
         PUBLIC
@@ -176,11 +185,13 @@ target_include_directories(log4qt
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
 if(BUILD_STATIC_LOG4CXX_LIB)
+    # LOG4QT_STATIC must also be set when linking against the lib
     target_compile_definitions(log4qt
         PUBLIC
             LOG4QT_STATIC
     )
 else()
+    # only set LOG4QT_LIBRARY when building the lib, not when linking against
     target_compile_definitions(log4qt
         PRIVATE
             LOG4QT_LIBRARY
@@ -188,6 +199,9 @@ else()
 endif()
 set_target_properties(log4qt PROPERTIES VERSION ${Log4Qt_VERSION_MAJOR}.${Log4Qt_VERSION_MINOR}.${Log4Qt_VERSION_PATCH})
 set_target_properties(log4qt PROPERTIES SOVERSION ${Log4Qt_VERSION_MAJOR}.${Log4Qt_VERSION_MINOR})
+#
+# Install the whole stuff
+#
 install(TARGETS log4qt RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
                        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
                        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
