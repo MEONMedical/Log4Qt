@@ -80,7 +80,7 @@ QString Logging::createDumpString(const QByteArray &data, const bool withCaption
 
 QString Logging::toString(const QVariant &value)
 {
-    return toString(value);
+    return ::toString(value);
 }
 
 QString toString(const QVariant &value)
