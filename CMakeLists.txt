@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.3.0)
 project(Log4Qt VERSION 1.0.0)
 
+option(BUILD_STATIC_LOG4CXX_LIB "Build a static log4cxx library (default: off)" OFF)
 include(GNUInstallDirs)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")
@@ -25,9 +26,8 @@ add_definitions(-DQT_DEPRECATED_WARNINGS)
 add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050300)
 if(NOT MSVC)
     add_definitions(-DQT_STRICT_ITERATORS)
-else()
-    add_definitions(-DNOMINMAX)
 endif()
+
 # TODO: LOG4QT_VERSION = 0x010000
 add_definitions(-DLOG4QT_VERSION_STR="${Log4Qt_VERSION_MAJOR}.${Log4Qt_VERSION_MINOR}.${Log4Qt_VERSION_PATCH}")
 
@@ -56,6 +56,10 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 
   list(REMOVE_ITEM CMAKE_CXX_FLAGS "-W3")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W4")
+
+  add_definitions(-DUNICODE -DNOMINMAX)
+
+  set(CMAKE_DEBUG_POSTFIX _d)
 endif()
 
 add_subdirectory(src/log4qt)

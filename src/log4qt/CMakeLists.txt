@@ -155,7 +155,11 @@ if(TARGET Qt5::Sql)
 else()
     message(STATUS "Not adding sql database logging support - Qt5::Sql not available")
 endif()
-add_library(log4qt SHARED ${log4qt_SRCS} ${log4qt_HDRS} ${log4qt_HDRS_helpers} ${log4qt_HDRS_spi} ${log4qt_HDRS_varia})
+set(_shared_static SHARED)
+if(BUILD_STATIC_LOG4CXX_LIB)
+  set(_shared_static STATIC)
+endif()
+add_library(log4qt ${_shared_static} ${log4qt_SRCS} ${log4qt_HDRS} ${log4qt_HDRS_helpers} ${log4qt_HDRS_spi} ${log4qt_HDRS_varia})
 target_link_libraries(log4qt
     PUBLIC
         Qt5::Core
@@ -171,6 +175,17 @@ target_include_directories(log4qt
     INTERFACE
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
+if(BUILD_STATIC_LOG4CXX_LIB)
+    target_compile_definitions(log4qt
+        PUBLIC
+            LOG4QT_STATIC
+    )
+else()
+    target_compile_definitions(log4qt
+        PRIVATE
+            LOG4QT_LIBRARY
+    )
+endif()
 set_target_properties(log4qt PROPERTIES VERSION ${Log4Qt_VERSION_MAJOR}.${Log4Qt_VERSION_MINOR}.${Log4Qt_VERSION_PATCH})
 set_target_properties(log4qt PROPERTIES SOVERSION ${Log4Qt_VERSION_MAJOR}.${Log4Qt_VERSION_MINOR})
 install(TARGETS log4qt RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
