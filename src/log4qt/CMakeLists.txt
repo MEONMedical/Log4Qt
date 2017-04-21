@@ -172,6 +172,7 @@ target_include_directories(log4qt
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
 set_target_properties(log4qt PROPERTIES VERSION ${Log4Qt_VERSION_MAJOR}.${Log4Qt_VERSION_MINOR}.${Log4Qt_VERSION_PATCH})
+set_target_properties(log4qt PROPERTIES SOVERSION ${Log4Qt_VERSION_MAJOR}.${Log4Qt_VERSION_MINOR})
 install(TARGETS log4qt RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
                        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
                        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
