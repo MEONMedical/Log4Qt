@@ -22,4 +22,4 @@ LIBS += -L../../bin/ \
          -llog4qt
 
 DEPENDPATH += ../../src/log4qt ../../src/log4qt/helpers ../../src/log4qt/spi ../../src/log4qt/varia
-INCLUDEPATH += ../../src/log4qt ../../src/log4qt/helpers ../../src/log4qt/spi ../../src/log4qt/varia
+INCLUDEPATH += ../../src/ ../../src/log4qt ../../src/log4qt/helpers ../../src/log4qt/spi ../../src/log4qt/varia

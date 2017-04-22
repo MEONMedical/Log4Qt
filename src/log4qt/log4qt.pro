@@ -13,6 +13,7 @@ contains(DEFINES, LOG4QT_STATIC) {
 
 TEMPLATE = lib
 TARGET = log4qt
+QT -= gui
 
 LOG4QT_VERSION_MAJOR = 1
 LOG4QT_VERSION_MINOR = 4
@@ -23,7 +24,9 @@ DEFINES += LOG4QT_VERSION_STR=\"$${LOG4QT_VERSION}\"
 DEFINES += LOG4QT_VERSION=$${LOG4QT_VERSION}
 
 DEPENDPATH += . helpers spi varia
-INCLUDEPATH += . helpers spi varia
+# .. is needed for msvc since it is treating '.' as the directory of the current file
+# and not the directory where the compiled source is found
+INCLUDEPATH += .. . helpers spi varia
 
 DESTDIR = ../../bin
 DEFINES += NOMINMAX QT_DEPRECATED_WARNINGS QT_NO_CAST_FROM_BYTEARRAY QT_USE_QSTRINGBUILDER
