@@ -25,9 +25,8 @@
 #ifndef LOG4QT_APPENDERATTACHABLE_H
 #define LOG4QT_APPENDERATTACHABLE_H
 
-#include "../log4qt.h"
-
-#include "appender.h"
+#include <log4qt/log4qt.h>
+#include <log4qt/appender.h>
 
 #include <QList>
 #include <QReadWriteLock>

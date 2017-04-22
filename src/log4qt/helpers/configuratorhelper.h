@@ -25,8 +25,8 @@
 #ifndef LOG4QT_HELPERS_CONFIGURATORHELPER_H
 #define LOG4QT_HELPERS_CONFIGURATORHELPER_H
 
-#include "log4qtshared.h"
-#include "loggingevent.h"
+#include <log4qt/log4qtshared.h>
+#include <log4qt/loggingevent.h>
 
 #include <QObject>
 #include <QList>
