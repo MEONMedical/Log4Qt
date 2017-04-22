@@ -167,23 +167,28 @@ if(BUILD_STATIC_LOG4CXX_LIB)
 endif()
 add_library(log4qt ${_shared_static} ${log4qt_SRCS} ${log4qt_HDRS} ${log4qt_HDRS_helpers} ${log4qt_HDRS_spi} ${log4qt_HDRS_varia})
 target_link_libraries(log4qt
+    PRIVATE
+        Qt5::Network
     PUBLIC
         Qt5::Core
-        Qt5::Network
+)
+target_include_directories(log4qt
+      PUBLIC
+          $<TARGET_PROPERTY:Qt5::Network,INTERFACE_INCLUDE_DIRECTORIES>
 )
 #
 # need to link against Qt5::Sql if database logging support was enabled
 #
 if(TARGET Qt5::Sql)
     target_link_libraries(log4qt
-        PUBLIC
+        PRIVATE
             Qt5::Sql
     )
+    target_include_directories(log4qt
+          PUBLIC
+              $<TARGET_PROPERTY:Qt5::Sql,INTERFACE_INCLUDE_DIRECTORIES>
+    )
 endif()
-target_include_directories(log4qt
-    INTERFACE
-        ${CMAKE_CURRENT_SOURCE_DIR}
-)
 if(BUILD_STATIC_LOG4CXX_LIB)
     # LOG4QT_STATIC must also be set when linking against the lib
     target_compile_definitions(log4qt
@@ -202,9 +207,12 @@ set_target_properties(log4qt PROPERTIES SOVERSION ${Log4Qt_VERSION_MAJOR}.${Log4
 #
 # Install the whole stuff
 #
-install(TARGETS log4qt RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+install(TARGETS log4qt EXPORT log4qt_targets
+                       RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
                        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-                       ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+                       ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+                       INCLUDES DESTINATION include
+                       )
 install(FILES ${log4qt_HDRS}         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4qt)
 install(FILES ${log4qt_HDRS_helpers} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4qt/helpers)
 install(FILES ${log4qt_HDRS_spi}     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4qt/spi)

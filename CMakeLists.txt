@@ -4,7 +4,8 @@ project(Log4Qt VERSION 1.0.0)
 #
 # in-source builds should be avoided
 #
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")
+set(Log4Qt_MODULE_DIR "${CMAKE_SOURCE_DIR}/cmake")
+set(CMAKE_MODULE_PATH "${Log4Qt_MODULE_DIR}")
 include(MacroEnsureOutOfSourceBuild)
 
 #
@@ -31,6 +32,8 @@ include(GNUInstallDirs)
 # Automatically include ${CMAKE_CURRENT_SOURCE_DIR} and ${CMAKE_CURRENT_BINARY_DIR}
 #
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
+
 #
 # We need C++11 and don't want to export all symbols, only the ones we mark for export
 #
@@ -103,3 +106,43 @@ endif()
 add_subdirectory(src/log4qt)
 add_subdirectory(tests)
 add_subdirectory(examples)
+
+#
+# Create a proper FindLog4Qt - module
+#
+set(CMAKECONFIG_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/Log4Qt" )
+install(EXPORT log4qt_targets
+    DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
+    NAMESPACE Log4Qt::
+    FILE Log4QtTargets.cmake
+    COMPONENT Common
+)
+configure_file(
+    "${Log4Qt_MODULE_DIR}/Log4QtConfig.cmake.in"
+    "${Log4Qt_BINARY_DIR}/Log4QtConfig.cmake"
+    @ONLY
+)
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file("${Log4Qt_BINARY_DIR}/Log4QtConfigVersion.cmake"
+    VERSION ${Log4Qt_VERSION_STRING}
+    COMPATIBILITY AnyNewerVersion
+)
+install(FILES
+    "${Log4Qt_BINARY_DIR}/Log4QtConfig.cmake"
+    "${Log4Qt_BINARY_DIR}/Log4QtConfigVersion.cmake"
+    DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
+    COMPONENT Common
+)
+
+#
+# Add support for an uninstall target
+#
+configure_file(
+  "${Log4Qt_MODULE_DIR}/cmake_uninstall.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+  @ONLY)
+
+add_custom_target(uninstall
+  "${CMAKE_COMMAND}" -P
+  "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
+
