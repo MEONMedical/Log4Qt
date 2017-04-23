@@ -1,7 +1,7 @@
 #ifndef LOG4QT_BINARYEVENTFILTER_H
 #define LOG4QT_BINARYEVENTFILTER_H
 
-#include "spi/filter.h"
+#include <log4qt/spi/filter.h>
 
 namespace Log4Qt
 {

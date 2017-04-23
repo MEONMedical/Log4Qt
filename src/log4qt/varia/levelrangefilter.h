@@ -25,9 +25,8 @@
 #ifndef LOG4QT_LEVELRANGEFILTER_H
 #define LOG4QT_LEVELRANGEFILTER_H
 
-#include "spi/filter.h"
-
-#include "level.h"
+#include <log4qt/spi/filter.h>
+#include <log4qt/level.h>
 
 namespace Log4Qt
 {

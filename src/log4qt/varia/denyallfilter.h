@@ -30,7 +30,7 @@
 #ifndef LOG4QT_DENYALLFILTER_H
 #define LOG4QT_DENYALLFILTER_H
 
-#include "spi/filter.h"
+#include <log4qt/spi/filter.h>
 
 namespace Log4Qt
 {
