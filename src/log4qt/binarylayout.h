@@ -19,7 +19,7 @@ class LOG4QT_EXPORT BinaryLayout : public Layout
 public:
     explicit BinaryLayout(QObject *parent = Q_NULLPTR);
 
-    virtual QByteArray binaryFormat(const BinaryLoggingEvent &rEvent);
+    virtual QByteArray binaryFormat(const BinaryLoggingEvent &rEvent) const;
     virtual QString format(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
 
     virtual QString contentType() const Q_DECL_OVERRIDE;

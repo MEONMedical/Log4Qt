@@ -69,23 +69,28 @@ bool BinaryWriterAppender::requiresLayout() const
 
 void BinaryWriterAppender::append(const LoggingEvent &rEvent)
 {
-    if (const BinaryLoggingEvent *binEvent = dynamic_cast<const BinaryLoggingEvent *>(&rEvent))
-        * mpWriter << binEvent->binaryMessage();
+    const BinaryLoggingEvent *binEvent = dynamic_cast<const BinaryLoggingEvent *>(&rEvent);
+    const LayoutSharedPtr l = layout();
+    const BinaryLayout *bl = qobject_cast<BinaryLayout *>(l.data());
+
+    if (binEvent)
+    {
+        // handle binary events
+        if (bl)
+            *mpWriter << bl->binaryFormat(*binEvent);   // if it's a binary message and we have a binary layout output the binary message via the binary layout.
+        else
+            *mpWriter << binEvent->binaryMessage();     // binary message, but no layout or not a binary layout, output the binary message without the layout
+    }
     else
     {
-        if (LayoutSharedPtr l = layout())
-        {
-            if (BinaryLayout *bl = qobject_cast<BinaryLayout *>(l.data()))
-                * mpWriter << bl->binaryFormat(*binEvent);
-            else
-                *mpWriter << l->format(rEvent);
-        }
+        // handle non binary events
+        if (l && !bl)
+            *mpWriter << l->format(rEvent); // if the message and the layout are not binary, output it as in WriterAppender
         else
-            *mpWriter << rEvent.message();
+            *mpWriter << rEvent.message();  // if the message is not binary and there is no layout or the layout is binary, output it without the layout
     }
 
-    if (handleIoErrors())
-        return;
+    handleIoErrors();
 }
 
 bool BinaryWriterAppender::checkEntryConditions() const

@@ -9,7 +9,7 @@ BinaryLayout::BinaryLayout(QObject *parent)
 {
 }
 
-QByteArray BinaryLayout::binaryFormat(const BinaryLoggingEvent &rEvent)
+QByteArray BinaryLayout::binaryFormat(const BinaryLoggingEvent &rEvent) const
 {
     return rEvent.binaryMessage();
 }
