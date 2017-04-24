@@ -1,68 +1,71 @@
-HEADERS += $$PWD/appender.h \
+HEADERS_BASE += \
+           $$PWD/appender.h \
            $$PWD/appenderskeleton.h \
+           $$PWD/asyncappender.h \
            $$PWD/basicconfigurator.h \
+           $$PWD/binaryfileappender.h \
+           $$PWD/binarylayout.h \
+           $$PWD/binarylogger.h \
+           $$PWD/binaryloggingevent.h \
+           $$PWD/binarylogstream.h \
+           $$PWD/binarytotextlayout.h \
+           $$PWD/binarywriterappender.h \
            $$PWD/colorconsoleappender.h \
            $$PWD/consoleappender.h \
-           $$PWD/dailyrollingfileappender.h \
-           $$PWD/asyncappender.h \
            $$PWD/dailyfileappender.h \
-           $$PWD/mainthreadappender.h \
+           $$PWD/dailyrollingfileappender.h \
            $$PWD/fileappender.h \
            $$PWD/hierarchy.h \
            $$PWD/layout.h \
            $$PWD/level.h \
            $$PWD/log4qt.h \
            $$PWD/log4qtshared.h \
+           $$PWD/log4qtsharedptr.h \
            $$PWD/logger.h \
            $$PWD/loggerrepository.h \
            $$PWD/loggingevent.h \
            $$PWD/logmanager.h \
+           $$PWD/logstream.h \
+           $$PWD/mainthreadappender.h \
            $$PWD/mdc.h \
            $$PWD/ndc.h \
            $$PWD/patternlayout.h \
            $$PWD/propertyconfigurator.h \
+           $$PWD/qmllogger.h \
+           $$PWD/rollingbinaryfileappender.h \
            $$PWD/rollingfileappender.h \
            $$PWD/signalappender.h \
            $$PWD/simplelayout.h \
            $$PWD/simpletimelayout.h \
-           $$PWD/ttcclayout.h \
-           $$PWD/telnetappender.h \
-           $$PWD/writerappender.h \
            $$PWD/systemlogappender.h \
+           $$PWD/telnetappender.h \
+           $$PWD/ttcclayout.h \
+           $$PWD/writerappender.h \
+           $$PWD/xmllayout.h
+HEADERS_HELPERS += \
+           $$PWD/helpers/appenderattachable.h \
+           $$PWD/helpers/binaryclasslogger.h \
            $$PWD/helpers/classlogger.h \
-           $$PWD//helpers/appenderattachable.h \
            $$PWD/helpers/configuratorhelper.h \
            $$PWD/helpers/datetime.h \
+           $$PWD/helpers/dispatcher.h \
            $$PWD/helpers/factory.h \
            $$PWD/helpers/initialisationhelper.h \
            $$PWD/helpers/logerror.h \
            $$PWD/helpers/optionconverter.h \
            $$PWD/helpers/patternformatter.h \
-           $$PWD/helpers/properties.h \
-           $$PWD/helpers/dispatcher.h \
-           $$PWD/spi/filter.h \
+           $$PWD/helpers/properties.h
+HEADERS_SPI += \
+           $$PWD/spi/filter.h
+HEADERS_VARIA += \
+           $$PWD/varia/binaryeventfilter.h \
            $$PWD/varia/debugappender.h \
            $$PWD/varia/denyallfilter.h \
            $$PWD/varia/levelmatchfilter.h \
            $$PWD/varia/levelrangefilter.h \
            $$PWD/varia/listappender.h \
            $$PWD/varia/nullappender.h \
-           $$PWD/varia/stringmatchfilter.h \
-           $$PWD/logstream.h \
-           $$PWD/binaryloggingevent.h \
-           $$PWD/binarylogger.h \
-           $$PWD/varia/binaryeventfilter.h \
-           $$PWD/binarytotextlayout.h \
-           $$PWD/binarywriterappender.h \
-           $$PWD/binaryfileappender.h \
-           $$PWD/binarylogstream.h \
-           $$PWD/helpers/binaryclasslogger.h \
-           $$PWD/rollingbinaryfileappender.h \
-           $$PWD/binarylayout.h \
-           $$PWD/xmllayout.h \
-    	   $$PWD/qmllogger.h \
-           $$PWD/log4qtsharedptr.h
-
+           $$PWD/varia/stringmatchfilter.h
 SOURCES += $$PWD/appender.cpp \
            $$PWD/appenderskeleton.cpp \
            $$PWD/basicconfigurator.cpp \
@@ -133,7 +136,7 @@ msvc {
 # add databaseappender and -layout if QT contains sql
 contains(QT, sql) {
 message("Including databaseappender and -layout")
-HEADERS += \
+HEADERS_BASE += \
     $$PWD/databaseappender.h \
     $$PWD/databaselayout.h
 
@@ -144,9 +147,13 @@ SOURCES += \
 }
 
 win32 {
-    HEADERS+=$$PWD/wdcappender.h
+    HEADERS_BASE+=$$PWD/wdcappender.h
     SOURCES+=$$PWD/wdcappender.cpp
 }
+HEADERS += $$HEADERS_BASE \
+           $$HEADERS_HELPERS \
+           $$HEADERS_SPI \
+           $$HEADERS_VARIA
 
 !contains(QT, sql) {
 message("Skipping databaseappender and -layout")

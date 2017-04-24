@@ -59,14 +59,21 @@ use qmake to build the project
         make
         make install
 
-    WIN*
+    WIN* (mingw)
         qmake
         mingw32-make
         mingw32-make install
 
+    WIN* (msvc)
+        qmake
+        msbuild Log4Qt.sln
+        msbuild /t:INSTALL Log4Qt.sln
+
     For static build call qmake with
     qmake "DEFINES+=LOG4QT_STATIC" or uncommend LOG4QT_STATIC in the build.pri file
     Don't forget to define LOG4QT_STATIC also in your project.
+
+    Logging to a database via databaseappender can be enabled with qmake "QT += sql"
 
 ### include in your project
 Can also be used by adding the log4qt source directly to your Qt project file by adding the following line:
