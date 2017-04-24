@@ -1,10 +1,10 @@
-#include "logger.h"
+#include "log4qt/logger.h"
 
 #include "loggerobject.h"
 #include "loggerobjectprio.h"
 #include "loggerstatic.h"
-#include "propertyconfigurator.h"
-#include "loggerrepository.h"
+#include "log4qt/propertyconfigurator.h"
+#include "log4qt/loggerrepository.h"
 
 #include <QCoreApplication>
 #include <QScopedPointer>

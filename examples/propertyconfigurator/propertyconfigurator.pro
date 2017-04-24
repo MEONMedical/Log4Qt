@@ -20,8 +20,7 @@ HEADERS  += \
     loggerobjectprio.h \
     loggerstatic.h
 
-DEPENDPATH += ../../src/log4qt ../../src/log4qt/helpers ../../src/log4qt/spi ../../src/log4qt/varia
-INCLUDEPATH += ../../src/ ../../src/log4qt ../../src/log4qt/helpers ../../src/log4qt/spi ../../src/log4qt/varia
+INCLUDEPATH += ../../src
 
 DISTFILES += \
     propertyconfigurator.exe.log4qt.properties

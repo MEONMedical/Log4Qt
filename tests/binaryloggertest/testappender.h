@@ -1,7 +1,7 @@
 #ifndef TESTAPPENDER_H
 #define TESTAPPENDER_H
 
-#include "appenderskeleton.h"
+#include "log4qt/appenderskeleton.h"
 
 #include <QStringList>
 

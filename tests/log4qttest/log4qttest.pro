@@ -8,9 +8,7 @@ CONFIG += testlib \
 QT += core testlib network
 QT -= gui
 
-
-DEPENDPATH += ../../src/log4qt ../../src/log4qt/helpers ../../src/log4qt/spi ../../src/log4qt/varia
-INCLUDEPATH += ../../src/ ../../src/log4qt ../../src/log4qt/helpers ../../src/log4qt/spi ../../src/log4qt/varia
+INCLUDEPATH += ../../src
 
 HEADERS += log4qttest.h
 SOURCES += log4qttest.cpp

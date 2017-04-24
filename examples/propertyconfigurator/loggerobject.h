@@ -1,7 +1,7 @@
 #ifndef LOGGEROBJECT_H
 #define LOGGEROBJECT_H
 
-#include "logger.h"
+#include "log4qt/logger.h"
 
 #include <QObject>
 

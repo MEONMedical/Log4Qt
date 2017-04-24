@@ -1,15 +1,14 @@
-#include "logger.h"
+#include "log4qt/logger.h"
 
 #include "loggerobject.h"
 #include "loggerobjectprio.h"
 #include "loggerstatic.h"
-#include "propertyconfigurator.h"
-#include "loggerrepository.h"
-#include "consoleappender.h"
-#include "logger.h"
-#include "ttcclayout.h"
-#include "logmanager.h"
-#include "fileappender.h"
+#include "log4qt/propertyconfigurator.h"
+#include "log4qt/loggerrepository.h"
+#include "log4qt/consoleappender.h"
+#include "log4qt/ttcclayout.h"
+#include "log4qt/logmanager.h"
+#include "log4qt/fileappender.h"
 
 #include <QCoreApplication>
 #include <QScopedPointer>

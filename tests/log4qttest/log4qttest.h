@@ -28,9 +28,9 @@
 #include <QDir>
 #include <QObject>
 
-#include "helpers/properties.h"
-#include "logger.h"
-#include "varia/listappender.h"
+#include "log4qt/helpers/properties.h"
+#include "log4qt/logger.h"
+#include "log4qt/varia/listappender.h"
 
 /*!
  * \brief The class Log4QtTest provides a unit test for the package Log4Qt.

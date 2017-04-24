@@ -1,6 +1,6 @@
 #include "loggerstatic.h"
 
-#include "logger.h"
+#include "log4qt/logger.h"
 
 LOG4QT_DECLARE_STATIC_LOGGER(logger, LoggerStatic)
 

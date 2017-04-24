@@ -23,10 +23,9 @@ LOG4QT_VERSION = '\\"$${LOG4QT_VERSION_MAJOR}.$${LOG4QT_VERSION_MINOR}.$${LOG4QT
 DEFINES += LOG4QT_VERSION_STR=\"$${LOG4QT_VERSION}\"
 DEFINES += LOG4QT_VERSION=$${LOG4QT_VERSION}
 
-DEPENDPATH += . helpers spi varia
 # .. is needed for msvc since it is treating '.' as the directory of the current file
 # and not the directory where the compiled source is found
-INCLUDEPATH += .. . helpers spi varia
+INCLUDEPATH += .. .
 
 DESTDIR = ../../bin
 DEFINES += NOMINMAX QT_DEPRECATED_WARNINGS QT_NO_CAST_FROM_BYTEARRAY QT_USE_QSTRINGBUILDER

@@ -10,6 +10,10 @@ All notable changes to this project will be documented in this file.
 ### Improvements
 - Support static builds
 - detect minimum required compiler version (log4qt depends on magic statics c++11)
+- Cleanup includes in headers
+
+### Fixed
+- Make DatabaseAppender compile
 
 ## [v1.3.0] - 2016-09-13
 

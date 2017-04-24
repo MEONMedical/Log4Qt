@@ -1,7 +1,7 @@
 #include "testappender.h"
 #include <QMutexLocker>
 
-#include "layout.h"
+#include "log4qt/layout.h"
 
 TestAppender::TestAppender(QObject *pParent)
     : Log4Qt::AppenderSkeleton(pParent)
