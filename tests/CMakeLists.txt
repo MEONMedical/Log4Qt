@@ -1,0 +1,2 @@
+add_subdirectory(binaryloggertest)
+add_subdirectory(log4qttest)
