@@ -35,6 +35,11 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
 
 #
+# Set include dir src
+#
+include_directories( ${CMAKE_SOURCE_DIR}/src )
+
+#
 # We need C++11 and don't want to export all symbols, only the ones we mark for export
 #
 set(CMAKE_CXX_STANDARD 11)
