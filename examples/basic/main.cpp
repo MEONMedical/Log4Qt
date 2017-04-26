@@ -15,6 +15,7 @@
 #include <QStringBuilder>
 #include <QString>
 #include <QFile>
+#include <QLoggingCategory>
 
 static void initializeRootLogger();
 static void shutdownRootLogger();
@@ -30,6 +31,8 @@ int main(int argc, char *argv[])
     LoggerObject *object = new LoggerObject(&application);
     LoggerObjectPrio *object1 = new LoggerObjectPrio(&application);
     Q_UNUSED(object1)
+    QLoggingCategory::setFilterRules("*.debug=false\n"
+                                         "test.category1.debug=true");
 
     QObject::connect(object, &LoggerObject::exit, &application, &QCoreApplication::exit);
 
@@ -106,7 +109,6 @@ void setupRootLogger(const QString &introMessage)
         logger->info(introMessage);
 
     qWarning("Handling Qt messages is enabled");
-
 }
 
 void shutDownRootLogger(const QString &extroMessage)

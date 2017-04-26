@@ -312,6 +312,8 @@ public:
     LogStream log(Level level) const;
     void log(Level level, const LogError &rLogError) const;
     void log(Level level, const QString &rMessage) const;
+    void log(const LoggingEvent &rLogEvent) const;
+
 
     template<typename T, typename ...Ts>
     void log(Level level, const QString &message, T &&t, Ts &&...ts)
@@ -346,6 +348,7 @@ public:
 
 protected:
     void forcedLog(Level level, const QString &rMessage) const;
+    void forcedLog(const LoggingEvent &rLogEvent) const;
 
 private:
     const QString mName;

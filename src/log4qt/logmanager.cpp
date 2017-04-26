@@ -49,9 +49,12 @@
 #include <QStringList>
 #include <QFileInfo>
 
+
 namespace Log4Qt
 {
 
+static void qt_message_fatal(QtMsgType, const QMessageLogContext &context, const QString &message);
+static bool isFatal(QtMsgType msgType);
 
 LOG4QT_DECLARE_STATIC_LOGGER(static_logger, Log4Qt::LogManager)
 Q_GLOBAL_STATIC(QMutex, singleton_guard)
@@ -380,7 +383,7 @@ void LogManager::welcome()
     }
 }
 
-void LogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &, const QString &pMessage)
+void LogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &rMessage)
 {
     Level level;
     switch (type)
@@ -397,36 +400,77 @@ void LogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &, co
     case QtFatalMsg:
         level = Level::FATAL_INT;
         break;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
+    case QtInfoMsg:
+        level = Level::INFO_INT;
+        break;
+#endif
     default:
         level = Level::TRACE_INT;
     }
-    instance()->qtLogger()->log(level, pMessage);
+    LoggingEvent loggingEvent = LoggingEvent(instance()->qtLogger(),
+                                             level,
+                                             rMessage,
+                                             context.file,
+                                             context.function,
+                                             context.line,
+                                             QStringLiteral("Qt ") % context.category);
+
+    instance()->qtLogger()->log(loggingEvent);
+
 
     // Qt fatal behaviour copied from global.cpp qt_message_output()
     // begin {
 
-    if ((type == QtFatalMsg) ||
-            ((type == QtWarningMsg) && (!qgetenv("QT_FATAL_WARNINGS").isNull())) )
-    {
-#if defined(Q_CC_MSVC) && defined(QT_DEBUG) && defined(_DEBUG) && defined(_CRT_ERROR)
-        // get the current report mode
-        int reportMode = _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_WNDW);
-        _CrtSetReportMode(_CRT_ERROR, reportMode);
-        int ret = _CrtDbgReport(_CRT_ERROR, __FILE__, __LINE__, QT_VERSION_STR, qPrintable(pMessage));
-        if (ret == 0  && reportMode & _CRTDBG_MODE_WNDW)
-            return; // ignore
-        else if (ret == 1)
-            _CrtDbgBreak();
-#endif
-
-#if defined(Q_OS_UNIX) && defined(QT_DEBUG)
-        abort(); // trap; generates core dump
-#else
-        exit(1); // goodbye cruel world
-#endif
-    }
+    if (isFatal(type))
+        qt_message_fatal(type, context, rMessage);
 
     // } end
+}
+
+static void qt_message_fatal(QtMsgType, const QMessageLogContext &context, const QString &message)
+{
+#if defined(Q_CC_MSVC) && defined(QT_DEBUG) && defined(_DEBUG) && defined(_CRT_ERROR)
+    wchar_t contextFileL[256];
+    // we probably should let the compiler do this for us, by declaring QMessageLogContext::file to
+    // be const wchar_t * in the first place, but the #ifdefery above is very complex  and we
+    // wouldn't be able to change it later on...
+    convert_to_wchar_t_elided(contextFileL, sizeof contextFileL / sizeof *contextFileL,
+                              context.file);
+    // get the current report mode
+    int reportMode = _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_WNDW);
+    _CrtSetReportMode(_CRT_ERROR, reportMode);
+
+    int ret = _CrtDbgReportW(_CRT_ERROR, contextFileL, context.line, _CRT_WIDE(QT_VERSION_STR),
+                             reinterpret_cast<const wchar_t *>(message.utf16()));
+    if ((ret == 0) && (reportMode & _CRTDBG_MODE_WNDW))
+        return; // ignore
+    else if (ret == 1)
+        _CrtDbgBreak();
+#else
+    Q_UNUSED(context);
+    Q_UNUSED(message);
+#endif
+
+    std::abort();
+}
+
+static bool isFatal(QtMsgType msgType)
+{
+    if (msgType == QtFatalMsg)
+        return true;
+
+    if (msgType == QtCriticalMsg) {
+        static bool fatalCriticals = !qEnvironmentVariableIsEmpty("QT_FATAL_CRITICALS");
+        return fatalCriticals;
+    }
+
+    if (msgType == QtWarningMsg || msgType == QtCriticalMsg) {
+        static bool fatalWarnings = !qEnvironmentVariableIsEmpty("QT_FATAL_WARNINGS");
+        return fatalWarnings;
+    }
+
+    return false;
 }
 
 LogManager *LogManager::mspInstance = 0;

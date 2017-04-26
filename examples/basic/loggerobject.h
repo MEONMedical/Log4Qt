@@ -4,6 +4,7 @@
 #include "log4qt/logger.h"
 
 #include <QObject>
+#include <QLoggingCategory>
 
 class LoggerObject : public QObject
 {

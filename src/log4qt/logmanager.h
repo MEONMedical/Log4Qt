@@ -259,7 +259,7 @@ private:
     void doStartup();
     void welcome();
 
-    static void qtMessageHandler(QtMsgType type, const QMessageLogContext &, const QString &pMessage);
+    static void qtMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &rMessage);
 
 private:
     mutable QMutex mObjectGuard;

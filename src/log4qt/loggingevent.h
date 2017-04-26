@@ -55,6 +55,13 @@ public:
     LoggingEvent(const Logger *pLogger,
                  Level level,
                  const QString &rMessage,
+                 const QString &fileName,
+                 const QString &methodName,
+                 int lineNumber,
+                 const QString &categoryName);
+    LoggingEvent(const Logger *pLogger,
+                 Level level,
+                 const QString &rMessage,
                  qint64 timeStamp);
     LoggingEvent(const Logger *pLogger,
                  Level level,
@@ -63,7 +70,28 @@ public:
                  const QHash<QString, QString> &rProperties,
                  const QString &rThreadName,
                  qint64 timeStamp);
-
+    LoggingEvent(const Logger *pLogger,
+                 Level level,
+                 const QString &rMessage,
+                 const QString &rNdc,
+                 const QHash<QString, QString> &rProperties,
+                 qint64 timeStamp,
+                 const QString &fileName,
+                 const QString &methodName,
+                 int lineNumber,
+                 const QString &categoryName);
+    LoggingEvent(const Logger *pLogger,
+                 Level level,
+                 const QString &rMessage,
+                 const QString &rNdc,
+                 const QHash<QString, QString> &rProperties,
+                 const QString &rThreadName,
+                 qint64 timeStamp,
+                 const QString &fileName,
+                 const QString &methodName,
+                 int lineNumber,
+                 const QString &categoryName);
+    virtual ~LoggingEvent();
     Level level() const;
     // LocationInformation locationInformation() const;
     const Logger *logger() const;
@@ -83,6 +111,15 @@ public:
     static qint64 sequenceCount();
     static qint64 startTime();
 
+    int lineNumber() const;
+    void setLineNumber(int lineNumber);
+    QString fileName() const;
+    void setFileName(const QString &fileName);
+    QString methodName() const;
+    void setMethodName(const QString &methodName);
+    QString categoryName() const;
+    void setCategoryName(const QString &categoryName);
+
 private:
     void setThreadNameToCurrent();
     static qint64 nextSequenceNumber();
@@ -96,6 +133,11 @@ private:
     qint64 mSequenceNumber;
     QString mThreadName;
     qint64 mTimeStamp;
+    int mLineNumber;
+    QString mFileName;
+    QString mMethodName;
+    QString mCategoryName;
+
     static qint64 msSequenceCount;
 
 #ifndef QT_NO_DATASTREAM

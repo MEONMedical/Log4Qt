@@ -43,6 +43,9 @@ class PatternFormatter;
         \li t : thread name
         \li x : ndc name
         \li X : mdc name
+        \li F : file name
+        \li M : method name
+        \li L : line number
  *
  * \note The ownership and lifetime of objects of this class are managed.
  *       See \ref Ownership "Object ownership" for more details.

@@ -130,9 +130,14 @@ Logger *Logger::rootLogger()
 void Logger::forcedLog(Level level, const QString &rMessage) const
 {
     QReadLocker locker(&mAppenderGuard);
-
     LoggingEvent event(this, level, rMessage);
     callAppenders(event);
+}
+
+void Logger::forcedLog(const LoggingEvent &rLogEvent) const
+{
+    QReadLocker locker(&mAppenderGuard);
+    callAppenders(rLogEvent);
 }
 
 bool Logger::additivity() const
@@ -286,6 +291,12 @@ void Logger::log(Level level,
 {
     if (isEnabledFor(level))
         forcedLog(level, rMessage);
+}
+
+void Logger::log(const LoggingEvent &rLogEvent) const
+{
+    if (isEnabledFor(rLogEvent.level()))
+        forcedLog(rLogEvent);
 }
 
 void Logger::log(Level level,

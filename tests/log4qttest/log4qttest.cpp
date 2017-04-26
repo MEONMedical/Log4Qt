@@ -249,6 +249,70 @@ void Log4QtTest::PatternFormatter_data()
             << "%d{ISO8601} [%t] %p %c %x - %m%n"
             << "2001-09-07 15:07:05.009 [main] DEBUG Test::TestLog4Qt NDC - This is the message" + eol
             << 0;
+    QTest::newRow("TTCC conversion with file, line and method")
+            << LoggingEvent(test_logger(),
+                            Level(Level::DEBUG_INT),
+                            "This is the message",
+                            "NDC",
+                            properties,
+                            "main",
+                            relative_timestamp,
+                            "foo.cpp",
+                            "foo()",
+                            100,
+                            "category"
+                            )
+            << "%r [%t] %p %c %F:%L-%M %x - %m%n"
+            << relative_string + " [main] DEBUG Test::TestLog4Qt foo.cpp:100-foo() NDC - This is the message" + eol
+            << 0;
+    QTest::newRow("TTCC conversion with location information")
+            << LoggingEvent(test_logger(),
+                            Level(Level::DEBUG_INT),
+                            "This is the message",
+                            "NDC",
+                            properties,
+                            "main",
+                            relative_timestamp,
+                            "foo.cpp",
+                            "foo()",
+                            100,
+                            "category"
+                            )
+            << "%r [%t] %p %c %l %x - %m%n"
+            << relative_string + " [main] DEBUG Test::TestLog4Qt foo.cpp:100 - foo() NDC - This is the message" + eol
+            << 0;
+    QTest::newRow("TTCC conversion with file, line and method - Qt logger")
+            << LoggingEvent(LogManager::instance()->qtLogger(),
+                            Level(Level::DEBUG_INT),
+                            "This is the message",
+                            "NDC",
+                            properties,
+                            "main",
+                            relative_timestamp,
+                            "foo.cpp",
+                            "foo()",
+                            100,
+                            "Qt category"
+                            )
+            << "%r [%t] %p %c %F:%L-%M %x - %m%n"
+            << relative_string + " [main] DEBUG Qt category foo.cpp:100-foo() NDC - This is the message" + eol
+            << 0;
+    QTest::newRow("TTCC conversion with file, line and method - Qt logger no category")
+            << LoggingEvent(LogManager::instance()->qtLogger(),
+                            Level(Level::DEBUG_INT),
+                            "This is the message",
+                            "NDC",
+                            properties,
+                            "main",
+                            relative_timestamp,
+                            "foo.cpp",
+                            "foo()",
+                            100,
+                            QString()
+                            )
+            << "%r [%t] %p %c %F:%L-%M %x - %m%n"
+            << relative_string + " [main] DEBUG Qt foo.cpp:100-foo() NDC - This is the message" + eol
+            << 0;
 
     resetLogging();
 }

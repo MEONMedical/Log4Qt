@@ -34,6 +34,7 @@
 #include "layout.h"
 #include "logger.h"
 #include "loggingevent.h"
+#include "logmanager.h"
 
 #include <QString>
 
@@ -119,7 +120,12 @@ public:
         MESSAGE_CONVERTER,
         NDC_CONVERTER,
         LEVEL_CONVERTER,
-        THREAD_CONVERTER
+        THREAD_CONVERTER,
+        FILENAME_CONVERTER,
+        METHODNAME_CONVERTER,
+        LINENUMBER_CONVERTER,
+        LOCATION_CONVERTER,
+        CATEGORYNAME_CONVERTER
     };
 
 public:
@@ -265,8 +271,8 @@ private:
 LOG4QT_DECLARE_STATIC_LOGGER(logger, Log4Qt::PatternFormatter)
 
 PatternFormatter::PatternFormatter(const QString &rPattern) :
-    mIgnoreCharacters(QLatin1String("CFlLM")),
-    mConversionCharacters(QLatin1String("cdmprtxX")),
+    mIgnoreCharacters(QLatin1String("C")),
+    mConversionCharacters(QLatin1String("cdmprtxXFMLl")),
     mOptionCharacters(QLatin1String("cd")),
     mPattern(rPattern),
     mPatternConverters()
@@ -366,6 +372,22 @@ void PatternFormatter::createConverter(const QChar &rChar,
     case 'X':
         mPatternConverters << new MDCPatternConverter(rFormattingInfo,
                            rOption);
+        break;
+    case 'F':
+        mPatternConverters << new BasicPatternConverter(rFormattingInfo,
+                           BasicPatternConverter::FILENAME_CONVERTER);
+        break;
+    case 'M':
+        mPatternConverters << new BasicPatternConverter(rFormattingInfo,
+                           BasicPatternConverter::METHODNAME_CONVERTER);
+        break;
+    case 'L':
+        mPatternConverters << new BasicPatternConverter(rFormattingInfo,
+                           BasicPatternConverter::LINENUMBER_CONVERTER);
+        break;
+    case 'l':
+        mPatternConverters << new BasicPatternConverter(rFormattingInfo,
+                           BasicPatternConverter::LOCATION_CONVERTER);
         break;
     default:
         Q_ASSERT_X(false, "PatternFormatter::createConverter", "Unknown pattern character");
@@ -627,6 +649,21 @@ QString BasicPatternConverter::convert(const LoggingEvent &rLoggingEvent) const
     case THREAD_CONVERTER:
         return rLoggingEvent.threadName();
         break;
+    case FILENAME_CONVERTER:
+        return rLoggingEvent.fileName();
+        break;
+    case METHODNAME_CONVERTER:
+        return rLoggingEvent.methodName();
+        break;
+    case LINENUMBER_CONVERTER:
+        return QString::number(rLoggingEvent.lineNumber());
+        break;
+    case LOCATION_CONVERTER:
+        return QString("%1:%2 - %3").arg(rLoggingEvent.fileName(), QString::number(rLoggingEvent.lineNumber()), rLoggingEvent.methodName());
+        break;
+    case CATEGORYNAME_CONVERTER:
+        return rLoggingEvent.categoryName();
+        break;
     default:
         Q_ASSERT_X(false, "BasicPatternConverter::convert()", "Unkown type constant");
         return QString();
@@ -648,7 +685,16 @@ QString LoggerPatternConverter::convert(const LoggingEvent &rLoggingEvent) const
 {
     if (!rLoggingEvent.logger())
         return QString();
-    QString name = rLoggingEvent.logger()->name();
+    QString name;
+
+    if (rLoggingEvent.logger() == LogManager::instance()->qtLogger())   // is qt logger
+        if (rLoggingEvent.categoryName().isEmpty())
+            name = LogManager::instance()->qtLogger()->name();
+        else
+            name = rLoggingEvent.categoryName();
+    else
+        name = rLoggingEvent.logger()->name();
+
     if (mPrecision <= 0 || (name.isEmpty()))
         return name;
 
