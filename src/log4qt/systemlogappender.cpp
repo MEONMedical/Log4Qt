@@ -5,7 +5,6 @@
 #include "loggingevent.h"
 
 #include <QCoreApplication>
-#include <QVector>
 
 #if defined(Q_OS_WIN32)
 #ifndef UNICODE
@@ -141,7 +140,7 @@ void SystemLogAppender::append(const LoggingEvent &rEvent)
     }
 
     openlog(ident, LOG_PID, LOG_DAEMON);
-    for (const auto &line : message.splitRef('\n', QString::SkipEmptyParts))
+    for (const auto &line : message.split('\n', QString::SkipEmptyParts))
         syslog(st, "%s", line.toLocal8Bit().constData());
     closelog();
 
