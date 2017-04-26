@@ -58,15 +58,6 @@ Logger::Logger(LoggerRepository *pLoggerRepository, Level level,
 Logger::~Logger()
 {
     logger()->warn("Unexpected destruction of Logger");
-
-    // QWriteLocker locker(&mObjectGuard);
-    //
-    // QMutableListIterator< LogObjectPtr<Appender> > i(mAppenders);
-    // while (i.hasNext())
-    // {
-    //     i.next();
-    //     i.remove();
-    // }
 }
 
 void Logger::setLevel(Level level)
@@ -129,14 +120,12 @@ Logger *Logger::rootLogger()
 
 void Logger::forcedLog(Level level, const QString &rMessage) const
 {
-    QReadLocker locker(&mAppenderGuard);
     LoggingEvent event(this, level, rMessage);
-    callAppenders(event);
+    forcedLog(event);
 }
 
 void Logger::forcedLog(const LoggingEvent &rLogEvent) const
 {
-    QReadLocker locker(&mAppenderGuard);
     callAppenders(rLogEvent);
 }
 
@@ -157,7 +146,6 @@ LoggerRepository *Logger::loggerRepository() const
 
 QString Logger::name() const
 {
-    // QReadLocker locker(&mObjectGuard); // Constant for object lifetime
     return mName;
 }
 
@@ -297,6 +285,18 @@ void Logger::log(const LoggingEvent &rLogEvent) const
 {
     if (isEnabledFor(rLogEvent.level()))
         forcedLog(rLogEvent);
+}
+
+void Logger::logWithLocation(Level level, const char *file, const char *function, int line, const QString &rMessage)
+{
+    LoggingEvent loggingEvent = LoggingEvent(this,
+                                             level,
+                                             rMessage,
+                                             file,
+                                             function,
+                                             line,
+                                             QString());
+    forcedLog(loggingEvent);
 }
 
 void Logger::log(Level level,

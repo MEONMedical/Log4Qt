@@ -165,6 +165,26 @@ namespace Log4Qt
                     {   return mLog4QtClassLogger.logger(this);    }                  \
             private:
 
+// Macros to log with location information
+#define l4qFatal(logger, ...) \
+    for (bool enabled = logger->isEnabledFor(Log4Qt::Level::FATAL_INT); enabled; enabled = false) \
+        logger->logWithLocation(Log4Qt::Level::FATAL_INT, QT_MESSAGELOG_FILE, QT_MESSAGELOG_FUNC, QT_MESSAGELOG_LINE, __VA_ARGS__)
+#define l4qError(logger, ...) \
+    for (bool enabled = logger->isEnabledFor(Log4Qt::Level::ERROR_INT); enabled; enabled = false) \
+        logger->logWithLocation(Log4Qt::Level::ERROR_INT, QT_MESSAGELOG_FILE, QT_MESSAGELOG_FUNC, QT_MESSAGELOG_LINE, __VA_ARGS__)
+#define l4qWarn(logger, ...) \
+    for (bool enabled = logger->isEnabledFor(Log4Qt::Level::WARN_INT); enabled; enabled = false) \
+        logger->logWithLocation(Log4Qt::Level::WARN_INT, QT_MESSAGELOG_FILE, QT_MESSAGELOG_FUNC, QT_MESSAGELOG_LINE, __VA_ARGS__)
+#define l4qInfo(logger, ...) \
+    for (bool enabled = logger->isEnabledFor(Log4Qt::Level::INFO_INT); enabled; enabled = false) \
+        logger->logWithLocation(Log4Qt::Level::INFO_INT, QT_MESSAGELOG_FILE, QT_MESSAGELOG_FUNC, QT_MESSAGELOG_LINE, __VA_ARGS__)
+#define l4qDebug(logger, ...) \
+    for (bool enabled = logger->isEnabledFor(Log4Qt::Level::DEBUG_INT); enabled; enabled = false) \
+        logger->logWithLocation(Log4Qt::Level::DEBUG_INT, QT_MESSAGELOG_FILE, QT_MESSAGELOG_FUNC, QT_MESSAGELOG_LINE, __VA_ARGS__)
+#define l4qTrace(logger, ...) \
+    for (bool enabled = logger->isEnabledFor(Log4Qt::Level::TRACE_INT); enabled; enabled = false) \
+        logger->logWithLocation(Log4Qt::Level::TRACE_INT, QT_MESSAGELOG_FILE, QT_MESSAGELOG_FUNC, QT_MESSAGELOG_LINE, __VA_ARGS__)
+
 class Appender;
 class LoggingEvent;
 class LoggerRepository;
@@ -311,14 +331,20 @@ public:
 
     LogStream log(Level level) const;
     void log(Level level, const LogError &rLogError) const;
-    void log(Level level, const QString &rMessage) const;
     void log(const LoggingEvent &rLogEvent) const;
 
-
+    void log(Level level, const QString &rMessage) const;
     template<typename T, typename ...Ts>
     void log(Level level, const QString &message, T &&t, Ts &&...ts)
     {
         log(level, message.arg(std::forward<T>(t)), std::forward<Ts>(ts)...);
+    }
+
+    void logWithLocation(Level level, const char *file, const char *function, int line, const QString &rMessage);
+    template<typename T, typename ...Ts>
+    void logWithLocation(Level level, const char *file, const char *function, int line, const QString &message, T &&t, Ts &&...ts)
+    {
+        logWithLocation(level, file, function, line, message.arg(std::forward<T>(t)), std::forward<Ts>(ts)...);
     }
 
     LogStream trace() const;

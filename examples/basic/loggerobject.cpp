@@ -19,8 +19,11 @@ void LoggerObject::onTimeout()
     logger()->error() << "Error output";
     logger()->debug("test");
 
-    qCritical(category1, "a debug message");
-    qCritical("Hello");
+    qCCritical(category1, "a debug message");
+
+    l4qError(logger(), "an error");
+    l4qDebug(logger(), "debug info");
+
 
     mCounter++;
     if (mCounter >= 10)
