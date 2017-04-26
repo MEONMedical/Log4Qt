@@ -488,6 +488,19 @@
 #   error "Log4Qt requires at least clang version 3.3 or higher for used c++11 features"
 #endif
 
+
+#if QT_VERSION <= QT_VERSION_CHECK(5, 3, 0)
+    #ifndef QT_MESSAGELOG_FILE
+      #define QT_MESSAGELOG_FILE __FILE__
+    #endif
+    #ifndef QT_MESSAGELOG_LINE
+      #define QT_MESSAGELOG_LINE __LINE__
+    #endif
+    #ifndef QT_MESSAGELOG_FUNC
+      #define QT_MESSAGELOG_FUNC Q_FUNC_INFO
+    #endif
+#endif
+
 /*!
  * \brief The namespace Log4Qt %Log4Qt encloses all parts of the package.
  */

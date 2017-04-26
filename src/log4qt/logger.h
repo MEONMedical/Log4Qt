@@ -35,6 +35,7 @@
 
 #include <QObject>
 
+#include "log4qt.h"
 #include "helpers/logerror.h"
 #include "helpers/classlogger.h"
 #include "helpers/appenderattachable.h"
