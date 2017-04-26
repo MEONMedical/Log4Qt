@@ -268,8 +268,6 @@ QDataStream &operator>>(QDataStream &rStream,
     quint16 version;
     stream >> version;
     // Version 0 data
-    QString level;
-    QString logger;
     stream >> rLogError.mCode
            >> rLogError.mContext
            >> rLogError.mMessage

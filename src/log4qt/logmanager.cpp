@@ -279,7 +279,6 @@ void LogManager::doStartup()
         s.beginGroup(log4qt_group);
         if (s.childGroups().contains(properties_group))
         {
-            const QString group(QLatin1String("Properties"));
             static_logger()->debug("Default initialisation configures from setting '%1/%2'", log4qt_group, properties_group);
             s.beginGroup(properties_group);
             PropertyConfigurator::configure(s);
