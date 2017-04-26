@@ -48,7 +48,6 @@ set(log4qt_SRCS
     simpletimelayout.cpp                                                                                                                                                                                                                       
     spi/filter.cpp                                                                                                                                                                                                                             
     systemlogappender.cpp                                                                                                                                                                                                                      
-    telnetappender.cpp                                                                                                                                                                                                                         
     ttcclayout.cpp                                                                                                                                                                                                                             
     varia/binaryeventfilter.cpp                                                                                                                                                                                                                
     varia/debugappender.cpp                                                                                                                                                                                                                    
@@ -101,7 +100,6 @@ set(log4qt_HDRS
     simplelayout.h
     simpletimelayout.h
     systemlogappender.h
-    telnetappender.h
     ttcclayout.h
     writerappender.h
     xmllayout.h
@@ -141,22 +139,6 @@ if(WIN32)
         wdcappender.h
     )
 endif()
-#
-# Only add database logging support of Qt5::Sql was found
-#
-if(TARGET Qt5::Sql)
-    list(APPEND log4qt_SRCS
-        databaseappender.cpp
-        databaselayout.cpp
-    )
-    list(APPEND log4qt_HDRS
-        databaseappender.h
-        databaselayout.h
-    )
-    message(STATUS "Adding sql database logging support")
-else()
-    message(STATUS "Not adding sql database logging support - Qt5::Sql not available")
-endif()
 
 #
 # build lib shared/static
@@ -167,19 +149,25 @@ if(BUILD_STATIC_LOG4CXX_LIB)
 endif()
 add_library(log4qt ${_shared_static} ${log4qt_SRCS} ${log4qt_HDRS} ${log4qt_HDRS_helpers} ${log4qt_HDRS_spi} ${log4qt_HDRS_varia})
 target_link_libraries(log4qt
-    PRIVATE
-        Qt5::Network
     PUBLIC
         Qt5::Core
 )
-target_include_directories(log4qt
-      PUBLIC
-          $<TARGET_PROPERTY:Qt5::Network,INTERFACE_INCLUDE_DIRECTORIES>
-)
 #
-# need to link against Qt5::Sql if database logging support was enabled
+# add databaseappender if database logging support was enabled
 #
-if(TARGET Qt5::Sql)
+if(BUILD_WITH_DB_LOGGING)
+    target_sources(log4qt
+        PRIVATE
+            databaseappender.cpp
+            databaselayout.cpp
+            databaseappender.h
+            databaselayout.h
+    )
+    # append to log4qt_HDRS or proper install
+    list(APPEND log4qt_HDRS
+        databaseappender.h
+        databaselayout.h
+    )
     target_link_libraries(log4qt
         PRIVATE
             Qt5::Sql
@@ -188,7 +176,37 @@ if(TARGET Qt5::Sql)
           PUBLIC
               $<TARGET_PROPERTY:Qt5::Sql,INTERFACE_INCLUDE_DIRECTORIES>
     )
+    message(STATUS "Enabling database logging support")
+else()
+    message(STATUS "Disabling database logging support - disabled by cmake option")
 endif()
+
+#
+# add telnetappender if telnet logging support was enabled
+#
+if(BUILD_WITH_TELNET_LOGGING)
+    target_sources(log4qt
+        PRIVATE
+            telnetappender.cpp
+            telnetappender.h
+    )
+    # append to log4qt_HDRS or proper install
+    list(APPEND log4qt_HDRS
+        telnetappender.h
+    )
+    target_link_libraries(log4qt
+        PRIVATE
+            Qt5::Network
+    )
+    target_include_directories(log4qt
+          PUBLIC
+              $<TARGET_PROPERTY:Qt5::Network,INTERFACE_INCLUDE_DIRECTORIES>
+    )
+    message(STATUS "Enabling telnet logging support")
+else()
+    message(STATUS "Disabling telnet logging support - disabled by cmake option")
+endif()
+
 if(BUILD_STATIC_LOG4CXX_LIB)
     # LOG4QT_STATIC must also be set when linking against the lib
     target_compile_definitions(log4qt

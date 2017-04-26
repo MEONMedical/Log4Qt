@@ -21,7 +21,12 @@ option(BUILD_STATIC_LOG4CXX_LIB "Build a static log4cxx library (default: off)" 
 #
 # With Database logging support or without
 #
-option(BUILD_WITH_DB_LOGGING "Build with database logging support (default: on)" ON)
+option(BUILD_WITH_DB_LOGGING "Build with database logging support, link against Qt sql lib (default: on)" ON)
+
+#
+# With Database logging support or without
+#
+option(BUILD_WITH_TELNET_LOGGING "Build with telnet logging support, link against Qt network lib (default: on)" ON)
 
 #
 # Helper to be able to properly install into the correct directories (esp. lib/lib64)
@@ -56,6 +61,9 @@ set(QT_MIN_VERSION 5.3.0)
 find_package(Qt5 COMPONENTS Core Network Test REQUIRED)
 if(BUILD_WITH_DB_LOGGING)
   find_package(Qt5 COMPONENTS Sql REQUIRED)
+endif()
+if(BUILD_WITH_TELNET_LOGGING)
+  find_package(Qt5 COMPONENTS Network REQUIRED)
 endif()
 message(STATUS "Qt version is ${Qt5Core_VERSION_STRING}")
 add_definitions(-DQT_USE_QSTRINGBUILDER)
