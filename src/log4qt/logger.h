@@ -35,7 +35,6 @@
 
 #include <QObject>
 
-#include "log4qt.h"
 #include "helpers/logerror.h"
 #include "helpers/classlogger.h"
 #include "helpers/appenderattachable.h"
@@ -169,22 +168,22 @@ namespace Log4Qt
 // Macros to log with location information
 #define l4qFatal(logger, ...) \
     for (bool enabled = logger->isEnabledFor(Log4Qt::Level::FATAL_INT); enabled; enabled = false) \
-        logger->logWithLocation(Log4Qt::Level::FATAL_INT, QT_MESSAGELOG_FILE, QT_MESSAGELOG_FUNC, QT_MESSAGELOG_LINE, __VA_ARGS__)
+        logger->logWithLocation(Log4Qt::Level::FATAL_INT, __FILE__, Q_FUNC_INFO, __LINE__, __VA_ARGS__)
 #define l4qError(logger, ...) \
     for (bool enabled = logger->isEnabledFor(Log4Qt::Level::ERROR_INT); enabled; enabled = false) \
-        logger->logWithLocation(Log4Qt::Level::ERROR_INT, QT_MESSAGELOG_FILE, QT_MESSAGELOG_FUNC, QT_MESSAGELOG_LINE, __VA_ARGS__)
+        logger->logWithLocation(Log4Qt::Level::ERROR_INT, __FILE__, Q_FUNC_INFO, __LINE__, __VA_ARGS__)
 #define l4qWarn(logger, ...) \
     for (bool enabled = logger->isEnabledFor(Log4Qt::Level::WARN_INT); enabled; enabled = false) \
-        logger->logWithLocation(Log4Qt::Level::WARN_INT, QT_MESSAGELOG_FILE, QT_MESSAGELOG_FUNC, QT_MESSAGELOG_LINE, __VA_ARGS__)
+        logger->logWithLocation(Log4Qt::Level::WARN_INT, __FILE__, Q_FUNC_INFO, __LINE__, __VA_ARGS__)
 #define l4qInfo(logger, ...) \
     for (bool enabled = logger->isEnabledFor(Log4Qt::Level::INFO_INT); enabled; enabled = false) \
-        logger->logWithLocation(Log4Qt::Level::INFO_INT, QT_MESSAGELOG_FILE, QT_MESSAGELOG_FUNC, QT_MESSAGELOG_LINE, __VA_ARGS__)
+        logger->logWithLocation(Log4Qt::Level::INFO_INT, __FILE__, Q_FUNC_INFO, __LINE__, __VA_ARGS__)
 #define l4qDebug(logger, ...) \
     for (bool enabled = logger->isEnabledFor(Log4Qt::Level::DEBUG_INT); enabled; enabled = false) \
-        logger->logWithLocation(Log4Qt::Level::DEBUG_INT, QT_MESSAGELOG_FILE, QT_MESSAGELOG_FUNC, QT_MESSAGELOG_LINE, __VA_ARGS__)
+        logger->logWithLocation(Log4Qt::Level::DEBUG_INT, __FILE__, Q_FUNC_INFO, __LINE__, __VA_ARGS__)
 #define l4qTrace(logger, ...) \
     for (bool enabled = logger->isEnabledFor(Log4Qt::Level::TRACE_INT); enabled; enabled = false) \
-        logger->logWithLocation(Log4Qt::Level::TRACE_INT, QT_MESSAGELOG_FILE, QT_MESSAGELOG_FUNC, QT_MESSAGELOG_LINE, __VA_ARGS__)
+        logger->logWithLocation(Log4Qt::Level::TRACE_INT, __FILE__, Q_FUNC_INFO, __LINE__, __VA_ARGS__)
 
 class Appender;
 class LoggingEvent;
@@ -341,6 +340,8 @@ public:
         log(level, message.arg(std::forward<T>(t)), std::forward<Ts>(ts)...);
     }
 
+
+    LogStream logWithLocation(Level level, const char *file, const char *function, int line);
     void logWithLocation(Level level, const char *file, const char *function, int line, const QString &rMessage);
     template<typename T, typename ...Ts>
     void logWithLocation(Level level, const char *file, const char *function, int line, const QString &message, T &&t, Ts &&...ts)
