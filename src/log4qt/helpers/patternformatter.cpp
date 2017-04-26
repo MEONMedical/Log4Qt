@@ -283,8 +283,7 @@ PatternFormatter::PatternFormatter(const QString &rPattern) :
 
 PatternFormatter::~PatternFormatter()
 {
-    for (auto p_converter : mPatternConverters)
-        delete p_converter;
+    qDeleteAll(mPatternConverters);
 }
 
 
@@ -569,7 +568,7 @@ void PatternFormatter::parse()
         if (state == ESCAPE_STATE)
             literal += c;
         else
-            literal += mPattern.mid(converter_start);
+            literal += mPattern.midRef(converter_start);
     }
 
     if (!literal.isEmpty())
@@ -626,7 +625,7 @@ void PatternConverter::format(QString &rFormat, const LoggingEvent &rLoggingEven
     QString s = convert(rLoggingEvent);
 
     if (s.length() > mFormattingInfo.mMaxLength)
-        rFormat += s.left(mFormattingInfo.mMaxLength);
+        rFormat += s.leftRef(mFormattingInfo.mMaxLength);
     else if (mFormattingInfo.mLeftAligned)
         rFormat += s.leftJustified(mFormattingInfo.mMinLength, space, false);
     else
