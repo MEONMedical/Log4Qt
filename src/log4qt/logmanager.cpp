@@ -50,6 +50,8 @@
 #include <QFileInfo>
 #include <QLoggingCategory>
 
+#include <cstdlib>
+
 namespace Log4Qt
 {
 
@@ -448,6 +450,23 @@ void LogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &cont
 
     // } end
 }
+
+#ifdef Q_OS_WIN
+static inline void convert_to_wchar_t_elided(wchar_t *d, size_t space, const char *s) Q_DECL_NOEXCEPT
+{
+    size_t len = qstrlen(s);
+    if (len + 1 > space) {
+        const size_t skip = len - space + 4; // 4 for "..." + '\0'
+        s += skip;
+        len -= skip;
+        for (int i = 0; i < 3; ++i)
+          *d++ = L'.';
+    }
+    while (len--)
+        *d++ = *s++;
+    *d++ = 0;
+}
+#endif
 
 static void qt_message_fatal(QtMsgType, const QMessageLogContext &context, const QString &message)
 {
