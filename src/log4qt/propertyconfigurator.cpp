@@ -172,6 +172,8 @@ void PropertyConfigurator::configureGlobalSettings(const Properties &rProperties
     const QLatin1String key_threshold("log4j.threshold");
     const QLatin1String key_handle_qt_messages("log4j.handleQtMessages");
     const QLatin1String key_watch_this_file("log4j.watchThisFile");
+    const QLatin1String key_filterRules("log4j.qtLogging.filterRules");
+    const QLatin1String key_messagePattern("log4j.qtLogging.messagePattern");
 
     // Test each global setting and set it
     // - Reset: log4j.reset
@@ -179,6 +181,8 @@ void PropertyConfigurator::configureGlobalSettings(const Properties &rProperties
     // - Threshold: log4j.threshold
     // - Handle Qt Messages: log4j.handleQtMessages
     // - Watch the properties file
+    // - filterRules: QLoggingCategory::setFilterRules
+    // - messagePattern: qSetMessagePattern
 
     // Reset
     QString value = rProperties.property(key_reset);
@@ -235,6 +239,20 @@ void PropertyConfigurator::configureGlobalSettings(const Properties &rProperties
         LogManager::setWatchThisFile(OptionConverter::toBoolean(value, false));
         logger()->debug("Set watching the properties file to %1",
                         QVariant(LogManager::watchThisFile()).toString());
+    }
+
+    value = rProperties.property(key_filterRules);
+    if (!value.isNull())
+    {
+        LogManager::setFilterRules(value);
+        logger()->debug("Set filter rules to %1", LogManager::filterRules());
+    }
+
+    value = rProperties.property(key_messagePattern);
+    if (!value.isNull())
+    {
+        LogManager::setMessagePattern(value);
+        logger()->debug("Set message pattern to %1", LogManager::messagePattern());
     }
 }
 
