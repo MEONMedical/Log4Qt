@@ -257,9 +257,7 @@ void Log4QtTest::PatternFormatter_data()
                             properties,
                             "main",
                             relative_timestamp,
-                            "foo.cpp",
-                            100,
-                            "foo()",
+                            MessageContext("foo.cpp", 100, "foo()"),
                             "category"
                             )
             << "%r [%t] %p %c %F:%L-%M %x - %m%n"
@@ -273,9 +271,7 @@ void Log4QtTest::PatternFormatter_data()
                             properties,
                             "main",
                             relative_timestamp,
-                            "foo.cpp",
-                            100,
-                            "foo()",
+                            MessageContext("foo.cpp", 100, "foo()"),
                             "category"
                             )
             << "%r [%t] %p %c %l %x - %m%n"
@@ -289,9 +285,7 @@ void Log4QtTest::PatternFormatter_data()
                             properties,
                             "main",
                             relative_timestamp,
-                            "foo.cpp",
-                            100,
-                            "foo()",
+                            MessageContext("foo.cpp", 100, "foo()"),
                             "Qt category"
                             )
             << "%r [%t] %p %c %F:%L-%M %x - %m%n"
@@ -305,9 +299,7 @@ void Log4QtTest::PatternFormatter_data()
                             properties,
                             "main",
                             relative_timestamp,
-                            "foo.cpp",
-                            100,
-                            "foo()",
+                            MessageContext("foo.cpp", 100, "foo()"),
                             QString()
                             )
             << "%r [%t] %p %c %F:%L-%M %x - %m%n"

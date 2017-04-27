@@ -40,6 +40,7 @@
 #include "helpers/appenderattachable.h"
 #include "level.h"
 #include "logstream.h"
+#include "loggingevent.h"
 
 namespace Log4Qt
 {
@@ -165,17 +166,6 @@ namespace Log4Qt
                     {   return mLog4QtClassLogger.logger(this);    }                  \
             private:
 
-class MessageContext
-{
-public:
-    explicit MessageContext()
-        : file(Q_NULLPTR), line(-1), function(Q_NULLPTR) {}
-    explicit MessageContext(const char *fileName, int lineNumber, const char *functionName)
-        : file(fileName), line(lineNumber), function(functionName) {}
-    const char *file;
-    int line;
-    const char *function;
-};
 
 class LOG4QT_EXPORT MessageLogger
 {
@@ -221,7 +211,6 @@ private:
         Log4Qt::MessageLogger(logger(), Log4Qt::Level::TRACE_INT, __FILE__, __LINE__, Q_FUNC_INFO).log(__VA_ARGS__)
 
 class Appender;
-class LoggingEvent;
 class LoggerRepository;
 
 /*!

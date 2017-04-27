@@ -638,31 +638,22 @@ QString BasicPatternConverter::convert(const LoggingEvent &rLoggingEvent) const
     {
     case MESSAGE_CONVERTER:
         return rLoggingEvent.message();
-        break;
     case NDC_CONVERTER:
         return rLoggingEvent.ndc();
-        break;
     case LEVEL_CONVERTER:
         return rLoggingEvent.level().toString();
-        break;
     case THREAD_CONVERTER:
         return rLoggingEvent.threadName();
-        break;
     case FILENAME_CONVERTER:
-        return rLoggingEvent.fileName();
-        break;
-    case FUNCTIONNAME_CONVERTER:
-        return rLoggingEvent.functionName();
-        break;
+        return rLoggingEvent.context().file;
     case LINENUMBER_CONVERTER:
-        return QString::number(rLoggingEvent.lineNumber());
-        break;
+        return QString::number(rLoggingEvent.context().line);
+    case FUNCTIONNAME_CONVERTER:
+        return rLoggingEvent.context().function;
     case LOCATION_CONVERTER:
-        return QString("%1:%2 - %3").arg(rLoggingEvent.fileName(), QString::number(rLoggingEvent.lineNumber()), rLoggingEvent.functionName());
-        break;
+        return QString("%1:%2 - %3").arg(rLoggingEvent.context().file, QString::number(rLoggingEvent.context().line), rLoggingEvent.context().function);
     case CATEGORYNAME_CONVERTER:
         return rLoggingEvent.categoryName();
-        break;
     default:
         Q_ASSERT_X(false, "BasicPatternConverter::convert()", "Unkown type constant");
         return QString();

@@ -36,6 +36,18 @@ namespace Log4Qt
 
 class Logger;
 
+class MessageContext
+{
+public:
+    explicit MessageContext()
+        : file(Q_NULLPTR), line(-1), function(Q_NULLPTR) {}
+    explicit MessageContext(const char *fileName, int lineNumber, const char *functionName)
+        : file(fileName), line(lineNumber), function(functionName) {}
+    const char *file;
+    int line;
+    const char *function;
+};
+
 /*!
  * \brief The class LoggingEvent is the internal representation of a
  *        logging event.
@@ -55,9 +67,7 @@ public:
     LoggingEvent(const Logger *pLogger,
                  Level level,
                  const QString &rMessage,
-                 const QString &fileName,
-                 int lineNumber,
-                 const QString &functionName,
+                 const MessageContext &context,
                  const QString &categoryName);
     LoggingEvent(const Logger *pLogger,
                  Level level,
@@ -76,9 +86,7 @@ public:
                  const QString &rNdc,
                  const QHash<QString, QString> &rProperties,
                  qint64 timeStamp,
-                 const QString &fileName,
-                 int lineNumber,
-                 const QString &functionName,
+                 const MessageContext &context,
                  const QString &categoryName);
     LoggingEvent(const Logger *pLogger,
                  Level level,
@@ -87,9 +95,7 @@ public:
                  const QHash<QString, QString> &rProperties,
                  const QString &rThreadName,
                  qint64 timeStamp,
-                 const QString &fileName,
-                 int lineNumber,
-                 const QString &functionName,
+                 const MessageContext &context,
                  const QString &categoryName);
     virtual ~LoggingEvent();
     Level level() const;
@@ -119,6 +125,8 @@ public:
     void setMethodName(const QString &functionName);
     QString categoryName() const;
     void setCategoryName(const QString &categoryName);
+    MessageContext context() const;
+    void setContext(const MessageContext &context);
 
 private:
     void setThreadNameToCurrent();
@@ -133,9 +141,7 @@ private:
     qint64 mSequenceNumber;
     QString mThreadName;
     qint64 mTimeStamp;
-    QString mFileName;
-    int mLineNumber;
-    QString mFunctionName;
+    MessageContext mContext;
     QString mCategoryName;
 
     static qint64 msSequenceCount;

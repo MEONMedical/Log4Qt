@@ -434,9 +434,7 @@ void LogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &cont
     LoggingEvent loggingEvent = LoggingEvent(instance()->qtLogger(),
                                              level,
                                              rMessage,
-                                             context.file,
-                                             context.line,
-                                             context.function,
+                                             MessageContext(context.file, context.line, context.function),
                                              QStringLiteral("Qt ") % context.category);
 
     instance()->qtLogger()->log(loggingEvent);

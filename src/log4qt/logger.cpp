@@ -292,9 +292,7 @@ void Logger::logWithLocation(Level level, const char *file, int line, const char
     LoggingEvent loggingEvent = LoggingEvent(this,
                                              level,
                                              message,
-                                             file,
-                                             line,
-                                             function,
+                                             MessageContext(file, line, function),
                                              QString());
     forcedLog(loggingEvent);
 }
