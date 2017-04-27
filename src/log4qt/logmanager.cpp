@@ -48,7 +48,7 @@
 #include <QSettings>
 #include <QStringList>
 #include <QFileInfo>
-
+#include <QLoggingCategory>
 
 namespace Log4Qt
 {
@@ -187,6 +187,29 @@ void LogManager::doSetWatchThisFile(bool watchThisFile)
     static_logger()->trace("%1able watching the current properties file", watchThisFile ? "En" : "Dis");
 }
 
+void LogManager::doSetFilterRules(const QString &filterRules)
+{
+    QMutexLocker locker(&mObjectGuard);
+
+    if (instance()->mFilterRules == filterRules)
+        return;
+
+    instance()->mFilterRules = filterRules;
+    QLoggingCategory::setFilterRules(filterRules);
+    static_logger()->trace("Setting filter rules to: %1", filterRules);
+}
+
+void LogManager::doSetMessagePattern(const QString &messagePattern)
+{
+    QMutexLocker locker(&mObjectGuard);
+
+    if (instance()->mMessagePattern == messagePattern)
+        return;
+
+    instance()->mMessagePattern = messagePattern;
+    qSetMessagePattern(messagePattern);
+    static_logger()->trace("Setting message pattern to: %1", messagePattern);
+}
 
 void LogManager::doConfigureLogLogger()
 {
@@ -353,10 +376,9 @@ void LogManager::welcome()
     if (static_logger()->isTraceEnabled())
     {
         static_logger()->trace("Settings from the system environment:");
-        for (const auto &entry : InitialisationHelper::environmentSettings().keys())
-            static_logger()->trace("    %1: '%2'",
-                                   entry,
-                                   InitialisationHelper::environmentSettings().value(entry));
+        auto settings = InitialisationHelper::environmentSettings();
+        for (auto pos = std::begin(settings);pos != std::end(settings);++pos)
+            static_logger()->trace("    %1: '%2'", pos.key(), pos.value());
 
         static_logger()->trace("Settings from the application settings:");
         if (QCoreApplication::instance())

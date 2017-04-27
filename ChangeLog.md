@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - Environment variables starting with LOG4QT_ can now be used within a log4qt.properties file ${LOG4QT_...}
+- Added cmake support
+- Added suport for location information (%F, %L, %M, %l)
+- Added support for QLoggingCategories
 
 ### Improvements
 - Support static builds

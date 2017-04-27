@@ -87,6 +87,20 @@ public:
      */
     static bool watchThisFile();
 
+    /*!
+     * Returns the filter rules for qc[Info|Debug|Warning|Critical]
+     *
+     * \sa setFilterRules()
+     */
+    static QString filterRules();
+
+    /*!
+     * Returns the message pattern for qc[Info|Debug|Warning|Critical]
+     *
+     * \sa setMessagePattern()
+     */
+    static QString messagePattern();
+
     static LoggerRepository *loggerRepository();
 
     /*!
@@ -158,6 +172,20 @@ public:
      * \sa watchThisFile()
      */
     static void setWatchThisFile(bool watchThisFile);
+
+    /*!
+     * Set a message pattern for qc[Debug|Info|Warn|Critical]
+     *
+     * \sa messagePattern()
+     */
+    static void setMessagePattern(const QString &pattern);
+
+    /*!
+     * Set the filter rules for qc[Debug|Info|Warn|Critical]
+     *
+     * \sa filterRules()
+     */
+    static void setFilterRules(const QString &rules);
 
     /*!
      * Configures the logging for the package to its default behaviour.
@@ -255,6 +283,8 @@ public:
 private:
     void doSetHandleQtMessages(bool handleQtMessages);
     void doSetWatchThisFile(bool watchThisFile);
+    void doSetFilterRules(const QString &filterRules);
+    void doSetMessagePattern(const QString &messagePattern);
     void doConfigureLogLogger();
     void doStartup();
     void welcome();
@@ -265,6 +295,7 @@ private:
     mutable QMutex mObjectGuard;
     LoggerRepository *mpLoggerRepository;
     bool mHandleQtMessages, mWatchThisFile;
+    QString mFilterRules, mMessagePattern;
     QtMessageHandler mQtMsgHandler;
     static LogManager *mspInstance;
 };
@@ -282,6 +313,16 @@ inline bool LogManager::handleQtMessages()
 inline bool LogManager::watchThisFile()
 {
     return instance()->mWatchThisFile;
+}
+
+inline QString LogManager::filterRules()
+{
+    return instance()->mFilterRules;
+}
+
+inline QString LogManager::messagePattern()
+{
+    return instance()->mMessagePattern;
 }
 
 inline Logger *LogManager::logLogger()
@@ -302,6 +343,16 @@ inline void LogManager::setHandleQtMessages(bool handleQtMessages)
 inline void LogManager::setWatchThisFile(bool watchThisFile)
 {
     instance()->doSetWatchThisFile(watchThisFile);
+}
+
+inline void LogManager::setFilterRules(const QString &rules)
+{
+    instance()->doSetFilterRules(rules);
+}
+
+inline void LogManager::setMessagePattern(const QString &pattern)
+{
+    instance()->doSetMessagePattern(pattern);
 }
 
 inline void LogManager::configureLogLogger()

@@ -38,7 +38,6 @@ HEADERS_BASE += \
            $$PWD/simplelayout.h \
            $$PWD/simpletimelayout.h \
            $$PWD/systemlogappender.h \
-           $$PWD/telnetappender.h \
            $$PWD/ttcclayout.h \
            $$PWD/writerappender.h \
            $$PWD/xmllayout.h
@@ -92,7 +91,6 @@ SOURCES += $$PWD/appender.cpp \
            $$PWD/simplelayout.cpp \
            $$PWD/simpletimelayout.cpp \
            $$PWD/ttcclayout.cpp \
-           $$PWD/telnetappender.cpp \
            $$PWD/writerappender.cpp \
            $$PWD/systemlogappender.cpp \
            $$PWD/helpers/classlogger.cpp \
@@ -143,7 +141,15 @@ HEADERS_BASE += \
 SOURCES += \
     $$PWD/databaseappender.cpp \
     $$PWD/databaselayout.cpp
+}
 
+contains(QT, network) {
+message("Including telnetappender")
+HEADERS_BASE += \
+    $$PWD/telnetappender.h
+
+SOURCES += \
+    $$PWD/telnetappender.cpp
 }
 
 win32 {
@@ -157,4 +163,7 @@ HEADERS += $$HEADERS_BASE \
 
 !contains(QT, sql) {
 message("Skipping databaseappender and -layout")
+}
+!contains(QT, network) {
+message("Skipping telnetappender")
 }
