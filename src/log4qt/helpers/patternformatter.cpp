@@ -122,7 +122,7 @@ public:
         LEVEL_CONVERTER,
         THREAD_CONVERTER,
         FILENAME_CONVERTER,
-        METHODNAME_CONVERTER,
+        FUNCTIONNAME_CONVERTER,
         LINENUMBER_CONVERTER,
         LOCATION_CONVERTER,
         CATEGORYNAME_CONVERTER
@@ -378,7 +378,7 @@ void PatternFormatter::createConverter(const QChar &rChar,
         break;
     case 'M':
         mPatternConverters << new BasicPatternConverter(rFormattingInfo,
-                           BasicPatternConverter::METHODNAME_CONVERTER);
+                           BasicPatternConverter::FUNCTIONNAME_CONVERTER);
         break;
     case 'L':
         mPatternConverters << new BasicPatternConverter(rFormattingInfo,
@@ -651,14 +651,14 @@ QString BasicPatternConverter::convert(const LoggingEvent &rLoggingEvent) const
     case FILENAME_CONVERTER:
         return rLoggingEvent.fileName();
         break;
-    case METHODNAME_CONVERTER:
-        return rLoggingEvent.methodName();
+    case FUNCTIONNAME_CONVERTER:
+        return rLoggingEvent.functionName();
         break;
     case LINENUMBER_CONVERTER:
         return QString::number(rLoggingEvent.lineNumber());
         break;
     case LOCATION_CONVERTER:
-        return QString("%1:%2 - %3").arg(rLoggingEvent.fileName(), QString::number(rLoggingEvent.lineNumber()), rLoggingEvent.methodName());
+        return QString("%1:%2 - %3").arg(rLoggingEvent.fileName(), QString::number(rLoggingEvent.lineNumber()), rLoggingEvent.functionName());
         break;
     case CATEGORYNAME_CONVERTER:
         return rLoggingEvent.categoryName();

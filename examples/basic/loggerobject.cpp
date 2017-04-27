@@ -21,10 +21,11 @@ void LoggerObject::onTimeout()
 
     qCCritical(category1, "a debug message");
 
-    l4qError(logger(), "an error");
-    l4qDebug(logger(), "debug info");
+    l4qError("an error");
+    l4qDebug("debug info");
 
-
+    l4qError() << "an error via stream";
+    l4qError("an error with param %1", 10);
     mCounter++;
     if (mCounter >= 10)
         emit exit(0);

@@ -78,8 +78,8 @@ LoggingEvent::LoggingEvent(const Logger *pLogger,
                            Level level,
                            const QString &rMessage,
                            const QString &fileName,
-                           const QString &methodName,
                            int lineNumber,
+                           const QString &functionName,
                            const QString &categoryName) :
        QEvent(eventId),
        mLevel(level),
@@ -90,9 +90,9 @@ LoggingEvent::LoggingEvent(const Logger *pLogger,
        mSequenceNumber(nextSequenceNumber()),
        mThreadName(),
        mTimeStamp(QDateTime::currentDateTime().toMSecsSinceEpoch()),
-       mLineNumber(lineNumber),
        mFileName(fileName),
-       mMethodName(methodName),
+       mLineNumber(lineNumber),
+       mFunctionName(functionName),
        mCategoryName(categoryName)
 {
     setThreadNameToCurrent();
@@ -145,8 +145,8 @@ LoggingEvent::LoggingEvent(const Logger *pLogger,
                            const QHash<QString, QString> &rProperties,
                            qint64 timeStamp,
                            const QString &fileName,
-                           const QString &methodName,
                            int lineNumber,
+                           const QString &functionName,
                            const QString &categoryName)
     :
        QEvent(eventId),
@@ -158,9 +158,9 @@ LoggingEvent::LoggingEvent(const Logger *pLogger,
        mSequenceNumber(nextSequenceNumber()),
        mThreadName(),
        mTimeStamp(timeStamp),
-       mLineNumber(lineNumber),
        mFileName(fileName),
-       mMethodName(methodName),
+       mLineNumber(lineNumber),
+       mFunctionName(functionName),
        mCategoryName(categoryName)
 {
     setThreadNameToCurrent();
@@ -174,8 +174,8 @@ LoggingEvent::LoggingEvent(const Logger *pLogger,
                            const QString &rThreadName,
                            qint64 timeStamp,
                            const QString &fileName,
-                           const QString &methodName,
                            int lineNumber,
+                           const QString &functionName,
                            const QString &categoryName)
     :
        QEvent(eventId),
@@ -187,9 +187,9 @@ LoggingEvent::LoggingEvent(const Logger *pLogger,
        mSequenceNumber(nextSequenceNumber()),
        mThreadName(rThreadName),
        mTimeStamp(timeStamp),
-       mLineNumber(lineNumber),
        mFileName(fileName),
-       mMethodName(methodName),
+       mLineNumber(lineNumber),
+       mFunctionName(functionName),
        mCategoryName(categoryName)
 {
 }
@@ -258,14 +258,14 @@ void LoggingEvent::setCategoryName(const QString &categoryName)
     mCategoryName = categoryName;
 }
 
-QString LoggingEvent::methodName() const
+QString LoggingEvent::functionName() const
 {
-    return mMethodName;
+    return mFunctionName;
 }
 
-void LoggingEvent::setMethodName(const QString &methodName)
+void LoggingEvent::setMethodName(const QString &functionName)
 {
-    mMethodName = methodName;
+    mFunctionName = functionName;
 }
 
 QString LoggingEvent::fileName() const

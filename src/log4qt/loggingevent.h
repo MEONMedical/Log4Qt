@@ -56,8 +56,8 @@ public:
                  Level level,
                  const QString &rMessage,
                  const QString &fileName,
-                 const QString &methodName,
                  int lineNumber,
+                 const QString &functionName,
                  const QString &categoryName);
     LoggingEvent(const Logger *pLogger,
                  Level level,
@@ -77,8 +77,8 @@ public:
                  const QHash<QString, QString> &rProperties,
                  qint64 timeStamp,
                  const QString &fileName,
-                 const QString &methodName,
                  int lineNumber,
+                 const QString &functionName,
                  const QString &categoryName);
     LoggingEvent(const Logger *pLogger,
                  Level level,
@@ -88,8 +88,8 @@ public:
                  const QString &rThreadName,
                  qint64 timeStamp,
                  const QString &fileName,
-                 const QString &methodName,
                  int lineNumber,
+                 const QString &functionName,
                  const QString &categoryName);
     virtual ~LoggingEvent();
     Level level() const;
@@ -115,8 +115,8 @@ public:
     void setLineNumber(int lineNumber);
     QString fileName() const;
     void setFileName(const QString &fileName);
-    QString methodName() const;
-    void setMethodName(const QString &methodName);
+    QString functionName() const;
+    void setMethodName(const QString &functionName);
     QString categoryName() const;
     void setCategoryName(const QString &categoryName);
 
@@ -133,9 +133,9 @@ private:
     qint64 mSequenceNumber;
     QString mThreadName;
     qint64 mTimeStamp;
-    int mLineNumber;
     QString mFileName;
-    QString mMethodName;
+    int mLineNumber;
+    QString mFunctionName;
     QString mCategoryName;
 
     static qint64 msSequenceCount;

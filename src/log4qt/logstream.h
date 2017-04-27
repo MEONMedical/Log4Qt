@@ -40,7 +40,6 @@ class LOG4QT_EXPORT LogStream
 {
 public:
     LogStream(const Logger &iLogger, Level iLevel);
-
     template<typename T>
     LogStream &operator<<(const T &t)
     {

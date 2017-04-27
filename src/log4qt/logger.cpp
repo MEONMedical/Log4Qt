@@ -287,14 +287,14 @@ void Logger::log(const LoggingEvent &rLogEvent) const
         forcedLog(rLogEvent);
 }
 
-void Logger::logWithLocation(Level level, const char *file, const char *function, int line, const QString &rMessage)
+void Logger::logWithLocation(Level level, const char *file, int line, const char *function, const QString &message) const
 {
     LoggingEvent loggingEvent = LoggingEvent(this,
                                              level,
-                                             rMessage,
+                                             message,
                                              file,
-                                             function,
                                              line,
+                                             function,
                                              QString());
     forcedLog(loggingEvent);
 }
@@ -342,6 +342,16 @@ void Logger::warn(const LogError &rLogError) const
 {
     if (isEnabledFor(Level::WARN_INT))
         forcedLog(Level::WARN_INT, rLogError.toString());
+}
+
+void MessageLogger::log(const QString &message) const
+{
+    mLogger->logWithLocation(mLevel, mContext.file, mContext.line, mContext.function, message);
+}
+
+LogStream MessageLogger::log() const
+{
+    return LogStream(*mLogger.data(), mLevel);
 }
 
 } // namespace Log4Qt
