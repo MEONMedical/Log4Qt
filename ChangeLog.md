@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 ----
 
-## [v1.4.0] - ??
+## [v1.4.0] - 2017-05-04
 
 ### Added
 - Environment variables starting with LOG4QT_ can now be used within a log4qt.properties file ${LOG4QT_...}
@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - Support static builds
 - detect minimum required compiler version (log4qt depends on magic statics c++11)
 - Cleanup includes in headers
+- Make database and telnet appender optional dependig on Qt module sql and network
 
 ### Fixed
 - Make DatabaseAppender compile
