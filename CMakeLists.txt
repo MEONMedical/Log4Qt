@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.3.0)
-project(Log4Qt VERSION 1.0.0)
+project(Log4Qt VERSION 1.4.0)
 
 #
 # in-source builds should be avoided
@@ -75,6 +75,7 @@ add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050300)
 if(NOT MSVC)
     add_definitions(-DQT_STRICT_ITERATORS)
 endif()
+add_definitions(-DUNICODE -D_UNICODE)
 
 #
 # Pass version as a string to the compiler (for LogManager::version())

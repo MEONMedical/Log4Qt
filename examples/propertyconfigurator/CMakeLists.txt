@@ -7,5 +7,6 @@ set(basic_SRCS
     loggerstatic.h
     main.cpp
 )
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_executable(propertyconfigurator ${basic_SRCS})
 target_link_libraries(propertyconfigurator log4qt)

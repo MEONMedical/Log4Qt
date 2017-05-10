@@ -320,7 +320,7 @@ QString Logging::indentString(const QString &string, const QStringList &indentBr
     {
         current = string[i];
 
-        if (quote != '\0')
+        if (quote != QChar('\0'))
         {
             if (quote == current)
                 quote = '\0';

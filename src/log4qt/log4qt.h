@@ -39,7 +39,7 @@
  * \page Log4Qt Main Page
  *
  * %Log4Qt is a C++ port of the Apache Software Foundation Log4j package
- * using the Trolltech Qt Framework.
+ * using the Qt Framework.
  *
  * The documentation describes classes and methods that have been added or
  * changed compared to Log4j.
