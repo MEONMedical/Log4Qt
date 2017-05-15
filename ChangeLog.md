@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 ----
 
+## [v1.4.1] - ???????
+### Improvements
+- Added qbs support
+
+### Fixed
+- Fixed cmake build
+
 ## [v1.4.0] - 2017-05-04
 
 ### Added

@@ -49,6 +49,7 @@
 #include <QStringList>
 #include <QFileInfo>
 #include <QLoggingCategory>
+#include <QStringBuilder>
 
 #include <cstdlib>
 
