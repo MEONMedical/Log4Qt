@@ -73,31 +73,31 @@ class LOG4QT_EXPORT AppenderSkeleton : public Appender
     Q_PROPERTY(Log4Qt::Level threshold READ threshold WRITE setThreshold)
 
 public:
-    AppenderSkeleton(QObject *pParent = Q_NULLPTR);
+    AppenderSkeleton(QObject *pParent = nullptr);
     virtual ~AppenderSkeleton();
 
 protected:
     AppenderSkeleton(const bool isActive,
-                     QObject *pParent = Q_NULLPTR);
+                     QObject *pParent = nullptr);
 
 private:
     Q_DISABLE_COPY(AppenderSkeleton)
 
 public:
-    virtual FilterSharedPtr filter() const Q_DECL_OVERRIDE;
-    virtual LayoutSharedPtr layout() const Q_DECL_OVERRIDE;
+    virtual FilterSharedPtr filter() const override;
+    virtual LayoutSharedPtr layout() const override;
     bool isActive() const;
     bool isClosed() const;
-    virtual QString name() const Q_DECL_OVERRIDE;
+    virtual QString name() const override;
     Level threshold() const;
-    virtual void setLayout(LayoutSharedPtr pLayout) Q_DECL_OVERRIDE;
-    virtual void setName(const QString &rName) Q_DECL_OVERRIDE;
+    virtual void setLayout(LayoutSharedPtr pLayout) override;
+    virtual void setName(const QString &rName) override;
     void setThreshold(Level level);
 
     virtual void activateOptions();
-    virtual void addFilter(FilterSharedPtr pFilter) Q_DECL_OVERRIDE;
-    virtual void clearFilters() Q_DECL_OVERRIDE;
-    virtual void close() Q_DECL_OVERRIDE;
+    virtual void addFilter(FilterSharedPtr pFilter) override;
+    virtual void clearFilters() override;
+    virtual void close() override;
 
     /*!
      * Performs checks and delegates the actuall appending to the subclass
@@ -105,14 +105,14 @@ public:
      *
      * \sa append(), checkEntryConditions(), isAsSevereAsThreshold(), Filter
      */
-    virtual void doAppend(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
+    virtual void doAppend(const LoggingEvent &rEvent) override;
 
     FilterSharedPtr firstFilter() const;
     bool isAsSevereAsThreshold(Level level) const;
 
 protected:
     virtual void append(const LoggingEvent &rEvent) = 0;
-    void customEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void customEvent(QEvent *event) override;
 
     /*!
      * Tests if all entry conditions for using append() in this class are

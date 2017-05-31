@@ -44,12 +44,12 @@ class Dispatcher : public QObject
 {
     Q_OBJECT
 public:
-    explicit Dispatcher(QObject *parent = Q_NULLPTR);
+    explicit Dispatcher(QObject *parent = nullptr);
 
     void setAsyncAppender(AsyncAppender *pAsyncAppender);
 
 protected:
-    virtual void customEvent(QEvent *event) Q_DECL_OVERRIDE;
+    virtual void customEvent(QEvent *event) override;
 
 private:
     AsyncAppender *mpAsyncAppender;

@@ -34,8 +34,8 @@ namespace Log4Qt
 {
 
 AsyncAppender::AsyncAppender(QObject *parent) : AppenderSkeleton(parent)
-    , mpThread(Q_NULLPTR)
-    , mpDispatcher(Q_NULLPTR)
+    , mpThread(nullptr)
+    , mpDispatcher(nullptr)
 {
 }
 
@@ -66,7 +66,7 @@ void AsyncAppender::close()
 {
     if (mpThread)
     {
-        mpDispatcher->setAsyncAppender(Q_NULLPTR);
+        mpDispatcher->setAsyncAppender(nullptr);
         mpThread->quit();
         mpThread->wait();
         delete mpThread;

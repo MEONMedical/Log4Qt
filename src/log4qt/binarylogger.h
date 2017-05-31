@@ -54,7 +54,7 @@ public:
     void log(Level level, const QByteArray &rMessage, const QDateTime &timeStamp) const;
 
 protected:
-    BinaryLogger(LoggerRepository *pLoggerRepository, Level level, const QString &rName, Logger *pParent = Q_NULLPTR);
+    BinaryLogger(LoggerRepository *pLoggerRepository, Level level, const QString &rName, Logger *pParent = nullptr);
     virtual ~BinaryLogger();
 
     void forcedLog(Level level, const QByteArray &rMessage) const;

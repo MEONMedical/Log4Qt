@@ -42,13 +42,13 @@ class LOG4QT_EXPORT  SimpleTimeLayout : public Layout
     Q_OBJECT
 
 public:
-    SimpleTimeLayout(QObject *pParent = Q_NULLPTR);
+    SimpleTimeLayout(QObject *pParent = nullptr);
 
 private:
     Q_DISABLE_COPY(SimpleTimeLayout)
 
 public:
-    virtual QString format(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
+    virtual QString format(const LoggingEvent &rEvent) override;
 
 };
 

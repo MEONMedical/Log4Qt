@@ -60,20 +60,20 @@ class LOG4QT_EXPORT DatabaseAppender : public AppenderSkeleton
      */
     Q_PROPERTY(QString table READ table WRITE setTable)
 public:
-    DatabaseAppender(QObject *pParent = Q_NULLPTR);
+    DatabaseAppender(QObject *pParent = nullptr);
     DatabaseAppender(LayoutSharedPtr pLayout,
-                     QObject *pParent = Q_NULLPTR);
+                     QObject *pParent = nullptr);
     DatabaseAppender(LayoutSharedPtr pLayout
                      , const QString &tableName
                      , const QString &connection = QSqlDatabase::defaultConnection
-                             , QObject *pParent = Q_NULLPTR);
+                             , QObject *pParent = nullptr);
     virtual ~DatabaseAppender();
 
 private:
     Q_DISABLE_COPY(DatabaseAppender)
 
 public:
-    virtual bool requiresLayout() const Q_DECL_OVERRIDE;
+    virtual bool requiresLayout() const override;
 
     QString connection() const;
     QString table() const;
@@ -81,10 +81,10 @@ public:
     void setConnection(const QString &connection);
     void setTable(const QString &table);
 
-    virtual void activateOptions() Q_DECL_OVERRIDE;
+    virtual void activateOptions() override;
 
 protected:
-    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
+    virtual void append(const LoggingEvent &rEvent) override;
 
     /*!
      * Tests if all entry conditions for using append() in this class are
@@ -103,7 +103,7 @@ protected:
      * \sa AppenderSkeleton::doAppend(),
      *     AppenderSkeleton::checkEntryConditions()
      */
-    virtual bool checkEntryConditions() const Q_DECL_OVERRIDE;
+    virtual bool checkEntryConditions() const override;
 
     void closeWriter();
 

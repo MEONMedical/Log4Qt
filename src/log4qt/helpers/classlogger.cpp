@@ -34,7 +34,7 @@ namespace Log4Qt
 {
 
 ClassLogger::ClassLogger() :
-    mpLogger(Q_NULLPTR)
+    mpLogger(nullptr)
 {
 }
 

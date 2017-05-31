@@ -46,17 +46,17 @@ public:
 
 
 public:
-    virtual bool exists(const QString &rName) const Q_DECL_OVERRIDE;
-    virtual Logger *logger(const QString &rName) Q_DECL_OVERRIDE;
-    virtual QList<Logger *> loggers() const Q_DECL_OVERRIDE;
-    virtual Logger *rootLogger() const Q_DECL_OVERRIDE;
-    virtual Level threshold() const Q_DECL_OVERRIDE;
-    virtual void setThreshold(Level level) Q_DECL_OVERRIDE;
-    virtual void setThreshold(const QString &rThreshold) Q_DECL_OVERRIDE;
+    virtual bool exists(const QString &rName) const override;
+    virtual Logger *logger(const QString &rName) override;
+    virtual QList<Logger *> loggers() const override;
+    virtual Logger *rootLogger() const override;
+    virtual Level threshold() const override;
+    virtual void setThreshold(Level level) override;
+    virtual void setThreshold(const QString &rThreshold) override;
 
-    virtual bool isDisabled(Level level) Q_DECL_OVERRIDE;
-    virtual void resetConfiguration() Q_DECL_OVERRIDE;
-    virtual void shutdown() Q_DECL_OVERRIDE;
+    virtual bool isDisabled(Level level) override;
+    virtual void resetConfiguration() override;
+    virtual void shutdown() override;
 
 private:
     Logger *createLogger(const QString &rName);

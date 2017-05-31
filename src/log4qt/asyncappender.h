@@ -51,13 +51,13 @@ class LOG4QT_EXPORT  AsyncAppender : public AppenderSkeleton, public AppenderAtt
     Q_OBJECT
 
 public:
-    AsyncAppender(QObject *parent = Q_NULLPTR);
-    virtual ~AsyncAppender() Q_DECL_OVERRIDE;
+    AsyncAppender(QObject *parent = nullptr);
+    virtual ~AsyncAppender() override;
 
-    virtual bool requiresLayout() const Q_DECL_OVERRIDE;
+    virtual bool requiresLayout() const override;
 
-    virtual void activateOptions() Q_DECL_OVERRIDE;
-    virtual void close() Q_DECL_OVERRIDE;
+    virtual void activateOptions() override;
+    virtual void close() override;
     void callAppenders(const LoggingEvent &rEvent) const;
 
     /*!
@@ -77,10 +77,10 @@ public:
      * \sa AppenderSkeleton::doAppend(),
      *     AppenderSkeleton::checkEntryConditions()
      */
-    virtual bool checkEntryConditions() const Q_DECL_OVERRIDE;
+    virtual bool checkEntryConditions() const override;
 
 protected:
-    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
+    virtual void append(const LoggingEvent &rEvent) override;
 
 private:
     Q_DISABLE_COPY(AsyncAppender)

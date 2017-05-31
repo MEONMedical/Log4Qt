@@ -14,21 +14,21 @@ class LOG4QT_EXPORT BinaryWriterAppender : public AppenderSkeleton
     Q_OBJECT
     Q_PROPERTY(QDataStream *writer READ writer WRITE setWriter)
 public:
-    BinaryWriterAppender(QObject *pParent = Q_NULLPTR);
-    BinaryWriterAppender(QDataStream *pDataStream, QObject *pParent = Q_NULLPTR);
+    BinaryWriterAppender(QObject *pParent = nullptr);
+    BinaryWriterAppender(QDataStream *pDataStream, QObject *pParent = nullptr);
     virtual ~BinaryWriterAppender();
 
-    virtual bool requiresLayout() const Q_DECL_OVERRIDE;
+    virtual bool requiresLayout() const override;
     QDataStream *writer() const;
 
     void setWriter(QDataStream *pDataStream);
 
-    virtual void activateOptions() Q_DECL_OVERRIDE;
-    virtual void close() Q_DECL_OVERRIDE;
+    virtual void activateOptions() override;
+    virtual void close() override;
 
 protected:
-    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
-    virtual bool checkEntryConditions() const Q_DECL_OVERRIDE;
+    virtual void append(const LoggingEvent &rEvent) override;
+    virtual bool checkEntryConditions() const override;
 
     void closeWriter();
 

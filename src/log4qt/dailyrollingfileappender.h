@@ -81,11 +81,11 @@ public:
     Q_ENUM(DatePattern)
 #endif
 
-    DailyRollingFileAppender(QObject *pParent = Q_NULLPTR);
+    DailyRollingFileAppender(QObject *pParent = nullptr);
     DailyRollingFileAppender(LayoutSharedPtr pLayout,
                              const QString &rFileName,
                              const QString &rDatePattern,
-                             QObject *pParent = Q_NULLPTR);
+                             QObject *pParent = nullptr);
     virtual ~DailyRollingFileAppender();
 private:
     Q_DISABLE_COPY(DailyRollingFileAppender)
@@ -100,10 +100,10 @@ public:
 
     void setDatePattern(const QString &rDatePattern);
 
-    virtual void activateOptions() Q_DECL_OVERRIDE;
+    virtual void activateOptions() override;
 
 protected:
-    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
+    virtual void append(const LoggingEvent &rEvent) override;
 
     /*!
      * Tests if all entry conditions for using append() in this class are
@@ -122,7 +122,7 @@ protected:
      * \sa AppenderSkeleton::doAppend(),
      *     AppenderSkeleton::checkEntryConditions()
      */
-    virtual bool checkEntryConditions() const Q_DECL_OVERRIDE;
+    virtual bool checkEntryConditions() const override;
 
 private:
     void computeFrequency();

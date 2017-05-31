@@ -69,25 +69,25 @@ class LOG4QT_EXPORT  TelnetAppender : public AppenderSkeleton
     Q_PROPERTY(QHostAddress address READ address WRITE setAddress)
 
 public:
-    TelnetAppender(QObject *pParent = Q_NULLPTR);
+    TelnetAppender(QObject *pParent = nullptr);
     TelnetAppender(LayoutSharedPtr pLayout,
-                   QObject *pParent = Q_NULLPTR);
+                   QObject *pParent = nullptr);
     TelnetAppender(LayoutSharedPtr pLayout,
                    const QHostAddress &address,
                    int port,
-                   QObject *pParent = Q_NULLPTR);
+                   QObject *pParent = nullptr);
     TelnetAppender(LayoutSharedPtr pLayout,
                    int port,
-                   QObject *pParent = Q_NULLPTR);
+                   QObject *pParent = nullptr);
     virtual ~TelnetAppender();
 
 private:
     Q_DISABLE_COPY(TelnetAppender)
 
 public:
-    virtual bool requiresLayout() const Q_DECL_OVERRIDE;
-    virtual void activateOptions() Q_DECL_OVERRIDE;
-    virtual void close() Q_DECL_OVERRIDE;
+    virtual bool requiresLayout() const override;
+    virtual void activateOptions() override;
+    virtual void close() override;
 
     /*!
      * Sets the listening port of the telnet server (default = 23)
@@ -120,7 +120,7 @@ public:
     void setWelcomeMessage(const QString &welcomeMessage);
 
 protected:
-    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
+    virtual void append(const LoggingEvent &rEvent) override;
 
     /*!
      * Tests if all entry conditions for using append() in this class are
@@ -139,7 +139,7 @@ protected:
      * \sa AppenderSkeleton::doAppend(),
      *     AppenderSkeleton::checkEntryConditions()
      */
-    virtual bool checkEntryConditions() const Q_DECL_OVERRIDE;
+    virtual bool checkEntryConditions() const override;
 
     /*!
      *  Creates and starts (listening) the TCP server

@@ -39,12 +39,12 @@ class  LOG4QT_EXPORT SignalAppender : public AppenderSkeleton
 {
     Q_OBJECT
 public:
-    explicit SignalAppender(QObject *parent = Q_NULLPTR);
+    explicit SignalAppender(QObject *parent = nullptr);
 
-    bool requiresLayout() const Q_DECL_OVERRIDE;
+    bool requiresLayout() const override;
 
 protected:
-    virtual void append(const Log4Qt::LoggingEvent &rEvent) Q_DECL_OVERRIDE;
+    virtual void append(const Log4Qt::LoggingEvent &rEvent) override;
 
 signals:
     /*!

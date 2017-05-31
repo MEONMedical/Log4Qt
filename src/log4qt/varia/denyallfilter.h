@@ -46,9 +46,9 @@ class  LOG4QT_EXPORT DenyAllFilter : public Filter
     Q_OBJECT
 
 public:
-    DenyAllFilter(QObject *pParent = Q_NULLPTR);
+    DenyAllFilter(QObject *pParent = nullptr);
 
-    virtual Decision decide(const LoggingEvent &rEvent) const Q_DECL_OVERRIDE
+    virtual Decision decide(const LoggingEvent &rEvent) const override
     {
         Q_UNUSED(&rEvent);
         return Filter::DENY;

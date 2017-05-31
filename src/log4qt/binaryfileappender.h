@@ -21,16 +21,16 @@ class LOG4QT_EXPORT BinaryFileAppender : public BinaryWriterAppender
     Q_PROPERTY(QDataStream::Version streamVersion READ streamVersion WRITE setStreamVersion)
 
 public:
-    explicit BinaryFileAppender(QObject *pParent = Q_NULLPTR);
+    explicit BinaryFileAppender(QObject *pParent = nullptr);
     BinaryFileAppender(const QString &rFileName,
-                       QObject *pParent = Q_NULLPTR);
+                       QObject *pParent = nullptr);
     BinaryFileAppender(const QString &rFileName,
                        bool append,
-                       QObject *pParent = Q_NULLPTR);
+                       QObject *pParent = nullptr);
     BinaryFileAppender(const QString &rFileName,
                        bool append,
                        bool buffered,
-                       QObject *pParent = Q_NULLPTR);
+                       QObject *pParent = nullptr);
     virtual ~BinaryFileAppender();
 
     // properties
@@ -49,12 +49,12 @@ public:
     void setStreamVersion(QDataStream::Version version);
 
     // public members
-    virtual void activateOptions() Q_DECL_OVERRIDE;
-    virtual void close() Q_DECL_OVERRIDE;
+    virtual void activateOptions() override;
+    virtual void close() override;
 
 protected:
-    virtual bool checkEntryConditions() const Q_DECL_OVERRIDE;
-    virtual bool handleIoErrors() const Q_DECL_OVERRIDE;
+    virtual bool checkEntryConditions() const override;
+    virtual bool handleIoErrors() const override;
 
     void closeFile();
     void openFile();

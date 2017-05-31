@@ -67,7 +67,7 @@ LogManager::LogManager() :
     mpLoggerRepository(new Hierarchy()),
     mHandleQtMessages(false),
     mWatchThisFile(false),
-    mQtMsgHandler(Q_NULLPTR)
+    mQtMsgHandler(nullptr)
 {
 }
 

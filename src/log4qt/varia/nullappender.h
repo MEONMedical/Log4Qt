@@ -43,16 +43,16 @@ class  LOG4QT_EXPORT NullAppender : public AppenderSkeleton
     Q_OBJECT
 
 public:
-    NullAppender(QObject *pParent = Q_NULLPTR);
+    NullAppender(QObject *pParent = nullptr);
     virtual ~NullAppender();
 private:
     Q_DISABLE_COPY(NullAppender)
 
 public:
-    virtual bool requiresLayout() const Q_DECL_OVERRIDE;
+    virtual bool requiresLayout() const override;
 
 protected:
-    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
+    virtual void append(const LoggingEvent &rEvent) override;
 };
 
 inline bool NullAppender::requiresLayout() const

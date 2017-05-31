@@ -43,7 +43,7 @@ class LOG4QT_EXPORT  SimpleLayout : public Layout
     Q_PROPERTY(bool showLevel READ showLevel WRITE setShowLevel)
 
 public:
-    SimpleLayout(QObject *pParent = Q_NULLPTR);
+    SimpleLayout(QObject *pParent = nullptr);
     // virtual ~SimpleLayout(); // Use compiler default
 private:
     Q_DISABLE_COPY(SimpleLayout)
@@ -53,7 +53,7 @@ public:
     bool showLevel() const;
     void setShowLevel(bool show);
 
-    virtual QString format(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
+    virtual QString format(const LoggingEvent &rEvent) override;
 
 };
 

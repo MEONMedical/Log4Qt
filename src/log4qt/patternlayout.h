@@ -86,16 +86,16 @@ public:
 #endif
 
 
-    PatternLayout(QObject *pParent = Q_NULLPTR);
+    PatternLayout(QObject *pParent = nullptr);
     PatternLayout(const QString &rPattern,
-                  QObject *pParent = Q_NULLPTR);
+                  QObject *pParent = nullptr);
 
     /*!
      * Creates a PatternLayout with the conversion pattern value specified
      * by the \a conversionPattern constant.
      */
     PatternLayout(ConversionPattern conversionPattern,
-                  QObject *pParent = Q_NULLPTR);
+                  QObject *pParent = nullptr);
 
     virtual ~PatternLayout();
 private:
@@ -111,7 +111,7 @@ public:
      */
     void setConversionPattern(ConversionPattern conversionPattern);
 
-    virtual QString format(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
+    virtual QString format(const LoggingEvent &rEvent) override;
 
 private:
     void updatePatternFormatter();

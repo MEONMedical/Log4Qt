@@ -54,12 +54,12 @@ class LOG4QT_EXPORT ColorConsoleAppender : public ConsoleAppender
 
 public:
 
-    ColorConsoleAppender(QObject *pParent = Q_NULLPTR);
+    ColorConsoleAppender(QObject *pParent = nullptr);
     ColorConsoleAppender(LayoutSharedPtr pLayout,
-                         QObject *pParent = Q_NULLPTR);
+                         QObject *pParent = nullptr);
     ColorConsoleAppender(LayoutSharedPtr pLayout,
                          const QString &rTarget,
-                         QObject *pParent = Q_NULLPTR);
+                         QObject *pParent = nullptr);
 
     /*!
      * Creates a ConsoleAppender with the layout \a pLayout, the target
@@ -68,15 +68,15 @@ public:
      */
     ColorConsoleAppender(LayoutSharedPtr pLayout,
                          Target target,
-                         QObject *pParent = Q_NULLPTR);
+                         QObject *pParent = nullptr);
     // if we are in WIN*
 #if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
 
-    virtual void activateOptions() Q_DECL_OVERRIDE;
+    virtual void activateOptions() override;
 
-    virtual void close() Q_DECL_OVERRIDE;
+    virtual void close() override;
 protected:
-    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
+    virtual void append(const LoggingEvent &rEvent) override;
 private:
     HANDLE hConsole;
 #endif

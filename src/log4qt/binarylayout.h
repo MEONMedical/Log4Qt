@@ -17,12 +17,12 @@ class LOG4QT_EXPORT BinaryLayout : public Layout
     Q_PROPERTY(QByteArray binaryFooter READ binaryFooter WRITE setBinaryFooter)
     Q_PROPERTY(QByteArray binaryHeader READ binaryHeader WRITE setBinaryHeader)
 public:
-    explicit BinaryLayout(QObject *parent = Q_NULLPTR);
+    explicit BinaryLayout(QObject *parent = nullptr);
 
     virtual QByteArray binaryFormat(const BinaryLoggingEvent &rEvent) const;
-    virtual QString format(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
+    virtual QString format(const LoggingEvent &rEvent) override;
 
-    virtual QString contentType() const Q_DECL_OVERRIDE;
+    virtual QString contentType() const override;
 
     virtual QByteArray binaryFooter() const;
     void setBinaryFooter(const QByteArray &rFooter);

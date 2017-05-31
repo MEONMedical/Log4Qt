@@ -36,20 +36,20 @@ namespace Log4Qt
 
 TelnetAppender::TelnetAppender(QObject *pParent) :
     AppenderSkeleton(false, pParent), mAddress(QHostAddress::Any), mPort(23),
-    mpTcpServer(Q_NULLPTR), mImmediateFlush(false)
+    mpTcpServer(nullptr), mImmediateFlush(false)
 {
 }
 
 TelnetAppender::TelnetAppender(LayoutSharedPtr pLayout, QObject *pParent) :
     AppenderSkeleton(false, pParent), mAddress(QHostAddress::Any), mPort(23),
-    mpTcpServer(Q_NULLPTR), mImmediateFlush(false)
+    mpTcpServer(nullptr), mImmediateFlush(false)
 {
     setLayout(pLayout);
 }
 
 TelnetAppender::TelnetAppender(LayoutSharedPtr pLayout, int port, QObject *pParent) :
     AppenderSkeleton(false, pParent), mAddress(QHostAddress::Any), mPort(port),
-    mpTcpServer(Q_NULLPTR), mImmediateFlush(false)
+    mpTcpServer(nullptr), mImmediateFlush(false)
 {
     setLayout(pLayout);
 }
@@ -57,7 +57,7 @@ TelnetAppender::TelnetAppender(LayoutSharedPtr pLayout, int port, QObject *pPare
 TelnetAppender::TelnetAppender(LayoutSharedPtr pLayout, const QHostAddress &address,
                                int port, QObject *pParent) :
     AppenderSkeleton(false, pParent), mAddress(address), mPort(port),
-    mpTcpServer(Q_NULLPTR), mImmediateFlush(false)
+    mpTcpServer(nullptr), mImmediateFlush(false)
 {
     setLayout(pLayout);
 }

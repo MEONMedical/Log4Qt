@@ -44,7 +44,7 @@ Q_GLOBAL_STATIC(QMutex, sequence_guard)
 LoggingEvent::LoggingEvent() :
     QEvent(eventId),
     mLevel(Level::NULL_INT),
-    mpLogger(Q_NULLPTR),
+    mpLogger(nullptr),
     mMessage(),
     mNdc(NDC::peek()),
     mProperties(MDC::context()),

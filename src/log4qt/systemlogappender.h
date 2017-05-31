@@ -51,15 +51,15 @@ class LOG4QT_EXPORT SystemLogAppender: public AppenderSkeleton
      */
     Q_PROPERTY(QString serviceName READ serviceName WRITE setServiceName)
 public:
-    explicit SystemLogAppender(QObject *parent = Q_NULLPTR);
+    explicit SystemLogAppender(QObject *parent = nullptr);
     ~SystemLogAppender();
 
-    bool requiresLayout() const Q_DECL_OVERRIDE;
+    bool requiresLayout() const override;
     QString serviceName() const;
     void setServiceName(const QString &serviceName);
 
 protected:
-    virtual void append(const Log4Qt::LoggingEvent &rEvent) Q_DECL_OVERRIDE;
+    virtual void append(const Log4Qt::LoggingEvent &rEvent) override;
 
     QString mServiceName;
     char *ident;

@@ -36,7 +36,7 @@ namespace Log4Qt
 ConsoleAppender::ConsoleAppender(QObject *pParent) :
     WriterAppender(pParent),
     mTarget(STDOUT_TARGET),
-    mpTextStream(Q_NULLPTR)
+    mpTextStream(nullptr)
 {
 }
 
@@ -45,7 +45,7 @@ ConsoleAppender::ConsoleAppender(LayoutSharedPtr pLayout,
                                  QObject *pParent) :
     WriterAppender(pLayout, pParent),
     mTarget(STDOUT_TARGET),
-    mpTextStream(Q_NULLPTR)
+    mpTextStream(nullptr)
 {
 }
 
@@ -55,7 +55,7 @@ ConsoleAppender::ConsoleAppender(LayoutSharedPtr pLayout,
                                  QObject *pParent) :
     WriterAppender(pLayout, pParent),
     mTarget(STDOUT_TARGET),
-    mpTextStream(Q_NULLPTR)
+    mpTextStream(nullptr)
 {
     setTarget(rTarget);
 }
@@ -66,7 +66,7 @@ ConsoleAppender::ConsoleAppender(LayoutSharedPtr pLayout,
                                  QObject *pParent) :
     WriterAppender(pLayout, pParent),
     mTarget(target),
-    mpTextStream(Q_NULLPTR)
+    mpTextStream(nullptr)
 {
 }
 
@@ -123,9 +123,9 @@ void ConsoleAppender::close()
 
 void ConsoleAppender::closeStream()
 {
-    setWriter(Q_NULLPTR);
+    setWriter(nullptr);
     delete mpTextStream;
-    mpTextStream = Q_NULLPTR;
+    mpTextStream = nullptr;
 }
 
 } // namespace Log4Qt

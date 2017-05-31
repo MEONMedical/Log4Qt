@@ -46,13 +46,13 @@ class LOG4QT_EXPORT  MainThreadAppender : public AppenderSkeleton, public Append
     Q_OBJECT
 
 public:
-    MainThreadAppender(QObject *parent = Q_NULLPTR);
+    MainThreadAppender(QObject *parent = nullptr);
     virtual ~MainThreadAppender();
 
-    virtual bool requiresLayout() const Q_DECL_OVERRIDE;
+    virtual bool requiresLayout() const override;
 
-    virtual void activateOptions() Q_DECL_OVERRIDE;
-    virtual void close() Q_DECL_OVERRIDE;
+    virtual void activateOptions() override;
+    virtual void close() override;
 
     /*!
      * Tests if all entry conditions for using append() in this class are
@@ -71,10 +71,10 @@ public:
      * \sa AppenderSkeleton::doAppend(),
      *     AppenderSkeleton::checkEntryConditions()
      */
-    virtual bool checkEntryConditions() const Q_DECL_OVERRIDE;
+    virtual bool checkEntryConditions() const override;
 
 protected:
-    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
+    virtual void append(const LoggingEvent &rEvent) override;
 
 private:
     Q_DISABLE_COPY(MainThreadAppender)

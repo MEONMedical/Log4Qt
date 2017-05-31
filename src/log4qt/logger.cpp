@@ -45,7 +45,7 @@ namespace Log4Qt
 
 Logger::Logger(LoggerRepository *pLoggerRepository, Level level,
                const QString &rName, Logger *pParent) :
-    QObject(Q_NULLPTR),
+    QObject(nullptr),
     mName(rName), mpLoggerRepository(pLoggerRepository), mAdditivity(true),
     mLevel(level), mpParent(pParent)
 {
@@ -62,7 +62,7 @@ Logger::~Logger()
 
 void Logger::setLevel(Level level)
 {
-    if ((parentLogger() == Q_NULLPTR) && (level == Level::NULL_INT))
+    if ((parentLogger() == nullptr) && (level == Level::NULL_INT))
     {
         logger()->warn(
             "Invalid root logger level NULL_INT. Using DEBUG_INT instead");
@@ -79,7 +79,7 @@ void Logger::callAppenders(const LoggingEvent &rEvent) const
 
     for (auto pAppender : mAppenders)
         pAppender->doAppend(rEvent);
-    if (additivity() && (parentLogger() != Q_NULLPTR))
+    if (additivity() && (parentLogger() != nullptr))
         parentLogger()->callAppenders(rEvent);
 }
 

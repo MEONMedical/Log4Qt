@@ -72,7 +72,7 @@ class LOG4QT_EXPORT Appender : public QObject
     Q_PROPERTY(bool requiresLayout READ requiresLayout)
 
 public:
-    Appender(QObject *pParent = Q_NULLPTR);
+    Appender(QObject *pParent = nullptr);
     virtual ~Appender();
 
     virtual FilterSharedPtr filter() const = 0;

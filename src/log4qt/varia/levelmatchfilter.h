@@ -61,14 +61,14 @@ class LOG4QT_EXPORT  LevelMatchFilter : public Filter
     Q_PROPERTY(Log4Qt::Level levelToMatch READ levelToMatch WRITE setLevelToMatch)
 
 public:
-    LevelMatchFilter(QObject *pParent = Q_NULLPTR);
+    LevelMatchFilter(QObject *pParent = nullptr);
 
     bool acceptOnMatch() const;
     Level levelToMatch() const;
     void setAcceptOnMatch(bool accept);
     void setLevelToMatch(Level level);
 
-    virtual Decision decide(const LoggingEvent &rEvent) const Q_DECL_OVERRIDE;
+    virtual Decision decide(const LoggingEvent &rEvent) const override;
 
 private:
     bool mAcceptOnMatch;

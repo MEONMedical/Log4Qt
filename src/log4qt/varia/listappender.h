@@ -65,7 +65,7 @@ class  LOG4QT_EXPORT ListAppender : public AppenderSkeleton
     Q_PROPERTY(int maxCount READ maxCount WRITE setMaxCount)
 
 public:
-    ListAppender(QObject *pParent = Q_NULLPTR);
+    ListAppender(QObject *pParent = nullptr);
     virtual ~ListAppender();
 private:
     Q_DISABLE_COPY(ListAppender)
@@ -95,10 +95,10 @@ public:
     void setMaxCount(int n);
 
     QList<LoggingEvent> clearList();
-    virtual bool requiresLayout() const Q_DECL_OVERRIDE;
+    virtual bool requiresLayout() const override;
 
 protected:
-    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
+    virtual void append(const LoggingEvent &rEvent) override;
 
     /*!
      * Ensures that the count of events is less or equal then the maxium

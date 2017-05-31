@@ -100,7 +100,7 @@ public:
     }
     QString toString() const;
 
-    static Level fromString(const QString &rName, bool *pOk = Q_NULLPTR);
+    static Level fromString(const QString &rName, bool *pOk = nullptr);
 
 private:
     // QMutex mObjectGuard;

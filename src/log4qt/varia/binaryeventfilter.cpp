@@ -13,7 +13,7 @@ BinaryEventFilter::BinaryEventFilter(QObject *parent)
 
 Filter::Decision BinaryEventFilter::decide(const LoggingEvent &rEvent) const
 {
-    bool isBinaryEvent = dynamic_cast<const BinaryLoggingEvent *>(&rEvent) != Q_NULLPTR;
+    bool isBinaryEvent = dynamic_cast<const BinaryLoggingEvent *>(&rEvent) != nullptr;
 
     if (!isBinaryEvent)
         return Filter::NEUTRAL;

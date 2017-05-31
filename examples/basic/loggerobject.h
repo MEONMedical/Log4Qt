@@ -11,7 +11,7 @@ class LoggerObject : public QObject
     Q_OBJECT
     LOG4QT_DECLARE_QCLASS_LOGGER
 public:
-    explicit LoggerObject(QObject *parent = 0);
+    explicit LoggerObject(QObject *parent = nullptr);
 
 signals:
     void exit(int code);

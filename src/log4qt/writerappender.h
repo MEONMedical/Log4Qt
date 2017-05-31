@@ -71,18 +71,18 @@ class LOG4QT_EXPORT  WriterAppender : public AppenderSkeleton
     Q_PROPERTY(bool immediateFlush READ immediateFlush WRITE setImmediateFlush)
 
 public:
-    WriterAppender(QObject *pParent = Q_NULLPTR);
+    WriterAppender(QObject *pParent = nullptr);
     WriterAppender(LayoutSharedPtr pLayout,
-                   QObject *pParent = Q_NULLPTR);
+                   QObject *pParent = nullptr);
     WriterAppender(LayoutSharedPtr pLayout,
                    QTextStream *pTextStream,
-                   QObject *pParent = Q_NULLPTR);
+                   QObject *pParent = nullptr);
     virtual ~WriterAppender();
 private:
     Q_DISABLE_COPY(WriterAppender)
 
 public:
-    virtual bool requiresLayout() const Q_DECL_OVERRIDE;
+    virtual bool requiresLayout() const override;
     QTextCodec *encoding() const;
     bool immediateFlush() const;
     QTextStream *writer() const;
@@ -100,11 +100,11 @@ public:
     void setImmediateFlush(bool immediateFlush);
     void setWriter(QTextStream *pTextStream);
 
-    virtual void activateOptions() Q_DECL_OVERRIDE;
-    virtual void close() Q_DECL_OVERRIDE;
+    virtual void activateOptions() override;
+    virtual void close() override;
 
 protected:
-    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
+    virtual void append(const LoggingEvent &rEvent) override;
 
     /*!
      * Tests if all entry conditions for using append() in this class are
@@ -123,7 +123,7 @@ protected:
      * \sa AppenderSkeleton::doAppend(),
      *     AppenderSkeleton::checkEntryConditions()
      */
-    virtual bool checkEntryConditions() const Q_DECL_OVERRIDE;
+    virtual bool checkEntryConditions() const override;
 
     void closeWriter();
 

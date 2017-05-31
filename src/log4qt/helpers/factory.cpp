@@ -268,7 +268,7 @@ Appender *Factory::doCreateAppender(const QString &rAppenderClassName)
     if (!mAppenderRegistry.contains(rAppenderClassName))
     {
         logger()->warn("Request for the creation of Appender with class '%1', which is not registered", rAppenderClassName);
-        return Q_NULLPTR;
+        return nullptr;
     }
     return mAppenderRegistry.value(rAppenderClassName)();
 }
@@ -281,7 +281,7 @@ Filter *Factory::doCreateFilter(const QString &rFilterClassName)
     if (!mFilterRegistry.contains(rFilterClassName))
     {
         logger()->warn("Request for the creation of Filter with class '%1', which is not registered", rFilterClassName);
-        return Q_NULLPTR;
+        return nullptr;
     }
     return mFilterRegistry.value(rFilterClassName)();
 }
@@ -294,7 +294,7 @@ Layout *Factory::doCreateLayout(const QString &rLayoutClassName)
     if (!mLayoutRegistry.contains(rLayoutClassName))
     {
         logger()->warn("Request for the creation of Layout with class '%1', which is not registered", rLayoutClassName);
-        return Q_NULLPTR;
+        return nullptr;
     }
     return mLayoutRegistry.value(rLayoutClassName)();
 }

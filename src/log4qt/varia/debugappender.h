@@ -50,13 +50,13 @@ public:
     /*!
      * Creates a DebugAppender.
      */
-    DebugAppender(QObject *pParent = Q_NULLPTR);
+    DebugAppender(QObject *pParent = nullptr);
 
     /*!
      * Creates a DebugAppender with the specified layout \a pLayout
      */
     DebugAppender(LayoutSharedPtr pLayout,
-                  QObject *pParent = Q_NULLPTR);
+                  QObject *pParent = nullptr);
 
 private:
     Q_DISABLE_COPY(DebugAppender)
@@ -67,7 +67,7 @@ public:
      *
      * \sa setLayout()
      */
-    virtual bool requiresLayout() const Q_DECL_OVERRIDE;
+    virtual bool requiresLayout() const override;
 
 protected:
     /*!
@@ -80,7 +80,7 @@ protected:
      *
      * \sa setLayout(), AppenderSkeleton::doAppend(), checkEntryConditions()
      */
-    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
+    virtual void append(const LoggingEvent &rEvent) override;
 
 };
 

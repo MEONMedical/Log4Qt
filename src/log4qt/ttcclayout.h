@@ -118,16 +118,16 @@ public:
     Q_ENUM(DateFormat)
 #endif
 
-    TTCCLayout(QObject *pParent = Q_NULLPTR);
+    TTCCLayout(QObject *pParent = nullptr);
     TTCCLayout(const QString &rDateFormat,
-               QObject *pParent = Q_NULLPTR);
+               QObject *pParent = nullptr);
 
     /*!
      * Creates a TTCCLayout with the date formar value specified by
      * the \a dateFormat constant and the parent \a pParent.
      */
     TTCCLayout(DateFormat dateFormat,
-               QObject *pParent = Q_NULLPTR);
+               QObject *pParent = nullptr);
 
     virtual ~TTCCLayout();
 private:
@@ -149,7 +149,7 @@ public:
     void setDateFormat(DateFormat dateFormat);
 
     void setThreadPrinting(bool threadPrinting);
-    virtual QString format(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
+    virtual QString format(const LoggingEvent &rEvent) override;
 
 private:
     void updatePatternFormatter();

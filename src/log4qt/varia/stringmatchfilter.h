@@ -58,14 +58,14 @@ class  LOG4QT_EXPORT StringMatchFilter : public Filter
     Q_PROPERTY(QString stringToMatch READ stringToMatch WRITE setStringToMatch)
 
 public:
-    StringMatchFilter(QObject *pParent = Q_NULLPTR);
+    StringMatchFilter(QObject *pParent = nullptr);
 
     bool acceptOnMatch() const;
     QString stringToMatch() const;
     void setAcceptOnMatch(bool accept);
     void setStringToMatch(const QString &rString);
 
-    virtual Decision decide(const LoggingEvent &rEvent) const Q_DECL_OVERRIDE;
+    virtual Decision decide(const LoggingEvent &rEvent) const override;
 
 private:
     bool mAcceptOnMatch;

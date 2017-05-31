@@ -11,12 +11,12 @@ class LOG4QT_EXPORT BinaryEventFilter : public Filter
     Q_OBJECT
     Q_PROPERTY(bool acceptBinaryEvents READ acceptBinaryEvents WRITE setAcceptBinaryEvents)
 public:
-    explicit BinaryEventFilter(QObject *parent = Q_NULLPTR);
+    explicit BinaryEventFilter(QObject *parent = nullptr);
 
     bool acceptBinaryEvents() const;
     void setAcceptBinaryEvents(bool accept);
 
-    virtual Decision decide(const LoggingEvent &rEvent) const Q_DECL_OVERRIDE;
+    virtual Decision decide(const LoggingEvent &rEvent) const override;
 
 private:
     bool mAcceptBinaryEvents;

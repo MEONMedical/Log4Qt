@@ -36,7 +36,7 @@
 #include "log4qtshared.h"
 
 /*!
- * \page Log4Qt Main Page
+ * \page Log4Qt/Log4j
  *
  * %Log4Qt is a C++ port of the Apache Software Foundation Log4j package
  * using the Qt Framework.

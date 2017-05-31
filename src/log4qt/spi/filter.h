@@ -71,7 +71,7 @@ public:
 #endif
 
 public:
-    Filter(QObject *pParent = Q_NULLPTR);
+    Filter(QObject *pParent = nullptr);
     virtual ~Filter();
 
     FilterSharedPtr next() const;

@@ -40,7 +40,7 @@ class MessageContext
 {
 public:
     explicit MessageContext()
-        : file(Q_NULLPTR), line(-1), function(Q_NULLPTR) {}
+        : file(nullptr), line(-1), function(nullptr) {}
     explicit MessageContext(const char *fileName, int lineNumber, const char *functionName)
         : file(fileName), line(lineNumber), function(functionName) {}
     const char *file;

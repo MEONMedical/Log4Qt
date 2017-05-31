@@ -71,19 +71,19 @@ class LOG4QT_EXPORT  FileAppender : public WriterAppender
     Q_PROPERTY(QString file READ file WRITE setFile)
 
 public:
-    explicit FileAppender(QObject *pParent = Q_NULLPTR);
+    explicit FileAppender(QObject *pParent = nullptr);
     FileAppender(LayoutSharedPtr pLayout,
                  const QString &rFileName,
-                 QObject *pParent = Q_NULLPTR);
+                 QObject *pParent = nullptr);
     FileAppender(LayoutSharedPtr pLayout,
                  const QString &rFileName,
                  bool append,
-                 QObject *pParent = Q_NULLPTR);
+                 QObject *pParent = nullptr);
     FileAppender(LayoutSharedPtr pLayout,
                  const QString &rFileName,
                  bool append,
                  bool buffered,
-                 QObject *pParent = Q_NULLPTR);
+                 QObject *pParent = nullptr);
     virtual ~FileAppender();
 private:
     Q_DISABLE_COPY(FileAppender)
@@ -96,8 +96,8 @@ public:
     void setBufferedIo(bool buffered);
     void setFile(const QString &rFileName);
 
-    virtual void activateOptions() Q_DECL_OVERRIDE;
-    virtual void close() Q_DECL_OVERRIDE;
+    virtual void activateOptions() override;
+    virtual void close() override;
 
 protected:
     /*!
@@ -115,7 +115,7 @@ protected:
      *
      * \sa AppenderSkeleton::doAppend(), AppenderSkeleton::checkEntryConditions()
      */
-    virtual bool checkEntryConditions() const Q_DECL_OVERRIDE;
+    virtual bool checkEntryConditions() const override;
 
     void closeFile();
 
@@ -123,7 +123,7 @@ protected:
      * Checks for file I/O errrors. If an error is found it is logged and the
      * function returns true. Otherwise false is returned.
      */
-    virtual bool handleIoErrors() const Q_DECL_OVERRIDE;
+    virtual bool handleIoErrors() const override;
 
     /*!
      * Opens the file for the appender based on the specified file name and

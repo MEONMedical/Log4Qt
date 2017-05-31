@@ -15,7 +15,7 @@ class RollingBinaryFileAppender : public BinaryFileAppender
     Q_PROPERTY(qint64 maximumFileSize READ maximumFileSize WRITE setMaximumFileSize)
     Q_PROPERTY(QString datePattern READ datePattern WRITE setDatePattern)
 public:
-    explicit RollingBinaryFileAppender(QObject *parent = Q_NULLPTR);
+    explicit RollingBinaryFileAppender(QObject *parent = nullptr);
 
     enum DatePattern
     {
@@ -41,8 +41,8 @@ public:
     void setDatePattern(const QString &rDatePattern);
 
 protected:
-    virtual void append(const LoggingEvent &rEvent) Q_DECL_OVERRIDE;
-    virtual void activateOptions() Q_DECL_OVERRIDE;
+    virtual void append(const LoggingEvent &rEvent) override;
+    virtual void activateOptions() override;
 
     virtual bool checkForTimeRollOver() const;
     virtual void rollOverTime();

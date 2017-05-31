@@ -73,12 +73,12 @@ public:
     #endif
 
 
-    ConsoleAppender(QObject *pParent = Q_NULLPTR);
+    ConsoleAppender(QObject *pParent = nullptr);
     ConsoleAppender(LayoutSharedPtr pLayout,
-                    QObject *pParent = Q_NULLPTR);
+                    QObject *pParent = nullptr);
     ConsoleAppender(LayoutSharedPtr pLayout,
                     const QString &rTarget,
-                    QObject *pParent = Q_NULLPTR);
+                    QObject *pParent = nullptr);
 
     /*!
      * Creates a ConsoleAppender with the layout \a pLayout, the target
@@ -87,7 +87,7 @@ public:
      */
     ConsoleAppender(LayoutSharedPtr pLayout,
                     Target target,
-                    QObject *pParent = Q_NULLPTR);
+                    QObject *pParent = nullptr);
 
     virtual ~ConsoleAppender();
 private:
@@ -102,8 +102,8 @@ public:
      */
     void setTarget(Target target);
 
-    virtual void activateOptions() Q_DECL_OVERRIDE;
-    virtual void close() Q_DECL_OVERRIDE;
+    virtual void activateOptions() override;
+    virtual void close() override;
 
 protected:
     void closeStream();

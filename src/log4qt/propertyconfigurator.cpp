@@ -372,7 +372,7 @@ AppenderSharedPtr PropertyConfigurator::parseAppender(const Properties &rPropert
                                   "Log4Qt::PropertyConfigurator");
         e << rName;
         logger()->error(e);
-        return Q_NULLPTR;
+        return nullptr;
     }
     AppenderSharedPtr p_appender(Factory::createAppender(value));
     if (!p_appender)
@@ -382,7 +382,7 @@ AppenderSharedPtr PropertyConfigurator::parseAppender(const Properties &rPropert
                                   "Log4Qt::PropertyConfigurator");
         e << value << rName;
         logger()->error(e);
-        return Q_NULLPTR;
+        return nullptr;
     }
     p_appender->setName(rName);
 
@@ -392,7 +392,7 @@ AppenderSharedPtr PropertyConfigurator::parseAppender(const Properties &rPropert
         if (p_layout)
             p_appender->setLayout(p_layout);
         else
-            return Q_NULLPTR;
+            return nullptr;
     }
 
     QStringList exclusions;
