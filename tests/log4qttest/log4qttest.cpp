@@ -236,7 +236,7 @@ void Log4QtTest::PatternFormatter_data()
                             "threadwithextralongname",
                             relative_timestamp)
             << "%-6r [%15.15t] %-5p %30.30c %x - %m%n"
-            << relative_string + "  [threadwithextra] INFO                Test::TestLog4Qt NDC - This is the message" + eol
+            << relative_string + "  [thextralongname] INFO                Test::TestLog4Qt NDC - This is the message" + eol
             << 0;
     QTest::newRow("TTCC with ISO date")
             << LoggingEvent(test_logger(),
