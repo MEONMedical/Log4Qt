@@ -1,4 +1,5 @@
 # Change Log
+
 All notable changes to this project will be documented in this file.
 ----
 
@@ -8,6 +9,9 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - Fixed cmake build
+- Fix Patternformatter maxLength behaviour to match the log4j documentation -
+  if the data item is longer than the maximum field, then the extra characters are removed from the beginning
+  of the data item and not from the end.
 
 ## [v1.4.0] - 2017-05-04
 
