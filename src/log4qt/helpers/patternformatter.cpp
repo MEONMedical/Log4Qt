@@ -621,11 +621,13 @@ QString FormattingInfo::intToString(int i)
 
 void PatternConverter::format(QString &rFormat, const LoggingEvent &rLoggingEvent) const
 {
-    const QLatin1Char space(' ');
-    QString s = convert(rLoggingEvent);
+    Q_DECL_CONSTEXPR const QLatin1Char space(' ');
+    const QString s = convert(rLoggingEvent);
 
+    // If the data item is longer than the maximum field, then the extra characters
+    // are removed from the beginning of the data item and not from the end.
     if (s.length() > mFormattingInfo.mMaxLength)
-        rFormat += s.leftRef(mFormattingInfo.mMaxLength);
+        rFormat += s.rightRef(mFormattingInfo.mMaxLength);
     else if (mFormattingInfo.mLeftAligned)
         rFormat += s.leftJustified(mFormattingInfo.mMinLength, space, false);
     else
