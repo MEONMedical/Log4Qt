@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 ----
 
-## [v1.4.1] - ???????
+## [v1.4.1] - 2017-06-17
 ### Improvements
 - Added qbs support
 
