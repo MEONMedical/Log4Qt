@@ -31,6 +31,9 @@
 #include <QList>
 #include <QMutex>
 #include <QString>
+#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
+#include <QVersionNumber>
+#endif
 
 namespace Log4Qt
 {
@@ -279,6 +282,11 @@ public:
 
      */
     static const char *version();
+#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
+    static QVersionNumber versionNumber();
+#endif
+
+
 
 private:
     void doSetHandleQtMessages(bool handleQtMessages);
