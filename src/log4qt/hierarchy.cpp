@@ -31,6 +31,7 @@
 
 #include "logger.h"
 #include "binarylogger.h"
+#include "helpers/optionconverter.h"
 
 namespace Log4Qt
 {
@@ -123,7 +124,7 @@ Logger *Hierarchy::createLogger(const QString &orgName)
     static const char binaryIndicator[] = "@@binary@@";
 
 
-    QString rName(orgName);
+    QString rName(OptionConverter::classNameJavaToCpp(orgName));
     bool needBinaryLogger = orgName.contains(binaryIndicator);
 
     if (needBinaryLogger)
