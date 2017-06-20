@@ -15,15 +15,6 @@ TEMPLATE = lib
 TARGET = log4qt
 QT -= gui
 
-LOG4QT_VERSION_MAJOR = 1
-LOG4QT_VERSION_MINOR = 5
-LOG4QT_VERSION_PATCH = 0
-
-DEFINES += LOG4QT_VERSION_MAJOR=$${LOG4QT_VERSION_MAJOR}
-DEFINES += LOG4QT_VERSION_MINOR=$${LOG4QT_VERSION_MINOR}
-DEFINES += LOG4QT_VERSION_PATCH=$${LOG4QT_VERSION_PATCH}
-DEFINES += LOG4QT_VERSION_STR='\\"$${LOG4QT_VERSION_MAJOR}.$${LOG4QT_VERSION_MINOR}.$${LOG4QT_VERSION_PATCH}\\"'
-
 # .. is needed for msvc since it is treating '.' as the directory of the current file
 # and not the directory where the compiled source is found
 INCLUDEPATH += .. .
