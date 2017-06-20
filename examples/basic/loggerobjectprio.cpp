@@ -14,3 +14,6 @@ void LoggerObjectPrio::onTimeout()
     logger()->debug() << "Debug output";
     logger()->error() << "Error output";
 }
+
+#include "moc_loggerobjectprio.cpp"
+

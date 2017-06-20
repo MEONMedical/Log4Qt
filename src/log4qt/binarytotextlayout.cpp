@@ -33,3 +33,5 @@ QString BinaryToTextLayout::format(const LoggingEvent &rEvent)
 }
 
 } // namespace Log4Qt
+
+#include "moc_binarytotextlayout.cpp"

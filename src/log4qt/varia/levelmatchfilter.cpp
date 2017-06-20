@@ -49,3 +49,5 @@ Filter::Decision LevelMatchFilter::decide(const LoggingEvent &rEvent) const
 }
 
 } // namespace Log4Qt
+
+#include "moc_levelmatchfilter.cpp"

@@ -89,3 +89,4 @@ void AppenderAttachable::removeAppender(const QString &rName)
 }
 
 } // namespace Log4Qt
+

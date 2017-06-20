@@ -22,7 +22,6 @@
  *
  ******************************************************************************/
 
-
 #include "ttcclayout.h"
 
 #include "helpers/datetime.h"
@@ -131,3 +130,5 @@ void TTCCLayout::updatePatternFormatter()
 }
 
 } // namespace Log4Qt
+
+#include "moc_ttcclayout.cpp"

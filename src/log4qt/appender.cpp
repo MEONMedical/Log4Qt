@@ -19,3 +19,4 @@ Logger *Appender::logger() const
 
 } // namespace Log4Qt
 
+#include "moc_appender.cpp"

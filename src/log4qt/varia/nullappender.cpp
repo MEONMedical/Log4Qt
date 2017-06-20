@@ -37,17 +37,16 @@ NullAppender::NullAppender(QObject *pParent) :
 {
 }
 
-
 NullAppender::~NullAppender()
 {
     close();
 }
-
 
 void NullAppender::append(const LoggingEvent &rEvent)
 {
     Q_UNUSED(rEvent);
 }
 
-
 } // namespace Log4Qt
+
+#include "moc_nullappender.cpp"

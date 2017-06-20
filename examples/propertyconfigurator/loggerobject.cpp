@@ -19,3 +19,5 @@ void LoggerObject::onTimeout()
     if (mCounter >= 10)
         emit exit(0);
 }
+
+#include "moc_loggerobject.cpp"

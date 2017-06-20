@@ -40,7 +40,6 @@ namespace Log4Qt
 
 LOG4QT_DECLARE_STATIC_LOGGER(logger, Log4Qt: NDC)
 
-
 void NDC::clear()
 {
     if (!instance()->mStack.hasLocalData())

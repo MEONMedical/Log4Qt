@@ -48,3 +48,5 @@ void Filter::activateOptions()
 {}
 
 } // namespace Log4Qt
+
+#include "moc_filter.cpp"

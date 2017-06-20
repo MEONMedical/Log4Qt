@@ -26,3 +26,5 @@ Filter::Decision BinaryEventFilter::decide(const LoggingEvent &rEvent) const
 
 
 } // namespace Log4Qt
+
+#include "moc_binaryeventfilter.cpp"

@@ -245,3 +245,5 @@ bool FileAppender::renameFile(QFile &rFile,
 }
 
 } // namespace Log4Qt
+
+#include "moc_fileappender.cpp"

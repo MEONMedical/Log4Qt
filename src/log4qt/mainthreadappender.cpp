@@ -78,3 +78,5 @@ bool MainThreadAppender::checkEntryConditions() const
 
 } // namespace Log4Qt
 
+#include "moc_mainthreadappender.cpp"
+

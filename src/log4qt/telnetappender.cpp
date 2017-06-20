@@ -209,3 +209,5 @@ void TelnetAppender::onClientDisconnected()
 }
 
 } // namespace Log4Qt
+
+#include "moc_telnetappender.cpp"

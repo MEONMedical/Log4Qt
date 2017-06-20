@@ -129,3 +129,5 @@ void ConsoleAppender::closeStream()
 }
 
 } // namespace Log4Qt
+
+#include "moc_consoleappender.cpp"

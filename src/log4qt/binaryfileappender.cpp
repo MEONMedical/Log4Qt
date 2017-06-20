@@ -221,3 +221,5 @@ bool BinaryFileAppender::renameFile(QFile &rFile,
 }
 
 } // namespace Log4Qt
+
+#include "moc_binaryfileappender.cpp"

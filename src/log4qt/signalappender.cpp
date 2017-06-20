@@ -41,3 +41,5 @@ void SignalAppender::append(const LoggingEvent &rEvent)
 }
 
 }
+
+#include "moc_signalappender.cpp"

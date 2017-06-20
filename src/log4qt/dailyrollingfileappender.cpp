@@ -32,7 +32,6 @@
 #include <QMetaEnum>
 #include <QTextCodec>
 
-
 namespace Log4Qt
 {
 
@@ -271,5 +270,6 @@ void DailyRollingFileAppender::rollOver()
     openFile();
 }
 
-
 } // namespace Log4Qt
+
+#include "moc_dailyrollingfileappender.cpp"

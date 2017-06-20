@@ -42,7 +42,6 @@ namespace Log4Qt
 DatabaseAppender::DatabaseAppender(QObject *pParent) :
     AppenderSkeleton(false, pParent)
     , connectionName(QSqlDatabase::defaultConnection)
-    , tableName(QString::null)
 {
 }
 
@@ -51,7 +50,6 @@ DatabaseAppender::DatabaseAppender(LayoutSharedPtr pLayout,
                                    QObject *pParent) :
     AppenderSkeleton(false, pParent)
     , connectionName(QSqlDatabase::defaultConnection)
-    , tableName(QString::null)
 {
     setLayout(pLayout);
 }
@@ -166,3 +164,6 @@ bool DatabaseAppender::checkEntryConditions() const
 }
 
 } // namespace Log4Qt
+
+#include "moc_databaseappender.cpp"
+

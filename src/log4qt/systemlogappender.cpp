@@ -169,3 +169,5 @@ void SystemLogAppender::setServiceName(const QString &serviceName)
 
 }
 
+#include "moc_systemlogappender.cpp"
+

@@ -276,3 +276,5 @@ void ColorConsoleAppender::close()
 
 } // namespace Log4Qt
 
+#include "moc_colorconsoleappender.cpp"
+

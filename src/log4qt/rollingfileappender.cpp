@@ -115,3 +115,5 @@ void RollingFileAppender::rollOver()
 }
 
 } // namespace Log4Qt
+
+#include "moc_rollingfileappender.cpp"

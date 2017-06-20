@@ -2024,4 +2024,4 @@ bool Log4QtTest::validateFileContents(const QString &rName,
     return true;
 }
 
-
+#include "moc_log4qttest.cpp"

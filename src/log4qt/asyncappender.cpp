@@ -109,3 +109,4 @@ bool AsyncAppender::checkEntryConditions() const
 
 } // namespace Log4Qt
 
+#include "moc_asyncappender.cpp"

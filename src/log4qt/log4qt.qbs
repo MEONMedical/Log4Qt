@@ -3,10 +3,10 @@ import "../../log4qtlib.qbs" as ProductLibrary
 
 ProductLibrary {
     name: "log4qt"
-    version: "1.4.0"
+    version: "1.4.2"
 
     cpp.includePaths: [".." ,"."]
-    cpp.defines: ['LOG4QT_LIBRARY', 'LOG4QT_VERSION_STR=\"1.4.0\"', 'NOMINMAX',
+    cpp.defines: ['LOG4QT_LIBRARY', 'LOG4QT_VERSION_STR=\"1.4.2\"', 'NOMINMAX',
                   'QT_DEPRECATED_WARNINGS', 'QT_NO_CAST_FROM_BYTEARRAY', 'QT_USE_QSTRINGBUILDER']
 
     files:["appender.h",

@@ -39,5 +39,6 @@ void WDCAppender::append(const LoggingEvent &rEvent)
     OutputDebugString(message.toStdWString().c_str());
 }
 
-
 }
+
+#include "moc_wdcappender.cpp"

@@ -53,3 +53,5 @@ Filter::Decision LevelRangeFilter::decide(const LoggingEvent &rEvent) const
 }
 
 } // namespace Log4Qt
+
+#include "moc_levelrangefilter.cpp"

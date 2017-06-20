@@ -39,3 +39,5 @@ QString SimpleLayout::format(const LoggingEvent &rEvent)
 
 
 } // namespace Log4Qt
+
+#include "moc_simplelayout.cpp"
