@@ -53,6 +53,9 @@ LOG4QT_IMPLEMENT_INSTANCE(ConfiguratorHelper)
 
 void ConfiguratorHelper::doConfigurationFileChanged(const QString &rFileName)
 {
+    // work around a bug in the inotify qfsw implementation (Qt bug 19350)
+    if (mpConfigurationFileWatch->files().isEmpty() && !mConfigurationFile.isEmpty())
+        mpConfigurationFileWatch->addPath(mConfigurationFile);
     if (!mpConfigureFunc)
         return;
     mpConfigureFunc(rFileName);
