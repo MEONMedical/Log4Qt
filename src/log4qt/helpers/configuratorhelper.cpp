@@ -27,6 +27,7 @@
 #include "helpers/initialisationhelper.h"
 
 #include <QFileSystemWatcher>
+#include <QTimer>
 #include <QDebug>
 
 namespace Log4Qt
@@ -53,10 +54,19 @@ LOG4QT_IMPLEMENT_INSTANCE(ConfiguratorHelper)
 
 void ConfiguratorHelper::doConfigurationFileChanged(const QString &rFileName)
 {
+    // work around inotify issue (file is unwatched when replaced with other file)
+    if (mpConfigurationFileWatch->files().isEmpty() && !mConfigurationFile.isEmpty())
+        QTimer::singleShot(100, this, &ConfiguratorHelper::doReadConfigurationFile);
     if (!mpConfigureFunc)
         return;
     mpConfigureFunc(rFileName);
     emit configurationFileChanged(rFileName, mConfigureError.count() > 0);
+}
+
+void ConfiguratorHelper::doReadConfigurationFile()
+{
+    if (mpConfigurationFileWatch->files().isEmpty() && !mConfigurationFile.isEmpty())
+        mpConfigurationFileWatch->addPath(mConfigurationFile);
 }
 
 void ConfiguratorHelper::doSetConfigurationFile(const QString &rFileName,
