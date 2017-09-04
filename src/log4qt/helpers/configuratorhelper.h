@@ -128,6 +128,7 @@ signals:
 
 private slots:
     void doConfigurationFileChanged(const QString &rFileName);
+    void doReadConfigurationFile();
 
 private:
     void doSetConfigurationFile(const QString &rFileName,
