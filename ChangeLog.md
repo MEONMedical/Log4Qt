@@ -9,13 +9,16 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 -
 
-## [v1.4.2] - ????
+## [v1.4.2] - 05.09.2017
 ### Improvements
 - Build: Use moc file includes in order to improve build performance
 - Allow java - loggernames in the form 'Foo.bar' within Hierarchy::createLogger()
 
 ### Fixed
--
+- Work around for the QFileSystemWatcher shortcome handling changes in files which
+  are modified/written into a temp file, on commit the orig file is deleted and
+  the temp file renamed/moved to orig file name
+
 
 ## [v1.4.1] - 2017-06-17
 ### Improvements
