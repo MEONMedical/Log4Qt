@@ -15,10 +15,11 @@ class FilewatcherTest : public QObject
 public:
     FilewatcherTest();
 
+    void testFileWatcheSaveFileToTempDeleteOrigAndRename();
+
 private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();
-    void testFileWatcheSaveFileToTempDeleteOrigAndRename();
     void testConfiguratorHelperSaveFileToTempDeleteOrigAndRename();
 
 private:
