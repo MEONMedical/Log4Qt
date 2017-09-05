@@ -74,8 +74,11 @@ void FilewatcherTest::testFileWatcheSaveFileToTempDeleteOrigAndRename()
 
     QScopedPointer<QFileSystemWatcher> fileWatcher(new QFileSystemWatcher());
     fileWatcher->addPath(testFilePath);
+#if QT_VERSION >= 0x050400
     QSignalSpy fileChangeSpy(fileWatcher.data(), &QFileSystemWatcher::fileChanged);
-
+#else
+    QSignalSpy fileChangeSpy(fileWatcher.data(), SIGNAL(fileChanged(QString)));
+#endif
     modifyTestFile(testFilePath);
     QVERIFY(QFile::exists(testFilePath));
     QTRY_VERIFY(fileChangeSpy.count() == 1); // modify
@@ -105,9 +108,11 @@ void FilewatcherTest::testConfiguratorHelperSaveFileToTempDeleteOrigAndRename()
     QTemporaryDir tempDir;
     QString testFilePath = tempDir.path() + "log4qt.properties";
     createTestFile(testFilePath);
-
+#if QT_VERSION >= 0x050400
     QSignalSpy configurationFileChangeSpy(Log4Qt::ConfiguratorHelper::instance(), &Log4Qt::ConfiguratorHelper::configurationFileChanged);
-
+#else
+    QSignalSpy configurationFileChangeSpy(Log4Qt::ConfiguratorHelper::instance(), SIGNAL(configurationFileChanged(QString, bool)));
+#endif
     Log4Qt::ConfiguratorHelper::instance()->setConfigurationFile(testFilePath, configure);
 
     modifyTestFile(testFilePath);
