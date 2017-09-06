@@ -1,5 +1,4 @@
 include(../tests.pri)
-include(../../build.pri)
 
 TEMPLATE = app
 CONFIG += testlib \

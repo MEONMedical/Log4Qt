@@ -122,7 +122,6 @@ LogManager *LogManager::instance()
         if (!mspInstance)
         {
             mspInstance = new LogManager;
-            // qAddPostRoutine(shutdown);
             atexit(shutdown);
             mspInstance->doConfigureLogLogger();
             mspInstance->welcome();
@@ -152,6 +151,12 @@ const char *LogManager::version()
     return LOG4QT_VERSION_STR;
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
+QVersionNumber LogManager::versionNumber()
+{
+    return QVersionNumber(LOG4QT_VERSION_MAJOR, LOG4QT_VERSION_MINOR, LOG4QT_VERSION_PATCH);
+}
+#endif
 
 void LogManager::shutdown()
 {

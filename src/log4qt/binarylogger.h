@@ -37,17 +37,17 @@ class LOG4QT_EXPORT  BinaryLogger : public Logger
     Q_OBJECT
 public:
     BinaryLogStream debug() const {return log(Level::DEBUG_INT);}
-    void debug(const QByteArray &rMessage) const {return log(Level::DEBUG_INT, rMessage);}
+    void debug(const QByteArray &rMessage) const {log(Level::DEBUG_INT, rMessage);}
     BinaryLogStream error() const {return log(Level::ERROR_INT);}
-    void error(const QByteArray &rMessage) const {return log(Level::ERROR_INT, rMessage);}
+    void error(const QByteArray &rMessage) const {log(Level::ERROR_INT, rMessage);}
     BinaryLogStream fatal() const {return log(Level::FATAL_INT);}
-    void fatal(const QByteArray &rMessage) const {return log(Level::FATAL_INT, rMessage);}
+    void fatal(const QByteArray &rMessage) const {log(Level::FATAL_INT, rMessage);}
     BinaryLogStream info() const {return log(Level::INFO_INT);}
-    void info(const QByteArray &rMessage) const {return log(Level::INFO_INT, rMessage);}
+    void info(const QByteArray &rMessage) const {log(Level::INFO_INT, rMessage);}
     BinaryLogStream trace() const {return log(Level::TRACE_INT);}
-    void trace(const QByteArray &rMessage) const {return log(Level::TRACE_INT, rMessage);}
+    void trace(const QByteArray &rMessage) const {log(Level::TRACE_INT, rMessage);}
     BinaryLogStream warn() const {return log(Level::WARN_INT);}
-    void warn(const QByteArray &rMessage) const {return log(Level::WARN_INT, rMessage);}
+    void warn(const QByteArray &rMessage) const {log(Level::WARN_INT, rMessage);}
 
     BinaryLogStream log(Level level) const;
     void log(Level level, const QByteArray &rMessage) const;

@@ -1,5 +1,4 @@
 include(../tests.pri)
-include(../../build.pri)
 
 QT += core testlib network
 QT -= gui

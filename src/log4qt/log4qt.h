@@ -488,6 +488,17 @@
 #   error "Log4Qt requires at least clang version 3.3 or higher for used c++11 features"
 #endif
 
+
+/*
+   LOG4QT_VERSION is (major << 16) + (minor << 8) + patch.
+*/
+#define LOG4QT_VERSION LOG4QT_VERSION_CHECK(LOG4QT_VERSION_MAJOR, LOG4QT_VERSION_MINOR, LOG4QT_VERSION_PATCH)
+
+/*
+   can be used like #if (LOG4QT_VERSION >= LOG4QT_VERSION_CHECK(1, 3, 0))
+*/
+#define LOG4QT_VERSION_CHECK(major, minor, patch) ((major<<16)|(minor<<8)|(patch))
+
 /*!
  * \brief The namespace Log4Qt %Log4Qt encloses all parts of the package.
  */
@@ -501,8 +512,6 @@ namespace Log4Qt
  * \sa \ref Log4Qt::LOG4QT_VERSION_STR "LOG4QT_VERSION_STR",
  *     \ref Log4Qt::LogManager::version() "LogManager::version()"
  */
-// Defined in CMakeLists.txt or pro file
-//#define LOG4QT_VERSION 1.0.0
 
 /*!
  * The macro expands to a string that specifies the Log4Qt's version
@@ -511,9 +520,6 @@ namespace Log4Qt
  * \sa \ref Log4Qt::LOG4QT_VERSION "LOG4QT_VERSION",
  *     \ref Log4Qt::LogManager::version() "LogManager::version()"
  */
-// Defined in CMakeLists.txt or pro file
-//#define LOG4QT_VERSION_STR "1.0.0"
-
 
 enum ErrorCode
 {

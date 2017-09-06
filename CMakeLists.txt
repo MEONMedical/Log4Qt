@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.3.0)
-project(Log4Qt VERSION 1.4.2)
+project(Log4Qt VERSION 1.5.0)
 
 #
 # in-source builds should be avoided
@@ -80,8 +80,11 @@ add_definitions(-DUNICODE -D_UNICODE)
 #
 # Pass version as a string to the compiler (for LogManager::version())
 #
-# TODO: LOG4QT_VERSION = 0x010000
-add_definitions(-DLOG4QT_VERSION_STR="${Log4Qt_VERSION_MAJOR}.${Log4Qt_VERSION_MINOR}.${Log4Qt_VERSION_PATCH}")
+add_definitions(-DLOG4QT_VERSION_STR="${Log4Qt_VERSION_MAJOR}.${Log4Qt_VERSION_MINOR}.${Log4Qt_VERSION_PATCH}"
+                -DLOG4QT_VERSION_MAJOR=${Log4Qt_VERSION_MAJOR}
+                -DLOG4QT_VERSION_MINOR=${Log4Qt_VERSION_MINOR}
+                -DLOG4QT_VERSION_PATCH=${Log4Qt_VERSION_PATCH}
+                )
 
 #
 # We need gcc >= 4.8 or clang >= 3.3 or msvc >= 2015

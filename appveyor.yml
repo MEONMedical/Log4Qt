@@ -1,4 +1,4 @@
-version: 1.4.{build}
+version: 1.5.{build}
 build:
   verbosity: minimal
 os: Visual Studio 2015
@@ -13,6 +13,10 @@ environment:
     # Qt 5.8
     - QTDIR: C:\Qt\5.8\msvc2015_64
       CMD_VCVARSALL: '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall" x64'
+    # Qt 5.9
+    - QTDIR: C:\Qt\5.9\msvc2015_64
+      CMD_VCVARSALL: '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall" x64'
+
 branches:
   only:
     - master
@@ -24,4 +28,4 @@ build_script:
   - nmake
   - nmake check
 
-  
+

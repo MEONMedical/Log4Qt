@@ -2,12 +2,25 @@ import qbs 1.0
 import "../../log4qtlib.qbs" as ProductLibrary
 
 ProductLibrary {
+    id: library
     name: "log4qt"
-    version: "1.4.2"
+    version: "1.5.0"
+    property int versionMajor: parseInt(version.split('.')[0])
+    property int versionMinor: parseInt(version.split('.')[1])
+    property int versionPatch: parseInt(version.split('.')[2])
 
     cpp.includePaths: [".." ,"."]
-    cpp.defines: ['LOG4QT_LIBRARY', 'LOG4QT_VERSION_STR=\"1.4.2\"', 'NOMINMAX',
-                  'QT_DEPRECATED_WARNINGS', 'QT_NO_CAST_FROM_BYTEARRAY', 'QT_USE_QSTRINGBUILDER']
+    cpp.defines: ["LOG4QT_LIBRARY",
+                  "NOMINMAX",
+                  "QT_DEPRECATED_WARNINGS",
+                  "QT_NO_CAST_FROM_BYTEARRAY",
+                  "QT_USE_QSTRINGBUILDER",
+                  "LOG4QT_VERSION_STR=\"" + library.version + "\"",
+                  "LOG4QT_VERSION_MAJOR=" + library.versionMajor,
+                  "LOG4QT_VERSION_MINOR=" + library.versionMinor,
+                  "LOG4QT_VERSION_PATCH=" + library.versionPatch
+                ]
+
 
     files:["appender.h",
            "appenderskeleton.h",
