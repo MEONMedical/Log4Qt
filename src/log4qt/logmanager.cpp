@@ -151,12 +151,10 @@ const char *LogManager::version()
     return LOG4QT_VERSION_STR;
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
 QVersionNumber LogManager::versionNumber()
 {
     return QVersionNumber(LOG4QT_VERSION_MAJOR, LOG4QT_VERSION_MINOR, LOG4QT_VERSION_PATCH);
 }
-#endif
 
 void LogManager::shutdown()
 {
@@ -429,11 +427,9 @@ void LogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &cont
     case QtFatalMsg:
         level = Level::FATAL_INT;
         break;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
     case QtInfoMsg:
         level = Level::INFO_INT;
         break;
-#endif
     default:
         level = Level::TRACE_INT;
     }

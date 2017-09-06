@@ -1,4 +1,4 @@
-import qbs 1.0
+import qbs
 import "../../log4qtlib.qbs" as ProductLibrary
 
 ProductLibrary {

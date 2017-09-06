@@ -38,7 +38,7 @@ Additional features
 
 Requirements
 ------------
-* Minimum Qt version required Qt5.3
+* Minimum Qt version required Qt5.6 (for support of Qt versions down to 5.3 use branch 1.4 or the lates 1.4.x release)
 * C++11 feature required (minimum compiler version MSVC14, GCC 4.8 or CLANG 3.3)
 
 License

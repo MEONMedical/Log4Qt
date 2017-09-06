@@ -2,7 +2,7 @@ include(../tests.pri)
 
 TEMPLATE = app
 CONFIG += testlib \
-          c++11
+          c++14
 
 QT += core testlib network
 QT -= gui

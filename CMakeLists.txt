@@ -47,16 +47,16 @@ include_directories( ${CMAKE_SOURCE_DIR}/src )
 #
 # We need C++11 and don't want to export all symbols, only the ones we mark for export
 #
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
 #
-# Min. Qt version is 5.3, we want to use cmake automoc feature
+# Min. Qt version is 5.6, we want to use cmake automoc feature
 # and settings some defines for Qt
 #
 set(CMAKE_AUTOMOC TRUE)
-set(QT_MIN_VERSION 5.3.0)
+set(QT_MIN_VERSION 5.6.0)
 # TODO: make Network also optional?
 find_package(Qt5 COMPONENTS Core Network Test REQUIRED)
 if(BUILD_WITH_DB_LOGGING)

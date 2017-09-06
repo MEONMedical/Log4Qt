@@ -63,11 +63,7 @@ void ConfiguratorHelper::doConfigurationFileChanged(const QString &fileName)
 void ConfiguratorHelper::doConfigurationFileDirectoryChanged(const QString &path)
 {
     Q_UNUSED(path)
-#if QT_VERSION >= 0x050400
     QTimer::singleShot(100, this, &ConfiguratorHelper::tryToReAddConfigurationFile);
-#else
-    QTimer::singleShot(100, this, SLOT(tryToReAddConfigurationFile()));
-#endif
 }
 
 void ConfiguratorHelper::tryToReAddConfigurationFile()

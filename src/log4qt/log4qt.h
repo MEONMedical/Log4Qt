@@ -466,8 +466,8 @@
 
 #include <qglobal.h>
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 3, 0)
-#   error "Log4Qt requires Qt version 5.3.0 or higher"
+#if QT_VERSION < QT_VERSION_CHECK(5, 6, 0)
+#   error "Log4Qt requires Qt version 5.6.0 or higher"
 #endif
 
 // Q_CC_GNU not defined correct in Qt5.3

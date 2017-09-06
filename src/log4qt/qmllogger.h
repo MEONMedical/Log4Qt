@@ -50,11 +50,7 @@ public:
         Fatal = Log4Qt::Level::FATAL_INT,
         Off = Log4Qt::Level::OFF_INT
     };
-#if QT_VERSION < QT_VERSION_CHECK(5, 5, 0)
-    Q_ENUMS(Level)
-#else
     Q_ENUM(Level)
-#endif
 
     explicit QmlLogger(QObject *parent = nullptr);
 
@@ -91,8 +87,5 @@ private:
 
 }
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 5, 0)
-Q_DECLARE_METATYPE(Log4Qt::QmlLogger::Level)
-#endif
 
 #endif // LOG4QT_QMLLOGGER_H

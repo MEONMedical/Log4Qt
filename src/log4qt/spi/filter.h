@@ -64,11 +64,7 @@ public:
         DENY,
         NEUTRAL
     };
-#if QT_VERSION < QT_VERSION_CHECK(5, 5, 0)
-    Q_ENUMS(Decision)
-#else
     Q_ENUM(Decision)
-#endif
 
 public:
     Filter(QObject *pParent = nullptr);

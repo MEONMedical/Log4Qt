@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 -
 
 ### Fixed
--
+- Minimum required Qt version is 5.6
 
 ## [v1.4.2] - 2017-09-06
 ### Improvements

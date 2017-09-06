@@ -26,11 +26,7 @@ public:
         WEEKLY_ROLLOVER,        /*! The weekly date pattern string is "'.'yyyy-ww". */
         MONTHLY_ROLLOVER        /*! The monthly date pattern string is "'.'yyyy-MM". */
     };
-#if QT_VERSION < QT_VERSION_CHECK(5, 5, 0)
-    Q_ENUMS(DatePattern)
-#else
     Q_ENUM(DatePattern)
-#endif
 
     int maxBackupIndex() const;
     void setMaxBackupIndex(int maxBackupIndex);

@@ -1,7 +1,7 @@
 include (../g++.pri)
 include (../build.pri)
 
-CONFIG += c++11 \
+CONFIG += c++14 \
           testcase \
           no_testcase_installs
 

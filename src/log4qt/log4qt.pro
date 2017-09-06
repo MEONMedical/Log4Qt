@@ -3,7 +3,7 @@ include(../../build.pri)
 include(../../g++.pri)
 include(log4qt.pri)
 
-CONFIG += c++11 \
+CONFIG += c++14 \
           hide_symbols
 
 contains(DEFINES, LOG4QT_STATIC) {

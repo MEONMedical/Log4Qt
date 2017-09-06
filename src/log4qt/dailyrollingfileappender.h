@@ -75,11 +75,7 @@ public:
         /*! The monthly date pattern string is "'.'yyyy-MM". */
         MONTHLY_ROLLOVER
     };
-#if QT_VERSION < QT_VERSION_CHECK(5, 5, 0)
-    Q_ENUMS(DatePattern)
-#else
     Q_ENUM(DatePattern)
-#endif
 
     DailyRollingFileAppender(QObject *pParent = nullptr);
     DailyRollingFileAppender(LayoutSharedPtr pLayout,

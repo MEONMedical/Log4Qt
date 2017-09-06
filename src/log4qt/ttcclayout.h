@@ -112,11 +112,7 @@ public:
          */
         RELATIVE
     };
-#if QT_VERSION < QT_VERSION_CHECK(5, 5, 0)
-    Q_ENUMS(DateFormat)
-#else
     Q_ENUM(DateFormat)
-#endif
 
     TTCCLayout(QObject *pParent = nullptr);
     TTCCLayout(const QString &rDateFormat,

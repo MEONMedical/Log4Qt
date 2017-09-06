@@ -1,4 +1,4 @@
-import qbs 1.0
+import qbs
 
 Product {
     type: "dynamiclibrary"
@@ -9,7 +9,7 @@ Product {
     Depends { name: "Qt.sql"; required: false }
     Depends { name: "Qt.network"; required: false }
 
-    cpp.cxxLanguageVersion: "c++11"
+    cpp.cxxLanguageVersion: "c++14"
     cpp.visibility: "hidden"
 
     Properties {
