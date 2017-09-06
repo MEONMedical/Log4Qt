@@ -130,6 +130,7 @@ signals:
 private slots:
     void doConfigurationFileChanged(const QString &fileName);
     void doConfigurationFileDirectoryChanged(const QString &path);
+    void tryToReAddConfigurationFile();
 
 private:
     void doSetConfigurationFile(const QString &rFileName,
@@ -137,7 +138,7 @@ private:
 
 private:
     mutable QMutex mObjectGuard;
-    QFileInfo mConfigurationFileInfo;
+    QFileInfo mConfigurationFile;
     ConfigureFunc mpConfigureFunc;
     QFileSystemWatcher *mpConfigurationFileWatch;
     QList<LoggingEvent> mConfigureError;
@@ -152,7 +153,7 @@ inline QList<LoggingEvent> ConfiguratorHelper::configureError()
 inline QString ConfiguratorHelper::configurationFile()
 {
     QMutexLocker locker(&instance()->mObjectGuard);
-    return instance()->mConfigurationFileInfo.absoluteFilePath();
+    return instance()->mConfigurationFile.absoluteFilePath();
 }
 
 inline void ConfiguratorHelper::setConfigureError(const QList<LoggingEvent> &rConfigureError)

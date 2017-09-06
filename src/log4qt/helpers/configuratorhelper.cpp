@@ -28,6 +28,7 @@
 
 #include <QFileSystemWatcher>
 #include <QFileInfo>
+#include <QTimer>
 #include <QDebug>
 
 namespace Log4Qt
@@ -35,7 +36,7 @@ namespace Log4Qt
 
 ConfiguratorHelper::ConfiguratorHelper() :
     mObjectGuard(),
-    mConfigurationFileInfo(),
+    mConfigurationFile(),
     mpConfigureFunc(nullptr),
     mpConfigurationFileWatch(nullptr),
     mConfigureError()
@@ -52,7 +53,8 @@ LOG4QT_IMPLEMENT_INSTANCE(ConfiguratorHelper)
 
 void ConfiguratorHelper::doConfigurationFileChanged(const QString &fileName)
 {
-    if (!mpConfigureFunc)
+    if (!mpConfigureFunc ||
+        !mConfigurationFile.exists(mConfigurationFile.absoluteFilePath()))
         return;
     mpConfigureFunc(fileName);
     emit configurationFileChanged(fileName, mConfigureError.count() > 0);
@@ -61,15 +63,24 @@ void ConfiguratorHelper::doConfigurationFileChanged(const QString &fileName)
 void ConfiguratorHelper::doConfigurationFileDirectoryChanged(const QString &path)
 {
     Q_UNUSED(path)
-    if (!mpConfigurationFileWatch->files().contains(mConfigurationFileInfo.absoluteFilePath()))
-        mpConfigurationFileWatch->addPath(mConfigurationFileInfo.absoluteFilePath());
+#if QT_VERSION >= 0x050400
+    QTimer::singleShot(100, this, &ConfiguratorHelper::tryToReAddConfigurationFile);
+#else
+    QTimer::singleShot(100, this, SLOT(tryToReAddConfigurationFile()));
+#endif
+}
+
+void ConfiguratorHelper::tryToReAddConfigurationFile()
+{
+    if (!mpConfigurationFileWatch->files().contains(mConfigurationFile.absoluteFilePath()))
+        mpConfigurationFileWatch->addPath(mConfigurationFile.absoluteFilePath());
 }
 
 void ConfiguratorHelper::doSetConfigurationFile(const QString &rFileName,
         ConfigureFunc pConfigureFunc)
 {
     QMutexLocker locker(&mObjectGuard);
-    mConfigurationFileInfo.setFile(rFileName);
+    mConfigurationFile.setFile(rFileName);
     mpConfigureFunc = nullptr;
     delete mpConfigurationFileWatch;
     if (!QFileInfo::exists(rFileName))
@@ -78,9 +89,9 @@ void ConfiguratorHelper::doSetConfigurationFile(const QString &rFileName,
     mpConfigureFunc = pConfigureFunc;
     mpConfigurationFileWatch = new QFileSystemWatcher();
 
-    if (mpConfigurationFileWatch->addPath(mConfigurationFileInfo.absoluteFilePath()))
+    if (mpConfigurationFileWatch->addPath(mConfigurationFile.absoluteFilePath()))
     {
-        mpConfigurationFileWatch->addPath(mConfigurationFileInfo.absolutePath());
+        mpConfigurationFileWatch->addPath(mConfigurationFile.absolutePath());
         connect(mpConfigurationFileWatch, &QFileSystemWatcher::fileChanged,
                 this, &ConfiguratorHelper::doConfigurationFileChanged);
         connect(mpConfigurationFileWatch, &QFileSystemWatcher::directoryChanged,

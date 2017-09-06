@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 -
 
-## [v1.4.2] - 05.09.2017
+## [v1.4.2] - 2017-09-06
 ### Improvements
 - Build: Use moc file includes in order to improve build performance
 - Allow java - loggernames in the form 'Foo.bar' within Hierarchy::createLogger()
