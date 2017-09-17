@@ -14,7 +14,7 @@ env:
 - QT_VERSION=qt56 QT_PPA=qt562
 - QT_VERSION=qt57 QT_PPA=qt571
 - QT_VERSION=qt58 QT_PPA=qt58
-- QT_VERSION=qt59 QT_PPA=qt59
+- QT_VERSION=qt59 QT_PPA=qt591
 
 before_install:
   - sudo add-apt-repository --yes ppa:beineri/opt-$QT_PPA-trusty
