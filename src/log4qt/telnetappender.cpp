@@ -163,7 +163,7 @@ void TelnetAppender::closeServer()
     mTcpSockets.clear();
 
     delete mpTcpServer;
-    mpTcpServer = 0;
+    mpTcpServer = nullptr;
 }
 
 QList<QTcpSocket *> TelnetAppender::clients() const

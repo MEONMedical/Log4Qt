@@ -20,8 +20,8 @@ BinaryFileAppender::BinaryFileAppender(QObject *pParent) :
     mAppendFile(false),
     mBufferedIo(true),
     mFileName(),
-    mpFile(0),
-    mpDataStream(0),
+    mpFile(nullptr),
+    mpDataStream(nullptr),
     mByteOrder(QDataStream::LittleEndian),
     mFloatingPointPrecision(QDataStream::DoublePrecision),
     mStreamVersion(QDataStream::Qt_5_3)
@@ -33,8 +33,8 @@ BinaryFileAppender::BinaryFileAppender(const QString &rFileName, QObject *pParen
     mAppendFile(false),
     mBufferedIo(true),
     mFileName(rFileName),
-    mpFile(0),
-    mpDataStream(0),
+    mpFile(nullptr),
+    mpDataStream(nullptr),
     mByteOrder(QDataStream::LittleEndian),
     mFloatingPointPrecision(QDataStream::DoublePrecision),
     mStreamVersion(QDataStream::Qt_5_3)
@@ -46,8 +46,8 @@ BinaryFileAppender::BinaryFileAppender(const QString &rFileName, bool append, QO
     mAppendFile(append),
     mBufferedIo(true),
     mFileName(rFileName),
-    mpFile(0),
-    mpDataStream(0),
+    mpFile(nullptr),
+    mpDataStream(nullptr),
     mByteOrder(QDataStream::LittleEndian),
     mFloatingPointPrecision(QDataStream::DoublePrecision),
     mStreamVersion(QDataStream::Qt_5_3)
@@ -59,8 +59,8 @@ BinaryFileAppender::BinaryFileAppender(const QString &rFileName, bool append, bo
     mAppendFile(append),
     mBufferedIo(buffered),
     mFileName(rFileName),
-    mpFile(0),
-    mpDataStream(0),
+    mpFile(nullptr),
+    mpDataStream(nullptr),
     mByteOrder(QDataStream::LittleEndian),
     mFloatingPointPrecision(QDataStream::DoublePrecision),
     mStreamVersion(QDataStream::Qt_5_3)
@@ -120,11 +120,11 @@ void BinaryFileAppender::closeFile()
     if (mpFile)
         logger()->debug("Closing file '%1' for appender '%2'", mpFile->fileName(), name());
 
-    setWriter(0);
+    setWriter(nullptr);
     delete mpDataStream;
-    mpDataStream = 0;
+    mpDataStream = nullptr;
     delete mpFile;
-    mpFile = 0;
+    mpFile = nullptr;
 }
 
 bool BinaryFileAppender::handleIoErrors() const
@@ -150,7 +150,7 @@ void BinaryFileAppender::createDataStream()
 
 void BinaryFileAppender::openFile()
 {
-    Q_ASSERT_X(mpFile == 0 && mpDataStream == 0, "BinaryFileAppender::openFile()", "Opening file without closing previous file");
+    Q_ASSERT_X(mpFile == nullptr && mpDataStream == nullptr, "BinaryFileAppender::openFile()", "Opening file without closing previous file");
 
     QFileInfo file_info(mFileName);
     QDir parent_dir = file_info.dir();

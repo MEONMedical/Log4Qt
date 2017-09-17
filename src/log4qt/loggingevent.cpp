@@ -306,7 +306,7 @@ QDataStream &operator>>(QDataStream &rStream, LoggingEvent &rLoggingEvent)
            >> rLoggingEvent.mThreadName
            >> rLoggingEvent.mTimeStamp;
     if (logger.isEmpty())
-        rLoggingEvent.mpLogger = 0;
+        rLoggingEvent.mpLogger = nullptr;
     else
         rLoggingEvent.mpLogger = Logger::logger(logger);
 

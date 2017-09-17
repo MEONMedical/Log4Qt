@@ -8,7 +8,7 @@ namespace Log4Qt
 
 BinaryWriterAppender::BinaryWriterAppender(QObject *pParent) :
     AppenderSkeleton(false, pParent),
-    mpWriter(0)
+    mpWriter(nullptr)
 {
 }
 
@@ -114,7 +114,7 @@ void BinaryWriterAppender::closeWriter()
         return;
 
     writeFooter();
-    mpWriter = 0;
+    mpWriter = nullptr;
 }
 
 bool BinaryWriterAppender::handleIoErrors() const

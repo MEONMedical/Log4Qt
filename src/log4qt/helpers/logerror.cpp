@@ -98,7 +98,7 @@ LogError::LogError(const char *pMessage,
 
 QString LogError::translatedMessage() const
 {
-    return QCoreApplication::translate(mContext.toLatin1().constData(), mMessage.toUtf8().constData(), 0);
+    return QCoreApplication::translate(mContext.toLatin1().constData(), mMessage.toUtf8().constData(), nullptr);
 }
 
 LogError LogError::lastError()
