@@ -152,9 +152,9 @@ void FileAppender::closeFile()
 
     setWriter(nullptr);
     delete mpTextStream;
-    mpTextStream = 0;
+    mpTextStream = nullptr;
     delete mpFile;
-    mpFile = 0;
+    mpFile = nullptr;
 }
 
 bool FileAppender::handleIoErrors() const
@@ -173,7 +173,7 @@ bool FileAppender::handleIoErrors() const
 
 void FileAppender::openFile()
 {
-    Q_ASSERT_X(mpFile == 0 && mpTextStream == 0, "FileAppender::openFile()", "Opening file without closing previous file");
+    Q_ASSERT_X(mpFile == nullptr && mpTextStream == nullptr, "FileAppender::openFile()", "Opening file without closing previous file");
 
     QFileInfo file_info(mFileName);
     QDir parent_dir = file_info.dir();

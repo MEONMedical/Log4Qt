@@ -175,7 +175,7 @@ void WriterAppender::closeWriter()
         return;
 
     writeFooter();
-    mpWriter = 0;
+    mpWriter = nullptr;
 }
 
 bool WriterAppender::handleIoErrors() const

@@ -132,13 +132,13 @@ Logger *Hierarchy::createLogger(const QString &orgName)
 
     const QString name_separator = QLatin1String("::");
 
-    Logger *p_logger = mLoggers.value(rName, 0);
+    Logger *p_logger = mLoggers.value(rName, nullptr);
     if (p_logger != nullptr)
         return p_logger;
 
     if (rName.isEmpty())
     {
-        p_logger = new Logger(this, Level::DEBUG_INT, QLatin1String("root"), 0);
+        p_logger = new Logger(this, Level::DEBUG_INT, QLatin1String("root"), nullptr);
         mLoggers.insert(QString(), p_logger);
         return p_logger;
     }

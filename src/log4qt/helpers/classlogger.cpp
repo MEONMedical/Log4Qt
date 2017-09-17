@@ -42,7 +42,7 @@ Logger *ClassLogger::logger(const QObject *pObject)
 {
     Q_ASSERT_X(pObject, "ClassLogger::logger()", "pObject must not be null");
     if (!static_cast<Logger *>(mpLogger.loadAcquire()))
-        mpLogger.testAndSetOrdered(0,
+        mpLogger.testAndSetOrdered(nullptr,
                                    LogManager::logger(QLatin1String(pObject->metaObject()->className())));
     return const_cast<Logger *>(static_cast<Logger *>(mpLogger.loadAcquire()));
 }

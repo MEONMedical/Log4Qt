@@ -70,9 +70,9 @@ void AsyncAppender::close()
         mpThread->quit();
         mpThread->wait();
         delete mpThread;
-        mpThread = 0;
+        mpThread = nullptr;
         delete mpDispatcher;
-        mpDispatcher = 0;
+        mpDispatcher = nullptr;
     }
 }
 

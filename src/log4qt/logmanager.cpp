@@ -513,6 +513,6 @@ static bool isFatal(QtMsgType msgType)
     return false;
 }
 
-LogManager *LogManager::mspInstance = 0;
+LogManager *LogManager::mspInstance = nullptr;
 
 }  // namespace Log4Qt
