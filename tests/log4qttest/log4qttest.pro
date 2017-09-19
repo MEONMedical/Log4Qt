@@ -12,7 +12,12 @@ INCLUDEPATH += ../../src
 HEADERS += log4qttest.h
 SOURCES += log4qttest.cpp
 
-LIBS += -L../../bin \
-        -llog4qt
+CONFIG( debug, debug|release ) {
+    LIBS += -L../../bin \
+            -llog4qtd
+} else {
+    LIBS += -L../../bin \
+            -llog4qt
+}
 
 DESTDIR = ../../bin

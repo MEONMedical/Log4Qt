@@ -6,8 +6,13 @@ QT       += core network
 TEMPLATE = app
 DESTDIR = ../../bin
 
-LIBS += -L../../bin \
-        -llog4qt
+CONFIG( debug, debug|release ) {
+    LIBS += -L../../bin \
+            -llog4qtd
+} else {
+    LIBS += -L../../bin \
+            -llog4qt
+}
 
 SOURCES += \
     main.cpp \
