@@ -8,7 +8,9 @@ TEMPLATE = app
 DESTDIR = ../../bin
 
 CONFIG( debug, debug|release ) {
-    LIBS += -L../../bin \
+    mac: LIBS += -L../../bin \
+            -llog4qt_debug
+    win32: LIBS += -L../../bin \
             -llog4qtd
 } else {
     LIBS += -L../../bin \
