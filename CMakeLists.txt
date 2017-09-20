@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.3.0)
-project(Log4Qt VERSION 1.4.2)
+project(Log4Qt VERSION 1.5.0)
 
 #
 # in-source builds should be avoided

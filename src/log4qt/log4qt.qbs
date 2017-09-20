@@ -4,7 +4,7 @@ import "../../log4qtlib.qbs" as ProductLibrary
 ProductLibrary {
     id: library
     name: "log4qt"
-    version: "1.4.2"
+    version: "1.5.0"
     property int versionMajor: parseInt(version.split('.')[0])
     property int versionMinor: parseInt(version.split('.')[1])
     property int versionPatch: parseInt(version.split('.')[2])
