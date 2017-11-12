@@ -29,7 +29,6 @@
 #include "loggingevent.h"
 
 #include <QFile>
-#include <QTextCodec>
 
 namespace Log4Qt
 {
@@ -81,6 +80,14 @@ void RollingFileAppender::append(const LoggingEvent &rEvent)
         rollOver();
 }
 
+void RollingFileAppender::openFile()
+{
+    // if we do not append, we roll the file to avoid data loss
+    if (appendFile())
+        FileAppender::openFile();
+    else
+        rollOver();
+}
 
 void RollingFileAppender::rollOver()
 {
@@ -93,25 +100,27 @@ void RollingFileAppender::rollOver()
     if (f.exists() && !removeFile(f))
         return;
 
-    QString target_file_name;
-    int i;
-    for (i = mMaxBackupIndex - 1; i >= 1; i--)
+    for (int i = mMaxBackupIndex - 1; i >= 1; i--)
     {
         f.setFileName(file() + QLatin1Char('.') + QString::number(i));
         if (f.exists())
         {
-            target_file_name = file() + QLatin1Char('.') + QString::number(i + 1);
+            const QString target_file_name = file() + QLatin1Char('.') + QString::number(i + 1);
             if (!renameFile(f, target_file_name))
                 return;
         }
     }
 
     f.setFileName(file());
-    target_file_name = file() + QLatin1String(".1");
-    if (!renameFile(f, target_file_name))
-        return;
+    // it may not exist on first startup, don't output a warning in this case
+    if (f.exists())
+    {
+        const QString target_file_name = file() + QLatin1String(".1");
+        if (!renameFile(f, target_file_name))
+            return;
+    }
 
-    openFile();
+    FileAppender::openFile();
 }
 
 } // namespace Log4Qt
