@@ -33,6 +33,8 @@ namespace Log4Qt
 /*!
  * \brief The class RollingFileAppender extends FileAppender to backup
  *        the log files when they reach a certain size.
+ *        On application restart the existing log files are rolled
+ *        if appendFile is set to false to avoid data loss.
  *
  * \note All the functions declared in this class are thread-safe.
  *
@@ -91,6 +93,7 @@ public:
 
 protected:
     virtual void append(const LoggingEvent &rEvent) override;
+    virtual void openFile() override;
 
 private:
     void rollOver();

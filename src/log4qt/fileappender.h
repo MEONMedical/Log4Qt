@@ -133,7 +133,7 @@ protected:
      * If the parent directory of the specified file does not exists,
      * it is created.
      */
-    void openFile();
+    virtual void openFile();
 
     /*!
      * Removes the file \a rFile. If the operation is successful, true is
