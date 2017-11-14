@@ -4,7 +4,10 @@ All notable changes to this project will be documented in this file.
 ----
 ## [v1.5.0] - ????
 ### Improvements
--
+- RollingFileAppender: Changed the behavior on application restart and if
+                       appendFile is set to false to avoid data loss. The
+                       existing log files are rolled instead of overwritten.
+                       This behavior is different to the log4/log4cpp implementation.
 
 ### Fixed
 - Minimum required Qt version is 5.6

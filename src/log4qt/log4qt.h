@@ -127,6 +127,11 @@
  *     "handleIoErrors()" after all I/O operations. Sub-classes should
  *     re-implement the function to handle errors.
  *
+ * - \ref Log4Qt::RollingFileAppender "RollingFileAppender"*
+ *   - The class behaves different to the log4/log4cpp implementation
+ *     on application restart the existing log files are rolled if
+ *     appendFile is set to false to avoid data loss.
+ *
  * The following classes have been added:
  *
  * - An additional appender class, \ref Log4Qt::DebugAppender "DebugAppender",
