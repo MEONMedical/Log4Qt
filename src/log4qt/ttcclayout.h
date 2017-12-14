@@ -103,7 +103,7 @@ public:
         ABSOLUTE,
         /*!
          * The date date format string is "DATE". The date will be formatted
-         * as MMM YYYY HH:mm:ss.zzzz.
+         * as MMM YYYY HH:mm:ss.zzz.
          */
         DATE,
         /*!

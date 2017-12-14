@@ -93,7 +93,7 @@ public:
      * <td> uses the format HH:mm:ss.zzz </td>
      * </tr><tr bgcolor="#ffffff">
      * <td> DATE </td>
-     * <td> uses the format dd MMM YYYY HH:mm:ss.zzzz </td>
+     * <td> uses the format dd MMM YYYY HH:mm:ss.zzz </td>
      * </tr><tr>
      * <td> ISO8601 </td>
      * <td> uses the format yyyy-MM-dd hh:mm:ss.zzz </td>

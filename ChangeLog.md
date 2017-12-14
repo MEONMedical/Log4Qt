@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
                        This behavior is different to the log4/log4cpp implementation.
 
 ### Fixed
+- Fixed "DATE" format string, it will be formatted as MMM YYYY HH:mm:ss.zzz
 - Minimum required Qt version is 5.6
 
 ## [v1.4.2] - 2017-09-06
