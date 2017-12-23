@@ -289,7 +289,7 @@ void LogManager::doStartup()
 
     // Configuration using setting Configuration
     value = InitialisationHelper::setting(QLatin1String("Configuration"));
-    if (QFile::exists(value))
+    if (!value.isEmpty() && QFile::exists(value))
     {
         static_logger()->debug("Default initialisation configures from file '%1' specified by Configure", value);
         PropertyConfigurator::configure(value);
