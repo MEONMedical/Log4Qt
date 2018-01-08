@@ -22,6 +22,10 @@ ProductLibrary {
                   "LOG4QT_VERSION_PATCH=" + library.versionPatch
                 ]
 
+    Export {
+        Depends { name: "cpp" }
+        cpp.includePaths: product.sourceDirectory
+    }
 
     files:["appender.h",
            "appenderskeleton.h",
