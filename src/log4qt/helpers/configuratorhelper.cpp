@@ -79,7 +79,8 @@ void ConfiguratorHelper::doSetConfigurationFile(const QString &rFileName,
     mConfigurationFile.setFile(rFileName);
     mpConfigureFunc = nullptr;
     delete mpConfigurationFileWatch;
-    if (!QFileInfo::exists(rFileName))
+    mpConfigurationFileWatch = nullptr;
+    if (rFileName.isEmpty() || !QFileInfo::exists(rFileName))
         return;
 
     mpConfigureFunc = pConfigureFunc;
