@@ -8,5 +8,13 @@ Project {
         "src/log4qt/log4qt.qbs",
         "tests/tests.qbs",
     ]
+
+    Product {
+        name: "qmake project files"
+        Group {
+            name: "files"
+            files: ["**/*.pr[io]"]
+        }
+    }
 }
 
