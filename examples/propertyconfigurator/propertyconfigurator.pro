@@ -2,6 +2,7 @@ include(../examples.pri)
 include(../../build.pri)
 
 QT       += core network
+QT -= gui
 
 TEMPLATE = app
 DESTDIR = ../../bin
