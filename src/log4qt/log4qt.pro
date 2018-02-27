@@ -23,6 +23,11 @@ DESTDIR = ../../bin
 DEFINES += NOMINMAX QT_DEPRECATED_WARNINGS QT_NO_CAST_FROM_BYTEARRAY QT_USE_QSTRINGBUILDER
 DEFINES += LOG4QT_LIBRARY
 
+CONFIG(debug, debug|release) {
+     mac: TARGET = $$join(TARGET,,,_debug)
+     win32: TARGET = $$join(TARGET,,,d)
+}
+
 target.path = $$INSTALL_PREFIX/lib$$LIB_SUFFIX
 INSTALLS = target
 

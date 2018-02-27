@@ -7,8 +7,15 @@ QT -= gui
 TEMPLATE = app
 DESTDIR = ../../bin
 
-LIBS += -L../../bin \
-        -llog4qt
+CONFIG( debug, debug|release ) {
+    mac: LIBS += -L../../bin \
+            -llog4qt_debug
+    win32: LIBS += -L../../bin \
+            -llog4qtd
+} else {
+    LIBS += -L../../bin \
+            -llog4qt
+}
 
 SOURCES += \
     main.cpp \

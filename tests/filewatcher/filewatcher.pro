@@ -15,7 +15,14 @@ SOURCES += \
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
-LIBS += -L../../bin/ \
-         -llog4qt
+CONFIG( debug, debug|release ) {
+    mac: LIBS += -L../../bin \
+            -llog4qt_debug
+    win32: LIBS += -L../../bin \
+            -llog4qtd
+} else {
+    LIBS += -L../../bin \
+            -llog4qt
+}
 
 INCLUDEPATH += ../../src
