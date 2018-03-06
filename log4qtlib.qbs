@@ -37,5 +37,18 @@ Product {
         // /WX ... treat all warnings as errors
         // /we<n> ... Treat warning <n> as error
     }
+
+    Properties {
+        condition: qbs.targetOS.contains("macos")
+        cpp.sonamePrefix: "@rpath"
+        cpp.useRPaths: true
+        cpp.rpaths: ["@loader_path", "@executable_path"]
+    }
+
+    Properties {
+        condition: qbs.targetOS.contains("linux")
+        cpp.useRPaths: true
+        cpp.rpaths: ["$ORIGIN"]
+    }
 }
 
