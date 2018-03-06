@@ -10,7 +10,7 @@ Project {
     ]
 
     Product {
-        name: "qmake project files"
+        name: "qmake project files (log4qt)"
         Group {
             name: "files"
             files: ["**/*.pr[io]"]
