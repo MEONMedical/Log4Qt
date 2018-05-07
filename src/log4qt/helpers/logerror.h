@@ -178,8 +178,8 @@ public:
      */
     explicit LogError(const char *pMessage,
                       int code = 0,
-                      const char *pSymbol = 0,
-                      const char *pContext = 0,
+                      const char *pSymbol = nullptr,
+                      const char *pContext = nullptr,
                       Encoding encoding = LATIN1);
 
     /*!

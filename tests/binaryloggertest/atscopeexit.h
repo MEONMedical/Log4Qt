@@ -1,6 +1,8 @@
 #ifndef ATSCOPEEXIT_H
 #define ATSCOPEEXIT_H
 
+#include <utility>
+
 /*!
  * \brief The AtScopeExit class provides a facility to execute a callable at scope exit
  * If you want to use a member function as callable, use std::bind
