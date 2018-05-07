@@ -290,7 +290,7 @@ PatternFormatter::~PatternFormatter()
 QString PatternFormatter::format(const LoggingEvent &rLoggingEvent) const
 {
     QString result;
-    for (auto p_converter : mPatternConverters)
+    for (auto &&p_converter : qAsConst(mPatternConverters))
         p_converter->format(result, rLoggingEvent);
     return result;
 }

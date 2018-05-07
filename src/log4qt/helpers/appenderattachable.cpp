@@ -54,7 +54,7 @@ AppenderSharedPtr AppenderAttachable::appender(const QString &rName) const
 {
     QReadLocker locker(&mAppenderGuard);
 
-    for (auto pAppender : mAppenders)
+    for (auto &&pAppender : qAsConst(mAppenders))
         if (pAppender->name() == rName)
             return pAppender;
     return AppenderSharedPtr();

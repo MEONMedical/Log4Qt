@@ -58,7 +58,7 @@ void MainThreadAppender::append(const LoggingEvent &rEvent)
 {
     QReadLocker locker(&mAppenderGuard);
 
-    for (auto pAppender : mAppenders)
+    for (auto &&pAppender : qAsConst(mAppenders))
     {
         if (QThread::currentThread() != qApp->thread())
         {

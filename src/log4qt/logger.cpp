@@ -77,7 +77,7 @@ void Logger::callAppenders(const LoggingEvent &rEvent) const
 {
     QReadLocker locker(&mAppenderGuard);
 
-    for (auto pAppender : mAppenders)
+    for (auto &&pAppender : qAsConst(mAppenders))
         pAppender->doAppend(rEvent);
     if (additivity() && (parentLogger() != nullptr))
         parentLogger()->callAppenders(rEvent);

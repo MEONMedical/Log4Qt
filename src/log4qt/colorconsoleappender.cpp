@@ -201,7 +201,7 @@ static void colorOutputString(HANDLE hConsole, const QString &output)
 
         wideMessage = new wchar_t [it.size()];
         actualSize = it.toWCharArray(wideMessage);
-        WriteConsoleW(hConsole, wideMessage, actualSize, &out, 0);
+        WriteConsoleW(hConsole, wideMessage, actualSize, &out, nullptr);
         delete [] wideMessage;
     }
     // load old colors

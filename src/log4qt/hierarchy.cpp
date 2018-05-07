@@ -101,7 +101,7 @@ void Hierarchy::resetConfiguration()
     Logger *p_qt_logger = logger(QLatin1String("Qt"));
     Logger *p_root_logger = rootLogger();
 
-    for (auto p_logger : mLoggers)
+    for (auto &&p_logger : qAsConst(mLoggers))
     {
         if ((p_logger == p_logging_logger) || (p_logger == p_qt_logger) || (p_logger == p_root_logger))
             continue;

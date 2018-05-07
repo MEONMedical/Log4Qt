@@ -80,7 +80,7 @@ void AsyncAppender::callAppenders(const LoggingEvent &rEvent) const
 {
     QReadLocker locker(&mAppenderGuard);
 
-    for (auto pAppender : mAppenders)
+    for (auto &&pAppender : qAsConst(mAppenders))
         pAppender->doAppend(rEvent);
 }
 
