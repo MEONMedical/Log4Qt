@@ -65,7 +65,7 @@ QString NDC::pop()
 {
     if (!instance()->mStack.hasLocalData() || instance()->mStack.localData()->isEmpty())
     {
-        logger()->warn("Requesting pop from empty NDC stack");
+        logger()->warn(QStringLiteral("Requesting pop from empty NDC stack"));
         return QString();
     }
 

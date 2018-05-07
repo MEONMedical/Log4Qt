@@ -85,17 +85,17 @@ void setupRootLogger(const QString &introMessage)
     // Create a layout
     auto logger = Log4Qt::Logger::rootLogger();
     Log4Qt::TTCCLayout *layout = new Log4Qt::TTCCLayout();
-    layout->setName(QLatin1String("My Layout"));
+    layout->setName(QStringLiteral("My Layout"));
     layout->activateOptions();
     // Create a console appender
     Log4Qt::ConsoleAppender *consoleAppender = new Log4Qt::ConsoleAppender(layout, Log4Qt::ConsoleAppender::STDOUT_TARGET);
-    consoleAppender->setName(QLatin1String("My Appender"));
+    consoleAppender->setName(QStringLiteral("My Appender"));
     consoleAppender->activateOptions();
     // Add appender on root logger
     logger->addAppender(consoleAppender);
     // Create a file appender
     Log4Qt::FileAppender *fileAppender = new Log4Qt::FileAppender(layout, QCoreApplication::applicationDirPath() + "/basic.log", true);
-    fileAppender->setName(QLatin1String("My file appender"));
+    fileAppender->setName(QStringLiteral("My file appender"));
     fileAppender->activateOptions();
     // Add appender on root logger
     logger->addAppender(fileAppender);

@@ -57,7 +57,7 @@ Logger::Logger(LoggerRepository *pLoggerRepository, Level level,
 
 Logger::~Logger()
 {
-    logger()->warn("Unexpected destruction of Logger");
+    logger()->warn(QStringLiteral("Unexpected destruction of Logger"));
 }
 
 void Logger::setLevel(Level level)

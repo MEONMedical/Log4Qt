@@ -50,13 +50,7 @@ Hierarchy::Hierarchy() :
 
 Hierarchy::~Hierarchy()
 {
-    static_logger()->warn("Unexpected destruction of Hierarchy");
-
-    // QWriteLocker locker(&mObjectGuard);
-    //
-    // resetConfiguration();
-    // clear();
-    // delete mpRootLogger;
+    static_logger()->warn(QStringLiteral("Unexpected destruction of Hierarchy"));
 }
 
 
@@ -97,8 +91,8 @@ void Hierarchy::resetConfiguration()
     // Reset all loggers.
     // Leave log, qt and root logger to the last to allow debugging of shutdown.
 
-    Logger *p_logging_logger = logger(QLatin1String(""));
-    Logger *p_qt_logger = logger(QLatin1String("Qt"));
+    Logger *p_logging_logger = logger(QStringLiteral(""));
+    Logger *p_qt_logger = logger(QStringLiteral("Qt"));
     Logger *p_root_logger = rootLogger();
 
     for (auto &&p_logger : qAsConst(mLoggers))
@@ -115,7 +109,7 @@ void Hierarchy::resetConfiguration()
 
 void Hierarchy::shutdown()
 {
-    static_logger()->debug("Shutting down Hierarchy");
+    static_logger()->debug(QStringLiteral("Shutting down Hierarchy"));
     resetConfiguration();
 }
 
@@ -130,7 +124,7 @@ Logger *Hierarchy::createLogger(const QString &orgName)
     if (needBinaryLogger)
         rName.remove(binaryIndicator);
 
-    const QString name_separator = QLatin1String("::");
+    const QString name_separator = QStringLiteral("::");
 
     Logger *p_logger = mLoggers.value(rName, nullptr);
     if (p_logger != nullptr)
@@ -138,7 +132,7 @@ Logger *Hierarchy::createLogger(const QString &orgName)
 
     if (rName.isEmpty())
     {
-        p_logger = new Logger(this, Level::DEBUG_INT, QLatin1String("root"), nullptr);
+        p_logger = new Logger(this, Level::DEBUG_INT, QStringLiteral("root"), nullptr);
         mLoggers.insert(QString(), p_logger);
         return p_logger;
     }

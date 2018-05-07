@@ -46,14 +46,14 @@ QString OptionConverter::findAndSubst(const Properties &rProperties,
     if (value.isNull())
         return value;
 
-    const QString begin_subst = QLatin1String("${");
-    const QString end_subst = QLatin1String("}");
+    const QString begin_subst = QStringLiteral("${");
+    const QString end_subst = QStringLiteral("}");
     const int begin_length = begin_subst.length();
     const int end_length = end_subst.length();
 
     // Don't return a null string, the null string indicates that the
     // property key does not exist.
-    QString result = QLatin1String("");
+    QString result = QStringLiteral("");
 
     int i = 0;
     int begin;
@@ -159,17 +159,17 @@ qint64 OptionConverter::toFileSize(const QString &rOption,
     QString s = rOption.trimmed().toLower();
     qint64 f = 1;
     int i;
-    i = s.indexOf(QLatin1String("kb"));
+    i = s.indexOf(QStringLiteral("kb"));
     if (i >= 0)
         f = 1024;
     else
     {
-        i = s.indexOf(QLatin1String("mb"));
+        i = s.indexOf(QStringLiteral("mb"));
         if (i >= 0)
             f = 1024 * 1024;
         else
         {
-            i = s.indexOf(QLatin1String("gb"));
+            i = s.indexOf(QStringLiteral("gb"));
             if (i >= 0)
                 f = 1024 * 1024 * 1024;
         }

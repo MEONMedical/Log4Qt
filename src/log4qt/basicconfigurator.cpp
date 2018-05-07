@@ -39,16 +39,16 @@ namespace Log4Qt
 bool BasicConfigurator::configure()
 {
     ListAppender *list = new ListAppender;
-    list->setName(QLatin1String("BasicConfigurator"));
+    list->setName(QStringLiteral("BasicConfigurator"));
     list->setConfiguratorList(true);
     list->setThreshold(Level::ERROR_INT);
     LogManager::logLogger()->addAppender(AppenderSharedPtr(list));
 
     LayoutSharedPtr p_layout(new PatternLayout(PatternLayout::TTCC_CONVERSION_PATTERN));
-    p_layout->setName(QLatin1String("BasicConfigurator TTCC"));
+    p_layout->setName(QStringLiteral("BasicConfigurator TTCC"));
     p_layout->activateOptions();
     ConsoleAppender *p_appender = new ConsoleAppender(p_layout, ConsoleAppender::STDOUT_TARGET);
-    p_appender->setName(QLatin1String("BasicConfigurator stdout"));
+    p_appender->setName(QStringLiteral("BasicConfigurator stdout"));
     p_appender->activateOptions();
     LogManager::rootLogger()->addAppender(p_appender);
 

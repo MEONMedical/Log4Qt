@@ -213,7 +213,6 @@ void WriterAppender::writeHeader() const
         return;
 }
 
-
 } // namespace Log4Qt
 
 #include "moc_writerappender.cpp"

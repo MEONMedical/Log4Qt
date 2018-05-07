@@ -121,7 +121,7 @@ static void colorOutputString(HANDLE hConsole, const QString &output)
     for (QString it : colorizedMessage)
     {
         // color setted
-        if (it.startsWith("["))
+        if (it.startsWith('['))
         {
             indexOfM = it.indexOf('m');
             // not esc-sequence
@@ -130,7 +130,7 @@ static void colorOutputString(HANDLE hConsole, const QString &output)
                 parsedWordString = it.mid(1, indexOfM - 1);
 
                 escParams = parsedWordString.split(';');
-                for (const auto   &param : escParams)
+                for (const auto &param : qAsConst(escParams))
                 {
                     color = param.toUInt();
                     switch (color)
@@ -260,7 +260,7 @@ void ColorConsoleAppender::activateOptions()
 {
     ConsoleAppender::activateOptions();
 
-    if (target() == "STDOUT_TARGET")
+    if (target() == QStringLiteral("STDOUT_TARGET"))
         hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     else
         hConsole = GetStdHandle(STD_ERROR_HANDLE);

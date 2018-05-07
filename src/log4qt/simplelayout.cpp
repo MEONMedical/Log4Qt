@@ -32,7 +32,7 @@ namespace Log4Qt
 QString SimpleLayout::format(const LoggingEvent &rEvent)
 {
     if (mShowLevel)
-        return rEvent.level().toString() + QLatin1String(" - ") + rEvent.message() + Layout::endOfLine();
+        return rEvent.level().toString() + QStringLiteral(" - ") + rEvent.message() + Layout::endOfLine();
     else
         return rEvent.message() + Layout::endOfLine();
 }

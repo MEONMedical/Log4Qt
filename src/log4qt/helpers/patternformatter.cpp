@@ -224,7 +224,7 @@ public:
                            int precision) :
         PatternConverter(rFormattingInfo),
         mPrecision(precision)
-    {};
+    {}
 
 private:
     Q_DISABLE_COPY(LoggerPatternConverter)
@@ -256,7 +256,7 @@ public:
                         const QString &rKey) :
         PatternConverter(rFormattingInfo),
         mKey(rKey)
-    {};
+    {}
 
 private:
     Q_DISABLE_COPY(MDCPatternConverter)
@@ -271,9 +271,9 @@ private:
 LOG4QT_DECLARE_STATIC_LOGGER(logger, Log4Qt::PatternFormatter)
 
 PatternFormatter::PatternFormatter(const QString &rPattern) :
-    mIgnoreCharacters(QLatin1String("C")),
-    mConversionCharacters(QLatin1String("cdmprtxXFMLl")),
-    mOptionCharacters(QLatin1String("cd")),
+    mIgnoreCharacters(QStringLiteral("C")),
+    mConversionCharacters(QStringLiteral("cdmprtxXFMLl")),
+    mOptionCharacters(QStringLiteral("cd")),
     mPattern(rPattern),
     mPatternConverters()
 {
@@ -335,7 +335,7 @@ void PatternFormatter::createConverter(const QChar &rChar,
     {
         QString option = rOption;
         if (rOption.isEmpty())
-            option = QLatin1String("ISO8601");
+            option = QStringLiteral("ISO8601");
         else if (rOption == "locale:long")
             option = QLocale().dateTimeFormat(QLocale::LongFormat);
         else if (rOption == "locale:short")
@@ -358,7 +358,7 @@ void PatternFormatter::createConverter(const QChar &rChar,
         break;
     case 'r':
         mPatternConverters << new DatePatternConverter(rFormattingInfo,
-                           QLatin1String("RELATIVE"));
+                           QStringLiteral("RELATIVE"));
         break;
     case 't':
         mPatternConverters << new BasicPatternConverter(rFormattingInfo,
@@ -614,7 +614,7 @@ void FormattingInfo::clear()
 QString FormattingInfo::intToString(int i)
 {
     if (i == INT_MAX)
-        return QLatin1String("INT_MAX");
+        return QStringLiteral("INT_MAX");
     else
         return QString::number(i);
 }
@@ -690,7 +690,7 @@ QString LoggerPatternConverter::convert(const LoggingEvent &rLoggingEvent) const
     if (mPrecision <= 0 || (name.isEmpty()))
         return name;
 
-    const QString separator(QLatin1String("::"));
+    const QString separator(QStringLiteral("::"));
 
     int i = mPrecision;
     int begin = name.length();

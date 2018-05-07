@@ -41,7 +41,7 @@ void Properties::load(QIODevice *pDevice)
 
     if (!pDevice)
     {
-        logger()->warn("No device specified for load.");
+        logger()->warn(QStringLiteral("No device specified for load."));
         return;
     }
 
@@ -73,7 +73,7 @@ void Properties::load(QIODevice *pDevice)
 void Properties::load(const QSettings &rSettings)
 {
     QStringList keys = rSettings.childKeys();
-    for (const auto &key : keys)
+    for (const auto &key : qAsConst(keys))
         insert(key, rSettings.value(key).toString());
 }
 
@@ -86,7 +86,7 @@ QString Properties::property(const QString &rKey) const
     {
         QString value = this->value(rKey);
         if (value.isNull())
-            return QString(QLatin1String(""));
+            return QString(QStringLiteral(""));
         else
             return value;
     }
@@ -115,7 +115,7 @@ QStringList Properties::propertyNames() const
         default_keys = mpDefaultProperties->propertyNames();
 
     QStringList keys = this->keys();
-    for (const auto &key : default_keys)
+    for (const auto &key : qAsConst(default_keys))
         if (!keys.contains(key))
             keys << key;
 

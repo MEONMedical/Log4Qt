@@ -262,8 +262,8 @@ void PropertyConfigurator::configureNonRootElements(const Properties &rPropertie
 {
     Q_ASSERT_X(pLoggerRepository, "PropertyConfigurator::configureNonRootElements()", "pLoggerRepository must not be null.");
 
-    const QString logger_prefix = QLatin1String("log4j.logger.");
-    const QString category_prefix = QLatin1String("log4j.category.");
+    const QString logger_prefix = QStringLiteral("log4j.logger.");
+    const QString category_prefix = QStringLiteral("log4j.category.");
 
     // Iterate through all entries:
     // - Test for the logger/category prefix
@@ -272,7 +272,7 @@ void PropertyConfigurator::configureNonRootElements(const Properties &rPropertie
     // - Parse logger additivity
 
     QStringList keys = rProperties.propertyNames();
-    for (const auto &key : keys)
+    for (const auto &key : qAsConst(keys))
     {
         QString java_name;
         if (key.startsWith(logger_prefix))
@@ -396,8 +396,8 @@ AppenderSharedPtr PropertyConfigurator::parseAppender(const Properties &rPropert
     }
 
     QStringList exclusions;
-    exclusions << QLatin1String("layout");
-    setProperties(rProperties, key + QLatin1String("."), exclusions, p_appender.data());
+    exclusions << QStringLiteral("layout");
+    setProperties(rProperties, key + QStringLiteral("."), exclusions, p_appender.data());
     AppenderSkeleton *p_appenderskeleton = qobject_cast<AppenderSkeleton *>(p_appender.data());
     if (p_appenderskeleton)
         p_appenderskeleton->activateOptions();
@@ -444,7 +444,7 @@ LayoutSharedPtr PropertyConfigurator::parseLayout(const Properties &rProperties,
         return p_layout;
     }
 
-    setProperties(rProperties, key + QLatin1String("."), QStringList(), p_layout.data());
+    setProperties(rProperties, key + QStringLiteral("."), QStringList(), p_layout.data());
     p_layout->activateOptions();
 
     return p_layout;
@@ -525,7 +525,7 @@ void PropertyConfigurator::setProperties(const Properties &rProperties,
                     rPrefix);
 
     QStringList keys = rProperties.propertyNames();
-    for (const auto &key : keys)
+    for (const auto &key : qAsConst(keys))
     {
         if (!key.startsWith(rPrefix))
             continue;
@@ -546,7 +546,7 @@ void PropertyConfigurator::startCaptureErrors()
 
     ListAppender *listAppender = new ListAppender();
     mpConfigureErrors.reset(listAppender);
-    listAppender->setName(QLatin1String("PropertyConfigurator"));
+    listAppender->setName(QStringLiteral("PropertyConfigurator"));
     listAppender->setConfiguratorList(true);
     listAppender->setThreshold(Level::ERROR_INT);
     LogManager::logLogger()->addAppender(mpConfigureErrors);

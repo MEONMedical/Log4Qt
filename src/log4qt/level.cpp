@@ -98,31 +98,31 @@ Level Level::fromString(const QString &rLevel, bool *pOk)
     if (pOk)
         *pOk = true;
 
-    if (rLevel == QLatin1String("OFF") ||
+    if (rLevel == QStringLiteral("OFF") ||
             rLevel == QCoreApplication::translate(p_context, "OFF"))
         return OFF_INT;
-    if (rLevel == QLatin1String("FATAL") ||
+    if (rLevel == QStringLiteral("FATAL") ||
             rLevel == QCoreApplication::translate(p_context, "FATAL"))
         return FATAL_INT;
-    if (rLevel == QLatin1String("ERROR") ||
+    if (rLevel == QStringLiteral("ERROR") ||
             rLevel == QCoreApplication::translate(p_context, "ERROR"))
         return ERROR_INT;
-    if (rLevel == QLatin1String("WARN") ||
+    if (rLevel == QStringLiteral("WARN") ||
             rLevel == QCoreApplication::translate(p_context, "WARN"))
         return WARN_INT;
-    if (rLevel == QLatin1String("INFO") ||
+    if (rLevel == QStringLiteral("INFO") ||
             rLevel == QCoreApplication::translate(p_context, "INFO"))
         return INFO_INT;
-    if (rLevel == QLatin1String("DEBUG") ||
+    if (rLevel == QStringLiteral("DEBUG") ||
             rLevel == QCoreApplication::translate(p_context, "DEBUG"))
         return DEBUG_INT;
-    if (rLevel == QLatin1String("TRACE") ||
+    if (rLevel == QStringLiteral("TRACE") ||
             rLevel == QCoreApplication::translate(p_context, "TRACE"))
         return TRACE_INT;
-    if (rLevel == QLatin1String("ALL") ||
+    if (rLevel == QStringLiteral("ALL") ||
             rLevel == QCoreApplication::translate(p_context, "ALL"))
         return ALL_INT;
-    if (rLevel == QLatin1String("NULL") ||
+    if (rLevel == QStringLiteral("NULL") ||
             rLevel == QCoreApplication::translate(p_context, "NULL"))
         return NULL_INT;
 

@@ -15,11 +15,11 @@
 #include <QLibrary>
 
 typedef HANDLE(WINAPI *PDeregisterEventSource)(HANDLE);
-static PDeregisterEventSource pDeregisterEventSource = 0;
+static PDeregisterEventSource pDeregisterEventSource = nullptr;
 typedef BOOL(WINAPI *PReportEvent)(HANDLE, WORD, WORD, DWORD, PSID, WORD, DWORD, LPCTSTR *, LPVOID);
 static PReportEvent pReportEvent = 0;
 typedef HANDLE(WINAPI *PRegisterEventSource)(LPCTSTR, LPCTSTR);
-static PRegisterEventSource pRegisterEventSource = 0;
+static PRegisterEventSource pRegisterEventSource = nullptr;
 
 #define RESOLVE(name) p##name = reinterpret_cast<P##name>(lib.resolve(#name));
 #define RESOLVEA(name) p##name = reinterpret_cast<P##name>(lib.resolve(#name"A"));
@@ -29,14 +29,14 @@ static bool winServiceInit()
 {
     if (!pDeregisterEventSource)
     {
-        QLibrary lib("advapi32");
+        QLibrary lib(QStringLiteral("advapi32"));
 
         // only resolve unicode versions
         RESOLVE(DeregisterEventSource);
         RESOLVEW(ReportEvent);
         RESOLVEW(RegisterEventSource);
     }
-    return pDeregisterEventSource != 0;
+    return pDeregisterEventSource != nullptr;
 }
 #else
 
@@ -52,9 +52,9 @@ static bool winServiceInit()
 static QString encodeName(const QString &name, bool allowUpper = false)
 {
     QString n = name.toLower();
-    QString legal = QLatin1String("abcdefghijklmnopqrstuvwxyz1234567890");
+    QString legal = QStringLiteral("abcdefghijklmnopqrstuvwxyz1234567890");
     if (allowUpper)
-        legal += QLatin1String("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        legal += QStringLiteral("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
     int pos = 0;
     while (pos < n.size())
     {
@@ -108,14 +108,14 @@ void SystemLogAppender::append(const LoggingEvent &rEvent)
         break;
     }
 
-    HANDLE h = pRegisterEventSource(0, serviceName().toStdWString().c_str());
+    HANDLE h = pRegisterEventSource(nullptr, serviceName().toStdWString().c_str());
     if (h)
     {
         int id = 0;
         uint category = 0;
         auto msg = message.toStdWString();
         const wchar_t *msg_wstr = msg.c_str();
-        const char *bindata = 0;//data.size() ? data.constData() : 0;
+        const char *bindata = nullptr;//data.size() ? data.constData() : 0;
         const int datasize = 0;
         pReportEvent(h, wType, category, id, 0, 1, datasize,
                      &msg_wstr, const_cast<char *> (bindata));

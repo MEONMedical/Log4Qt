@@ -38,16 +38,16 @@ QString DateTime::toString(const QString &rFormat) const
     if (!isValid())
         return QString();
 
-    if (format == QLatin1String("NONE"))
+    if (format == QStringLiteral("NONE"))
         return QString();
-    if (format == QLatin1String("RELATIVE"))
+    if (format == QStringLiteral("RELATIVE"))
         return QString::number(toMSecsSinceEpoch() - InitialisationHelper::startTime());
-    if (format == QLatin1String("ISO8601"))
-        format = QLatin1String("yyyy-MM-dd hh:mm:ss.zzz");
-    if (format == QLatin1String("ABSOLUTE"))
-        format = QLatin1String("HH:mm:ss.zzz");
-    if (format == QLatin1String("DATE"))
-        format = QLatin1String("dd MM yyyy HH:mm:ss.zzz");
+    if (format == QStringLiteral("ISO8601"))
+        format = QStringLiteral("yyyy-MM-dd hh:mm:ss.zzz");
+    if (format == QStringLiteral("ABSOLUTE"))
+        format = QStringLiteral("HH:mm:ss.zzz");
+    if (format == QStringLiteral("DATE"))
+        format = QStringLiteral("dd MM yyyy HH:mm:ss.zzz");
 
     return formatDateTime(format);
 }

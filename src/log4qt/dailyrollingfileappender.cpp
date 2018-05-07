@@ -65,22 +65,22 @@ void DailyRollingFileAppender::setDatePattern(DatePattern datePattern)
     switch (datePattern)
     {
     case MINUTELY_ROLLOVER:
-        setDatePattern(QLatin1String("'.'yyyy-MM-dd-hh-mm"));
+        setDatePattern(QStringLiteral("'.'yyyy-MM-dd-hh-mm"));
         break;
     case HOURLY_ROLLOVER:
-        setDatePattern(QLatin1String("'.'yyyy-MM-dd-hh"));
+        setDatePattern(QStringLiteral("'.'yyyy-MM-dd-hh"));
         break;
     case HALFDAILY_ROLLOVER:
-        setDatePattern(QLatin1String("'.'yyyy-MM-dd-a"));
+        setDatePattern(QStringLiteral("'.'yyyy-MM-dd-a"));
         break;
     case DAILY_ROLLOVER:
-        setDatePattern(QLatin1String("'.'yyyy-MM-dd"));
+        setDatePattern(QStringLiteral("'.'yyyy-MM-dd"));
         break;
     case WEEKLY_ROLLOVER:
-        setDatePattern(QLatin1String("'.'yyyy-ww"));
+        setDatePattern(QStringLiteral("'.'yyyy-ww"));
         break;
     case MONTHLY_ROLLOVER:
-        setDatePattern(QLatin1String("'.'yyyy-MM"));
+        setDatePattern(QStringLiteral("'.'yyyy-MM"));
         break;
     default:
         Q_ASSERT_X(false, "DailyRollingFileAppender::setDatePattern()", "Invalid datePattern constant");

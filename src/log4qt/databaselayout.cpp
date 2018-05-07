@@ -95,7 +95,7 @@ QString DatabaseLayout::format(const LoggingEvent &rEvent)
     {
         result.append(mTimeStamp);
         result.append(":");
-        result.append(DateTime::fromMSecsSinceEpoch(rEvent.timeStamp()).toString("dd.MM.yyyy hh:mm"));
+        result.append(DateTime::fromMSecsSinceEpoch(rEvent.timeStamp()).toString(QStringLiteral("dd.MM.yyyy hh:mm")));
     }
 
     if (!mThreadName.isEmpty())

@@ -71,10 +71,10 @@ void PatternLayout::setConversionPattern(ConversionPattern conversionPattern)
     switch (conversionPattern)
     {
     case DEFAULT_CONVERSION_PATTERN:
-        setConversionPattern(QLatin1String("%m%n"));
+        setConversionPattern(QStringLiteral("%m%n"));
         break;
     case TTCC_CONVERSION_PATTERN:
-        setConversionPattern(QLatin1String("%r [%t] %p %c %x - %m%n"));
+        setConversionPattern(QStringLiteral("%r [%t] %p %c %x - %m%n"));
         break;
     default:
         Q_ASSERT_X(false, "PatternLayout::setConversionFormat", "Unkown ConversionFormat");

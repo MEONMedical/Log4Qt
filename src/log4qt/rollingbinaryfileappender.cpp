@@ -111,7 +111,7 @@ void RollingBinaryFileAppender::rollOverSize()
 
     // Now renmae the current file from file.log --> file.log.1
     f.setFileName(file());
-    target_file_name = file() + QLatin1String(".1");
+    target_file_name = file() + QStringLiteral(".1");
     if (!renameFile(f, target_file_name))
         return;
 
@@ -145,22 +145,22 @@ void RollingBinaryFileAppender::setDatePattern(DatePattern datePattern)
     switch (datePattern)
     {
     case MINUTELY_ROLLOVER:
-        setDatePattern(QLatin1String("'.'yyyy-MM-dd-hh-mm"));
+        setDatePattern(QStringLiteral("'.'yyyy-MM-dd-hh-mm"));
         break;
     case HOURLY_ROLLOVER:
-        setDatePattern(QLatin1String("'.'yyyy-MM-dd-hh"));
+        setDatePattern(QStringLiteral("'.'yyyy-MM-dd-hh"));
         break;
     case HALFDAILY_ROLLOVER:
-        setDatePattern(QLatin1String("'.'yyyy-MM-dd-a"));
+        setDatePattern(QStringLiteral("'.'yyyy-MM-dd-a"));
         break;
     case DAILY_ROLLOVER:
-        setDatePattern(QLatin1String("'.'yyyy-MM-dd"));
+        setDatePattern(QStringLiteral("'.'yyyy-MM-dd"));
         break;
     case WEEKLY_ROLLOVER:
-        setDatePattern(QLatin1String("'.'yyyy-ww"));
+        setDatePattern(QStringLiteral("'.'yyyy-ww"));
         break;
     case MONTHLY_ROLLOVER:
-        setDatePattern(QLatin1String("'.'yyyy-MM"));
+        setDatePattern(QStringLiteral("'.'yyyy-MM"));
         break;
     default:
         Q_ASSERT_X(false, "BinaryFileAppender::setDatePattern()", "Invalid datePattern constant");

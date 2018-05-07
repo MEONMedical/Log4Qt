@@ -66,16 +66,16 @@ void InitialisationHelper::doInitialiseEnvironmentSettings()
     // object has been created?
 
     QStringList setting_keys;
-    setting_keys << QLatin1String("Debug");
-    setting_keys << QLatin1String("DefaultInitOverride");
-    setting_keys << QLatin1String("Configuration");
+    setting_keys << QStringLiteral("Debug");
+    setting_keys << QStringLiteral("DefaultInitOverride");
+    setting_keys << QStringLiteral("Configuration");
 
     QHash<QString, QString> env_keys;
-    for (const auto &entry : setting_keys)
-        env_keys.insert(QString::fromLatin1("log4qt_").append(entry).toUpper(), entry);
+    for (const auto &entry : qAsConst(setting_keys))
+        env_keys.insert(QStringLiteral("log4qt_").append(entry).toUpper(), entry);
 
     QStringList sys_env = QProcess::systemEnvironment();
-    for (const auto &entry : sys_env)
+    for (const auto &entry : qAsConst(sys_env))
     {
         int i = entry.indexOf(QLatin1Char('='));
         if (i == -1)
@@ -110,7 +110,7 @@ QString InitialisationHelper::doSetting(const QString &rKey,
     if (QCoreApplication::instance())
     {
         QSettings s;
-        s.beginGroup(QLatin1String("Log4Qt"));
+        s.beginGroup(QStringLiteral("Log4Qt"));
         return s.value(rKey, rDefault).toString().trimmed();
     }
     else

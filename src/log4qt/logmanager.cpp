@@ -222,13 +222,13 @@ void LogManager::doConfigureLogLogger()
     QMutexLocker locker(&instance()->mObjectGuard);
 
     // Level
-    QString value = InitialisationHelper::setting(QLatin1String("Debug"),
-                    QLatin1String("ERROR"));
+    QString value = InitialisationHelper::setting(QStringLiteral("Debug"),
+                    QStringLiteral("ERROR"));
     logLogger()->setLevel(OptionConverter::toLevel(value, Level::DEBUG_INT));
 
     // Common layout
     LayoutSharedPtr p_layout(new TTCCLayout());
-    p_layout->setName(QLatin1String("LogLog TTCC"));
+    p_layout->setName(QStringLiteral("LogLog TTCC"));
     static_cast<TTCCLayout *>(p_layout.data())->setContextPrinting(false);
     p_layout->activateOptions();
 
@@ -244,7 +244,7 @@ void LogManager::doConfigureLogLogger()
     pFilterStdout->setLevelMin(Level::NULL_INT);
     pFilterStdout->setLevelMax(Level::INFO_INT);
     pFilterStdout->activateOptions();
-    p_appender->setName(QLatin1String("LogLog stdout"));
+    p_appender->setName(QStringLiteral("LogLog stdout"));
     p_appender->addFilter(FilterSharedPtr(pFilterStdout));
     p_appender->activateOptions();
     logLogger()->addAppender(AppenderSharedPtr(p_appender));
@@ -256,7 +256,7 @@ void LogManager::doConfigureLogLogger()
     pFilterStderr->setLevelMin(Level::WARN_INT);
     pFilterStderr->setLevelMax(Level::OFF_INT);
     pFilterStderr->activateOptions();
-    p_appender->setName(QLatin1String("LogLog stderr"));
+    p_appender->setName(QStringLiteral("LogLog stderr"));
     p_appender->addFilter(FilterSharedPtr(pFilterStderr));
     p_appender->activateOptions();
     logLogger()->addAppender(AppenderSharedPtr(p_appender));
@@ -278,8 +278,8 @@ void LogManager::doStartup()
     QMutexLocker locker(&instance()->mObjectGuard);
 
     // Override
-    QString default_value = QLatin1String("false");
-    QString value = InitialisationHelper::setting(QLatin1String("DefaultInitOverride"),
+    QString default_value = QStringLiteral("false");
+    QString value = InitialisationHelper::setting(QStringLiteral("DefaultInitOverride"),
                     default_value);
     if (value != default_value)
     {
@@ -288,7 +288,7 @@ void LogManager::doStartup()
     }
 
     // Configuration using setting Configuration
-    value = InitialisationHelper::setting(QLatin1String("Configuration"));
+    value = InitialisationHelper::setting(QStringLiteral("Configuration"));
     if (!value.isEmpty() && QFile::exists(value))
     {
         static_logger()->debug("Default initialisation configures from file '%1' specified by Configure", value);
@@ -296,7 +296,7 @@ void LogManager::doStartup()
         return;
     }
 
-    const QString default_file(QLatin1String("log4qt.properties"));
+    const QString default_file(QStringLiteral("log4qt.properties"));
     QStringList filesToCheck;
 
     // Configuration using setting
@@ -329,7 +329,7 @@ void LogManager::doStartup()
 
     filesToCheck << default_file;
 
-    for (const auto &rConfigFileName: filesToCheck)
+    for (const auto &rConfigFileName: qAsConst(filesToCheck))
     {
         // Configuration using default file
         if (QFile::exists(rConfigFileName))
@@ -349,7 +349,7 @@ void LogManager::doStartup()
 void LogManager::welcome()
 {
     static_logger()->info("Initialising Log4Qt %1",
-                          QLatin1String(LOG4QT_VERSION_STR));
+                          QStringLiteral(LOG4QT_VERSION_STR));
 
     // Debug: Info
     if (static_logger()->isDebugEnabled())
@@ -372,7 +372,7 @@ void LogManager::welcome()
             offset += QString::number(min % 60).rightJustified(2, QLatin1Char('0'));
         }
         static_logger()->debug("Program startup time is %1 (UTC%2)",
-                               start_time.toString(QLatin1String("ISO8601")),
+                               start_time.toString(QStringLiteral("ISO8601")),
                                offset);
         static_logger()->debug("Internal logging uses the level %1",
                                logLogger()->level().toString());

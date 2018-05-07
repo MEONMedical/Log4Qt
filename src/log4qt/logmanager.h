@@ -329,12 +329,12 @@ inline QString LogManager::messagePattern()
 
 inline Logger *LogManager::logLogger()
 {
-    return logger(QLatin1String("Log4Qt"));
+    return logger(QStringLiteral("Log4Qt"));
 }
 
 inline Logger *LogManager::qtLogger()
 {
-    return logger(QLatin1String("Qt"));
+    return logger(QStringLiteral("Qt"));
 }
 
 inline void LogManager::setHandleQtMessages(bool handleQtMessages)

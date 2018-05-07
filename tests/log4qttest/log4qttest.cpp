@@ -161,9 +161,9 @@ void Log4QtTest::PatternFormatter_data()
     // Create end of line
     QString eol;
 #ifdef Q_OS_WIN32
-    eol = QLatin1String("\n");
+    eol = QStringLiteral("\n");
 #else
-    eol = QLatin1String("\n");
+    eol = QStringLiteral("\n");
 #endif // Q_OS_WIN32
     // Prepare event data
     int relative_offset = 17865;

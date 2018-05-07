@@ -366,13 +366,13 @@ void Factory::doSetObjectProperty(QObject *pObject,
 
     QVariant value;
     bool ok = true;
-    if (type == QLatin1String("bool"))
+    if (type == QStringLiteral("bool"))
         value = OptionConverter::toBoolean(rValue, &ok);
-    else if (type == QLatin1String("int"))
+    else if (type == QStringLiteral("int"))
         value = OptionConverter::toInt(rValue, &ok);
-    else if (type == QLatin1String("Log4Qt::Level"))
+    else if (type == QStringLiteral("Log4Qt::Level"))
         value = QVariant::fromValue(OptionConverter::toLevel(rValue, &ok));
-    else if (type == QLatin1String("QString"))
+    else if (type == QStringLiteral("QString"))
         value = rValue;
     else
     {
@@ -436,99 +436,99 @@ void Factory::doUnregisterLayout(const QString &rLayoutClassName)
 
 void Factory::registerDefaultAppenders()
 {
-    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.ConsoleAppender"), console_file_appender);
-    mAppenderRegistry.insert(QLatin1String("Log4Qt::ConsoleAppender"), console_file_appender);
-    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.DailyRollingFileAppender"), create_daily_rolling_file_appender);
-    mAppenderRegistry.insert(QLatin1String("Log4Qt::DailyRollingFileAppender"), create_daily_rolling_file_appender);
-    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.varia.DebugAppender"), create_debug_appender);
-    mAppenderRegistry.insert(QLatin1String("Log4Qt::DebugAppender"), create_debug_appender);
-    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.FileAppender"), create_file_appender);
-    mAppenderRegistry.insert(QLatin1String("Log4Qt::FileAppender"), create_file_appender);
-    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.varia.ListAppender"), create_list_appender);
-    mAppenderRegistry.insert(QLatin1String("Log4Qt::ListAppender"), create_list_appender);
-    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.varia.NullAppender"), create_null_appender);
-    mAppenderRegistry.insert(QLatin1String("Log4Qt::NullAppender"), create_null_appender);
-    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.RollingFileAppender"), create_rolling_file_appender);
-    mAppenderRegistry.insert(QLatin1String("Log4Qt::RollingFileAppender"), create_rolling_file_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.ConsoleAppender"), console_file_appender);
+    mAppenderRegistry.insert(QStringLiteral("Log4Qt::ConsoleAppender"), console_file_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.DailyRollingFileAppender"), create_daily_rolling_file_appender);
+    mAppenderRegistry.insert(QStringLiteral("Log4Qt::DailyRollingFileAppender"), create_daily_rolling_file_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.varia.DebugAppender"), create_debug_appender);
+    mAppenderRegistry.insert(QStringLiteral("Log4Qt::DebugAppender"), create_debug_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.FileAppender"), create_file_appender);
+    mAppenderRegistry.insert(QStringLiteral("Log4Qt::FileAppender"), create_file_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.varia.ListAppender"), create_list_appender);
+    mAppenderRegistry.insert(QStringLiteral("Log4Qt::ListAppender"), create_list_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.varia.NullAppender"), create_null_appender);
+    mAppenderRegistry.insert(QStringLiteral("Log4Qt::NullAppender"), create_null_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.RollingFileAppender"), create_rolling_file_appender);
+    mAppenderRegistry.insert(QStringLiteral("Log4Qt::RollingFileAppender"), create_rolling_file_appender);
 
-    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.SignalAppender"), create_signal_appender);
-    mAppenderRegistry.insert(QLatin1String("Log4Qt::SignalAppender"), create_signal_appender);
-    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.ColorConsoleAppender"), create_color_console_appender);
-    mAppenderRegistry.insert(QLatin1String("Log4Qt::ColorConsoleAppender"), create_color_console_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.SignalAppender"), create_signal_appender);
+    mAppenderRegistry.insert(QStringLiteral("Log4Qt::SignalAppender"), create_signal_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.ColorConsoleAppender"), create_color_console_appender);
+    mAppenderRegistry.insert(QStringLiteral("Log4Qt::ColorConsoleAppender"), create_color_console_appender);
 
 #if defined(QT_SQL_LIB)
-    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.DatabaseAppender"), create_database_appender);
-    mAppenderRegistry.insert(QLatin1String("Log4Qt::DatabaseAppender"), create_database_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.DatabaseAppender"), create_database_appender);
+    mAppenderRegistry.insert(QStringLiteral("Log4Qt::DatabaseAppender"), create_database_appender);
 #endif //#ifdef QT_SQL_LIB
 
 #if defined(QT_NETWORK_LIB)
-    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.TelnetAppender"), create_telnet_appender);
-    mAppenderRegistry.insert(QLatin1String("Log4Qt::TelnetAppender"), create_telnet_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.TelnetAppender"), create_telnet_appender);
+    mAppenderRegistry.insert(QStringLiteral("Log4Qt::TelnetAppender"), create_telnet_appender);
 #endif
-    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.AsyncAppender"), create_async_appender);
-    mAppenderRegistry.insert(QLatin1String("Log4Qt::AsyncAppender"), create_async_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.AsyncAppender"), create_async_appender);
+    mAppenderRegistry.insert(QStringLiteral("Log4Qt::AsyncAppender"), create_async_appender);
 
-    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.MainThreadAppender"), create_mainthread_appender);
-    mAppenderRegistry.insert(QLatin1String("Log4Qt::MainThreadAppender"), create_mainthread_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.MainThreadAppender"), create_mainthread_appender);
+    mAppenderRegistry.insert(QStringLiteral("Log4Qt::MainThreadAppender"), create_mainthread_appender);
 
-    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.SystemLogAppender"), create_systemlog_appender);
-    mAppenderRegistry.insert(QLatin1String("Log4Qt::SystemLogAppender"), create_systemlog_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.SystemLogAppender"), create_systemlog_appender);
+    mAppenderRegistry.insert(QStringLiteral("Log4Qt::SystemLogAppender"), create_systemlog_appender);
 
-    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.BinaryFileAppender"), create_binaryfile_appender);
-    mAppenderRegistry.insert(QLatin1String("Log4Qt::BinaryFileAppender"), create_binaryfile_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.BinaryFileAppender"), create_binaryfile_appender);
+    mAppenderRegistry.insert(QStringLiteral("Log4Qt::BinaryFileAppender"), create_binaryfile_appender);
 
-    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.RollingBinaryFileAppender"), create_rollingbinaryfile_appender);
-    mAppenderRegistry.insert(QLatin1String("Log4Qt::RollingBinaryFileAppender"), create_rollingbinaryfile_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.RollingBinaryFileAppender"), create_rollingbinaryfile_appender);
+    mAppenderRegistry.insert(QStringLiteral("Log4Qt::RollingBinaryFileAppender"), create_rollingbinaryfile_appender);
 
-    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.DailyFileAppender"), create_dailyrollingfile_appender);
-    mAppenderRegistry.insert(QLatin1String("Log4Qt::DailyFileAppender"), create_dailyrollingfile_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.DailyFileAppender"), create_dailyrollingfile_appender);
+    mAppenderRegistry.insert(QStringLiteral("Log4Qt::DailyFileAppender"), create_dailyrollingfile_appender);
 #ifdef Q_OS_WIN
-    mAppenderRegistry.insert(QLatin1String("org.apache.log4j.WDCAppender"), create_wdc_appender);
-    mAppenderRegistry.insert(QLatin1String("Log4Qt::WDCAppender"), create_wdc_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.WDCAppender"), create_wdc_appender);
+    mAppenderRegistry.insert(QStringLiteral("Log4Qt::WDCAppender"), create_wdc_appender);
 #endif
 }
 
 
 void Factory::registerDefaultFilters()
 {
-    mFilterRegistry.insert(QLatin1String("org.apache.log4j.varia.DenyAllFilter"), create_deny_all_filter);
-    mFilterRegistry.insert(QLatin1String("Log4Qt::DenyAllFilter"), create_deny_all_filter);
-    mFilterRegistry.insert(QLatin1String("org.apache.log4j.varia.LevelMatchFilter"), create_level_match_filter);
-    mFilterRegistry.insert(QLatin1String("Log4Qt::LevelMatchFilter"), create_level_match_filter);
-    mFilterRegistry.insert(QLatin1String("org.apache.log4j.varia.LevelRangeFilter"), create_level_range_filter);
-    mFilterRegistry.insert(QLatin1String("Log4Qt::LevelRangeFilter"), create_level_range_filter);
-    mFilterRegistry.insert(QLatin1String("org.apache.log4j.varia.StringMatchFilter"), create_string_match_filter);
-    mFilterRegistry.insert(QLatin1String("Log4Qt::StringMatchFilter"), create_string_match_filter);
-    mFilterRegistry.insert(QLatin1String("org.apache.log4j.varia.BinaryEventFilter"), create_binaryevent_filter);
-    mFilterRegistry.insert(QLatin1String("Log4Qt::BinaryEventFilter"), create_binaryevent_filter);
+    mFilterRegistry.insert(QStringLiteral("org.apache.log4j.varia.DenyAllFilter"), create_deny_all_filter);
+    mFilterRegistry.insert(QStringLiteral("Log4Qt::DenyAllFilter"), create_deny_all_filter);
+    mFilterRegistry.insert(QStringLiteral("org.apache.log4j.varia.LevelMatchFilter"), create_level_match_filter);
+    mFilterRegistry.insert(QStringLiteral("Log4Qt::LevelMatchFilter"), create_level_match_filter);
+    mFilterRegistry.insert(QStringLiteral("org.apache.log4j.varia.LevelRangeFilter"), create_level_range_filter);
+    mFilterRegistry.insert(QStringLiteral("Log4Qt::LevelRangeFilter"), create_level_range_filter);
+    mFilterRegistry.insert(QStringLiteral("org.apache.log4j.varia.StringMatchFilter"), create_string_match_filter);
+    mFilterRegistry.insert(QStringLiteral("Log4Qt::StringMatchFilter"), create_string_match_filter);
+    mFilterRegistry.insert(QStringLiteral("org.apache.log4j.varia.BinaryEventFilter"), create_binaryevent_filter);
+    mFilterRegistry.insert(QStringLiteral("Log4Qt::BinaryEventFilter"), create_binaryevent_filter);
 }
 
 
 void Factory::registerDefaultLayouts()
 {
-    mLayoutRegistry.insert(QLatin1String("org.apache.log4j.PatternLayout"), create_pattern_layout);
-    mLayoutRegistry.insert(QLatin1String("Log4Qt::PatternLayout"), create_pattern_layout);
-    mLayoutRegistry.insert(QLatin1String("org.apache.log4j.SimpleLayout"), create_simple_layout);
-    mLayoutRegistry.insert(QLatin1String("Log4Qt::SimpleLayout"), create_simple_layout);
-    mLayoutRegistry.insert(QLatin1String("org.apache.log4j.TTCCLayout"), create_ttcc_layout);
-    mLayoutRegistry.insert(QLatin1String("Log4Qt::TTCCLayout"), create_ttcc_layout);
+    mLayoutRegistry.insert(QStringLiteral("org.apache.log4j.PatternLayout"), create_pattern_layout);
+    mLayoutRegistry.insert(QStringLiteral("Log4Qt::PatternLayout"), create_pattern_layout);
+    mLayoutRegistry.insert(QStringLiteral("org.apache.log4j.SimpleLayout"), create_simple_layout);
+    mLayoutRegistry.insert(QStringLiteral("Log4Qt::SimpleLayout"), create_simple_layout);
+    mLayoutRegistry.insert(QStringLiteral("org.apache.log4j.TTCCLayout"), create_ttcc_layout);
+    mLayoutRegistry.insert(QStringLiteral("Log4Qt::TTCCLayout"), create_ttcc_layout);
 
-    mLayoutRegistry.insert(QLatin1String("org.apache.log4j.SimpleTimeLayout"), create_simple_time_layout);
-    mLayoutRegistry.insert(QLatin1String("Log4Qt::SimpleTimeLayout"), create_simple_time_layout);
+    mLayoutRegistry.insert(QStringLiteral("org.apache.log4j.SimpleTimeLayout"), create_simple_time_layout);
+    mLayoutRegistry.insert(QStringLiteral("Log4Qt::SimpleTimeLayout"), create_simple_time_layout);
 
 #if defined(QT_SQL_LIB)
-    mLayoutRegistry.insert(QLatin1String("org.apache.log4j.DatabaseLayout"), create_database_layout);
-    mLayoutRegistry.insert(QLatin1String("Log4Qt::DatabaseLayout"), create_database_layout);
+    mLayoutRegistry.insert(QStringLiteral("org.apache.log4j.DatabaseLayout"), create_database_layout);
+    mLayoutRegistry.insert(QStringLiteral("Log4Qt::DatabaseLayout"), create_database_layout);
 #endif //#ifdef (QT_SQL_LIB)
 
-    mLayoutRegistry.insert(QLatin1String("org.apache.log4j.BinaryLayout"), create_binary_layout);
-    mLayoutRegistry.insert(QLatin1String("Log4Qt::BinaryLayout"), create_binary_layout);
+    mLayoutRegistry.insert(QStringLiteral("org.apache.log4j.BinaryLayout"), create_binary_layout);
+    mLayoutRegistry.insert(QStringLiteral("Log4Qt::BinaryLayout"), create_binary_layout);
 
-    mLayoutRegistry.insert(QLatin1String("org.apache.log4j.BinaryToTextLayout"), create_binarytotext_layout);
-    mLayoutRegistry.insert(QLatin1String("Log4Qt::BinaryToTextLayout"), create_binarytotext_layout);
+    mLayoutRegistry.insert(QStringLiteral("org.apache.log4j.BinaryToTextLayout"), create_binarytotext_layout);
+    mLayoutRegistry.insert(QStringLiteral("Log4Qt::BinaryToTextLayout"), create_binarytotext_layout);
 
-    mLayoutRegistry.insert(QLatin1String("org.apache.log4j.XMLLayout"), create_xml_layout);
-    mLayoutRegistry.insert(QLatin1String("Log4Qt::XMLLayout"), create_xml_layout);
+    mLayoutRegistry.insert(QStringLiteral("org.apache.log4j.XMLLayout"), create_xml_layout);
+    mLayoutRegistry.insert(QStringLiteral("Log4Qt::XMLLayout"), create_xml_layout);
 }
 
 

@@ -80,9 +80,9 @@ ConsoleAppender::~ConsoleAppender()
 QString ConsoleAppender::target() const
 {
     if (mTarget == STDOUT_TARGET)
-        return QLatin1String("STDOUT_TARGET");
+        return QStringLiteral("STDOUT_TARGET");
     else
-        return QLatin1String("STDERR_TARGET");
+        return QStringLiteral("STDERR_TARGET");
 }
 
 void ConsoleAppender::setTarget(const QString &rTarget)

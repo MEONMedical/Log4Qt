@@ -21,19 +21,19 @@ QString XMLLayout::format(const LoggingEvent &rEvent)
     QString output;
     QXmlStreamWriter writer(&output);
 
-    writer.writeStartElement("log4j:event");
-    writer.writeAttribute("logger", rEvent.loggerName());
-    writer.writeAttribute("timestamp", QString::number(rEvent.timeStamp()));
-    writer.writeAttribute("level", rEvent.level().toString());
-    writer.writeAttribute("thread", rEvent.threadName());
+    writer.writeStartElement(QStringLiteral("log4j:event"));
+    writer.writeAttribute(QStringLiteral("logger"), rEvent.loggerName());
+    writer.writeAttribute(QStringLiteral("timestamp"), QString::number(rEvent.timeStamp()));
+    writer.writeAttribute(QStringLiteral("level"), rEvent.level().toString());
+    writer.writeAttribute(QStringLiteral("thread"), rEvent.threadName());
 
-    writer.writeStartElement("log4j:message");
+    writer.writeStartElement(QStringLiteral("log4j:message"));
     writer.writeCDATA(rEvent.message());
     writer.writeEndElement();
 
     if (!rEvent.ndc().isEmpty())
     {
-        writer.writeStartElement("log4j:NDC");
+        writer.writeStartElement(QStringLiteral("log4j:NDC"));
         writer.writeCDATA(rEvent.ndc());
         writer.writeEndElement();
     }
@@ -41,12 +41,12 @@ QString XMLLayout::format(const LoggingEvent &rEvent)
     auto props = rEvent.properties();
     if (!props.isEmpty())
     {
-        writer.writeStartElement("log4j:properties");
+        writer.writeStartElement(QStringLiteral("log4j:properties"));
         for (auto pos = props.constBegin(); pos != props.constEnd(); ++pos)
         {
-            writer.writeStartElement("log4j:data");
-            writer.writeAttribute("name", pos.key());
-            writer.writeAttribute("value", pos.value());
+            writer.writeStartElement(QStringLiteral("log4j:data"));
+            writer.writeAttribute(QStringLiteral("name"), pos.key());
+            writer.writeAttribute(QStringLiteral("value"), pos.value());
             writer.writeEndElement();
         }
         writer.writeEndElement();

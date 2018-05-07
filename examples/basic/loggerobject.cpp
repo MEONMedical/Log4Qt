@@ -17,15 +17,15 @@ void LoggerObject::onTimeout()
 {
     logger()->debug() << "Debug output";
     logger()->error() << "Error output";
-    logger()->debug("test");
+    logger()->debug(QStringLiteral("test"));
 
     qCCritical(category1, "a debug message");
 
-    l4qError("an error");
-    l4qDebug("debug info");
+    l4qError(QStringLiteral("an error"));
+    l4qDebug(QStringLiteral("debug info"));
 
     l4qError() << "an error via stream";
-    l4qError("an error with param %1", 10);
+    l4qError(QStringLiteral("an error with param %1"), 10);
     mCounter++;
     if (mCounter >= 10)
         emit exit(0);

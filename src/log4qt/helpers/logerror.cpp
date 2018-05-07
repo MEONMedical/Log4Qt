@@ -125,28 +125,28 @@ QString LogError::toString() const
 
     QString context_symbol = mContext;
     if (!context_symbol.isEmpty() && !mSymbol.isEmpty())
-        context_symbol.append(QLatin1String("::"));
+        context_symbol.append(QStringLiteral("::"));
     context_symbol.append(mSymbol);
 
     if (!context_symbol.isEmpty() || mCode)
     {
-        result.append(QLatin1String(" ("));
+        result.append(QStringLiteral(" ("));
         if (!context_symbol.isEmpty())
             result.append(context_symbol);
         if (!context_symbol.isEmpty() && mCode)
-            result.append(QLatin1String(", "));
+            result.append(QStringLiteral(", "));
         if (mCode)
             result.append(QString::number(mCode));
-        result.append(QLatin1String(")"));
+        result.append(QStringLiteral(")"));
     }
 
     if (!mCausingErrors.isEmpty())
     {
-        QString causing_errors_str = QLatin1String(": ") + mCausingErrors.at(0).toString();
+        QString causing_errors_str = QStringLiteral(": ") + mCausingErrors.at(0).toString();
         int i = 1;
         while (i < mCausingErrors.count())
         {
-            causing_errors_str.append(QLatin1String(", ")).append(mCausingErrors.at(i).toString());
+            causing_errors_str.append(QStringLiteral(", ")).append(mCausingErrors.at(i).toString());
             i++;
         }
         result.append(causing_errors_str);
@@ -212,7 +212,7 @@ QString LogError::insertArgs(const QString &rMessage) const
     */
 
     result = rMessage;
-    for (const auto &arg : mArgs)
+    for (const auto &arg : qAsConst(mArgs))
         result = result.arg(arg.toString());
     return result;
 }

@@ -21,7 +21,7 @@ QString BinaryLayout::format(const LoggingEvent &)
 
 QString BinaryLayout::contentType() const
 {
-    return "application/octet-stream";
+    return QStringLiteral("application/octet-stream");
 }
 
 } // namespace Log4Qt

@@ -115,7 +115,7 @@ void RollingFileAppender::rollOver()
     // it may not exist on first startup, don't output a warning in this case
     if (f.exists())
     {
-        const QString target_file_name = file() + QLatin1String(".1");
+        const QString target_file_name = file() + QStringLiteral(".1");
         if (!renameFile(f, target_file_name))
             return;
     }
