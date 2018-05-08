@@ -206,9 +206,6 @@ static void colorOutputString(HANDLE hConsole, const QString &output)
     }
     // load old colors
     SetConsoleTextAttribute(hConsole, cbi.wAttributes);
-
-    //qDebug() << colorizedMessage;
-
 }
 #endif
 
@@ -276,6 +273,7 @@ void ColorConsoleAppender::close()
     closeInternal();
     ConsoleAppender::close();
 }
+#endif
 
 void ColorConsoleAppender::closeInternal()
 {
@@ -284,10 +282,10 @@ void ColorConsoleAppender::closeInternal()
     if (isClosed())
         return;
 
+#if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
     CloseHandle(hConsole);
-}
-
 #endif
+}
 
 } // namespace Log4Qt
 

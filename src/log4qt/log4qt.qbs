@@ -52,8 +52,6 @@ ProductLibrary {
         "binarytotextlayout.h",
         "binarywriterappender.cpp",
         "binarywriterappender.h",
-        "colorconsoleappender.cpp",
-        "colorconsoleappender.h",
         "consoleappender.cpp",
         "consoleappender.h",
         "dailyfileappender.cpp",
@@ -179,7 +177,9 @@ ProductLibrary {
         condition: qbs.targetOS.contains("windows")
         files: [
             "wdcappender.h",
-            "wdcappender.cpp" ]
+            "wdcappender.cpp",
+            "colorconsoleappender.cpp",
+            "colorconsoleappender.h"]
     }
 
     Group {

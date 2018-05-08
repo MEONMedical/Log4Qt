@@ -10,7 +10,6 @@ HEADERS_BASE += \
            $$PWD/binarylogstream.h \
            $$PWD/binarytotextlayout.h \
            $$PWD/binarywriterappender.h \
-           $$PWD/colorconsoleappender.h \
            $$PWD/consoleappender.h \
            $$PWD/dailyfileappender.h \
            $$PWD/dailyrollingfileappender.h \
@@ -68,7 +67,6 @@ HEADERS_VARIA += \
 SOURCES += $$PWD/appender.cpp \
            $$PWD/appenderskeleton.cpp \
            $$PWD/basicconfigurator.cpp \
-           $$PWD/colorconsoleappender.cpp \
            $$PWD/consoleappender.cpp \
            $$PWD/dailyrollingfileappender.cpp \
            $$PWD/asyncappender.cpp \
@@ -155,6 +153,8 @@ SOURCES += \
 win32 {
     HEADERS_BASE+=$$PWD/wdcappender.h
     SOURCES+=$$PWD/wdcappender.cpp
+    HEADERS_BASE+=$$PWD/colorconsoleappender.h
+    SOURCES+=$$PWD/colorconsoleappender.cpp
 }
 HEADERS += $$HEADERS_BASE \
            $$HEADERS_HELPERS \

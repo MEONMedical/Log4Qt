@@ -12,7 +12,6 @@ set(log4qt_SRCS
     binarylogstream.cpp
     binarytotextlayout.cpp
     binarywriterappender.cpp
-    colorconsoleappender.cpp
     consoleappender.cpp
     dailyfileappender.cpp
     dailyrollingfileappender.cpp
@@ -74,7 +73,6 @@ set(log4qt_HDRS
     binarylogstream.h
     binarytotextlayout.h
     binarywriterappender.h
-    colorconsoleappender.h
     consoleappender.h
     dailyfileappender.h
     dailyrollingfileappender.h
@@ -136,9 +134,11 @@ set(log4qt_HDRS_varia
 if(WIN32)
     list(APPEND log4qt_SRCS
         wdcappender.cpp
+        colorconsoleappender.cpp
     )
     list(APPEND log4qt_HDRS
         wdcappender.h
+        colorconsoleappender.h
     )
 endif()
 
