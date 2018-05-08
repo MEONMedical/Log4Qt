@@ -35,70 +35,65 @@
 
 // if we are in WIN*
 #if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
-#include <windows.h>
+#include <Windows.h>
 #endif
 
 namespace Log4Qt
 {
 
-FileAppender::FileAppender(QObject *pParent) :
-    WriterAppender(pParent),
+FileAppender::FileAppender(QObject *parent) :
+    WriterAppender(parent),
     mAppendFile(false),
     mBufferedIo(true),
-    mFileName(),
-    mpFile(nullptr),
-    mpTextStream(nullptr)
+    mFile(nullptr),
+    mTextStream(nullptr)
 {
 }
 
-
-FileAppender::FileAppender(LayoutSharedPtr pLayout,
-                           const QString &rFileName,
-                           QObject *pParent) :
-    WriterAppender(pLayout, pParent),
+FileAppender::FileAppender(const LayoutSharedPtr &layout,
+                           const QString &fileName,
+                           QObject *parent) :
+    WriterAppender(layout, parent),
     mAppendFile(false),
     mBufferedIo(true),
-    mFileName(rFileName),
-    mpFile(nullptr),
-    mpTextStream(nullptr)
+    mFileName(fileName),
+    mFile(nullptr),
+    mTextStream(nullptr)
 {
 }
 
-
-FileAppender::FileAppender(LayoutSharedPtr pLayout,
-                           const QString &rFileName,
+FileAppender::FileAppender(const LayoutSharedPtr &layout,
+                           const QString &fileName,
                            bool append,
-                           QObject *pParent) :
-    WriterAppender(pLayout, pParent),
+                           QObject *parent) :
+    WriterAppender(layout, parent),
     mAppendFile(append),
     mBufferedIo(true),
-    mFileName(rFileName),
-    mpFile(nullptr),
-    mpTextStream(nullptr)
+    mFileName(fileName),
+    mFile(nullptr),
+    mTextStream(nullptr)
 {
 }
 
 
-FileAppender::FileAppender(LayoutSharedPtr pLayout,
-                           const QString &rFileName,
+FileAppender::FileAppender(const LayoutSharedPtr &layout,
+                           const QString &fileName,
                            bool append,
                            bool buffered,
-                           QObject *pParent) :
-    WriterAppender(pLayout, pParent),
+                           QObject *parent) :
+    WriterAppender(layout, parent),
     mAppendFile(append),
     mBufferedIo(buffered),
-    mFileName(rFileName),
-    mpFile(nullptr),
-    mpTextStream(nullptr)
+    mFileName(fileName),
+    mFile(nullptr),
+    mTextStream(nullptr)
 {
 }
-
 
 FileAppender::~FileAppender()
 {
-    close();
+    closeInternal();
 }
-
 
 void FileAppender::activateOptions()
 {
@@ -117,22 +112,26 @@ void FileAppender::activateOptions()
     WriterAppender::activateOptions();
 }
 
-
 void FileAppender::close()
+{
+    closeInternal();
+    WriterAppender::close();
+
+}
+
+void FileAppender::closeInternal()
 {
     QMutexLocker locker(&mObjectGuard);
 
     if (isClosed())
         return;
 
-    WriterAppender::close();
     closeFile();
 }
 
-
 bool FileAppender::checkEntryConditions() const
 {
-    if (!mpFile || !mpTextStream)
+    if ((mFile == nullptr) || (mTextStream == nullptr))
     {
         LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' without open file"),
                                          APPENDER_NO_OPEN_FILE_ERROR);
@@ -144,28 +143,27 @@ bool FileAppender::checkEntryConditions() const
     return WriterAppender::checkEntryConditions();
 }
 
-
 void FileAppender::closeFile()
 {
-    if (mpFile)
-        logger()->debug("Closing file '%1' for appender '%2'", mpFile->fileName(), name());
+    if (mFile != nullptr)
+        logger()->debug("Closing file '%1' for appender '%2'", mFile->fileName(), name());
 
     setWriter(nullptr);
-    delete mpTextStream;
-    mpTextStream = nullptr;
-    delete mpFile;
-    mpFile = nullptr;
+    delete mTextStream;
+    mTextStream = nullptr;
+    delete mFile;
+    mFile = nullptr;
 }
 
 bool FileAppender::handleIoErrors() const
 {
-    if (mpFile->error() == QFile::NoError)
+    if (mFile->error() == QFile::NoError)
         return false;
 
     LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Unable to write to file '%1' for appender '%2'"),
                                      APPENDER_WRITING_FILE_ERROR);
     e << mFileName << name();
-    e.addCausingError(LogError(mpFile->errorString(), mpFile->error()));
+    e.addCausingError(LogError(mFile->errorString(), mFile->error()));
     logger()->error(e);
     return true;
 }
@@ -173,7 +171,7 @@ bool FileAppender::handleIoErrors() const
 
 void FileAppender::openFile()
 {
-    Q_ASSERT_X(mpFile == nullptr && mpTextStream == nullptr, "FileAppender::openFile()", "Opening file without closing previous file");
+    Q_ASSERT_X(mFile == nullptr && mTextStream == nullptr, "FileAppender::openFile()", "Opening file without closing previous file");
 
     QFileInfo file_info(mFileName);
     QDir parent_dir = file_info.dir();
@@ -192,7 +190,7 @@ void FileAppender::openFile()
         mFileName = QString::fromWCharArray(buffer);
 #endif
 
-    mpFile = new QFile(mFileName);
+    mFile = new QFile(mFileName);
     QFile::OpenMode mode = QIODevice::WriteOnly | QIODevice::Text;
     if (mAppendFile)
         mode |= QIODevice::Append;
@@ -200,46 +198,45 @@ void FileAppender::openFile()
         mode |= QIODevice::Truncate;
     if (!mBufferedIo)
         mode |= QIODevice::Unbuffered;
-    if (!mpFile->open(mode))
+    if (!mFile->open(mode))
     {
         LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Unable to open file '%1' for appender '%2'"),
                                          APPENDER_OPENING_FILE_ERROR);
         e << mFileName << name();
-        e.addCausingError(LogError(mpFile->errorString(), mpFile->error()));
+        e.addCausingError(LogError(mFile->errorString(), mFile->error()));
         logger()->error(e);
         return;
     }
-    mpTextStream = new QTextStream(mpFile);
-    setWriter(mpTextStream);
-    logger()->debug("Opened file '%1' for appender '%2'", mpFile->fileName(), name());
+    mTextStream = new QTextStream(mFile);
+    setWriter(mTextStream);
+    logger()->debug("Opened file '%1' for appender '%2'", mFile->fileName(), name());
 }
 
 
-bool FileAppender::removeFile(QFile &rFile) const
+bool FileAppender::removeFile(QFile &file) const
 {
-    if (rFile.remove())
+    if (file.remove())
         return true;
 
     LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Unable to remove file '%1' for appender '%2'"),
                                      APPENDER_REMOVE_FILE_ERROR);
-    e << rFile.fileName() << name();
-    e.addCausingError(LogError(rFile.errorString(), rFile.error()));
+    e << file.fileName() << name();
+    e.addCausingError(LogError(file.errorString(), file.error()));
     logger()->error(e);
     return false;
 }
 
-
-bool FileAppender::renameFile(QFile &rFile,
-                              const QString &rFileName) const
+bool FileAppender::renameFile(QFile &file,
+                              const QString &fileName) const
 {
-    logger()->debug("Renaming file '%1' to '%2'", rFile.fileName(), rFileName);
-    if (rFile.rename(rFileName))
+    logger()->debug("Renaming file '%1' to '%2'", file.fileName(), fileName);
+    if (file.rename(fileName))
         return true;
 
     LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Unable to rename file '%1' to '%2' for appender '%3'"),
                                      APPENDER_RENAMING_FILE_ERROR);
-    e << rFile.fileName() << rFileName << name();
-    e.addCausingError(LogError(rFile.errorString(), rFile.error()));
+    e << file.fileName() << fileName << name();
+    e.addCausingError(LogError(file.errorString(), file.error()));
     logger()->error(e);
     return false;
 }

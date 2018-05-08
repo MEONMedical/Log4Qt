@@ -36,11 +36,6 @@ namespace Log4Qt
 MainThreadAppender::MainThreadAppender(QObject *parent) : AppenderSkeleton(parent)
 {}
 
-MainThreadAppender::~MainThreadAppender()
-{
-    close();
-}
-
 bool MainThreadAppender::requiresLayout() const
 {
     return false;
@@ -50,24 +45,16 @@ void MainThreadAppender::activateOptions()
 {
 }
 
-void MainThreadAppender::close()
-{
-}
-
-void MainThreadAppender::append(const LoggingEvent &rEvent)
+void MainThreadAppender::append(const LoggingEvent &event)
 {
     QReadLocker locker(&mAppenderGuard);
 
     for (auto &&pAppender : qAsConst(mAppenders))
     {
         if (QThread::currentThread() != qApp->thread())
-        {
-            LoggingEvent *event = new LoggingEvent(rEvent);
-            qApp->postEvent(pAppender.data(), event);
-
-        }
+            qApp->postEvent(pAppender.data(), new LoggingEvent(event));
         else
-            pAppender->doAppend(rEvent);
+            pAppender->doAppend(event);
     }
 }
 

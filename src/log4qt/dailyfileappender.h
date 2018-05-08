@@ -44,18 +44,17 @@ class  LOG4QT_EXPORT DailyFileAppender : public FileAppender
     //! The property holds the date pattern used by the appender.
     Q_PROPERTY(QString datePattern READ datePattern WRITE setDatePattern)
 public:
-    explicit DailyFileAppender(QObject *pParent = nullptr);
-    DailyFileAppender(LayoutSharedPtr pLayout, const QString &rFileName, const QString &rDatePattern = QString(), QObject *pParent = nullptr);
-    virtual ~DailyFileAppender();
+    explicit DailyFileAppender(QObject *parent = nullptr);
+    DailyFileAppender(const LayoutSharedPtr &layout, const QString &fileName, const QString &datePattern = QString(), QObject *parent = nullptr);
 
     QString datePattern() const;
-    void setDatePattern(const QString &rDatePattern);
+    void setDatePattern(const QString &datePattern);
 
-    virtual void activateOptions() override;
+    void activateOptions() override;
 
     void setLogFileForCurrentDay();
 
-    virtual void append(const LoggingEvent &rEvent) override;
+    void append(const LoggingEvent &event) override;
 
 private:
     Q_DISABLE_COPY(DailyFileAppender)

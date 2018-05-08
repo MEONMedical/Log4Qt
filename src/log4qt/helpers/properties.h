@@ -45,17 +45,17 @@ public:
 
 public:
     Properties *defaultProperties() const;
-    QString property(const QString &rKey) const;
-    QString property(const QString &rKey,
-                     const QString &rDefaultValue) const;
-    void setDefaultProperties(Properties *pDefault);
-    void setProperty(const QString &rKey,
-                     const QString &rValue);
+    QString property(const QString &key) const;
+    QString property(const QString &key,
+                     const QString &defaultValue) const;
+    void setDefaultProperties(Properties *defaultProperties);
+    void setProperty(const QString &key,
+                     const QString &value);
 
     void load(QIODevice *pDevice);
 
     /*!
-     * Reads all child keys from the QSettings object \a rSettings and
+     * Reads all child keys from the QSettings object \a settings and
      * inserts them into this object. The value is created using
      * QVariant::toString(). Types that do not support toString() are
      * resulting in an empty string.
@@ -73,15 +73,15 @@ public:
      * // properties (("Package", "Full"), ("Background", ""), ("Support", "true"))
      * \endcode
      */
-    void load(const QSettings &rSettings);
+    void load(const QSettings &settings);
 
     QStringList propertyNames() const;
 
 private:
-    void parseProperty(const QString &rProperty,
+    void parseProperty(const QString &property,
                        int line);
-    static int hexDigitValue(const QChar &rDigit);
-    static QString trimLeft(const QString &rString);
+    static int hexDigitValue(const QChar &digit);
+    static QString trimLeft(const QString &line);
 
 private:
     Properties *mpDefaultProperties;
@@ -101,17 +101,16 @@ inline Properties *Properties::defaultProperties() const
     return mpDefaultProperties;
 }
 
-inline void Properties::setDefaultProperties(Properties *pDefaultProperties)
+inline void Properties::setDefaultProperties(Properties *defaultProperties)
 {
-    mpDefaultProperties = pDefaultProperties;
+    mpDefaultProperties = defaultProperties;
 }
 
-inline void Properties::setProperty(const QString &rKey,
-                                    const QString &rValue)
+inline void Properties::setProperty(const QString &key,
+                                    const QString &value)
 {
-    insert(rKey, rValue);
+    insert(key, value);
 }
-
 
 } // namespace Log4Qt
 

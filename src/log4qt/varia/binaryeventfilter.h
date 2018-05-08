@@ -16,12 +16,11 @@ public:
     bool acceptBinaryEvents() const;
     void setAcceptBinaryEvents(bool accept);
 
-    virtual Decision decide(const LoggingEvent &rEvent) const override;
+    Decision decide(const LoggingEvent &event) const override;
 
 private:
     bool mAcceptBinaryEvents;
 };
-
 
 inline bool BinaryEventFilter::acceptBinaryEvents() const
 {

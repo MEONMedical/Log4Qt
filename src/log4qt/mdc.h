@@ -34,7 +34,6 @@
 namespace Log4Qt
 {
 
-
 /*!
      * \brief The class MDC implements a mapped diagnostic context.
      *
@@ -47,7 +46,7 @@ private:
     Q_DISABLE_COPY(MDC)
 
 public:
-    static QString get(const QString &rKey);
+    static QString get(const QString &key);
     static QHash<QString, QString> context();
 
     /*!
@@ -55,8 +54,8 @@ public:
      */
     static MDC *instance();
 
-    static void put(const QString &rKey, const QString &rValue);
-    static void remove(const QString &rKey);
+    static void put(const QString &key, const QString &value);
+    static void remove(const QString &key);
 
 private:
     static QHash<QString, QString> *localData();
@@ -65,18 +64,17 @@ private:
     QThreadStorage<QHash<QString, QString> *> mHash;
 };
 
-inline MDC::MDC() :
-    mHash()
+inline MDC::MDC()
 {}
 
-inline void MDC::put(const QString &rKey, const QString &rValue)
+inline void MDC::put(const QString &key, const QString &value)
 {
-    localData()->insert(rKey, rValue);
+    localData()->insert(key, value);
 }
 
-inline void MDC::remove(const QString &rKey)
+inline void MDC::remove(const QString &key)
 {
-    localData()->remove(rKey);
+    localData()->remove(key);
 }
 
 

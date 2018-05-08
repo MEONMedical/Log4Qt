@@ -4,25 +4,25 @@
 #include "loggingevent.h"
 
 #ifdef Q_OS_WIN
-#include <windows.h>
+#include <Windows.h>
 #else
-static void OutputDebugString(const wchar_t *)
+static void OutputDebugString(const wchar_t *lpOutputString)
 {
+    Q_UNUSED(lpOutputString)
 }
 #endif
 
 namespace Log4Qt
 {
 
-WDCAppender::WDCAppender(QObject *pParent)
-    : AppenderSkeleton(false, pParent)
+WDCAppender::WDCAppender(QObject *parent)
+    : AppenderSkeleton(false, parent)
 {
 }
 
-WDCAppender::WDCAppender(LayoutSharedPtr pLayout, QObject *pParent)
-    : AppenderSkeleton(false, pParent)
+WDCAppender::WDCAppender(const LayoutSharedPtr &layout, QObject *parent)
+    : AppenderSkeleton(false, layout, parent)
 {
-    setLayout(pLayout);
 }
 
 bool WDCAppender::requiresLayout() const
@@ -30,11 +30,11 @@ bool WDCAppender::requiresLayout() const
     return true;
 }
 
-void WDCAppender::append(const LoggingEvent &rEvent)
+void WDCAppender::append(const LoggingEvent &event)
 {
     Q_ASSERT_X(layout(), "WDCAppender::append()", "Layout must not be null");
 
-    QString message(layout()->format(rEvent));
+    QString message(layout()->format(event));
 
     OutputDebugString(message.toStdWString().c_str());
 }

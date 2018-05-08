@@ -42,12 +42,12 @@ class LOG4QT_EXPORT AppenderAttachable
 
 public:
     AppenderAttachable();
-    virtual ~AppenderAttachable() {}
+    virtual ~AppenderAttachable() = default;
 
     /*!
      * Add an appender.
      */
-    virtual void addAppender(AppenderSharedPtr pAppender);
+    virtual void addAppender(const AppenderSharedPtr &appender);
 
     /*!
      * Get all previously added appenders as an Enumeration.
@@ -57,13 +57,13 @@ public:
     /*!
      * Get an appender by name.
      */
-    virtual AppenderSharedPtr appender(const QString &rName) const;
+    virtual AppenderSharedPtr appender(const QString &name) const;
 
     /*!
      Returns <code>true</code> if the specified appender is in the
      list of attached appenders, <code>false</code> otherwise.
     */
-    virtual bool isAttached(AppenderSharedPtr pAppender) const;
+    virtual bool isAttached(const AppenderSharedPtr &appender) const;
 
     /*!
      * Removes all appenders that have been previously added from this
@@ -80,13 +80,13 @@ public:
     /*!
      * Remove the appender passed as parameter from the list of appenders.
      */
-    virtual void removeAppender(AppenderSharedPtr pAppender);
+    virtual void removeAppender(const AppenderSharedPtr &appender);
 
     /*!
      * Remove the appender with the name passed as parameter from the
      * list of appenders.
      */
-    virtual void removeAppender(const QString &rName);
+    virtual void removeAppender(const QString &name);
 
 protected:
     QList<AppenderSharedPtr> mAppenders;

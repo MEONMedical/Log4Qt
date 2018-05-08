@@ -27,27 +27,18 @@
 namespace Log4Qt
 {
 
-ListAppender::ListAppender(QObject *pParent) :
-    AppenderSkeleton(pParent),
+ListAppender::ListAppender(QObject *parent) :
+    AppenderSkeleton(parent),
     mConfiguratorList(false),
-    mList(),
     mMaxCount(0)
 {
 }
 
-
-ListAppender::~ListAppender()
-{
-}
-
-
 QList<LoggingEvent> ListAppender::list() const
 {
     QMutexLocker locker(&mObjectGuard);
-
     return mList;
 }
-
 
 void ListAppender::setMaxCount(int n)
 {
@@ -62,7 +53,6 @@ void ListAppender::setMaxCount(int n)
     ensureMaxCount();
 }
 
-
 QList<LoggingEvent> ListAppender::clearList()
 {
     QMutexLocker locker(&mObjectGuard);
@@ -72,10 +62,10 @@ QList<LoggingEvent> ListAppender::clearList()
     return result;
 }
 
-void ListAppender::append(const LoggingEvent &rEvent)
+void ListAppender::append(const LoggingEvent &event)
 {
     if ((mMaxCount <= 0) || (mList.size() < mMaxCount))
-        mList << rEvent;
+        mList << event;
 }
 
 void ListAppender::ensureMaxCount()

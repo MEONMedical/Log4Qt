@@ -37,8 +37,8 @@ namespace Log4Qt
 ConfiguratorHelper::ConfiguratorHelper() :
     mObjectGuard(),
     mConfigurationFile(),
-    mpConfigureFunc(nullptr),
-    mpConfigurationFileWatch(nullptr),
+    mConfigureFunc(nullptr),
+    mConfigurationFileWatch(nullptr),
     mConfigureError()
 {
 }
@@ -46,17 +46,17 @@ ConfiguratorHelper::ConfiguratorHelper() :
 
 ConfiguratorHelper::~ConfiguratorHelper()
 {
-    delete mpConfigurationFileWatch;
+    delete mConfigurationFileWatch;
 }
 
 LOG4QT_IMPLEMENT_INSTANCE(ConfiguratorHelper)
 
 void ConfiguratorHelper::doConfigurationFileChanged(const QString &fileName)
 {
-    if (!mpConfigureFunc ||
+    if (!mConfigureFunc ||
         !mConfigurationFile.exists(mConfigurationFile.absoluteFilePath()))
         return;
-    mpConfigureFunc(fileName);
+    mConfigureFunc(fileName);
     emit configurationFileChanged(fileName, mConfigureError.count() > 0);
 }
 
@@ -68,34 +68,34 @@ void ConfiguratorHelper::doConfigurationFileDirectoryChanged(const QString &path
 
 void ConfiguratorHelper::tryToReAddConfigurationFile()
 {
-    if (!mpConfigurationFileWatch->files().contains(mConfigurationFile.absoluteFilePath()))
-        mpConfigurationFileWatch->addPath(mConfigurationFile.absoluteFilePath());
+    if (!mConfigurationFileWatch->files().contains(mConfigurationFile.absoluteFilePath()))
+        mConfigurationFileWatch->addPath(mConfigurationFile.absoluteFilePath());
 }
 
-void ConfiguratorHelper::doSetConfigurationFile(const QString &rFileName,
+void ConfiguratorHelper::doSetConfigurationFile(const QString &fileName,
         ConfigureFunc pConfigureFunc)
 {
     QMutexLocker locker(&mObjectGuard);
-    mConfigurationFile.setFile(rFileName);
-    mpConfigureFunc = nullptr;
-    delete mpConfigurationFileWatch;
-    mpConfigurationFileWatch = nullptr;
-    if (rFileName.isEmpty() || !QFileInfo::exists(rFileName))
+    mConfigurationFile.setFile(fileName);
+    mConfigureFunc = nullptr;
+    delete mConfigurationFileWatch;
+    mConfigurationFileWatch = nullptr;
+    if (fileName.isEmpty() || !QFileInfo::exists(fileName))
         return;
 
-    mpConfigureFunc = pConfigureFunc;
-    mpConfigurationFileWatch = new QFileSystemWatcher();
+    mConfigureFunc = pConfigureFunc;
+    mConfigurationFileWatch = new QFileSystemWatcher();
 
-    if (mpConfigurationFileWatch->addPath(mConfigurationFile.absoluteFilePath()))
+    if (mConfigurationFileWatch->addPath(mConfigurationFile.absoluteFilePath()))
     {
-        mpConfigurationFileWatch->addPath(mConfigurationFile.absolutePath());
-        connect(mpConfigurationFileWatch, &QFileSystemWatcher::fileChanged,
+        mConfigurationFileWatch->addPath(mConfigurationFile.absolutePath());
+        connect(mConfigurationFileWatch, &QFileSystemWatcher::fileChanged,
                 this, &ConfiguratorHelper::doConfigurationFileChanged);
-        connect(mpConfigurationFileWatch, &QFileSystemWatcher::directoryChanged,
+        connect(mConfigurationFileWatch, &QFileSystemWatcher::directoryChanged,
                 this, &ConfiguratorHelper::doConfigurationFileDirectoryChanged);
     }
     else
-        qWarning() << "Add Path '" << rFileName << "' to file system watcher failed!";
+        qWarning() << "Add Path '" << fileName << "' to file system watcher failed!";
 }
 
 } // namespace Log4Qt

@@ -42,57 +42,51 @@ class  LOG4QT_EXPORT Hierarchy : public LoggerRepository
 {
 public:
     Hierarchy();
-    virtual ~Hierarchy();
-
+    ~Hierarchy() override;
 
 public:
-    virtual bool exists(const QString &rName) const override;
-    virtual Logger *logger(const QString &rName) override;
-    virtual QList<Logger *> loggers() const override;
-    virtual Logger *rootLogger() const override;
-    virtual Level threshold() const override;
-    virtual void setThreshold(Level level) override;
-    virtual void setThreshold(const QString &rThreshold) override;
+    bool exists(const QString &name) const override;
+    Logger *logger(const QString &name) override;
+    QList<Logger *> loggers() const override;
+    Logger *rootLogger() const override;
+    Level threshold() const override;
+    void setThreshold(Level level) override;
+    void setThreshold(const QString &threshold) override;
 
-    virtual bool isDisabled(Level level) override;
-    virtual void resetConfiguration() override;
-    virtual void shutdown() override;
+    bool isDisabled(Level level) override;
+    void resetConfiguration() override;
+    void shutdown() override;
 
 private:
-    Logger *createLogger(const QString &rName);
-    void resetLogger(Logger *pLogger, Level level) const;
+    Logger *createLogger(const QString &name);
+    void resetLogger(Logger *logger, Level level) const;
 
 private:
     mutable QReadWriteLock mObjectGuard;
     QHash<QString, Logger *> mLoggers;
     Level mThreshold;
-    Logger *mpRootLogger;
+    Logger *mRootLogger;
 };
 
 inline Logger *Hierarchy::rootLogger() const
 {
-    // QReadLocker locker(&mObjectGuard); // Constant for object lifetime
-    return mpRootLogger;
+    return mRootLogger;
 }
 
 inline Level Hierarchy::threshold() const
 {
-    // QReadLocker locker(&mObjectGuard); // Level is threadsafe
     return mThreshold;
 }
 
 inline void Hierarchy::setThreshold(Level level)
 {
-    // QReadLocker locker(&mObjectGuard); // Level is threadsafe
     mThreshold = level;
 }
 
 inline bool Hierarchy::isDisabled(Level level)
 {
-    // QReadLocker locker(&mObjectGuard); // Level is threadsafe
     return level < mThreshold;
 }
-
 
 } // namespace Log4Qt
 

@@ -44,75 +44,75 @@ private:
     OptionConverter();
     Q_DISABLE_COPY(OptionConverter)
 public:
-    static QString findAndSubst(const Properties &rProperties,
-                                const QString &rKey);
+    static QString findAndSubst(const Properties &properties,
+                                const QString &key);
 
     /*!
-     * Returns the JAVA class name \a rClassName as C++ class name by
+     * Returns the JAVA class name \a className as C++ class name by
      * replacing all . characters with ::.
      */
-    static QString classNameJavaToCpp(const QString &rClassName);
+    static QString classNameJavaToCpp(const QString &className);
 
     /*!
-     * Converts the option \a rOption to a boolean value. Valid strings
+     * Converts the option \a option to a boolean value. Valid strings
      * for true are "true", "enabled" and "1". Valid strings
      * for false are "false", "disabled" and "0". If the conversion is
-     * successful, the target is returned and \a p_ok is set to true.
-     * Otherwise an error is written to the log, \a p_ok is set to false
+     * successful, the target is returned and \a ok is set to true.
+     * Otherwise an error is written to the log, \a ok is set to false
      * and false is returned.
      */
-    static bool toBoolean(const QString &rOption,
-                          bool *p_ok = nullptr);
+    static bool toBoolean(const QString &option,
+                          bool *ok = nullptr);
 
-    static bool toBoolean(const QString &rOption,
-                          bool default_value);
+    static bool toBoolean(const QString &option,
+                          bool defaultValue);
 
     /*!
-     * Converts the option string \a rOption to a file size. The string can
+     * Converts the option string \a option to a file size. The string can
      * be a positive integer followed by an optional unit suffix "KB", "MB"
      * or "GB". If a unit suffix is specified the the integer is
      * interpreted as kilobytes, megabytes or gigabytes. If the conversion
-     * is successful, the size is returned and \a p_ok is set to true.
-     * Otherwise an error is written to the log, \a p_ok is set to false
+     * is successful, the size is returned and \a ok is set to true.
+     * Otherwise an error is written to the log, \a ok is set to false
      * and 0 is returned.
      */
-    static qint64 toFileSize(const QString &rOption,
-                             bool *p_ok = nullptr);
+    static qint64 toFileSize(const QString &option,
+                             bool *ok = nullptr);
 
     /*!
-        * Converts the option \a rOption to a integer value using
+        * Converts the option \a option to a integer value using
         * QString::toInt(). If the conversion is successful, the integer is
-        * returned and \a p_ok is set to true. Otherwise an error is written
-        * to the log, \a p_ok is set to false and 0 is returned.
+        * returned and \a ok is set to true. Otherwise an error is written
+        * to the log, \a ok is set to false and 0 is returned.
         */
-    static int toInt(const QString &rOption,
-                     bool *p_ok = nullptr);
+    static int toInt(const QString &option,
+                     bool *ok = nullptr);
 
     /*!
-     * Converts the option \a rOption to a level value using
+     * Converts the option \a option to a level value using
      * Level::fromString(). If the conversion is successful, the level
-     * is returned and \a p_ok is set to true. Otherwise an error is
-     * written to the log, \a p_ok is set to false and a level with
+     * is returned and \a ok is set to true. Otherwise an error is
+     * written to the log, \a ok is set to false and a level with
      * the value Level::NULL_INT is returned.
      *
      * \sa Level::fromString()
      */
-    static Level toLevel(const QString &rOption,
-                         bool *p_ok = nullptr);
+    static Level toLevel(const QString &option,
+                         bool *ok = nullptr);
 
-    static Level toLevel(const QString &rOption,
-                         const Level &rDefaultValue);
+    static Level toLevel(const QString &option,
+                         const Level &defaultValue);
 
     /*!
-     * Converts the option \a rOption to a ConsoleAppender::Target value.
-     * Valid strings for \a rOption are "System.out", "STDOUT_TARGET",
+     * Converts the option \a option to a ConsoleAppender::Target value.
+     * Valid strings for \a option are "System.out", "STDOUT_TARGET",
      * "System.err" and "STDERR_TARGET". If the conversion is successful,
-     * the target is returned and \a p_ok is set to true. Otherwise an
-     * error is written to the log, \a p_ok is set to false and
+     * the target is returned and \a ok is set to true. Otherwise an
+     * error is written to the log, \a ok is set to false and
      * ConsoleAppender::STDOUT_TARGET is returned.
      */
-    static int toTarget(const QString &rOption,
-                        bool *p_ok = nullptr);
+    static int toTarget(const QString &option,
+                        bool *ok = nullptr);
 };
 
 } // namespace Log4Qt

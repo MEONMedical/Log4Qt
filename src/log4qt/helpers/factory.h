@@ -94,46 +94,46 @@ private:
 
 public:
     /*!
-     * Creates an object for the class \a rAppenderClassName on the heap
+     * Creates an object for the class \a appenderClassName on the heap
      * and returns a pointer to it. If the class has no registered factory
      * function a null pointer is returned.
      *
      * \sa registerAppender(), unregisterAppender(), registeredAppenders()
      */
-    static Appender *createAppender(const QString &rAppenderClassName);
+    static Appender *createAppender(const QString &appenderClassName);
 
     /*!
      * This is an overloaded member function, provided for convenience.
      */
-    static Appender *createAppender(const char *pAppenderClassName);
+    static Appender *createAppender(const char *appenderClassName);
 
     /*!
-     * Creates an object for the class \a rFilterClassName on the heap
+     * Creates an object for the class \a filterClassName on the heap
      * and returns a pointer to it. If the class has no registered factory
      * function a null pointer is returned.
      *
      * \sa registerFilter(), unregisterFilter(), registeredFilters()
      */
-    static Filter *createFilter(const QString &rFilterClassName);
+    static Filter *createFilter(const QString &filterClassName);
 
     /*!
      * This is an overloaded member function, provided for convenience.
      */
-    static Filter *createFilter(const char *pFilterClassName);
+    static Filter *createFilter(const char *filterClassName);
 
     /*!
-     * Creates an object for the class \a rLayoutClassName on the heap
+     * Creates an object for the class \a layoutClassName on the heap
      * and returns a pointer to it. If the class has no registered factory
      * function a null pointer is returned.
      *
      * \sa registerLayout(), unregisterLayout(), registeredLayouts()
      */
-    static Layout *createLayout(const QString &rLayoutClassName);
+    static Layout *createLayout(const QString &layoutClassName);
 
     /*!
      * This is an overloaded member function, provided for convenience.
      */
-    static Layout *createLayout(const char *pLayoutClassName);
+    static Layout *createLayout(const char *layoutClassName);
 
     /*!
      * Returns the Factory instance.
@@ -141,55 +141,55 @@ public:
     static Factory *instance();
 
     /*!
-    * Registers the Appender factory function \a pAppenderFactoryFunc
-    * for the class \a rAppenderClassName. If a registered factory
+    * Registers the Appender factory function \a appenderFactoryFunc
+    * for the class \a appenderClassName. If a registered factory
     * function exists for the class, it is replaced with
-    * \a pAppenderFactoryFunc.
+    * \a appenderFactoryFunc.
     *
     * \sa unregisterAppender(), registeredAppenders(), createAppender()
     */
-    static void registerAppender(const QString &rAppenderClassName,
-                                 AppenderFactoryFunc pAppenderFactoryFunc);
+    static void registerAppender(const QString &appenderClassName,
+                                 AppenderFactoryFunc appenderFactoryFunc);
 
     /*!
      * This is an overloaded member function, provided for convenience.
      */
-    static void registerAppender(const char *pAppenderClassName,
-                                 AppenderFactoryFunc pAppenderFactoryFunc);
+    static void registerAppender(const char *appenderClassName,
+                                 AppenderFactoryFunc appenderFactoryFunc);
 
     /*!
-     * Registers the Filter factory function \a pFilterFactoryFunc
-     * for the class \a rFilterClassName. If a registered factory
+     * Registers the Filter factory function \a filterFactoryFunc
+     * for the class \a filterClassName. If a registered factory
      * function exists for the class, it is replaced with
-     * \a pFilterFactoryFunc.
+     * \a filterFactoryFunc.
      *
      * \sa unregisterFilter(), registeredFilters(), createFilter()
      */
-    static void registerFilter(const QString &rFilterClassName,
-                               FilterFactoryFunc pFilterFactoryFunc);
+    static void registerFilter(const QString &filterClassName,
+                               FilterFactoryFunc filterFactoryFunc);
 
     /*!
      * This is an overloaded member function, provided for convenience.
      */
-    static void registerFilter(const char *pFilterClassName,
-                               FilterFactoryFunc pFilterFactoryFunc);
+    static void registerFilter(const char *filterClassName,
+                               FilterFactoryFunc filterFactoryFunc);
 
     /*!
-     * Registers the Layout factory function \a pLayoutFactoryFunc
-     * for the class \a rLayoutClassName. If a registered factory
+     * Registers the Layout factory function \a layoutFactoryFunc
+     * for the class \a filterClassName. If a registered factory
      * function exists for the class, it is replaced with
-     * \a pLayoutFactoryFunc.
+     * \a layoutFactoryFunc.
      *
      * \sa unregisterLayout(), registeredLayout(), createLayout()
      */
-    static void registerLayout(const QString &rLayoutClassName,
-                               LayoutFactoryFunc pLayoutFactoryFunc);
+    static void registerLayout(const QString &layoutClassName,
+                               LayoutFactoryFunc layoutFactoryFunc);
 
     /*!
      * This is an overloaded member function, provided for convenience.
      */
-    static void registerLayout(const char *pLayoutClassName,
-                               LayoutFactoryFunc pLayoutFactoryFunc);
+    static void registerLayout(const char *layoutClassName,
+                               LayoutFactoryFunc layoutFactoryFunc);
 
     /*!
     * Returns a list of the class names for registered Appender factory
@@ -223,16 +223,16 @@ public:
      *
      * \sa OptionConverter
      */
-    static void setObjectProperty(QObject *pObject,
-                                  const QString &rProperty,
-                                  const QString &rValue);
+    static void setObjectProperty(QObject *object,
+                                  const QString &property,
+                                  const QString &value);
 
     /*!
      * This is an overloaded member function, provided for convenience.
      */
-    static void setObjectProperty(QObject *pObject,
-                                  const char *pProperty,
-                                  const QString &rValue);
+    static void setObjectProperty(QObject *object,
+                                  const char *property,
+                                  const QString &value);
 
     /*!
     * Unregisters the Appender factory function for the class
@@ -240,61 +240,61 @@ public:
     *
     * \sa registerAppender(), registeredAppenders()
     */
-    static void unregisterAppender(const QString &rAppenderClassName);
+    static void unregisterAppender(const QString &appenderClassName);
 
     /*!
      * This is an overloaded member function, provided for convenience.
      */
-    static void unregisterAppender(const char *pAppenderClassName);
+    static void unregisterAppender(const char *appenderClassName);
 
     /*!
      * Unregisters the Filter factory function for the class
-     * \a rFilterClassName.
+     * \a filterClassName.
      *
      * \sa registerFilter(), registeredFilters()
      */
-    static void unregisterFilter(const QString &rFilterClassName);
+    static void unregisterFilter(const QString &filterClassName);
 
     /*!
      * This is an overloaded member function, provided for convenience.
      */
-    static void unregisterFilter(const char *pFilterClassName);
+    static void unregisterFilter(const char *filterClassName);
 
     /*!
      * Unregisters the Layout factory function for the class
-     * \a rLayoutClassName.
+     * \a filterClassName.
      *
      * \sa registerLayout(), registeredLayouts()
      */
-    static void unregisterLayout(const QString &rLayoutClassName);
+    static void unregisterLayout(const QString &filterClassName);
 
     /*!
      * This is an overloaded member function, provided for convenience.
      */
-    static void unregisterLayout(const char *pLayoutClassName);
+    static void unregisterLayout(const char *layoutClassName);
 
 private:
-    Appender *doCreateAppender(const QString &rAppenderClassName);
-    Filter *doCreateFilter(const QString &rFilterClassName);
-    Layout *doCreateLayout(const QString &rLayoutClassName);
-    void doRegisterAppender(const QString &rAppenderClassName,
-                            AppenderFactoryFunc pAppenderFactoryFunc);
-    void doRegisterFilter(const QString &rFilterClassName,
-                          FilterFactoryFunc pFilterFactoryFunc);
-    void doRegisterLayout(const QString &rLayoutClassName,
-                          LayoutFactoryFunc pLayoutFactoryFunc);
-    void doSetObjectProperty(QObject *pObject,
-                             const QString &rProperty,
-                             const QString &rValue);
-    void doUnregisterAppender(const QString &rAppenderClassName);
-    void doUnregisterFilter(const QString &rFilterClassName);
-    void doUnregisterLayout(const QString &rLayoutClassName);
+    Appender *doCreateAppender(const QString &appenderClassName);
+    Filter *doCreateFilter(const QString &filterClassName);
+    Layout *doCreateLayout(const QString &layoutClassName);
+    void doRegisterAppender(const QString &appenderClassName,
+                            AppenderFactoryFunc appenderFactoryFunc);
+    void doRegisterFilter(const QString &filterClassName,
+                          FilterFactoryFunc filterFactoryFunc);
+    void doRegisterLayout(const QString &filterClassName,
+                          LayoutFactoryFunc layoutFactoryFunc);
+    void doSetObjectProperty(QObject *object,
+                             const QString &property,
+                             const QString &value);
+    void doUnregisterAppender(const QString &appenderClassName);
+    void doUnregisterFilter(const QString &filterClassName);
+    void doUnregisterLayout(const QString &filterClassName);
     void registerDefaultAppenders();
     void registerDefaultFilters();
     void registerDefaultLayouts();
-    bool validateObjectProperty(QMetaProperty &rMetaProperty,
-                                const QString &rProperty,
-                                QObject *pObject);
+    bool validateObjectProperty(QMetaProperty &metaProperty,
+                                const QString &property,
+                                QObject *object);
 
 private:
     mutable QMutex mObjectGuard;
@@ -303,70 +303,70 @@ private:
     QHash<QString, LayoutFactoryFunc> mLayoutRegistry;
 };
 
-inline Appender *Factory::createAppender(const QString &rAppenderClassName)
+inline Appender *Factory::createAppender(const QString &appenderClassName)
 {
-    return instance()->doCreateAppender(rAppenderClassName);
+    return instance()->doCreateAppender(appenderClassName);
 }
 
-inline Appender *Factory::createAppender(const char *pAppenderClassName)
+inline Appender *Factory::createAppender(const char *appenderClassName)
 {
-    return instance()->doCreateAppender(QLatin1String(pAppenderClassName));
+    return instance()->doCreateAppender(QLatin1String(appenderClassName));
 }
 
-inline Filter *Factory::createFilter(const QString &rFilterClassName)
+inline Filter *Factory::createFilter(const QString &filterClassName)
 {
-    return instance()->doCreateFilter(rFilterClassName);
+    return instance()->doCreateFilter(filterClassName);
 }
 
-inline Filter *Factory::createFilter(const char *pFilterClassName)
+inline Filter *Factory::createFilter(const char *layoutClassName)
 {
-    return instance()->doCreateFilter(QLatin1String(pFilterClassName));
+    return instance()->doCreateFilter(QLatin1String(layoutClassName));
 }
 
-inline Layout *Factory::createLayout(const QString &rLayoutClassName)
+inline Layout *Factory::createLayout(const QString &layoutClassName)
 {
-    return instance()->doCreateLayout(rLayoutClassName);
+    return instance()->doCreateLayout(layoutClassName);
 }
 
-inline Layout *Factory::createLayout(const char *pLayoutClassName)
+inline Layout *Factory::createLayout(const char *layoutClassName)
 {
-    return instance()->doCreateLayout(QLatin1String(pLayoutClassName));
+    return instance()->doCreateLayout(QLatin1String(layoutClassName));
 }
 
-inline void Factory::registerAppender(const QString &rAppenderClassName,
-                                      AppenderFactoryFunc pAppenderFactoryFunc)
+inline void Factory::registerAppender(const QString &appenderClassName,
+                                      AppenderFactoryFunc appenderFactoryFunc)
 {
-    instance()->doRegisterAppender(rAppenderClassName, pAppenderFactoryFunc);
+    instance()->doRegisterAppender(appenderClassName, appenderFactoryFunc);
 }
 
-inline void Factory::registerAppender(const char *pAppenderClassName,
-                                      AppenderFactoryFunc pAppenderFactoryFunc)
+inline void Factory::registerAppender(const char *appenderClassName,
+                                      AppenderFactoryFunc appenderFactoryFunc)
 {
-    instance()->doRegisterAppender(QLatin1String(pAppenderClassName), pAppenderFactoryFunc);
+    instance()->doRegisterAppender(QLatin1String(appenderClassName), appenderFactoryFunc);
 }
 
-inline void Factory::registerFilter(const QString &rFilterClassName,
-                                    FilterFactoryFunc pFilterFactoryFunc)
+inline void Factory::registerFilter(const QString &filterClassName,
+                                    FilterFactoryFunc filterFactoryFunc)
 {
-    instance()->doRegisterFilter(rFilterClassName, pFilterFactoryFunc);
+    instance()->doRegisterFilter(filterClassName, filterFactoryFunc);
 }
 
-inline void Factory::registerFilter(const char *pFilterClassName,
-                                    FilterFactoryFunc pFilterFactoryFunc)
+inline void Factory::registerFilter(const char *filterClassName,
+                                    FilterFactoryFunc filterFactoryFunc)
 {
-    instance()->doRegisterFilter(QLatin1String(pFilterClassName), pFilterFactoryFunc);
+    instance()->doRegisterFilter(QLatin1String(filterClassName), filterFactoryFunc);
 }
 
-inline void Factory::registerLayout(const QString &rLayoutClassName,
-                                    LayoutFactoryFunc pLayoutFactoryFunc)
+inline void Factory::registerLayout(const QString &filterClassName,
+                                    LayoutFactoryFunc layoutFactoryFunc)
 {
-    instance()->doRegisterLayout(rLayoutClassName, pLayoutFactoryFunc);
+    instance()->doRegisterLayout(filterClassName, layoutFactoryFunc);
 }
 
-inline void Factory::registerLayout(const char *pLayoutClassName,
-                                    LayoutFactoryFunc pLayoutFactoryFunc)
+inline void Factory::registerLayout(const char *layoutClassName,
+                                    LayoutFactoryFunc layoutFactoryFunc)
 {
-    instance()->doRegisterLayout(QLatin1String(pLayoutClassName), pLayoutFactoryFunc);
+    instance()->doRegisterLayout(QLatin1String(layoutClassName), layoutFactoryFunc);
 }
 
 inline QStringList Factory::registeredAppenders()
@@ -387,48 +387,48 @@ inline QStringList Factory::registeredLayouts()
     return instance()->mLayoutRegistry.keys();
 }
 
-inline void Factory::setObjectProperty(QObject *pObject,
-                                       const QString &rProperty,
-                                       const QString &rValue)
+inline void Factory::setObjectProperty(QObject *object,
+                                       const QString &property,
+                                       const QString &value)
 {
-    instance()->doSetObjectProperty(pObject, rProperty, rValue);
+    instance()->doSetObjectProperty(object, property, value);
 }
 
-inline void Factory::setObjectProperty(QObject *pObject,
-                                       const char *pProperty,
-                                       const QString &rValue)
+inline void Factory::setObjectProperty(QObject *object,
+                                       const char *property,
+                                       const QString &value)
 {
-    instance()->doSetObjectProperty(pObject, QLatin1String(pProperty), rValue);
+    instance()->doSetObjectProperty(object, QLatin1String(property), value);
 }
 
-inline void Factory::unregisterAppender(const QString &rAppenderClassName)
+inline void Factory::unregisterAppender(const QString &appenderClassName)
 {
-    instance()->doUnregisterAppender(rAppenderClassName);
+    instance()->doUnregisterAppender(appenderClassName);
 }
 
-inline void Factory::unregisterAppender(const char *pAppenderClassName)
+inline void Factory::unregisterAppender(const char *appenderClassName)
 {
-    instance()->doUnregisterAppender(QLatin1String(pAppenderClassName));
+    instance()->doUnregisterAppender(QLatin1String(appenderClassName));
 }
 
-inline void Factory::unregisterFilter(const QString &rFilterClassName)
+inline void Factory::unregisterFilter(const QString &filterClassName)
 {
-    instance()->doUnregisterFilter(rFilterClassName);
+    instance()->doUnregisterFilter(filterClassName);
 }
 
-inline void Factory::unregisterFilter(const char *pFilterClassName)
+inline void Factory::unregisterFilter(const char *filterClassName)
 {
-    instance()->doUnregisterFilter(QLatin1String(pFilterClassName));
+    instance()->doUnregisterFilter(QLatin1String(filterClassName));
 }
 
-inline void Factory::unregisterLayout(const QString &rLayoutClassName)
+inline void Factory::unregisterLayout(const QString &filterClassName)
 {
-    instance()->doUnregisterLayout(rLayoutClassName);
+    instance()->doUnregisterLayout(filterClassName);
 }
 
-inline void Factory::unregisterLayout(const char *pLayoutClassName)
+inline void Factory::unregisterLayout(const char *layoutClassName)
 {
-    instance()->doUnregisterLayout(QLatin1String(pLayoutClassName));
+    instance()->doUnregisterLayout(QLatin1String(layoutClassName));
 }
 
 } // namespace Log4Qt

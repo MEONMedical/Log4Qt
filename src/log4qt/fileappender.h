@@ -71,20 +71,21 @@ class LOG4QT_EXPORT  FileAppender : public WriterAppender
     Q_PROPERTY(QString file READ file WRITE setFile)
 
 public:
-    explicit FileAppender(QObject *pParent = nullptr);
-    FileAppender(LayoutSharedPtr pLayout,
-                 const QString &rFileName,
-                 QObject *pParent = nullptr);
-    FileAppender(LayoutSharedPtr pLayout,
-                 const QString &rFileName,
+    explicit FileAppender(QObject *parent = nullptr);
+    FileAppender(const LayoutSharedPtr &layout,
+                 const QString &fileName,
+                 QObject *parent = nullptr);
+    FileAppender(const LayoutSharedPtr &layout,
+                 const QString &fileName,
                  bool append,
-                 QObject *pParent = nullptr);
-    FileAppender(LayoutSharedPtr pLayout,
-                 const QString &rFileName,
+                 QObject *parent = nullptr);
+    FileAppender(const LayoutSharedPtr &layout,
+                 const QString &fileName,
                  bool append,
                  bool buffered,
-                 QObject *pParent = nullptr);
-    virtual ~FileAppender();
+                 QObject *parent = nullptr);
+    ~FileAppender() override;
+
 private:
     Q_DISABLE_COPY(FileAppender)
 
@@ -94,10 +95,10 @@ public:
     bool bufferedIo() const;
     void setAppendFile(bool append);
     void setBufferedIo(bool buffered);
-    void setFile(const QString &rFileName);
+    void setFile(const QString &fileName);
 
-    virtual void activateOptions() override;
-    virtual void close() override;
+    void activateOptions() override;
+    void close() override;
 
 protected:
     /*!
@@ -115,7 +116,7 @@ protected:
      *
      * \sa AppenderSkeleton::doAppend(), AppenderSkeleton::checkEntryConditions()
      */
-    virtual bool checkEntryConditions() const override;
+    bool checkEntryConditions() const override;
 
     void closeFile();
 
@@ -123,7 +124,7 @@ protected:
      * Checks for file I/O errrors. If an error is found it is logged and the
      * function returns true. Otherwise false is returned.
      */
-    virtual bool handleIoErrors() const override;
+    bool handleIoErrors() const override;
 
     /*!
      * Opens the file for the appender based on the specified file name and
@@ -136,26 +137,27 @@ protected:
     virtual void openFile();
 
     /*!
-     * Removes the file \a rFile. If the operation is successful, true is
+     * Removes the file \a file. If the operation is successful, true is
      * returned. Otherwise an APPENDER_REMOVE_FILE_ERROR error is logged
      * and false is returned.
      */
-    bool removeFile(QFile &rFile) const;
+    bool removeFile(QFile &file) const;
 
     /*!
-     * Renames the file \a rFile to \a rFileName. If the operation is
+     * Renames the file \a file to \a fileName. If the operation is
      * successful, true is returned. Otherwise an
      * APPENDER_RENAMING_FILE_ERROR error is logged and false is returned.
      */
-    bool renameFile(QFile &rFile,
-                    const QString &rFileName) const;
+    bool renameFile(QFile &file,
+                    const QString &fileName) const;
 
 private:
     volatile bool mAppendFile;
     volatile bool mBufferedIo;
     QString mFileName;
-    QFile *mpFile;
-    QTextStream *mpTextStream;
+    QFile *mFile;
+    QTextStream *mTextStream;
+    void closeInternal();
 };
 
 inline bool FileAppender::appendFile() const
@@ -184,10 +186,10 @@ inline void FileAppender::setBufferedIo(bool buffered)
     mBufferedIo = buffered;
 }
 
-inline void FileAppender::setFile(const QString &rFileName)
+inline void FileAppender::setFile(const QString &fileName)
 {
     QMutexLocker locker(&mObjectGuard);
-    mFileName = rFileName;
+    mFileName = fileName;
 }
 
 

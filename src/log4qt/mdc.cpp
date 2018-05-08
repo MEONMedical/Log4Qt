@@ -38,12 +38,12 @@
 namespace Log4Qt
 {
 
-QString MDC::get(const QString &rKey)
+QString MDC::get(const QString &key)
 {
     if (!instance()->mHash.hasLocalData())
         return QString();
 
-    return instance()->mHash.localData()->value(rKey);
+    return instance()->mHash.localData()->value(key);
 }
 
 QHash<QString, QString> MDC::context()

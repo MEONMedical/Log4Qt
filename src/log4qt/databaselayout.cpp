@@ -34,7 +34,7 @@
 namespace Log4Qt
 {
 
-QSqlRecord DatabaseLayout::formatRecord(const LoggingEvent &rEvent)
+QSqlRecord DatabaseLayout::formatRecord(const LoggingEvent &event)
 {
     QSqlField field;
     QSqlRecord record;
@@ -44,16 +44,16 @@ QSqlRecord DatabaseLayout::formatRecord(const LoggingEvent &rEvent)
         field.setName(mTimeStamp);
         field.setType(QVariant::DateTime);
         field.setGenerated(true);
-        field.setValue(DateTime::fromMSecsSinceEpoch(rEvent.timeStamp()));
+        field.setValue(DateTime::fromMSecsSinceEpoch(event.timeStamp()));
         record.append(field);
     }
 
-    if (!mLoggerName.isEmpty())
+    if (!mLoggename.isEmpty())
     {
-        field.setName(mLoggerName);
+        field.setName(mLoggename);
         field.setType(QVariant::String);
         field.setGenerated(true);
-        field.setValue(rEvent.loggerName());
+        field.setValue(event.loggename());
         record.append(field);
     }
 
@@ -62,7 +62,7 @@ QSqlRecord DatabaseLayout::formatRecord(const LoggingEvent &rEvent)
         field.setName(mThreadName);
         field.setType(QVariant::String);
         field.setGenerated(true);
-        field.setValue(rEvent.threadName());
+        field.setValue(event.threadName());
         record.append(field);
     }
 
@@ -71,7 +71,7 @@ QSqlRecord DatabaseLayout::formatRecord(const LoggingEvent &rEvent)
         field.setName(mLevel);
         field.setType(QVariant::String);
         field.setGenerated(true);
-        field.setValue(rEvent.level().toString());
+        field.setValue(event.level().toString());
         record.append(field);
     }
 
@@ -80,14 +80,14 @@ QSqlRecord DatabaseLayout::formatRecord(const LoggingEvent &rEvent)
         field.setName(mMessage);
         field.setType(QVariant::String);
         field.setGenerated(true);
-        field.setValue(rEvent.message());
+        field.setValue(event.message());
         record.append(field);
     }
     return record;
 }
 
 
-QString DatabaseLayout::format(const LoggingEvent &rEvent)
+QString DatabaseLayout::format(const LoggingEvent &event)
 {
     QString result;
 
@@ -95,7 +95,7 @@ QString DatabaseLayout::format(const LoggingEvent &rEvent)
     {
         result.append(mTimeStamp);
         result.append(":");
-        result.append(DateTime::fromMSecsSinceEpoch(rEvent.timeStamp()).toString(QStringLiteral("dd.MM.yyyy hh:mm")));
+        result.append(DateTime::fromMSecsSinceEpoch(event.timeStamp()).toString(QStringLiteral("dd.MM.yyyy hh:mm")));
     }
 
     if (!mThreadName.isEmpty())
@@ -114,11 +114,11 @@ QString DatabaseLayout::format(const LoggingEvent &rEvent)
         result.append("; ");
     }
 
-    if (!mLoggerName.isEmpty())
+    if (!mLoggename.isEmpty())
     {
-        result.append(mLoggerName);
+        result.append(mLoggename);
         result.append(":");
-        result.append(mLoggerName);
+        result.append(mLoggename);
         result.append("; ");
     }
 
@@ -136,9 +136,9 @@ QString DatabaseLayout::timeStampColumn() const
 {
     return mTimeStamp;
 }
-QString DatabaseLayout::loggerNameColumn() const
+QString DatabaseLayout::loggenameColumn() const
 {
-    return mLoggerName;
+    return mLoggename;
 }
 QString DatabaseLayout::threadNameColumn() const
 {
@@ -161,9 +161,9 @@ void DatabaseLayout::setTimeStampColumn(const QString &columnName)
     mTimeStamp = columnName;
 }
 
-void DatabaseLayout::setLoggerNameColumn(const QString &columnName)
+void DatabaseLayout::setLoggenameColumn(const QString &columnName)
 {
-    mLoggerName = columnName;
+    mLoggename = columnName;
 }
 
 void DatabaseLayout::setThreadNameColumn(const QString &columnName)

@@ -72,33 +72,32 @@ class LOG4QT_EXPORT Appender : public QObject
     Q_PROPERTY(bool requiresLayout READ requiresLayout)
 
 public:
-    Appender(QObject *pParent = nullptr);
-    virtual ~Appender();
+    Appender(QObject *parent = nullptr);
+    virtual ~Appender() = default;
 
     virtual FilterSharedPtr filter() const = 0;
     virtual QString name() const = 0;
     virtual LayoutSharedPtr layout() const = 0;
     virtual bool requiresLayout() const = 0;
-    virtual void setLayout(LayoutSharedPtr pLayout) = 0;
-    virtual void setName(const QString &rName) = 0;
+    virtual void setLayout(const LayoutSharedPtr &layout) = 0;
+    virtual void setName(const QString &name) = 0;
 
-    virtual void addFilter(FilterSharedPtr pFilter) = 0;
+    virtual void addFilter(const FilterSharedPtr &filter) = 0;
     virtual void clearFilters() = 0;
     virtual void close() = 0;
-    virtual void doAppend(const LoggingEvent &rEvent) = 0;
+    virtual void doAppend(const LoggingEvent &event) = 0;
 
 protected:
     /*!
      * Returns a pointer to a Logger named after of the object.
      *
-     * \sa Logger::logger(const char *pName)
+     * \sa Logger::logger()
      */
     Logger *logger() const;
 
 private:
     Q_DISABLE_COPY(Appender)
     mutable ClassLogger mLog4QtClassLogger;
-
 };
 
 using AppenderSharedPtr = Log4QtSharedPtr<Appender>;

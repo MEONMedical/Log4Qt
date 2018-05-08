@@ -16,21 +16,21 @@ BinaryLoggingEvent::BinaryLoggingEvent()
 {
 }
 
-BinaryLoggingEvent::BinaryLoggingEvent(const Logger *pLogger, Level level, const QByteArray &bMessage)
-    : LoggingEvent(pLogger, level, QString(binMarker))
-    , mBinaryMessage(bMessage)
+BinaryLoggingEvent::BinaryLoggingEvent(const Logger *logger, Level level, const QByteArray &message)
+    : LoggingEvent(logger, level, QString(binMarker))
+    , mBinaryMessage(message)
 {
 }
 
-BinaryLoggingEvent::BinaryLoggingEvent(const Logger *pLogger, Level level, const QByteArray &bMessage, qint64 timeStamp)
-    : LoggingEvent(pLogger, level, QString(binMarker), timeStamp)
-    , mBinaryMessage(bMessage)
+BinaryLoggingEvent::BinaryLoggingEvent(const Logger *logger, Level level, const QByteArray &message, qint64 timeStamp)
+    : LoggingEvent(logger, level, QString(binMarker), timeStamp)
+    , mBinaryMessage(message)
 {
 }
 
-BinaryLoggingEvent::BinaryLoggingEvent(const Logger *pLogger, Level level, const QByteArray &bMessage, const QString &rNdc, const QHash<QString, QString> &rProperties, const QString &rThreadName, qint64 timeStamp)
-    : LoggingEvent(pLogger, level, QString(binMarker), rNdc, rProperties, rThreadName, timeStamp)
-    , mBinaryMessage(bMessage)
+BinaryLoggingEvent::BinaryLoggingEvent(const Logger *logger, Level level, const QByteArray &message, const QString &ndc, const QHash<QString, QString> &properties, const QString &threadName, qint64 timeStamp)
+    : LoggingEvent(logger, level, QString(binMarker), ndc, properties, threadName, timeStamp)
+    , mBinaryMessage(message)
 {
 }
 
@@ -50,18 +50,18 @@ QString BinaryLoggingEvent::binaryMarker()
 }
 
 #ifndef QT_NO_DATASTREAM
-QDataStream &operator<<(QDataStream &rStream, const BinaryLoggingEvent &rLoggingEvent)
+QDataStream &operator<<(QDataStream &out, const BinaryLoggingEvent &loggingEvent)
 {
-    rStream << static_cast<const LoggingEvent &>(rLoggingEvent);
-    rStream << rLoggingEvent.mBinaryMessage;
-    return rStream;
+    out << static_cast<const LoggingEvent &>(loggingEvent);
+    out << loggingEvent.mBinaryMessage;
+    return out;
 }
 
-QDataStream &operator>>(QDataStream &rStream, BinaryLoggingEvent &rLoggingEvent)
+QDataStream &operator>>(QDataStream &in, BinaryLoggingEvent &loggingEvent)
 {
-    rStream >> static_cast<LoggingEvent &>(rLoggingEvent);
-    rStream >> rLoggingEvent.mBinaryMessage;
-    return rStream;
+    in >> static_cast<LoggingEvent &>(loggingEvent);
+    in >> loggingEvent.mBinaryMessage;
+    return in;
 }
 #endif // QT_NO_DATASTREAM
 

@@ -16,19 +16,20 @@ class LOG4QT_EXPORT BinaryLayout : public Layout
     Q_OBJECT
     Q_PROPERTY(QByteArray binaryFooter READ binaryFooter WRITE setBinaryFooter)
     Q_PROPERTY(QByteArray binaryHeader READ binaryHeader WRITE setBinaryHeader)
+
 public:
     explicit BinaryLayout(QObject *parent = nullptr);
 
-    virtual QByteArray binaryFormat(const BinaryLoggingEvent &rEvent) const;
-    virtual QString format(const LoggingEvent &rEvent) override;
+    virtual QByteArray binaryFormat(const BinaryLoggingEvent &event) const;
+    virtual QString format(const LoggingEvent &event) override;
 
     virtual QString contentType() const override;
 
     virtual QByteArray binaryFooter() const;
-    void setBinaryFooter(const QByteArray &rFooter);
+    void setBinaryFooter(const QByteArray &footer);
 
     virtual QByteArray binaryHeader() const;
-    void setBinaryHeader(const QByteArray &rHeader);
+    void setBinaryHeader(const QByteArray &header);
 
 private:
     Q_DISABLE_COPY(BinaryLayout)
@@ -42,9 +43,9 @@ inline QByteArray BinaryLayout::binaryFooter() const
     return mFooter;
 }
 
-inline void BinaryLayout::setBinaryFooter(const QByteArray &rFooter)
+inline void BinaryLayout::setBinaryFooter(const QByteArray &footer)
 {
-    mFooter = rFooter;
+    mFooter = footer;
 }
 
 inline QByteArray BinaryLayout::binaryHeader() const
@@ -52,9 +53,9 @@ inline QByteArray BinaryLayout::binaryHeader() const
     return mHeader;
 }
 
-inline void BinaryLayout::setBinaryHeader(const QByteArray &rHeader)
+inline void BinaryLayout::setBinaryHeader(const QByteArray &header)
 {
-    mHeader = rHeader;
+    mHeader = header;
 }
 
 } // namespace Log4Qt

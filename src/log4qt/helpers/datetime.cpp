@@ -29,10 +29,8 @@
 namespace Log4Qt
 {
 
-QString DateTime::toString(const QString &rFormat) const
+QString DateTime::toString(const QString &format) const
 {
-    QString format(rFormat);
-
     if (format.isEmpty())
         return QString();
     if (!isValid())
@@ -43,19 +41,18 @@ QString DateTime::toString(const QString &rFormat) const
     if (format == QStringLiteral("RELATIVE"))
         return QString::number(toMSecsSinceEpoch() - InitialisationHelper::startTime());
     if (format == QStringLiteral("ISO8601"))
-        format = QStringLiteral("yyyy-MM-dd hh:mm:ss.zzz");
+        return formatDateTime(QStringLiteral("yyyy-MM-dd hh:mm:ss.zzz"));
     if (format == QStringLiteral("ABSOLUTE"))
-        format = QStringLiteral("HH:mm:ss.zzz");
+        return formatDateTime(QStringLiteral("HH:mm:ss.zzz"));
     if (format == QStringLiteral("DATE"))
-        format = QStringLiteral("dd MM yyyy HH:mm:ss.zzz");
+        return formatDateTime(QStringLiteral("dd MM yyyy HH:mm:ss.zzz"));
 
     return formatDateTime(format);
 }
 
-QString DateTime::formatDateTime(const QString &rFormat) const
+QString DateTime::formatDateTime(const QString &format) const
 {
-    return QDateTime::toString(rFormat);
+    return QDateTime::toString(format);
 }
-
 
 } // namespace Log4Qt

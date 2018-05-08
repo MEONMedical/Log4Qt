@@ -43,13 +43,13 @@
 namespace Log4Qt
 {
 
-Logger::Logger(LoggerRepository *pLoggerRepository, Level level,
-               const QString &rName, Logger *pParent) :
+Logger::Logger(LoggerRepository *loggerRepository, Level level,
+               const QString &name, Logger *parent) :
     QObject(nullptr),
-    mName(rName), mpLoggerRepository(pLoggerRepository), mAdditivity(true),
-    mLevel(level), mpParent(pParent)
+    mName(name), mLoggerRepository(loggerRepository), mAdditivity(true),
+    mLevel(level), mParentLogger(parent)
 {
-    Q_ASSERT_X(pLoggerRepository, "Logger::Logger()",
+    Q_ASSERT_X(loggerRepository, "Logger::Logger()",
                "Construction of Logger with null LoggerRepository");
 
     setObjectName( mName);
@@ -73,14 +73,14 @@ void Logger::setLevel(Level level)
 
 // Note: use MainThreadAppender if you want write the log from non-main threads
 // within the main trhead
-void Logger::callAppenders(const LoggingEvent &rEvent) const
+void Logger::callAppenders(const LoggingEvent &event) const
 {
     QReadLocker locker(&mAppenderGuard);
 
-    for (auto &&pAppender : qAsConst(mAppenders))
-        pAppender->doAppend(rEvent);
+    for (auto &&appender : qAsConst(mAppenders))
+        appender->doAppend(event);
     if (additivity() && (parentLogger() != nullptr))
-        parentLogger()->callAppenders(rEvent);
+        parentLogger()->callAppenders(event);
 }
 
 Level Logger::effectiveLevel() const
@@ -90,27 +90,27 @@ Level Logger::effectiveLevel() const
 
     QReadLocker locker(&mAppenderGuard);
 
-    const Logger *p_logger = this;
-    while (p_logger->level() == Level::NULL_INT)
-        p_logger = p_logger->parentLogger();
-    return p_logger->level();
+    const Logger *logger = this;
+    while (logger->level() == Level::NULL_INT)
+        logger = logger->parentLogger();
+    return logger->level();
 }
 
 bool Logger::isEnabledFor(Level level) const
 {
-    if (mpLoggerRepository->isDisabled(level))
+    if (mLoggerRepository->isDisabled(level))
         return false;
     return (effectiveLevel() <= level);
 }
 
-Logger *Logger::logger(const QString &rName)
+Logger *Logger::logger(const QString &name)
 {
-    return LogManager::logger(rName);
+    return LogManager::logger(name);
 }
 
-Logger *Logger::logger(const char *pName)
+Logger *Logger::logger(const char *name)
 {
-    return LogManager::logger(QLatin1String(pName));
+    return LogManager::logger(QLatin1String(name));
 }
 
 Logger *Logger::rootLogger()
@@ -118,15 +118,15 @@ Logger *Logger::rootLogger()
     return LogManager::rootLogger();
 }
 
-void Logger::forcedLog(Level level, const QString &rMessage) const
+void Logger::forcedLog(Level level, const QString &message) const
 {
-    LoggingEvent event(this, level, rMessage);
+    LoggingEvent event(this, level, message);
     forcedLog(event);
 }
 
-void Logger::forcedLog(const LoggingEvent &rLogEvent) const
+void Logger::forcedLog(const LoggingEvent &logEvent) const
 {
-    callAppenders(rLogEvent);
+    callAppenders(logEvent);
 }
 
 bool Logger::additivity() const
@@ -141,7 +141,7 @@ Level Logger::level() const
 
 LoggerRepository *Logger::loggerRepository() const
 {
-    return mpLoggerRepository;
+    return mLoggerRepository;
 }
 
 QString Logger::name() const
@@ -151,7 +151,7 @@ QString Logger::name() const
 
 Logger *Logger::parentLogger() const
 {
-    return mpParent;
+    return mParentLogger;
 }
 
 void Logger::setAdditivity(bool additivity)
@@ -198,16 +198,16 @@ LogStream Logger::debug() const
     return LogStream(*this, Level::DEBUG_INT);
 }
 
-void Logger::debug(const LogError &rLogError) const
+void Logger::debug(const LogError &logError) const
 {
     if (isEnabledFor(Level::DEBUG_INT))
-        forcedLog(Level::DEBUG_INT, rLogError.toString());
+        forcedLog(Level::DEBUG_INT, logError.toString());
 }
 
-void Logger::debug(const QString &rMessage) const
+void Logger::debug(const QString &message) const
 {
     if (isEnabledFor(Level::DEBUG_INT))
-        forcedLog(Level::DEBUG_INT, rMessage);
+        forcedLog(Level::DEBUG_INT, message);
 }
 
 // Log operations: error
@@ -217,16 +217,16 @@ LogStream Logger::error() const
     return LogStream(*this, Level::ERROR_INT);
 }
 
-void Logger::error(const QString &rMessage) const
+void Logger::error(const QString &message) const
 {
     if (isEnabledFor(Level::ERROR_INT))
-        forcedLog(Level::ERROR_INT, rMessage);
+        forcedLog(Level::ERROR_INT, message);
 }
 
-void Logger::error(const LogError &rLogError) const
+void Logger::error(const LogError &logError) const
 {
     if (isEnabledFor(Level::ERROR_INT))
-        forcedLog(Level::ERROR_INT, rLogError.toString());
+        forcedLog(Level::ERROR_INT, logError.toString());
 }
 
 // Log operations: fatal
@@ -236,16 +236,16 @@ LogStream Logger::fatal() const
     return LogStream(*this, Level::FATAL_INT);
 }
 
-void Logger::fatal(const QString &rMessage) const
+void Logger::fatal(const QString &message) const
 {
     if (isEnabledFor(Level::FATAL_INT))
-        forcedLog(Level::FATAL_INT, rMessage);
+        forcedLog(Level::FATAL_INT, message);
 }
 
-void Logger::fatal(const LogError &rLogError) const
+void Logger::fatal(const LogError &logError) const
 {
     if (isEnabledFor(Level::FATAL_INT))
-        forcedLog(Level::FATAL_INT, rLogError.toString());
+        forcedLog(Level::FATAL_INT, logError.toString());
 }
 
 // Log operations: info
@@ -255,16 +255,16 @@ LogStream Logger::info() const
     return LogStream(*this, Level::INFO_INT);
 }
 
-void Logger::info(const QString &rMessage) const
+void Logger::info(const QString &message) const
 {
     if (isEnabledFor(Level::INFO_INT))
-        forcedLog(Level::INFO_INT, rMessage);
+        forcedLog(Level::INFO_INT, message);
 }
 
-void Logger::info(const LogError &rLogError) const
+void Logger::info(const LogError &logError) const
 {
     if (isEnabledFor(Level::INFO_INT))
-        forcedLog(Level::INFO_INT, rLogError.toString());
+        forcedLog(Level::INFO_INT, logError.toString());
 }
 
 // Log operations: log
@@ -275,16 +275,16 @@ LogStream Logger::log(Level level) const
 }
 
 void Logger::log(Level level,
-                 const QString &rMessage) const
+                 const QString &message) const
 {
     if (isEnabledFor(level))
-        forcedLog(level, rMessage);
+        forcedLog(level, message);
 }
 
-void Logger::log(const LoggingEvent &rLogEvent) const
+void Logger::log(const LoggingEvent &logEvent) const
 {
-    if (isEnabledFor(rLogEvent.level()))
-        forcedLog(rLogEvent);
+    if (isEnabledFor(logEvent.level()))
+        forcedLog(logEvent);
 }
 
 void Logger::logWithLocation(Level level, const char *file, int line, const char *function, const QString &message) const
@@ -298,10 +298,10 @@ void Logger::logWithLocation(Level level, const char *file, int line, const char
 }
 
 void Logger::log(Level level,
-                 const LogError &rLogError) const
+                 const LogError &logError) const
 {
     if (isEnabledFor(level))
-        forcedLog(level, rLogError.toString());
+        forcedLog(level, logError.toString());
 }
 
 // Log operations: trace
@@ -311,16 +311,16 @@ LogStream Logger::trace() const
     return LogStream(*this, Level::TRACE_INT);
 }
 
-void Logger::trace(const QString &rMessage) const
+void Logger::trace(const QString &message) const
 {
     if (isEnabledFor(Level::TRACE_INT))
-        forcedLog(Level::TRACE_INT, rMessage);
+        forcedLog(Level::TRACE_INT, message);
 }
 
-void Logger::trace(const LogError &rLogError) const
+void Logger::trace(const LogError &logError) const
 {
     if (isEnabledFor(Level::TRACE_INT))
-        forcedLog(Level::TRACE_INT, rLogError.toString());
+        forcedLog(Level::TRACE_INT, logError.toString());
 }
 
 // Log operations: warn
@@ -330,16 +330,16 @@ LogStream Logger::warn() const
     return LogStream(*this, Level::WARN_INT);
 }
 
-void Logger::warn(const QString &rMessage) const
+void Logger::warn(const QString &message) const
 {
     if (isEnabledFor(Level::WARN_INT))
-        forcedLog(Level::WARN_INT, rMessage);
+        forcedLog(Level::WARN_INT, message);
 }
 
-void Logger::warn(const LogError &rLogError) const
+void Logger::warn(const LogError &logError) const
 {
     if (isEnabledFor(Level::WARN_INT))
-        forcedLog(Level::WARN_INT, rLogError.toString());
+        forcedLog(Level::WARN_INT, logError.toString());
 }
 
 void MessageLogger::log(const QString &message) const

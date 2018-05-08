@@ -26,11 +26,12 @@
 #define LOG4QT_PATTERNLAYOUT_H
 
 #include "layout.h"
+#include "helpers/patternformatter.h"
+
+#include <QScopedPointer>
 
 namespace Log4Qt
 {
-
-class PatternFormatter;
 
 /*!
  * \brief The class PatternLayout outputs a logging event based on a
@@ -50,7 +51,7 @@ class PatternFormatter;
  * \note The ownership and lifetime of objects of this class are managed.
  *       See \ref Ownership "Object ownership" for more details.
  */
-class  LOG4QT_EXPORT PatternLayout : public Layout
+class LOG4QT_EXPORT PatternLayout : public Layout
 {
     Q_OBJECT
 
@@ -81,24 +82,23 @@ public:
     };
     Q_ENUM(ConversionPattern)
 
-    PatternLayout(QObject *pParent = nullptr);
-    PatternLayout(const QString &rPattern,
-                  QObject *pParent = nullptr);
+    PatternLayout(QObject *parent = nullptr);
+    PatternLayout(const QString &pattern,
+                  QObject *parent = nullptr);
 
     /*!
      * Creates a PatternLayout with the conversion pattern value specified
      * by the \a conversionPattern constant.
      */
     PatternLayout(ConversionPattern conversionPattern,
-                  QObject *pParent = nullptr);
+                  QObject *parent = nullptr);
 
-    virtual ~PatternLayout();
 private:
     Q_DISABLE_COPY(PatternLayout)
 
 public:
     QString conversionPattern() const;
-    void setConversionPattern(const QString &rPattern);
+    void setConversionPattern(const QString &pattern);
 
     /*!
      * Sets the conversion pattern to the value specified by the
@@ -106,14 +106,14 @@ public:
      */
     void setConversionPattern(ConversionPattern conversionPattern);
 
-    virtual QString format(const LoggingEvent &rEvent) override;
+    QString format(const LoggingEvent &event) override;
 
 private:
     void updatePatternFormatter();
 
 private:
     QString mPattern;
-    PatternFormatter *mpPatternFormatter;
+    QScopedPointer<PatternFormatter> mPatternFormatter;
 };
 
 inline QString PatternLayout::conversionPattern() const
@@ -121,14 +121,12 @@ inline QString PatternLayout::conversionPattern() const
     return PatternLayout::mPattern;
 }
 
-inline void PatternLayout::setConversionPattern(const QString &rPattern)
+inline void PatternLayout::setConversionPattern(const QString &pattern)
 {
-    mPattern = rPattern;
+    mPattern = pattern;
     updatePatternFormatter();
 }
 
-
 } // namespace Log4Qt
-
 
 #endif // LOG4QT_PATTERNLAYOUT_H

@@ -30,24 +30,24 @@
 namespace Log4Qt
 {
 
-StringMatchFilter::StringMatchFilter(QObject *pParent) :
-    Filter(pParent),
+StringMatchFilter::StringMatchFilter(QObject *parent) :
+    Filter(parent),
     mAcceptOnMatch(true),
     mStringToMatch()
 {}
 
 
-Filter::Decision StringMatchFilter::decide(const LoggingEvent &rEvent) const
+Filter::Decision StringMatchFilter::decide(const LoggingEvent &event) const
 {
-    if (rEvent.message().isEmpty() ||
+    if (event.message().isEmpty() ||
             mStringToMatch.isEmpty() ||
-            rEvent.message().indexOf(mStringToMatch) < 0)
+            event.message().indexOf(mStringToMatch) < 0)
         return Filter::NEUTRAL;
 
     if (mAcceptOnMatch)
         return Filter::ACCEPT;
-    else
-        return Filter::DENY;
+
+    return Filter::DENY;
 }
 
 } // namespace Log4Qt

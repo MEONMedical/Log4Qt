@@ -28,7 +28,7 @@
 #include "loggingevent.h"
 
 #if defined(Q_OS_WIN32)
-#include <windows.h>
+#include <Windows.h>
 #endif
 
 #include <iostream>
@@ -36,25 +36,22 @@
 namespace Log4Qt
 {
 
-DebugAppender::DebugAppender(LayoutSharedPtr pLayout,
-                             QObject *pParent) :
-    AppenderSkeleton(pParent)
+DebugAppender::DebugAppender(const LayoutSharedPtr &layout,
+                             QObject *parent) :
+    AppenderSkeleton(true, layout, parent)
 {
-    setLayout(pLayout);
 }
-
 
 bool DebugAppender::requiresLayout() const
 {
     return true;
 }
 
-
-void DebugAppender::append(const LoggingEvent &rEvent)
+void DebugAppender::append(const LoggingEvent &event)
 {
     Q_ASSERT_X(layout(), "DebugAppender::append()", "Layout must not be null");
 
-    QString message(layout()->format(rEvent));
+    QString message(layout()->format(event));
 #if defined(Q_OS_WIN32)
     OutputDebugStringW(message.toStdWString().c_str());
 #else
@@ -62,7 +59,6 @@ void DebugAppender::append(const LoggingEvent &rEvent)
     std::cerr << std::flush;
 #endif
 }
-
 
 } // namspace Log4Qt
 

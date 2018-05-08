@@ -39,39 +39,30 @@
 namespace Log4Qt
 {
 
-DatabaseAppender::DatabaseAppender(QObject *pParent) :
-    AppenderSkeleton(false, pParent)
+DatabaseAppender::DatabaseAppender(QObject *parent) :
+      AppenderSkeleton(false, parent)
     , connectionName(QSqlDatabase::defaultConnection)
 {
 }
 
 
-DatabaseAppender::DatabaseAppender(LayoutSharedPtr pLayout,
-                                   QObject *pParent) :
-    AppenderSkeleton(false, pParent)
+DatabaseAppender::DatabaseAppender(const LayoutSharedPtr &layout,
+                                   QObject *parent)
+    : AppenderSkeleton(false, layout, parent)
     , connectionName(QSqlDatabase::defaultConnection)
 {
-    setLayout(pLayout);
 }
 
 
-DatabaseAppender::DatabaseAppender(LayoutSharedPtr pLayout
-                                   , const QString &tableName
-                                   , const QString &connection
-                                   , QObject *pParent) :
-    AppenderSkeleton(false, pParent)
+DatabaseAppender::DatabaseAppender(const LayoutSharedPtr &layout,
+                                   const QString &tableName,
+                                   const QString &connection,
+                                   QObject *parent)
+    : AppenderSkeleton(false, layout, parent)
     , connectionName(connection)
     , tableName(tableName)
 {
-    setLayout(pLayout);
 }
-
-
-DatabaseAppender::~DatabaseAppender()
-{
-    close();
-}
-
 
 void DatabaseAppender::setConnection(const QString &connection)
 {
@@ -83,7 +74,6 @@ void DatabaseAppender::setConnection(const QString &connection)
     connectionName = connection;
 }
 
-
 void DatabaseAppender::setTable(const QString &table)
 {
     QMutexLocker locker(&mObjectGuard);
@@ -93,7 +83,6 @@ void DatabaseAppender::setTable(const QString &table)
 
     tableName = table;
 }
-
 
 void DatabaseAppender::activateOptions()
 {
@@ -111,21 +100,18 @@ void DatabaseAppender::activateOptions()
     AppenderSkeleton::activateOptions();
 }
 
-
-
 bool DatabaseAppender::requiresLayout() const
 {
     return true;
 }
 
-
-void DatabaseAppender::append(const LoggingEvent &rEvent)
+void DatabaseAppender::append(const LoggingEvent &event)
 {
     DatabaseLayout *databaseLayout = qobject_cast<DatabaseLayout *>(layout().data());
 
-    if (databaseLayout)
+    if (databaseLayout != nullptr)
     {
-        QSqlRecord record = databaseLayout->formatRecord(rEvent);
+        QSqlRecord record = databaseLayout->formatRecord(event);
 
         QSqlDatabase database = QSqlDatabase::database(connectionName);
         QSqlQuery query(database);
@@ -147,7 +133,6 @@ void DatabaseAppender::append(const LoggingEvent &rEvent)
         logger()->error(e);
     }
 }
-
 
 bool DatabaseAppender::checkEntryConditions() const
 {

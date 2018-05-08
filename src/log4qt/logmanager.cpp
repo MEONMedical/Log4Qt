@@ -64,7 +64,7 @@ Q_GLOBAL_STATIC(QMutex, singleton_guard)
 
 LogManager::LogManager() :
     mObjectGuard(QMutex::Recursive), // Recursive for doStartup() to call doConfigureLogLogger()
-    mpLoggerRepository(new Hierarchy()),
+    mLoggerRepository(new Hierarchy()),
     mHandleQtMessages(false),
     mWatchThisFile(false),
     mQtMsgHandler(nullptr)
@@ -74,39 +74,36 @@ LogManager::LogManager() :
 LogManager::~LogManager()
 {
     static_logger()->warn("Unexpected destruction of LogManager");
-
-    // doSetConfigureHandleQtMessages(false);
-    // delete mpLoggerRepository;
 }
 
 
 Logger *LogManager::rootLogger()
 {
-    return instance()->mpLoggerRepository->rootLogger();
+    return instance()->mLoggerRepository->rootLogger();
 }
 
 
 QList<Logger *> LogManager::loggers()
 {
-    return instance()->mpLoggerRepository->loggers();
+    return instance()->mLoggerRepository->loggers();
 }
 
 
 Level LogManager::threshold()
 {
-    return instance()->mpLoggerRepository->threshold();
+    return instance()->mLoggerRepository->threshold();
 }
 
 
 void LogManager::setThreshold(Level level)
 {
-    instance()->mpLoggerRepository->setThreshold(level);
+    instance()->mLoggerRepository->setThreshold(level);
 }
 
 
 bool LogManager::exists(const char *pName)
 {
-    return instance()->mpLoggerRepository->exists(QLatin1String(pName));
+    return instance()->mLoggerRepository->exists(QLatin1String(pName));
 }
 
 
@@ -116,32 +113,32 @@ LogManager *LogManager::instance()
     // to construct, an exit handler must be set and doStartup must be
     // called.
 
-    if (!mspInstance)
+    if (!mInstance)
     {
         QMutexLocker locker(singleton_guard());
-        if (!mspInstance)
+        if (!mInstance)
         {
-            mspInstance = new LogManager;
+            mInstance = new LogManager;
             atexit(shutdown);
-            mspInstance->doConfigureLogLogger();
-            mspInstance->welcome();
-            mspInstance->doStartup();
+            mInstance->doConfigureLogLogger();
+            mInstance->welcome();
+            mInstance->doStartup();
         }
     }
-    return mspInstance;
+    return mInstance;
 }
 
 
-Logger *LogManager::logger(const QString &rName)
+Logger *LogManager::logger(const QString &name)
 {
-    return instance()->mpLoggerRepository->logger(rName);
+    return instance()->mLoggerRepository->logger(name);
 }
 
 
 void LogManager::resetConfiguration()
 {
     setHandleQtMessages(false);
-    instance()->mpLoggerRepository->resetConfiguration();
+    instance()->mLoggerRepository->resetConfiguration();
     configureLogLogger();
 }
 
@@ -158,7 +155,7 @@ QVersionNumber LogManager::versionNumber()
 
 void LogManager::shutdown()
 {
-    instance()->mpLoggerRepository->shutdown();
+    instance()->mLoggerRepository->shutdown();
 }
 
 
@@ -329,15 +326,15 @@ void LogManager::doStartup()
 
     filesToCheck << default_file;
 
-    for (const auto &rConfigFileName: qAsConst(filesToCheck))
+    for (const auto &configFileName: qAsConst(filesToCheck))
     {
         // Configuration using default file
-        if (QFile::exists(rConfigFileName))
+        if (QFile::exists(configFileName))
         {
-            static_logger()->debug("Default initialisation configures from default file '%1'", rConfigFileName);
-            PropertyConfigurator::configure(rConfigFileName);
+            static_logger()->debug("Default initialisation configures from default file '%1'", configFileName);
+            PropertyConfigurator::configure(configFileName);
             if (mWatchThisFile)
-               ConfiguratorHelper::setConfigurationFile(rConfigFileName, PropertyConfigurator::configure);
+               ConfiguratorHelper::setConfigurationFile(configFileName, PropertyConfigurator::configure);
             return;
         }
     }
@@ -410,7 +407,7 @@ void LogManager::welcome()
     }
 }
 
-void LogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &rMessage)
+void LogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &message)
 {
     Level level;
     switch (type)
@@ -435,7 +432,7 @@ void LogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &cont
     }
     LoggingEvent loggingEvent = LoggingEvent(instance()->qtLogger(),
                                              level,
-                                             rMessage,
+                                             message,
                                              MessageContext(context.file, context.line, context.function),
                                              QStringLiteral("Qt ") % context.category);
 
@@ -446,7 +443,7 @@ void LogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &cont
     // begin {
 
     if (isFatal(type))
-        qt_message_fatal(type, context, rMessage);
+        qt_message_fatal(type, context, message);
 
     // } end
 }
@@ -513,6 +510,6 @@ static bool isFatal(QtMsgType msgType)
     return false;
 }
 
-LogManager *LogManager::mspInstance = nullptr;
+LogManager *LogManager::mInstance = nullptr;
 
 }  // namespace Log4Qt

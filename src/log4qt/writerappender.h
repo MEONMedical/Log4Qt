@@ -71,18 +71,19 @@ class LOG4QT_EXPORT  WriterAppender : public AppenderSkeleton
     Q_PROPERTY(bool immediateFlush READ immediateFlush WRITE setImmediateFlush)
 
 public:
-    WriterAppender(QObject *pParent = nullptr);
-    WriterAppender(LayoutSharedPtr pLayout,
-                   QObject *pParent = nullptr);
-    WriterAppender(LayoutSharedPtr pLayout,
-                   QTextStream *pTextStream,
-                   QObject *pParent = nullptr);
-    virtual ~WriterAppender();
+    WriterAppender(QObject *parent = nullptr);
+    WriterAppender(const LayoutSharedPtr &layout,
+                   QObject *parent = nullptr);
+    WriterAppender(const LayoutSharedPtr &layout,
+                   QTextStream *textStream,
+                   QObject *parent = nullptr);
+    ~WriterAppender() override;
+
 private:
     Q_DISABLE_COPY(WriterAppender)
 
 public:
-    virtual bool requiresLayout() const override;
+    bool requiresLayout() const override;
     QTextCodec *encoding() const;
     bool immediateFlush() const;
     QTextStream *writer() const;
@@ -96,15 +97,15 @@ public:
      *
      * \sa encoding(), QTextSream::setCodec(), QTextCodec::codecForLocale()
      */
-    void setEncoding(QTextCodec *pTextCodec);
+    void setEncoding(QTextCodec *encoding);
     void setImmediateFlush(bool immediateFlush);
-    void setWriter(QTextStream *pTextStream);
+    void setWriter(QTextStream *textStream);
 
-    virtual void activateOptions() override;
-    virtual void close() override;
+    void activateOptions() override;
+    void close() override;
 
 protected:
-    virtual void append(const LoggingEvent &rEvent) override;
+    void append(const LoggingEvent &event) override;
 
     /*!
      * Tests if all entry conditions for using append() in this class are
@@ -123,7 +124,7 @@ protected:
      * \sa AppenderSkeleton::doAppend(),
      *     AppenderSkeleton::checkEntryConditions()
      */
-    virtual bool checkEntryConditions() const override;
+    bool checkEntryConditions() const override;
 
     void closeWriter();
 
@@ -132,15 +133,16 @@ protected:
     void writeHeader() const;
 
 private:
-    QTextCodec *mpEncoding;
-    QTextStream *mpWriter;
+    QTextCodec *mEncoding;
+    QTextStream *mWriter;
     volatile bool mImmediateFlush;
+    void closeInternal();
 };
 
 inline QTextCodec *WriterAppender::encoding() const
 {
     QMutexLocker locker(&mObjectGuard);
-    return mpEncoding;
+    return mEncoding;
 }
 
 inline bool WriterAppender::immediateFlush() const
@@ -150,7 +152,7 @@ inline bool WriterAppender::immediateFlush() const
 
 inline QTextStream *WriterAppender::writer() const
 {
-    return mpWriter;
+    return mWriter;
 }
 
 inline void WriterAppender::setImmediateFlush(bool immediateFlush)

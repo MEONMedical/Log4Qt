@@ -194,8 +194,8 @@ public:
      *     \ref Init "Initialization procedure",
      *     LogManager::configureLogLogger(), LogManager::startup()
      */
-    static QString setting(const QString &rKey,
-                           const QString &rDefault = QString());
+    static QString setting(const QString &key,
+                           const QString &defaultValue = QString());
 
     /*!
      * Returns the start time of the program as the number of milliseconds
@@ -210,15 +210,15 @@ public:
 private:
     void doInitialiseEnvironmentSettings();
     void doRegisterTypes();
-    QString doSetting(const QString &rKey,
-                      const QString &rDefault) const;
+    QString doSetting(const QString &key,
+                      const QString &defaultValue) const;
     static bool shutdown();
     static bool staticInitialisation();
 
 private:
     const qint64 mStartTime;
     QHash <QString, QString> mEnvironmentSettings;
-    static bool msStaticInitialisation;
+    static bool mStaticInitialisation;
 
 };
 
@@ -227,10 +227,10 @@ inline QHash<QString, QString> InitialisationHelper::environmentSettings()
     return instance()->mEnvironmentSettings;
 }
 
-inline QString InitialisationHelper::setting(const QString &rKey,
-        const QString &rDefault)
+inline QString InitialisationHelper::setting(const QString &key,
+        const QString &defaultValue)
 {
-    return instance()->doSetting(rKey, rDefault);
+    return instance()->doSetting(key, defaultValue);
 }
 
 inline qint64 InitialisationHelper::startTime()

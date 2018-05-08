@@ -46,13 +46,13 @@ class Dispatcher : public QObject
 public:
     explicit Dispatcher(QObject *parent = nullptr);
 
-    void setAsyncAppender(AsyncAppender *pAsyncAppender);
+    void setAsyncAppender(AsyncAppender *asyncAppender);
 
 protected:
-    virtual void customEvent(QEvent *event) override;
+    void customEvent(QEvent *event) override;
 
 private:
-    AsyncAppender *mpAsyncAppender;
+    AsyncAppender *mAsyncAppender;
 };
 
 } // namespace Log4Qt

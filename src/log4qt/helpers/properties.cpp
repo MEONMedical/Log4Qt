@@ -39,7 +39,7 @@ void Properties::load(QIODevice *pDevice)
 {
     const QLatin1Char append_char(msEscapeChar);
 
-    if (!pDevice)
+    if (pDevice == nullptr)
     {
         logger()->warn(QStringLiteral("No device specified for load."));
         return;
@@ -70,21 +70,21 @@ void Properties::load(QIODevice *pDevice)
 }
 
 
-void Properties::load(const QSettings &rSettings)
+void Properties::load(const QSettings &settings)
 {
-    QStringList keys = rSettings.childKeys();
+    QStringList keys = settings.childKeys();
     for (const auto &key : qAsConst(keys))
-        insert(key, rSettings.value(key).toString());
+        insert(key, settings.value(key).toString());
 }
 
 
-QString Properties::property(const QString &rKey) const
+QString Properties::property(const QString &key) const
 {
     // Null string indicates the property does not contain the key.
 
-    if (contains(rKey))
+    if (contains(key))
     {
-        QString value = this->value(rKey);
+        QString value = this->value(key);
         if (value.isNull())
             return QString(QStringLiteral(""));
         else
@@ -92,20 +92,19 @@ QString Properties::property(const QString &rKey) const
     }
 
     if (mpDefaultProperties)
-        return mpDefaultProperties->property(rKey);
+        return mpDefaultProperties->property(key);
     else
         return QString();
 }
 
 
-QString Properties::property(const QString &rKey,
-                             const QString &rDefaultValue) const
+QString Properties::property(const QString &key,
+                             const QString &defaultValue) const
 {
-    QString value = property(rKey);
+    QString value = property(key);
     if (value.isNull())
-        return rDefaultValue;
-    else
-        return value;
+        return defaultValue;
+    return value;
 }
 
 QStringList Properties::propertyNames() const
@@ -123,10 +122,10 @@ QStringList Properties::propertyNames() const
 }
 
 
-void Properties::parseProperty(const QString &rProperty,
+void Properties::parseProperty(const QString &property,
                                int line)
 {
-    Q_ASSERT_X(rProperty == trimLeft(rProperty), "parseProperty()", "rProperty has leading spaces");
+    Q_ASSERT_X(property == trimLeft(property), "parseProperty()", "property has leading spaces");
 
     enum State
     {
@@ -145,7 +144,7 @@ void Properties::parseProperty(const QString &rProperty,
     const QString key_escape_chars = QLatin1String(msKeyEscapeChars);
     Q_ASSERT_X(key_escape_codes.length() == key_escape_chars.length(), "parseProperty()", "Key escape sequence character definition does not map");
 
-    if (rProperty.isEmpty())
+    if (property.isEmpty())
         return;
 
     int i = 0;
@@ -157,7 +156,7 @@ void Properties::parseProperty(const QString &rProperty,
     QString *p_string = &key;
     uint ucs = 0;
     int ucs_digits = 0;
-    while (i < rProperty.length())
+    while (i < property.length())
     {
         // i points to the current character.
         // c contains the current character
@@ -165,7 +164,7 @@ void Properties::parseProperty(const QString &rProperty,
         // i is incremented at the end of the loop to consume the character.
         // continue is used to change state without consuming the character
 
-        c = rProperty.at(i);
+        c = property.at(i);
         ch = c.toLatin1();
 
         switch (state)
@@ -254,7 +253,7 @@ void Properties::parseProperty(const QString &rProperty,
             {
                 ucs = ucs * 16 + hex;
                 ucs_digits++;
-                if (ucs_digits == 4 || i == rProperty.length() - 1)
+                if (ucs_digits == 4 || i == property.length() - 1)
                 {
                     *p_string += QChar(ucs);
                     state = VALUE_STATE;
@@ -283,22 +282,22 @@ void Properties::parseProperty(const QString &rProperty,
     insert(key, value);
 }
 
-int Properties::hexDigitValue(const QChar &rDigit)
+int Properties::hexDigitValue(const QChar &digit)
 {
     bool ok;
-    int result = QString(rDigit).toInt(&ok, 16);
+    int result = QString(digit).toInt(&ok, 16);
     if (!ok)
         return -1;
     else
         return result;
 }
 
-QString Properties::trimLeft(const QString &rLine)
+QString Properties::trimLeft(const QString &line)
 {
     int i = 0;
-    while (i < rLine.length() && rLine.at(i).isSpace())
+    while (i < line.length() && line.at(i).isSpace())
         i++;
-    return rLine.right(rLine.length() - i);
+    return line.right(line.length() - i);
 }
 
 const char Properties::msEscapeChar = '\\';

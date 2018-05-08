@@ -3,8 +3,8 @@
 
 #include "log4qt/layout.h"
 
-TestAppender::TestAppender(QObject *pParent)
-    : Log4Qt::AppenderSkeleton(pParent)
+TestAppender::TestAppender(QObject *parent)
+    : Log4Qt::AppenderSkeleton(parent)
 {
 }
 
@@ -27,10 +27,10 @@ bool TestAppender::requiresLayout() const
     return true;
 }
 
-void TestAppender::append(const Log4Qt::LoggingEvent &rEvent)
+void TestAppender::append(const Log4Qt::LoggingEvent &event)
 {
     Q_ASSERT_X(layout(), "TestAppender::append()", "Layout must not be null");
-    mMessages << layout()->format(rEvent);
+    mMessages << layout()->format(event);
 }
 
 #include "moc_testappender.cpp"

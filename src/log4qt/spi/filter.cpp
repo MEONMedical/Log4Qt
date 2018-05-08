@@ -27,8 +27,8 @@
 namespace Log4Qt
 {
 
-Filter::Filter(QObject *pParent) :
-    QObject(pParent)
+Filter::Filter(QObject *parent) :
+    QObject(parent)
 {}
 
 Filter::~Filter()
@@ -36,12 +36,12 @@ Filter::~Filter()
 
 FilterSharedPtr Filter::next() const
 {
-    return mpNext;
+    return mNext;
 }
 
-void Filter::setNext(FilterSharedPtr pFilter)
+void Filter::setNext(const FilterSharedPtr &filter)
 {
-    mpNext = pFilter;
+    mNext = filter;
 }
 
 void Filter::activateOptions()

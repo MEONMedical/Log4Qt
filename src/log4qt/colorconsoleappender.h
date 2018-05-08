@@ -31,7 +31,7 @@
 #if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
 #define WIN32_LEAN_AND_MEAN
 #define NOGDI
-#include <windows.h>
+#include <Windows.h>
 #endif
 
 class QFile;
@@ -53,34 +53,36 @@ class LOG4QT_EXPORT ColorConsoleAppender : public ConsoleAppender
     Q_OBJECT
 
 public:
-
-    ColorConsoleAppender(QObject *pParent = nullptr);
-    ColorConsoleAppender(LayoutSharedPtr pLayout,
-                         QObject *pParent = nullptr);
-    ColorConsoleAppender(LayoutSharedPtr pLayout,
-                         const QString &rTarget,
-                         QObject *pParent = nullptr);
-
+    ColorConsoleAppender(QObject *parent = nullptr);
+    ColorConsoleAppender(const LayoutSharedPtr &layout,
+                         QObject *parent = nullptr);
+    ColorConsoleAppender(const LayoutSharedPtr &layout,
+                         const QString &target,
+                         QObject *parent = nullptr);
     /*!
      * Creates a ConsoleAppender with the layout \a pLayout, the target
      * value specified by the \a target constant and the parent
-     * \a pParent.
+     * \a parent.
      */
-    ColorConsoleAppender(LayoutSharedPtr pLayout,
+    ColorConsoleAppender(const LayoutSharedPtr &layout,
                          Target target,
-                         QObject *pParent = nullptr);
+                         QObject *parent = nullptr);
+
+    ~ColorConsoleAppender() override;
     // if we are in WIN*
 #if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
 
-    virtual void activateOptions() override;
+    void activateOptions() override;
 
-    virtual void close() override;
+    void close() override;
+
 protected:
-    virtual void append(const LoggingEvent &rEvent) override;
+    void append(const LoggingEvent &event) override;
+
 private:
     HANDLE hConsole;
 #endif
-
+    void closeInternal();
 };
 
 

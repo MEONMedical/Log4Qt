@@ -6,39 +6,35 @@
 namespace Log4Qt
 {
 
-XMLLayout::XMLLayout(QObject *pParent)
-    : Layout(pParent)
+XMLLayout::XMLLayout(QObject *parent)
+    : Layout(parent)
 
 {
 }
 
-XMLLayout::~XMLLayout()
-{
-}
-
-QString XMLLayout::format(const LoggingEvent &rEvent)
+QString XMLLayout::format(const LoggingEvent &event)
 {
     QString output;
     QXmlStreamWriter writer(&output);
 
     writer.writeStartElement(QStringLiteral("log4j:event"));
-    writer.writeAttribute(QStringLiteral("logger"), rEvent.loggerName());
-    writer.writeAttribute(QStringLiteral("timestamp"), QString::number(rEvent.timeStamp()));
-    writer.writeAttribute(QStringLiteral("level"), rEvent.level().toString());
-    writer.writeAttribute(QStringLiteral("thread"), rEvent.threadName());
+    writer.writeAttribute(QStringLiteral("logger"), event.loggename());
+    writer.writeAttribute(QStringLiteral("timestamp"), QString::number(event.timeStamp()));
+    writer.writeAttribute(QStringLiteral("level"), event.level().toString());
+    writer.writeAttribute(QStringLiteral("thread"), event.threadName());
 
     writer.writeStartElement(QStringLiteral("log4j:message"));
-    writer.writeCDATA(rEvent.message());
+    writer.writeCDATA(event.message());
     writer.writeEndElement();
 
-    if (!rEvent.ndc().isEmpty())
+    if (!event.ndc().isEmpty())
     {
         writer.writeStartElement(QStringLiteral("log4j:NDC"));
-        writer.writeCDATA(rEvent.ndc());
+        writer.writeCDATA(event.ndc());
         writer.writeEndElement();
     }
 
-    auto props = rEvent.properties();
+    auto props = event.properties();
     if (!props.isEmpty())
     {
         writer.writeStartElement(QStringLiteral("log4j:properties"));

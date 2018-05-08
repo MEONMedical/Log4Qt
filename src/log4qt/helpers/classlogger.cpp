@@ -34,17 +34,17 @@ namespace Log4Qt
 {
 
 ClassLogger::ClassLogger() :
-    mpLogger(nullptr)
+    mLogger(nullptr)
 {
 }
 
-Logger *ClassLogger::logger(const QObject *pObject)
+Logger *ClassLogger::logger(const QObject *object)
 {
-    Q_ASSERT_X(pObject, "ClassLogger::logger()", "pObject must not be null");
-    if (!static_cast<Logger *>(mpLogger.loadAcquire()))
-        mpLogger.testAndSetOrdered(nullptr,
-                                   LogManager::logger(QLatin1String(pObject->metaObject()->className())));
-    return const_cast<Logger *>(static_cast<Logger *>(mpLogger.loadAcquire()));
+    Q_ASSERT_X(object, "ClassLogger::logger()", "pObject must not be null");
+    if (!static_cast<Logger *>(mLogger.loadAcquire()))
+        mLogger.testAndSetOrdered(nullptr,
+                                   LogManager::logger(QLatin1String(object->metaObject()->className())));
+    return const_cast<Logger *>(static_cast<Logger *>(mLogger.loadAcquire()));
 }
 
 } // namespace Log4Qt

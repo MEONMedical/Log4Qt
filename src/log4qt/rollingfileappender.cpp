@@ -33,49 +33,43 @@
 namespace Log4Qt
 {
 
-RollingFileAppender::RollingFileAppender(QObject *pParent) :
-    FileAppender(pParent),
+RollingFileAppender::RollingFileAppender(QObject *parent) :
+    FileAppender(parent),
     mMaxBackupIndex(1),
     mMaximumFileSize(10 * 1024 * 1024)
 {
 }
 
-RollingFileAppender::RollingFileAppender(LayoutSharedPtr pLayout,
-        const QString &rFileName,
-        QObject *pParent) :
-    FileAppender(pLayout, rFileName, pParent),
+RollingFileAppender::RollingFileAppender(const LayoutSharedPtr &layout,
+        const QString &fileName,
+        QObject *parent) :
+    FileAppender(layout, fileName, parent),
     mMaxBackupIndex(1),
     mMaximumFileSize(10 * 1024 * 1024)
 {
 }
 
-RollingFileAppender::RollingFileAppender(LayoutSharedPtr pLayout,
-        const QString &rFileName,
+RollingFileAppender::RollingFileAppender(const LayoutSharedPtr &layout,
+        const QString &fileName,
         bool append,
-        QObject *pParent) :
-    FileAppender(pLayout, rFileName, append, pParent),
+        QObject *parent) :
+    FileAppender(layout, fileName, append, parent),
     mMaxBackupIndex(1),
     mMaximumFileSize(10 * 1024 * 1024)
 {
 }
 
-
-RollingFileAppender::~RollingFileAppender()
-{
-    close();
-}
-
-void RollingFileAppender::setMaxFileSize(const QString &rMaxFileSize)
+void RollingFileAppender::setMaxFileSize(const QString &maxFileSize)
 {
     bool ok;
-    qint64 max_file_size = OptionConverter::toFileSize(rMaxFileSize, &ok);
+    qint64 max_file_size = OptionConverter::toFileSize(maxFileSize, &ok);
     if (ok)
         setMaximumFileSize(max_file_size);
 }
 
-void RollingFileAppender::append(const LoggingEvent &rEvent)
+void RollingFileAppender::append(const LoggingEvent &event)
 {
-    FileAppender::append(rEvent);
+    FileAppender::append(event);
     if (writer()->device()->size() > this->mMaximumFileSize)
         rollOver();
 }

@@ -77,12 +77,12 @@ public:
     };
     Q_ENUM(DatePattern)
 
-    DailyRollingFileAppender(QObject *pParent = nullptr);
-    DailyRollingFileAppender(LayoutSharedPtr pLayout,
-                             const QString &rFileName,
-                             const QString &rDatePattern,
-                             QObject *pParent = nullptr);
-    virtual ~DailyRollingFileAppender();
+    DailyRollingFileAppender(QObject *parent = nullptr);
+    DailyRollingFileAppender(const LayoutSharedPtr &layout,
+                             const QString &fileName,
+                             const QString &datePattern,
+                             QObject *parent = nullptr);
+
 private:
     Q_DISABLE_COPY(DailyRollingFileAppender)
 public:
@@ -94,12 +94,12 @@ public:
     */
     void setDatePattern(DatePattern datePattern);
 
-    void setDatePattern(const QString &rDatePattern);
+    void setDatePattern(const QString &datePattern);
 
-    virtual void activateOptions() override;
+    void activateOptions() override;
 
 protected:
-    virtual void append(const LoggingEvent &rEvent) override;
+    void append(const LoggingEvent &event) override;
 
     /*!
      * Tests if all entry conditions for using append() in this class are
@@ -118,11 +118,11 @@ protected:
      * \sa AppenderSkeleton::doAppend(),
      *     AppenderSkeleton::checkEntryConditions()
      */
-    virtual bool checkEntryConditions() const override;
+    bool checkEntryConditions() const override;
 
 private:
     void computeFrequency();
-    void computeRollOverTime();
+    void computeRollOvetime();
     QString frequencyToString() const;
     void rollOver();
 
@@ -130,7 +130,7 @@ private:
     QString mDatePattern;
     DatePattern mFrequency;
     QString mActiveDatePattern;
-    QDateTime mRollOverTime;
+    QDateTime mRollOvetime;
     QString mRollOverSuffix;
 };
 
@@ -140,10 +140,10 @@ inline QString DailyRollingFileAppender::datePattern() const
     return mDatePattern;
 }
 
-inline void DailyRollingFileAppender::setDatePattern(const QString &rDatePattern)
+inline void DailyRollingFileAppender::setDatePattern(const QString &datePattern)
 {
     QMutexLocker locker(&mObjectGuard);
-    mDatePattern = rDatePattern;
+    mDatePattern = datePattern;
 }
 
 

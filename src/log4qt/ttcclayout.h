@@ -26,12 +26,14 @@
 #define LOG4QT_TTCCLAYOUT_H
 
 #include "layout.h"
+#include "helpers/patternformatter.h"
+
+#include <QScopedPointer>
 
 namespace Log4Qt
 {
 
 class LoggingEvent;
-class PatternFormatter;
 
 /*!
  * \brief The class TTCCLayout outputs the time, thread, logger and nested
@@ -114,18 +116,17 @@ public:
     };
     Q_ENUM(DateFormat)
 
-    TTCCLayout(QObject *pParent = nullptr);
-    TTCCLayout(const QString &rDateFormat,
-               QObject *pParent = nullptr);
+    TTCCLayout(QObject *parent = nullptr);
+    TTCCLayout(const QString &dateFormat,
+               QObject *parent = nullptr);
 
     /*!
      * Creates a TTCCLayout with the date formar value specified by
-     * the \a dateFormat constant and the parent \a pParent.
+     * the \a dateFormat constant and the parent \a parent.
      */
     TTCCLayout(DateFormat dateFormat,
-               QObject *pParent = nullptr);
+               QObject *parent = nullptr);
 
-    virtual ~TTCCLayout();
 private:
     Q_DISABLE_COPY(TTCCLayout)
 
@@ -136,7 +137,7 @@ public:
     bool threadPrinting() const;
     void setCategoryPrefixing(bool categoryPrefixing);
     void setContextPrinting(bool contextPrinting);
-    void setDateFormat(const QString &rDateFormat);
+    void setDateFormat(const QString &dateFormat);
 
     /*!
     * Sets the date format to the value specified by the \a dateFormat
@@ -145,7 +146,7 @@ public:
     void setDateFormat(DateFormat dateFormat);
 
     void setThreadPrinting(bool threadPrinting);
-    virtual QString format(const LoggingEvent &rEvent) override;
+    virtual QString format(const LoggingEvent &event) override;
 
 private:
     void updatePatternFormatter();
@@ -155,7 +156,7 @@ private:
     bool mContextPrinting;
     QString mDateFormat;
     bool mThreadPrinting;
-    PatternFormatter *mpPatternFormatter;
+    QScopedPointer<PatternFormatter> mPatternFormatter;
 };
 
 inline bool TTCCLayout::categoryPrefixing() const
@@ -190,9 +191,9 @@ inline void TTCCLayout::setContextPrinting(bool contextPrinting)
     updatePatternFormatter();
 }
 
-inline void TTCCLayout::setDateFormat(const QString &rDateFormat)
+inline void TTCCLayout::setDateFormat(const QString &dateFormat)
 {
-    mDateFormat = rDateFormat;
+    mDateFormat = dateFormat;
     updatePatternFormatter();
 }
 

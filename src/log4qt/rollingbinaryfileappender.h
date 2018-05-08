@@ -34,20 +34,20 @@ public:
     void setMaximumFileSize(qint64 maximumFileSize);
     QString datePattern() const;
     void setDatePattern(DatePattern datePattern);
-    void setDatePattern(const QString &rDatePattern);
+    void setDatePattern(const QString &datePattern);
 
 protected:
-    virtual void append(const LoggingEvent &rEvent) override;
-    virtual void activateOptions() override;
+    void append(const LoggingEvent &event) override;
+    void activateOptions() override;
 
-    virtual bool checkForTimeRollOver() const;
-    virtual void rollOverTime();
-    virtual bool checkForSizeRollOver() const;
-    virtual void rollOverSize();
+    bool checkFotimeRollOver() const;
+    void rollOvetime();
+    bool checkForSizeRollOver() const;
+    void rollOverSize();
 
 private:
     void computeFrequency();
-    void computeRollOverTime();
+    void computeRollOvetime();
     QString frequencyToString() const;
 
     int mMaxBackupIndex;
@@ -56,7 +56,7 @@ private:
     QString mDatePattern;
     DatePattern mFrequency;
     QString mActiveDatePattern;
-    QDateTime mRollOverTime;
+    QDateTime mRollOvetime;
     QString mRollOverSuffix;
 };
 
@@ -86,9 +86,9 @@ inline QString RollingBinaryFileAppender::datePattern() const
     return mDatePattern;
 }
 
-inline void RollingBinaryFileAppender::setDatePattern(const QString &rDatePattern)
+inline void RollingBinaryFileAppender::setDatePattern(const QString &datePattern)
 {
-    mDatePattern = rDatePattern;
+    mDatePattern = datePattern;
 }
 
 }

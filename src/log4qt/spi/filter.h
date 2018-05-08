@@ -67,17 +67,17 @@ public:
     Q_ENUM(Decision)
 
 public:
-    Filter(QObject *pParent = nullptr);
+    Filter(QObject *parent = nullptr);
     virtual ~Filter();
 
     FilterSharedPtr next() const;
-    void setNext(FilterSharedPtr pFilter);
+    void setNext(const FilterSharedPtr &filter);
 
     virtual void activateOptions();
-    virtual Decision decide(const LoggingEvent &rEvent) const = 0;
+    virtual Decision decide(const LoggingEvent &event) const = 0;
 
 private:
-    FilterSharedPtr mpNext;
+    FilterSharedPtr mNext;
 };
 
 

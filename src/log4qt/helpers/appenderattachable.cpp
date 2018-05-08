@@ -40,30 +40,30 @@ QList<AppenderSharedPtr> AppenderAttachable::appenders() const
     return mAppenders;
 }
 
-void AppenderAttachable::addAppender(AppenderSharedPtr pAppender)
-{
-    if (pAppender.isNull())
-        return;
-    QWriteLocker locker(&mAppenderGuard);
-    if (mAppenders.contains(pAppender))
-        return;
-    mAppenders.append(pAppender);
-}
-
-AppenderSharedPtr AppenderAttachable::appender(const QString &rName) const
+AppenderSharedPtr AppenderAttachable::appender(const QString &name) const
 {
     QReadLocker locker(&mAppenderGuard);
 
     for (auto &&pAppender : qAsConst(mAppenders))
-        if (pAppender->name() == rName)
+        if (pAppender->name() == name)
             return pAppender;
     return AppenderSharedPtr();
 }
 
-bool AppenderAttachable::isAttached(AppenderSharedPtr pAppender) const
+void AppenderAttachable::addAppender(const AppenderSharedPtr &appender)
+{
+    if (appender.isNull())
+        return;
+    QWriteLocker locker(&mAppenderGuard);
+    if (mAppenders.contains(appender))
+        return;
+    mAppenders.append(appender);
+}
+
+bool AppenderAttachable::isAttached(const AppenderSharedPtr &appender) const
 {
     QReadLocker locker(&mAppenderGuard);
-    return mAppenders.contains(pAppender);
+    return mAppenders.contains(appender);
 }
 
 void AppenderAttachable::removeAllAppenders()
@@ -71,19 +71,19 @@ void AppenderAttachable::removeAllAppenders()
     mAppenders.clear();
 }
 
-void AppenderAttachable::removeAppender(AppenderSharedPtr pAppender)
+void AppenderAttachable::removeAppender(const AppenderSharedPtr &appender)
 {
-    if (pAppender.isNull())
+    if (appender.isNull())
         return;
     QWriteLocker locker(&mAppenderGuard);
-    mAppenders.removeAll(pAppender);
+    mAppenders.removeAll(appender);
 
 }
 
-void AppenderAttachable::removeAppender(const QString &rName)
+void AppenderAttachable::removeAppender(const QString &name)
 {
     QWriteLocker locker(&mAppenderGuard);
-    AppenderSharedPtr pAppender = appender(rName);
+    AppenderSharedPtr pAppender = appender(name);
     if (pAppender)
         removeAppender(pAppender);
 }

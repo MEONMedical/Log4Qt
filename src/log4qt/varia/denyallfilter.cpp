@@ -28,8 +28,8 @@
 namespace Log4Qt
 {
 
-DenyAllFilter::DenyAllFilter(QObject *pParent) :
-    Filter(pParent)
+DenyAllFilter::DenyAllFilter(QObject *parent) :
+    Filter(parent)
 {}
 
 } // namespace Log4Qt

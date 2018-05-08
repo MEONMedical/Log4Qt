@@ -52,7 +52,7 @@
 #define NIX_DEFAULT             0
 
 #if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
-//#include <windows.h>
+//#include <Windows.h>
 #define WIN_BACK_BLACK                      0
 #define WIN_BACK_RED                            BACKGROUND_RED
 #define WIN_BACK_LIGHT_RED              BACKGROUND_RED | BACKGROUND_INTENSITY
@@ -216,32 +216,37 @@ namespace Log4Qt
 {
 
 
-ColorConsoleAppender::ColorConsoleAppender(QObject *pParent) :
-    ConsoleAppender(pParent)
+ColorConsoleAppender::ColorConsoleAppender(QObject *parent) :
+    ConsoleAppender(parent)
 {
 }
 
-ColorConsoleAppender::ColorConsoleAppender(LayoutSharedPtr pLayout, QObject *pParent) :
-    ConsoleAppender(pLayout, pParent)
+ColorConsoleAppender::ColorConsoleAppender(const LayoutSharedPtr &layout, QObject *parent) :
+    ConsoleAppender(layout, parent)
 {
 }
 
-ColorConsoleAppender::ColorConsoleAppender(LayoutSharedPtr pLayout,
-        const QString &rTarget, QObject *pParent) :
-    ConsoleAppender(pLayout, rTarget, pParent)
+ColorConsoleAppender::ColorConsoleAppender(const LayoutSharedPtr &layout,
+        const QString &target, QObject *parent) :
+    ConsoleAppender(layout, target, parent)
 {
 }
 
-ColorConsoleAppender::ColorConsoleAppender(LayoutSharedPtr pLayout, Target target,
-        QObject *pParent) :
-    ConsoleAppender(pLayout, target, pParent)
+ColorConsoleAppender::ColorConsoleAppender(const LayoutSharedPtr &layout, Target target,
+        QObject *parent) :
+    ConsoleAppender(layout, target, parent)
 {
+}
+
+ColorConsoleAppender::~ColorConsoleAppender()
+{
+    closeInternal();
 }
 
 #if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
-void ColorConsoleAppender::append(const LoggingEvent &rEvent)
+void ColorConsoleAppender::append(const LoggingEvent &event)
 {
-    QString message = layout()->format(rEvent);
+    QString message = layout()->format(event);
 
     colorOutputString(hConsole, message);
 
@@ -268,7 +273,17 @@ void ColorConsoleAppender::activateOptions()
 
 void ColorConsoleAppender::close()
 {
+    closeInternal();
     ConsoleAppender::close();
+}
+
+void ColorConsoleAppender::closeInternal()
+{
+    QMutexLocker locker(&mObjectGuard);
+
+    if (isClosed())
+        return;
+
     CloseHandle(hConsole);
 }
 

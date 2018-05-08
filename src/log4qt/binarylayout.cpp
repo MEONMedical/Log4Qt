@@ -9,13 +9,14 @@ BinaryLayout::BinaryLayout(QObject *parent)
 {
 }
 
-QByteArray BinaryLayout::binaryFormat(const BinaryLoggingEvent &rEvent) const
+QByteArray BinaryLayout::binaryFormat(const BinaryLoggingEvent &event) const
 {
-    return rEvent.binaryMessage();
+    return event.binaryMessage();
 }
 
-QString BinaryLayout::format(const LoggingEvent &)
+QString BinaryLayout::format(const LoggingEvent &event)
 {
+    Q_UNUSED(event)
     return QString{};
 }
 

@@ -29,6 +29,4 @@
 namespace Log4Qt
 {
 
-LoggerRepository::~LoggerRepository() {}
-
 }  // namespace Log4Qt

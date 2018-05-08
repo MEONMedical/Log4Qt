@@ -14,21 +14,21 @@ class LOG4QT_EXPORT BinaryWriterAppender : public AppenderSkeleton
     Q_OBJECT
     Q_PROPERTY(QDataStream *writer READ writer WRITE setWriter)
 public:
-    BinaryWriterAppender(QObject *pParent = nullptr);
-    BinaryWriterAppender(QDataStream *pDataStream, QObject *pParent = nullptr);
-    virtual ~BinaryWriterAppender();
+    BinaryWriterAppender(QObject *parent = nullptr);
+    BinaryWriterAppender(QDataStream *dataStream, QObject *parent = nullptr);
+    ~BinaryWriterAppender() override;
 
-    virtual bool requiresLayout() const override;
+    bool requiresLayout() const override;
     QDataStream *writer() const;
 
-    void setWriter(QDataStream *pDataStream);
+    void setWriter(QDataStream *dataStream);
 
-    virtual void activateOptions() override;
-    virtual void close() override;
+    void activateOptions() override;
+    void close() override;
 
 protected:
-    virtual void append(const LoggingEvent &rEvent) override;
-    virtual bool checkEntryConditions() const override;
+    void append(const LoggingEvent &event) override;
+    bool checkEntryConditions() const override;
 
     void closeWriter();
 
@@ -39,14 +39,15 @@ protected:
 private:
     Q_DISABLE_COPY(BinaryWriterAppender)
     void writeRawData(const QByteArray &data) const;
+    void closeInternal();
     BinaryLayout *binaryLayout() const;
 
-    QDataStream *mpWriter;
+    QDataStream *mWriter;
 };
 
 inline QDataStream *BinaryWriterAppender::writer() const
 {
-    return mpWriter;
+    return mWriter;
 }
 
 } // namespace Log4Qt

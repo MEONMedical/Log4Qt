@@ -44,7 +44,7 @@ public:
     bool requiresLayout() const override;
 
 protected:
-    virtual void append(const Log4Qt::LoggingEvent &rEvent) override;
+    void append(const Log4Qt::LoggingEvent &event) override;
 
 signals:
     /*!

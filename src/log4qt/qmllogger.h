@@ -81,7 +81,7 @@ private:
     mutable QString mName;
     mutable QPointer<Logger> mLogger;
 
-    QString loggerName() const;
+    QString loggename() const;
     Logger *logger() const;
 };
 

@@ -9,7 +9,7 @@ class  TestAppender : public Log4Qt::AppenderSkeleton
 {
     Q_OBJECT
 public:
-    explicit TestAppender(QObject *pParent = nullptr);
+    explicit TestAppender(QObject *parent = nullptr);
     TestAppender(const TestAppender &) = delete;
     TestAppender &operator=(const TestAppender &) = delete;
 
@@ -18,7 +18,7 @@ public:
     virtual bool requiresLayout() const override;
 
 protected:
-    virtual void append(const Log4Qt::LoggingEvent &rEvent) override;
+    virtual void append(const Log4Qt::LoggingEvent &event) override;
 
 private:
     QStringList mMessages;

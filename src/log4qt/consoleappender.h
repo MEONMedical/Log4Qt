@@ -69,29 +69,29 @@ public:
     Q_ENUM(Target)
 
 
-    ConsoleAppender(QObject *pParent = nullptr);
+    ConsoleAppender(QObject *parent = nullptr);
     ConsoleAppender(LayoutSharedPtr pLayout,
-                    QObject *pParent = nullptr);
+                    QObject *parent = nullptr);
     ConsoleAppender(LayoutSharedPtr pLayout,
-                    const QString &rTarget,
-                    QObject *pParent = nullptr);
+                    const QString &target,
+                    QObject *parent = nullptr);
 
     /*!
      * Creates a ConsoleAppender with the layout \a pLayout, the target
      * value specified by the \a target constant and the parent
-     * \a pParent.
+     * \a parent.
      */
     ConsoleAppender(LayoutSharedPtr pLayout,
                     Target target,
-                    QObject *pParent = nullptr);
+                    QObject *parent = nullptr);
 
-    virtual ~ConsoleAppender();
+    ~ConsoleAppender() override;
 private:
     Q_DISABLE_COPY(ConsoleAppender)
 
 public:
     QString target() const;
-    void setTarget(const QString &rTarget);
+    void setTarget(const QString &target);
 
     /*!
      * Sets the target to the value specified by the \a target constant.
@@ -106,7 +106,8 @@ protected:
 
 private:
     volatile Target mTarget;
-    QTextStream *mpTextStream;
+    QTextStream *mtextStream;
+    void closeInternal();
 };
 
 inline void ConsoleAppender::setTarget(Target target)

@@ -316,7 +316,7 @@
  * not available and a QCoreApplication object is present, the application
  * settings are tested for a group \c Properties. If the group exists,
  * the package is configured with the setting using the
- * \ref Log4Qt::PropertyConfigurator::doConfigure(const QSettings &r, LoggerRepository *)
+ * \ref Log4Qt::PropertyConfigurator::doConfigure(const QSettings &properties, LoggerRepository *)
  * "PropertyConfiguratordoConfigure()". If neither a configuration file nor
  * configuration settings could be found, the current working directory is
  * searched for the file \c "log4qt.properties". If it is found, the package

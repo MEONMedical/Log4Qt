@@ -74,44 +74,43 @@ public:
         return mValue;
     }
 
-    bool operator==(const Level &rOther) const
+    bool operator==(const Level &other) const
     {
-        return mValue == rOther.mValue;
+        return mValue == other.mValue;
     }
-    bool operator!=(const Level &rOther) const
+    bool operator!=(const Level &other) const
     {
-        return mValue != rOther.mValue;
+        return mValue != other.mValue;
     }
-    bool operator<(const Level &rOther) const
+    bool operator<(const Level &other) const
     {
-        return mValue < rOther.mValue;
+        return mValue < other.mValue;
     }
-    bool operator<=(const Level &rOther) const
+    bool operator<=(const Level &other) const
     {
-        return mValue <= rOther.mValue;
+        return mValue <= other.mValue;
     }
-    bool operator>(const Level &rOther) const
+    bool operator>(const Level &other) const
     {
-        return mValue > rOther.mValue;
+        return mValue > other.mValue;
     }
-    bool operator>=(const Level &rOther) const
+    bool operator>=(const Level &other) const
     {
-        return mValue >= rOther.mValue;
+        return mValue >= other.mValue;
     }
     QString toString() const;
 
-    static Level fromString(const QString &rName, bool *pOk = nullptr);
+    static Level fromString(const QString &level, bool *ok = nullptr);
 
 private:
-    // QMutex mObjectGuard;
     volatile Value mValue;
 
 #ifndef QT_NO_DATASTREAM
     // Needs to be friend to stream objects
-    friend QDataStream &operator<<(QDataStream &rStream,
-                                   const Level &rLevel);
-    friend QDataStream &operator>>(QDataStream &rStream,
-                                   Level &rLevel);
+    friend QDataStream &operator<<(QDataStream &out,
+                                   const Level &level);
+    friend QDataStream &operator>>(QDataStream &in,
+                                   Level &level);
 #endif // QT_NO_DATASTREAM
 };
 
@@ -122,8 +121,8 @@ private:
  * Writes the given error \a rLevel to the given stream \a rStream,
  * and returns a reference to the stream.
  */
-QDataStream &operator<<(QDataStream &rStream,
-                        const Level &rLevel);
+QDataStream &operator<<(QDataStream &out,
+                        const Level &level);
 
 /*!
  * \relates Level
@@ -131,8 +130,8 @@ QDataStream &operator<<(QDataStream &rStream,
  * Reads an error from the given stream \a rStream into the given
  * error \a rLevel, and returns a reference to the stream.
  */
-QDataStream &operator>>(QDataStream &rStream,
-                        Level &rLevel);
+QDataStream &operator>>(QDataStream &in,
+                        Level &level);
 #endif // QT_NO_DATASTREAM
 
 } // namespace Log4Qt

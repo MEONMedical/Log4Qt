@@ -73,12 +73,12 @@ QString NDC::pop()
 }
 
 
-void NDC::push(const QString &rMessage)
+void NDC::push(const QString &message)
 {
     if (!instance()->mStack.hasLocalData())
         instance()->mStack.setLocalData(new QStack<QString>);
 
-    instance()->mStack.localData()->push(rMessage);
+    instance()->mStack.localData()->push(message);
 }
 
 

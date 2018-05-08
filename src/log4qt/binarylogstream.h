@@ -14,7 +14,7 @@ class Logger;
 class LOG4QT_EXPORT BinaryLogStream
 {
 public:
-    BinaryLogStream(const Logger *iLogger, Level iLevel);
+    BinaryLogStream(const Logger *logger, Level level);
 
     BinaryLogStream &operator<<(const QByteArray &data);
 

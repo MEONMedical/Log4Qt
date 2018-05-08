@@ -39,21 +39,16 @@ namespace Log4Qt
 
 static const char defaultDatePattern[] = "_yyyy_MM_dd";
 
-DailyFileAppender::DailyFileAppender(QObject *pParent)
-    : FileAppender(pParent)
+DailyFileAppender::DailyFileAppender(QObject *parent)
+    : FileAppender(parent)
     , mDatePattern(defaultDatePattern)
 {
 }
 
-DailyFileAppender::DailyFileAppender(LayoutSharedPtr pLayout, const QString &rFileName, const QString &rDatePattern, QObject *pParent)
-    : FileAppender(pLayout, rFileName, pParent)
-    , mDatePattern(rDatePattern.isEmpty() ? defaultDatePattern : rDatePattern)
+DailyFileAppender::DailyFileAppender(const LayoutSharedPtr &layout, const QString &fileName, const QString &datePattern, QObject *parent)
+    : FileAppender(layout, fileName, parent)
+    , mDatePattern(datePattern.isEmpty() ? defaultDatePattern : datePattern)
 {
-}
-
-DailyFileAppender::~DailyFileAppender()
-{
-    close();
 }
 
 QString DailyFileAppender::datePattern() const
@@ -62,10 +57,10 @@ QString DailyFileAppender::datePattern() const
     return mDatePattern;
 }
 
-void DailyFileAppender::setDatePattern(const QString &rDatePattern)
+void DailyFileAppender::setDatePattern(const QString &datePattern)
 {
     QMutexLocker locker(&mObjectGuard);
-    mDatePattern = rDatePattern;
+    mDatePattern = datePattern;
 }
 
 void DailyFileAppender::activateOptions()
@@ -83,11 +78,11 @@ QString DailyFileAppender::appendDateToFilename() const
     return fi.absolutePath() % QStringLiteral("/") % fi.baseName() %  mLastDate.toString(mDatePattern) % QStringLiteral(".") % fi.completeSuffix();
 }
 
-void DailyFileAppender::append(const LoggingEvent &rEvent)
+void DailyFileAppender::append(const LoggingEvent &event)
 {
     if (QDate::currentDate() != mLastDate)
         rollOver();
-    FileAppender::append(rEvent);
+    FileAppender::append(event);
 }
 
 void DailyFileAppender::setLogFileForCurrentDay()

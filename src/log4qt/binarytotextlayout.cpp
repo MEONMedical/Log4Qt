@@ -7,17 +7,17 @@
 namespace Log4Qt
 {
 
-BinaryToTextLayout::BinaryToTextLayout(LayoutSharedPtr subLayout, QObject *pParent)
-    : Layout(pParent)
+BinaryToTextLayout::BinaryToTextLayout(const LayoutSharedPtr &subLayout, QObject *parent)
+    : Layout(parent)
     , mSubLayout(subLayout)
 {
 }
 
-QString BinaryToTextLayout::format(const LoggingEvent &rEvent)
+QString BinaryToTextLayout::format(const LoggingEvent &event)
 {
-    if (mSubLayout)
+    if (!mSubLayout.isNull())
     {
-        if (const BinaryLoggingEvent *binaryEvent = dynamic_cast<const BinaryLoggingEvent *>(&rEvent))
+        if (const BinaryLoggingEvent *binaryEvent = dynamic_cast<const BinaryLoggingEvent *>(&event))
         {
             QString hexData = binaryEvent->binaryMessage().toHex();
             QString spacedHexData;
@@ -26,7 +26,7 @@ QString BinaryToTextLayout::format(const LoggingEvent &rEvent)
                 spacedHexData.append(hexData.mid(i, 2) % " ");
 
             // replace binary marker in output with hexdump
-            return mSubLayout->format(rEvent).replace(binaryEvent->binaryMarker(), QString("%1 bytes: %2").arg(binaryEvent->binaryMessage().size()).arg(spacedHexData));
+            return mSubLayout->format(event).replace(binaryEvent->binaryMarker(), QString("%1 bytes: %2").arg(binaryEvent->binaryMessage().size()).arg(spacedHexData));
         }
     }
     return QString();

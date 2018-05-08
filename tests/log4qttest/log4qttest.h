@@ -45,8 +45,8 @@ public:
     Log4QtTest();
     virtual ~Log4QtTest();
 private:
-    Log4QtTest(const Log4QtTest &rOther); // Not implemented
-    Log4QtTest &operator=(const Log4QtTest &rOther); // Not implemented
+    Log4QtTest(const Log4QtTest &other); // Not implemented
+    Log4QtTest &operator=(const Log4QtTest &other); // Not implemented
 
 private slots:
     void initTestCase();
@@ -123,23 +123,23 @@ private slots:
     void RollingFileAppender();
 
 private:
-    QString dailyRollingFileAppenderSuffix(const QDateTime &rDateTime);
+    QString dailyRollingFileAppenderSuffix(const QDateTime &dateTime);
     QString enumValueToKey(QObject *pObject,
                            const char *pEnumeration,
                            int value);
     void resetLogging();
-    static bool compareStringLists(const QStringList &rActual,
-                                   const QStringList &rExpected,
-                                   const QString &rEntry,
-                                   const QString &rEntries,
-                                   QString &rResult);
-    static bool deleteDirectoryTree(const QString &rName);
-    static bool validateDirContents(const QString &rName,
-                                    const QStringList &rExpected,
-                                    QString &rResult);
-    static bool validateFileContents(const QString &rName,
-                                     const QStringList &rExpected,
-                                     QString &rResult);
+    static bool compareStringLists(const QStringList &actual,
+                                   const QStringList &expected,
+                                   const QString &entry,
+                                   const QString &entries,
+                                   QString &result);
+    static bool deleteDirectoryTree(const QString &name);
+    static bool validateDirContents(const QString &name,
+                                    const QStringList &expected,
+                                    QString &result);
+    static bool validateFileContents(const QString &name,
+                                     const QStringList &expected,
+                                     QString &result);
 
 private:
     bool mSkipLongTests;

@@ -9,18 +9,18 @@ namespace Log4Qt
 {
 
 BinaryClassLogger::BinaryClassLogger()
-    : mpLogger(nullptr)
+    : mLogger(nullptr)
 {
 }
 
-BinaryLogger *BinaryClassLogger::logger(const QObject *pObject)
+BinaryLogger *BinaryClassLogger::logger(const QObject *object)
 {
-    Q_ASSERT_X(pObject, "BinaryClassLogger::logger()", "pObject must not be null");
-    QString loggerName(pObject->metaObject()->className());
-    loggerName += QStringLiteral("@@binary@@");
-    if (!mpLogger.loadAcquire())
-        mpLogger.testAndSetOrdered(nullptr, qobject_cast<BinaryLogger *>(LogManager::logger(loggerName)));
-    return mpLogger.loadAcquire();
+    Q_ASSERT_X(object, "BinaryClassLogger::logger()", "object must not be null");
+    QString loggename(object->metaObject()->className());
+    loggename += QStringLiteral("@@binary@@");
+    if (!mLogger.loadAcquire())
+        mLogger.testAndSetOrdered(nullptr, qobject_cast<BinaryLogger *>(LogManager::logger(loggename)));
+    return mLogger.loadAcquire();
 }
 
 } // namespace Log4Qt

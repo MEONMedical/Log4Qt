@@ -51,7 +51,7 @@ class LOG4QT_EXPORT  DatabaseLayout : public Layout
     /*!
         The property holds column name to save logger name of log event
     */
-    Q_PROPERTY(QString loggerNameColumn READ loggerNameColumn WRITE setLoggerNameColumn)
+    Q_PROPERTY(QString loggenameColumn READ loggenameColumn WRITE setLoggenameColumn)
     /*!
         The property holds column name to save thread name of log event
     */
@@ -67,38 +67,38 @@ class LOG4QT_EXPORT  DatabaseLayout : public Layout
 
 
 public:
-    DatabaseLayout(QObject *pParent = nullptr);
+    DatabaseLayout(QObject *parent = nullptr);
     // virtual ~DatabaseLayout(); // Use compiler default
 private:
     Q_DISABLE_COPY(DatabaseLayout)
 
 public:
-    virtual QSqlRecord formatRecord(const LoggingEvent &rEvent);
-    virtual QString format(const LoggingEvent &rEvent) override;
+    virtual QSqlRecord formatRecord(const LoggingEvent &event);
+    QString format(const LoggingEvent &event) override;
 
     QString timeStampColumn() const;
-    QString loggerNameColumn() const;
+    QString loggenameColumn() const;
     QString threadNameColumn() const;
     QString levelColumn() const;
     QString messageColumn() const;
 
     void setTimeStampColumn(const QString &columnName);
-    void setLoggerNameColumn(const QString &columnName);
+    void setLoggenameColumn(const QString &columnName);
     void setThreadNameColumn(const QString &columnName);
     void setLevelColumn(const QString &columnName);
     void setMessageColumn(const QString &columnName);
 
 private:
     QString mTimeStamp;
-    QString mLoggerName;
+    QString mLoggename;
     QString mThreadName;
     QString mLevel;
     QString mMessage;
 };
 
 
-inline DatabaseLayout::DatabaseLayout(QObject *pParent) :
-    Layout(pParent)
+inline DatabaseLayout::DatabaseLayout(QObject *parent) :
+    Layout(parent)
 {}
 
 

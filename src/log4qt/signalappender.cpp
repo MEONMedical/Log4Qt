@@ -29,14 +29,15 @@
 
 namespace Log4Qt
 {
+
 SignalAppender::SignalAppender(QObject *parent) :
     AppenderSkeleton(parent)
 {
 }
 
-void SignalAppender::append(const LoggingEvent &rEvent)
+void SignalAppender::append(const LoggingEvent &event)
 {
-    QString message(layout()->format(rEvent));
+    QString message(layout()->format(event));
     emit appended(message);
 }
 

@@ -144,21 +144,21 @@ public:
     LogError();
 
     /*!
-     * Creates an error with the Message \a rMessage and the error code
+     * Creates an error with the Message \a message and the error code
      * \a code. The symbol for the error code is set to \a rSymbol and the
      * context to \a rContext.
      *
      * \a rContext must be string that can be converted to Latin-1. The
      * Latin-1 representation of the string is used with
-     * QApplication::translate(), if a translation for \a rMessage is
+     * QApplication::translate(), if a translation for \a message is
      * requested.
      *
      * \sa translatedMessage(), translatedMessageWithArgs()
      */
-    explicit LogError(const QString &rMessage,
+    explicit LogError(const QString &message,
                       int code = 0,
-                      const QString &rSymbol = QString(),
-                      const QString &rContext = QString());
+                      const QString &symbol = QString(),
+                      const QString &context = QString());
 
     /*!
      * Creates an error with the Message \a pMessage and the error code
@@ -176,10 +176,10 @@ public:
      *
      * \sa translatedMessage(), translatedMessageWithArgs()
      */
-    explicit LogError(const char *pMessage,
+    explicit LogError(const char *message,
                       int code = 0,
-                      const char *pSymbol = nullptr,
-                      const char *pContext = nullptr,
+                      const char *symbol = nullptr,
+                      const char *context = nullptr,
                       Encoding encoding = LATIN1);
 
     /*!
@@ -229,30 +229,30 @@ public:
     void setCode(int code);
 
     /*!
-     * Sets the context to \a rClassName.
+     * Sets the context to \a className.
      *
      * \a rContext must be string that can be converted to Latin-1. The
     * Latin-1 representation of the string is used with
-    * QApplication::translate(), if a translation for \a rMessage is
+    * QApplication::translate(), if a translation for \a message is
     * requestd.
      *
     * \sa context(), translatedMessage(), translatedMessageWithArgs()
      */
-    void setContext(const QString &rClassName);
+    void setContext(const QString &className);
 
     /*!
-     * Sets the error message to \a rMessage
+     * Sets the error message to \a message
      *
      * \sa message()
      */
-    void setMessage(const QString &rMessage);
+    void setMessage(const QString &message);
 
     /*!
-     * Sets the symbol for the error code to \a rSymbol.
+     * Sets the symbol for the error code to \a symbol.
      *
      * \sa symbol()
      */
-    void setSymbol(const QString &rSymbol);
+    void setSymbol(const QString &symbol);
 
     /*!
      * Returns the last error set for the current thread using
@@ -265,13 +265,13 @@ public:
     static LogError lastError();
 
     /*!
-     * Sets the last error for the current thread to \a rLogError.
+     * Sets the last error for the current thread to \a logError.
      *
      * \note: This function is thread-safe.
      *
      * \sa lastError()
      */
-    static void setLastError(const LogError &rLogError);
+    static void setLastError(const LogError &logError);
 
     /*!
      * Appends \a rArg to the list of arguments and returns a reference to
@@ -279,7 +279,7 @@ public:
      *
      * \sa operator<<(), args(), clearArgs()
      */
-    LogError &addArg(const QVariant &rArg);
+    LogError &addArg(const QVariant &arg);
 
     /*!
      * This is an overloaded member function, provided for convenience.
@@ -289,15 +289,15 @@ public:
     /*!
      * This is an overloaded member function, provided for convenience.
      */
-    LogError &addArg(const QString &rArg);
+    LogError &addArg(const QString &arg);
 
     /*!
-     * Appends \a rLogError to the list of causing errors and returns a
+     * Appends \a logError to the list of causing errors and returns a
      * reference to this error.
      *
      * \sa causingErrors(), clearCausingErrors()
      */
-    LogError &addCausingError(const LogError &rLogError);
+    LogError &addCausingError(const LogError &logError);
 
     /*!
      * Returns the list of arguments that have been added to this error.
@@ -357,7 +357,7 @@ public:
      *
      * \sa addArg()
      */
-    LogError &operator<<(const QVariant &rArg);
+    LogError &operator<<(const QVariant &arg);
 
     /*!
      * This is an overloaded member function, provided for convenience.
@@ -367,7 +367,7 @@ public:
     /*!
      * This is an overloaded member function, provided for convenience.
      */
-    LogError &operator<<(const QString &rArg);
+    LogError &operator<<(const QString &arg);
 
     /*!
      * Returns a string representation of the error.
@@ -389,8 +389,8 @@ public:
     QString toString() const;
 
 private:
-    QString insertArgs(const QString &rMessage) const;
-    QString cleanMessage(const QString &rMessage);
+    QString insertArgs(const QString &message) const;
+    QString cleanMessage(const QString &message);
 
 private:
     int mCode;
@@ -402,10 +402,10 @@ private:
 
 #ifndef QT_NO_DATASTREAM
     // Needs to be friend to stream objects
-    friend QDataStream &operator<<(QDataStream &rStream,
-                                   const LogError &rLogError);
-    friend QDataStream &operator>>(QDataStream &rStream,
-                                   LogError &rLogError);
+    friend QDataStream &operator<<(QDataStream &stream,
+                                   const LogError &logError);
+    friend QDataStream &operator>>(QDataStream &stream,
+                                   LogError &logError);
 #endif // QT_NO_DATASTREAM
 };
 
@@ -413,20 +413,20 @@ private:
 /*!
  * \relates LogError
  *
- * Writes the given error \a rLogError to the given stream \a rStream,
+ * Writes the given error \a logError to the given stream \a rStream,
  * and returns a reference to the stream.
  */
-QDataStream &operator<<(QDataStream &rStream,
-                        const LogError &rLogError);
+QDataStream &operator<<(QDataStream &stream,
+                        const LogError &logError);
 
 /*!
  * \relates LogError
  *
  * Reads an error from the given stream \a rStream into the given
- * error \a rLogError, and returns a reference to the stream.
+ * error \a logError, and returns a reference to the stream.
  */
-QDataStream &operator>>(QDataStream &rStream,
-                        LogError &rLogError);
+QDataStream &operator>>(QDataStream &stream,
+                        LogError &logError);
 #endif // QT_NO_DATASTREAM
 
 inline int LogError::code() const
@@ -454,24 +454,24 @@ inline void LogError::setCode(int code)
     mCode = code;
 }
 
-inline void LogError::setContext(const QString &rContext)
+inline void LogError::setContext(const QString &context)
 {
-    mContext = rContext;
+    mContext = context;
 }
 
-inline void LogError::setMessage(const QString &rMessage)
+inline void LogError::setMessage(const QString &message)
 {
-    mMessage = cleanMessage(rMessage);
+    mMessage = cleanMessage(message);
 }
 
-inline void LogError::setSymbol(const QString &rSymbol)
+inline void LogError::setSymbol(const QString &symbol)
 {
-    mSymbol = rSymbol;
+    mSymbol = symbol;
 }
 
-inline LogError &LogError::addArg(const QVariant &rArg)
+inline LogError &LogError::addArg(const QVariant &arg)
 {
-    mArgs << rArg;
+    mArgs << arg;
     return *this;
 }
 
@@ -481,15 +481,15 @@ inline LogError &LogError::addArg(int arg)
     return *this;
 }
 
-inline LogError &LogError::addArg(const QString &rArg)
+inline LogError &LogError::addArg(const QString &arg)
 {
-    mArgs << QVariant(rArg);
+    mArgs << QVariant(arg);
     return *this;
 }
 
-inline LogError &LogError::addCausingError(const LogError &rLogError)
+inline LogError &LogError::addCausingError(const LogError &logError)
 {
-    mCausingErrors << rLogError;
+    mCausingErrors << logError;
     return *this;
 }
 
@@ -528,9 +528,9 @@ inline QString LogError::translatedMessageWithArgs() const
     return insertArgs(translatedMessage());
 }
 
-inline LogError &LogError::operator<<(const QVariant &rArg)
+inline LogError &LogError::operator<<(const QVariant &arg)
 {
-    return addArg(rArg);
+    return addArg(arg);
 }
 
 inline LogError &LogError::operator<<(int arg)
@@ -538,17 +538,14 @@ inline LogError &LogError::operator<<(int arg)
     return addArg(arg);
 }
 
-inline LogError &LogError::operator<<(const QString &rArg)
+inline LogError &LogError::operator<<(const QString &arg)
 {
-    return addArg(rArg);
+    return addArg(arg);
 }
-
 
 } // namespace Log4Qt
 
-
 Q_DECLARE_METATYPE(Log4Qt::LogError)
 Q_DECLARE_TYPEINFO(Log4Qt::LogError, Q_MOVABLE_TYPE);
-
 
 #endif // LOG4QT_ERROR_H

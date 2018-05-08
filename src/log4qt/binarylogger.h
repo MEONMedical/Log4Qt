@@ -37,31 +37,31 @@ class LOG4QT_EXPORT  BinaryLogger : public Logger
     Q_OBJECT
 public:
     BinaryLogStream debug() const {return log(Level::DEBUG_INT);}
-    void debug(const QByteArray &rMessage) const {log(Level::DEBUG_INT, rMessage);}
+    void debug(const QByteArray &message) const {log(Level::DEBUG_INT, message);}
     BinaryLogStream error() const {return log(Level::ERROR_INT);}
-    void error(const QByteArray &rMessage) const {log(Level::ERROR_INT, rMessage);}
+    void error(const QByteArray &message) const {log(Level::ERROR_INT, message);}
     BinaryLogStream fatal() const {return log(Level::FATAL_INT);}
-    void fatal(const QByteArray &rMessage) const {log(Level::FATAL_INT, rMessage);}
+    void fatal(const QByteArray &message) const {log(Level::FATAL_INT, message);}
     BinaryLogStream info() const {return log(Level::INFO_INT);}
-    void info(const QByteArray &rMessage) const {log(Level::INFO_INT, rMessage);}
+    void info(const QByteArray &message) const {log(Level::INFO_INT, message);}
     BinaryLogStream trace() const {return log(Level::TRACE_INT);}
-    void trace(const QByteArray &rMessage) const {log(Level::TRACE_INT, rMessage);}
+    void trace(const QByteArray &message) const {log(Level::TRACE_INT, message);}
     BinaryLogStream warn() const {return log(Level::WARN_INT);}
-    void warn(const QByteArray &rMessage) const {log(Level::WARN_INT, rMessage);}
+    void warn(const QByteArray &message) const {log(Level::WARN_INT, message);}
 
     BinaryLogStream log(Level level) const;
-    void log(Level level, const QByteArray &rMessage) const;
-    void log(Level level, const QByteArray &rMessage, const QDateTime &timeStamp) const;
+    void log(Level level, const QByteArray &message) const;
+    void log(Level level, const QByteArray &message, const QDateTime &timeStamp) const;
 
 protected:
-    BinaryLogger(LoggerRepository *pLoggerRepository, Level level, const QString &rName, Logger *pParent = nullptr);
+    BinaryLogger(LoggerRepository *loggerRepository, Level level, const QString &name, Logger *parent = nullptr);
     virtual ~BinaryLogger();
 
-    void forcedLog(Level level, const QByteArray &rMessage) const;
+    void forcedLog(Level level, const QByteArray &message) const;
 
 private:
-    BinaryLogger(const BinaryLogger &rOther); // Not implemented
-    BinaryLogger &operator=(const BinaryLogger &rOther); // Not implemented
+    BinaryLogger(const BinaryLogger &other); // Not implemented
+    BinaryLogger &operator=(const BinaryLogger &other); // Not implemented
     // Needs to be friend to create BinaryLogger objects
     friend class Hierarchy;
 };

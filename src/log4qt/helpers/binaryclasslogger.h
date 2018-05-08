@@ -16,10 +16,10 @@ class LOG4QT_EXPORT BinaryClassLogger
 {
 public:
     BinaryClassLogger();
-    BinaryLogger *logger(const QObject *pObject);
+    BinaryLogger *logger(const QObject *object);
 
 private:
-    mutable QAtomicPointer<BinaryLogger> mpLogger;
+    mutable QAtomicPointer<BinaryLogger> mLogger;
 };
 
 } // namespace Log4Qt

@@ -32,7 +32,7 @@ namespace Log4Qt
 {
 
 Dispatcher::Dispatcher(QObject *parent) : QObject(parent)
-    , mpAsyncAppender(nullptr)
+    , mAsyncAppender(nullptr)
 {}
 
 void Dispatcher::customEvent(QEvent *event)
@@ -40,15 +40,15 @@ void Dispatcher::customEvent(QEvent *event)
     if (event->type() == LoggingEvent::eventId)
     {
         LoggingEvent *logEvent = static_cast<LoggingEvent *>(event);
-        if (mpAsyncAppender)
-            mpAsyncAppender->callAppenders(*logEvent);
+        if (mAsyncAppender != nullptr)
+            mAsyncAppender->callAppenders(*logEvent);
     }
     QObject::customEvent(event);
 }
 
-void Dispatcher::setAsyncAppender(AsyncAppender *pAsyncAppender)
+void Dispatcher::setAsyncAppender(AsyncAppender *asyncAppender)
 {
-    mpAsyncAppender = pAsyncAppender;
+    mAsyncAppender = asyncAppender;
 }
 
 } // namespace Log4Qt

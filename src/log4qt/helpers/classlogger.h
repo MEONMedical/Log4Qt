@@ -33,6 +33,7 @@
 #include <log4qt/log4qtshared.h>
 
 #include <QAtomicPointer>
+
 class QObject;
 
 namespace Log4Qt
@@ -69,14 +70,12 @@ public:
      *
      * \sa LogManager::logger(const char *pName)
      */
-    Logger *logger(const QObject *pObject);
+    Logger *logger(const QObject *object);
 
 private:
-    mutable QAtomicPointer<Logger> mpLogger;
+    mutable QAtomicPointer<Logger> mLogger;
 };
 
 } // namespace Log4Qt
-
-// Q_DECLARE_TYPEinfo(Log4Qt::ClassLogger, Q_COMPLEX_TYPE); // Use default
 
 #endif // LOG4QT_CLASSLOGGER_H

@@ -55,33 +55,32 @@ public:
     /*!
      * Constructs a copy of another QDateTime.
      *
-     * \sa QDateTime::QDateTime(const QDateTime &rOther)
+     * \sa QDateTime::QDateTime(const QDateTime &other)
      */
-    DateTime(const QDateTime &rOther);
+    DateTime(const QDateTime &other);
 
     /*!
-     * Constructs a datetime with the given \a rDate and \a rTime, using
+     * Constructs a datetime with the given \a date and \a time, using
      * the time specification defined by \a timeSpec.
      *
-     * \sa QDateTime::QDateTime(const QDate &rDate, const QTime &rTime,
+     * \sa QDateTime::QDateTime(const QDate &date, const QTime &time,
      *     Qt::TimeSpec timeSpec = Qt::LocalTime)
      */
-    DateTime(const QDate &rDate,
-             const QTime &rTime,
+    DateTime(const QDate &date,
+             const QTime &time,
              Qt::TimeSpec timeSpec = Qt::LocalTime);
 
     /*!
-     * Assigns \a rOther to this DateTime and returns a reference to it.
+     * Assigns \a other to this DateTime and returns a reference to it.
      */
-    DateTime &operator=(const DateTime &rOther);
-
+    DateTime &operator=(const DateTime &other);
 
     /*!
-     * Returns the datetime as a string. The \a rFormat parameter
+     * Returns the datetime as a string. The \a format parameter
      * determines the format of the result string.
      *
      *
-     * Alternatively the \a rFormat parameter can specify one of the
+     * Alternatively the \a format parameter can specify one of the
      * following strings.
      *
      * <table align="center" border="1" cellpadding="2" cellspacing="0" bordercolor="#84b0c7">
@@ -106,9 +105,9 @@ public:
      * </tr>
      * </table>
      *
-     * \sa QDateTime::toString(const QString &rFormat)
+     * \sa QDateTime::toString(const QString &format)
      */
-    QString toString(const QString &rFormat) const;
+    QString toString(const QString &format) const;
 
     /*!
      * Returns the current datetime, as reported by the system clock, in
@@ -121,24 +120,24 @@ public:
     static DateTime fromMSecsSinceEpoch(qint64 msecs);
 
 private:
-    QString formatDateTime(const QString &rFormat) const;
+    QString formatDateTime(const QString &format) const;
 };
 
 inline DateTime::DateTime() : QDateTime()
 {}
 
-inline DateTime::DateTime(const QDateTime &rOther) : QDateTime(rOther)
+inline DateTime::DateTime(const QDateTime &other) : QDateTime(other)
 {}
 
-inline DateTime::DateTime(const QDate &rDate,
-                          const QTime &rTime,
+inline DateTime::DateTime(const QDate &date,
+                          const QTime &time,
                           Qt::TimeSpec timeSpec) :
-    QDateTime(rDate, rTime, timeSpec)
+    QDateTime(date, time, timeSpec)
 {}
 
-inline DateTime &DateTime::operator=(const DateTime &rOther)
+inline DateTime &DateTime::operator=(const DateTime &other)
 {
-    QDateTime::operator=(rOther);
+    QDateTime::operator=(other);
     return *this;
 }
 

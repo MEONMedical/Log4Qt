@@ -32,8 +32,8 @@
 namespace Log4Qt
 {
 
-NullAppender::NullAppender(QObject *pParent) :
-    AppenderSkeleton(false, pParent)
+NullAppender::NullAppender(QObject *parent) :
+    AppenderSkeleton(false, parent)
 {
 }
 
@@ -42,9 +42,9 @@ NullAppender::~NullAppender()
     close();
 }
 
-void NullAppender::append(const LoggingEvent &rEvent)
+void NullAppender::append(const LoggingEvent &event)
 {
-    Q_UNUSED(rEvent);
+    Q_UNUSED(event);
 }
 
 } // namespace Log4Qt

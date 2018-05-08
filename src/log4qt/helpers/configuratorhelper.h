@@ -63,7 +63,7 @@ public:
          * \sa setConfigurationFile(),
          *     PropertyConfigurator::configure(const QString &)
      */
-    typedef bool (*ConfigureFunc)(const QString &rFileName);
+    typedef bool (*ConfigureFunc)(const QString &fileName);
 
 private:
     ConfiguratorHelper();
@@ -102,10 +102,10 @@ public:
      *
      * \sa configureError()
      */
-    static void setConfigureError(const QList<LoggingEvent> &rConfigureError);
+    static void setConfigureError(const QList<LoggingEvent> &configureError);
 
     /*!
-     * Sets the configuration file to \a rFileName. The file is watched for
+     * Sets the configuration file to \a fileName. The file is watched for
      * changes. On a file change the function \a pConfigureFunc will be called
      * and the signal configurationFileChange() will be emitted.
      *
@@ -114,17 +114,17 @@ public:
      * \sa configurationFile(), PropertyConfigurator::configureAndWatch(),
      *     configureError()
      */
-    static void setConfigurationFile(const QString &rFileName = QString(),
+    static void setConfigurationFile(const QString &fileName = QString(),
                                      ConfigureFunc pConfigureFunc = nullptr);
 
 signals:
     /*!
-     * The signal is emitted after a change to the file \a rFileName
+     * The signal is emitted after a change to the file \a fileName
      * was processed. If an error occured during the configuration, the
      * flag \a error will be true and error information is available
      * over configureError().
      */
-    void configurationFileChanged(const QString &rFileName,
+    void configurationFileChanged(const QString &fileName,
                                   bool error);
 
 private slots:
@@ -133,14 +133,14 @@ private slots:
     void tryToReAddConfigurationFile();
 
 private:
-    void doSetConfigurationFile(const QString &rFileName,
+    void doSetConfigurationFile(const QString &fileName,
                                 ConfigureFunc pConfigureFunc);
 
 private:
     mutable QMutex mObjectGuard;
     QFileInfo mConfigurationFile;
-    ConfigureFunc mpConfigureFunc;
-    QFileSystemWatcher *mpConfigurationFileWatch;
+    ConfigureFunc mConfigureFunc;
+    QFileSystemWatcher *mConfigurationFileWatch;
     QList<LoggingEvent> mConfigureError;
 };
 
@@ -156,16 +156,16 @@ inline QString ConfiguratorHelper::configurationFile()
     return instance()->mConfigurationFile.absoluteFilePath();
 }
 
-inline void ConfiguratorHelper::setConfigureError(const QList<LoggingEvent> &rConfigureError)
+inline void ConfiguratorHelper::setConfigureError(const QList<LoggingEvent> &configureError)
 {
     QMutexLocker locker(&instance()->mObjectGuard);
-    instance()->mConfigureError = rConfigureError;
+    instance()->mConfigureError = configureError;
 }
 
-inline void ConfiguratorHelper::setConfigurationFile(const QString &rFileName,
+inline void ConfiguratorHelper::setConfigurationFile(const QString &fileName,
         ConfigureFunc pConfigureFunc)
 {
-    instance()->doSetConfigurationFile(rFileName, pConfigureFunc);
+    instance()->doSetConfigurationFile(fileName, pConfigureFunc);
 }
 
 } // namespace Log4Qt

@@ -30,8 +30,8 @@
 namespace Log4Qt
 {
 
-Layout::Layout(QObject *pParent) :
-    QObject(pParent)
+Layout::Layout(QObject *parent) :
+    QObject(parent)
 {}
 
 Layout::~Layout()
@@ -49,7 +49,7 @@ void Layout::activateOptions()
 QString Layout::endOfLine()
 {
     // There seams to be no function in Qt for this. MinGW enter '\r\n' automatically
-    return QStringLiteral("\n");
+    return QLatin1String("\n");
 }
 
 } // namespace Log4Qt

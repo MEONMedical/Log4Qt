@@ -11,9 +11,9 @@ BinaryEventFilter::BinaryEventFilter(QObject *parent)
 {
 }
 
-Filter::Decision BinaryEventFilter::decide(const LoggingEvent &rEvent) const
+Filter::Decision BinaryEventFilter::decide(const LoggingEvent &event) const
 {
-    bool isBinaryEvent = dynamic_cast<const BinaryLoggingEvent *>(&rEvent) != nullptr;
+    bool isBinaryEvent = dynamic_cast<const BinaryLoggingEvent *>(&event) != nullptr;
 
     if (!isBinaryEvent)
         return Filter::NEUTRAL;
@@ -23,7 +23,6 @@ Filter::Decision BinaryEventFilter::decide(const LoggingEvent &rEvent) const
     else
         return Filter::DENY;
 }
-
 
 } // namespace Log4Qt
 

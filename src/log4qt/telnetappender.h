@@ -69,25 +69,25 @@ class LOG4QT_EXPORT  TelnetAppender : public AppenderSkeleton
     Q_PROPERTY(QHostAddress address READ address WRITE setAddress)
 
 public:
-    TelnetAppender(QObject *pParent = nullptr);
-    TelnetAppender(LayoutSharedPtr pLayout,
-                   QObject *pParent = nullptr);
-    TelnetAppender(LayoutSharedPtr pLayout,
+    TelnetAppender(QObject *parent = nullptr);
+    TelnetAppender(const LayoutSharedPtr &layout,
+                   QObject *parent = nullptr);
+    TelnetAppender(const LayoutSharedPtr &layout,
                    const QHostAddress &address,
                    int port,
-                   QObject *pParent = nullptr);
-    TelnetAppender(LayoutSharedPtr pLayout,
+                   QObject *parent = nullptr);
+    TelnetAppender(const LayoutSharedPtr &layout,
                    int port,
-                   QObject *pParent = nullptr);
-    virtual ~TelnetAppender();
+                   QObject *parent = nullptr);
+    ~TelnetAppender() override;
 
 private:
     Q_DISABLE_COPY(TelnetAppender)
 
 public:
-    virtual bool requiresLayout() const override;
-    virtual void activateOptions() override;
-    virtual void close() override;
+    bool requiresLayout() const override;
+    void activateOptions() override;
+    void close() override;
 
     /*!
      * Sets the listening port of the telnet server (default = 23)
@@ -120,7 +120,7 @@ public:
     void setWelcomeMessage(const QString &welcomeMessage);
 
 protected:
-    virtual void append(const LoggingEvent &rEvent) override;
+    void append(const LoggingEvent &event) override;
 
     /*!
      * Tests if all entry conditions for using append() in this class are
@@ -139,7 +139,7 @@ protected:
      * \sa AppenderSkeleton::doAppend(),
      *     AppenderSkeleton::checkEntryConditions()
      */
-    virtual bool checkEntryConditions() const override;
+    bool checkEntryConditions() const override;
 
     /*!
      *  Creates and starts (listening) the TCP server
@@ -165,12 +165,12 @@ private slots:
 private:
     QHostAddress mAddress;
     int             mPort;
-    QTcpServer     *mpTcpServer;
+    QTcpServer     *mTcpServer;
     QList<QTcpSocket *> mTcpSockets;
     QString         mWelcomeMessage;
     volatile bool   mImmediateFlush;
 
-    void sendWelcomeMessage(QTcpSocket *pClientConnection);
+    void sendWelcomeMessage(QTcpSocket *clientConnection);
 };
 
 inline bool TelnetAppender::immediateFlush() const

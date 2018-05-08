@@ -6,8 +6,8 @@
 namespace Log4Qt
 {
 
-BinaryLogger::BinaryLogger(LoggerRepository *pLoggerRepository, Level level, const QString &rName, Logger *pParent)
-    : Logger(pLoggerRepository, level, rName, pParent)
+BinaryLogger::BinaryLogger(LoggerRepository *loggerRepository, Level level, const QString &name, Logger *parent)
+    : Logger(loggerRepository, level, name, parent)
 {
 }
 
@@ -15,9 +15,9 @@ BinaryLogger::~BinaryLogger()
 {
 }
 
-void BinaryLogger::forcedLog(Level level, const QByteArray &rMessage) const
+void BinaryLogger::forcedLog(Level level, const QByteArray &message) const
 {
-    BinaryLoggingEvent event(this, level, rMessage);
+    BinaryLoggingEvent event(this, level, message);
     callAppenders(event);
 }
 
@@ -26,17 +26,17 @@ BinaryLogStream BinaryLogger::log(Level level) const
     return BinaryLogStream(this, level);
 }
 
-void BinaryLogger::log(Level level, const QByteArray &rMessage) const
+void BinaryLogger::log(Level level, const QByteArray &message) const
 {
     if (isEnabledFor(level))
-        forcedLog(level, rMessage);
+        forcedLog(level, message);
 }
 
-void BinaryLogger::log(Level level, const QByteArray &rMessage, const QDateTime &timeStamp) const
+void BinaryLogger::log(Level level, const QByteArray &message, const QDateTime &timeStamp) const
 {
     if (isEnabledFor(level))
     {
-        BinaryLoggingEvent event(this, level, rMessage, timeStamp.toMSecsSinceEpoch());
+        BinaryLoggingEvent event(this, level, message, timeStamp.toMSecsSinceEpoch());
         callAppenders(event);
     }
 }

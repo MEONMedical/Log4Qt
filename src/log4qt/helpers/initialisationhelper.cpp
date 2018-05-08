@@ -87,7 +87,6 @@ void InitialisationHelper::doInitialiseEnvironmentSettings()
     }
 }
 
-
 void InitialisationHelper::doRegisterTypes()
 {
     qRegisterMetaType<Log4Qt::LogError>("Log4Qt::LogError");
@@ -101,22 +100,20 @@ void InitialisationHelper::doRegisterTypes()
 #endif
 }
 
-QString InitialisationHelper::doSetting(const QString &rKey,
-                                        const QString &rDefault) const
+QString InitialisationHelper::doSetting(const QString &key,
+                                        const QString &defaultValue) const
 {
-    if (mEnvironmentSettings.contains(rKey))
-        return mEnvironmentSettings.value(rKey);
+    if (mEnvironmentSettings.contains(key))
+        return mEnvironmentSettings.value(key);
 
-    if (QCoreApplication::instance())
+    if (QCoreApplication::instance() != nullptr)
     {
         QSettings s;
         s.beginGroup(QStringLiteral("Log4Qt"));
-        return s.value(rKey, rDefault).toString().trimmed();
+        return s.value(key, defaultValue).toString().trimmed();
     }
-    else
-        return rDefault;
+    return defaultValue;
 }
-
 
 bool InitialisationHelper::staticInitialisation()
 {
@@ -124,7 +121,6 @@ bool InitialisationHelper::staticInitialisation()
     return true;
 }
 
-
-bool InitialisationHelper::msStaticInitialisation = staticInitialisation();
+bool InitialisationHelper::mStaticInitialisation = staticInitialisation();
 
 } // namespace Log4Qt

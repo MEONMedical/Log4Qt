@@ -1183,17 +1183,17 @@ void Log4QtTest::AppenderSkeleton_filter()
 
     if (!filter1_level.isEmpty())
     {
-        Log4Qt::LevelMatchFilter *p_filter = new Log4Qt::LevelMatchFilter();
-        p_filter->setLevelToMatch(Level::fromString(filter1_level));
-        p_filter->setAcceptOnMatch(filter1_accept);
-        appender.addFilter(FilterSharedPtr(p_filter));
+        Log4Qt::LevelMatchFilter *filter = new Log4Qt::LevelMatchFilter();
+        filter->setLevelToMatch(Level::fromString(filter1_level));
+        filter->setAcceptOnMatch(filter1_accept);
+        appender.addFilter(FilterSharedPtr(filter));
     }
     if (!filter2_level.isEmpty())
     {
-        Log4Qt::LevelMatchFilter *p_filter = new Log4Qt::LevelMatchFilter();
-        p_filter->setLevelToMatch(Level::fromString(filter2_level));
-        p_filter->setAcceptOnMatch(filter2_accept);
-        appender.addFilter(FilterSharedPtr(p_filter));
+        Log4Qt::LevelMatchFilter *filter = new Log4Qt::LevelMatchFilter();
+        filter->setLevelToMatch(Level::fromString(filter2_level));
+        filter->setAcceptOnMatch(filter2_accept);
+        appender.addFilter(FilterSharedPtr(filter));
     }
 
     appender.doAppend(LoggingEvent(test_logger(),
@@ -1414,7 +1414,7 @@ void Log4QtTest::LoggingEvent_stream()
     buffer.close();
 
     QCOMPARE(original.level(), streamed.level());
-    QCOMPARE(original.loggerName(), streamed.loggerName());
+    QCOMPARE(original.loggename(), streamed.loggename());
     QCOMPARE(original.message(), streamed.message());
     QCOMPARE(original.ndc(), streamed.ndc());
     QCOMPARE(original.properties().count(), streamed.properties().count());
@@ -1830,18 +1830,18 @@ void Log4QtTest::RollingFileAppender()
 }
 
 
-QString Log4QtTest::dailyRollingFileAppenderSuffix(const QDateTime &rDateTime)
+QString Log4QtTest::dailyRollingFileAppenderSuffix(const QDateTime &dateTime)
 {
     QString result(".");
-    result += QString::number(rDateTime.date().year()).rightJustified(4, '0');
+    result += QString::number(dateTime.date().year()).rightJustified(4, '0');
     result += '-';
-    result += QString::number(rDateTime.date().month()).rightJustified(2, '0');
+    result += QString::number(dateTime.date().month()).rightJustified(2, '0');
     result += '-';
-    result += QString::number(rDateTime.date().day()).rightJustified(2, '0');
+    result += QString::number(dateTime.date().day()).rightJustified(2, '0');
     result += '-';
-    result += QString::number(rDateTime.time().hour()).rightJustified(2, '0');
+    result += QString::number(dateTime.time().hour()).rightJustified(2, '0');
     result += '-';
-    result += QString::number(rDateTime.time().minute()).rightJustified(2, '0');
+    result += QString::number(dateTime.time().minute()).rightJustified(2, '0');
     return result;
 }
 
@@ -1886,11 +1886,11 @@ void Log4QtTest::resetLogging()
 }
 
 
-bool Log4QtTest::compareStringLists(const QStringList &rActual,
-                                    const QStringList &rExpected,
-                                    const QString &rEntry,
-                                    const QString &rEntries,
-                                    QString &rResult)
+bool Log4QtTest::compareStringLists(const QStringList &actual,
+                                    const QStringList &expected,
+                                    const QString &entry,
+                                    const QString &entries,
+                                    QString &result)
 {
     QString tab("   ");
     QString eol("\n");
@@ -1898,91 +1898,91 @@ bool Log4QtTest::compareStringLists(const QStringList &rActual,
     // Generate content string
     QString content;
     int i;
-    content += tab + "Actual: " + rEntries + ": "
-               + QString::number(rActual.count()) + eol;
-    for (i = 0; i < rActual.count(); i++)
-        content += tab + tab + '\'' + rActual.at(i) + '\'' + eol;
-    content += tab + "Expected: " + rEntries + ": "
-               + QString::number(rExpected.count()) + eol;
-    for (i = 0; i < rExpected.count(); i++)
-        content += tab + tab + '\'' + rExpected.at(i) + '\'' + eol;
+    content += tab + "Actual: " + entries + ": "
+               + QString::number(actual.count()) + eol;
+    for (i = 0; i < actual.count(); i++)
+        content += tab + tab + '\'' + actual.at(i) + '\'' + eol;
+    content += tab + "Expected: " + entries + ": "
+               + QString::number(expected.count()) + eol;
+    for (i = 0; i < expected.count(); i++)
+        content += tab + tab + '\'' + expected.at(i) + '\'' + eol;
 
     // Check count
-    if (rActual.count() != rExpected.count())
+    if (actual.count() != expected.count())
     {
-        rResult = tab + "Compared " + rEntry + " counts are not the same" + eol;
-        rResult += content;
+        result = tab + "Compared " + entry + " counts are not the same" + eol;
+        result += content;
         return false;
     }
 
     // Check entries
-    for (i = 0; i < rActual.count(); i++)
+    for (i = 0; i < actual.count(); i++)
     {
-        if (rActual.at(i) != rExpected.at(i))
+        if (actual.at(i) != expected.at(i))
         {
-            rResult = tab + rEntry + " " + QString::number(i + 1)
+            result = tab + entry + " " + QString::number(i + 1)
                       + " is not the same" + eol;
-            rResult += content;
+            result += content;
             return false;
         }
     }
 
-    rResult.clear();
+    result.clear();
     return true;
 }
 
 
-bool Log4QtTest::deleteDirectoryTree(const QString &rName)
+bool Log4QtTest::deleteDirectoryTree(const QString &name)
 {
-    QFileInfo file_info(rName);
+    QFileInfo file_info(name);
     if (!file_info.exists())
         return true;
     if (file_info.isDir())
     {
-        QDir d(rName);
+        QDir d(name);
         QStringList members = d.entryList(QDir::Dirs | QDir::Files
                                           | QDir::NoDotAndDotDot | QDir::NoSymLinks
                                           | QDir::Hidden, QDir::Name | QDir::DirsFirst);
         QString member;
         Q_FOREACH (member, members)
-            if (!deleteDirectoryTree(rName + '/' + member))
+            if (!deleteDirectoryTree(name + '/' + member))
                 return false;
-        if (d.rmdir(rName))
+        if (d.rmdir(name))
             return true;
-        qDebug() << "Unable to remove directory: " << rName;
+        qDebug() << "Unable to remove directory: " << name;
         return false;
     }
     else
     {
-        QFile f(rName);
+        QFile f(name);
         if (f.remove())
             return true;
-        qDebug() << "Unable to remove file: " << rName << "("
+        qDebug() << "Unable to remove file: " << name << "("
                  << f.errorString() << ")";
         return false;
     }
 }
 
 
-bool Log4QtTest::validateDirContents(const QString &rName,
-                                     const QStringList &rExpected,
-                                     QString &rResult)
+bool Log4QtTest::validateDirContents(const QString &name,
+                                     const QStringList &expected,
+                                     QString &result)
 {
-    QDir dir(rName);
+    QDir dir(name);
     if (!dir.exists())
     {
-        rResult = QString("The dir '%1' does not exist").arg(rName);
+        result = QString("The dir '%1' does not exist").arg(name);
         return false;
     }
 
     QStringList actual = dir.entryList(QDir::Dirs | QDir::Files
                                        | QDir::NoDotAndDotDot | QDir::NoSymLinks | QDir::Hidden,
                                        QDir::Name | QDir::DirsFirst);
-    if (!compareStringLists(actual, rExpected, "Entry", "Entries", rResult))
+    if (!compareStringLists(actual, expected, "Entry", "Entries", result))
     {
         QString error =
             "The directory contents validation failed.\n   '%1'\n%2";
-        rResult = error.arg(rName, rResult);
+        result = error.arg(name, result);
         return false;
     }
 
@@ -1990,19 +1990,19 @@ bool Log4QtTest::validateDirContents(const QString &rName,
 }
 
 
-bool Log4QtTest::validateFileContents(const QString &rName,
-                                      const QStringList &rExpected,
-                                      QString &rResult)
+bool Log4QtTest::validateFileContents(const QString &name,
+                                      const QStringList &expected,
+                                      QString &result)
 {
-    QFile file(rName);
+    QFile file(name);
     if (!file.exists())
     {
-        rResult = QString("The expected file '%1' does not exist (%2)").arg(rName).arg(file.errorString());
+        result = QString("The expected file '%1' does not exist (%2)").arg(name).arg(file.errorString());
         return false;
     }
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        rResult = QString("The expected file '%1' cannot be opened (%2)").arg(rName).arg(file.errorString());
+        result = QString("The expected file '%1' cannot be opened (%2)").arg(name).arg(file.errorString());
         return false;
     }
 
@@ -2014,10 +2014,10 @@ bool Log4QtTest::validateFileContents(const QString &rName,
         actual << line;
         line = textstream.readLine();
     }
-    if (!compareStringLists(actual, rExpected, "Line", "Lines", rResult))
+    if (!compareStringLists(actual, expected, "Line", "Lines", result))
     {
         QString error = "The file contents validation failed.\n   '%1'\n%2";
-        rResult = error.arg(rName, rResult);
+        result = error.arg(name, result);
         return false;
     }
 

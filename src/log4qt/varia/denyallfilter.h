@@ -7,8 +7,8 @@
  *
  *
  * changes      Feb 2009, Martin Heinrich
- *              - Fixed a compile error on VS 2008 by using Q_UNUSED(&rEvent)
- *                instead of Q_UNUSED(rEvent)
+ *              - Fixed a compile error on VS 2008 by using Q_UNUSED(&event)
+ *                instead of Q_UNUSED(event)
  *
  *
  * Copyright 2007 - 2009 Martin Heinrich
@@ -46,11 +46,11 @@ class  LOG4QT_EXPORT DenyAllFilter : public Filter
     Q_OBJECT
 
 public:
-    DenyAllFilter(QObject *pParent = nullptr);
+    DenyAllFilter(QObject *parent = nullptr);
 
-    virtual Decision decide(const LoggingEvent &rEvent) const override
+    Decision decide(const LoggingEvent &event) const override
     {
-        Q_UNUSED(&rEvent);
+        Q_UNUSED(&event);
         return Filter::DENY;
     }
 };

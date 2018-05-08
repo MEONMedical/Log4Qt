@@ -34,48 +34,34 @@
 namespace Log4Qt
 {
 
-TTCCLayout::TTCCLayout(QObject *pParent) :
-    Layout(pParent),
+TTCCLayout::TTCCLayout(QObject *parent) :
+    Layout(parent),
     mCategoryPrefixing(true),
     mContextPrinting(true),
-    mDateFormat(),
-    mThreadPrinting(true),
-    mpPatternFormatter(nullptr)
+    mThreadPrinting(true)
 {
     setDateFormat(RELATIVE);
 }
 
-
-TTCCLayout::TTCCLayout(const QString &rDateFormat,
-                       QObject *pParent) :
-    Layout(pParent),
+TTCCLayout::TTCCLayout(const QString &dateFormat,
+                       QObject *parent) :
+    Layout(parent),
     mCategoryPrefixing(true),
     mContextPrinting(true),
-    mDateFormat(rDateFormat),
-    mThreadPrinting(true),
-    mpPatternFormatter(nullptr)
+    mDateFormat(dateFormat),
+    mThreadPrinting(true)
 {
 }
 
-
 TTCCLayout::TTCCLayout(DateFormat dateFormat,
-                       QObject *pParent) :
-    Layout(pParent),
+                       QObject *parent) :
+    Layout(parent),
     mCategoryPrefixing(true),
     mContextPrinting(true),
-    mDateFormat(),
-    mThreadPrinting(true),
-    mpPatternFormatter(nullptr)
+    mThreadPrinting(true)
 {
     setDateFormat(dateFormat);
 }
-
-
-TTCCLayout::~TTCCLayout()
-{
-    delete mpPatternFormatter;
-}
-
 
 void TTCCLayout::setDateFormat(DateFormat dateFormat)
 {
@@ -103,11 +89,11 @@ void TTCCLayout::setDateFormat(DateFormat dateFormat)
 }
 
 
-QString TTCCLayout::format(const LoggingEvent &rEvent)
+QString TTCCLayout::format(const LoggingEvent &event)
 {
-    Q_ASSERT_X(mpPatternFormatter, "TTCCLayout::format()", "mpPatternConverter must not be null");
+    Q_ASSERT_X(mPatternFormatter, "TTCCLayout::format()", "mpPatternConverter must not be null");
 
-    return mpPatternFormatter->format(rEvent);
+    return mPatternFormatter->format(event);
 }
 
 
@@ -125,8 +111,7 @@ void TTCCLayout::updatePatternFormatter()
         pattern += QStringLiteral(" %x");
     pattern += QStringLiteral(" - %m%n");
 
-    delete mpPatternFormatter;
-    mpPatternFormatter = new PatternFormatter(pattern);
+    mPatternFormatter.reset(new PatternFormatter(pattern));
 }
 
 } // namespace Log4Qt

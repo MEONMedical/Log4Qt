@@ -10,19 +10,19 @@ class LOG4QT_EXPORT BinaryLoggingEvent : public LoggingEvent
 {
 public:
     BinaryLoggingEvent();
-    BinaryLoggingEvent(const Logger *pLogger,
+    BinaryLoggingEvent(const Logger *logger,
                        Level level,
-                       const QByteArray &bMessage);
-    BinaryLoggingEvent(const Logger *pLogger,
+                       const QByteArray &message);
+    BinaryLoggingEvent(const Logger *logger,
                        Level level,
-                       const QByteArray &bMessage,
+                       const QByteArray &message,
                        qint64 timeStamp);
-    BinaryLoggingEvent(const Logger *pLogger,
+    BinaryLoggingEvent(const Logger *logger,
                        Level level,
-                       const QByteArray &bMessage,
-                       const QString &rNdc,
-                       const QHash<QString, QString> &rProperties,
-                       const QString &rThreadName,
+                       const QByteArray &message,
+                       const QString &ndc,
+                       const QHash<QString, QString> &properties,
+                       const QString &threadName,
                        qint64 timeStamp);
     QByteArray binaryMessage() const;
 
@@ -35,14 +35,14 @@ private:
 
 #ifndef QT_NO_DATASTREAM
     // Needs to be friend to stream objects
-    friend LOG4QT_EXPORT QDataStream &operator<<(QDataStream &rStream, const BinaryLoggingEvent &rLoggingEvent);
-    friend LOG4QT_EXPORT QDataStream &operator>>(QDataStream &rStream, BinaryLoggingEvent &rLoggingEvent);
+    friend LOG4QT_EXPORT QDataStream &operator<<(QDataStream &out, const BinaryLoggingEvent &loggingEvent);
+    friend LOG4QT_EXPORT QDataStream &operator>>(QDataStream &in, BinaryLoggingEvent &loggingEvent);
 #endif // QT_NO_DATASTREAM
 };
 
 #ifndef QT_NO_DATASTREAM
-LOG4QT_EXPORT QDataStream &operator<<(QDataStream &rStream, const BinaryLoggingEvent &rLoggingEvent);
-LOG4QT_EXPORT QDataStream &operator>>(QDataStream &rStream, BinaryLoggingEvent &rLoggingEvent);
+LOG4QT_EXPORT QDataStream &operator<<(QDataStream &out, const BinaryLoggingEvent &loggingEvent);
+LOG4QT_EXPORT QDataStream &operator>>(QDataStream &in, BinaryLoggingEvent &loggingEvent);
 #endif // QT_NO_DATASTREAM
 
 } // namespace Log4Qt

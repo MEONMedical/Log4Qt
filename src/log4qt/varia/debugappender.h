@@ -50,13 +50,13 @@ public:
     /*!
      * Creates a DebugAppender.
      */
-    DebugAppender(QObject *pParent = nullptr);
+    DebugAppender(QObject *parent = nullptr);
 
     /*!
      * Creates a DebugAppender with the specified layout \a pLayout
      */
-    DebugAppender(LayoutSharedPtr pLayout,
-                  QObject *pParent = nullptr);
+    DebugAppender(const LayoutSharedPtr &layout,
+                  QObject *parent = nullptr);
 
 private:
     Q_DISABLE_COPY(DebugAppender)
@@ -67,11 +67,11 @@ public:
      *
      * \sa setLayout()
      */
-    virtual bool requiresLayout() const override;
+    bool requiresLayout() const override;
 
 protected:
     /*!
-     * Appends the specified logging event \a rEvent to the debug output.
+     * Appends the specified logging event \a event to the debug output.
      * The output is formatted using the appender's layout.
      *
      * The method is called by the AppenderSkeleton::doAppend() after it
@@ -80,12 +80,12 @@ protected:
      *
      * \sa setLayout(), AppenderSkeleton::doAppend(), checkEntryConditions()
      */
-    virtual void append(const LoggingEvent &rEvent) override;
+    void append(const LoggingEvent &event) override;
 
 };
 
-inline DebugAppender::DebugAppender(QObject *pParent) :
-    AppenderSkeleton(pParent)
+inline DebugAppender::DebugAppender(QObject *parent) :
+    AppenderSkeleton(parent)
 {}
 
 

@@ -29,23 +29,21 @@
 namespace Log4Qt
 {
 
-LevelMatchFilter::LevelMatchFilter(QObject *pParent) :
-    Filter(pParent),
+LevelMatchFilter::LevelMatchFilter(QObject *parent) :
+    Filter(parent),
     mAcceptOnMatch(true),
     mLevelToMatch(Level::NULL_INT)
 {}
 
-
-Filter::Decision LevelMatchFilter::decide(const LoggingEvent &rEvent) const
+Filter::Decision LevelMatchFilter::decide(const LoggingEvent &event) const
 {
     if (mLevelToMatch == Level::NULL_INT ||
-            rEvent.level() != mLevelToMatch)
+            event.level() != mLevelToMatch)
         return Filter::NEUTRAL;
 
     if (mAcceptOnMatch)
         return Filter::ACCEPT;
-    else
-        return Filter::DENY;
+    return Filter::DENY;
 }
 
 } // namespace Log4Qt

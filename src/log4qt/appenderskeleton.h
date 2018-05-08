@@ -73,31 +73,31 @@ class LOG4QT_EXPORT AppenderSkeleton : public Appender
     Q_PROPERTY(Log4Qt::Level threshold READ threshold WRITE setThreshold)
 
 public:
-    AppenderSkeleton(QObject *pParent = nullptr);
-    virtual ~AppenderSkeleton();
+    explicit AppenderSkeleton(QObject *parent = nullptr);
 
 protected:
-    AppenderSkeleton(const bool isActive,
-                     QObject *pParent = nullptr);
-
-private:
-    Q_DISABLE_COPY(AppenderSkeleton)
+    explicit AppenderSkeleton(bool isActive,
+                              QObject *parent = nullptr);
+    explicit AppenderSkeleton(bool isActive,
+                              const LayoutSharedPtr &layout,
+                              QObject *parent = nullptr);
+    ~AppenderSkeleton() override;
 
 public:
-    virtual FilterSharedPtr filter() const override;
-    virtual LayoutSharedPtr layout() const override;
+    FilterSharedPtr filter() const override;
+    LayoutSharedPtr layout() const override;
     bool isActive() const;
     bool isClosed() const;
-    virtual QString name() const override;
+    QString name() const override;
     Level threshold() const;
-    virtual void setLayout(LayoutSharedPtr pLayout) override;
-    virtual void setName(const QString &rName) override;
+    void setLayout(const LayoutSharedPtr &layout) override;
+    void setName(const QString &name) override;
     void setThreshold(Level level);
 
     virtual void activateOptions();
-    virtual void addFilter(FilterSharedPtr pFilter) override;
-    virtual void clearFilters() override;
-    virtual void close() override;
+    void addFilter(const FilterSharedPtr &filter) override;
+    void clearFilters() override;
+    void close() override;
 
     /*!
      * Performs checks and delegates the actuall appending to the subclass
@@ -105,13 +105,13 @@ public:
      *
      * \sa append(), checkEntryConditions(), isAsSevereAsThreshold(), Filter
      */
-    virtual void doAppend(const LoggingEvent &rEvent) override;
+    void doAppend(const LoggingEvent &event) override;
 
     FilterSharedPtr firstFilter() const;
     bool isAsSevereAsThreshold(Level level) const;
 
 protected:
-    virtual void append(const LoggingEvent &rEvent) = 0;
+    virtual void append(const LoggingEvent &event) = 0;
     void customEvent(QEvent *event) override;
 
     /*!
@@ -142,6 +142,7 @@ protected:
     mutable QMutex mObjectGuard;
 
 private:
+    Q_DISABLE_COPY(AppenderSkeleton)
     bool mAppendRecursionGuard;
     volatile bool mIsActive;
     volatile bool mIsClosed;
@@ -149,6 +150,7 @@ private:
     Level mThreshold;
     FilterSharedPtr mpHeadFilter;
     FilterSharedPtr mpTailFilter;
+    void closeInternal();
 };
 
 inline FilterSharedPtr AppenderSkeleton::filter() const
@@ -168,10 +170,10 @@ inline Level AppenderSkeleton::threshold() const
     return mThreshold;
 }
 
-inline void AppenderSkeleton::setName(const QString &rName)
+inline void AppenderSkeleton::setName(const QString &name)
 {
     QMutexLocker locker(&mObjectGuard);
-    setObjectName(rName);
+    setObjectName(name);
 }
 
 inline void AppenderSkeleton::setThreshold(Level level)

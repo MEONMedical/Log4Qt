@@ -22,7 +22,6 @@
  *
  ******************************************************************************/
 
-
 #include "helpers/logerror.h"
 #include "helpers/initialisationhelper.h"
 
@@ -41,60 +40,47 @@ typedef QThreadStorage<LogError *> ThreadError;
 Q_GLOBAL_STATIC(ThreadError, thread_error)
 
 LogError::LogError() :
-    mCode(0),
-    mContext(),
-    mMessage(),
-    mSymbol(),
-    mArgs(),
-    mCausingErrors()
+    mCode(0)
 {
 }
 
-
-LogError::LogError(const QString &rMessage,
+LogError::LogError(const QString &message,
                    int code,
-                   const QString &rSymbol,
-                   const QString &rContext) :
+                   const QString &symbol,
+                   const QString &context) :
     mCode(code),
-    mContext(rContext),
-    mMessage(cleanMessage(rMessage)),
-    mSymbol(rSymbol),
-    mArgs(),
-    mCausingErrors()
+    mContext(context),
+    mMessage(cleanMessage(message)),
+    mSymbol(symbol)
 {
 }
 
-
-LogError::LogError(const char *pMessage,
+LogError::LogError(const char *message,
                    int code,
-                   const char *pSymbol,
-                   const char *pContext,
+                   const char *symbol,
+                   const char *context,
                    Encoding encoding) :
     mCode(code),
-    mContext(QString::fromLatin1(pContext)),
-    mMessage(),
-    mSymbol(QString::fromLatin1(pSymbol)),
-    mArgs(),
-    mCausingErrors()
+    mContext(QString::fromLatin1(context)),
+    mSymbol(QString::fromLatin1(symbol))
 {
     switch (encoding)
     {
     case LATIN1:
-        mMessage = QString::fromLatin1(pMessage);
+        mMessage = QString::fromLatin1(message);
         break;
     case UNICODEUTF8:
-        mMessage = QString::fromUtf8(pMessage);
+        mMessage = QString::fromUtf8(message);
         break;
     default:
         Q_ASSERT_X(false, "LogError::LogError", "Unknown encoding constant");
-        mMessage = QString::fromLatin1(pMessage);
+        mMessage = QString::fromLatin1(message);
     }
     mMessage = cleanMessage(mMessage);
 
     if (mSymbol == QString::number(mCode))
         mSymbol.clear();
 }
-
 
 QString LogError::translatedMessage() const
 {
@@ -105,19 +91,17 @@ LogError LogError::lastError()
 {
     if (!thread_error()->hasLocalData())
         return LogError();
-    else
-        return *thread_error()->localData();
+
+    return *thread_error()->localData();
 }
 
-
-void LogError::setLastError(const LogError &rLogError)
+void LogError::setLastError(const LogError &logError)
 {
     if (!thread_error()->hasLocalData())
         thread_error()->setLocalData(new LogError);
 
-    *thread_error()->localData() = rLogError;
+    *thread_error()->localData() = logError;
 }
-
 
 QString LogError::toString() const
 {
@@ -155,128 +139,60 @@ QString LogError::toString() const
     return result;
 }
 
-
-QString LogError::insertArgs(const QString &rMessage) const
+QString LogError::insertArgs(const QString &message) const
 {
     QString result;
 
-    /*
-
-    // Don't use a loop to be able to handle arguments that conatin strings
-    // like %1.
-    // Using this method only 9 arguments can be handled as the %1
-    // in %11 gets also replaced with the first argument.
-
-    switch (mArgs.count())
-    {
-        case 0:
-            break;
-        case 1:
-            result = rMessage.arg(mArgs.at(0));
-            break;
-        case 2:
-            result = rMessage.arg(mArgs.at(0), mArgs.at(1));
-            break;
-        case 3:
-            result = rMessage.arg(mArgs.at(0), mArgs.at(1), mArgs.at(2));
-            break;
-        case 4:
-            result = rMessage.arg(mArgs.at(0), mArgs.at(1), mArgs.at(2), mArgs.at(3));
-            break;
-        case 5:
-            result = rMessage.arg(mArgs.at(0), mArgs.at(1), mArgs.at(2), mArgs.at(3), mArgs.at(4));
-            break;
-        case 6:
-            result = rMessage.arg(mArgs.at(0), mArgs.at(1), mArgs.at(2), mArgs.at(3), mArgs.at(4), mArgs.at(5));
-            break;
-        case 7:
-            result = rMessage.arg(mArgs.at(0), mArgs.at(1), mArgs.at(2), mArgs.at(3), mArgs.at(4), mArgs.at(5), mArgs.at(6));
-            break;
-        case 8:
-            result = rMessage.arg(mArgs.at(0), mArgs.at(1), mArgs.at(2), mArgs.at(3), mArgs.at(4), mArgs.at(5), mArgs.at(6), mArgs.at(7));
-            break;
-        default:
-            result = rMessage.arg(mArgs.at(0), mArgs.at(1), mArgs.at(2), mArgs.at(3), mArgs.at(4), mArgs.at(5), mArgs.at(6), mArgs.at(7), mArgs.at(8));
-            break;
-    }
-
-    if (mArgs.count() > 9)
-    {
-        int i = 9;
-        while(i < mArgs.count())
-        {
-            result = result.arg(mArgs.at(i));
-            i++;
-        }
-    }
-    */
-
-    result = rMessage;
+    result = message;
     for (const auto &arg : qAsConst(mArgs))
         result = result.arg(arg.toString());
     return result;
 }
 
-
-QString LogError::cleanMessage(const QString &rMessage)
+QString LogError::cleanMessage(const QString &message)
 {
-    if (rMessage.isEmpty())
-        return rMessage;
+    if (message.isEmpty())
+        return message;
 
-    QString result = rMessage;
-    if (rMessage.at(rMessage.size() - 1) == QLatin1Char('.'))
-        result = rMessage.left(rMessage.size() - 1);
+    QString result = message;
+    if (message.at(message.size() - 1) == QLatin1Char('.'))
+        result = message.left(message.size() - 1);
     return result;
 }
 
-
 #ifndef QT_NO_DATASTREAM
-QDataStream &operator<<(QDataStream &rStream,
-                        const LogError &rLogError)
+QDataStream &operator<<(QDataStream &out,
+                        const LogError &logError)
 {
-    QBuffer buffer;
-    buffer.open(QIODevice::WriteOnly);
-    QDataStream stream(&buffer);
-
     // version
     quint16 version = 0;
-    stream << version;
+    out << version;
     // version 0 data
-    stream << rLogError.mCode
-           << rLogError.mContext
-           << rLogError.mMessage
-           << rLogError.mSymbol
-           << rLogError.mArgs
-           << rLogError.mCausingErrors;
+    out << logError.mCode
+           << logError.mContext
+           << logError.mMessage
+           << logError.mSymbol
+           << logError.mArgs
+           << logError.mCausingErrors;
 
-    buffer.close();
-    rStream << buffer.buffer();
-    return rStream;
+    return out;
 }
 
-
-QDataStream &operator>>(QDataStream &rStream,
-                        LogError &rLogError)
+QDataStream &operator>>(QDataStream &in,
+                        LogError &logError)
 {
-    QByteArray array;
-    rStream >> array;
-    QBuffer buffer(&array);
-    buffer.open(QIODevice::ReadOnly);
-    QDataStream stream(&buffer);
-
     // version
     quint16 version;
-    stream >> version;
+    in >> version;
     // Version 0 data
-    stream >> rLogError.mCode
-           >> rLogError.mContext
-           >> rLogError.mMessage
-           >> rLogError.mSymbol
-           >> rLogError.mArgs
-           >> rLogError.mCausingErrors;
+    in >> logError.mCode
+           >> logError.mContext
+           >> logError.mMessage
+           >> logError.mSymbol
+           >> logError.mArgs
+           >> logError.mCausingErrors;
 
-    buffer.close();
-    return rStream;
+    return in;
 }
 #endif // QT_NO_DATASTREAM
 

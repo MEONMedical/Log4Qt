@@ -33,66 +33,63 @@
 namespace Log4Qt
 {
 
-ConsoleAppender::ConsoleAppender(QObject *pParent) :
-    WriterAppender(pParent),
+ConsoleAppender::ConsoleAppender(QObject *parent) :
+    WriterAppender(parent),
     mTarget(STDOUT_TARGET),
-    mpTextStream(nullptr)
+    mtextStream(nullptr)
 {
 }
 
 
 ConsoleAppender::ConsoleAppender(LayoutSharedPtr pLayout,
-                                 QObject *pParent) :
-    WriterAppender(pLayout, pParent),
+                                 QObject *parent) :
+    WriterAppender(pLayout, parent),
     mTarget(STDOUT_TARGET),
-    mpTextStream(nullptr)
+    mtextStream(nullptr)
 {
 }
 
 
 ConsoleAppender::ConsoleAppender(LayoutSharedPtr pLayout,
-                                 const QString &rTarget,
-                                 QObject *pParent) :
-    WriterAppender(pLayout, pParent),
+                                 const QString &target,
+                                 QObject *parent) :
+    WriterAppender(pLayout, parent),
     mTarget(STDOUT_TARGET),
-    mpTextStream(nullptr)
+    mtextStream(nullptr)
 {
-    setTarget(rTarget);
+    setTarget(target);
 }
 
 
 ConsoleAppender::ConsoleAppender(LayoutSharedPtr pLayout,
                                  Target target,
-                                 QObject *pParent) :
-    WriterAppender(pLayout, pParent),
+                                 QObject *parent) :
+    WriterAppender(pLayout, parent),
     mTarget(target),
-    mpTextStream(nullptr)
+    mtextStream(nullptr)
 {
 }
 
 
 ConsoleAppender::~ConsoleAppender()
 {
-    close();
-
+    closeInternal();
 }
 
 QString ConsoleAppender::target() const
 {
     if (mTarget == STDOUT_TARGET)
         return QStringLiteral("STDOUT_TARGET");
-    else
-        return QStringLiteral("STDERR_TARGET");
+    return QStringLiteral("STDERR_TARGET");
 }
 
-void ConsoleAppender::setTarget(const QString &rTarget)
+void ConsoleAppender::setTarget(const QString &target)
 {
     bool ok;
-    Target target = static_cast<Target>(OptionConverter::toTarget(rTarget, &ok));
+    Target targetEnum = static_cast<Target>(OptionConverter::toTarget(target, &ok));
     if (ok)
-        setTarget(target);
+        setTarget(targetEnum);
 }
-
 
 void ConsoleAppender::activateOptions()
 {
@@ -101,31 +98,35 @@ void ConsoleAppender::activateOptions()
     closeStream();
 
     if (mTarget == STDOUT_TARGET)
-        mpTextStream = new QTextStream(stdout);
+        mtextStream = new QTextStream(stdout);
     else
-        mpTextStream = new QTextStream(stderr);
-    setWriter(mpTextStream);
+        mtextStream = new QTextStream(stderr);
+    setWriter(mtextStream);
 
     WriterAppender::activateOptions();
 }
 
-
 void ConsoleAppender::close()
+{
+    closeInternal();
+    WriterAppender::close();
+}
+
+void ConsoleAppender::closeInternal()
 {
     QMutexLocker locker(&mObjectGuard);
 
     if (isClosed())
         return;
 
-    WriterAppender::close();
     closeStream();
 }
 
 void ConsoleAppender::closeStream()
 {
     setWriter(nullptr);
-    delete mpTextStream;
-    mpTextStream = nullptr;
+    delete mtextStream;
+    mtextStream = nullptr;
 }
 
 } // namespace Log4Qt

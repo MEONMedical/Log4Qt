@@ -69,7 +69,7 @@ class LOG4QT_EXPORT LogManager
 {
 private:
     LogManager();
-    virtual ~LogManager();
+    ~LogManager();
     Q_DISABLE_COPY(LogManager)
 
 public:
@@ -217,7 +217,7 @@ public:
      */
     static LogManager *instance();
 
-    static Logger *logger(const QString &rName);
+    static Logger *logger(const QString &name);
 
     /*!
      * Reset all values contained in logger repository to their default.
@@ -256,7 +256,7 @@ public:
      * present, the application settings are tested for a group
      * \c Properties. If the group exists, the package is configured
      * with the setting using the
-     * \ref PropertyConfigurator::doConfigure(const QSettings &r, LoggerRepository *)
+     * \ref PropertyConfigurator::doConfigure(const QSettings &properties, LoggerRepository *)
      * "PropertyConfiguratordoConfigure()". If neither a configuration
      * file nor configuration settings could be found, the current working
      * directory is searched for the file \c "log4qt.properties". If it is
@@ -291,20 +291,20 @@ private:
     void doStartup();
     void welcome();
 
-    static void qtMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &rMessage);
+    static void qtMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &message);
 
 private:
     mutable QMutex mObjectGuard;
-    LoggerRepository *mpLoggerRepository;
+    LoggerRepository *mLoggerRepository;
     bool mHandleQtMessages, mWatchThisFile;
     QString mFilterRules, mMessagePattern;
     QtMessageHandler mQtMsgHandler;
-    static LogManager *mspInstance;
+    static LogManager *mInstance;
 };
 
 inline LoggerRepository *LogManager::loggerRepository()
 {
-    return instance()->mpLoggerRepository;
+    return instance()->mLoggerRepository;
 }
 
 inline bool LogManager::handleQtMessages()

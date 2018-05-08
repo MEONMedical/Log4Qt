@@ -10,9 +10,9 @@ namespace Log4Qt
 
 struct BinaryLogStream::Stream
 {
-    Stream(const Logger *iLogger, Level iLevel)
-        : logger(iLogger)
-        , level(iLevel)
+    Stream(const Logger *logger, Level level)
+        : logger(logger)
+        , level(level)
     {
     }
     ~Stream();
@@ -33,8 +33,8 @@ BinaryLogStream::Stream::~Stream()
     }
 }
 
-BinaryLogStream::BinaryLogStream(const Logger *iLogger, Level iLevel)
-    : mStream(new Stream(iLogger, iLevel))
+BinaryLogStream::BinaryLogStream(const Logger *logger, Level level)
+    : mStream(new Stream(logger, level))
 {
 }
 

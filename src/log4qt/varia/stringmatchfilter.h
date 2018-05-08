@@ -58,14 +58,14 @@ class  LOG4QT_EXPORT StringMatchFilter : public Filter
     Q_PROPERTY(QString stringToMatch READ stringToMatch WRITE setStringToMatch)
 
 public:
-    StringMatchFilter(QObject *pParent = nullptr);
+    StringMatchFilter(QObject *parent = nullptr);
 
     bool acceptOnMatch() const;
     QString stringToMatch() const;
     void setAcceptOnMatch(bool accept);
-    void setStringToMatch(const QString &rString);
+    void setStringToMatch(const QString &string);
 
-    virtual Decision decide(const LoggingEvent &rEvent) const override;
+    Decision decide(const LoggingEvent &event) const override;
 
 private:
     bool mAcceptOnMatch;
@@ -87,9 +87,9 @@ inline void StringMatchFilter::setAcceptOnMatch(bool accept)
     mAcceptOnMatch = accept;
 }
 
-inline void StringMatchFilter::setStringToMatch(const QString &rString)
+inline void StringMatchFilter::setStringToMatch(const QString &string)
 {
-    mStringToMatch = rString;
+    mStringToMatch = string;
 }
 
 } // namespace Log4Qt

@@ -3,12 +3,8 @@
 namespace Log4Qt
 {
 
-Appender::Appender(QObject *pParent) :
-    QObject(pParent)
-{
-}
-
-Appender::~Appender()
+Appender::Appender(QObject *parent) :
+    QObject(parent)
 {
 }
 

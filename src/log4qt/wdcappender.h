@@ -10,16 +10,17 @@ class LOG4QT_EXPORT WDCAppender : public AppenderSkeleton
 {
     Q_OBJECT
 public:
-    WDCAppender(QObject *pParent = nullptr);
-    WDCAppender(LayoutSharedPtr pLayout,
-                QObject *pParent = nullptr);
+    WDCAppender(QObject *parent = nullptr);
+    WDCAppender(const LayoutSharedPtr &layout,
+                QObject *parent = nullptr);
+
+    virtual bool requiresLayout() const override;
+
+protected:
+    virtual void append(const LoggingEvent &event) override;
+
 private:
     Q_DISABLE_COPY(WDCAppender)
-public:
-    virtual bool requiresLayout() const override;
-protected:
-    virtual void append(const LoggingEvent &rEvent) override;
-
 };
 
 } // namespace Log4Qt

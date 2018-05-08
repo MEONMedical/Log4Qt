@@ -65,7 +65,7 @@ class LOG4QT_EXPORT Layout : public QObject
     Q_PROPERTY(QString header READ header WRITE setHeader)
 
 public:
-    Layout(QObject *pParent = nullptr);
+    Layout(QObject *parent = nullptr);
     virtual ~Layout();
 
 public:
@@ -73,12 +73,12 @@ public:
     QString footer() const;
     QString header() const;
     QString name() const;
-    void setFooter(const QString &rFooter);
-    void setHeader(const QString &rHeader);
-    void setName(const QString &rName);
+    void setFooter(const QString &footer);
+    void setHeader(const QString &header);
+    void setName(const QString &name);
 
     virtual void activateOptions();
-    virtual QString format(const LoggingEvent &rEvent) = 0;
+    virtual QString format(const LoggingEvent &event) = 0;
 
     /*!
      * Returns the end of line seperator for the operating system.
@@ -111,19 +111,19 @@ inline QString Layout::name() const
     return objectName();
 }
 
-inline void Layout::setFooter(const QString &rFooter)
+inline void Layout::setFooter(const QString &footer)
 {
-    mFooter = rFooter;
+    mFooter = footer;
 }
 
-inline void Layout::setHeader(const QString &rHeader)
+inline void Layout::setHeader(const QString &header)
 {
-    mHeader = rHeader;
+    mHeader = header;
 }
 
-inline void Layout::setName(const QString &rName)
+inline void Layout::setName(const QString &name)
 {
-    setObjectName(rName);
+    setObjectName(name);
 }
 
 using LayoutSharedPtr = Log4QtSharedPtr<Layout>;

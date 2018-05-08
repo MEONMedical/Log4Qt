@@ -58,7 +58,7 @@ public:
     static NDC *instance();
 
     static QString pop();
-    static void push(const QString &rMessage);
+    static void push(const QString &message);
     static void setMaxDepth(int maxDepth);
     static QString peek();
 
@@ -66,8 +66,7 @@ private:
     QThreadStorage<QStack<QString> *> mStack;
 };
 
-inline NDC::NDC() :
-    mStack()
+inline NDC::NDC()
 {}
 
 } // namespace Log4Qt

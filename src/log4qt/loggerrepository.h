@@ -41,22 +41,20 @@ class Logger;
 class LOG4QT_EXPORT LoggerRepository
 {
 public:
-    virtual ~LoggerRepository();
+    virtual ~LoggerRepository() = default;
 
-public:
-    virtual bool exists(const QString &rName) const = 0;
-    virtual Logger *logger(const QString &rName) = 0;
+    virtual bool exists(const QString &name) const = 0;
+    virtual Logger *logger(const QString &name) = 0;
     virtual QList<Logger *> loggers() const = 0;
     virtual Logger *rootLogger() const = 0;
     virtual Level threshold() const = 0;
     virtual void setThreshold(Level level) = 0;
-    virtual void setThreshold(const QString &rThreshold) = 0;
+    virtual void setThreshold(const QString &threshold) = 0;
 
     virtual bool isDisabled(Level level) = 0;
     virtual void resetConfiguration() = 0;
     virtual void shutdown() = 0;
 };
-
 
 } // namespace Log4Qt
 

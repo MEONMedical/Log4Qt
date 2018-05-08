@@ -83,21 +83,21 @@ private:
         QScopedPointer<QDataStream> pds;
         QPointer<Log4Qt::BinaryWriterAppender> appender;
     } mAppenderData[3];
-    QMap<QString, int> mLoggerNameToAppenderDataIndex;
+    QMap<QString, int> mLoggenameToAppenderDataIndex;
 
     AppenderData &getAppenderDataFromLogger(Log4Qt::Logger *plogger)
     {
-        auto loggerName = plogger->name();
+        auto loggename = plogger->name();
 
-        if (!mLoggerNameToAppenderDataIndex.contains(loggerName))
-            mLoggerNameToAppenderDataIndex.insert(loggerName, mLoggerNameToAppenderDataIndex.size());
+        if (!mLoggenameToAppenderDataIndex.contains(loggename))
+            mLoggenameToAppenderDataIndex.insert(loggename, mLoggenameToAppenderDataIndex.size());
 
-        return mAppenderData[mLoggerNameToAppenderDataIndex[loggerName]];
+        return mAppenderData[mLoggenameToAppenderDataIndex[loggename]];
     }
 
-    void log(const QByteArray &data, const QString &loggerName = QString{})
+    void log(const QByteArray &data, const QString &loggename = QString{})
     {
-        auto mylogger = Log4Qt::Logger::logger(loggerName);
+        auto mylogger = Log4Qt::Logger::logger(loggename);
         Log4Qt::BinaryLoggingEvent event(mylogger, Log4Qt::Level::INFO_INT, data);
         mylogger->callAppenders(event);
     }

@@ -17,7 +17,7 @@
 typedef HANDLE(WINAPI *PDeregisterEventSource)(HANDLE);
 static PDeregisterEventSource pDeregisterEventSource = nullptr;
 typedef BOOL(WINAPI *PReportEvent)(HANDLE, WORD, WORD, DWORD, PSID, WORD, DWORD, LPCTSTR *, LPVOID);
-static PReportEvent pReportEvent = 0;
+static PReportEvent pReportEvent = nullptr;
 typedef HANDLE(WINAPI *PRegisterEventSource)(LPCTSTR, LPCTSTR);
 static PRegisterEventSource pRegisterEventSource = nullptr;
 
@@ -27,7 +27,7 @@ static PRegisterEventSource pRegisterEventSource = nullptr;
 
 static bool winServiceInit()
 {
-    if (!pDeregisterEventSource)
+    if (pDeregisterEventSource == nullptr)
     {
         QLibrary lib(QStringLiteral("advapi32"));
 
@@ -76,20 +76,19 @@ SystemLogAppender::SystemLogAppender(QObject *parent) :
 
 SystemLogAppender::~SystemLogAppender()
 {
-    if (ident)
-        delete[] ident;
+    delete[] ident;
 }
 
-void SystemLogAppender::append(const LoggingEvent &rEvent)
+void SystemLogAppender::append(const LoggingEvent &event)
 {
-    QString message(layout()->format(rEvent));
+    QString message(layout()->format(event));
 
 #if defined(Q_OS_WIN32)
     //  Q_D(QtServiceBase);
     if (!winServiceInit())
         return;
     WORD wType;
-    switch (rEvent.level().toInt())
+    switch (event.level().toInt())
     {
     case Level::WARN_INT:
         wType = EVENTLOG_WARNING_TYPE;
@@ -109,7 +108,7 @@ void SystemLogAppender::append(const LoggingEvent &rEvent)
     }
 
     HANDLE h = pRegisterEventSource(nullptr, serviceName().toStdWString().c_str());
-    if (h)
+    if (h != nullptr)
     {
         int id = 0;
         uint category = 0;
@@ -124,7 +123,7 @@ void SystemLogAppender::append(const LoggingEvent &rEvent)
 #else
 
     int st;
-    switch (rEvent.level().toInt())
+    switch (event.level().toInt())
     {
     case Level::WARN_INT:
         st = LOG_WARNING;
@@ -157,8 +156,7 @@ void SystemLogAppender::setServiceName(const QString &serviceName)
     mServiceName = serviceName;
 
 #if !defined(Q_OS_WIN32)
-    if (ident)
-        delete[] ident;
+    delete[] ident;
     QString tmp = encodeName(mServiceName, true);
     int len = tmp.toLocal8Bit().size();
     ident = new char[len + 1];

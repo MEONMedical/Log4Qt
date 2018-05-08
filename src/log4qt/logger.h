@@ -172,7 +172,7 @@ class LOG4QT_EXPORT MessageLogger
     Q_DISABLE_COPY(MessageLogger)
 
 public:
-    explicit MessageLogger(Logger *logger, Level level) : mLogger(logger), mLevel(level), mContext() {}
+    explicit MessageLogger(Logger *logger, Level level) : mLogger(logger), mLevel(level) {}
     explicit MessageLogger(Logger *logger, Level level, const char *file, int line, const char *function)
         : mLogger(logger), mLevel(level), mContext(file, line, function) {}
 
@@ -227,7 +227,7 @@ class LoggerRepository;
  *
  * \note All the functions declared in this class are thread-safe.
  */
-class LOG4QT_EXPORT  Logger : public QObject, public AppenderAttachable
+class LOG4QT_EXPORT Logger : public QObject, public AppenderAttachable
 {
     Q_OBJECT
 
@@ -272,8 +272,8 @@ class LOG4QT_EXPORT  Logger : public QObject, public AppenderAttachable
     LOG4QT_DECLARE_QCLASS_LOGGER
 
 protected:
-    Logger(LoggerRepository *pLoggerRepository, Level level, const QString &rName, Logger *pParent = nullptr);
-    virtual ~Logger();
+    Logger(LoggerRepository *loggerRepository, Level level, const QString &name, Logger *parent = nullptr);
+    ~Logger() override;
 
 private:
     Q_DISABLE_COPY(Logger)
@@ -288,7 +288,7 @@ public:
     void setAdditivity(bool additivity);
     virtual void setLevel(Level level);
 
-    void callAppenders(const LoggingEvent &rEvent) const;
+    void callAppenders(const LoggingEvent &event) const;
 
     Level effectiveLevel() const;
     bool isDebugEnabled() const;
@@ -313,8 +313,8 @@ public:
     bool isWarnEnabled() const;
 
     LogStream debug() const;
-    void debug(const LogError &rLogError) const;
-    void debug(const QString &rMessage) const;
+    void debug(const LogError &logError) const;
+    void debug(const QString &message) const;
 
     template<typename T, typename ...Ts>
     void debug(const QString &message, T &&t, Ts &&...ts)
@@ -324,8 +324,8 @@ public:
 
 
     LogStream error() const;
-    void error(const LogError &rLogError) const;
-    void error(const QString &rMessage) const;
+    void error(const LogError &logError) const;
+    void error(const QString &message) const;
 
     template<typename T, typename ...Ts>
     void error(const QString &message, T &&t, Ts &&...ts)
@@ -334,8 +334,8 @@ public:
     }
 
     LogStream fatal() const;
-    void fatal(const LogError &rLogError) const;
-    void fatal(const QString &rMessage) const;
+    void fatal(const LogError &logError) const;
+    void fatal(const QString &message) const;
 
     template<typename T, typename ...Ts>
     void fatal(const QString &message, T &&t, Ts &&...ts)
@@ -344,8 +344,8 @@ public:
     }
 
     LogStream info() const;
-    void info(const LogError &rLogError) const;
-    void info(const QString &rMessage) const;
+    void info(const LogError &logError) const;
+    void info(const QString &message) const;
 
     template<typename T, typename ...Ts>
     void info(const QString &message, T &&t, Ts &&...ts)
@@ -354,10 +354,10 @@ public:
     }
 
     LogStream log(Level level) const;
-    void log(Level level, const LogError &rLogError) const;
-    void log(const LoggingEvent &rLogEvent) const;
+    void log(Level level, const LogError &logError) const;
+    void log(const LoggingEvent &logEvent) const;
 
-    void log(Level level, const QString &rMessage) const;
+    void log(Level level, const QString &message) const;
     template<typename T, typename ...Ts>
     void log(Level level, const QString &message, T &&t, Ts &&...ts)
     {
@@ -372,8 +372,8 @@ public:
     }
 
     LogStream trace() const;
-    void trace(const LogError &rLogError) const;
-    void trace(const QString &rMessage) const;
+    void trace(const LogError &logError) const;
+    void trace(const QString &message) const;
 
     template<typename T, typename ...Ts>
     void trace(const QString &message, T &&t, Ts &&...ts)
@@ -382,8 +382,8 @@ public:
     }
 
     LogStream warn() const;
-    void warn(const LogError &rLogError) const;
-    void warn(const QString &rMessage) const;
+    void warn(const LogError &logError) const;
+    void warn(const QString &message) const;
 
     template<typename T, typename ...Ts>
     void warn(const QString &message, T &&t, Ts &&...ts)
@@ -392,26 +392,25 @@ public:
     }
 
     // LogManager operations
-    static Logger *logger(const QString &rName);
-    static Logger *logger(const char *pName);
+    static Logger *logger(const QString &name);
+    static Logger *logger(const char *name);
     static Logger *rootLogger();
 
 protected:
-    void forcedLog(Level level, const QString &rMessage) const;
-    void forcedLog(const LoggingEvent &rLogEvent) const;
+    void forcedLog(Level level, const QString &message) const;
+    void forcedLog(const LoggingEvent &logEvent) const;
 
 private:
     const QString mName;
-    LoggerRepository *mpLoggerRepository;
+    LoggerRepository *mLoggerRepository;
     volatile bool mAdditivity;
     Level mLevel;
-    Logger *mpParent;
+    Logger *mParentLogger;
 
     // Needs to be friend to create Logger objects
     friend class Hierarchy;
 };
 
 } // namespace Log4Qt
-
 
 #endif // LOG4QT_LOGGER_H
