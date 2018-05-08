@@ -4,7 +4,7 @@
 #include "loggingevent.h"
 
 #ifdef Q_OS_WIN
-#include <Windows.h>
+#include <windows.h>
 #else
 static void OutputDebugString(const wchar_t *lpOutputString)
 {

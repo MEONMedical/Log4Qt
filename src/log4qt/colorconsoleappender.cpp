@@ -51,8 +51,7 @@
 
 #define NIX_DEFAULT             0
 
-#if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
-//#include <Windows.h>
+#ifdef Q_OS_WIN
 #define WIN_BACK_BLACK                      0
 #define WIN_BACK_RED                            BACKGROUND_RED
 #define WIN_BACK_LIGHT_RED              BACKGROUND_RED | BACKGROUND_INTENSITY
@@ -212,7 +211,6 @@ static void colorOutputString(HANDLE hConsole, const QString &output)
 namespace Log4Qt
 {
 
-
 ColorConsoleAppender::ColorConsoleAppender(QObject *parent) :
     ConsoleAppender(parent)
 {
@@ -240,7 +238,7 @@ ColorConsoleAppender::~ColorConsoleAppender()
     closeInternal();
 }
 
-#if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
+#ifdef Q_OS_WIN
 void ColorConsoleAppender::append(const LoggingEvent &event)
 {
     QString message = layout()->format(event);
@@ -282,7 +280,7 @@ void ColorConsoleAppender::closeInternal()
     if (isClosed())
         return;
 
-#if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
+#ifdef Q_OS_WIN
     CloseHandle(hConsole);
 #endif
 }

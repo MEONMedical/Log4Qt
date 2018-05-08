@@ -22,11 +22,9 @@
  *
  ******************************************************************************/
 
-
 #include "helpers/factory.h"
 
 #include "consoleappender.h"
-#include "colorconsoleappender.h"
 #include "dailyrollingfileappender.h"
 #include "fileappender.h"
 #include "helpers/logerror.h"
@@ -58,6 +56,7 @@
 #include "rollingbinaryfileappender.h"
 #include "dailyfileappender.h"
 #ifdef Q_OS_WIN
+#include "colorconsoleappender.h"
 #include "wdcappender.h"
 #endif
 
@@ -120,11 +119,6 @@ Appender *create_signal_appender()
     return new SignalAppender;
 }
 
-Appender *create_color_console_appender()
-{
-    return new ColorConsoleAppender;
-}
-
 #if defined(QT_SQL_LIB)
 Appender *create_database_appender()
 {
@@ -173,6 +167,11 @@ Appender *create_dailyrollingfile_appender()
 Appender *create_wdc_appender()
 {
     return new WDCAppender;
+}
+
+Appender *create_color_console_appender()
+{
+    return new ColorConsoleAppender;
 }
 #endif
 
@@ -447,8 +446,10 @@ void Factory::registerDefaultAppenders()
 
     mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.SignalAppender"), create_signal_appender);
     mAppenderRegistry.insert(QStringLiteral("Log4Qt::SignalAppender"), create_signal_appender);
+#ifdef Q_OS_WIN
     mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.ColorConsoleAppender"), create_color_console_appender);
     mAppenderRegistry.insert(QStringLiteral("Log4Qt::ColorConsoleAppender"), create_color_console_appender);
+#endif
 
 #if defined(QT_SQL_LIB)
     mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.DatabaseAppender"), create_database_appender);

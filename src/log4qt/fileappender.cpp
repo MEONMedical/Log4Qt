@@ -34,8 +34,8 @@
 #include <QTextCodec>
 
 // if we are in WIN*
-#if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
-#include <Windows.h>
+#ifdef Q_OS_WIN
+#include <windows.h>
 #endif
 
 namespace Log4Qt
@@ -183,7 +183,7 @@ void FileAppender::openFile()
         parent_dir.mkdir(name);
     }
 
-#if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
+#ifdef Q_OS_WIN
     // Let windows resolve any environment variables included in the file path
     wchar_t buffer[MAX_PATH];
     if (ExpandEnvironmentStringsW(mFileName.toStdWString().c_str(), buffer, MAX_PATH))

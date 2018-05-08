@@ -27,8 +27,8 @@
 #include "layout.h"
 #include "loggingevent.h"
 
-#if defined(Q_OS_WIN32)
-#include <Windows.h>
+#if defined(Q_OS_WIN)
+#include <windows.h>
 #endif
 
 #include <iostream>
@@ -52,7 +52,7 @@ void DebugAppender::append(const LoggingEvent &event)
     Q_ASSERT_X(layout(), "DebugAppender::append()", "Layout must not be null");
 
     QString message(layout()->format(event));
-#if defined(Q_OS_WIN32)
+#if defined(Q_OS_WIN)
     OutputDebugStringW(message.toStdWString().c_str());
 #else
     std::cerr << message.toLocal8Bit().constData() << std::endl;

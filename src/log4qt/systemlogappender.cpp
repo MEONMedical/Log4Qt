@@ -6,7 +6,7 @@
 
 #include <QCoreApplication>
 
-#if defined(Q_OS_WIN32)
+#if defined(Q_OS_WIN)
 #ifndef UNICODE
 #define UNICODE
 #endif
@@ -65,7 +65,7 @@ static QString encodeName(const QString &name, bool allowUpper = false)
     }
     return n;
 }
-#endif //#if defined(Q_OS_WIN32)
+#endif
 namespace Log4Qt
 {
 SystemLogAppender::SystemLogAppender(QObject *parent) :
@@ -83,7 +83,7 @@ void SystemLogAppender::append(const LoggingEvent &event)
 {
     QString message(layout()->format(event));
 
-#if defined(Q_OS_WIN32)
+#if defined(Q_OS_WIN)
     //  Q_D(QtServiceBase);
     if (!winServiceInit())
         return;
@@ -143,7 +143,7 @@ void SystemLogAppender::append(const LoggingEvent &event)
         syslog(st, "%s", line.toLocal8Bit().constData());
     closelog();
 
-#endif //#if defined(Q_OS_WIN32)
+#endif //#if defined(Q_OS_WIN)
 }
 
 QString SystemLogAppender::serviceName() const
@@ -155,7 +155,7 @@ void SystemLogAppender::setServiceName(const QString &serviceName)
 {
     mServiceName = serviceName;
 
-#if !defined(Q_OS_WIN32)
+#if !defined(Q_OS_WIN)
     delete[] ident;
     QString tmp = encodeName(mServiceName, true);
     int len = tmp.toLocal8Bit().size();

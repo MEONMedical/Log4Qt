@@ -28,10 +28,10 @@
 #include "consoleappender.h"
 
 // if we are in WIN*
-#if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
+#ifdef Q_OS_WIN
 #define WIN32_LEAN_AND_MEAN
 #define NOGDI
-#include <Windows.h>
+#include <windows.h>
 #endif
 
 class QFile;
@@ -70,10 +70,8 @@ public:
 
     ~ColorConsoleAppender() override;
     // if we are in WIN*
-#if defined(__WIN32__) || defined(WIN) || defined(WIN32) || defined(Q_OS_WIN32)
-
+#ifdef Q_OS_WIN
     void activateOptions() override;
-
     void close() override;
 
 protected:

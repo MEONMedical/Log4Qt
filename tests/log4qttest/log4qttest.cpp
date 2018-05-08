@@ -160,11 +160,11 @@ void Log4QtTest::PatternFormatter_data()
 
     // Create end of line
     QString eol;
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
     eol = QStringLiteral("\n");
 #else
     eol = QStringLiteral("\n");
-#endif // Q_OS_WIN32
+#endif
     // Prepare event data
     int relative_offset = 17865;
     qint64 relative_timestamp = InitialisationHelper::startTime() + relative_offset;
