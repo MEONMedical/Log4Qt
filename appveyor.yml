@@ -4,14 +4,6 @@ build:
 
 environment:
     matrix:
-    # Qt 5.7
-    - QTDIR: C:\Qt\5.7\msvc2013_64
-      CMD_VCVARSALL: '"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall" x64'
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
-    # Qt 5.8
-    - QTDIR: C:\Qt\5.8\msvc2013_64
-      CMD_VCVARSALL: '"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall" x64'
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2013
     # Qt 5.9
     - QTDIR: C:\Qt\5.9\msvc2015_64
       CMD_VCVARSALL: '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall" x64'
