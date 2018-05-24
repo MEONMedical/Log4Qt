@@ -144,9 +144,10 @@ private:
 private:
     bool mSkipLongTests;
     QDir mTemporaryDirectory;
-    Log4Qt::ListAppender *mpLoggingEvents;
+    Log4Qt::AppenderSharedPtr mpLoggingEvents;
     Log4Qt::Properties mDefaultProperties;
     Log4Qt::Properties mProperties;
+    Log4Qt::ListAppender *loggingEvents() const;
 };
 
 
