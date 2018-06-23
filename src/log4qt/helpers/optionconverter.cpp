@@ -95,7 +95,7 @@ QString OptionConverter::findAndSubst(const Properties &properties,
 
 QString OptionConverter::classNameJavaToCpp(const QString &className)
 {
-    const QLatin1String java_class_delimiter(".");
+    const QLatin1Char java_class_delimiter('.');
     const QLatin1String cpp_class_delimiter("::");
 
     QString result = className;
