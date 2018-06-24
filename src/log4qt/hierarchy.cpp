@@ -106,16 +106,14 @@ void Hierarchy::shutdown()
 
 Logger *Hierarchy::createLogger(const QString &orgName)
 {
-    static const char binaryIndicator[] = "@@binary@@";
-
+    static const QLatin1String binaryIndicator = QLatin1String("@@binary@@");
+    static const QLatin1String name_separator = QLatin1String("::");
 
     QString name(OptionConverter::classNameJavaToCpp(orgName));
     bool needBinaryLogger = orgName.contains(binaryIndicator);
 
     if (needBinaryLogger)
         name.remove(binaryIndicator);
-
-    const QString name_separator = QStringLiteral("::");
 
     Logger *logger = mLoggers.value(name, nullptr);
     if (logger != nullptr)
