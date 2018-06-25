@@ -2,18 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 ----
-## [v1.5.0] - ????
+## [v1.5.0] - 25.06.2018
 ### Improvements
 - RollingFileAppender: Changed the behavior on application restart and if
                        appendFile is set to false to avoid data loss. The
                        existing log files are rolled instead of overwritten.
                        This behavior is different to the log4/log4cpp implementation.
-
 - Modernize c++ and qt usage wit clang-tidy and clazy
 
 ### Fixed
 - Fixed "DATE" format string, it will be formatted as MMM YYYY HH:mm:ss.zzz
 - Minimum required Qt version is 5.7
+- Move color console appender to windows only (is only implemented for windows),
+  unified windows os preprocessor switches
 
 ## [v1.4.2] - 2017-09-06
 ### Improvements
