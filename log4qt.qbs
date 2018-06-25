@@ -16,5 +16,13 @@ Project {
             files: ["**/*.pr[io]"]
         }
     }
+
+    Product {
+        name: "cmake project files(log4qt)"
+        Group {
+            name: "files"
+            files: ["**/CMakeLists.txt", "cmake/*"]
+        }
+    }
 }
 
