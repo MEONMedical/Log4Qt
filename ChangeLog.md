@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 ----
+## [v1.5.1] - ??
+?
+
 ## [v1.5.0] - 25.06.2018
 ### Improvements
 - RollingFileAppender: Changed the behavior on application restart and if
