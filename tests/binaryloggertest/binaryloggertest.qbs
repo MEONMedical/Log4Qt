@@ -23,12 +23,12 @@ Product {
         condition: qbs.targetOS.contains("macos")
         cpp.sonamePrefix: "@rpath"
         cpp.useRPaths: true
-        cpp.rpaths: ["@loader_path", "@executable_path"]
+        cpp.rpaths: ["@loader_path", "@loader_path/../../bin", "@executable_path", "@executable_path/../../bin"]
     }
 
     Properties {
         condition: qbs.targetOS.contains("linux")
         cpp.useRPaths: true
-        cpp.rpaths: ["$ORIGIN"]
-    }     
+        cpp.rpaths: ["$ORIGIN", "$ORIGIN/../../bin"]
+    }   
 }
