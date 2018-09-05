@@ -15,7 +15,7 @@ Product {
     Depends { name: "cpp" }
     Depends { name: "log4qt" }
     Depends { name: "Qt"; submodules: ["core", "xml", "network", "sql", "testlib"] }
-    destinationDirectory: "../bin"
+    destinationDirectory: "../tests/bin"
 
     cpp.cxxLanguageVersion: "c++11"
 
