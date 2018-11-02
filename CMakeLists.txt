@@ -4,7 +4,7 @@ project(Log4Qt VERSION 1.5.1)
 #
 # in-source builds should be avoided
 #
-set(Log4Qt_MODULE_DIR "${CMAKE_SOURCE_DIR}/cmake")
+set(Log4Qt_MODULE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 set(CMAKE_MODULE_PATH "${Log4Qt_MODULE_DIR}")
 include(MacroEnsureOutOfSourceBuild)
 
@@ -21,7 +21,7 @@ option(BUILD_STATIC_LOG4CXX_LIB "Build a static log4cxx library (default: off)" 
 #
 # With Database logging support or without
 #
-option(BUILD_WITH_DB_LOGGING "Build with database logging support, link against Qt sql lib (default: on)" ON)
+option(BUILD_WITH_DB_LOGGING "Build with database logging support, link against Qt sql lib (default: on)" OFF)
 
 #
 # With Database logging support or without
@@ -42,7 +42,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
 #
 # Set include dir src
 #
-include_directories( ${CMAKE_SOURCE_DIR}/src )
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+set(LOG4QT_BUILD_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 #
 # We need C++11 and don't want to export all symbols, only the ones we mark for export

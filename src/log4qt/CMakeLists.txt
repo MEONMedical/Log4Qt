@@ -154,6 +154,9 @@ target_link_libraries(log4qt
     PUBLIC
         Qt5::Core
 )
+target_include_directories(log4qt PUBLIC
+    $<BUILD_INTERFACE:${LOG4QT_BUILD_INCLUDE_DIR}>
+    $<INSTALL_INTERFACE:include>)
 #
 # add databaseappender if database logging support was enabled
 #
