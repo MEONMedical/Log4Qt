@@ -1,6 +1,6 @@
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-set(log4qt_SRCS
+set(log4qt_SOURCES
     appender.cpp
     appenderskeleton.cpp
     asyncappender.cpp
@@ -61,7 +61,7 @@ set(log4qt_SRCS
     writerappender.cpp
     xmllayout.cpp
 )
-set(log4qt_HDRS
+set(log4qt_HEADERS
     appender.h
     appenderskeleton.h
     asyncappender.h
@@ -104,7 +104,7 @@ set(log4qt_HDRS
     writerappender.h
     xmllayout.h
 )
-set(log4qt_HDRS_helpers
+set(log4qt_HEADERS_helpers
     helpers/appenderattachable.h
     helpers/binaryclasslogger.h
     helpers/classlogger.h
@@ -118,10 +118,10 @@ set(log4qt_HDRS_helpers
     helpers/patternformatter.h
     helpers/properties.h
 )
-set(log4qt_HDRS_spi
+set(log4qt_HEADERS_spi
     spi/filter.h
 )
-set(log4qt_HDRS_varia
+set(log4qt_HEADERS_varia
     varia/binaryeventfilter.h
     varia/debugappender.h
     varia/denyallfilter.h
@@ -132,11 +132,11 @@ set(log4qt_HDRS_varia
     varia/stringmatchfilter.h
 )
 if(WIN32)
-    list(APPEND log4qt_SRCS
+    list(APPEND log4qt_SOURCES
         wdcappender.cpp
         colorconsoleappender.cpp
     )
-    list(APPEND log4qt_HDRS
+    list(APPEND log4qt_HEADERS
         wdcappender.h
         colorconsoleappender.h
     )
@@ -149,7 +149,7 @@ set(_shared_static SHARED)
 if(BUILD_STATIC_LOG4CXX_LIB)
   set(_shared_static STATIC)
 endif()
-add_library(log4qt ${_shared_static} ${log4qt_SRCS} ${log4qt_HDRS} ${log4qt_HDRS_helpers} ${log4qt_HDRS_spi} ${log4qt_HDRS_varia})
+add_library(log4qt ${_shared_static} ${log4qt_SOURCES} ${log4qt_HEADERS} ${log4qt_HEADERS_helpers} ${log4qt_HEADERS_spi} ${log4qt_HEADERS_varia})
 target_link_libraries(log4qt
     PUBLIC
         Qt5::Core
@@ -168,8 +168,8 @@ if(BUILD_WITH_DB_LOGGING)
             databaseappender.h
             databaselayout.h
     )
-    # append to log4qt_HDRS or proper install
-    list(APPEND log4qt_HDRS
+    # append to log4qt_HEADERS or proper install
+    list(APPEND log4qt_HEADERS
         databaseappender.h
         databaselayout.h
     )
@@ -195,8 +195,8 @@ if(BUILD_WITH_TELNET_LOGGING)
             telnetappender.cpp
             telnetappender.h
     )
-    # append to log4qt_HDRS or proper install
-    list(APPEND log4qt_HDRS
+    # append to log4qt_HEADERS or proper install
+    list(APPEND log4qt_HEADERS
         telnetappender.h
     )
     target_link_libraries(log4qt
@@ -236,7 +236,7 @@ install(TARGETS log4qt EXPORT log4qt_targets
                        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
                        INCLUDES DESTINATION include
                        )
-install(FILES ${log4qt_HDRS}         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4qt)
-install(FILES ${log4qt_HDRS_helpers} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4qt/helpers)
-install(FILES ${log4qt_HDRS_spi}     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4qt/spi)
-install(FILES ${log4qt_HDRS_varia}   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4qt/varia)
+install(FILES ${log4qt_HEADERS}         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4qt)
+install(FILES ${log4qt_HEADERS_helpers} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4qt/helpers)
+install(FILES ${log4qt_HEADERS_spi}     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4qt/spi)
+install(FILES ${log4qt_HEADERS_varia}   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4qt/varia)
