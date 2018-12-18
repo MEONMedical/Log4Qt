@@ -26,7 +26,7 @@ option(BUILD_WITH_DB_LOGGING "Build with database logging support, link against 
 #
 # With Database logging support or without
 #
-option(BUILD_WITH_TELNET_LOGGING "Build with telnet logging support, link against Qt network lib (default: on)" ON)
+option(BUILD_WITH_TELNET_LOGGING "Build with telnet logging support, link against Qt network lib (default: on)" OFF)
 
 #
 # Helper to be able to properly install into the correct directories (esp. lib/lib64)
