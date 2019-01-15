@@ -29,6 +29,11 @@ ProductLibrary {
         cpp.includePaths: FileInfo.cleanPath(product.sourceDirectory + "/..")
     }
 
+    Depends {
+        name: "Qt"
+        submodules: [ "concurrent" ]
+    }
+
     files: [
         "appender.cpp",
         "appender.h",

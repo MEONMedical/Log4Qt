@@ -153,6 +153,7 @@ add_library(log4qt ${_shared_static} ${log4qt_SOURCES} ${log4qt_HEADERS} ${log4q
 target_link_libraries(log4qt
     PUBLIC
         Qt5::Core
+        Qt5::Concurrent
 )
 target_include_directories(log4qt PUBLIC
     $<BUILD_INTERFACE:${LOG4QT_BUILD_INCLUDE_DIR}>
