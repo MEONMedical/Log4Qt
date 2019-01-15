@@ -1,5 +1,6 @@
 #include "log4qt/dailyfileappender.h"
 
+#include "log4qt/loggingevent.h"
 #include "log4qt/simplelayout.h"
 
 #include <QTemporaryDir>
@@ -16,6 +17,7 @@ private Q_SLOTS:
     void cleanup();
 
     void testFileCreation();
+    void testAppend();
 
 private:
     QTemporaryDir *mLogDirectory;
@@ -44,6 +46,26 @@ void DailyFileAppenderTest::testFileCreation()
     mAppender->activateOptions();
 
     QVERIFY(QFileInfo::exists(mAppender->file()));
+}
+
+void DailyFileAppenderTest::testAppend()
+{
+    mAppender->setFile(mLogDirectory->filePath(QStringLiteral("app.log")));
+
+    mAppender->activateOptions();
+
+    const auto fileName = mAppender->file();
+
+    QVERIFY(QFileInfo::exists(fileName));
+
+    const QFile logFile(fileName);
+
+    // nothing written yet
+    QCOMPARE(logFile.size(), 0);
+
+    mAppender->append(Log4Qt::LoggingEvent());
+
+    QVERIFY(logFile.size() > 0);
 }
 
 QTEST_GUILESS_MAIN(DailyFileAppenderTest)
