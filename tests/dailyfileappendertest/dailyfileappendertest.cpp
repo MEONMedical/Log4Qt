@@ -44,6 +44,7 @@ private Q_SLOTS:
     void testFileCreation();
     void testAppend();
     void testRollOver();
+    void testObsoleteLogFileDeletion();
 
 private:
     QTemporaryDir *mLogDirectory;
@@ -141,6 +142,66 @@ void DailyFileAppenderTest::testRollOver()
 
     QVERIFY(QFileInfo::exists(fileNameDay2));
     QVERIFY(fileNameDay1 != fileNameDay2);
+}
+
+namespace
+{
+
+void createFile(const QString& fileName)
+{
+    QFile file(fileName);
+    file.open(QFile::WriteOnly);
+    file.close();
+    QVERIFY2(file.exists(), qPrintable(fileName));
+}
+
+}
+
+void DailyFileAppenderTest::testObsoleteLogFileDeletion()
+{
+    const auto deleteOnActivateFileName = mLogDirectory->filePath("app_2019_01_05.log");
+    createFile(deleteOnActivateFileName);
+
+    const auto deleteAfterOneDayFileName = mLogDirectory->filePath("app_2019_01_06.log");
+    createFile(deleteAfterOneDayFileName);
+
+    const auto alwaysKeptFileName = mLogDirectory->filePath("app_2019_01_07.log");
+    createFile(alwaysKeptFileName);
+
+    mDateRetriever->setCurrentDate(QDate(2019, 01, 10));
+
+    mAppender->setFile(mLogDirectory->filePath(QStringLiteral("app.log")));
+    mAppender->setDatePattern(QStringLiteral("_yyyy_MM_dd"));
+    mAppender->setKeepDays(4);
+
+    // after configuration ...
+    mAppender->activateOptions();
+
+    // ... we delete obsolete files
+    QVERIFY(!QFileInfo::exists(deleteOnActivateFileName));
+    QVERIFY(QFileInfo::exists(deleteAfterOneDayFileName));
+    QVERIFY(QFileInfo::exists(alwaysKeptFileName));
+
+    // appending later today ...
+    mAppender->append(Log4Qt::LoggingEvent());
+
+    // ... does not delete anything
+    QVERIFY(QFileInfo::exists(deleteAfterOneDayFileName));
+    QVERIFY(QFileInfo::exists(alwaysKeptFileName));
+
+    // one day has passed ...
+    mDateRetriever->setCurrentDate(mDateRetriever->currentDate().addDays(1));
+
+    // ... and we append additional messages ...
+    mAppender->append(Log4Qt::LoggingEvent());
+
+    // ... one file becomes obsolete and is deleted automatically
+    // Since deletion takes place in a separate thread, we would need to sleep here. To avoid that,
+    // we rely on the appender to wait for completion in its destructor
+    delete mAppender;
+    mAppender = nullptr;
+    QVERIFY(!QFileInfo::exists(deleteAfterOneDayFileName));
+    QVERIFY(QFileInfo::exists(alwaysKeptFileName));
 }
 
 QTEST_GUILESS_MAIN(DailyFileAppenderTest)

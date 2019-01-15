@@ -1,4 +1,4 @@
-QT += core xml network
+QT += core xml network concurrent
 include(../../build.pri)
 include(../../g++.pri)
 include(log4qt.pri)

@@ -59,7 +59,7 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_AUTOMOC TRUE)
 set(QT_MIN_VERSION 5.7.0)
 # TODO: make Network also optional?
-find_package(Qt5 COMPONENTS Core Network Test REQUIRED)
+find_package(Qt5 COMPONENTS Core Network Concurrent Test REQUIRED)
 if(BUILD_WITH_DB_LOGGING)
   find_package(Qt5 COMPONENTS Sql REQUIRED)
 endif()
