@@ -27,7 +27,7 @@ public:
     }
 
 private:
-    QDate mCurrentDate;
+    QDate mCurrentDate = QDate(2019, 1, 15);
 };
 
 }
@@ -43,6 +43,7 @@ private Q_SLOTS:
     void testFileCreation_data();
     void testFileCreation();
     void testAppend();
+    void testRollOver();
 
 private:
     QTemporaryDir *mLogDirectory;
@@ -117,6 +118,29 @@ void DailyFileAppenderTest::testAppend()
     mAppender->append(Log4Qt::LoggingEvent());
 
     QVERIFY(logFile.size() > 0);
+}
+
+void DailyFileAppenderTest::testRollOver()
+{
+    mAppender->setFile(mLogDirectory->filePath(QStringLiteral("app.log")));
+    mAppender->activateOptions();
+
+    mAppender->append(Log4Qt::LoggingEvent());
+
+    const auto fileNameDay1 = mAppender->file();
+    QVERIFY(QFileInfo::exists(fileNameDay1));
+
+    // one day has passed ...
+    mDateRetriever->setCurrentDate(mDateRetriever->currentDate().addDays(1));
+
+    // ... and when we try to append ...
+    mAppender->append(Log4Qt::LoggingEvent());
+
+    // ... we get a new log file
+    const auto fileNameDay2 = mAppender->file();
+
+    QVERIFY(QFileInfo::exists(fileNameDay2));
+    QVERIFY(fileNameDay1 != fileNameDay2);
 }
 
 QTEST_GUILESS_MAIN(DailyFileAppenderTest)
