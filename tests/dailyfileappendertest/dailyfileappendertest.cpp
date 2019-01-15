@@ -10,37 +10,6 @@
 
 using Log4Qt::DailyFileAppender;
 
-class DailyFileAppenderTest : public QObject
-{
-    Q_OBJECT
-
-private Q_SLOTS:
-    void init();
-    void cleanup();
-
-    void testFileCreation_data();
-    void testFileCreation();
-    void testAppend();
-
-private:
-    QTemporaryDir *mLogDirectory;
-    DailyFileAppender *mAppender;
-};
-
-void DailyFileAppenderTest::init()
-{
-    mLogDirectory = new QTemporaryDir;
-
-    mAppender = new DailyFileAppender;
-    mAppender->setLayout(Log4Qt::LayoutSharedPtr(new Log4Qt::SimpleLayout));
-}
-
-void DailyFileAppenderTest::cleanup()
-{
-    delete mAppender;
-    delete mLogDirectory;  // destructor will remove temporary directory
-}
-
 namespace
 {
 
@@ -63,6 +32,42 @@ private:
 
 }
 
+class DailyFileAppenderTest : public QObject
+{
+    Q_OBJECT
+
+private Q_SLOTS:
+    void init();
+    void cleanup();
+
+    void testFileCreation_data();
+    void testFileCreation();
+    void testAppend();
+
+private:
+    QTemporaryDir *mLogDirectory;
+    QSharedPointer<DateRetrieverMock> mDateRetriever;
+    DailyFileAppender *mAppender;
+};
+
+void DailyFileAppenderTest::init()
+{
+    mLogDirectory = new QTemporaryDir;
+
+    mDateRetriever.reset(new DateRetrieverMock);
+
+    mAppender = new DailyFileAppender;
+    mAppender->setLayout(Log4Qt::LayoutSharedPtr(new Log4Qt::SimpleLayout));
+
+    mAppender->setDateRetriever(mDateRetriever);
+}
+
+void DailyFileAppenderTest::cleanup()
+{
+    delete mAppender;
+    delete mLogDirectory;  // destructor will remove temporary directory
+}
+
 void DailyFileAppenderTest::testFileCreation_data()
 {
     QTest::addColumn<QString>("appName");
@@ -76,11 +81,7 @@ void DailyFileAppenderTest::testFileCreation_data()
 
 void DailyFileAppenderTest::testFileCreation()
 {
-    const QSharedPointer<DateRetrieverMock> dateRetriever(new DateRetrieverMock);
-
-    dateRetriever->setCurrentDate(QDate(2019, 7, 9));
-
-    mAppender->setDateRetriever(dateRetriever);
+    mDateRetriever->setCurrentDate(QDate(2019, 7, 9));
 
     QFETCH(QString, appName);
     QFETCH(QString, datePattern);
