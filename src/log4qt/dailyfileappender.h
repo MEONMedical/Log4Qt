@@ -27,11 +27,29 @@
 
 #include "fileappender.h"
 
-#include <QString>
 #include <QDate>
+#include <QSharedPointer>
+#include <QString>
 
 namespace Log4Qt
 {
+
+class LOG4QT_EXPORT IDateRetriever
+{
+public:
+    virtual ~IDateRetriever();
+    virtual QDate currentDate() const = 0;
+};
+
+class LOG4QT_EXPORT DefaultDateRetriever final : public IDateRetriever
+{
+public:
+
+    /**
+     * Return the current date, as reported by the system clock.
+     */
+    QDate currentDate() const override;
+};
 
 /*!
  * \brief The class DailyFileAppender extends FileAppender so that the
@@ -56,10 +74,14 @@ public:
 
     void append(const LoggingEvent &event) override;
 
+    void setDateRetriever(const QSharedPointer<const IDateRetriever> &dateRetriever);
+
 private:
     Q_DISABLE_COPY(DailyFileAppender)
     void rollOver();
     QString appendDateToFilename() const;
+
+    QSharedPointer<const IDateRetriever> mDateRetriever;
 
     QString mDatePattern;
     QDate mLastDate;

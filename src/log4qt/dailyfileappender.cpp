@@ -37,16 +37,25 @@
 namespace Log4Qt
 {
 
+IDateRetriever::~IDateRetriever() = default;
+
+QDate DefaultDateRetriever::currentDate() const
+{
+    return QDate::currentDate();
+}
+
 static const char defaultDatePattern[] = "_yyyy_MM_dd";
 
 DailyFileAppender::DailyFileAppender(QObject *parent)
     : FileAppender(parent)
+    , mDateRetriever(new DefaultDateRetriever)
     , mDatePattern(defaultDatePattern)
 {
 }
 
 DailyFileAppender::DailyFileAppender(const LayoutSharedPtr &layout, const QString &fileName, const QString &datePattern, QObject *parent)
     : FileAppender(layout, fileName, parent)
+    , mDateRetriever(new DefaultDateRetriever)
     , mDatePattern(datePattern.isEmpty() ? defaultDatePattern : datePattern)
 {
 }
@@ -80,9 +89,18 @@ QString DailyFileAppender::appendDateToFilename() const
 
 void DailyFileAppender::append(const LoggingEvent &event)
 {
-    if (QDate::currentDate() != mLastDate)
+    Q_ASSERT_X(mDateRetriever, "DailyFileAppender::append()", "No date retriever set");
+
+    if (mDateRetriever->currentDate() != mLastDate)
         rollOver();
     FileAppender::append(event);
+}
+
+void DailyFileAppender::setDateRetriever(const QSharedPointer<const IDateRetriever> &dateRetriever)
+{
+    QMutexLocker locker(&mObjectGuard);
+
+    mDateRetriever = dateRetriever;
 }
 
 void DailyFileAppender::setLogFileForCurrentDay()
@@ -90,7 +108,9 @@ void DailyFileAppender::setLogFileForCurrentDay()
     if (mOriginalFilename.isEmpty())
         mOriginalFilename = file();
 
-    mLastDate = QDate::currentDate();
+    Q_ASSERT_X(mDateRetriever, "DailyFileAppender::setLogFileForCurrentDay()", "No date retriever set");
+
+    mLastDate = mDateRetriever->currentDate();
     setFile(appendDateToFilename());
 }
 

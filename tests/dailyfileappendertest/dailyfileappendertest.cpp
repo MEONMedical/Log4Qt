@@ -3,6 +3,8 @@
 #include "log4qt/loggingevent.h"
 #include "log4qt/simplelayout.h"
 
+#include <QDate>
+#include <QSharedPointer>
 #include <QTemporaryDir>
 #include <QtTest/QtTest>
 
@@ -38,14 +40,46 @@ void DailyFileAppenderTest::cleanup()
     delete mLogDirectory;  // destructor will remove temporary directory
 }
 
+namespace
+{
+
+class DateRetrieverMock final : public Log4Qt::IDateRetriever
+{
+public:
+    QDate currentDate() const override
+    {
+        return mCurrentDate;
+    }
+
+    void setCurrentDate(const QDate currentDate)
+    {
+        mCurrentDate = currentDate;
+    }
+
+private:
+    QDate mCurrentDate;
+};
+
+}
+
 void DailyFileAppenderTest::testFileCreation()
 {
+    const QSharedPointer<DateRetrieverMock> dateRetriever(new DateRetrieverMock);
+
+    dateRetriever->setCurrentDate(QDate(2019, 7, 9));
+
+    mAppender->setDateRetriever(dateRetriever);
+
     mAppender->setDatePattern(QStringLiteral("_yyyy_MM_dd"));
     mAppender->setFile(mLogDirectory->filePath(QStringLiteral("app.log")));
 
     mAppender->activateOptions();
 
-    QVERIFY(QFileInfo::exists(mAppender->file()));
+    const QFileInfo fileInfo(mAppender->file());
+
+    QVERIFY(fileInfo.exists());
+
+    QCOMPARE(fileInfo.fileName(), QStringLiteral("app_2019_07_09.log"));
 }
 
 void DailyFileAppenderTest::testAppend()
