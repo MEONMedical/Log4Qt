@@ -18,6 +18,7 @@ private Q_SLOTS:
     void init();
     void cleanup();
 
+    void testFileCreation_data();
     void testFileCreation();
     void testAppend();
 
@@ -62,6 +63,17 @@ private:
 
 }
 
+void DailyFileAppenderTest::testFileCreation_data()
+{
+    QTest::addColumn<QString>("appName");
+    QTest::addColumn<QString>("datePattern");
+    QTest::addColumn<QString>("fileName");
+
+    QTest::newRow("default") << "app" << "_yyyy_MM_dd" << "app_2019_07_09.log";
+    QTest::newRow("Austria") << "app" << "_dd.MM.yyyy" << "app_09.07.2019.log";
+    QTest::newRow("service") << "srv" << "_yyyy_MM_dd" << "srv_2019_07_09.log";
+}
+
 void DailyFileAppenderTest::testFileCreation()
 {
     const QSharedPointer<DateRetrieverMock> dateRetriever(new DateRetrieverMock);
@@ -70,8 +82,12 @@ void DailyFileAppenderTest::testFileCreation()
 
     mAppender->setDateRetriever(dateRetriever);
 
-    mAppender->setDatePattern(QStringLiteral("_yyyy_MM_dd"));
-    mAppender->setFile(mLogDirectory->filePath(QStringLiteral("app.log")));
+    QFETCH(QString, appName);
+    QFETCH(QString, datePattern);
+    QFETCH(QString, fileName);
+
+    mAppender->setDatePattern(datePattern);
+    mAppender->setFile(mLogDirectory->filePath(appName + ".log"));
 
     mAppender->activateOptions();
 
@@ -79,7 +95,7 @@ void DailyFileAppenderTest::testFileCreation()
 
     QVERIFY(fileInfo.exists());
 
-    QCOMPARE(fileInfo.fileName(), QStringLiteral("app_2019_07_09.log"));
+    QCOMPARE(fileInfo.fileName(), fileName);
 }
 
 void DailyFileAppenderTest::testAppend()
