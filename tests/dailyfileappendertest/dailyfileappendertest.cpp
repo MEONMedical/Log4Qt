@@ -90,7 +90,7 @@ void DailyFileAppenderTest::testFileCreation()
     QFETCH(QString, fileName);
 
     mAppender->setDatePattern(datePattern);
-    mAppender->setFile(mLogDirectory->filePath(appName + ".log"));
+    mAppender->setFile(mLogDirectory->path() + '/' + appName + ".log");
 
     mAppender->activateOptions();
 
@@ -103,8 +103,7 @@ void DailyFileAppenderTest::testFileCreation()
 
 void DailyFileAppenderTest::testAppend()
 {
-    mAppender->setFile(mLogDirectory->filePath(QStringLiteral("app.log")));
-
+    mAppender->setFile(mLogDirectory->path() + '/' + QStringLiteral("app.log"));
     mAppender->activateOptions();
 
     const auto fileName = mAppender->file();
@@ -123,7 +122,7 @@ void DailyFileAppenderTest::testAppend()
 
 void DailyFileAppenderTest::testRollOver()
 {
-    mAppender->setFile(mLogDirectory->filePath(QStringLiteral("app.log")));
+    mAppender->setFile(mLogDirectory->path() + '/' + QStringLiteral("app.log"));
     mAppender->activateOptions();
 
     mAppender->append(Log4Qt::LoggingEvent());
@@ -159,18 +158,22 @@ void createFile(const QString& fileName)
 
 void DailyFileAppenderTest::testObsoleteLogFileDeletion()
 {
-    const auto deleteOnActivateFileName = mLogDirectory->filePath("app_2019_01_05.log");
+    const auto deleteOnActivateFileName = mLogDirectory->path() + '/' + QStringLiteral("app_2019_01_05.log");
+
     createFile(deleteOnActivateFileName);
 
-    const auto deleteAfterOneDayFileName = mLogDirectory->filePath("app_2019_01_06.log");
+    const auto deleteAfterOneDayFileName = mLogDirectory->path() + '/' + QStringLiteral("app_2019_01_06.log");
+
     createFile(deleteAfterOneDayFileName);
 
-    const auto alwaysKeptFileName = mLogDirectory->filePath("app_2019_01_07.log");
+    const auto alwaysKeptFileName = mLogDirectory->path() + '/' + QStringLiteral("app_2019_01_07.log");
+
     createFile(alwaysKeptFileName);
 
     mDateRetriever->setCurrentDate(QDate(2019, 01, 10));
 
-    mAppender->setFile(mLogDirectory->filePath(QStringLiteral("app.log")));
+    mAppender->setFile(mLogDirectory->path() + '/' + QStringLiteral("app.log"));
+
     mAppender->setDatePattern(QStringLiteral("_yyyy_MM_dd"));
     mAppender->setKeepDays(4);
 
