@@ -158,15 +158,15 @@ void createFile(const QString& fileName)
 
 void DailyFileAppenderTest::testObsoleteLogFileDeletion()
 {
-    const auto deleteOnActivateFileName = mLogDirectory->path() + QLatin1Char('/') + QStringLiteral("app_2019_01_05.log");
+    const QString deleteOnActivateFileName = mLogDirectory->path() + QLatin1Char('/') + QStringLiteral("app_2019_01_05.log");
 
     createFile(deleteOnActivateFileName);
 
-    const auto deleteAfterOneDayFileName = mLogDirectory->path() + QLatin1Char('/') + QStringLiteral("app_2019_01_06.log");
+    const QString deleteAfterOneDayFileName = mLogDirectory->path() + QLatin1Char('/') + QStringLiteral("app_2019_01_06.log");
 
     createFile(deleteAfterOneDayFileName);
 
-    const auto alwaysKeptFileName = mLogDirectory->path() + QLatin1Char('/') + QStringLiteral("app_2019_01_07.log");
+    const QString alwaysKeptFileName = mLogDirectory->path() + QLatin1Char('/') + QStringLiteral("app_2019_01_07.log");
 
     createFile(alwaysKeptFileName);
 
