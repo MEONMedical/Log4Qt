@@ -101,7 +101,7 @@ public:
                          bool *ok = nullptr);
 
     static Level toLevel(const QString &option,
-                         const Level &defaultValue);
+                         Log4Qt::Level defaultValue);
 
     /*!
      * Converts the option \a option to a ConsoleAppender::Target value.

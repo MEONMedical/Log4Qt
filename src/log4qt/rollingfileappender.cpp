@@ -85,7 +85,7 @@ void RollingFileAppender::openFile()
 
 void RollingFileAppender::rollOver()
 {
-    logger()->debug("Rolling over with maxBackupIndex = %1", mMaxBackupIndex);
+    logger()->debug(QStringLiteral("Rolling over with maxBackupIndex = %1"), mMaxBackupIndex);
 
     closeFile();
 

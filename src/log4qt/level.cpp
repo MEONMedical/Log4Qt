@@ -122,7 +122,7 @@ Level Level::fromString(const QString &level, bool *ok)
             level == QCoreApplication::translate(context, "NULL"))
         return NULL_INT;
 
-    logger()->warn("Use of invalid level string '%1'. Using 'Level::NULL_INT' instead.", level);
+    logger()->warn(QStringLiteral("Use of invalid level string '%1'. Using 'Level::NULL_INT' instead."), level);
     if (ok != nullptr)
         *ok = false;
     return NULL_INT;
@@ -130,7 +130,7 @@ Level Level::fromString(const QString &level, bool *ok)
 
 #ifndef QT_NO_DATASTREAM
 QDataStream &operator<<(QDataStream &out,
-                        const Level &level)
+                        Log4Qt::Level level)
 {
     quint8 l = level.mValue;
     out << l;

@@ -108,7 +108,7 @@ private:
 #ifndef QT_NO_DATASTREAM
     // Needs to be friend to stream objects
     friend QDataStream &operator<<(QDataStream &out,
-                                   const Level &level);
+                                   Log4Qt::Level level);
     friend QDataStream &operator>>(QDataStream &in,
                                    Level &level);
 #endif // QT_NO_DATASTREAM
@@ -122,7 +122,7 @@ private:
  * and returns a reference to the stream.
  */
 QDataStream &operator<<(QDataStream &out,
-                        const Level &level);
+                        Log4Qt::Level level);
 
 /*!
  * \relates Level

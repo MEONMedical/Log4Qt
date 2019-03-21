@@ -49,30 +49,30 @@ int main(int argc, char *argv[])
 
 void initializeRootLogger()
 {
-    setupRootLogger("Root logger is setup.");
+    setupRootLogger(QStringLiteral("Root logger is setup."));
 }
 
 void shutdownRootLogger()
 {
-    shutDownRootLogger("Root logger was shutdown.");
+    shutDownRootLogger(QStringLiteral("Root logger was shutdown."));
 }
 
 void logStartup()
 {
     auto logger = Log4Qt::Logger::rootLogger();
 
-    logger->info("################################################################");
-    logger->info("#                          START                               #");
-    logger->info("################################################################");
+    logger->info(QStringLiteral("################################################################"));
+    logger->info(QStringLiteral("#                          START                               #"));
+    logger->info(QStringLiteral("################################################################"));
 }
 
 void logShutdown()
 {
     auto logger = Log4Qt::Logger::rootLogger();
 
-    logger->info("################################################################");
-    logger->info("#                          STOP                                #");
-    logger->info("################################################################");
+    logger->info(QStringLiteral("################################################################"));
+    logger->info(QStringLiteral("#                          STOP                                #"));
+    logger->info(QStringLiteral("################################################################"));
 }
 
 void setupRootLogger(const QString &introMessage)

@@ -35,7 +35,8 @@ private:
 class DailyFileAppenderTest : public QObject
 {
     Q_OBJECT
-
+public:
+    DailyFileAppenderTest(QObject * parent = nullptr) : QObject(parent) {}
 private Q_SLOTS:
     void init();
     void cleanup();

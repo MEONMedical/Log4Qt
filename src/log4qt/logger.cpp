@@ -65,7 +65,7 @@ void Logger::setLevel(Level level)
     if ((parentLogger() == nullptr) && (level == Level::NULL_INT))
     {
         logger()->warn(
-            "Invalid root logger level NULL_INT. Using DEBUG_INT instead");
+            QStringLiteral("Invalid root logger level NULL_INT. Using DEBUG_INT instead"));
         level = Level::DEBUG_INT;
     }
     mLevel = level;

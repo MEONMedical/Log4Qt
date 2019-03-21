@@ -11,7 +11,7 @@ namespace Log4Qt
 
 QmlLogger::QmlLogger(QObject *parent) :
     QObject(parent)
-    , mContext("Qml")
+    , mContext(QStringLiteral("Qml"))
     , mLogger(nullptr)
 {
 }

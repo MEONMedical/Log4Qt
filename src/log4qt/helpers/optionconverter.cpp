@@ -53,7 +53,7 @@ QString OptionConverter::findAndSubst(const Properties &properties,
 
     // Don't return a null string, the null string indicates that the
     // property key does not exist.
-    QString result = QStringLiteral("");
+    QString result = QLatin1String("");
 
     int i = 0;
     int begin;
@@ -81,7 +81,7 @@ QString OptionConverter::findAndSubst(const Properties &properties,
             }
             auto keyName = value.mid(begin + begin_length, end - begin - end_length - 1);
             auto subValue = findAndSubst(properties, keyName);
-            if (subValue.isNull() && keyName.startsWith("LOG4QT_"))
+            if (subValue.isNull() && keyName.startsWith(QLatin1String("LOG4QT_")))
                 subValue = qgetenv(qPrintable(keyName));
             result +=subValue;
             i = end + end_length;
@@ -220,7 +220,7 @@ Level OptionConverter::toLevel(const QString &option,
 }
 
 Level OptionConverter::toLevel(const QString &option,
-                               const Level &defaultValue)
+                               Log4Qt::Level defaultValue)
 {
     bool ok;
     Level result = toLevel(option, &ok);

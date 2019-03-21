@@ -83,7 +83,7 @@ void Hierarchy::resetConfiguration()
     // Reset all loggers.
     // Leave log, qt and root logger to the last to allow debugging of shutdown.
 
-    Logger *p_logging_logger = logger(QStringLiteral(""));
+    Logger *p_logging_logger = logger(QLatin1String(""));
     Logger *p_qt_logger = logger(QStringLiteral("Qt"));
     Logger *p_root_logger = rootLogger();
 

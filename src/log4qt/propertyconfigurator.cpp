@@ -191,7 +191,7 @@ void PropertyConfigurator::configureGlobalSettings(const Properties &properties,
         // Use LogManager and not loggerRepository to reset internal
         // logging.
         LogManager::resetConfiguration();
-        staticLogger()->debug("Reset configuration");
+        staticLogger()->debug(QStringLiteral("Reset configuration"));
     }
 
     // Debug
@@ -200,7 +200,7 @@ void PropertyConfigurator::configureGlobalSettings(const Properties &properties,
     {
         value = properties.property(key_config_debug);
         if (!value.isNull())
-            staticLogger()->warn("[%1] is deprecated. Use [%2] instead.", key_config_debug, key_debug);
+            staticLogger()->warn(QStringLiteral("[%1] is deprecated. Use [%2] instead."), key_config_debug, key_debug);
     }
     if (!value.isNull())
     {
@@ -210,7 +210,7 @@ void PropertyConfigurator::configureGlobalSettings(const Properties &properties,
         if (!ok)
             level = Level::DEBUG_INT;
         LogManager::logLogger()->setLevel(level);
-        staticLogger()->debug("Set level for Log4Qt logging to %1",
+        staticLogger()->debug(QStringLiteral("Set level for Log4Qt logging to %1"),
                         LogManager::logLogger()->level().toString());
     }
 
@@ -219,7 +219,7 @@ void PropertyConfigurator::configureGlobalSettings(const Properties &properties,
     if (!value.isNull())
     {
         loggerRepository->setThreshold(OptionConverter::toLevel(value, Level::ALL_INT));
-        staticLogger()->debug("Set threshold for LoggerRepository to %1",
+        staticLogger()->debug(QStringLiteral("Set threshold for LoggerRepository to %1"),
                         loggerRepository->threshold().toString());
     }
 
@@ -228,7 +228,7 @@ void PropertyConfigurator::configureGlobalSettings(const Properties &properties,
     if (!value.isNull())
     {
         LogManager::setHandleQtMessages(OptionConverter::toBoolean(value, false));
-        staticLogger()->debug("Set handling of Qt messages LoggerRepository to %1",
+        staticLogger()->debug(QStringLiteral("Set handling of Qt messages LoggerRepository to %1"),
                         QVariant(LogManager::handleQtMessages()).toString());
     }
 
@@ -237,7 +237,7 @@ void PropertyConfigurator::configureGlobalSettings(const Properties &properties,
     if (!value.isNull())
     {
         LogManager::setWatchThisFile(OptionConverter::toBoolean(value, false));
-        staticLogger()->debug("Set watching the properties file to %1",
+        staticLogger()->debug(QStringLiteral("Set watching the properties file to %1"),
                         QVariant(LogManager::watchThisFile()).toString());
     }
 
@@ -245,14 +245,14 @@ void PropertyConfigurator::configureGlobalSettings(const Properties &properties,
     if (!value.isNull())
     {
         LogManager::setFilterRules(value);
-        staticLogger()->debug("Set filter rules to %1", LogManager::filterRules());
+        staticLogger()->debug(QStringLiteral("Set filter rules to %1"), LogManager::filterRules());
     }
 
     value = properties.property(key_messagePattern);
     if (!value.isNull())
     {
         LogManager::setMessagePattern(value);
-        staticLogger()->debug("Set message pattern to %1", LogManager::messagePattern());
+        staticLogger()->debug(QStringLiteral("Set message pattern to %1"), LogManager::messagePattern());
     }
 }
 
@@ -309,11 +309,11 @@ void PropertyConfigurator::configureRootLogger(const Properties &properties,
         key = key_root_category;
         value = OptionConverter::findAndSubst(properties, key);
         if (!value.isNull())
-            staticLogger()->warn("[%1] is deprecated. Use [%2] instead.", key_root_category, key_root_logger);
+            staticLogger()->warn(QStringLiteral("[%1] is deprecated. Use [%2] instead."), key_root_category, key_root_logger);
     }
 
     if (value.isNull())
-        staticLogger()->debug("Could not find root logger information. Is this correct?");
+        staticLogger()->debug(QStringLiteral("Could not find root logger information. Is this correct?"));
     else
         parseLogger(properties, loggerRepository->rootLogger(), key, value);
 }
@@ -332,11 +332,11 @@ void PropertyConfigurator::parseAdditivityForLogger(const Properties &properties
 
     QString key = additivity_prefix + log4jName;
     QString value = OptionConverter::findAndSubst(properties, key);
-    staticLogger()->debug("Parsing additivity for logger: key '%1', value '%2'", key, value);
+    staticLogger()->debug(QStringLiteral("Parsing additivity for logger: key '%1', value '%2'"), key, value);
     if (!value.isEmpty())
     {
         bool additivity = OptionConverter::toBoolean(value, true);
-        staticLogger()->debug("Setting additivity for logger '%1' to '%2'", logger->name(), QVariant(value).toString());
+        staticLogger()->debug(QStringLiteral("Setting additivity for logger '%1' to '%2'"), logger->name(), QVariant(value).toString());
         logger->setAdditivity(additivity);
     }
 }
@@ -355,11 +355,11 @@ AppenderSharedPtr PropertyConfigurator::parseAppender(const Properties &properti
 
     const QLatin1String appender_prefix("log4j.appender.");
 
-    staticLogger()->debug("Parsing appender named '%1'", name);
+    staticLogger()->debug(QStringLiteral("Parsing appender named '%1'"), name);
 
     if (mAppenderRegistry.contains(name))
     {
-        staticLogger()->debug("Appender '%1' was already parsed.", name);
+        staticLogger()->debug(QStringLiteral("Appender '%1' was already parsed."), name);
         return mAppenderRegistry.value(name);
     }
 
@@ -419,7 +419,7 @@ LayoutSharedPtr PropertyConfigurator::parseLayout(const Properties &properties,
 
     const QLatin1String layout_suffix(".layout");
 
-    staticLogger()->debug("Parsing layout for appender named '%1'", appendename);
+    staticLogger()->debug(QStringLiteral("Parsing layout for appender named '%1'"), appendename);
 
     QString key = appendename + layout_suffix;
     QString value = OptionConverter::findAndSubst(properties, key);
@@ -469,7 +469,7 @@ void PropertyConfigurator::parseLogger(const Properties &properties,
     // - For each entry
     //   - Create Appender
 
-    staticLogger()->debug("Parsing logger: key '%1', value '%2'", key, value);
+    staticLogger()->debug(QStringLiteral("Parsing logger: key '%1', value '%2'"), key, value);
     QStringList appenders = value.split(QLatin1Char(','));
     QStringListIterator i (appenders);
 
@@ -484,11 +484,11 @@ void PropertyConfigurator::parseLogger(const Properties &properties,
         else
             level = OptionConverter::toLevel(sValue, Level::DEBUG_INT);
         if (level == Level::NULL_INT && logger->name() == QString())
-            staticLogger()->warn("The root logger level cannot be set to NULL.");
+            staticLogger()->warn(QStringLiteral("The root logger level cannot be set to NULL."));
         else
         {
             logger->setLevel(level);
-            staticLogger()->debug("Set level for logger '%1' to '%2'",
+            staticLogger()->debug(QStringLiteral("Set level for logger '%1' to '%2'"),
                             logger->name(), logger->level().toString());
         }
     }
@@ -520,7 +520,7 @@ void PropertyConfigurator::setProperties(const Properties &properties,
     // - Skip property names in exclusion list
     // - Set property on object
 
-    staticLogger()->debug("Setting properties for object of class '%1' from keys starting with '%2'",
+    staticLogger()->debug(QStringLiteral("Setting properties for object of class '%1' from keys starting with '%2'"),
                     QLatin1String(object->metaObject()->className()),
                     prefix);
 

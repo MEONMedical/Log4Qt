@@ -90,10 +90,10 @@ namespace
 {
 
 void deleteObsoleteFiles(
-        const QDate currentDate,
-        const QString datePattern,
-        const int keepDays,
-        const QString originalFilename)
+        QDate currentDate,
+        const QString &datePattern,
+        int keepDays,
+        const QString &originalFilename)
 {
     if (keepDays <= 0) return;
     if (originalFilename.isEmpty()) return;
@@ -128,7 +128,7 @@ void deleteObsoleteFiles(
         }
     }
 
-    for (const auto &fileName : obsoleteLogFileNames)
+    for (const auto &fileName : qAsConst(obsoleteLogFileNames))
     {
         QFile::remove(logDir.filePath(fileName));
     }

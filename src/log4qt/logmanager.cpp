@@ -73,7 +73,7 @@ LogManager::LogManager() :
 
 LogManager::~LogManager()
 {
-    static_logger()->warn("Unexpected destruction of LogManager");
+    static_logger()->warn(QStringLiteral("Unexpected destruction of LogManager"));
 }
 
 
@@ -169,12 +169,12 @@ void LogManager::doSetHandleQtMessages(bool handleQtMessages)
     instance()->mHandleQtMessages = handleQtMessages;
     if (instance()->mHandleQtMessages)
     {
-        static_logger()->trace("Activate Qt message handling");
+        static_logger()->trace(QStringLiteral("Activate Qt message handling"));
         instance()->mQtMsgHandler = qInstallMessageHandler(qtMessageHandler);
     }
     else
     {
-        static_logger()->trace("Deactivate Qt message handling");
+        static_logger()->trace(QStringLiteral("Deactivate Qt message handling"));
         qInstallMessageHandler(instance()->mQtMsgHandler);
     }
 }
@@ -187,7 +187,7 @@ void LogManager::doSetWatchThisFile(bool watchThisFile)
         return;
 
     instance()->mWatchThisFile = watchThisFile;
-    static_logger()->trace("%1able watching the current properties file", watchThisFile ? "En" : "Dis");
+    static_logger()->trace(QStringLiteral("%1able watching the current properties file"), watchThisFile ? "En" : "Dis");
 }
 
 void LogManager::doSetFilterRules(const QString &filterRules)
@@ -199,7 +199,7 @@ void LogManager::doSetFilterRules(const QString &filterRules)
 
     instance()->mFilterRules = filterRules;
     QLoggingCategory::setFilterRules(filterRules);
-    static_logger()->trace("Setting filter rules to: %1", filterRules);
+    static_logger()->trace(QStringLiteral("Setting filter rules to: %1"), filterRules);
 }
 
 void LogManager::doSetMessagePattern(const QString &messagePattern)
@@ -211,7 +211,7 @@ void LogManager::doSetMessagePattern(const QString &messagePattern)
 
     instance()->mMessagePattern = messagePattern;
     qSetMessagePattern(messagePattern);
-    static_logger()->trace("Setting message pattern to: %1", messagePattern);
+    static_logger()->trace(QStringLiteral("Setting message pattern to: %1"), messagePattern);
 }
 
 void LogManager::doConfigureLogLogger()
@@ -280,7 +280,7 @@ void LogManager::doStartup()
                     default_value);
     if (value != default_value)
     {
-        static_logger()->debug("DefaultInitOverride is set. Aborting default initialisation");
+        static_logger()->debug(QStringLiteral("DefaultInitOverride is set. Aborting default initialisation"));
         return;
     }
 
@@ -288,7 +288,7 @@ void LogManager::doStartup()
     value = InitialisationHelper::setting(QStringLiteral("Configuration"));
     if (!value.isEmpty() && QFile::exists(value))
     {
-        static_logger()->debug("Default initialisation configures from file '%1' specified by Configure", value);
+        static_logger()->debug(QStringLiteral("Default initialisation configures from file '%1' specified by Configure"), value);
         PropertyConfigurator::configure(value);
         return;
     }
@@ -305,7 +305,7 @@ void LogManager::doStartup()
         s.beginGroup(log4qt_group);
         if (s.childGroups().contains(properties_group))
         {
-            static_logger()->debug("Default initialisation configures from setting '%1/%2'", log4qt_group, properties_group);
+            static_logger()->debug(QStringLiteral("Default initialisation configures from setting '%1/%2'"), log4qt_group, properties_group);
             s.beginGroup(properties_group);
             PropertyConfigurator::configure(s);
             return;
@@ -315,9 +315,9 @@ void LogManager::doStartup()
         QString binConfigFile = QCoreApplication::applicationFilePath() + QLatin1Char('.') + default_file;
 
         filesToCheck << binConfigFile;
-        if (binConfigFile.contains(".exe.", Qt::CaseInsensitive))
+        if (binConfigFile.contains(QLatin1String(".exe."), Qt::CaseInsensitive))
         {
-            binConfigFile.replace(".exe.", ".", Qt::CaseInsensitive);
+            binConfigFile.replace(QLatin1String(".exe."), QLatin1String("."), Qt::CaseInsensitive);
             filesToCheck << binConfigFile;
         }
 
@@ -331,7 +331,7 @@ void LogManager::doStartup()
         // Configuration using default file
         if (QFile::exists(configFileName))
         {
-            static_logger()->debug("Default initialisation configures from default file '%1'", configFileName);
+            static_logger()->debug(QStringLiteral("Default initialisation configures from default file '%1'"), configFileName);
             PropertyConfigurator::configure(configFileName);
             if (mWatchThisFile)
                ConfiguratorHelper::setConfigurationFile(configFileName, PropertyConfigurator::configure);
@@ -339,13 +339,13 @@ void LogManager::doStartup()
         }
     }
 
-    static_logger()->debug("Default initialisation leaves package unconfigured");
+    static_logger()->debug(QStringLiteral("Default initialisation leaves package unconfigured"));
 }
 
 
 void LogManager::welcome()
 {
-    static_logger()->info("Initialising Log4Qt %1",
+    static_logger()->info(QStringLiteral("Initialising Log4Qt %1"),
                           QStringLiteral(LOG4QT_VERSION_STR));
 
     // Debug: Info
@@ -368,42 +368,42 @@ void LogManager::welcome()
             offset += QLatin1Char(':');
             offset += QString::number(min % 60).rightJustified(2, QLatin1Char('0'));
         }
-        static_logger()->debug("Program startup time is %1 (UTC%2)",
+        static_logger()->debug(QStringLiteral("Program startup time is %1 (UTC%2)"),
                                start_time.toString(QStringLiteral("ISO8601")),
                                offset);
-        static_logger()->debug("Internal logging uses the level %1",
+        static_logger()->debug(QStringLiteral("Internal logging uses the level %1"),
                                logLogger()->level().toString());
     }
 
     // Trace: Dump settings
     if (static_logger()->isTraceEnabled())
     {
-        static_logger()->trace("Settings from the system environment:");
+        static_logger()->trace(QStringLiteral("Settings from the system environment:"));
         auto settings = InitialisationHelper::environmentSettings();
         for (auto pos = std::begin(settings);pos != std::end(settings);++pos)
-            static_logger()->trace("    %1: '%2'", pos.key(), pos.value());
+            static_logger()->trace(QStringLiteral("    %1: '%2'"), pos.key(), pos.value());
 
-        static_logger()->trace("Settings from the application settings:");
+        static_logger()->trace(QStringLiteral("Settings from the application settings:"));
         if (QCoreApplication::instance())
         {
             const QLatin1String log4qt_group("Log4Qt");
             const QLatin1String properties_group("Properties");
-            static_logger()->trace("    %1:", log4qt_group);
+            static_logger()->trace(QStringLiteral("    %1:"), log4qt_group);
             QSettings s;
             s.beginGroup(log4qt_group);
             for (const auto &entry : s.childKeys())
-                static_logger()->trace("        %1: '%2'",
+                static_logger()->trace(QStringLiteral("        %1: '%2'"),
                                        entry,
                                        s.value(entry).toString());
-            static_logger()->trace("    %1/%2:", log4qt_group, properties_group);
+            static_logger()->trace(QStringLiteral("    %1/%2:"), log4qt_group, properties_group);
             s.beginGroup(properties_group);
             for (const auto &entry : s.childKeys())
-                static_logger()->trace("        %1: '%2'",
+                static_logger()->trace(QStringLiteral("        %1: '%2'"),
                                        entry,
                                        s.value(entry).toString());
         }
         else
-            static_logger()->trace("    QCoreApplication::instance() is not available");
+            static_logger()->trace(QStringLiteral("    QCoreApplication::instance() is not available"));
     }
 }
 

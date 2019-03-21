@@ -214,7 +214,7 @@ void Properties::parseProperty(const QString &property,
                 *p_string += key_escape_chars.at(convert);
             else
             {
-                logger()->warn("Unknown escape sequence '\\%1' in key of property starting at line %2",
+                logger()->warn(QStringLiteral("Unknown escape sequence '\\%1' in key of property starting at line %2"),
                                QString(c),
                                line);
                 *p_string += c;
@@ -238,7 +238,7 @@ void Properties::parseProperty(const QString &property,
             }
             else
             {
-                logger()->warn("Unknown escape sequence '\\%1' in value of property starting at line %2", QString(c), line);
+                logger()->warn(QStringLiteral("Unknown escape sequence '\\%1' in value of property starting at line %2"), QString(c), line);
                 *p_string += c;
                 state = VALUE_STATE;
             }
@@ -274,13 +274,13 @@ void Properties::parseProperty(const QString &property,
     }
 
     if (key.isEmpty() && !value.isEmpty())
-        logger()->warn("Found value with no key in property starting at line %1", line);
+        logger()->warn(QStringLiteral("Found value with no key in property starting at line %1"), line);
 
-    logger()->trace("Loaded property '%1' : '%2'", key, value);
+    logger()->trace(QStringLiteral("Loaded property '%1' : '%2'"), key, value);
     insert(key, value);
 }
 
-int Properties::hexDigitValue(const QChar &digit)
+int Properties::hexDigitValue(QChar digit)
 {
     bool ok;
     int result = QString(digit).toInt(&ok, 16);

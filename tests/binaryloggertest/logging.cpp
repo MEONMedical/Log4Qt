@@ -11,14 +11,14 @@ static QString toString(const QVariantList &list);
 static QString toString(const QVariantHash &hash);
 static QString toString(const QStringList &stringList);
 static QString toString(const QByteArray &byteArray);
-static QString toString(const QDate &date);
-static QString toString(const QTime &time);
+static QString toString(QDate date);
+static QString toString(QTime time);
 static QString toString(const QDateTime &datetime);
 static QString toString(const QString &string);
 static QString toString(const QVariant &value, int userType);
 static QString toString(const QVariant &value);
-static bool isOpenBracket(const QStringList &brackets, const QChar &c);
-static bool isCloseBracket(const QStringList &brackets, const QChar &c);
+static bool isOpenBracket(const QStringList &brackets, QChar c);
+static bool isCloseBracket(const QStringList &brackets, QChar c);
 
 QString Logging::createDumpString(const QByteArray &data, const bool withCaption)
 {
@@ -88,83 +88,83 @@ QString toString(const QVariant &value)
     switch (value.type())
     {
     case QVariant::Invalid:
-        return "<Invalid>";
+        return QStringLiteral("<Invalid>");
     case QVariant::BitArray:
-        return "<BitArray>";
+        return QStringLiteral("<BitArray>");
     case QVariant::Bitmap:
-        return "<Bitmap>";
+        return QStringLiteral("<Bitmap>");
     case QVariant::Brush:
-        return "<Brush>";
+        return QStringLiteral("<Brush>");
     case QVariant::Color:
-        return "<Color>";
+        return QStringLiteral("<Color>");
     case QVariant::Cursor:
-        return "<Cursor>";
+        return QStringLiteral("<Cursor>");
     case QVariant::EasingCurve:
-        return "<EasingCurve>";
+        return QStringLiteral("<EasingCurve>");
     case QVariant::ModelIndex:
-        return "<ModelIndex>";
+        return QStringLiteral("<ModelIndex>");
     case QVariant::Font:
-        return "<Font>";
+        return QStringLiteral("<Font>");
     case QVariant::Icon:
-        return "<Icon>";
+        return QStringLiteral("<Icon>");
     case QVariant::Image:
-        return "<Image>";
+        return QStringLiteral("<Image>");
     case QVariant::KeySequence:
-        return "<KeySequence>";
+        return QStringLiteral("<KeySequence>");
     case QVariant::Line:
-        return "<Line>";
+        return QStringLiteral("<Line>");
     case QVariant::LineF:
-        return "<LineF>";
+        return QStringLiteral("<LineF>");
     case QVariant::Locale:
-        return "<Locale>";
+        return QStringLiteral("<Locale>");
     case QVariant::Matrix:
-        return "<Matrix>";
+        return QStringLiteral("<Matrix>");
     case QVariant::Transform:
-        return "<Transform>";
+        return QStringLiteral("<Transform>");
     case QVariant::Matrix4x4:
-        return "<Matrix4x4>";
+        return QStringLiteral("<Matrix4x4>");
     case QVariant::Palette:
-        return "<Palette>";
+        return QStringLiteral("<Palette>");
     case QVariant::Pen:
-        return "<Pen>";
+        return QStringLiteral("<Pen>");
     case QVariant::Pixmap:
-        return "<Pixmap>";
+        return QStringLiteral("<Pixmap>");
     case QVariant::Point:
-        return "<Point>";
+        return QStringLiteral("<Point>");
     case QVariant::PointF:
-        return "<PointF>";
+        return QStringLiteral("<PointF>");
     case QVariant::Polygon:
-        return "<Polygon>";
+        return QStringLiteral("<Polygon>");
     case QVariant::PolygonF:
-        return "<PolygonF>";
+        return QStringLiteral("<PolygonF>");
     case QVariant::Quaternion:
-        return "<Quaternion>";
+        return QStringLiteral("<Quaternion>");
     case QVariant::Rect:
-        return "<Rect>";
+        return QStringLiteral("<Rect>");
     case QVariant::RectF:
-        return "<RectF>";
+        return QStringLiteral("<RectF>");
     case QVariant::RegExp:
-        return "<RegExp>";
+        return QStringLiteral("<RegExp>");
     case QVariant::RegularExpression:
-        return "<RegularExpression>";
+        return QStringLiteral("<RegularExpression>");
     case QVariant::Region:
-        return "<Region>";
+        return QStringLiteral("<Region>");
     case QVariant::Size:
-        return "<Size>";
+        return QStringLiteral("<Size>");
     case QVariant::SizeF:
-        return "<SizeF>";
+        return QStringLiteral("<SizeF>");
     case QVariant::SizePolicy:
-        return "<SizePolicy>";
+        return QStringLiteral("<SizePolicy>");
     case QVariant::TextFormat:
-        return "<TextFormat>";
+        return QStringLiteral("<TextFormat>");
     case QVariant::TextLength:
-        return "<TextLength>";
+        return QStringLiteral("<TextLength>");
     case QVariant::Vector2D:
-        return "<Vector2D>";
+        return QStringLiteral("<Vector2D>");
     case QVariant::Vector3D:
-        return "<Vector3D>";
+        return QStringLiteral("<Vector3D>");
     case QVariant::Vector4D:
-        return "<Vector4D>";
+        return QStringLiteral("<Vector4D>");
 
     case QVariant::Int:
     case QVariant::Double:
@@ -210,15 +210,15 @@ QString toString(const QVariant &value)
     default:
         break;
     }
-    return QString("<Unknow variant type>");
+    return QStringLiteral("<Unknow variant type>");
 }
 
 QString toString(const QVariantMap &map)
 {
     QStringList result;
     for (auto pos = map.cbegin(); pos != map.cend(); ++pos)
-        result << QString("%1=%2").arg(toString(pos.key()), toString(pos.value()));
-    return QStringLiteral("{") % result.join(", ") % QStringLiteral("}");
+        result << QStringLiteral("%1=%2").arg(toString(pos.key()), toString(pos.value()));
+    return QStringLiteral("{") % result.join(QStringLiteral(", ")) % QStringLiteral("}");
 }
 
 QString toString(const QVariantList &list)
@@ -226,15 +226,15 @@ QString toString(const QVariantList &list)
     QStringList result;
     for (const auto &value : list)
         result << toString(value);
-    return QStringLiteral("[") % result.join(", ") % QStringLiteral("]");
+    return QStringLiteral("[") % result.join(QStringLiteral(", ")) % QStringLiteral("]");
 }
 
 QString toString(const QVariantHash &hash)
 {
     QStringList result;
     for (auto pos = hash.cbegin(); pos != hash.cend(); ++pos)
-        result << QString("%1=%2").arg(toString(pos.key()), toString(pos.value()));
-    return QStringLiteral("{") % result.join(", ") % QStringLiteral("}");
+        result << QStringLiteral("%1=%2").arg(toString(pos.key()), toString(pos.value()));
+    return QStringLiteral("{") % result.join(QStringLiteral(", ")) % QStringLiteral("}");
 }
 
 QString toString(const QStringList &stringList)
@@ -242,25 +242,25 @@ QString toString(const QStringList &stringList)
     QStringList result;
     for (const auto &string : stringList)
         result << toString(string);
-    return QStringLiteral("[") % result.join(", ") % QStringLiteral("]");
+    return QStringLiteral("[") % result.join(QStringLiteral(", ")) % QStringLiteral("]");
 }
 
 QString toString(const QByteArray &byteArray)
 {
     QStringList result;
     for (auto byte : byteArray)
-        result << QString("%1").arg(byte, 2, 16, QChar('0'));
-    return QStringLiteral("[") % result.join(", ") % QStringLiteral("]");
+        result << QStringLiteral("%1").arg(byte, 2, 16, QChar('0'));
+    return QStringLiteral("[") % result.join(QStringLiteral(", ")) % QStringLiteral("]");
 }
 
-QString toString(const QDate &date)
+QString toString(QDate date)
 {
-    return date.toString("yyyy-MM-dd");
+    return date.toString(QStringLiteral("yyyy-MM-dd"));
 }
 
-QString toString(const QTime &time)
+QString toString(QTime time)
 {
-    return time.toString("hh:mm:ss.zzz");
+    return time.toString(QStringLiteral("hh:mm:ss.zzz"));
 }
 
 QString toString(const QDateTime &datetime)
@@ -276,19 +276,19 @@ QString toString(const QString &string)
 QString escape(const QString &string)
 {
     QString copy(string);
-    return copy.replace('"', "\\\"")
-           .replace('\n', "\\n")
-           .replace('\r', "\\r")
-           .replace('\t', "\\t");
+    return copy.replace('"', QLatin1String("\\\""))
+           .replace('\n', QLatin1String("\\n"))
+           .replace('\r', QLatin1String("\\r"))
+           .replace('\t', QLatin1String("\\t"));
 }
 
 QString toString(const QVariant &value, int userType)
 {
     Q_UNUSED(value)
-    return QString("{UserType: %1").arg(userType);
+    return QStringLiteral("{UserType: %1").arg(userType);
 }
 
-bool isOpenBracket(const QStringList &brackets, const QChar &c)
+bool isOpenBracket(const QStringList &brackets, QChar c)
 {
     for (const auto &b : brackets)
     {
@@ -298,7 +298,7 @@ bool isOpenBracket(const QStringList &brackets, const QChar &c)
     return false;
 }
 
-bool isCloseBracket(const QStringList &brackets, const QChar &c)
+bool isCloseBracket(const QStringList &brackets, QChar c)
 {
     for (const auto &b : brackets)
     {

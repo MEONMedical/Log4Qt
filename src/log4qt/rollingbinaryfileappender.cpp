@@ -57,7 +57,7 @@ void RollingBinaryFileAppender::computeFrequency()
     }
 
     mActiveDatePattern = mDatePattern;
-    logger()->trace("Frequency set to %2 using date pattern %1", mActiveDatePattern, frequencyToString());
+    logger()->trace(QStringLiteral("Frequency set to %2 using date pattern %1"), mActiveDatePattern, frequencyToString());
 }
 
 void RollingBinaryFileAppender::append(const LoggingEvent &event)
@@ -83,7 +83,7 @@ bool RollingBinaryFileAppender::checkForSizeRollOver() const
 
 void RollingBinaryFileAppender::rollOverSize()
 {
-    logger()->debug("Rolling over with maxBackupIndex = %1", mMaxBackupIndex);
+    logger()->debug(QStringLiteral("Rolling over with maxBackupIndex = %1"), mMaxBackupIndex);
 
     // close current file first
     closeFile();
@@ -229,7 +229,7 @@ void RollingBinaryFileAppender::computeRollOvetime()
     Q_ASSERT_X(mRollOverSuffix != static_cast<DateTime>(mRollOvetime).toString(mActiveDatePattern),
                "BinaryFileAppender::computeRollOvetime()", "File name does not change with rollover");
 
-    logger()->trace("Computing roll over time from %1: The interval start time is %2. The roll over time is %3",
+    logger()->trace(QStringLiteral("Computing roll over time from %1: The interval start time is %2. The roll over time is %3"),
                     now.toString(),
                     start.toString(),
                     mRollOvetime.toString());

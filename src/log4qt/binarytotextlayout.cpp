@@ -26,7 +26,7 @@ QString BinaryToTextLayout::format(const LoggingEvent &event)
                 spacedHexData.append(hexData.mid(i, 2) % " ");
 
             // replace binary marker in output with hexdump
-            return mSubLayout->format(event).replace(Log4Qt::BinaryLoggingEvent::binaryMarker(), QString("%1 bytes: %2").arg(binaryEvent->binaryMessage().size()).arg(spacedHexData));
+            return mSubLayout->format(event).replace(Log4Qt::BinaryLoggingEvent::binaryMarker(), QStringLiteral("%1 bytes: %2").arg(binaryEvent->binaryMessage().size()).arg(spacedHexData));
         }
     }
     return QString();

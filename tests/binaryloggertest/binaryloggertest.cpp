@@ -106,7 +106,7 @@ private:
     {
         auto &appenderData = getAppenderDataFromLogger(mylogger);
         auto writerAppender = new Log4Qt::BinaryWriterAppender(mylogger);
-        writerAppender->setName(QString{"Appender for '%1'"} .arg(mylogger->name()));
+        writerAppender->setName(QString{QStringLiteral("Appender for '%1'")} .arg(mylogger->name()));
         appenderData.setAppender(writerAppender);
         mylogger->addAppender(writerAppender);
         mylogger->setAdditivity(false);
@@ -127,7 +127,7 @@ void BinaryLoggerTest::initTestCase()
     Log4Qt::LogManager::setHandleQtMessages(true);
 
     Log4Qt::LayoutSharedPtr layout(new Log4Qt::TTCCLayout(rootLogger));
-    static_cast<Log4Qt::TTCCLayout *>(layout.data())->setDateFormat("dd.MM.yyyy hh:mm:ss.zzz");
+    static_cast<Log4Qt::TTCCLayout *>(layout.data())->setDateFormat(QStringLiteral("dd.MM.yyyy hh:mm:ss.zzz"));
     static_cast<Log4Qt::TTCCLayout *>(layout.data())->setContextPrinting(false);
 
     Log4Qt::LayoutSharedPtr binlayout(new Log4Qt::BinaryToTextLayout(layout, rootLogger));
@@ -172,7 +172,7 @@ void BinaryLoggerTest::cleanupTestCase()
     unitTestLogger()->removeAllAppenders();
     logger()->removeAllAppenders();
 
-    Log4Qt::Logger::rootLogger()->info("Unit test logger was shutdown.");
+    Log4Qt::Logger::rootLogger()->info(QStringLiteral("Unit test logger was shutdown."));
     Log4Qt::Logger::rootLogger()->removeAllAppenders();
     Log4Qt::Logger::rootLogger()->loggerRepository()->shutdown();
 }
@@ -189,7 +189,7 @@ void BinaryLoggerTest::testBinaryToTextLayout()
     auto list = mAppender->clearList();
     QCOMPARE(list.size(), 1);
     auto result = list.at(0);
-    QVERIFY(result.contains("12 bytes: 48 65 6c 6c 6f 20 77 6f 72 6c 64 21"));
+    QVERIFY(result.contains(QStringLiteral("12 bytes: 48 65 6c 6c 6f 20 77 6f 72 6c 64 21")));
 }
 
 void BinaryLoggerTest::testBinaryEventFilter()
@@ -224,7 +224,7 @@ void BinaryLoggerTest::testBinaryWriterAppender()
 {
     auto blogger = Log4Qt::Logger::logger(binLogger);
 
-    blogger->debug("Hello world!");
+    blogger->debug(QStringLiteral("Hello world!"));
     char expected[] = {0x18, 0x00, 0x00, 0x00, 0x48, 0x00, 0x65, 0x00,
                        0x6C, 0x00, 0x6C, 0x00, 0x6F, 0x00, 0x20, 0x00,
                        0x77, 0x00, 0x6F, 0x00, 0x72, 0x00, 0x6C, 0x00,
@@ -256,7 +256,7 @@ void BinaryLoggerTest::testBinaryFileAppender()
 
     auto _ = createScopeExitGuard([blogger, bfa] {blogger->removeAppender(bfa);});
 
-    blogger->debug("Hello world!");
+    blogger->debug(QStringLiteral("Hello world!"));
     Log4Qt::BinaryLoggingEvent event(blogger, Log4Qt::Level::INFO_INT, QByteArray("\0\1\2\3", 4));
     blogger->callAppenders(event);
 

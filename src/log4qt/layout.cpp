@@ -48,7 +48,7 @@ void Layout::activateOptions()
 QString Layout::endOfLine()
 {
     // There seams to be no function in Qt for this. MinGW enter '\r\n' automatically
-    return QLatin1String("\n");
+    return QStringLiteral("\n");
 }
 
 } // namespace Log4Qt

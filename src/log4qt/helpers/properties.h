@@ -80,7 +80,7 @@ public:
 private:
     void parseProperty(const QString &property,
                        int line);
-    static int hexDigitValue(const QChar &digit);
+    static int hexDigitValue(QChar digit);
     static QString trimLeft(const QString &line);
 
 private:

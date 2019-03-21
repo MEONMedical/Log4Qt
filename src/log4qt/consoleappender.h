@@ -70,9 +70,9 @@ public:
 
 
     ConsoleAppender(QObject *parent = nullptr);
-    ConsoleAppender(LayoutSharedPtr pLayout,
+    ConsoleAppender(const LayoutSharedPtr &pLayout,
                     QObject *parent = nullptr);
-    ConsoleAppender(LayoutSharedPtr pLayout,
+    ConsoleAppender(const LayoutSharedPtr &pLayout,
                     const QString &target,
                     QObject *parent = nullptr);
 
@@ -81,7 +81,7 @@ public:
      * value specified by the \a target constant and the parent
      * \a parent.
      */
-    ConsoleAppender(LayoutSharedPtr pLayout,
+    ConsoleAppender(const LayoutSharedPtr &pLayout,
                     Target target,
                     QObject *parent = nullptr);
 

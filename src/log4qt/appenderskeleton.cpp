@@ -121,7 +121,7 @@ void AppenderSkeleton::addFilter(const FilterSharedPtr &filter)
 {
     if (!filter)
     {
-        logger()->warn("Adding null Filter to Appender '%1'", name());
+        logger()->warn(QStringLiteral("Adding null Filter to Appender '%1'"), name());
         return;
     }
 

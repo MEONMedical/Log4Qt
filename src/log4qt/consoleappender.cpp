@@ -41,7 +41,7 @@ ConsoleAppender::ConsoleAppender(QObject *parent) :
 }
 
 
-ConsoleAppender::ConsoleAppender(LayoutSharedPtr pLayout,
+ConsoleAppender::ConsoleAppender(const LayoutSharedPtr &pLayout,
                                  QObject *parent) :
     WriterAppender(pLayout, parent),
     mTarget(STDOUT_TARGET),
@@ -50,7 +50,7 @@ ConsoleAppender::ConsoleAppender(LayoutSharedPtr pLayout,
 }
 
 
-ConsoleAppender::ConsoleAppender(LayoutSharedPtr pLayout,
+ConsoleAppender::ConsoleAppender(const LayoutSharedPtr &pLayout,
                                  const QString &target,
                                  QObject *parent) :
     WriterAppender(pLayout, parent),
@@ -61,7 +61,7 @@ ConsoleAppender::ConsoleAppender(LayoutSharedPtr pLayout,
 }
 
 
-ConsoleAppender::ConsoleAppender(LayoutSharedPtr pLayout,
+ConsoleAppender::ConsoleAppender(const LayoutSharedPtr &pLayout,
                                  Target target,
                                  QObject *parent) :
     WriterAppender(pLayout, parent),

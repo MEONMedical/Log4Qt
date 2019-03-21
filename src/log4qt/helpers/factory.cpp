@@ -260,7 +260,7 @@ Appender *Factory::doCreateAppender(const QString &appenderClassName)
 
     if (!mAppenderRegistry.contains(appenderClassName))
     {
-        logger()->warn("Request for the creation of Appender with class '%1', which is not registered", appenderClassName);
+        logger()->warn(QStringLiteral("Request for the creation of Appender with class '%1', which is not registered"), appenderClassName);
         return nullptr;
     }
     return mAppenderRegistry.value(appenderClassName)();
@@ -273,7 +273,7 @@ Filter *Factory::doCreateFilter(const QString &filterClassName)
 
     if (!mFilterRegistry.contains(filterClassName))
     {
-        logger()->warn("Request for the creation of Filter with class '%1', which is not registered", filterClassName);
+        logger()->warn(QStringLiteral("Request for the creation of Filter with class '%1', which is not registered"), filterClassName);
         return nullptr;
     }
     return mFilterRegistry.value(filterClassName)();
@@ -286,7 +286,7 @@ Layout *Factory::doCreateLayout(const QString &layoutClassName)
 
     if (!mLayoutRegistry.contains(layoutClassName))
     {
-        logger()->warn("Request for the creation of Layout with class '%1', which is not registered", layoutClassName);
+        logger()->warn(QStringLiteral("Request for the creation of Layout with class '%1', which is not registered"), layoutClassName);
         return nullptr;
     }
     return mLayoutRegistry.value(layoutClassName)();
@@ -300,7 +300,7 @@ void Factory::doRegisterAppender(const QString &appenderClassName,
 
     if (appenderClassName.isEmpty())
     {
-        logger()->warn("Registering Appender factory function with empty class name");
+        logger()->warn(QStringLiteral("Registering Appender factory function with empty class name"));
         return;
     }
     mAppenderRegistry.insert(appenderClassName, appenderFactoryFunc);
@@ -314,7 +314,7 @@ void Factory::doRegisterFilter(const QString &filterClassName,
 
     if (filterClassName.isEmpty())
     {
-        logger()->warn("Registering Filter factory function with empty class name");
+        logger()->warn(QStringLiteral("Registering Filter factory function with empty class name"));
         return;
     }
     mFilterRegistry.insert(filterClassName, filterFactoryFunc);
@@ -328,7 +328,7 @@ void Factory::doRegisterLayout(const QString &layoutClassName,
 
     if (layoutClassName.isEmpty())
     {
-        logger()->warn("Registering Layout factory function with empty class name");
+        logger()->warn(QStringLiteral("Registering Layout factory function with empty class name"));
         return;
     }
     mLayoutRegistry.insert(layoutClassName, layoutFactoryFunc);
@@ -352,7 +352,7 @@ void Factory::doSetObjectProperty(QObject *object,
 
     QString propertyString = QLatin1String(meta_property.name());
     QString type = QLatin1String(meta_property.typeName());
-    logger()->debug("Setting property '%1' on object of class '%2' to value '%3'",
+    logger()->debug(QStringLiteral("Setting property '%1' on object of class '%2' to value '%3'"),
                     propertyString,
                     QLatin1String(object->metaObject()->className()),
                     value);
@@ -384,7 +384,7 @@ void Factory::doSetObjectProperty(QObject *object,
     // Everything is checked and the type is the one of the property.
     // Write should never return false
     if (!meta_property.write(object, variant))
-        logger()->warn("Unxpected error result from QMetaProperty.write()");
+        logger()->warn(QStringLiteral("Unxpected error result from QMetaProperty.write()"));
 }
 
 
@@ -394,7 +394,7 @@ void Factory::doUnregisterAppender(const QString &appenderClassName)
 
     if (!mAppenderRegistry.contains(appenderClassName))
     {
-        logger()->warn("Request to unregister not registered Appender factory function for class '%1'", appenderClassName);
+        logger()->warn(QStringLiteral("Request to unregister not registered Appender factory function for class '%1'"), appenderClassName);
         return;
     }
     mAppenderRegistry.remove(appenderClassName);
@@ -407,7 +407,7 @@ void Factory::doUnregisterFilter(const QString &filterClassName)
 
     if (!mFilterRegistry.contains(filterClassName))
     {
-        logger()->warn("Request to unregister not registered Filter factory function for class '%1'", filterClassName);
+        logger()->warn(QStringLiteral("Request to unregister not registered Filter factory function for class '%1'"), filterClassName);
         return;
     }
     mFilterRegistry.remove(filterClassName);
@@ -420,7 +420,7 @@ void Factory::doUnregisterLayout(const QString &layoutClassName)
 
     if (!mLayoutRegistry.contains(layoutClassName))
     {
-        logger()->warn("Request to unregister not registered Layout factory function for class '%1'", layoutClassName);
+        logger()->warn(QStringLiteral("Request to unregister not registered Layout factory function for class '%1'"), layoutClassName);
         return;
     }
     mLayoutRegistry.remove(layoutClassName);

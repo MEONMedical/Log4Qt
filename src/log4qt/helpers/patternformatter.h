@@ -87,7 +87,7 @@ private:
      * maximum integer value would be exceeded by the operation
      * \a value is set to INT_MAX.
      */
-    bool addDigit(const QChar &digit,
+    bool addDigit(QChar digit,
                   int &value);
 
     /*!
@@ -98,8 +98,8 @@ private:
      * The PatternConverter converter is appended to the list of
      * PatternConverters.
      */
-    void createConverter(const QChar &character,
-                         const FormattingInfo &formattingInfo,
+    void createConverter(QChar character,
+                         Log4Qt::FormattingInfo formattingInfo,
                          const QString &option = QString());
 
     /*!

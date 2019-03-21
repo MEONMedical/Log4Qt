@@ -46,7 +46,7 @@ void ListAppender::setMaxCount(int n)
 
     if (n < 0)
     {
-        logger()->warn("Attempt to set maximum count for appender '%1' to %2. Using zero instead", name(), n);
+        logger()->warn(QStringLiteral("Attempt to set maximum count for appender '%1' to %2. Using zero instead"), name(), n);
         n = 0;
     }
     mMaxCount = n;

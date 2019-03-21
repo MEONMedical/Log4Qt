@@ -213,7 +213,7 @@ void LoggingEvent::setThreadNameToCurrent()
         mThreadName = QThread::currentThread()->objectName();
         // if object name is not set use thread function address for thread identification
         if (mThreadName.isEmpty())
-            mThreadName = QString("0x%1").arg(reinterpret_cast<quintptr>(QThread::currentThread()), QT_POINTER_SIZE * 2, 16, QChar('0'));
+            mThreadName = QStringLiteral("0x%1").arg(reinterpret_cast<quintptr>(QThread::currentThread()), QT_POINTER_SIZE * 2, 16, QChar('0'));
 
     }
 }
