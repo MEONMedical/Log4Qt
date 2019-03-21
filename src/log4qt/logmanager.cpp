@@ -312,7 +312,7 @@ void LogManager::doStartup()
         }
 
         // Configuration using executable file name + .log4qt.properties
-        QString binConfigFile = app->applicationFilePath() + QLatin1Char('.') + default_file;
+        QString binConfigFile = QCoreApplication::applicationFilePath() + QLatin1Char('.') + default_file;
 
         filesToCheck << binConfigFile;
         if (binConfigFile.contains(".exe.", Qt::CaseInsensitive))
@@ -321,7 +321,7 @@ void LogManager::doStartup()
             filesToCheck << binConfigFile;
         }
 
-        filesToCheck << QFileInfo(app->applicationFilePath()).path() + QLatin1Char('/') + default_file;
+        filesToCheck << QFileInfo(QCoreApplication::applicationFilePath()).path() + QLatin1Char('/') + default_file;
     }
 
     filesToCheck << default_file;

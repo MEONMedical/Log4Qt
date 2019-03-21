@@ -34,8 +34,7 @@ Layout::Layout(QObject *parent) :
     QObject(parent)
 {}
 
-Layout::~Layout()
-{}
+Layout::~Layout() = default;
 
 QString Layout::contentType() const
 {

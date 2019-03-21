@@ -64,10 +64,8 @@ using namespace Log4Qt;
 QTEST_MAIN(Log4QtTest)
 LOG4QT_DECLARE_STATIC_LOGGER(test_logger, Test::TestLog4Qt)
 
-Log4QtTest::Log4QtTest() : QObject(),
+Log4QtTest::Log4QtTest(QObject *parent) : QObject(parent),
     mSkipLongTests(true),
-    mTemporaryDirectory(),
-    mDefaultProperties(),
     mProperties(&mDefaultProperties)
 {
 #ifdef LOG4QT_ENABLE_LONG_TESTS
@@ -75,9 +73,7 @@ Log4QtTest::Log4QtTest() : QObject(),
 #endif
 }
 
-Log4QtTest::~Log4QtTest()
-{
-}
+Log4QtTest::~Log4QtTest() = default;
 
 void Log4QtTest::initTestCase()
 {

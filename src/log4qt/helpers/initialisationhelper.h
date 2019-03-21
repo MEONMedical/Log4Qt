@@ -85,7 +85,7 @@ namespace Log4Qt
 #define LOG4QT_IMPLEMENT_INSTANCE(TYPE)                  \
                 TYPE *TYPE::instance()                   \
                 {                                        \
-                    static TYPE * singelton(new TYPE);   \
+                    static auto * singelton(new TYPE);   \
                     return singelton;                    \
                 }
 

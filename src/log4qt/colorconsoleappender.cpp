@@ -212,24 +212,28 @@ namespace Log4Qt
 {
 
 ColorConsoleAppender::ColorConsoleAppender(QObject *parent) :
-    ConsoleAppender(parent)
+    ConsoleAppender(parent),
+    hConsole(nullptr)
 {
 }
 
 ColorConsoleAppender::ColorConsoleAppender(const LayoutSharedPtr &layout, QObject *parent) :
-    ConsoleAppender(layout, parent)
+    ConsoleAppender(layout, parent),
+    hConsole(nullptr)
 {
 }
 
 ColorConsoleAppender::ColorConsoleAppender(const LayoutSharedPtr &layout,
         const QString &target, QObject *parent) :
-    ConsoleAppender(layout, target, parent)
+    ConsoleAppender(layout, target, parent),
+    hConsole(nullptr)
 {
 }
 
 ColorConsoleAppender::ColorConsoleAppender(const LayoutSharedPtr &layout, Target target,
         QObject *parent) :
-    ConsoleAppender(layout, target, parent)
+    ConsoleAppender(layout, target, parent),
+    hConsole(nullptr)
 {
 }
 

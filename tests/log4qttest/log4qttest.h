@@ -42,7 +42,7 @@ class Log4QtTest : public QObject
     Q_OBJECT
 
 public:
-    Log4QtTest();
+    explicit Log4QtTest(QObject *parent = nullptr);
     virtual ~Log4QtTest();
 private:
     Log4QtTest(const Log4QtTest &other); // Not implemented

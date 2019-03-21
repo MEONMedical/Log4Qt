@@ -46,8 +46,7 @@ namespace Log4Qt
 {
 
 InitialisationHelper::InitialisationHelper() :
-    mStartTime(QDateTime::currentDateTime().toMSecsSinceEpoch()),
-    mEnvironmentSettings()
+    mStartTime(QDateTime::currentDateTime().toMSecsSinceEpoch())
 {
     doRegisterTypes();
     doInitialiseEnvironmentSettings();

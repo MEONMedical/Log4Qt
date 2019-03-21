@@ -51,7 +51,7 @@ LOG4QT_IMPLEMENT_INSTANCE(ConfiguratorHelper)
 void ConfiguratorHelper::doConfigurationFileChanged(const QString &fileName)
 {
     if (!mConfigureFunc ||
-        !mConfigurationFile.exists(mConfigurationFile.absoluteFilePath()))
+        !QFileInfo::exists(mConfigurationFile.absoluteFilePath()))
         return;
     mConfigureFunc(fileName);
     emit configurationFileChanged(fileName, mConfigureError.count() > 0);

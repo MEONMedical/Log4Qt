@@ -11,9 +11,7 @@ BinaryLogger::BinaryLogger(LoggerRepository *loggerRepository, Level level, cons
 {
 }
 
-BinaryLogger::~BinaryLogger()
-{
-}
+BinaryLogger::~BinaryLogger() = default;
 
 void BinaryLogger::forcedLog(Level level, const QByteArray &message) const
 {

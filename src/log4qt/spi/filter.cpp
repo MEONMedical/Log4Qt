@@ -31,8 +31,7 @@ Filter::Filter(QObject *parent) :
     QObject(parent)
 {}
 
-Filter::~Filter()
-{}
+Filter::~Filter() = default;
 
 FilterSharedPtr Filter::next() const
 {

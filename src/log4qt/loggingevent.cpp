@@ -105,8 +105,7 @@ LoggingEvent::LoggingEvent(const Logger *logger,
     mProperties(MDC::context()),
     mSequenceNumber(nextSequenceNumber()),
     mThreadName(),
-    mTimeStamp(timeStamp),
-    mContext()
+    mTimeStamp(timeStamp)
 {
     setThreadNameToCurrent();
 }
@@ -127,8 +126,7 @@ LoggingEvent::LoggingEvent(const Logger *logger,
     mProperties(properties),
     mSequenceNumber(nextSequenceNumber()),
     mThreadName(threadName),
-    mTimeStamp(timeStamp),
-    mContext()
+    mTimeStamp(timeStamp)
 {
 }
 

@@ -299,7 +299,7 @@ QString Properties::trimLeft(const QString &line)
 }
 
 const char Properties::msEscapeChar = '\\';
-const char *Properties::msValueEscapeCodes = "tnr\\\"\' ";
+const char *Properties::msValueEscapeCodes = R"(tnr\"' )";
 const char *Properties::msValueEscapeChars = "\t\n\r\\\"\' ";
 const char *Properties::msKeyEscapeCodes = " :=";
 const char *Properties::msKeyEscapeChars = " :=";

@@ -11,10 +11,7 @@ namespace Log4Qt
 
 static const char binMarker[] = "@@@ binary message @@@";
 
-BinaryLoggingEvent::BinaryLoggingEvent()
-    : LoggingEvent()
-{
-}
+BinaryLoggingEvent::BinaryLoggingEvent() = default;
 
 BinaryLoggingEvent::BinaryLoggingEvent(const Logger *logger, Level level, const QByteArray &message)
     : LoggingEvent(logger, level, QString(binMarker))
