@@ -1115,7 +1115,7 @@ void Log4QtTest::AppenderSkeleton_threshold()
 {
     resetLogging();
 
-    Log4Qt::ListAppender *p_appender = new Log4Qt::ListAppender();
+    auto *p_appender = new Log4Qt::ListAppender();
     Log4Qt::Logger *p_logger = test_logger();
     p_logger->addAppender(p_appender);
 
@@ -1184,14 +1184,14 @@ void Log4QtTest::AppenderSkeleton_filter()
 
     if (!filter1_level.isEmpty())
     {
-        Log4Qt::LevelMatchFilter *filter = new Log4Qt::LevelMatchFilter();
+        auto *filter = new Log4Qt::LevelMatchFilter();
         filter->setLevelToMatch(Level::fromString(filter1_level));
         filter->setAcceptOnMatch(filter1_accept);
         appender.addFilter(FilterSharedPtr(filter));
     }
     if (!filter2_level.isEmpty())
     {
-        Log4Qt::LevelMatchFilter *filter = new Log4Qt::LevelMatchFilter();
+        auto *filter = new Log4Qt::LevelMatchFilter();
         filter->setLevelToMatch(Level::fromString(filter2_level));
         filter->setAcceptOnMatch(filter2_accept);
         appender.addFilter(FilterSharedPtr(filter));
@@ -1211,13 +1211,13 @@ void Log4QtTest::BasicConfigurator()
 
     Logger *p_logger = LogManager::rootLogger();
     QCOMPARE(p_logger->appenders().count(), 1);
-    ConsoleAppender *p_appender =
+    auto *p_appender =
         qobject_cast<ConsoleAppender *>(p_logger->appenders().at(0).data());
     QCOMPARE(p_appender != 0, true);
     QVERIFY(p_appender->isActive());
     QVERIFY(!p_appender->isClosed());
     QCOMPARE(p_appender->target(), QString::fromLatin1("STDOUT_TARGET"));
-    PatternLayout *p_layout =
+    auto *p_layout =
         qobject_cast<PatternLayout *>(p_appender->layout().data());
     QVERIFY(p_layout != nullptr);
     QCOMPARE(p_layout->conversionPattern(), QString("%r [%t] %p %c %x - %m%n"));
@@ -1744,13 +1744,13 @@ void Log4QtTest::PropertyConfigurator_example()
     Logger *p_logger = LogManager::rootLogger();
     QCOMPARE(p_logger->level(), Level(Level::INFO_INT));
     QCOMPARE(p_logger->appenders().count(), 1);
-    Log4Qt::RollingFileAppender *p_a2 =
+    auto *p_a2 =
         qobject_cast<Log4Qt::RollingFileAppender *>(p_logger->appenders().at(0).data());
     QVERIFY(p_a2 != nullptr);
     QCOMPARE(p_a2->file(), file);
     QCOMPARE(p_a2->maximumFileSize(), Q_INT64_C(13 * 1024 * 1024));
     QCOMPARE(p_a2->maxBackupIndex(), 7);
-    Log4Qt::TTCCLayout *p_a2layout =
+    auto *p_a2layout =
         qobject_cast<Log4Qt::TTCCLayout *>(p_a2->layout().data());
     QVERIFY(p_a2layout != nullptr);
     QCOMPARE(p_a2layout->contextPrinting(), false);
@@ -1761,11 +1761,11 @@ void Log4QtTest::PropertyConfigurator_example()
     p_logger = LogManager::logger("SECURITY");
     QCOMPARE(p_logger->level(), Level(Level::NULL_INT));
     QCOMPARE(p_logger->appenders().count(), 1);
-    Log4Qt::ConsoleAppender *p_a1 =
+    auto *p_a1 =
         qobject_cast<Log4Qt::ConsoleAppender *>(p_logger->appenders().at(0).data());
     QVERIFY(p_a1 != nullptr);
     QCOMPARE(p_a1->target(), QString::fromLatin1("STDOUT_TARGET"));
-    Log4Qt::PatternLayout *p_a1layout =
+    auto *p_a1layout =
         qobject_cast<Log4Qt::PatternLayout *>(p_a1->layout().data());
     QVERIFY(p_a1layout != nullptr);
     QCOMPARE(p_a1layout->conversionPattern(), QString::fromLatin1("%-4r %-5p %c{2} %M.%L %x - %m\n"));

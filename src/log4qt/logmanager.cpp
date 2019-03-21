@@ -236,7 +236,7 @@ void LogManager::doConfigureLogLogger()
     // ConsoleAppender on stdout for all events <= INFO
     ConsoleAppender *p_appender;
     p_appender = new ConsoleAppender(p_layout, ConsoleAppender::STDOUT_TARGET);
-    LevelRangeFilter *pFilterStdout = new LevelRangeFilter();
+    auto *pFilterStdout = new LevelRangeFilter();
     pFilterStdout->setNext(p_denyall);
     pFilterStdout->setLevelMin(Level::NULL_INT);
     pFilterStdout->setLevelMax(Level::INFO_INT);
@@ -248,7 +248,7 @@ void LogManager::doConfigureLogLogger()
 
     // ConsoleAppender on stderr for all events >= WARN
     p_appender = new ConsoleAppender(p_layout, ConsoleAppender::STDERR_TARGET);
-    LevelRangeFilter *pFilterStderr = new LevelRangeFilter();
+    auto *pFilterStderr = new LevelRangeFilter();
     pFilterStderr->setNext(p_denyall);
     pFilterStderr->setLevelMin(Level::WARN_INT);
     pFilterStderr->setLevelMax(Level::OFF_INT);

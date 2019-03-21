@@ -74,7 +74,7 @@ bool BinaryWriterAppender::requiresLayout() const
 
 void BinaryWriterAppender::append(const LoggingEvent &event)
 {
-    const BinaryLoggingEvent *binEvent = dynamic_cast<const BinaryLoggingEvent *>(&event);
+    const auto *binEvent = dynamic_cast<const BinaryLoggingEvent *>(&event);
     const LayoutSharedPtr l = layout();
     const BinaryLayout *bl = qobject_cast<BinaryLayout *>(l.data());
 

@@ -8,7 +8,7 @@ Q_LOGGING_CATEGORY(category1, "test.category1")
 LoggerObject::LoggerObject(QObject *parent) : QObject(parent),
     mCounter(0)
 {
-    QTimer *timer = new QTimer(this);
+    auto *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &LoggerObject::onTimeout);
     timer->start(10);
 }

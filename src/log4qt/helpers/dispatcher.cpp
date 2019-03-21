@@ -39,7 +39,7 @@ void Dispatcher::customEvent(QEvent *event)
 {
     if (event->type() == LoggingEvent::eventId)
     {
-        LoggingEvent *logEvent = static_cast<LoggingEvent *>(event);
+        auto *logEvent = static_cast<LoggingEvent *>(event);
         if (mAsyncAppender != nullptr)
             mAsyncAppender->callAppenders(*logEvent);
     }

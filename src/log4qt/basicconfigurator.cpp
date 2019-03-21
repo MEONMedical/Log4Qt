@@ -38,7 +38,7 @@ namespace Log4Qt
 
 bool BasicConfigurator::configure()
 {
-    ListAppender *list = new ListAppender;
+    auto *list = new ListAppender;
     list->setName(QStringLiteral("BasicConfigurator"));
     list->setConfiguratorList(true);
     list->setThreshold(Level::ERROR_INT);

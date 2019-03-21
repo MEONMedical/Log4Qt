@@ -398,7 +398,7 @@ AppenderSharedPtr PropertyConfigurator::parseAppender(const Properties &properti
     QStringList exclusions;
     exclusions << QStringLiteral("layout");
     setProperties(properties, key + QStringLiteral("."), exclusions, p_appender.data());
-    AppenderSkeleton *p_appenderskeleton = qobject_cast<AppenderSkeleton *>(p_appender.data());
+    auto *p_appenderskeleton = qobject_cast<AppenderSkeleton *>(p_appender.data());
     if (p_appenderskeleton)
         p_appenderskeleton->activateOptions();
 
@@ -544,7 +544,7 @@ void PropertyConfigurator::startCaptureErrors()
 {
     Q_ASSERT_X(!mpConfigureErrors, "PropertyConfigurator::startCaptureErrors()", "mpConfigureErrors must be empty.");
 
-    ListAppender *listAppender = new ListAppender();
+    auto *listAppender = new ListAppender();
     mpConfigureErrors.reset(listAppender);
     listAppender->setName(QStringLiteral("PropertyConfigurator"));
     listAppender->setConfiguratorList(true);
@@ -555,7 +555,7 @@ void PropertyConfigurator::startCaptureErrors()
 bool PropertyConfigurator::stopCaptureErrors()
 {
     Q_ASSERT_X(mpConfigureErrors, "PropertyConfigurator::stopCaptureErrors()", "mpConfigureErrors must not be empty.");
-    ListAppender *listAppender = static_cast<ListAppender *>(mpConfigureErrors.data());
+    auto *listAppender = static_cast<ListAppender *>(mpConfigureErrors.data());
     LogManager::logLogger()->removeAppender(mpConfigureErrors);
     ConfiguratorHelper::setConfigureError(listAppender->list());
     bool result = (listAppender->list().count() == 0);

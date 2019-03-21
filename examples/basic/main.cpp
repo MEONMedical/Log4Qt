@@ -28,8 +28,8 @@ int main(int argc, char *argv[])
 {
     QCoreApplication application(argc, argv);
 
-    LoggerObject *object = new LoggerObject(&application);
-    LoggerObjectPrio *object1 = new LoggerObjectPrio(&application);
+    auto *object = new LoggerObject(&application);
+    auto *object1 = new LoggerObjectPrio(&application);
     Q_UNUSED(object1)
     QLoggingCategory::setFilterRules("*.debug=false\n"
                                          "test.category1.debug=true");
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     {
         QScopedPointer<LoggerStatic> object2(new LoggerStatic());
 
-        ret = application.exec();
+        ret = QCoreApplication::exec();
     }
 
     logShutdown();
@@ -84,7 +84,7 @@ void setupRootLogger(const QString &introMessage)
 {
     // Create a layout
     auto logger = Log4Qt::Logger::rootLogger();
-    Log4Qt::TTCCLayout *layout = new Log4Qt::TTCCLayout();
+    auto *layout = new Log4Qt::TTCCLayout();
     layout->setName(QStringLiteral("My Layout"));
     layout->activateOptions();
     // Create a console appender

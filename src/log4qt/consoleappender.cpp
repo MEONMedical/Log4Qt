@@ -86,7 +86,7 @@ QString ConsoleAppender::target() const
 void ConsoleAppender::setTarget(const QString &target)
 {
     bool ok;
-    Target targetEnum = static_cast<Target>(OptionConverter::toTarget(target, &ok));
+    auto targetEnum = static_cast<Target>(OptionConverter::toTarget(target, &ok));
     if (ok)
         setTarget(targetEnum);
 }

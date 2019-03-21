@@ -132,14 +132,14 @@ void BinaryLoggerTest::initTestCase()
 
     Log4Qt::LayoutSharedPtr binlayout(new Log4Qt::BinaryToTextLayout(layout, rootLogger));
 
-    Log4Qt::ConsoleAppender *consoleAppender = new Log4Qt::ConsoleAppender(rootLogger);
+    auto *consoleAppender = new Log4Qt::ConsoleAppender(rootLogger);
     consoleAppender->setLayout(binlayout);
     consoleAppender->setTarget(Log4Qt::ConsoleAppender::STDOUT_TARGET);
     consoleAppender->activateOptions();
 
     Log4Qt::Filter *denyall = new Log4Qt::DenyAllFilter;
     denyall->activateOptions();
-    Log4Qt::LevelRangeFilter *levelFilter = new Log4Qt::LevelRangeFilter(rootLogger);
+    auto *levelFilter = new Log4Qt::LevelRangeFilter(rootLogger);
     levelFilter->setNext(Log4Qt::FilterSharedPtr(denyall));
     levelFilter->setLevelMin(Log4Qt::Level::NULL_INT);
     levelFilter->setLevelMax(loggingLevel);
@@ -150,7 +150,7 @@ void BinaryLoggerTest::initTestCase()
     // add appender for tests
     Log4Qt::LayoutSharedPtr simpleLayout(new Log4Qt::SimpleLayout(rootLogger));
     Log4Qt::LayoutSharedPtr binlayout1(new Log4Qt::BinaryToTextLayout(simpleLayout, rootLogger));
-    TestAppender *appender = new TestAppender(rootLogger);
+    auto *appender = new TestAppender(rootLogger);
     appender->setLayout(binlayout1);
     appender->activateOptions();
     mAppender = appender;
@@ -198,7 +198,7 @@ void BinaryLoggerTest::testBinaryEventFilter()
     Log4Qt::Filter *denyall = new Log4Qt::DenyAllFilter;
     denyall->activateOptions();
 
-    Log4Qt::BinaryEventFilter *binfilter = new Log4Qt::BinaryEventFilter(blogger);
+    auto *binfilter = new Log4Qt::BinaryEventFilter(blogger);
 
     binfilter->setAcceptBinaryEvents(true);
     binfilter->setNext(Log4Qt::FilterSharedPtr(denyall));

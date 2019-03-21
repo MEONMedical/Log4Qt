@@ -17,7 +17,7 @@ QString BinaryToTextLayout::format(const LoggingEvent &event)
 {
     if (!mSubLayout.isNull())
     {
-        if (const BinaryLoggingEvent *binaryEvent = dynamic_cast<const BinaryLoggingEvent *>(&event))
+        if (const auto *binaryEvent = dynamic_cast<const BinaryLoggingEvent *>(&event))
         {
             QString hexData = binaryEvent->binaryMessage().toHex();
             QString spacedHexData;
