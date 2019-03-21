@@ -35,11 +35,8 @@ namespace Log4Qt
 {
 
 ConfiguratorHelper::ConfiguratorHelper() :
-    mObjectGuard(),
-    mConfigurationFile(),
     mConfigureFunc(nullptr),
-    mConfigurationFileWatch(nullptr),
-    mConfigureError()
+    mConfigurationFileWatch(nullptr)
 {
 }
 

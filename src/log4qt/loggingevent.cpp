@@ -184,8 +184,7 @@ QString LoggingEvent::loggename() const
 {
     if (mLogger)
         return mLogger->name();
-    else
-        return QString();
+    return QString();
 }
 
 

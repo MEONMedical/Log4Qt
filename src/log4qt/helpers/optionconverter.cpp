@@ -79,15 +79,12 @@ QString OptionConverter::findAndSubst(const Properties &properties,
                 logger()->error(e);
                 return result;
             }
-            else
-            {
-                auto keyName = value.mid(begin + begin_length, end - begin - end_length - 1);
-                auto subValue = findAndSubst(properties, keyName);
-                if (subValue.isNull() && keyName.startsWith("LOG4QT_"))
-                    subValue = qgetenv(qPrintable(keyName));
-                result +=subValue;
-                i = end + end_length;
-            }
+            auto keyName = value.mid(begin + begin_length, end - begin - end_length - 1);
+            auto subValue = findAndSubst(properties, keyName);
+            if (subValue.isNull() && keyName.startsWith("LOG4QT_"))
+                subValue = qgetenv(qPrintable(keyName));
+            result +=subValue;
+            i = end + end_length;
         }
     }
     return result;

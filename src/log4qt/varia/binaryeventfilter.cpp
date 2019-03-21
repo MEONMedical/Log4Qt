@@ -20,8 +20,7 @@ Filter::Decision BinaryEventFilter::decide(const LoggingEvent &event) const
 
     if (mAcceptBinaryEvents)
         return Filter::ACCEPT;
-    else
-        return Filter::DENY;
+    return Filter::DENY;
 }
 
 } // namespace Log4Qt

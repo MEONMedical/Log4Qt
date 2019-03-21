@@ -1213,7 +1213,7 @@ void Log4QtTest::BasicConfigurator()
     QCOMPARE(p_logger->appenders().count(), 1);
     auto *p_appender =
         qobject_cast<ConsoleAppender *>(p_logger->appenders().at(0).data());
-    QCOMPARE(p_appender != 0, true);
+    QCOMPARE(p_appender != nullptr, true);
     QVERIFY(p_appender->isActive());
     QVERIFY(!p_appender->isClosed());
     QCOMPARE(p_appender->target(), QString::fromLatin1("STDOUT_TARGET"));
@@ -1386,7 +1386,7 @@ void Log4QtTest::LoggingEvent_stream_data()
                             "main",
                             timestamp);
     QTest::newRow("Logging no logger")
-            << LoggingEvent(0,
+            << LoggingEvent(nullptr,
                             Level(Level::WARN_INT),
                             "This is a message",
                             "NDC",
@@ -1446,7 +1446,7 @@ void Log4QtTest::LogManager_configureLogLogger()
     TTCCLayout *p_layout;
 
     p_appender = qobject_cast<ConsoleAppender *>(p_logger->appenders().at(0).data());
-    QCOMPARE(p_appender != 0, true);
+    QCOMPARE(p_appender != nullptr, true);
     QVERIFY(p_appender->isActive());
     QVERIFY(!p_appender->isClosed());
     QCOMPARE(p_appender->target(), QString::fromLatin1("STDOUT_TARGET"));
@@ -1454,7 +1454,7 @@ void Log4QtTest::LogManager_configureLogLogger()
     QVERIFY(p_layout != nullptr);
 
     p_appender = qobject_cast<ConsoleAppender *>(p_logger->appenders().at(1).data());
-    QCOMPARE(p_appender != 0, true);
+    QCOMPARE(p_appender != nullptr, true);
     QVERIFY(p_appender->isActive());
     QVERIFY(!p_appender->isClosed());
     QCOMPARE(p_appender->target(), QString::fromLatin1("STDERR_TARGET"));
@@ -1953,15 +1953,14 @@ bool Log4QtTest::deleteDirectoryTree(const QString &name)
         qDebug() << "Unable to remove directory: " << name;
         return false;
     }
-    else
-    {
-        QFile f(name);
-        if (f.remove())
-            return true;
-        qDebug() << "Unable to remove file: " << name << "("
-                 << f.errorString() << ")";
-        return false;
-    }
+
+    QFile f(name);
+    if (f.remove())
+        return true;
+
+    qDebug() << "Unable to remove file: " << name << "("
+             << f.errorString() << ")";
+    return false;
 }
 
 

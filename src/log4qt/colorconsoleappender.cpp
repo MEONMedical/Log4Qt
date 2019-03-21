@@ -113,7 +113,7 @@ static void colorOutputString(HANDLE hConsole, const QString &output)
     {
         wideMessage = new wchar_t [colorizedMessage.at(0).size()];
         actualSize = colorizedMessage.at(0).toWCharArray(wideMessage);
-        WriteConsoleW(hConsole, wideMessage, actualSize, &out, 0);
+        WriteConsoleW(hConsole, wideMessage, actualSize, &out, nullptr);
         delete [] wideMessage;
         colorizedMessage.removeAt(0);
     }

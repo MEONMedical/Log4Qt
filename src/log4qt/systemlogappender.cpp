@@ -116,7 +116,7 @@ void SystemLogAppender::append(const LoggingEvent &event)
         const wchar_t *msg_wstr = msg.c_str();
         const char *bindata = nullptr;//data.size() ? data.constData() : 0;
         const int datasize = 0;
-        pReportEvent(h, wType, category, id, 0, 1, datasize,
+        pReportEvent(h, wType, category, id, nullptr, 1, datasize,
                      &msg_wstr, const_cast<char *> (bindata));
         pDeregisterEventSource(h);
     }

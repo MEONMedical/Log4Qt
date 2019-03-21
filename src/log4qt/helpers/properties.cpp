@@ -87,14 +87,12 @@ QString Properties::property(const QString &key) const
         QString value = this->value(key);
         if (value.isNull())
             return QString(QStringLiteral(""));
-        else
-            return value;
+        return value;
     }
 
     if (mpDefaultProperties)
         return mpDefaultProperties->property(key);
-    else
-        return QString();
+    return QString();
 }
 
 
@@ -288,8 +286,8 @@ int Properties::hexDigitValue(const QChar &digit)
     int result = QString(digit).toInt(&ok, 16);
     if (!ok)
         return -1;
-    else
-        return result;
+
+    return result;
 }
 
 QString Properties::trimLeft(const QString &line)
