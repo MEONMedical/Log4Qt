@@ -68,7 +68,7 @@ Log4QtTest::Log4QtTest(QObject *parent) : QObject(parent),
     mSkipLongTests(false),
     mProperties(&mDefaultProperties)
 {
-#ifdef LOG4QT_ENABLE_LONG_TESTS
+#ifdef LOG4QT_DISABLE_LONG_TESTS
     mSkipLongTests = true;
 #endif
 }
