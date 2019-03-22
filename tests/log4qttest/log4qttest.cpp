@@ -65,11 +65,11 @@ QTEST_MAIN(Log4QtTest)
 LOG4QT_DECLARE_STATIC_LOGGER(test_logger, Test::TestLog4Qt)
 
 Log4QtTest::Log4QtTest(QObject *parent) : QObject(parent),
-    mSkipLongTests(true),
+    mSkipLongTests(false),
     mProperties(&mDefaultProperties)
 {
 #ifdef LOG4QT_ENABLE_LONG_TESTS
-    mSkipLongTests = false;
+    mSkipLongTests = true;
 #endif
 }
 

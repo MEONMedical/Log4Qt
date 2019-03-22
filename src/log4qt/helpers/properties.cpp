@@ -86,7 +86,7 @@ QString Properties::property(const QString &key) const
     {
         QString value = this->value(key);
         if (value.isNull())
-            return QString(QStringLiteral(""));
+            return QString(QLatin1String(""));
         return value;
     }
 
