@@ -1415,9 +1415,8 @@ void Log4QtTest::LoggingEvent_stream()
     QCOMPARE(original.message(), streamed.message());
     QCOMPARE(original.ndc(), streamed.ndc());
     QCOMPARE(original.properties().count(), streamed.properties().count());
-    QStringList keys = original.properties().keys();
-    QString key;
-    Q_FOREACH (key, keys)
+    const auto keys = original.properties().keys();
+    for (const auto &key : keys)
     {
         QVERIFY(streamed.properties().contains(key));
         QCOMPARE(original.properties().value(key),
@@ -1937,11 +1936,10 @@ bool Log4QtTest::deleteDirectoryTree(const QString &name)
     if (file_info.isDir())
     {
         QDir d(name);
-        QStringList members = d.entryList(QDir::Dirs | QDir::Files
+        const QStringList members = d.entryList(QDir::Dirs | QDir::Files
                                           | QDir::NoDotAndDotDot | QDir::NoSymLinks
                                           | QDir::Hidden, QDir::Name | QDir::DirsFirst);
-        QString member;
-        Q_FOREACH (member, members)
+        for (const auto &member : members)
             if (!deleteDirectoryTree(name + '/' + member))
                 return false;
         if (d.rmdir(name))
