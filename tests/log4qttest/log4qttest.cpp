@@ -112,7 +112,7 @@ void Log4QtTest::DateTime_alternativelyFormat_data()
     QTest::addColumn<QString>("datetimestring");
     QDateTime reference(QDate(2016, 5, 3), QTime(15, 7, 5, 9));
     qint64 diffTime = reference.toMSecsSinceEpoch() - InitialisationHelper::startTime();
-    QTest::newRow("EMPTY") << QStringLiteral("") << reference << QString();
+    QTest::newRow("EMPTY") << QString() << reference << QString();
     QTest::newRow("INVALID") << QStringLiteral("ISO8601") << QDateTime() << QString();
     QTest::newRow("NONE") << QStringLiteral("NONE") << reference << QString();
     QTest::newRow("RELATIVE") << QStringLiteral("RELATIVE") << reference << QString::number(diffTime);
