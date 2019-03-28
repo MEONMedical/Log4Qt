@@ -652,7 +652,7 @@ QString BasicPatternConverter::convert(const LoggingEvent &loggingEvent) const
     case CATEGORYNAME_CONVERTER:
         return loggingEvent.categoryName();
     default:
-        Q_ASSERT_X(false, "BasicPatternConverter::convert()", "Unkown type constant");
+        Q_ASSERT_X(false, "BasicPatternConverter::convert()", "Unknown type constant");
         return QString();
     }
 }

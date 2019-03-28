@@ -83,7 +83,7 @@ void TTCCLayout::setDateFormat(DateFormat dateFormat)
         setDateFormat(QStringLiteral("RELATIVE"));
         break;
     default:
-        Q_ASSERT_X(false, "TTCCLayout::setDateFormat", "Unkown DateFormat");
+        Q_ASSERT_X(false, "TTCCLayout::setDateFormat", "Unknown DateFormat");
         setDateFormat(QString());
     }
 }

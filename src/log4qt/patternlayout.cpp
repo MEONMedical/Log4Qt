@@ -62,7 +62,7 @@ void PatternLayout::setConversionPattern(ConversionPattern conversionPattern)
         setConversionPattern(QStringLiteral("%r [%t] %p %c %x - %m%n"));
         break;
     default:
-        Q_ASSERT_X(false, "PatternLayout::setConversionFormat", "Unkown ConversionFormat");
+        Q_ASSERT_X(false, "PatternLayout::setConversionFormat", "Unknown ConversionFormat");
         setConversionPattern(QString());
     }
 }
