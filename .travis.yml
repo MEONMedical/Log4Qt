@@ -16,10 +16,10 @@ env:
 - QT_VERSION=qt59 QT_PPA=qt594
 - QT_VERSION=qt510 QT_PPA=qt-5.10.1
 - QT_VERSION=qt511 QT_PPA=qt-5.11.3
-- QT_VERSION=qt512 QT_PPA=qt-5.12.0
+- QT_VERSION=qt512 QT_PPA=qt-5.12.2
 
 before_install:
-  - sudo add-apt-repository --yes ppa:beineri/opt-$QT_PPA-xenial
+  - sudo add-apt-repository --yes S/opt-$QT_PPA-xenial
   - sudo apt-get update -qq
 
 install:
