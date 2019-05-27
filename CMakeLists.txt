@@ -53,7 +53,7 @@ set(LOG4QT_BUILD_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 #
 # We need C++11 and don't want to export all symbols, only the ones we mark for export
 #
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
