@@ -232,12 +232,14 @@ set_target_properties(log4qt PROPERTIES SOVERSION ${Log4Qt_VERSION_MAJOR}.${Log4
 # Install the whole stuff
 #
 install(TARGETS log4qt EXPORT log4qt_targets
+                       COMPONENT Library
                        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
                        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
                        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
                        INCLUDES DESTINATION include
                        )
-install(FILES ${log4qt_HEADERS}         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4qt)
-install(FILES ${log4qt_HEADERS_helpers} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4qt/helpers)
-install(FILES ${log4qt_HEADERS_spi}     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4qt/spi)
-install(FILES ${log4qt_HEADERS_varia}   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4qt/varia)
+
+install(FILES ${log4qt_HEADERS}         COMPONENT Devel DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4qt)
+install(FILES ${log4qt_HEADERS_helpers} COMPONENT Devel DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4qt/helpers)
+install(FILES ${log4qt_HEADERS_spi}     COMPONENT Devel DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4qt/spi)
+install(FILES ${log4qt_HEADERS_varia}   COMPONENT Devel DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4qt/varia)
