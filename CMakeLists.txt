@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.3.0)
-project(Log4Qt VERSION 1.5.1)
+project(Log4Qt VERSION 1.6.0)
 
 #
 # in-source builds should be avoided
@@ -62,7 +62,7 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 # and settings some defines for Qt
 #
 set(CMAKE_AUTOMOC TRUE)
-set(QT_MIN_VERSION 5.7.0)
+set(QT_MIN_VERSION 5.12.0)
 # TODO: make Network also optional?
 find_package(Qt5 COMPONENTS Core Network Concurrent Test REQUIRED)
 if(BUILD_WITH_DB_LOGGING)
@@ -77,7 +77,7 @@ add_definitions(-DQT_NO_CAST_TO_ASCII)
 #add_definitions(-DQT_NO_CAST_FROM_ASCII)
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 add_definitions(-DQT_DEPRECATED_WARNINGS)
-add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050700)
+add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x051200)
 if(NOT MSVC)
     add_definitions(-DQT_STRICT_ITERATORS)
 endif()

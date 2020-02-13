@@ -5,11 +5,10 @@ Product {
 
     destinationDirectory: "../bin"
     Depends { name: 'cpp' }
-    Depends { name: "Qt"; submodules: ["core", "xml"]; versionAtLeast: "5.7.0" }
+    Depends { name: "Qt"; submodules: ["core", "xml"]; versionAtLeast: "5.12.0" }
     Depends { name: "Qt.sql"; required: false }
     Depends { name: "Qt.network"; required: false }
-
-    cpp.cxxLanguageVersion: "c++14"
+    cpp.cxxLanguageVersion: "c++17"
     cpp.visibility: "hidden"
 
     Properties {

@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 ----
+## [v1.6.0] - ??
+- Minimum required Qt version is 5.7
+### Fixed
+- Repalce deprecated Qt 5.14 stuff
+
 ## [v1.5.1] - ??
+### Improvements
 - Automatically delete files written by DailyFileAppender after a configurable period of time.
 
 ## [v1.5.0] - 25.06.2018

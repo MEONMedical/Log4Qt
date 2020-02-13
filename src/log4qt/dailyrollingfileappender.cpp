@@ -221,7 +221,12 @@ void DailyRollingFileAppender::computeRollOvetime()
     break;
     default:
         Q_ASSERT_X(false, "DailyRollingFileAppender::computeInterval()", "Invalid datePattern constant");
+#if QT_VERSION >= 0x050800
+        mRollOvetime = QDateTime::fromSecsSinceEpoch(0);
+#else
         mRollOvetime = QDateTime::fromTime_t(0);
+#endif
+
     }
 
     mRollOverSuffix = static_cast<DateTime>(start).toString(mActiveDatePattern);

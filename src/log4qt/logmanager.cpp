@@ -299,6 +299,7 @@ void LogManager::doStartup()
     // Configuration using setting
     if (auto app = QCoreApplication::instance())
     {
+        Q_UNUSED(app)
         const QLatin1String log4qt_group("Log4Qt");
         const QLatin1String properties_group("Properties");
         QSettings s;
