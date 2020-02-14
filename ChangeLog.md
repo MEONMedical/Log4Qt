@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 ----
-## [v1.5.1] - ??
+## [v1.5.1] - 14.02.2020
 - Automatically delete files written by DailyFileAppender after a configurable period of time.
 
 ## [v1.5.0] - 25.06.2018
