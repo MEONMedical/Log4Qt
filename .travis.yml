@@ -16,7 +16,7 @@ env:
 - QT_VERSION=qt514 QT_PPA=qt-5.14.1
 
 before_install:
-  - sudo add-apt-repository --yes ppa:beineri/opt-$QT_PPA-xenial
+  - sudo add-apt-repository --yes ppa:beineri/opt-$QT_PPA-bionic
   - sudo apt-get update -qq
 
 install:
