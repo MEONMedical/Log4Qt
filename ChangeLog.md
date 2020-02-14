@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Repalce deprecated Qt 5.14 stuff
 
-## [v1.5.1] - ??
+## [v1.5.1] - 14.02.2020
 ### Improvements
 - Automatically delete files written by DailyFileAppender after a configurable period of time.
 
