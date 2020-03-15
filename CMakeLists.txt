@@ -58,7 +58,7 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
 #
-# Min. Qt version is 5.6, we want to use cmake automoc feature
+# Min. Qt version is 5.12, we want to use cmake automoc feature
 # and settings some defines for Qt
 #
 set(CMAKE_AUTOMOC TRUE)
@@ -77,7 +77,7 @@ add_definitions(-DQT_NO_CAST_TO_ASCII)
 #add_definitions(-DQT_NO_CAST_FROM_ASCII)
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 add_definitions(-DQT_DEPRECATED_WARNINGS)
-add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x051200)
+add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050F00)
 if(NOT MSVC)
     add_definitions(-DQT_STRICT_ITERATORS)
 endif()
@@ -118,8 +118,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
   #         4267: conversion from 'size_t' to 'type', possible loss of data
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd4127 -wd4512 -wd4267 -we4265")
 
-  list(REMOVE_ITEM CMAKE_CXX_FLAGS "-W3")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W4")
+  string(REGEX REPLACE "/W[0-3]" "/W4" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
 
   add_definitions(-DUNICODE -DNOMINMAX)
 
