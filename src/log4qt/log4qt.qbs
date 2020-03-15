@@ -15,7 +15,7 @@ ProductLibrary {
     cpp.defines: ["LOG4QT_LIBRARY",
                   "NOMINMAX",
                   "QT_DEPRECATED_WARNINGS",
-                  "QT_DISABLE_DEPRECATED_BEFORE=0x051200",
+                  "QT_DISABLE_DEPRECATED_BEFORE=0x050F00",
                   "QT_NO_CAST_FROM_BYTEARRAY",
                   "QT_USE_QSTRINGBUILDER",
                   "LOG4QT_VERSION_STR=\"" + library.version + "\"",

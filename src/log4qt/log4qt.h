@@ -475,12 +475,6 @@
 #   error "Log4Qt requires Qt version 5.12.0 or higher"
 #endif
 
-// Q_CC_GNU not defined correct in Qt5.3
-#if QT_VERSION <= QT_VERSION_CHECK(5, 4, 0)
-#undef Q_CC_GNU
-#define Q_CC_GNU (__GNUC__ * 100 + __GNUC_MINOR__)
-#endif
-
 #if (defined(Q_CC_MSVC) && _MSC_VER < 1900)
 #   error "Log4Qt requires at least msvc version 14 (VS2015) or higher for used c++11 features"
 #endif
