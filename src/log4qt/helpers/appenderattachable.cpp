@@ -1,12 +1,8 @@
 /******************************************************************************
  *
- * package:     Log4Qt
- * file:        appenderattachable.cpp
- * created:     Dezember 2010
- * author:      Andreas Bacher
+ * This file is part of Log4Qt library.
  *
- *
- * Copyright 2007 Andreas Bacher
+ * Copyright (C) 2007 - 2020 Log4Qt contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

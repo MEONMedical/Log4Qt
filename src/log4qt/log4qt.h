@@ -1,20 +1,8 @@
 /******************************************************************************
  *
- * package:     Log4Qt
- * file:        logging.h
- * created:     September 2007
- * author:      Martin Heinrich
+ * This file is part of Log4Qt library.
  *
- *
- * changes:     Sep 2008, Martin Heinrich:
- *              - Added a compile time version check for the Qt version
- *              Jan 2009, Martin Heinrich:
- *              - Updated documentation and version information for version 0.2
- *              Feb 2009, Martin Heinrich:
- *              - Updated version information for version 0.3
- *
- *
- * Copyright 2007 - 2009 Martin Heinrich
+ * Copyright (C) 2007 - 2020 Log4Qt contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

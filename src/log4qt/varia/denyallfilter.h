@@ -1,17 +1,8 @@
 /******************************************************************************
  *
- * package:     Log4Qt
- * file:        denyallfilter.h
- * created:     September 2007
- * author:      Martin Heinrich
+ * This file is part of Log4Qt library.
  *
- *
- * changes      Feb 2009, Martin Heinrich
- *              - Fixed a compile error on VS 2008 by using Q_UNUSED(&event)
- *                instead of Q_UNUSED(event)
- *
- *
- * Copyright 2007 - 2009 Martin Heinrich
+ * Copyright (C) 2007 - 2020 Log4Qt contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

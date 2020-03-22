@@ -1,20 +1,8 @@
 /******************************************************************************
  *
- * package:     Log4Qt
- * file:        logger.h
- * created:     September 2007
- * author:      Martin Heinrich
+ * This file is part of Log4Qt library.
  *
- *
- * changes:     Sep 2008, Martin Heinrich:
- *              - Replaced usage of q_atomic_test_and_set_ptr with
- *                QBasicAtomicPointer
- *              Feb 2016, Andreas Bacher:
- *              - Replaced usage of QBasicAtomicPointer with
- *                magic static initalization (thread safe with c++11)
- *
- *
- * Copyright 2007 - 2008 Martin Heinrich
+ * Copyright (C) 2007 - 2020 Log4Qt contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

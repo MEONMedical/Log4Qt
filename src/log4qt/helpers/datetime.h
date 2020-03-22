@@ -1,16 +1,8 @@
 /******************************************************************************
  *
- * package:     Log4Qt
- * file:        datetime.h
- * created:     September 2007
- * author:      Martin Heinrich
+ * This file is part of Log4Qt library.
  *
- *
- * changes:     Sep 2008, Martin Heinrich:
- *              - Resolved compilation problem with Microsoft Visual Studio 2005
- *
- *
- * Copyright 2007 - 2008 Martin Heinrich
+ * Copyright (C) 2007 - 2020 Log4Qt contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

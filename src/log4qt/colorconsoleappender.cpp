@@ -1,12 +1,8 @@
 /******************************************************************************
  *
- * package:         log4qt
- * file:        colorconsoleappender.cpp
- * created:     March 2010
- * author:      Filonenko Michael
+ * This file is part of Log4Qt library.
  *
- *
- * Copyright 2010 Filonenko Michael
+ * Copyright (C) 2007 - 2020 Log4Qt contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,63 +26,63 @@
 #include <QTextStream>
 
 #define NIX_BACK_BLACK      40
-#define NIX_BACK_RED            41
+#define NIX_BACK_RED        41
 #define NIX_BACK_GREEN      42
 #define NIX_BACK_YELLOW     43
-#define NIX_BACK_BLUE           44
+#define NIX_BACK_BLUE       44
 #define NIX_BACK_MAGNETTA   45
-#define NIX_BACK_CYAN           46
-#define NIX_BACK_GRAY           47
+#define NIX_BACK_CYAN       46
+#define NIX_BACK_GRAY       47
 
 #define NIX_FORE_BLACK      30
-#define NIX_FORE_RED            31
-#define NIX_FORE_GREEN      32
+#define NIX_FORE_RED        31
+#define NIX_FORE_GREEN      2
 #define NIX_FORE_YELLOW     33
-#define NIX_FORE_BLUE           34
+#define NIX_FORE_BLUE       34
 #define NIX_FORE_MAGNETTA   35
-#define NIX_FORE_CYAN           36
-#define NIX_FORE_GRAY           37
+#define NIX_FORE_CYAN       36
+#define NIX_FORE_GRAY       37
 
-#define NIX_FORE_BOLD           1
+#define NIX_FORE_BOLD       1
 
-#define NIX_DEFAULT             0
+#define NIX_DEFAULT         0
 
 #ifdef Q_OS_WIN
-#define WIN_BACK_BLACK                      0
-#define WIN_BACK_RED                            BACKGROUND_RED
+#define WIN_BACK_BLACK                  0
+#define WIN_BACK_RED                    BACKGROUND_RED
 #define WIN_BACK_LIGHT_RED              BACKGROUND_RED | BACKGROUND_INTENSITY
-#define WIN_BACK_GREEN                      BACKGROUND_GREEN
+#define WIN_BACK_GREEN                  BACKGROUND_GREEN
 #define WIN_BACK_LIGHT_GREEN            BACKGROUND_GREEN | BACKGROUND_INTENSITY
-#define WIN_BACK_YELLOW                     BACKGROUND_GREEN | BACKGROUND_RED
+#define WIN_BACK_YELLOW                 BACKGROUND_GREEN | BACKGROUND_RED
 #define WIN_BACK_LIGHT_YELLOW           BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY
-#define WIN_BACK_BLUE                           BACKGROUND_BLUE
+#define WIN_BACK_BLUE                   BACKGROUND_BLUE
 #define WIN_BACK_LIGHT_BLUE             BACKGROUND_BLUE | BACKGROUND_INTENSITY
-#define WIN_BACK_MAGNETTA                   BACKGROUND_RED | BACKGROUND_BLUE
-#define WIN_BACK_LIGHT_MAGNETTA     BACKGROUND_RED | BACKGROUND_BLUE | BACKGROUND_INTENSITY
-#define WIN_BACK_CYAN                           BACKGROUND_BLUE | BACKGROUND_GREEN
+#define WIN_BACK_MAGNETTA               BACKGROUND_RED | BACKGROUND_BLUE
+#define WIN_BACK_LIGHT_MAGNETTA         BACKGROUND_RED | BACKGROUND_BLUE | BACKGROUND_INTENSITY
+#define WIN_BACK_CYAN                   BACKGROUND_BLUE | BACKGROUND_GREEN
 #define WIN_BACK_LIGHT_CYAN             BACKGROUND_BLUE | BACKGROUND_GREEN
-#define WIN_BACK_GRAY                           BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED
-#define WIN_BACK_WHITE                      BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY
+#define WIN_BACK_GRAY                   BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED
+#define WIN_BACK_WHITE                  BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED | BACKGROUND_INTENSITY
 
-#define WIN_FORE_BLACK                      0
-#define WIN_FORE_RED                            FOREGROUND_RED
+#define WIN_FORE_BLACK                  0
+#define WIN_FORE_RED                    FOREGROUND_RED
 #define WIN_FORE_LIGHT_RED              FOREGROUND_RED | FOREGROUND_INTENSITY
-#define WIN_FORE_GREEN                      FOREGROUND_GREEN
+#define WIN_FORE_GREEN                  FOREGROUND_GREEN
 #define WIN_FORE_LIGHT_GREEN            FOREGROUND_GREEN | FOREGROUND_INTENSITY
-#define WIN_FORE_YELLOW                     FOREGROUND_GREEN | FOREGROUND_RED
+#define WIN_FORE_YELLOW                 FOREGROUND_GREEN | FOREGROUND_RED
 #define WIN_FORE_LIGHT_YELLOW           FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY
-#define WIN_FORE_BLUE                           FOREGROUND_BLUE
+#define WIN_FORE_BLUE                   FOREGROUND_BLUE
 #define WIN_FORE_LIGHT_BLUE             FOREGROUND_BLUE | FOREGROUND_INTENSITY
-#define WIN_FORE_MAGNETTA                   FOREGROUND_RED | FOREGROUND_BLUE
-#define WIN_FORE_LIGHT_MAGNETTA     FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY
-#define WIN_FORE_CYAN                           FOREGROUND_BLUE | FOREGROUND_GREEN
+#define WIN_FORE_MAGNETTA               FOREGROUND_RED | FOREGROUND_BLUE
+#define WIN_FORE_LIGHT_MAGNETTA         FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY
+#define WIN_FORE_CYAN                   FOREGROUND_BLUE | FOREGROUND_GREEN
 #define WIN_FORE_LIGHT_CYAN             FOREGROUND_BLUE | FOREGROUND_GREEN
-#define WIN_FORE_GRAY                           FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED
-#define WIN_FORE_WHITE                      FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY
+#define WIN_FORE_GRAY                   FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED
+#define WIN_FORE_WHITE                  FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY
 
-#define WIN_FORE_BOLD                           FOREGROUND_INTENSITY
+#define WIN_FORE_BOLD                   FOREGROUND_INTENSITY
 
-#define WIN_DEFAULT                             FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED
+#define WIN_DEFAULT                     FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED
 
 static void colorOutputString(HANDLE hConsole, const QString &output)
 {
