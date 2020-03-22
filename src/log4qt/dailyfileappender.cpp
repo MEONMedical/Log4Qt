@@ -33,6 +33,7 @@
 #include <QRegularExpression>
 #include <QStringList>
 #include <QtConcurrentRun>
+#include <QStringBuilder>
 
 namespace Log4Qt
 {
