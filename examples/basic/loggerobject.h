@@ -33,10 +33,10 @@ class LoggerObject : public QObject
 public:
     explicit LoggerObject(QObject *parent = nullptr);
 
-signals:
+Q_SIGNALS:
     void exit(int code);
 
-private slots:
+private Q_SLOTS:
     void onTimeout();
 
 private:

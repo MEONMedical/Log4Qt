@@ -32,7 +32,7 @@ class LoggerObjectPrio : public QObject
 public:
     explicit LoggerObjectPrio(QObject *parent = nullptr);
 
-private slots:
+private Q_SLOTS:
     void onTimeout();
 
 };

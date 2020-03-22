@@ -152,7 +152,7 @@ protected:
 
     QList<QTcpSocket *> clients() const;
 
-private slots:
+private Q_SLOTS:
     /*!
      *  Handles a new incomming connection
      */

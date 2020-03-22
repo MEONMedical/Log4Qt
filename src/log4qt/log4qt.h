@@ -80,7 +80,7 @@
  *     "ConfiguratorHelper::configureError()".
  *   - Watching for configuration file changes is a function performed
  *     centrally by the \ref Log4Qt::ConfiguratorHelper "ConfiguratorHelper".
- *     The class provides signals to notify on configuration change and errors.
+ *     The class provides Q_SIGNALS to notify on configuration change and errors.
  *   - The class \ref Log4Qt::PropertyConfigurator "PropertyConfigurator" was
  *     extended to be able to read configuration data from a QSettings object.
  *

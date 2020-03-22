@@ -50,7 +50,7 @@ void ConfiguratorHelper::doConfigurationFileChanged(const QString &fileName)
         !QFileInfo::exists(mConfigurationFile.absoluteFilePath()))
         return;
     mConfigureFunc(fileName);
-    emit configurationFileChanged(fileName, mConfigureError.count() > 0);
+    Q_EMIT configurationFileChanged(fileName, mConfigureError.count() > 0);
 }
 
 void ConfiguratorHelper::doConfigurationFileDirectoryChanged(const QString &path)

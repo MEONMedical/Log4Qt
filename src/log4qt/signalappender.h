@@ -42,7 +42,7 @@ public:
 protected:
     void append(const Log4Qt::LoggingEvent &event) override;
 
-signals:
+Q_SIGNALS:
     /*!
     * @param message
     */

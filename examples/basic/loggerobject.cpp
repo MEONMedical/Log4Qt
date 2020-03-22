@@ -48,7 +48,7 @@ void LoggerObject::onTimeout()
     l4qError(QStringLiteral("an error with param %1"), 10);
     mCounter++;
     if (mCounter >= 10)
-        emit exit(0);
+        Q_EMIT exit(0);
 }
 
 #include "moc_loggerobject.cpp"

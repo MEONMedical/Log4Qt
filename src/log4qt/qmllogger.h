@@ -86,12 +86,12 @@ public:
     QString context() const;
     Level level() const;
 
-public slots:
+public Q_SLOTS:
     void setName(const QString &name);
     void setContext(const QString &context);
     void setLevel(Level level);
 
-signals:
+Q_SIGNALS:
     void nameChanged(const QString &name);
     void contextChanged(const QString &context);
     void levelChanged(Level level);

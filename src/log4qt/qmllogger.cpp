@@ -77,7 +77,7 @@ void QmlLogger::setName(const QString &name)
     if (mName != name)
     {
         mName = name;
-        emit nameChanged(name);
+        Q_EMIT nameChanged(name);
     }
 }
 
@@ -96,7 +96,7 @@ void QmlLogger::setContext(const QString &context)
     if (mContext != context)
     {
         mContext = context;
-        emit contextChanged(context);
+        Q_EMIT contextChanged(context);
     }
 }
 
@@ -105,7 +105,7 @@ void QmlLogger::setLevel(QmlLogger::Level level)
     if (this->level() != level)
     {
         mLogger->setLevel(Log4Qt::Level(static_cast<Log4Qt::Level::Value>(level)));
-        emit levelChanged(level);
+        Q_EMIT levelChanged(level);
     }
 }
 

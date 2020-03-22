@@ -48,7 +48,7 @@ private:
     Log4QtTest(const Log4QtTest &other); // Not implemented
     Log4QtTest &operator=(const Log4QtTest &other); // Not implemented
 
-private slots:
+private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();
 

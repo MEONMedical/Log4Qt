@@ -34,7 +34,7 @@ SignalAppender::SignalAppender(QObject *parent) :
 void SignalAppender::append(const LoggingEvent &event)
 {
     QString message(layout()->format(event));
-    emit appended(message);
+    Q_EMIT appended(message);
 }
 
 }
