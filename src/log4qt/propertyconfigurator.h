@@ -47,7 +47,7 @@ class LoggerRepository;
  *
  * \note All the functions declared in this class are thread-safe.
  */
-class  LOG4QT_EXPORT PropertyConfigurator
+class LOG4QT_EXPORT PropertyConfigurator
 {
 public:
     PropertyConfigurator();

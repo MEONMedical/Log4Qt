@@ -25,8 +25,8 @@
 #ifndef LOG4QT_OPTIONCONVERTER_H
 #define LOG4QT_OPTIONCONVERTER_H
 
-#include <log4qt/log4qtshared.h>
-#include <log4qt/level.h>
+#include "log4qt/log4qtshared.h"
+#include "log4qt/level.h"
 
 #include <QString>
 
@@ -38,7 +38,7 @@ class Properties;
  * \brief The class OptionConverter provides functions to convert strings
  *        to property values.
  */
-class  LOG4QT_EXPORT OptionConverter
+class LOG4QT_EXPORT OptionConverter
 {
 private:
     OptionConverter();

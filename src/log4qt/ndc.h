@@ -42,7 +42,7 @@ namespace Log4Qt
  *
  * \note All the functions declared in this class are thread-safe.
  */
-class  LOG4QT_EXPORT NDC
+class LOG4QT_EXPORT NDC
 {
 private:
     NDC();

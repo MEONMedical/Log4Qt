@@ -6,7 +6,7 @@
 namespace Log4Qt
 {
 
-class  LOG4QT_EXPORT XMLLayout : public Layout
+class LOG4QT_EXPORT XMLLayout : public Layout
 {
     Q_OBJECT
 public:

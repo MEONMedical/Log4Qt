@@ -30,7 +30,7 @@
 #ifndef LOG4QT_DENYALLFILTER_H
 #define LOG4QT_DENYALLFILTER_H
 
-#include <log4qt/spi/filter.h>
+#include "log4qt/spi/filter.h"
 
 namespace Log4Qt
 {
@@ -41,7 +41,7 @@ namespace Log4Qt
  * \note The ownership and lifetime of objects of this class are managed.
  *       See \ref Ownership "Object ownership" for more details.
  */
-class  LOG4QT_EXPORT DenyAllFilter : public Filter
+class LOG4QT_EXPORT DenyAllFilter : public Filter
 {
     Q_OBJECT
 

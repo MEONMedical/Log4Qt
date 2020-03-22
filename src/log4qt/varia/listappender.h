@@ -25,8 +25,8 @@
 #ifndef LOG4QT_LISTAPPENDER_H
 #define LOG4QT_LISTAPPENDER_H
 
-#include <log4qt/appenderskeleton.h>
-#include <log4qt/loggingevent.h>
+#include "log4qt/appenderskeleton.h"
+#include "log4qt/loggingevent.h"
 
 #include <QList>
 
@@ -42,7 +42,7 @@ namespace Log4Qt
  * \note The ownership and lifetime of objects of this class are managed.
  *       See \ref Ownership "Object ownership" for more details.
  */
-class  LOG4QT_EXPORT ListAppender : public AppenderSkeleton
+class LOG4QT_EXPORT ListAppender : public AppenderSkeleton
 {
     Q_OBJECT
 

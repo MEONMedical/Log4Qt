@@ -25,8 +25,8 @@
 #ifndef LOG4QT_HELPERS_CONFIGURATORHELPER_H
 #define LOG4QT_HELPERS_CONFIGURATORHELPER_H
 
-#include <log4qt/log4qtshared.h>
-#include <log4qt/loggingevent.h>
+#include "log4qt/log4qtshared.h"
+#include "log4qt/loggingevent.h"
 
 #include <QObject>
 #include <QList>
@@ -50,7 +50,7 @@ namespace Log4Qt
  *
  * \note All the functions declared in this class are thread-safe.
  */
-class  LOG4QT_EXPORT ConfiguratorHelper : public QObject
+class LOG4QT_EXPORT ConfiguratorHelper : public QObject
 {
     Q_OBJECT
 

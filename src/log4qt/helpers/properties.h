@@ -25,7 +25,7 @@
 #ifndef LOG4QT_PROPERTIES_H
 #define LOG4QT_PROPERTIES_H
 
-#include <log4qt/log4qtshared.h>
+#include "log4qt/log4qtshared.h"
 
 #include <QHash>
 #include <QStringList>
@@ -38,7 +38,7 @@ namespace Log4Qt
 /*!
  * \brief The class Properties implements a JAVA property hash.
  */
-class  LOG4QT_EXPORT Properties : public QHash<QString, QString>
+class LOG4QT_EXPORT Properties : public QHash<QString, QString>
 {
 public:
     Properties(Properties *pDefaultProperties = nullptr);

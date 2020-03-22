@@ -25,7 +25,7 @@
 #ifndef LOG4QT_PATTERNFORMATTER_H
 #define LOG4QT_PATTERNFORMATTER_H
 
-#include <log4qt/log4qtshared.h>
+#include "log4qt/log4qtshared.h"
 
 #include <QList>
 #include <QString>
@@ -52,7 +52,7 @@ class LoggingEvent;
  * \sa PatternLayout::format()
  * \sa TTCCLayout::format()
  */
-class  LOG4QT_EXPORT PatternFormatter
+class LOG4QT_EXPORT PatternFormatter
 {
 public:
     /*!

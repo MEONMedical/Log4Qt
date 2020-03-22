@@ -56,7 +56,7 @@ public:
  * \brief The class DailyFileAppender extends FileAppender so that the
  * a log file is created for each day
  */
-class  LOG4QT_EXPORT DailyFileAppender : public FileAppender
+class LOG4QT_EXPORT DailyFileAppender : public FileAppender
 {
     Q_OBJECT
 

@@ -32,7 +32,7 @@ class Hierarchy;
         } \
     private:
 
-class LOG4QT_EXPORT  BinaryLogger : public Logger
+class LOG4QT_EXPORT BinaryLogger : public Logger
 {
     Q_OBJECT
 public:

@@ -35,7 +35,7 @@ namespace Log4Qt
  * \ingroup log4qt
  * @class SignalAppender signalappender.h "src/kernel/components/signalappender.h"
  */
-class  LOG4QT_EXPORT SignalAppender : public AppenderSkeleton
+class LOG4QT_EXPORT SignalAppender : public AppenderSkeleton
 {
     Q_OBJECT
 public:

@@ -33,7 +33,7 @@
 #ifndef LOG4QT_HELPERS_INITIALISATIONHELPER_H
 #define LOG4QT_HELPERS_INITIALISATIONHELPER_H
 
-#include <log4qt/log4qtshared.h>
+#include "log4qt/log4qtshared.h"
 
 #include <QHash>
 #include <QString>
@@ -108,7 +108,7 @@ namespace Log4Qt
  *
  * \sa \ref Init "Initialization procedure",
  */
-class  LOG4QT_EXPORT InitialisationHelper
+class LOG4QT_EXPORT InitialisationHelper
 {
 private:
     InitialisationHelper();

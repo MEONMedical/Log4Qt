@@ -25,7 +25,7 @@
 #ifndef LOG4QT_LOGERROR_H
 #define LOG4QT_LOGERROR_H
 
-#include <log4qt/log4qtshared.h>
+#include "log4qt/log4qtshared.h"
 
 #include <QString>
 #include <QVariant>
@@ -111,7 +111,7 @@ namespace Log4Qt
  * from QObject. The macro \ref Log4Qt::LOG4QT_QCLASS_ERROR "LOG4QT_QCLASS_ERROR"
  * is used with classes derived from QObject.
  */
-class  LOG4QT_EXPORT LogError
+class LOG4QT_EXPORT LogError
 {
 public:
 

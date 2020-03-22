@@ -38,7 +38,7 @@ namespace Log4Qt
  *
  * \note All the functions declared in this class are thread-safe.
  */
-class  LOG4QT_EXPORT Hierarchy : public LoggerRepository
+class LOG4QT_EXPORT Hierarchy : public LoggerRepository
 {
 public:
     Hierarchy();

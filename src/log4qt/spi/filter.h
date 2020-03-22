@@ -25,8 +25,8 @@
 #ifndef LOG4QT_FILTER_H
 #define LOG4QT_FILTER_H
 
-#include <log4qt/log4qt.h>
-#include <log4qt/log4qtsharedptr.h>
+#include "log4qt/log4qt.h"
+#include "log4qt/log4qtsharedptr.h"
 
 #include <QObject>
 
@@ -44,7 +44,7 @@ using FilterSharedPtr = Log4QtSharedPtr<Filter>;
  * \note The ownership and lifetime of objects of this class are managed.
  *       See \ref Ownership "Object ownership" for more details.
  */
-class  LOG4QT_EXPORT Filter : public QObject
+class LOG4QT_EXPORT Filter : public QObject
 {
     Q_OBJECT
 

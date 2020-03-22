@@ -29,7 +29,7 @@
 #ifndef LOG4QT_HELPERS_DATETIME_H
 #define LOG4QT_HELPERS_DATETIME_H
 
-#include <log4qt/log4qtshared.h>
+#include "log4qt/log4qtshared.h"
 
 #include <QDateTime>
 
@@ -42,7 +42,7 @@ namespace Log4Qt
  * The class DateTime implements additional formatting options for
  * toString() and provides conversion functions from and to milliseconds.
  */
-class LOG4QT_EXPORT  DateTime : public QDateTime
+class LOG4QT_EXPORT DateTime : public QDateTime
 {
 public:
     /*!

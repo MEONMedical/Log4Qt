@@ -25,7 +25,7 @@
 #ifndef LOG4QT_NULLAPPENDER_H
 #define LOG4QT_NULLAPPENDER_H
 
-#include <log4qt/appenderskeleton.h>
+#include "log4qt/appenderskeleton.h"
 
 namespace Log4Qt
 {
@@ -38,7 +38,7 @@ namespace Log4Qt
  * \note The ownership and lifetime of objects of this class are managed. See
  *       \ref Ownership "Object ownership" for more details.
  */
-class  LOG4QT_EXPORT NullAppender : public AppenderSkeleton
+class LOG4QT_EXPORT NullAppender : public AppenderSkeleton
 {
     Q_OBJECT
 
