@@ -84,17 +84,17 @@ public:
 
     QString name() const;
     QString context() const;
-    Level level() const;
+    QmlLogger::Level level() const;
 
 public Q_SLOTS:
     void setName(const QString &name);
     void setContext(const QString &context);
-    void setLevel(Level level);
+    void setLevel(QmlLogger::Level level);
 
 Q_SIGNALS:
     void nameChanged(const QString &name);
     void contextChanged(const QString &context);
-    void levelChanged(Level level);
+    void levelChanged(QmlLogger::Level level);
 
 private:
     QString mContext;
