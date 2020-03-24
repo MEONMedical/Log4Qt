@@ -13,7 +13,7 @@ environment:
       CMD_VCVARSALL: '"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" x64'
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     # Qt 5.14
-    - QTDIR: C:\Qt\5.14.0\msvc2017_64
+    - QTDIR: C:\Qt\5.14\msvc2017_64
       CMD_VCVARSALL: '"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64'
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
 
