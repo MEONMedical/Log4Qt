@@ -37,7 +37,10 @@ class Logger;
 class LOG4QT_EXPORT LoggerRepository
 {
 public:
+    LoggerRepository() = default;
     virtual ~LoggerRepository() = default;
+    LoggerRepository(const LoggerRepository &other) = delete;
+    LoggerRepository &operator=(const LoggerRepository &other) = delete;
 
     virtual bool exists(const QString &name) const = 0;
     virtual Logger *logger(const QString &name) = 0;

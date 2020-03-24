@@ -44,12 +44,16 @@ public:
      */
     DateTime();
 
+    ~DateTime() = default;
+
     /*!
      * Constructs a copy of another QDateTime.
      *
      * \sa QDateTime::QDateTime(const QDateTime &other)
      */
     DateTime(const QDateTime &other);
+
+    DateTime(const DateTime &other) = default;
 
     /*!
      * Constructs a datetime with the given \a date and \a time, using
@@ -58,8 +62,8 @@ public:
      * \sa QDateTime::QDateTime(const QDate &date, const QTime &time,
      *     Qt::TimeSpec timeSpec = Qt::LocalTime)
      */
-    DateTime(const QDate &date,
-             const QTime &time,
+    DateTime(const QDate date,
+             const QTime time,
              Qt::TimeSpec timeSpec = Qt::LocalTime);
 
     /*!
@@ -121,8 +125,8 @@ inline DateTime::DateTime() : QDateTime()
 inline DateTime::DateTime(const QDateTime &other) : QDateTime(other)
 {}
 
-inline DateTime::DateTime(const QDate &date,
-                          const QTime &time,
+inline DateTime::DateTime(const QDate date,
+                          const QTime time,
                           Qt::TimeSpec timeSpec) :
     QDateTime(date, time, timeSpec)
 {}

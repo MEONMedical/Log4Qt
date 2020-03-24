@@ -70,27 +70,32 @@ public:
         return mValue;
     }
 
-    bool operator==(const Level &other) const
+    bool operator==(const Level other) const
     {
         return mValue == other.mValue;
     }
-    bool operator!=(const Level &other) const
+
+    bool operator!=(const Level other) const
     {
         return mValue != other.mValue;
     }
-    bool operator<(const Level &other) const
+
+    bool operator<(const Level other) const
     {
         return mValue < other.mValue;
     }
-    bool operator<=(const Level &other) const
+
+    bool operator<=(const Level other) const
     {
         return mValue <= other.mValue;
     }
-    bool operator>(const Level &other) const
+
+    bool operator>(const Level other) const
     {
         return mValue > other.mValue;
     }
-    bool operator>=(const Level &other) const
+
+    bool operator>=(const Level other) const
     {
         return mValue >= other.mValue;
     }

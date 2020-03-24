@@ -40,6 +40,7 @@ private Q_SLOTS:
     void onTimeout();
 
 private:
+    Q_DISABLE_COPY(LoggerObject)
     int mCounter;
 };
 

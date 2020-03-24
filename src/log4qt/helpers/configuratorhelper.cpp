@@ -30,7 +30,8 @@
 namespace Log4Qt
 {
 
-ConfiguratorHelper::ConfiguratorHelper() :
+ConfiguratorHelper::ConfiguratorHelper(QObject *parent) :
+    QObject(parent),
     mConfigureFunc(nullptr),
     mConfigurationFileWatch(nullptr)
 {

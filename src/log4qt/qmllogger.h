@@ -80,7 +80,7 @@ public:
     Q_INVOKABLE void info(const QString &message) const;
     Q_INVOKABLE void error(const QString &message) const;
     Q_INVOKABLE void fatal(const QString &message) const;
-    Q_INVOKABLE void log(Level level, const QString &message) const;
+    Q_INVOKABLE void log(QmlLogger::Level level, const QString &message) const;
 
     QString name() const;
     QString context() const;

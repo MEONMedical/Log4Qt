@@ -27,6 +27,9 @@ class LoggerStatic
 public:
     LoggerStatic();
     ~LoggerStatic();
+
+    LoggerStatic(const LoggerStatic &) = delete;
+    LoggerStatic &operator=(const LoggerStatic &) = delete;
 };
 
 #endif // LOGGERSTATIC_H
