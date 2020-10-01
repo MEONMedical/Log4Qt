@@ -2,7 +2,7 @@ language: cpp
 
 sudo: required
 
-dist: bionic
+dist: focal
 
 compiler:
 - gcc
@@ -12,15 +12,15 @@ os:
 
 env:
 - QT_VERSION=qt512 QT_PPA=qt-5.12.9
-- QT_VERSION=qt513 QT_PPA=qt-5.13.2
 - QT_VERSION=qt514 QT_PPA=qt-5.14.2
+- QT_VERSION=qt515 QT_PPA=qt-5.15.0
 
 before_install:
-  - sudo add-apt-repository --yes ppa:beineri/opt-$QT_PPA-bionic
-  - sudo apt-get update -qq
+  - add-apt-repository --yes ppa:beineri/opt-$QT_PPA-bionic
+  - apt-get update -qq
 
 install:
-  - sudo apt-get -y install $QT_VERSION-meta-minimal
+  - apt-get -y install $QT_VERSION-meta-minimal
 
 script:
   - . /opt/$QT_VERSION/bin/$QT_VERSION-env.sh
