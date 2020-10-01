@@ -18,7 +18,7 @@ before_install:
   - sudo apt-get update -qq
 
 install:
-  - sudo apt-get -y install $QT_VERSIONbase
+  - sudo apt-get -y install $QT_VERSION-meta-minimal
 
 script:
   - . /opt/$QT_VERSION/bin/$QT_VERSION-env.sh
