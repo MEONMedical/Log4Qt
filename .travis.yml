@@ -17,10 +17,10 @@ env:
 
 before_install:
   - sudo add-apt-repository --yes ppa:beineri/opt-$QT_PPA-focal
-  - apt-get update -qq
+  - sudo apt-get update -qq
 
 install:
-  - apt-get -y install $QT_VERSION-meta-minimal
+  - sudo apt-get -y install $QT_VERSION-meta-minimal
 
 script:
   - . /opt/$QT_VERSION/bin/$QT_VERSION-env.sh
