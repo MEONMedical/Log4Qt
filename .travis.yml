@@ -16,7 +16,7 @@ env:
 - QT_VERSION=qt515 QT_PPA=qt-5.15.0
 
 before_install:
-  - add-apt-repository --yes ppa:beineri/opt-$QT_PPA-bionic
+  - add-apt-repository --yes ppa:beineri/opt-$QT_PPA-focal
   - apt-get update -qq
 
 install:
