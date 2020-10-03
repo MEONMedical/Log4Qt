@@ -25,7 +25,6 @@
 #include <QByteArray>
 #include <QDataStream>
 #include <QCoreApplication>
-#include <QTextCodec>
 #include <QThreadStorage>
 
 namespace Log4Qt
