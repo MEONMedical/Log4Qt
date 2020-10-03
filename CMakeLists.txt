@@ -57,21 +57,39 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
+# Test for supported Qt version
+find_program(QMAKE_EXECUTABLE NAMES qmake HINTS ${QTDIR} ENV QTDIR PATH_SUFFIXES bin)
+execute_process(COMMAND ${QMAKE_EXECUTABLE} -query QT_VERSION OUTPUT_VARIABLE QT_VERSION)
+
 #
 # Min. Qt version is 5.12, we want to use cmake automoc feature
 # and settings some defines for Qt
 #
 set(CMAKE_AUTOMOC TRUE)
 set(QT_MIN_VERSION 5.12.0)
-# TODO: make Network also optional?
-find_package(Qt5 COMPONENTS Core Network Concurrent Test REQUIRED)
+message(STATUS "Qt version is ${QT_VERSION}")
+
+if(QT_VERSION LESS 6.0.0)
+    find_package(Qt5 COMPONENTS Core Concurrent Test)
+else()
+    find_package(Qt6 COMPONENTS Core Concurrent Test REQUIRED)
+endif()
+
 if(BUILD_WITH_DB_LOGGING)
-  find_package(Qt5 COMPONENTS Sql REQUIRED)
+    if (Qt5_FOUND)
+        find_package(Qt5 COMPONENTS Sql REQUIRED)
+    else()
+        find_package(Qt6 COMPONENTS Sql REQUIRED)
+    endif()
 endif()
 if(BUILD_WITH_TELNET_LOGGING)
-  find_package(Qt5 COMPONENTS Network REQUIRED)
+    if (Qt5_FOUND)
+        find_package(Qt5 COMPONENTS Network REQUIRED)
+    else()
+        find_package(Qt6 COMPONENTS Network REQUIRED)
+    endif()
 endif()
-message(STATUS "Qt version is ${Qt5Core_VERSION_STRING}")
+
 add_definitions(-DQT_USE_QSTRINGBUILDER)
 add_definitions(-DQT_NO_CAST_TO_ASCII)
 #add_definitions(-DQT_NO_CAST_FROM_ASCII)
