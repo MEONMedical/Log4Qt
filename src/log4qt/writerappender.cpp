@@ -22,7 +22,10 @@
 
 #include "layout.h"
 #include "loggingevent.h"
+
+#if QT_VERSION < 0x060000
 #include <QTextCodec>
+#endif
 
 namespace Log4Qt
 {
