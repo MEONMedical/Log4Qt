@@ -161,7 +161,6 @@ else()
         PUBLIC
             Qt::Core
             Qt::Concurrent
-            Qt::Core5Compat
     )
 endif()
 
