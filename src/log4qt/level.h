@@ -108,9 +108,9 @@ private:
 
 #ifndef QT_NO_DATASTREAM
     // Needs to be friend to stream objects
-    friend QDataStream &operator<<(QDataStream &out,
+    friend LOG4QT_EXPORT QDataStream &operator<<(QDataStream &out,
                                    Log4Qt::Level level);
-    friend QDataStream &operator>>(QDataStream &in,
+    friend LOG4QT_EXPORT QDataStream &operator>>(QDataStream &in,
                                    Level &level);
 #endif // QT_NO_DATASTREAM
 };
@@ -122,7 +122,7 @@ private:
  * Writes the given error \a rLevel to the given stream \a rStream,
  * and returns a reference to the stream.
  */
-QDataStream &operator<<(QDataStream &out,
+LOG4QT_EXPORT QDataStream &operator<<(QDataStream &out,
                         Log4Qt::Level level);
 
 /*!
@@ -131,7 +131,7 @@ QDataStream &operator<<(QDataStream &out,
  * Reads an error from the given stream \a rStream into the given
  * error \a rLevel, and returns a reference to the stream.
  */
-QDataStream &operator>>(QDataStream &in,
+LOG4QT_EXPORT QDataStream &operator>>(QDataStream &in,
                         Level &level);
 #endif // QT_NO_DATASTREAM
 

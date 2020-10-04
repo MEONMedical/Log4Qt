@@ -70,7 +70,7 @@ set(QT_MIN_VERSION 5.12.0)
 message(STATUS "Qt version is ${QT_VERSION}")
 
 if(QT_VERSION LESS 6.0.0)
-    find_package(Qt5 COMPONENTS Core Concurrent Test)
+    find_package(Qt5 COMPONENTS Core Concurrent Test REQUIRED)
 else()
     find_package(Qt6 COMPONENTS Core Concurrent Test REQUIRED)
 endif()

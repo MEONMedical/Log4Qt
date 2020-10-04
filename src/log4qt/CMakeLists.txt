@@ -150,11 +150,21 @@ if(BUILD_STATIC_LOG4CXX_LIB)
   set(_shared_static STATIC)
 endif()
 add_library(log4qt ${_shared_static} ${log4qt_SOURCES} ${log4qt_HEADERS} ${log4qt_HEADERS_helpers} ${log4qt_HEADERS_spi} ${log4qt_HEADERS_varia})
-target_link_libraries(log4qt
-    PUBLIC
-        Qt::Core
-        Qt::Concurrent
-)
+if(QT_VERSION LESS 6.0.0)
+    target_link_libraries(log4qt
+        PUBLIC
+            Qt::Core
+            Qt::Concurrent
+    )
+else()
+    target_link_libraries(log4qt
+        PUBLIC
+            Qt::Core
+            Qt::Concurrent
+            Qt::Core5Compat
+    )
+endif()
+
 target_include_directories(log4qt PUBLIC
     $<BUILD_INTERFACE:${LOG4QT_BUILD_INCLUDE_DIR}>
     $<INSTALL_INTERFACE:include>)

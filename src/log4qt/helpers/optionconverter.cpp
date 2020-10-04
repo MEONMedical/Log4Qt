@@ -54,12 +54,12 @@ QString OptionConverter::findAndSubst(const Properties &properties,
         begin = value.indexOf(begin_subst, i);
         if (begin == -1)
         {
-            result += value.midRef(i);
+            result += value.mid(i);
             i = value.length();
         }
         else
         {
-            result += value.midRef(i, begin - i);
+            result += value.mid(i, begin - i);
             end = value.indexOf(end_subst, i + begin_length);
             if (end == -1)
             {

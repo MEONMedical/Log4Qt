@@ -555,7 +555,7 @@ void PatternFormatter::parse()
         if (state == ESCAPE_STATE)
             literal += c;
         else
-            literal += mPattern.midRef(converter_start);
+            literal += mPattern.mid(converter_start);
     }
 
     if (!literal.isEmpty())
@@ -613,7 +613,7 @@ void PatternConverter::format(QString &format, const LoggingEvent &loggingEvent)
     // If the data item is longer than the maximum field, then the extra characters
     // are removed from the beginning of the data item and not from the end.
     if (s.length() > mFormattingInfo.mMaxLength)
-        format += s.rightRef(mFormattingInfo.mMaxLength);
+        format += s.right(mFormattingInfo.mMaxLength);
     else if (mFormattingInfo.mLeftAligned)
         format += s.leftJustified(mFormattingInfo.mMinLength, space, false);
     else

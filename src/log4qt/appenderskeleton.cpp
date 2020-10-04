@@ -61,7 +61,9 @@ inline RecursionGuardLocker::~RecursionGuardLocker()
 
 AppenderSkeleton::AppenderSkeleton(QObject *parent) :
     Appender(parent),
+#if QT_VERSION < 0x050E00
     mObjectGuard(QMutex::Recursive), // Recursive for doAppend()
+#endif
     mAppendRecursionGuard(false),
     mIsActive(true),
     mIsClosed(false),
@@ -72,7 +74,9 @@ AppenderSkeleton::AppenderSkeleton(QObject *parent) :
 AppenderSkeleton::AppenderSkeleton(bool isActive,
                                    QObject *parent) :
     Appender(parent),
+#if QT_VERSION < 0x050E00
     mObjectGuard(QMutex::Recursive), // Recursive for doAppend()
+#endif
     mAppendRecursionGuard(false),
     mIsActive(isActive),
     mIsClosed(false),
@@ -84,7 +88,9 @@ AppenderSkeleton::AppenderSkeleton(bool isActive,
                                    const LayoutSharedPtr &layout,
                                    QObject *parent) :
     Appender(parent),
+#if QT_VERSION < 0x050E00
     mObjectGuard(QMutex::Recursive), // Recursive for doAppend()
+#endif
     mAppendRecursionGuard(false),
     mIsActive(isActive),
     mIsClosed(false),
