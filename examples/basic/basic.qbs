@@ -19,7 +19,7 @@ Product {
     Depends { name: "Qt"; submodules: ["core", "xml", "network", "sql"] }
 
     cpp.includePaths: ["../../src"]
-    cpp.cxxLanguageVersion: "c++11"
+    cpp.cxxLanguageVersion: "c++17"
 
     Properties {
         condition: qbs.targetOS.contains("macos")

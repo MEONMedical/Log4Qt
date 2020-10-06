@@ -14,7 +14,9 @@ Product {
     Depends { name: "Qt"; submodules: ["core", "xml", "network", "sql", "testlib"] }
     destinationDirectory: "../tests/bin"
 
-    cpp.cxxLanguageVersion: "c++11"
+    cpp.cxxLanguageVersion: "c++17"
+
+    cpp.defines: [ "QT_DISABLE_DEPRECATED_BEFORE=0x050F00" ]
 
     Properties {
         condition: qbs.targetOS.contains("macos")

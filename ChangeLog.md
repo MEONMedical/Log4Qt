@@ -3,9 +3,10 @@
 All notable changes to this project will be documented in this file.
 ----
 ## [v1.6.0] - ??
-- Minimum required Qt version is 5.7
+- Support for Qt6
+- Minimum required Qt version is 5.12
 ### Fixed
-- Repalce deprecated Qt 5.14 stuff
+- Replace deprecated Qt 5.15 stuff
 
 ## [v1.5.1] - 14.02.2020
 ### Improvements
