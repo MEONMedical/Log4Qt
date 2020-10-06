@@ -26,7 +26,6 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
-#include <QTextCodec>
 
 // if we are in WIN*
 #ifdef Q_OS_WIN

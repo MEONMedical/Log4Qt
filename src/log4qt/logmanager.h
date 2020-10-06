@@ -290,7 +290,12 @@ private:
     static void qtMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &message);
 
 private:
+#if QT_VERSION < 0x050E00
     mutable QMutex mObjectGuard;
+#else
+    mutable QRecursiveMutex mObjectGuard;
+#endif
+
     LoggerRepository *mLoggerRepository;
     bool mHandleQtMessages, mWatchThisFile;
     QString mFilterRules, mMessagePattern;

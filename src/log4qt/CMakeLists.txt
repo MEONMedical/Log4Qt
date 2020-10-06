@@ -150,11 +150,20 @@ if(BUILD_STATIC_LOG4CXX_LIB)
   set(_shared_static STATIC)
 endif()
 add_library(log4qt ${_shared_static} ${log4qt_SOURCES} ${log4qt_HEADERS} ${log4qt_HEADERS_helpers} ${log4qt_HEADERS_spi} ${log4qt_HEADERS_varia})
-target_link_libraries(log4qt
-    PUBLIC
-        Qt5::Core
-        Qt5::Concurrent
-)
+if(QT_VERSION LESS 6.0.0)
+    target_link_libraries(log4qt
+        PUBLIC
+            Qt::Core
+            Qt::Concurrent
+    )
+else()
+    target_link_libraries(log4qt
+        PUBLIC
+            Qt::Core
+            Qt::Concurrent
+    )
+endif()
+
 target_include_directories(log4qt PUBLIC
     $<BUILD_INTERFACE:${LOG4QT_BUILD_INCLUDE_DIR}>
     $<INSTALL_INTERFACE:include>)
@@ -176,11 +185,11 @@ if(BUILD_WITH_DB_LOGGING)
     )
     target_link_libraries(log4qt
         PRIVATE
-            Qt5::Sql
+            Qt::Sql
     )
     target_include_directories(log4qt
           PUBLIC
-              $<TARGET_PROPERTY:Qt5::Sql,INTERFACE_INCLUDE_DIRECTORIES>
+              $<TARGET_PROPERTY:Qt::Sql,INTERFACE_INCLUDE_DIRECTORIES>
     )
     message(STATUS "Enabling database logging support")
 else()
@@ -202,11 +211,11 @@ if(BUILD_WITH_TELNET_LOGGING)
     )
     target_link_libraries(log4qt
         PRIVATE
-            Qt5::Network
+            Qt::Network
     )
     target_include_directories(log4qt
           PUBLIC
-              $<TARGET_PROPERTY:Qt5::Network,INTERFACE_INCLUDE_DIRECTORIES>
+              $<TARGET_PROPERTY:Qt::Network,INTERFACE_INCLUDE_DIRECTORIES>
     )
     message(STATUS "Enabling telnet logging support")
 else()

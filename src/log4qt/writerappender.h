@@ -23,7 +23,14 @@
 
 #include "appenderskeleton.h"
 
+#if QT_VERSION >= 0x060000
+#include <QStringConverter>
+#endif
+
+#if QT_VERSION < 0x060000
 class QTextCodec;
+#endif
+
 class QTextStream;
 
 namespace Log4Qt
@@ -48,7 +55,11 @@ class LOG4QT_EXPORT WriterAppender : public AppenderSkeleton
      *
      * \sa encoding(), setEncoding()
      */
+#if QT_VERSION < 0x060000
     Q_PROPERTY(QTextCodec *encoding READ encoding WRITE setEncoding)
+#else
+    Q_PROPERTY(QStringConverter::Encoding encoding READ encoding WRITE setEncoding)
+#endif
 
     /*!
      * The property holds the writer the appender uses.
@@ -80,7 +91,11 @@ private:
 
 public:
     bool requiresLayout() const override;
+#if QT_VERSION < 0x060000
     QTextCodec *encoding() const;
+#else
+    QStringConverter::Encoding encoding() const;
+#endif
     bool immediateFlush() const;
     QTextStream *writer() const;
 
@@ -93,7 +108,11 @@ public:
      *
      * \sa encoding(), QTextSream::setCodec(), QTextCodec::codecForLocale()
      */
+#if QT_VERSION < 0x060000
     void setEncoding(QTextCodec *encoding);
+#else
+    void setEncoding(QStringConverter::Encoding encoding);
+#endif
     void setImmediateFlush(bool immediateFlush);
     void setWriter(QTextStream *textStream);
 
@@ -129,17 +148,29 @@ protected:
     void writeHeader() const;
 
 private:
+#if QT_VERSION < 0x060000
     QTextCodec *mEncoding;
+#else
+    QStringConverter::Encoding mEncoding;
+#endif
     QTextStream *mWriter;
     volatile bool mImmediateFlush;
     void closeInternal();
 };
 
+#if QT_VERSION < 0x060000
 inline QTextCodec *WriterAppender::encoding() const
 {
     QMutexLocker locker(&mObjectGuard);
     return mEncoding;
 }
+#else
+inline QStringConverter::Encoding WriterAppender::encoding() const
+{
+    QMutexLocker locker(&mObjectGuard);
+    return mEncoding;
+}
+#endif
 
 inline bool WriterAppender::immediateFlush() const
 {

@@ -4,5 +4,5 @@ set(l4qt_SOURCES
 )
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_executable(log4qttest ${l4qt_SOURCES})
-target_link_libraries(log4qttest log4qt Qt5::Test)
+target_link_libraries(log4qttest log4qt Qt::Test)
 add_test(NAME log4qttest COMMAND $<TARGET_FILE:log4qttest>)

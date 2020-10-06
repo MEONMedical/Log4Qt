@@ -23,24 +23,33 @@
 #include "layout.h"
 #include "loggingevent.h"
 
+#if QT_VERSION < 0x060000
 #include <QTextCodec>
+#endif
 
 namespace Log4Qt
 {
 
 WriterAppender::WriterAppender(QObject *parent) :
     AppenderSkeleton(false, parent),
+#if QT_VERSION < 0x060000
     mEncoding(nullptr),
+#else
+    mEncoding(QStringConverter::Encoding::Utf8),
+#endif
     mWriter(nullptr),
     mImmediateFlush(true)
 {
 }
 
-
 WriterAppender::WriterAppender(const LayoutSharedPtr &layout,
                                QObject *parent) :
     AppenderSkeleton(false, layout, parent),
+#if QT_VERSION < 0x060000
     mEncoding(nullptr),
+#else
+    mEncoding(QStringConverter::Encoding::System),
+#endif
     mWriter(nullptr),
     mImmediateFlush(true)
 {
@@ -51,7 +60,11 @@ WriterAppender::WriterAppender(const LayoutSharedPtr &layout,
                                QTextStream *textStream,
                                QObject *parent) :
     AppenderSkeleton(false, layout, parent),
+#if QT_VERSION < 0x060000
     mEncoding(nullptr),
+#else
+    mEncoding(QStringConverter::Encoding::System),
+#endif
     mWriter(textStream),
     mImmediateFlush(true)
 {
@@ -62,6 +75,7 @@ WriterAppender::~WriterAppender()
     closeInternal();
 }
 
+#if QT_VERSION < 0x060000
 void WriterAppender::setEncoding(QTextCodec *encoding)
 {
     QMutexLocker locker(&mObjectGuard);
@@ -78,6 +92,16 @@ void WriterAppender::setEncoding(QTextCodec *encoding)
         mWriter->setCodec(QTextCodec::codecForLocale());
     }
 }
+#else
+void WriterAppender::setEncoding(QStringConverter::Encoding encoding)
+{
+    QMutexLocker locker(&mObjectGuard);
+
+    mEncoding = encoding;
+    if (mWriter != nullptr)
+        mWriter->setEncoding(mEncoding);
+}
+#endif
 
 void WriterAppender::setWriter(QTextStream *textStream)
 {
@@ -86,8 +110,13 @@ void WriterAppender::setWriter(QTextStream *textStream)
     closeWriter();
 
     mWriter = textStream;
+#if QT_VERSION < 0x060000
     if ((mEncoding != nullptr) && (mWriter != nullptr))
         mWriter->setCodec(mEncoding);
+#else
+    if (mWriter != nullptr)
+        mWriter->setEncoding(mEncoding);
+#endif
     writeHeader();
 }
 

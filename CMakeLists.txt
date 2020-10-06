@@ -1,77 +1,83 @@
 cmake_minimum_required(VERSION 3.3.0)
 project(Log4Qt VERSION 1.6.0)
 
-#
 # in-source builds should be avoided
-#
 set(Log4Qt_MODULE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 set(CMAKE_MODULE_PATH "${Log4Qt_MODULE_DIR}")
 include(MacroEnsureOutOfSourceBuild)
 
-#
 # support for 'make test'
-#
 enable_testing()
 
-#
 # Shared or static build of log4qt library
-#
 option(BUILD_STATIC_LOG4CXX_LIB "Build a static log4cxx library (default: off)" OFF)
 
-#
 # With Database logging support or without
-#
 option(BUILD_WITH_DB_LOGGING "Build with database logging support, link against Qt sql lib (default: on)" OFF)
 
-#
 # With Database logging support or without
-#
 option(BUILD_WITH_TELNET_LOGGING "Build with telnet logging support, link against Qt network lib (default: on)" OFF)
 
-#
 # Enable documentation generation with doxygen
-#
 OPTION(BUILD_WITH_DOCS "Enable documentation generation (default: off)" OFF)
 
-#
 # Helper to be able to properly install into the correct directories (esp. lib/lib64)
-#
 include(GNUInstallDirs)
 
-#
 # Automatically include ${CMAKE_CURRENT_SOURCE_DIR} and ${CMAKE_CURRENT_BINARY_DIR}
-#
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
 
-#
 # Set include dir src
-#
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(LOG4QT_BUILD_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-#
 # We need C++11 and don't want to export all symbols, only the ones we mark for export
-#
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
-#
 # Min. Qt version is 5.12, we want to use cmake automoc feature
 # and settings some defines for Qt
-#
 set(CMAKE_AUTOMOC TRUE)
 set(QT_MIN_VERSION 5.12.0)
-# TODO: make Network also optional?
-find_package(Qt5 COMPONENTS Core Network Concurrent Test REQUIRED)
+
+find_package(Qt6 COMPONENTS Core QUIET)
+if (Qt6_FOUND)
+    message("Qt6 gefunden!")
+    message(STATUS "Qt version is ${Qt6Core_VERSION}")
+else()
+    message("Qt6 not found, check Qt5!")
+    find_package(Qt5 COMPONENTS Core QUIET)
+    if (Qt5_FOUND)
+        message("Qt5 found!")
+        message(STATUS "Qt version is ${Qt5Core_VERSION}")
+    else()
+        message(FATAL_ERROR "No Qt found!")
+    endif()
+endif()
+
+if(Qt5_FOUND)
+    find_package(Qt5 COMPONENTS Concurrent Test REQUIRED)
+else()
+    find_package(Qt6 COMPONENTS Concurrent Test REQUIRED)
+endif()
+
 if(BUILD_WITH_DB_LOGGING)
-  find_package(Qt5 COMPONENTS Sql REQUIRED)
+    if (Qt5_FOUND)
+        find_package(Qt5 COMPONENTS Sql REQUIRED)
+    else()
+        find_package(Qt6 COMPONENTS Sql REQUIRED)
+    endif()
 endif()
 if(BUILD_WITH_TELNET_LOGGING)
-  find_package(Qt5 COMPONENTS Network REQUIRED)
+    if (Qt5_FOUND)
+        find_package(Qt5 COMPONENTS Network REQUIRED)
+    else()
+        find_package(Qt6 COMPONENTS Network REQUIRED)
+    endif()
 endif()
-message(STATUS "Qt version is ${Qt5Core_VERSION_STRING}")
+
 add_definitions(-DQT_USE_QSTRINGBUILDER)
 add_definitions(-DQT_NO_CAST_TO_ASCII)
 #add_definitions(-DQT_NO_CAST_FROM_ASCII)
@@ -83,18 +89,14 @@ if(NOT MSVC)
 endif()
 add_definitions(-DUNICODE -D_UNICODE)
 
-#
 # Pass version as a string to the compiler (for LogManager::version())
-#
 add_definitions(-DLOG4QT_VERSION_STR="${Log4Qt_VERSION_MAJOR}.${Log4Qt_VERSION_MINOR}.${Log4Qt_VERSION_PATCH}"
                 -DLOG4QT_VERSION_MAJOR=${Log4Qt_VERSION_MAJOR}
                 -DLOG4QT_VERSION_MINOR=${Log4Qt_VERSION_MINOR}
                 -DLOG4QT_VERSION_PATCH=${Log4Qt_VERSION_PATCH}
                 )
 
-#
 # We need gcc >= 4.8 or clang >= 3.3 or msvc >= 2015
-#
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8.0)
     message(FATAL_ERROR "gcc 4.8 or higher required!")
@@ -116,7 +118,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
   # disable 4127: conditional expression is constant
   #         4512: assignment operator could not be generated
   #         4267: conversion from 'size_t' to 'type', possible loss of data
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd4127 -wd4512 -wd4267 -we4265")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd4127 -wd4512 -wd4267 -wd4913 -we4265")
 
   string(REGEX REPLACE "/W[0-3]" "/W4" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
 
@@ -129,9 +131,7 @@ add_subdirectory(src/log4qt)
 add_subdirectory(tests)
 add_subdirectory(examples)
 
-#
 # Create a proper FindLog4Qt - module
-#
 set(CMAKECONFIG_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/Log4Qt" )
 install(EXPORT log4qt_targets
     DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
@@ -156,9 +156,7 @@ install(FILES
     COMPONENT Devel
 )
 
-#
 # Add support for an uninstall target
-#
 configure_file(
   "${Log4Qt_MODULE_DIR}/cmake_uninstall.cmake.in"
   "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
@@ -169,9 +167,7 @@ add_custom_target(uninstall
   "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 
 
-#
 # Documentation generations
-#
 IF (BUILD_WITH_DOCS)
     find_package(Doxygen)
     if (DOXYGEN_FOUND)
@@ -194,11 +190,8 @@ IF (BUILD_WITH_DOCS)
     endif (DOXYGEN_FOUND)
 ENDIF()
 
-
-#
 # Packaging
 # https://cmake.org/cmake/help/latest/module/CPack.html
-#
 set( CPACK_PACKAGE_NAME ${PROJECT_NAME} )
 set( CPACK_PACKAGE_VENDOR "MEON Medical" ) # Github project owner
 set( CPACK_PACKAGE_DESCRIPTION_SUMMARY "Logging for the Qt cross-platform application framework" )

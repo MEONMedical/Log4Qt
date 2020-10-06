@@ -60,7 +60,9 @@
 #include <type_traits>
 
 using namespace Log4Qt;
-using namespace Qt;
+#if QT_VERSION >= 0x050E00
+using Qt::endl;
+#endif
 
 QTEST_MAIN(Log4QtTest)
 LOG4QT_DECLARE_STATIC_LOGGER(test_logger, Test::TestLog4Qt)

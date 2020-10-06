@@ -26,7 +26,7 @@ Product {
         condition: qbs.toolchain.contains('msvc')
         cpp.cFlags: [ "-W4" ]
         cpp.cxxFlags: [ "-W4",
-                        "-wd4127", "-wd4512", "-wd4267", "-we4265"]
+                        "-wd4127", "-wd4512", "-wd4267", "-we4265", "-wd4913"]
 
         //disable common warnings in Qt/stdlib
         //disable 4127: conditional expression is constant

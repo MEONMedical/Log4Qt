@@ -52,7 +52,9 @@ LOG4QT_DECLARE_STATIC_LOGGER(static_logger, Log4Qt::LogManager)
 Q_GLOBAL_STATIC(QMutex, singleton_guard)
 
 LogManager::LogManager() :
+#if QT_VERSION < 0x050E00
     mObjectGuard(QMutex::Recursive), // Recursive for doStartup() to call doConfigureLogLogger()
+#endif
     mLoggerRepository(new Hierarchy()),
     mHandleQtMessages(false),
     mWatchThisFile(false),

@@ -53,7 +53,7 @@ void Properties::load(QIODevice *pDevice)
         line_number++;
 
         if (!line.isEmpty() && line.at(line.length() - 1) == append_char)
-            property += line.leftRef(line.length() - 1);
+            property += line.left(line.length() - 1);
         else
         {
             property += line;

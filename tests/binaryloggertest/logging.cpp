@@ -117,8 +117,10 @@ QString toString(const QVariant &value)
         return QStringLiteral("<LineF>");
     case QVariant::Locale:
         return QStringLiteral("<Locale>");
+#if QT_VERSION < 0x060000
     case QVariant::Matrix:
         return QStringLiteral("<Matrix>");
+#endif
     case QVariant::Transform:
         return QStringLiteral("<Transform>");
     case QVariant::Matrix4x4:
@@ -143,8 +145,10 @@ QString toString(const QVariant &value)
         return QStringLiteral("<Rect>");
     case QVariant::RectF:
         return QStringLiteral("<RectF>");
+#if QT_VERSION < 0x060000
     case QVariant::RegExp:
         return QStringLiteral("<RegExp>");
+#endif
     case QVariant::RegularExpression:
         return QStringLiteral("<RegularExpression>");
     case QVariant::Region:

@@ -30,7 +30,11 @@ LogStream::LogStream(const Logger &iLogger, Level iLevel)
 }
 
 LogStream::Stream::Stream(const Logger *iLogger, Level iLevel)
+#if QT_VERSION < 0x060000
     : ts(&buffer, QIODevice::WriteOnly)
+#else
+    : ts(&buffer, QIODeviceBase::WriteOnly)
+#endif
     , mLogger(iLogger)
     , mLevel(iLevel)
 {

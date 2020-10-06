@@ -26,7 +26,6 @@
 
 #include <QFile>
 #include <QMetaEnum>
-#include <QTextCodec>
 
 namespace Log4Qt
 {
