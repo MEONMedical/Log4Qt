@@ -40,7 +40,7 @@ msvc {
     # disable 4127: conditional expression is constant
     #         4512: assignment operator could not be generated
     #         4267: conversion from 'size_t' to 'type', possible loss of data
-    QMAKE_CXXFLAGS += -wd4127 -wd4512 -wd4267 -we4265
+    QMAKE_CXXFLAGS += -wd4127 -wd4512 -wd4267 -we4265 -wd4913
 
 # /WX ... treat all warnings as errors
 # /we<n> ... Treat warning <n> as error

@@ -60,7 +60,7 @@
 #include <type_traits>
 
 using namespace Log4Qt;
-using namespace Qt;
+using Qt::endl;
 
 QTEST_MAIN(Log4QtTest)
 LOG4QT_DECLARE_STATIC_LOGGER(test_logger, Test::TestLog4Qt)

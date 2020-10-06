@@ -118,7 +118,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
   # disable 4127: conditional expression is constant
   #         4512: assignment operator could not be generated
   #         4267: conversion from 'size_t' to 'type', possible loss of data
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd4127 -wd4512 -wd4267 -we4265")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd4127 -wd4512 -wd4267 -wd4913 -we4265")
 
   string(REGEX REPLACE "/W[0-3]" "/W4" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
 
