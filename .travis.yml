@@ -19,21 +19,21 @@ before_install:
 install:
     - sudo apt-get -y install ${QT_VERSION}base
 
-#script:
-#    - . /opt/$QT_VERSION/bin/$QT_VERSION-env.sh
-#    - mkdir "$TRAVIS_BUILD_DIR/build-qmake"
-#    - cd "$TRAVIS_BUILD_DIR/build-qmake"
-#    - pwd
-#    - qmake --version
-#    - qmake "$SRC_DIR"
-#    - make
-#    - make check
-
 script:
-   - . /opt/$QT_VERSION/bin/$QT_VERSION-env.sh
-   - cmake --version
-   - mkdir "$TRAVIS_BUILD_DIR/build-cmake"
-   - cd "$TRAVIS_BUILD_DIR/build-cmake"
-   - pwd
-   - cmake -Dstdlib=libstdc++ -GNinja "$SRC_DIR"
-   - ninja -v
+    -
+        - . /opt/$QT_VERSION/bin/$QT_VERSION-env.sh
+        - mkdir "$TRAVIS_BUILD_DIR/build-qmake"
+        - cd "$TRAVIS_BUILD_DIR/build-qmake"
+        - pwd
+        - qmake --version
+        - qmake "$SRC_DIR"
+        - make
+        - make check
+    -
+        - . /opt/$QT_VERSION/bin/$QT_VERSION-env.sh
+        - cmake --version
+        - mkdir "$TRAVIS_BUILD_DIR/build-cmake"
+        - cd "$TRAVIS_BUILD_DIR/build-cmake"
+        - pwd
+        - cmake -Dstdlib=libstdc++ -GNinja "$SRC_DIR"
+        - ninja -v
