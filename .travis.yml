@@ -35,7 +35,7 @@ jobs:
             - cd "$TRAVIS_BUILD_DIR/build-cmake"
             - pwd
             - cmake -Dstdlib=libstdc++ -GNinja "$SRC_DIR"
-            - ninja -v
+            - ctest
 
         - env: QT_VERSION=qt514 QT_PPA=qt-5.14.2 BUILD_SYSTEM=qmake
           script:
@@ -56,7 +56,7 @@ jobs:
             - cd "$TRAVIS_BUILD_DIR/build-cmake"
             - pwd
             - cmake -Dstdlib=libstdc++ -GNinja "$SRC_DIR"
-            - ninja -v
+            - ctest
 
         - env: QT_VERSION=qt515 QT_PPA=qt-5.15.0 BUILD_SYSTEM=qmake
           script:
@@ -77,4 +77,4 @@ jobs:
             - cd "$TRAVIS_BUILD_DIR/build-cmake"
             - pwd
             - cmake -Dstdlib=libstdc++ -GNinja "$SRC_DIR"
-            - ninja -v
+            - ctest
