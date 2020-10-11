@@ -150,7 +150,7 @@ if(BUILD_STATIC_LOG4CXX_LIB)
   set(_shared_static STATIC)
 endif()
 add_library(log4qt ${_shared_static} ${log4qt_SOURCES} ${log4qt_HEADERS} ${log4qt_HEADERS_helpers} ${log4qt_HEADERS_spi} ${log4qt_HEADERS_varia})
-if(QT_VERSION LESS 6.0.0)
+if(QT_VERSION LESS 5.15.0)
     target_link_libraries(log4qt
         PUBLIC
             Qt::Core
@@ -159,8 +159,8 @@ if(QT_VERSION LESS 6.0.0)
 else()
     target_link_libraries(log4qt
         PUBLIC
-            Qt::Core
-            Qt::Concurrent
+            Qt5::Core
+            Qt5::Concurrent
     )
 endif()
 
@@ -183,10 +183,11 @@ if(BUILD_WITH_DB_LOGGING)
         databaseappender.h
         databaselayout.h
     )
-    target_link_libraries(log4qt
-        PRIVATE
-            Qt::Sql
-    )
+    if(QT_VERSION LESS 5.15.0)
+        target_link_libraries(log4qt PRIVATE Qt::Sql)
+    else()
+        target_link_libraries(log4qt PRIVATE Qt5::Sql)
+    endif()
     target_include_directories(log4qt
           PUBLIC
               $<TARGET_PROPERTY:Qt::Sql,INTERFACE_INCLUDE_DIRECTORIES>
@@ -209,10 +210,12 @@ if(BUILD_WITH_TELNET_LOGGING)
     list(APPEND log4qt_HEADERS
         telnetappender.h
     )
-    target_link_libraries(log4qt
-        PRIVATE
-            Qt::Network
-    )
+    if(QT_VERSION LESS 5.15.0)
+        target_link_libraries(log4qt PRIVATE Qt::Network)
+    else()
+        target_link_libraries(log4qt PRIVATE Qt5::Network
+        )
+    endif()
     target_include_directories(log4qt
           PUBLIC
               $<TARGET_PROPERTY:Qt::Network,INTERFACE_INCLUDE_DIRECTORIES>

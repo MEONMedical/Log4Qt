@@ -9,5 +9,10 @@ set(blt_SOURCES
 )
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_executable(binaryloggertest ${blt_SOURCES})
-target_link_libraries(binaryloggertest log4qt Qt::Test)
+if(QT_VERSION LESS 5.15.0)
+    target_link_libraries(log4qttest log4qt Qt::Test)
+else()
+    target_link_libraries(log4qttest log4qt Qt5::Test)
+endif()
+
 add_test(NAME binaryloggertest COMMAND $<TARGET_FILE:binaryloggertest>)

@@ -31,7 +31,6 @@ install:
 
 script:
    - . /opt/$QT_VERSION/bin/$QT_VERSION-env.sh
-   - gcc --version
    - cmake --version
    - mkdir "$TRAVIS_BUILD_DIR/build-cmake"
    - cd "$TRAVIS_BUILD_DIR/build-cmake"
