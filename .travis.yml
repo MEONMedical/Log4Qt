@@ -48,7 +48,7 @@ jobs:
             - make
             - make check
 
-        - env: QT_VERSION=qt514 QT_PPA=qt-5.14.2 BUILD_SYSTEM=qmake
+        - env: QT_VERSION=qt514 QT_PPA=qt-5.14.2 BUILD_SYSTEM=cmake
           script:
             - . /opt/$QT_VERSION/bin/$QT_VERSION-env.sh
             - cmake --version
@@ -69,7 +69,7 @@ jobs:
             - make
             - make check
 
-        - env: QT_VERSION=qt515 QT_PPA=qt-5.15.0 BUILD_SYSTEM=qmake
+        - env: QT_VERSION=qt515 QT_PPA=qt-5.15.0 BUILD_SYSTEM=cmake
           script:
             - . /opt/$QT_VERSION/bin/$QT_VERSION-env.sh
             - cmake --version
