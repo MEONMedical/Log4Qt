@@ -1,28 +1,83 @@
 language: cpp
-
 dist: focal
-
-compiler:
-- gcc
-
-os:
-- linux
-
-env:
-- QT_VERSION=qt512 QT_PPA=qt-5.12.9
-- QT_VERSION=qt514 QT_PPA=qt-5.14.2
-- QT_VERSION=qt515 QT_PPA=qt-5.15.0
+compiler: gcc
+os: linux
+addons:
+  apt:
+    packages: [ 'ninja-build', 'cmake' ]
 
 before_install:
-  - sudo add-apt-repository --yes ppa:beineri/opt-$QT_PPA-focal
-  - sudo apt-get update -qq
+- sudo add-apt-repository --yes ppa:beineri/opt-$QT_PPA-focal
+- sudo apt-get update -qq
+- export SRC_DIR="`pwd`"
 
 install:
-  - sudo apt-get -y install ${QT_VERSION}base
+    - sudo apt-get -y install ${QT_VERSION}base
 
-script:
-  - . /opt/$QT_VERSION/bin/$QT_VERSION-env.sh
-  - qmake
-  - make
-  - make check
+jobs:
+    include:
+        - env: QT_VERSION=qt512 QT_PPA=qt-5.12.9 BUILD_SYSTEM=qmake
+          script:
+            - . /opt/$QT_VERSION/bin/$QT_VERSION-env.sh
+            - mkdir "$TRAVIS_BUILD_DIR/build-qmake"
+            - cd "$TRAVIS_BUILD_DIR/build-qmake"
+            - pwd
+            - qmake --version
+            - qmake "$SRC_DIR"
+            - make
+            - make check
 
+        - env: QT_VERSION=qt512 QT_PPA=qt-5.12.9 BUILD_SYSTEM=cmake
+          script:
+            - . /opt/$QT_VERSION/bin/$QT_VERSION-env.sh
+            - cmake --version
+            - mkdir "$TRAVIS_BUILD_DIR/build-cmake"
+            - cd "$TRAVIS_BUILD_DIR/build-cmake"
+            - pwd
+            - cmake -Dstdlib=libstdc++ -GNinja "$SRC_DIR"
+            - ninja -v
+            - ctest
+
+        - env: QT_VERSION=qt514 QT_PPA=qt-5.14.2 BUILD_SYSTEM=qmake
+          script:
+            - . /opt/$QT_VERSION/bin/$QT_VERSION-env.sh
+            - mkdir "$TRAVIS_BUILD_DIR/build-qmake"
+            - cd "$TRAVIS_BUILD_DIR/build-qmake"
+            - pwd
+            - qmake --version
+            - qmake "$SRC_DIR"
+            - make
+            - make check
+
+        - env: QT_VERSION=qt514 QT_PPA=qt-5.14.2 BUILD_SYSTEM=cmake
+          script:
+            - . /opt/$QT_VERSION/bin/$QT_VERSION-env.sh
+            - cmake --version
+            - mkdir "$TRAVIS_BUILD_DIR/build-cmake"
+            - cd "$TRAVIS_BUILD_DIR/build-cmake"
+            - pwd
+            - cmake -Dstdlib=libstdc++ -GNinja "$SRC_DIR"
+            - ninja -v
+            - ctest
+
+        - env: QT_VERSION=qt515 QT_PPA=qt-5.15.0 BUILD_SYSTEM=qmake
+          script:
+            - . /opt/$QT_VERSION/bin/$QT_VERSION-env.sh
+            - mkdir "$TRAVIS_BUILD_DIR/build-qmake"
+            - cd "$TRAVIS_BUILD_DIR/build-qmake"
+            - pwd
+            - qmake --version
+            - qmake "$SRC_DIR"
+            - make
+            - make check
+
+        - env: QT_VERSION=qt515 QT_PPA=qt-5.15.0 BUILD_SYSTEM=cmake
+          script:
+            - . /opt/$QT_VERSION/bin/$QT_VERSION-env.sh
+            - cmake --version
+            - mkdir "$TRAVIS_BUILD_DIR/build-cmake"
+            - cd "$TRAVIS_BUILD_DIR/build-cmake"
+            - pwd
+            - cmake -Dstdlib=libstdc++ -GNinja "$SRC_DIR"
+            - ninja -v
+            - ctest
