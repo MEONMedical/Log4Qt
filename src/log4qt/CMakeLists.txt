@@ -153,14 +153,14 @@ add_library(log4qt ${_shared_static} ${log4qt_SOURCES} ${log4qt_HEADERS} ${log4q
 if(QT_VERSION LESS 5.15.0)
     target_link_libraries(log4qt
         PUBLIC
-            Qt::Core
-            Qt::Concurrent
+            Qt5::Core
+            Qt5::Concurrent
     )
 else()
     target_link_libraries(log4qt
         PUBLIC
-            Qt5::Core
-            Qt5::Concurrent
+            Qt::Core
+            Qt::Concurrent
     )
 endif()
 
