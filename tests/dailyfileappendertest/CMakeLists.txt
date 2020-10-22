@@ -5,7 +5,7 @@ set(dfa_SOURCES
 )
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_executable(${TEST_NAME} ${dfa_SOURCES})
-if(QT_VERSION LESS 5.15.0)
+if(Qt5_FOUND)
     target_link_libraries(dailyfileappendertest log4qt Qt5::Test)
 else()
     target_link_libraries(dailyfileappendertest log4qt Qt::Test)

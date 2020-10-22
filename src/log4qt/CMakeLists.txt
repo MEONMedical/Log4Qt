@@ -150,7 +150,7 @@ if(BUILD_STATIC_LOG4CXX_LIB)
   set(_shared_static STATIC)
 endif()
 add_library(log4qt ${_shared_static} ${log4qt_SOURCES} ${log4qt_HEADERS} ${log4qt_HEADERS_helpers} ${log4qt_HEADERS_spi} ${log4qt_HEADERS_varia})
-if(QT_VERSION LESS 5.15.0)
+if(Qt5_FOUND)
     target_link_libraries(log4qt
         PUBLIC
             Qt5::Core
