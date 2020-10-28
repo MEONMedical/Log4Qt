@@ -123,7 +123,7 @@ private Q_SLOTS:
     void RollingFileAppender();
 
 private:
-    QString dailyRollingFileAppenderSuffix(const QDateTime &dateTime);
+    QString dailyRollingFileAppenderSuffix(QDateTime dateTime);
     QString enumValueToKey(QObject *pObject,
                            const char *pEnumeration,
                            int value);
