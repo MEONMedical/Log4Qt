@@ -42,7 +42,7 @@ public:
      *
      * \sa QDateTime::QDateTime()
      */
-    DateTime();
+    DateTime() = default;
 
     ~DateTime() = default;
 
@@ -62,8 +62,8 @@ public:
      * \sa QDateTime::QDateTime(const QDate &date, const QTime &time,
      *     Qt::TimeSpec timeSpec = Qt::LocalTime)
      */
-    DateTime(const QDate date,
-             const QTime time,
+    DateTime(QDate date,
+             QTime time,
              Qt::TimeSpec timeSpec = Qt::LocalTime);
 
     /*!
@@ -119,14 +119,11 @@ private:
     QString formatDateTime(const QString &format) const;
 };
 
-inline DateTime::DateTime() : QDateTime()
-{}
-
 inline DateTime::DateTime(const QDateTime &other) : QDateTime(other)
 {}
 
-inline DateTime::DateTime(const QDate date,
-                          const QTime time,
+inline DateTime::DateTime(QDate date,
+                          QTime time,
                           Qt::TimeSpec timeSpec) :
     QDateTime(date, time, timeSpec)
 {}
@@ -150,7 +147,6 @@ inline DateTime DateTime::fromMSecsSinceEpoch(qint64 msecs)
 inline DateTime DateTime::fromMSecsSinceEpoch(qint64 msecs, Qt::TimeSpec spec, int offsetSeconds)
 {
     return DateTime(QDateTime::fromMSecsSinceEpoch(msecs, spec, offsetSeconds));
-
 }
 
 } // namespace Log4Qt

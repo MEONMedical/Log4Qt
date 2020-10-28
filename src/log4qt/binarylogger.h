@@ -71,7 +71,7 @@ public:
 
     BinaryLogStream log(Level level) const;
     void log(Level level, const QByteArray &message) const;
-    void log(Level level, const QByteArray &message, const QDateTime &timeStamp) const;
+    void log(Level level, const QByteArray &message, QDateTime timeStamp) const;
 
 protected:
     BinaryLogger(LoggerRepository *loggerRepository, Level level, const QString &name, Logger *parent = nullptr);

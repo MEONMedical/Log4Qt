@@ -1829,7 +1829,7 @@ void Log4QtTest::RollingFileAppender()
 }
 
 
-QString Log4QtTest::dailyRollingFileAppenderSuffix(const QDateTime &dateTime)
+QString Log4QtTest::dailyRollingFileAppenderSuffix(QDateTime dateTime)
 {
     QString result(QStringLiteral("."));
     result += QString::number(dateTime.date().year()).rightJustified(4, '0');

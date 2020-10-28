@@ -50,7 +50,7 @@ void BinaryLogger::log(Level level, const QByteArray &message) const
         forcedLog(level, message);
 }
 
-void BinaryLogger::log(Level level, const QByteArray &message, const QDateTime &timeStamp) const
+void BinaryLogger::log(Level level, const QByteArray &message, QDateTime timeStamp) const
 {
     if (isEnabledFor(level))
     {
