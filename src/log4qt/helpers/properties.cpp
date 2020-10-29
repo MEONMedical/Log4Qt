@@ -143,7 +143,6 @@ void Properties::parseProperty(const QString &property,
 
     int i = 0;
     QChar c;
-    char ch;
     State state = KEY_STATE;
     QString key;
     QString value;
@@ -157,7 +156,7 @@ void Properties::parseProperty(const QString &property,
         // ch contains the Latin1 equivalent of the current character
         // i is incremented at the end of the loop to consume the character.
         // continue is used to change state without consuming the character
-
+        char ch;
         c = property.at(i);
         ch = c.toLatin1();
 

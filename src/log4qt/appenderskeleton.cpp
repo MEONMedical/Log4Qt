@@ -38,7 +38,7 @@ namespace Log4Qt
 class RecursionGuardLocker
 {
 public:
-    RecursionGuardLocker(bool *guard);
+    explicit RecursionGuardLocker(bool *guard);
     ~RecursionGuardLocker();
 private:
     Q_DISABLE_COPY(RecursionGuardLocker)

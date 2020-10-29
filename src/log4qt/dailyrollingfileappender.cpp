@@ -32,7 +32,8 @@ namespace Log4Qt
 
 DailyRollingFileAppender::DailyRollingFileAppender(QObject *parent) :
     FileAppender(parent),
-    mDatePattern()
+    mDatePattern(),
+    mFrequency(DAILY_ROLLOVER)
 {
     setDatePattern(DAILY_ROLLOVER);
 }
@@ -43,7 +44,8 @@ DailyRollingFileAppender::DailyRollingFileAppender(const LayoutSharedPtr &layout
         const QString &datePattern,
         QObject *parent) :
     FileAppender(layout, fileName, parent),
-    mDatePattern()
+    mDatePattern(),
+    mFrequency(DAILY_ROLLOVER)
 {
     setDatePattern(datePattern);
 }

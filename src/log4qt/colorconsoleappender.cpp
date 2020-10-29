@@ -99,8 +99,6 @@ static void colorOutputString(HANDLE hConsole, const QString &output)
     int actualSize;
     DWORD out;
 
-    WORD color = 0;
-    WORD newColor = 0;
     QString parsedWordString;
     QStringList escParams;
     int indexOfM;
@@ -119,15 +117,17 @@ static void colorOutputString(HANDLE hConsole, const QString &output)
         if (it.startsWith('['))
         {
             indexOfM = it.indexOf('m');
+
             // not esc-sequence
             if (indexOfM != -1)
             {
+                WORD newColor = 0;
                 parsedWordString = it.mid(1, indexOfM - 1);
 
                 escParams = parsedWordString.split(';');
                 for (const auto &param : qAsConst(escParams))
                 {
-                    color = param.toUInt();
+                    WORD color = param.toUInt();
                     switch (color)
                     {
                     case NIX_DEFAULT:
