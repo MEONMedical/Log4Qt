@@ -57,7 +57,7 @@ class LOG4QT_EXPORT LoggingEvent : public QEvent
 public:
     static const QEvent::Type eventId;
     LoggingEvent();
-    virtual ~LoggingEvent() = default;
+    virtual ~LoggingEvent();
 
     LoggingEvent(const Logger *logger,
                  Level level,

@@ -30,6 +30,8 @@ AppenderAttachable::AppenderAttachable() :
 {
 }
 
+AppenderAttachable::~AppenderAttachable() = default;
+
 QList<AppenderSharedPtr> AppenderAttachable::appenders() const
 {
     QReadLocker locker(&mAppenderGuard);

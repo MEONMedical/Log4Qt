@@ -28,6 +28,8 @@ Appender::Appender(QObject *parent) :
 {
 }
 
+Appender::~Appender() = default;
+
 Logger *Appender::logger() const
 {
     return mLog4QtClassLogger.logger(this);
