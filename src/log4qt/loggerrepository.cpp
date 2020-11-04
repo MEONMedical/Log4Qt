@@ -24,4 +24,8 @@
 namespace Log4Qt
 {
 
+LoggerRepository::LoggerRepository() = default;
+
+LoggerRepository::~LoggerRepository() = default;
+
 }  // namespace Log4Qt

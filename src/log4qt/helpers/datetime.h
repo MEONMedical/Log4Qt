@@ -42,9 +42,9 @@ public:
      *
      * \sa QDateTime::QDateTime()
      */
-    DateTime() = default;
+    DateTime();
 
-    ~DateTime() = default;
+    ~DateTime();
 
     /*!
      * Constructs a copy of another QDateTime.
@@ -53,7 +53,7 @@ public:
      */
     DateTime(const QDateTime &other);
 
-    DateTime(const DateTime &other) = default;
+    DateTime(const DateTime &other);
 
     /*!
      * Constructs a datetime with the given \a date and \a time, using

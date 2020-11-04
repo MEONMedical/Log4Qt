@@ -38,7 +38,7 @@ class LOG4QT_EXPORT AppenderAttachable
 
 public:
     AppenderAttachable();
-    virtual ~AppenderAttachable() = default;
+    virtual ~AppenderAttachable();
 
     /*!
      * Add an appender.

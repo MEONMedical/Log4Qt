@@ -25,6 +25,12 @@
 namespace Log4Qt
 {
 
+DateTime::DateTime() = default;
+
+DateTime::~DateTime() = default;
+
+DateTime::DateTime(const DateTime &other) = default;
+
 QString DateTime::toString(const QString &format) const
 {
     if (format.isEmpty())

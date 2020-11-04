@@ -69,7 +69,7 @@ class LOG4QT_EXPORT Appender : public QObject
 
 public:
     Appender(QObject *parent = nullptr);
-    virtual ~Appender() = default;
+    virtual ~Appender();
 
     virtual FilterSharedPtr filter() const = 0;
     virtual QString name() const = 0;

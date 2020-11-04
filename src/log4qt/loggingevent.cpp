@@ -51,6 +51,7 @@ LoggingEvent::LoggingEvent() :
     setThreadNameToCurrent();
 }
 
+LoggingEvent::~LoggingEvent() = default;
 
 LoggingEvent::LoggingEvent(const Logger *logger,
                            Level level,
