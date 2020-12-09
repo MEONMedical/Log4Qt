@@ -77,31 +77,25 @@ WriterAppender::~WriterAppender()
 
 #if QT_VERSION < 0x060000
 void WriterAppender::setEncoding(QTextCodec *encoding)
+#else
+void WriterAppender::setEncoding(QStringConverter::Encoding encoding)
+#endif
 {
     QMutexLocker locker(&mObjectGuard);
-
     if (mEncoding == encoding)
         return;
 
     mEncoding = encoding;
     if (mWriter != nullptr)
     {
+#if QT_VERSION < 0x060000
         if (mEncoding != nullptr)
             mWriter->setCodec(mEncoding);
-
-        mWriter->setCodec(QTextCodec::codecForLocale());
+#else
+        mWriter->setEncoding(mEncoding);
+#endif
     }
 }
-#else
-void WriterAppender::setEncoding(QStringConverter::Encoding encoding)
-{
-    QMutexLocker locker(&mObjectGuard);
-
-    mEncoding = encoding;
-    if (mWriter != nullptr)
-        mWriter->setEncoding(mEncoding);
-}
-#endif
 
 void WriterAppender::setWriter(QTextStream *textStream)
 {
