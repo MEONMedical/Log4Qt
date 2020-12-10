@@ -3,6 +3,7 @@ Log4Qt - Logging for the Qt cross-platform application framework
 
 Continuous Integration
 ----------------------
+![cmake-ubuntu](https://github.com/MEONMedical/Log4Qt/workflows/cmake-ubuntu/badge.svg)
 
 Travis CI (Linux) [![Build Status](https://travis-ci.org/MEONMedical/Log4Qt.svg?branch=master)](https://travis-ci.org/MEONMedical/Log4Qt)
 
