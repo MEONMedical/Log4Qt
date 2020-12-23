@@ -133,12 +133,12 @@ set(log4qt_HEADERS_varia
 )
 if(WIN32)
     list(APPEND log4qt_SOURCES
-        wdcappender.cpp
-        colorconsoleappender.cpp
+         wdcappender.cpp
+         colorconsoleappender.cpp
     )
     list(APPEND log4qt_HEADERS
-        wdcappender.h
-        colorconsoleappender.h
+         wdcappender.h
+         colorconsoleappender.h
     )
 endif()
 
@@ -150,19 +150,12 @@ if(BUILD_STATIC_LOG4CXX_LIB)
   set(_shared_static STATIC)
 endif()
 add_library(log4qt ${_shared_static} ${log4qt_SOURCES} ${log4qt_HEADERS} ${log4qt_HEADERS_helpers} ${log4qt_HEADERS_spi} ${log4qt_HEADERS_varia})
-if(Qt5_FOUND)
-    target_link_libraries(log4qt
-        PUBLIC
-            Qt5::Core
-            Qt5::Concurrent
-    )
-else()
-    target_link_libraries(log4qt
-        PUBLIC
-            Qt::Core
-            Qt::Concurrent
-    )
-endif()
+
+target_link_libraries(log4qt
+    PUBLIC
+        Qt${QT_VERSION_MAJOR}::Core
+        Qt${QT_VERSION_MAJOR}::Concurrent
+)
 
 target_include_directories(log4qt PUBLIC
     $<BUILD_INTERFACE:${LOG4QT_BUILD_INCLUDE_DIR}>
@@ -180,14 +173,11 @@ if(BUILD_WITH_DB_LOGGING)
     )
     # append to log4qt_HEADERS or proper install
     list(APPEND log4qt_HEADERS
-        databaseappender.h
-        databaselayout.h
+         databaseappender.h
+         databaselayout.h
     )
-    if(QT_VERSION LESS 5.15.0)
-        target_link_libraries(log4qt PRIVATE Qt::Sql)
-    else()
-        target_link_libraries(log4qt PRIVATE Qt5::Sql)
-    endif()
+
+    target_link_libraries(log4qt PRIVATE Qt${QT_VERSION_MAJOR}::Sql)
     target_include_directories(log4qt
           PUBLIC
               $<TARGET_PROPERTY:Qt::Sql,INTERFACE_INCLUDE_DIRECTORIES>
@@ -208,14 +198,9 @@ if(BUILD_WITH_TELNET_LOGGING)
     )
     # append to log4qt_HEADERS or proper install
     list(APPEND log4qt_HEADERS
-        telnetappender.h
+         telnetappender.h
     )
-    if(QT_VERSION LESS 5.15.0)
-        target_link_libraries(log4qt PRIVATE Qt::Network)
-    else()
-        target_link_libraries(log4qt PRIVATE Qt5::Network
-        )
-    endif()
+    target_link_libraries(log4qt PRIVATE Qt${QT_VERSION_MAJOR}::Network)
     target_include_directories(log4qt
           PUBLIC
               $<TARGET_PROPERTY:Qt::Network,INTERFACE_INCLUDE_DIRECTORIES>
