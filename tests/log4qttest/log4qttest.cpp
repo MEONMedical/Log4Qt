@@ -50,12 +50,14 @@
 
 #include <QBuffer>
 #include <QBitArray>
+#include <QDataStream>
 #include <QFile>
 #include <QMetaEnum>
 #include <QSettings>
 #include <QTextStream>
 #include <QThread>
-#include <QtTest/QtTest>
+
+#include <QtTest/QTest>
 
 #include <type_traits>
 

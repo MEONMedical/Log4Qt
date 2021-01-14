@@ -6,7 +6,7 @@
 #include <QDate>
 #include <QSharedPointer>
 #include <QTemporaryDir>
-#include <QtTest/QtTest>
+#include <QtTest/QTest>
 
 using Log4Qt::DailyFileAppender;
 

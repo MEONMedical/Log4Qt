@@ -1,4 +1,4 @@
-#include <QtTest/QtTest>
+#include <QtTest/QTest>
 
 #include "testappender.h"
 
@@ -24,6 +24,7 @@
 #include "elementsinarray.h"
 
 #include <QDataStream>
+#include <QTemporaryFile>
 
 const auto loggingLevel = Log4Qt::Level::ALL_INT; // set to OFF_INT to enable logging to the console;
 static const char binLogger[] = "binlogger";
