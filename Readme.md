@@ -73,7 +73,9 @@ For static build call qmake with
 
     qmake "DEFINES+=LOG4QT_STATIC"
 or uncommend LOG4QT_STATIC in the build.pri file. Don't forget to define LOG4QT_STATIC also in your project.
-Logging to a database via databaseappender can be enabled with qmake "QT += sql"
+Logging to a database via databaseappender can be enabled with
+
+    qmake "QT += sql"
 
 ### include in your project
 Add following line to your project's file
