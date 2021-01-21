@@ -91,7 +91,8 @@ Using log4qt in your code.  Enjoy it!
 
 
 Can also be used by adding the log4qt source directly to your Qt project file by adding the following line:
-include(<unpackdir>/src/log4qt/log4qt.pri)
+
+    include(<unpackdir>/src/log4qt/log4qt.pri)
 
 ### cmake
 cmake is the second option to build Log4Qt. An out-of-source build is required:
