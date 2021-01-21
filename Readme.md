@@ -77,16 +77,16 @@ use qmake to build the project
 
 ### include in your project
 Add following line to your project's file
-...
+
     CONFIG += log4qt
-...
+
 Using log4qt in your code.  Enjoy it!
-...
+
     #include <log4qt/logger.h>
     .........
     auto logger = Log4Qt::Logger::rootLogger();
     logger->info(QStringLiteral("Hello, world!"));
-...    
+
 
 Can also be used by adding the log4qt source directly to your Qt project file by adding the following line:
 include(<unpackdir>/src/log4qt/log4qt.pri)
