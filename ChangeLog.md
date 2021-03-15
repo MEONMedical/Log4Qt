@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [v1.6.0] - ??
 - Support for Qt6
 - Minimum required Qt version is 5.12
+- Alter qmake scripts - configure installation dirs
 ### Fixed
 - Replace deprecated Qt 5.15 stuff
 

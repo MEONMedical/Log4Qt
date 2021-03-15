@@ -1,0 +1,2 @@
+LIBS += -llog4qt
+INCLUDEPATH += $$[QT_INSTALL_HEADERS]/log4qt

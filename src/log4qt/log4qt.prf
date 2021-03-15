@@ -1,0 +1,2 @@
+LIBS += -llog4qt
+INCLUDEPATH += /opt/Qt/5.15.2/gcc_64/include/log4qt

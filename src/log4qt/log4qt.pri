@@ -1,3 +1,5 @@
+include(generated_header.pri)
+
 HEADERS_BASE += \
            $$PWD/appender.h \
            $$PWD/appenderskeleton.h \
@@ -159,7 +161,8 @@ win32 {
 HEADERS += $$HEADERS_BASE \
            $$HEADERS_HELPERS \
            $$HEADERS_SPI \
-           $$HEADERS_VARIA
+           $$HEADERS_VARIA \
+           $$GENERATED_HEADERS
 
 !contains(QT, sql) {
 message("Skipping databaseappender and -layout")
