@@ -182,9 +182,9 @@ if(BUILD_WITH_DB_LOGGING)
           PUBLIC
               $<TARGET_PROPERTY:Qt::Sql,INTERFACE_INCLUDE_DIRECTORIES>
     )
-    message(STATUS "Enabling database logging support")
+    message(STATUS "Log4Qt: Enabling database logging support")
 else()
-    message(STATUS "Disabling database logging support - disabled by cmake option")
+    message(STATUS "Log4Qt: Disabling database logging support - disabled by cmake option")
 endif()
 
 #
@@ -205,9 +205,9 @@ if(BUILD_WITH_TELNET_LOGGING)
           PUBLIC
               $<TARGET_PROPERTY:Qt::Network,INTERFACE_INCLUDE_DIRECTORIES>
     )
-    message(STATUS "Enabling telnet logging support")
+    message(STATUS "Log4Qt: Enabling telnet logging support")
 else()
-    message(STATUS "Disabling telnet logging support - disabled by cmake option")
+    message(STATUS "Log4Qt: Disabling telnet logging support - disabled by cmake option")
 endif()
 
 if(BUILD_STATIC_LOG4CXX_LIB)
