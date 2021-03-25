@@ -1,6 +1,15 @@
 cmake_minimum_required(VERSION 3.3.0)
 project(Log4Qt VERSION 1.6.0)
 
+
+set(LOG4QT_STANDALONE_BUILD OFF)
+if(PROJECT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+    set(LOG4QT_STANDALONE_BUILD ON)
+endif()
+
+option(LOG4QT_ENABLE_TESTS "${PROJECT_NAME}: Enable tests" ${LOG4QT_STANDALONE_BUILD})
+option(LOG4QT_ENABLE_EXAMPLES "${PROJECT_NAME}: Enable examples" ${LOG4QT_STANDALONE_BUILD})
+
 # in-source builds should be avoided
 set(Log4Qt_MODULE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 set(CMAKE_MODULE_PATH "${Log4Qt_MODULE_DIR}")
@@ -113,8 +122,12 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 endif()
 
 add_subdirectory(src/log4qt)
-add_subdirectory(tests)
-add_subdirectory(examples)
+if (LOG4QT_ENABLE_TESTS)
+    add_subdirectory(tests)
+endif()
+if (LOG4QT_ENABLE_EXAMPLES)
+    add_subdirectory(examples)
+endif()
 
 # Create a proper FindLog4Qt - module
 set(CMAKECONFIG_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/Log4Qt" )
