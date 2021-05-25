@@ -27,6 +27,8 @@
 #include <QStringList>
 #include <QEvent>
 
+#include <atomic>
+
 namespace Log4Qt
 {
 
@@ -142,7 +144,7 @@ private:
     MessageContext mContext;
     QString mCategoryName;
 
-    static qint64 msSequenceCount;
+    static std::atomic<qint64> msSequenceCount;
 
 #ifndef QT_NO_DATASTREAM
     // Needs to be friend to stream objects

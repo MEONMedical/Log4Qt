@@ -35,8 +35,6 @@
 namespace Log4Qt
 {
 
-Q_GLOBAL_STATIC(QMutex, sequence_guard)
-
 LoggingEvent::LoggingEvent() :
     QEvent(eventId),
     mLevel(Level::NULL_INT),
@@ -191,8 +189,6 @@ QString LoggingEvent::toString() const
 
 qint64 LoggingEvent::sequenceCount()
 {
-    QMutexLocker locker(sequence_guard());
-
     return msSequenceCount;
 }
 
@@ -218,8 +214,6 @@ void LoggingEvent::setThreadNameToCurrent()
 
 qint64 LoggingEvent::nextSequenceNumber()
 {
-    QMutexLocker locker(sequence_guard());
-
     return ++msSequenceCount;
 }
 
@@ -243,7 +237,7 @@ void LoggingEvent::setCategoryName(const QString &categoryName)
     mCategoryName = categoryName;
 }
 
-qint64 LoggingEvent::msSequenceCount = 0;
+std::atomic<qint64> LoggingEvent::msSequenceCount = 0;
 const QEvent::Type LoggingEvent::eventId = static_cast<QEvent::Type>(QEvent::registerEventType());
 
 #ifndef QT_NO_DATASTREAM
