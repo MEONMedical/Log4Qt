@@ -19,7 +19,11 @@ include(MacroEnsureOutOfSourceBuild)
 enable_testing()
 
 # Shared or static build of log4qt library
-option(BUILD_STATIC_LOG4CXX_LIB "Build a static log4cxx library (default: off)" OFF)
+option(BUILD_SHARED_LIBS "Build a dynamic log4qt library (default: on)" ON)
+if(BUILD_STATIC_LOG4CXX_LIB)
+    set(BUILD_SHARED_LIBS OFF)
+    message(WARNING "BUILD_STATIC_LOG4CXX_LIB is deprecated. Use BUILD_SHARED_LIBS=OFF instead.")
+endif()
 
 # With Database logging support or without
 option(BUILD_WITH_DB_LOGGING "Build with database logging support, link against Qt sql lib (default: on)" OFF)
