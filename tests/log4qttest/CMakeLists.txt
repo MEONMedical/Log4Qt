@@ -1,3 +1,5 @@
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Test REQUIRED)
+
 set(l4qt_SOURCES
     log4qttest.cpp
     log4qttest.h
