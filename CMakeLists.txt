@@ -49,21 +49,28 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 # Min. Qt version is 5.12, we want to use cmake automoc feature
 # and settings some defines for Qt
 set(CMAKE_AUTOMOC TRUE)
-set(QT_MIN_VERSION 5.12.0)
 
 if (NOT (Qt5_FOUND OR Qt6_FOUND))
     find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
-    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Concurrent Test REQUIRED)
+    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core REQUIRED)
     if (Qt6_FOUND)
         message("Qt6 found.")
         message(STATUS "Qt version is ${Qt6Core_VERSION}")
+        set(QT_MIN_VERSION 6.0.0)
     elseif(Qt5_FOUND)
         message("Qt5 found.")
         message(STATUS "Qt version is ${Qt5Core_VERSION}")
+        set(QT_MIN_VERSION 5.12.0)
     else()
         message(FATAL_ERROR "No Qt found!")
     endif()
 endif()
+
+if (Qt${QT_VERSION_MAJOR}Core_VERSION VERSION_LESS ${QT_MIN_VERSION})
+    message(FATAL_ERROR "Minimum supported Qt version is ${QT_MIN_VERSION}")
+endif()
+
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Concurrent REQUIRED)
 
 if(BUILD_WITH_DB_LOGGING)
     find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Sql REQUIRED)

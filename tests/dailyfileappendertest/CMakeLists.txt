@@ -1,3 +1,5 @@
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Test REQUIRED)
+
 set(TEST_NAME dailyfileappendertest)
 
 set(dfa_SOURCES

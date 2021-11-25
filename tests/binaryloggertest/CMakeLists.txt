@@ -1,3 +1,5 @@
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Test REQUIRED)
+
 set(blt_SOURCES
     atscopeexit.h
     binaryloggertest.cpp
