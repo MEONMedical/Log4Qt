@@ -142,14 +142,7 @@ if(WIN32)
     )
 endif()
 
-#
-# build lib shared/static
-#
-set(_shared_static SHARED)
-if(BUILD_STATIC_LOG4CXX_LIB)
-  set(_shared_static STATIC)
-endif()
-add_library(log4qt ${_shared_static} ${log4qt_SOURCES} ${log4qt_HEADERS} ${log4qt_HEADERS_helpers} ${log4qt_HEADERS_spi} ${log4qt_HEADERS_varia})
+add_library(log4qt ${log4qt_SOURCES} ${log4qt_HEADERS} ${log4qt_HEADERS_helpers} ${log4qt_HEADERS_spi} ${log4qt_HEADERS_varia})
 
 target_link_libraries(log4qt
     PUBLIC
@@ -210,7 +203,7 @@ else()
     message(STATUS "Log4Qt: Disabling telnet logging support - disabled by cmake option")
 endif()
 
-if(BUILD_STATIC_LOG4CXX_LIB)
+if(NOT BUILD_SHARED_LIBS)
     # LOG4QT_STATIC must also be set when linking against the lib
     target_compile_definitions(log4qt
         PUBLIC

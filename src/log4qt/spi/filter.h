@@ -49,6 +49,8 @@ class LOG4QT_EXPORT Filter : public QObject
      *
      * The default is 0 for no next filter.
      *
+     *
+     *
      * \sa next(), setNext()
      */
     Q_PROPERTY(FilterSharedPtr next READ next WRITE setNext)
@@ -56,9 +58,12 @@ class LOG4QT_EXPORT Filter : public QObject
 public:
     enum Decision
     {
-        ACCEPT,
-        DENY,
-        NEUTRAL
+        ACCEPT, /*!< The log event must be logged immediately without consulting
+                     with the remaining filters, if any, in the chain. */
+        DENY, /*!< The log event must be dropped immediately without consulting
+                   with the remaining filters, if any, in the chain. */
+        NEUTRAL /*!< This filter is neutral with respect to the log event. The
+                   remaining filters, if any, should be consulted for a final decision. */
     };
     Q_ENUM(Decision)
 
