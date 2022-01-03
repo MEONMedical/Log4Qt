@@ -237,7 +237,7 @@ void LoggingEvent::setCategoryName(const QString &categoryName)
     mCategoryName = categoryName;
 }
 
-std::atomic<qint64> LoggingEvent::msSequenceCount = 0;
+std::atomic<qint64> LoggingEvent::msSequenceCount = {0};
 const QEvent::Type LoggingEvent::eventId = static_cast<QEvent::Type>(QEvent::registerEventType());
 
 #ifndef QT_NO_DATASTREAM
