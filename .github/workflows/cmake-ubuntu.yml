@@ -35,21 +35,10 @@ jobs:
     - name: Install ninja
       run: sudo apt-get install ninja-build
           
-    - name: Add Qt repository
-      shell: bash
-      env:
-        QT_PPA: ${{ matrix.qt_ppa }}
-      run: sudo add-apt-repository --yes ppa:beineri/opt-${QT_PPA}-focal 
-
-    - name: Update Qt repository
-      shell: bash
-      run: sudo apt-get update -qq
-   
-    - name: Install Qt repository
-      shell: bash
-      env:
-        QT_VERSION: ${{ matrix.qt_version }}
-      run: sudo apt-get -y install ${QT_VERSION}base
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2
+      with:
+        version: ${{matrix.qt_version}}
       
     - uses: actions/checkout@v2
 
