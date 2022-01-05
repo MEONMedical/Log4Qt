@@ -59,7 +59,7 @@ public:
     bool acceptOnMatch() const;
     QString stringToMatch() const;
     void setAcceptOnMatch(bool accept);
-    void setStringToMatch(const QString &string, Qt::CaseSensitivity cs = Qt::CaseInsensitive);
+    void setStringToMatch(const QString &string, Qt::CaseSensitivity cs = Qt::CaseSensitive);
 
     Decision decide(const LoggingEvent &event) const override;
 
