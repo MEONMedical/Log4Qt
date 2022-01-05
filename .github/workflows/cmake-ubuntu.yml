@@ -27,9 +27,9 @@ jobs:
     strategy:
       matrix:
         include:
-         - qt_version: 5.12.10
-         - qt_version: 5.14.2
+         - qt_version: 5.12.12
          - qt_version: 5.15.2
+         - qt_version: 6.2.2         
 
     steps:
     - name: Install ninja
