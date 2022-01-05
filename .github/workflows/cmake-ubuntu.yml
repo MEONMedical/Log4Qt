@@ -26,7 +26,7 @@ jobs:
         - os: ubuntu-18.04
           qt-version: 5.12.12
         - os: ubuntu-18.04
-          qt-version: 5.15.2          
+          qt_version: 5.15.2          
 
     steps:
     - name: Install ninja
