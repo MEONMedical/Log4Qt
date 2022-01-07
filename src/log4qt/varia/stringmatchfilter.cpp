@@ -28,7 +28,8 @@ namespace Log4Qt
 StringMatchFilter::StringMatchFilter(QObject *parent) :
     Filter(parent),
     mAcceptOnMatch(true),
-    mStringToMatch()
+    mStringToMatch(),
+    mCaseSensitivity(Qt::CaseInsensitive)
 {}
 
 
@@ -36,7 +37,7 @@ Filter::Decision StringMatchFilter::decide(const LoggingEvent &event) const
 {
     if (event.message().isEmpty() ||
             mStringToMatch.isEmpty() ||
-            event.message().indexOf(mStringToMatch) < 0)
+            !event.message().contains(mStringToMatch,mCaseSensitivity))
         return Filter::NEUTRAL;
 
     if (mAcceptOnMatch)

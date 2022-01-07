@@ -1074,30 +1074,33 @@ void Log4QtTest::LevelRangeFilter()
 void Log4QtTest::StringMatchFilter_data()
 {
     QTest::addColumn<QString>("filter_string");
+    QTest::addColumn<Qt::CaseSensitivity>("case_sensitivity");
     QTest::addColumn<bool>("accept_on_match");
     QTest::addColumn<QString>("event_string");
     QTest::addColumn<QString>("result");
 
-    QTest::newRow("No match, No accept") << "MESSAGE" << false << "This is a message" << "NEUTRAL";
-    QTest::newRow("Match, No accept") << "This" << false << "This is a message" << "DENY";
-    QTest::newRow("No match, Accept") << "MESSAGE" << true << "This is a message" << "NEUTRAL";
-    QTest::newRow("Match, Accept") << "This" << true << "This is a message" << "ACCEPT";
-    QTest::newRow("Empty message, No accept") << "This" << false << "" << "NEUTRAL";
-    QTest::newRow("Empty message, Accept") << "This" << true << "" << "NEUTRAL";
-    QTest::newRow("Empty filter, No accept") << "" << false << "This is a message" << "NEUTRAL";
-    QTest::newRow("Empty filter, Accept") << "" << true << "This is a message" << "NEUTRAL";
+    QTest::newRow("No match, CaseSensitive, No accept") << "MESSAGE" << Qt::CaseSensitive << false << "This is a message" << "NEUTRAL";
+    QTest::newRow("Match, CaseSensitive, No accept") << "This" << Qt::CaseSensitive << false << "This is a message" << "DENY";
+    QTest::newRow("No Match, CaseSensitive, Accept") << "MESSAGE" << Qt::CaseSensitive << true << "This is a message" << "NEUTRAL";
+    QTest::newRow("Match, CaseInsensitive, Accept") << "MESSAGE" << Qt::CaseInsensitive << true << "This is a message" << "ACCEPT";
+    QTest::newRow("Match, CaseSensitive, Accept") << "This" << Qt::CaseSensitive << true << "This is a message" << "ACCEPT";
+    QTest::newRow("Empty message, No accept") << "This" << Qt::CaseSensitive << false << "" << "NEUTRAL";
+    QTest::newRow("Empty message, Accept") << "This" << Qt::CaseSensitive << true << "" << "NEUTRAL";
+    QTest::newRow("Empty filter, No accept") << "" << Qt::CaseSensitive << false << "This is a message" << "NEUTRAL";
+    QTest::newRow("Empty filter, Accept") << "" << Qt::CaseSensitive << true << "This is a message" << "NEUTRAL";
 }
 
 
 void Log4QtTest::StringMatchFilter()
 {
     QFETCH(QString, filter_string);
+    QFETCH(Qt::CaseSensitivity,case_sensitivity);
     QFETCH(bool, accept_on_match);
     QFETCH(QString, event_string);
     QFETCH(QString, result);
 
     Log4Qt::StringMatchFilter filter;
-    filter.setStringToMatch(filter_string);
+    filter.setStringToMatch(filter_string,case_sensitivity);
     filter.setAcceptOnMatch(accept_on_match);
     LoggingEvent event(test_logger(), Level::WARN_INT, event_string);
 
