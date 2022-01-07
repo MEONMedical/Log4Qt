@@ -36,8 +36,8 @@ StringMatchFilter::StringMatchFilter(QObject *parent) :
 Filter::Decision StringMatchFilter::decide(const LoggingEvent &event) const
 {
     if (event.message().isEmpty() ||
-            mStringToMatch.isEmpty() ||
-            !event.message().contains(mStringToMatch,mCaseSensitivity))
+        mStringToMatch.isEmpty() ||
+        !event.message().contains(mStringToMatch,mCaseSensitivity))
         return Filter::NEUTRAL;
 
     if (mAcceptOnMatch)
