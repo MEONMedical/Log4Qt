@@ -59,13 +59,14 @@ public:
     bool acceptOnMatch() const;
     QString stringToMatch() const;
     void setAcceptOnMatch(bool accept);
-    void setStringToMatch(const QString &string);
+    void setStringToMatch(const QString &string, Qt::CaseSensitivity cs = Qt::CaseSensitive);
 
     Decision decide(const LoggingEvent &event) const override;
 
 private:
     bool mAcceptOnMatch;
     QString mStringToMatch;
+    Qt::CaseSensitivity mCaseSensitivity;
 };
 
 inline bool StringMatchFilter::acceptOnMatch() const
@@ -83,9 +84,10 @@ inline void StringMatchFilter::setAcceptOnMatch(bool accept)
     mAcceptOnMatch = accept;
 }
 
-inline void StringMatchFilter::setStringToMatch(const QString &string)
+inline void StringMatchFilter::setStringToMatch(const QString &string, Qt::CaseSensitivity cs)
 {
     mStringToMatch = string;
+    mCaseSensitivity = cs;
 }
 
 } // namespace Log4Qt
