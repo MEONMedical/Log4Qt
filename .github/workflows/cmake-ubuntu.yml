@@ -1,4 +1,4 @@
-name: CMake Ubuntu
+name: CMake Ubuntu build and test
 
 on:
   push:
