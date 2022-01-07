@@ -100,6 +100,8 @@ private Q_SLOTS:
     void LevelRangeFilter();
     void StringMatchFilter_data();
     void StringMatchFilter();
+    void StringMatchFilterCaseInsensitive_data();
+    void StringMatchFilterCaseInsensitive();
 
     // log4qt
     void AppenderSkeleton_threshold();
