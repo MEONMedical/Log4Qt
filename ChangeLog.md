@@ -3,8 +3,12 @@
 All notable changes to this project will be documented in this file.
 ----
 ## [v1.6.0] - ??
+### Improvements
 - Support for Qt6
 - Minimum required Qt version is 5.12
+- Add case sensitivity option in Stringmatchfilter
+- cmake: replace BUILD_STATIC_LOG4CXX_LIB with standard BUILD_SHARED_LIBS
+
 ### Fixed
 - Replace deprecated Qt 5.15 stuff
 
