@@ -44,9 +44,9 @@ TTCCLayout::TTCCLayout(const QString &dateFormat,
     Layout(parent),
     mCategoryPrefixing(true),
     mContextPrinting(true),
-    mDateFormat(dateFormat),
     mThreadPrinting(true)
 {
+    setDateFormat(dateFormat);
 }
 
 TTCCLayout::TTCCLayout(DateFormat dateFormat,
