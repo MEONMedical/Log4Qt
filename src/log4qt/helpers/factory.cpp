@@ -1,8 +1,12 @@
 /******************************************************************************
  *
- * This file is part of Log4Qt library.
+ * package:     Log4Qt
+ * file:        factory.cpp
+ * created:     September 2007
+ * author:      Martin Heinrich
  *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
+ *
+ * Copyright 2007 Martin Heinrich
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,6 +71,10 @@
 
 #include <QMetaObject>
 #include <QMetaProperty>
+
+#include <QTextCodec>
+
+Q_DECLARE_METATYPE(QTextCodec*)
 
 namespace Log4Qt
 {
@@ -330,7 +338,6 @@ void Factory::doRegisterLayout(const QString &layoutClassName,
     mLayoutRegistry.insert(layoutClassName, layoutFactoryFunc);
 }
 
-
 void Factory::doSetObjectProperty(QObject *object,
                                   const QString &property,
                                   const QString &value)
@@ -363,6 +370,8 @@ void Factory::doSetObjectProperty(QObject *object,
         variant = QVariant::fromValue(OptionConverter::toLevel(value, &ok));
     else if (type == QStringLiteral("QString"))
         variant = value;
+    else if (type == QStringLiteral("QTextCodec*"))
+        variant = QVariant::fromValue(QTextCodec::codecForName(value.toUtf8()));
     else
     {
         LogError e = LOG4QT_ERROR(QT_TR_NOOP("Cannot convert to type '%1' for property '%2' on object of class '%3'"),
