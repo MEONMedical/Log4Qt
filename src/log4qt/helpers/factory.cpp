@@ -363,6 +363,13 @@ void Factory::doSetObjectProperty(QObject *object,
         variant = QVariant::fromValue(OptionConverter::toLevel(value, &ok));
     else if (type == QStringLiteral("QString"))
         variant = value;
+#if QT_VERSION < 0x060000
+    else if (type == QStringLiteral("QTextCodec*"))
+        variant = QVariant::fromValue(OptionConverter::toEncoding(value, &ok));
+#else
+    else if (type == QStringLiteral("QStringConverter::Encoding"))
+        variant = QVariant::fromValue(OptionConverter::toEncoding(value, &ok));
+#endif
     else
     {
         LogError e = LOG4QT_ERROR(QT_TR_NOOP("Cannot convert to type '%1' for property '%2' on object of class '%3'"),
