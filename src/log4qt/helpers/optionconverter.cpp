@@ -247,4 +247,43 @@ int OptionConverter::toTarget(const QString &option,
     return ConsoleAppender::STDOUT_TARGET;
 }
 
+#if QT_VERSION < 0x060000
+QTextCodec* OptionConverter::toEncoding(const QString &option,
+                              bool *ok)
+{
+    QTextCodec* encoding = QTextCodec::codecForName(option.toUtf8());
+    if (encoding) {
+        *ok = true;
+        return encoding;
+    }
+
+    *ok = false;
+
+    LogError e = LOG4QT_ERROR(QT_TR_NOOP("Invalid option string '%1' for a QTextCodec"),
+                              CONFIGURATOR_INVALID_OPTION_ERROR,
+                              "Log4Qt::OptionConverter");
+    e << option;
+    logger()->error(e);
+    return 0;
+}
+#else
+    QStringConverter::Encoding OptionConverter::toEncoding(const QString &option,
+                                            bool *ok)
+    {
+        std::optional<QStringConverter::Encoding> encoding = QStringConverter::encodingForName(option.toStdString().c_str());
+        if (encoding.has_value()) {
+            *ok = true;
+            return encoding.value();
+        }
+
+        *ok = false;
+
+        LogError e = LOG4QT_ERROR(QT_TR_NOOP("Invalid option string '%1' for a QStringConverter::Encoding"),
+                                  CONFIGURATOR_INVALID_OPTION_ERROR,
+                                  "Log4Qt::OptionConverter");
+        e << option;
+        logger()->error(e);
+        return QStringConverter::System;
+    }
+#endif
 } // namespace Log4Qt
