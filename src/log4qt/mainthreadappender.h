@@ -43,6 +43,7 @@ class LOG4QT_EXPORT MainThreadAppender : public AppenderSkeleton, public Appende
 
 public:
     MainThreadAppender(QObject *parent = nullptr);
+    ~MainThreadAppender(){;}
 
     bool requiresLayout() const override;
 
