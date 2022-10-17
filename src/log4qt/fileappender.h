@@ -182,11 +182,6 @@ inline void FileAppender::setBufferedIo(bool buffered)
     mBufferedIo = buffered;
 }
 
-inline void FileAppender::setFile(const QString &fileName)
-{
-    QMutexLocker locker(&mObjectGuard);
-    mFileName = fileName;
-}
 
 
 } // namespace Log4Qt

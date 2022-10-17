@@ -122,11 +122,6 @@ inline void BinaryFileAppender::setBufferedIo(bool buffered)
     mBufferedIo = buffered;
 }
 
-inline void BinaryFileAppender::setFile(const QString &fileName)
-{
-    QMutexLocker locker(&mObjectGuard);
-    mFileName = fileName;
-}
 
 inline QDataStream::ByteOrder BinaryFileAppender::byteOrder() const
 {
