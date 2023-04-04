@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.3.0)
 project(Log4Qt VERSION 1.6.0)
 
-
 set(LOG4QT_STANDALONE_BUILD OFF)
 if(PROJECT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     set(LOG4QT_STANDALONE_BUILD ON)
@@ -139,6 +138,10 @@ endif()
 if (LOG4QT_ENABLE_EXAMPLES)
     add_subdirectory(examples)
 endif()
+
+# githob workflow files
+add_custom_target(githubworkflows SOURCES
+                  ".github/workflows/cmake-ubuntu.yml")
 
 # Create a proper FindLog4Qt - module
 set(CMAKECONFIG_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/Log4Qt" )
@@ -284,7 +287,6 @@ elseif( ${CMAKE_HOST_WIN32} )
     set( CPACK_NSIS_PACKAGE_NAME ${PROJECT_NAME} )
     set( CPACK_NSIS_URL_INFO_ABOUT ${CPACK_PACKAGE_HOMEPAGE_URL} )
 endif()
-
 
 # This must always be last!
 include( CPack )
