@@ -23,9 +23,9 @@ jobs:
         os: [ubuntu-22.04]
         qt_version: [5.12.12, 5.15.8, 6.2.4, 6.3.2, 6.4.3, 6.5.0]
         include:
-        - os: ubuntu-18.04
+        - os: ubuntu-20.04
           qt_version: 5.12.12
-        - os: ubuntu-18.04
+        - os: ubuntu-20.04
           qt_version: 5.15.2          
 
     steps:
