@@ -116,7 +116,7 @@ public:
      *
      * \sa setHandleQtMessages()
      */
-    static Logger *qtLogger();
+    static Logger *qtLogger(const QString& category = QStringLiteral("Qt"));
 
     static Logger *rootLogger();
     static QList<Logger *> loggers();
@@ -333,9 +333,9 @@ inline Logger *LogManager::logLogger()
     return logger(QStringLiteral("Log4Qt"));
 }
 
-inline Logger *LogManager::qtLogger()
+inline Logger *LogManager::qtLogger(const QString &category)
 {
-    return logger(QStringLiteral("Qt"));
+    return logger(category);
 }
 
 inline void LogManager::setHandleQtMessages(bool handleQtMessages)
