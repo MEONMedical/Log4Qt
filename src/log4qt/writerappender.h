@@ -87,7 +87,7 @@ public:
     ~WriterAppender() override;
 
 private:
-    Q_DISABLE_COPY(WriterAppender)
+    Q_DISABLE_COPY_MOVE(WriterAppender)
 
 public:
     bool requiresLayout() const override;

@@ -55,7 +55,7 @@ public:
                   QObject *parent = nullptr);
 
 private:
-    Q_DISABLE_COPY(DebugAppender)
+    Q_DISABLE_COPY_MOVE(DebugAppender)
 
 public:
     /*!

@@ -52,7 +52,7 @@ public:
     void setBinaryHeader(const QByteArray &header);
 
 private:
-    Q_DISABLE_COPY(BinaryLayout)
+    Q_DISABLE_COPY_MOVE(BinaryLayout)
 
     QByteArray mFooter;
     QByteArray mHeader;

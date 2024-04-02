@@ -65,7 +65,7 @@ private:
     ConfiguratorHelper(QObject *parent = nullptr);
     virtual ~ConfiguratorHelper();
 
-    Q_DISABLE_COPY(ConfiguratorHelper)
+    Q_DISABLE_COPY_MOVE(ConfiguratorHelper)
 
 public:
 

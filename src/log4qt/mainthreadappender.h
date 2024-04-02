@@ -71,7 +71,7 @@ protected:
     void append(const LoggingEvent &event) override;
 
 private:
-    Q_DISABLE_COPY(MainThreadAppender)
+    Q_DISABLE_COPY_MOVE(MainThreadAppender)
 
 };
 

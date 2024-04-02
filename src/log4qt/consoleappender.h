@@ -83,7 +83,7 @@ public:
 
     ~ConsoleAppender() override;
 private:
-    Q_DISABLE_COPY(ConsoleAppender)
+    Q_DISABLE_COPY_MOVE(ConsoleAppender)
 
 public:
     QString target() const;

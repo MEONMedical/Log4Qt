@@ -157,7 +157,7 @@ namespace Log4Qt
 
 class LOG4QT_EXPORT MessageLogger
 {
-    Q_DISABLE_COPY(MessageLogger)
+    Q_DISABLE_COPY_MOVE(MessageLogger)
 
 public:
     explicit MessageLogger(Logger *logger, Level level) : mLogger(logger), mLevel(level) {}
@@ -264,7 +264,7 @@ protected:
     ~Logger() override;
 
 private:
-    Q_DISABLE_COPY(Logger)
+    Q_DISABLE_COPY_MOVE(Logger)
 
 public:
     bool additivity() const;

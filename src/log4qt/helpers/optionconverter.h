@@ -45,7 +45,8 @@ class LOG4QT_EXPORT OptionConverter
 {
 private:
     OptionConverter();
-    Q_DISABLE_COPY(OptionConverter)
+    Q_DISABLE_COPY_MOVE_MOVE(OptionConverter)
+
 public:
     static QString findAndSubst(const Properties &properties,
                                 const QString &key);

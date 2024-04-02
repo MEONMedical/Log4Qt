@@ -101,7 +101,7 @@ protected:
     void ensureMaxCount();
 
 private:
-    Q_DISABLE_COPY(ListAppender)
+    Q_DISABLE_COPY_MOVE(ListAppender)
     volatile bool mConfiguratorList;
     QList<LoggingEvent> mList;
     volatile int mMaxCount;

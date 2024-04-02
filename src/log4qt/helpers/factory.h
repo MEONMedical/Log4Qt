@@ -86,7 +86,7 @@ public:
 
 private:
     Factory();
-    Q_DISABLE_COPY(Factory)
+    Q_DISABLE_COPY_MOVE(Factory)
 
 public:
     /*!

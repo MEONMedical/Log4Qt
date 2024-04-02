@@ -83,7 +83,7 @@ public:
     ~FileAppender() override;
 
 private:
-    Q_DISABLE_COPY(FileAppender)
+    Q_DISABLE_COPY_MOVE(FileAppender)
 
 public:
     bool appendFile() const;

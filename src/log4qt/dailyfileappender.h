@@ -83,7 +83,7 @@ public:
     void setDateRetriever(const QSharedPointer<const IDateRetriever> &dateRetriever);
 
 private:
-    Q_DISABLE_COPY(DailyFileAppender)
+    Q_DISABLE_COPY_MOVE(DailyFileAppender)
 
     void setLogFileForCurrentDay();
     void rollOver();

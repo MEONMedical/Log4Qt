@@ -57,7 +57,7 @@ protected:
     void writeHeader() const;
 
 private:
-    Q_DISABLE_COPY(BinaryWriterAppender)
+    Q_DISABLE_COPY_MOVE(BinaryWriterAppender)
     void writeRawData(const QByteArray &data) const;
     void closeInternal();
     BinaryLayout *binaryLayout() const;

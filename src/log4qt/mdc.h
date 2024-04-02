@@ -39,7 +39,7 @@ class LOG4QT_EXPORT MDC
 {
 private:
     MDC();
-    Q_DISABLE_COPY(MDC)
+    Q_DISABLE_COPY_MOVE(MDC)
 
 public:
     static QString get(const QString &key);

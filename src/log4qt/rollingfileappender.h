@@ -77,7 +77,7 @@ public:
                         QObject *parent = nullptr);
 
 private:
-    Q_DISABLE_COPY(RollingFileAppender)
+    Q_DISABLE_COPY_MOVE(RollingFileAppender)
 
 public:
     int maxBackupIndex() const;

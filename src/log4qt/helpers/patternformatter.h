@@ -62,7 +62,7 @@ public:
     virtual ~PatternFormatter();
 
 private:
-    Q_DISABLE_COPY(PatternFormatter)
+    Q_DISABLE_COPY_MOVE(PatternFormatter)
 
 public:
     /*!

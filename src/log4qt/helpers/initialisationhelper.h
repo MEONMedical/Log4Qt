@@ -102,7 +102,7 @@ private:
     InitialisationHelper();
     virtual ~InitialisationHelper();
 
-    Q_DISABLE_COPY(InitialisationHelper)
+    Q_DISABLE_COPY_MOVE(InitialisationHelper)
 
 public:
 
