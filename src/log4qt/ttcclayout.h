@@ -124,7 +124,7 @@ public:
                QObject *parent = nullptr);
 
 private:
-    Q_DISABLE_COPY(TTCCLayout)
+    Q_DISABLE_COPY_MOVE(TTCCLayout)
 
 public:
     bool categoryPrefixing() const;

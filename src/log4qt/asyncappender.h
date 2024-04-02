@@ -79,7 +79,7 @@ protected:
     void append(const LoggingEvent &event) override;
 
 private:
-    Q_DISABLE_COPY(AsyncAppender)
+    Q_DISABLE_COPY_MOVE(AsyncAppender)
 
     //! Event dispatcher trhead
     QThread       *mThread;

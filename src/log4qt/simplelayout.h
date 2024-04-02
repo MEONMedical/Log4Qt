@@ -42,7 +42,7 @@ public:
     SimpleLayout(QObject *parent = nullptr);
 
 private:
-    Q_DISABLE_COPY(SimpleLayout)
+    Q_DISABLE_COPY_MOVE(SimpleLayout)
     bool mShowLevel;
 
 public:

@@ -42,7 +42,7 @@ class LOG4QT_EXPORT NDC
 {
 private:
     NDC();
-    Q_DISABLE_COPY(NDC)
+    Q_DISABLE_COPY_MOVE(NDC)
 
 public:
     static void clear();

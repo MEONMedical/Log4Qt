@@ -87,7 +87,7 @@ public:
 
     // Member variables
 private:
-    Q_DISABLE_COPY(Layout)
+    Q_DISABLE_COPY_MOVE(Layout)
     QString mFooter;
     QString mHeader;
 };

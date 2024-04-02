@@ -66,7 +66,7 @@ class LOG4QT_EXPORT LogManager
 private:
     LogManager();
     ~LogManager();
-    Q_DISABLE_COPY(LogManager)
+    Q_DISABLE_COPY_MOVE(LogManager)
 
 public:
     /*!

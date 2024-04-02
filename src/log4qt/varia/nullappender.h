@@ -49,7 +49,7 @@ protected:
     void append(const LoggingEvent &event) override;
 
 private:
-    Q_DISABLE_COPY(NullAppender)
+    Q_DISABLE_COPY_MOVE(NullAppender)
 };
 
 inline bool NullAppender::requiresLayout() const

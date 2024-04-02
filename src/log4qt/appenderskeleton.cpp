@@ -41,7 +41,7 @@ public:
     explicit RecursionGuardLocker(bool *guard);
     ~RecursionGuardLocker();
 private:
-    Q_DISABLE_COPY(RecursionGuardLocker)
+    Q_DISABLE_COPY_MOVE(RecursionGuardLocker)
 private:
     bool *mGuard;
 };

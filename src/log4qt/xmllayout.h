@@ -35,7 +35,7 @@ public:
     QString format(const LoggingEvent &event) override;
 
 private:
-    Q_DISABLE_COPY(XMLLayout)
+    Q_DISABLE_COPY_MOVE(XMLLayout)
 };
 
 }

@@ -142,7 +142,7 @@ protected:
 #endif
 
 private:
-    Q_DISABLE_COPY(AppenderSkeleton)
+    Q_DISABLE_COPY_MOVE(AppenderSkeleton)
     bool mAppendRecursionGuard;
     volatile bool mIsActive;
     volatile bool mIsClosed;

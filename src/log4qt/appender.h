@@ -92,7 +92,7 @@ protected:
     Logger *logger() const;
 
 private:
-    Q_DISABLE_COPY(Appender)
+    Q_DISABLE_COPY_MOVE(Appender)
     mutable ClassLogger mLog4QtClassLogger;
 };
 

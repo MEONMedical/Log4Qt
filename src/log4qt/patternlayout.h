@@ -90,7 +90,7 @@ public:
                   QObject *parent = nullptr);
 
 private:
-    Q_DISABLE_COPY(PatternLayout)
+    Q_DISABLE_COPY_MOVE(PatternLayout)
 
 public:
     QString conversionPattern() const;

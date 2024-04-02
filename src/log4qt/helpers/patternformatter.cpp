@@ -76,7 +76,7 @@ public:
     virtual ~PatternConverter() = default;
 
 private:
-    Q_DISABLE_COPY(PatternConverter)
+    Q_DISABLE_COPY_MOVE(PatternConverter)
 
 public:
     void format(QString &format, const LoggingEvent &loggingEvent) const;
@@ -125,7 +125,7 @@ public:
     {}
 
 private:
-    Q_DISABLE_COPY(BasicPatternConverter)
+    Q_DISABLE_COPY_MOVE(BasicPatternConverter)
 
 protected:
     QString convert(const LoggingEvent &loggingEvent) const override;
@@ -156,7 +156,7 @@ public:
     {}
 
 private:
-    Q_DISABLE_COPY(DatePatternConverter)
+    Q_DISABLE_COPY_MOVE(DatePatternConverter)
 
 protected:
     QString convert(const LoggingEvent &loggingEvent) const override;
@@ -184,7 +184,7 @@ public:
     {}
 
 private:
-    Q_DISABLE_COPY(LiteralPatternConverter)
+    Q_DISABLE_COPY_MOVE(LiteralPatternConverter)
 
 protected:
     QString convert(const LoggingEvent &loggingEvent) const override;
@@ -215,7 +215,7 @@ public:
     {}
 
 private:
-    Q_DISABLE_COPY(LoggepatternConverter)
+    Q_DISABLE_COPY_MOVE(LoggepatternConverter)
 
 protected:
     QString convert(const LoggingEvent &loggingEvent) const override;
@@ -247,7 +247,7 @@ public:
     {}
 
 private:
-    Q_DISABLE_COPY(MDCPatternConverter)
+    Q_DISABLE_COPY_MOVE(MDCPatternConverter)
 
 protected:
     QString convert(const LoggingEvent &loggingEvent) const override;

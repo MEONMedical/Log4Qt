@@ -49,7 +49,7 @@ public:
     PropertyConfigurator();
 
 private:
-    Q_DISABLE_COPY(PropertyConfigurator)
+    Q_DISABLE_COPY_MOVE(PropertyConfigurator)
 
 public:
     /*!

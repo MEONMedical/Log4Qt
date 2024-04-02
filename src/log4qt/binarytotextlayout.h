@@ -40,7 +40,7 @@ public:
     void setSubLayout(const LayoutSharedPtr &layout) {mSubLayout = layout;}
 
 private:
-    Q_DISABLE_COPY(BinaryToTextLayout)
+    Q_DISABLE_COPY_MOVE(BinaryToTextLayout)
     LayoutSharedPtr mSubLayout;
 };
 

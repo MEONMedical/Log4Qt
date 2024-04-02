@@ -80,7 +80,7 @@ public:
                              QObject *parent = nullptr);
 
 private:
-    Q_DISABLE_COPY(DailyRollingFileAppender)
+    Q_DISABLE_COPY_MOVE(DailyRollingFileAppender)
 public:
     QString datePattern() const;
 

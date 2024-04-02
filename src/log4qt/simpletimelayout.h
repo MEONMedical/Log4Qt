@@ -41,7 +41,7 @@ public:
     SimpleTimeLayout(QObject *parent = nullptr);
 
 private:
-    Q_DISABLE_COPY(SimpleTimeLayout)
+    Q_DISABLE_COPY_MOVE(SimpleTimeLayout)
 
 public:
     QString format(const LoggingEvent &event) override;

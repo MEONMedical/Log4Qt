@@ -40,7 +40,7 @@ protected:
     virtual void append(const LoggingEvent &event) override;
 
 private:
-    Q_DISABLE_COPY(WDCAppender)
+    Q_DISABLE_COPY_MOVE(WDCAppender)
 };
 
 } // namespace Log4Qt
