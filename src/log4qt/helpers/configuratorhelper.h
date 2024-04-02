@@ -62,7 +62,7 @@ public:
     typedef bool (*ConfigureFunc)(const QString &fileName);
 
 private:
-    ConfiguratorHelper(QObject *parent = nullptr);
+    explicit ConfiguratorHelper(QObject *parent = nullptr);
     virtual ~ConfiguratorHelper();
 
     Q_DISABLE_COPY_MOVE(ConfiguratorHelper)
