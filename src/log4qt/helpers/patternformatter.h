@@ -54,7 +54,7 @@ public:
     /*!
      * Creates a PatternFormatter using a the specified \a pattern.
      */
-    PatternFormatter(const QString &pattern);
+    explicit PatternFormatter(const QString &pattern);
 
     /*!
      * Destroys the PatternFormatter and all PatternConverter.
@@ -133,7 +133,7 @@ private:
 } // namespace Log4Qt
 
 
-Q_DECLARE_TYPEINFO(Log4Qt::PatternFormatter, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(Log4Qt::PatternFormatter, Q_COMPLEX_TYPE);
 
 
 #endif // LOG4QT_PATTERNFORMATTER_H

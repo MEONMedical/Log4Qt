@@ -45,7 +45,7 @@ class LOG4QT_EXPORT OptionConverter
 {
 private:
     OptionConverter();
-    Q_DISABLE_COPY_MOVE_MOVE(OptionConverter)
+    Q_DISABLE_COPY_MOVE(OptionConverter)
 
 public:
     static QString findAndSubst(const Properties &properties,
@@ -144,7 +144,7 @@ public:
 } // namespace Log4Qt
 
 
-Q_DECLARE_TYPEINFO(Log4Qt::OptionConverter, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(Log4Qt::OptionConverter, Q_COMPLEX_TYPE);
 
 
 #endif // LOG4QT_OPTIONCONVERTER_H
