@@ -21,6 +21,7 @@
 #ifndef LOG4QT_HELPERS_INITIALISATIONHELPER_H
 #define LOG4QT_HELPERS_INITIALISATIONHELPER_H
 
+#include "log4qt/log4qtdefs.h"
 #include "log4qt/log4qtshared.h"
 
 #include <QHash>
