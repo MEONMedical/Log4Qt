@@ -80,6 +80,7 @@ set(log4qt_HEADERS
     hierarchy.h
     layout.h
     level.h
+    log4qtdefs.h
     log4qt.h
     log4qtshared.h
     log4qtsharedptr.h

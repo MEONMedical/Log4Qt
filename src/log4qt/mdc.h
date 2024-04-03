@@ -21,6 +21,7 @@
 #ifndef LOG4QT_MDC_H
 #define LOG4QT_MDC_H
 
+#include "log4qtdefs.h"
 #include "log4qt.h"
 
 #include <QString>

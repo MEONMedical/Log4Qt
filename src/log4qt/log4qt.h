@@ -475,12 +475,6 @@
 #   error "Log4Qt requires at least clang version 3.3 or higher for used c++11 features"
 #endif
 
-// use Q_DISABLE_COPY for Qt version prior to 5.13.0
-#ifndef Q_DISABLE_COPY_MOVE
-#define Q_DISABLE_COPY_MOVE(Class) \
-Q_DISABLE_COPY(Class)
-#endif
-
 /*
    LOG4QT_VERSION is (major << 16) + (minor << 8) + patch.
 */
