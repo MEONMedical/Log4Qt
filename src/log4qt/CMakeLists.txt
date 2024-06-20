@@ -148,6 +148,7 @@ add_library(log4qt ${log4qt_SOURCES} ${log4qt_HEADERS} ${log4qt_HEADERS_helpers}
 target_link_libraries(log4qt
     PUBLIC
         Qt${QT_VERSION_MAJOR}::Core
+    PRIVATE
         Qt${QT_VERSION_MAJOR}::Concurrent
 )
 
