@@ -99,6 +99,7 @@ public:
 
 protected:
     void closeStream();
+    void append(const LoggingEvent &event) override;
 
 private:
     volatile Target mTarget;

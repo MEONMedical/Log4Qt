@@ -90,7 +90,12 @@ static void colorOutputString(HANDLE hConsole, const QString &output)
 
     // save colors
     CONSOLE_SCREEN_BUFFER_INFO cbi;
-    GetConsoleScreenBufferInfo(hConsole, &cbi);
+    if (!GetConsoleScreenBufferInfo(hConsole, &cbi))
+    {
+        // if console is blocked by debugger use OutputDebugString
+        OutputDebugString(message.toStdWString().c_str());
+        return;
+    }
 
     wchar_t *wideMessage;
 

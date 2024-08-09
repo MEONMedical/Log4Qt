@@ -26,6 +26,10 @@
 
 #include <QTextStream>
 
+#ifdef Q_OS_WIN
+#include <windows.h>
+#endif
+
 namespace Log4Qt
 {
 
@@ -123,6 +127,23 @@ void ConsoleAppender::closeStream()
     setWriter(nullptr);
     delete mtextStream;
     mtextStream = nullptr;
+}
+
+void ConsoleAppender::append(const LoggingEvent &event)
+{
+#ifdef Q_OS_WIN
+    if (!GetConsoleWindow())
+    {
+        // if console is blocked by debugger use OutputDebugString
+        Q_ASSERT_X(layout(), "ConsoleAppender::append()", "Layout must not be null");
+
+        QString message(layout()->format(event));
+
+        OutputDebugString(message.toStdWString().c_str());
+    }
+    else
+#endif
+        WriterAppender::append(event);
 }
 
 } // namespace Log4Qt
