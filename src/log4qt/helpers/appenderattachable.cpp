@@ -80,7 +80,6 @@ void AppenderAttachable::removeAppender(const AppenderSharedPtr &appender)
 
 void AppenderAttachable::removeAppender(const QString &name)
 {
-    QWriteLocker locker(&mAppenderGuard);
     AppenderSharedPtr pAppender = appender(name);
     if (pAppender)
         removeAppender(pAppender);
