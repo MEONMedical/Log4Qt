@@ -18,6 +18,7 @@ HEADERS_BASE += \
            $$PWD/layout.h \
            $$PWD/level.h \
            $$PWD/log4qt.h \
+           $$PWD/log4qtdefs \
            $$PWD/log4qtshared.h \
            $$PWD/log4qtsharedptr.h \
            $$PWD/logger.h \
