@@ -89,6 +89,19 @@ FileAppender::~FileAppender()
     closeInternal();
 }
 
+void FileAppender::setFile(const QString &fileName)
+{
+    QMutexLocker locker(&mObjectGuard);
+    mFileName = fileName;
+
+#ifdef Q_OS_WIN
+    // Let windows resolve any environment variables included in the file path
+    wchar_t buffer[MAX_PATH];
+    if (ExpandEnvironmentStringsW(mFileName.toStdWString().c_str(), buffer, MAX_PATH))
+        mFileName = QString::fromWCharArray(buffer);
+#endif
+}
+
 void FileAppender::activateOptions()
 {
     QMutexLocker locker(&mObjectGuard);
@@ -176,13 +189,6 @@ void FileAppender::openFile()
         parent_dir.cdUp();
         parent_dir.mkdir(name);
     }
-
-#ifdef Q_OS_WIN
-    // Let windows resolve any environment variables included in the file path
-    wchar_t buffer[MAX_PATH];
-    if (ExpandEnvironmentStringsW(mFileName.toStdWString().c_str(), buffer, MAX_PATH))
-        mFileName = QString::fromWCharArray(buffer);
-#endif
 
     mFile = new QFile(mFileName);
     QFile::OpenMode mode = QIODevice::WriteOnly | QIODevice::Text;
