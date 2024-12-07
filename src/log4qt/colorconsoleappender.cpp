@@ -25,6 +25,10 @@
 
 #include <QTextStream>
 
+#if (__cplusplus >= 201703L) // C++17 or later
+#include <utility>
+#endif
+
 #define NIX_BACK_BLACK      40
 #define NIX_BACK_RED        41
 #define NIX_BACK_GREEN      42
@@ -130,7 +134,11 @@ static void colorOutputString(HANDLE hConsole, const QString &output)
                 parsedWordString = it.mid(1, indexOfM - 1);
 
                 escParams = parsedWordString.split(';');
+#if (__cplusplus >= 201703L)
+                for (const auto &param : std::as_const(escParams))
+#else
                 for (const auto &param : qAsConst(escParams))
+#endif
                 {
                     WORD color = param.toUInt();
                     switch (color)

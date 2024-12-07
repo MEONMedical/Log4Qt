@@ -31,6 +31,10 @@
 #include <QtConcurrentRun>
 #include <QStringBuilder>
 
+#if (__cplusplus >= 201703L) // C++17 or later
+#include <utility>
+#endif
+
 namespace Log4Qt
 {
 
@@ -125,7 +129,11 @@ void deleteObsoleteFiles(
         }
     }
 
+#if (__cplusplus >= 201703L)
+    for (const auto &fileName : std::as_const(obsoleteLogFileNames))
+#else
     for (const auto &fileName : qAsConst(obsoleteLogFileNames))
+#endif
     {
         QFile::remove(logDir.filePath(fileName));
     }

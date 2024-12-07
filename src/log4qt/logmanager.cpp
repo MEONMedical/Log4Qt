@@ -318,7 +318,11 @@ void LogManager::doStartup()
 
     filesToCheck << default_file;
 
+#if (__cplusplus >= 201703L)
+    for (const auto &configFileName: std::as_const(filesToCheck))
+#else
     for (const auto &configFileName: qAsConst(filesToCheck))
+#endif
     {
         // Configuration using default file
         if (QFile::exists(configFileName))
