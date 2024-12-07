@@ -26,6 +26,10 @@
 #include <QReadLocker>
 #include <QThread>
 
+#if (__cplusplus >= 201703L) // C++17 or later
+#include <utility>
+#endif
+
 namespace Log4Qt
 {
 
@@ -85,9 +89,14 @@ void AsyncAppender::closeInternal()
 
 void AsyncAppender::callAppenders(const LoggingEvent &event) const
 {
+    Q_UNUSED(event)
     QReadLocker locker(&mAppenderGuard);
 
+#if (__cplusplus >= 201703L)
+    for (auto &&pAppender : std::as_const(mAppenders))
+#else
     for (auto &&pAppender : qAsConst(mAppenders))
+#endif
         pAppender->doAppend(event);
 }
 
