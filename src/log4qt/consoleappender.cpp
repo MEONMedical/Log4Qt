@@ -132,7 +132,8 @@ void ConsoleAppender::closeStream()
 void ConsoleAppender::append(const LoggingEvent &event)
 {
 #ifdef Q_OS_WIN
-    if (!GetConsoleWindow())
+    if (GetConsoleWindow() == nullptr &&
+        qEnvironmentVariableIntValue("QT_ASSUME_STDERR_HAS_CONSOLE") == 0)
     {
         // if console is blocked by debugger use OutputDebugString
         Q_ASSERT_X(layout(), "ConsoleAppender::append()", "Layout must not be null");
