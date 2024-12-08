@@ -41,7 +41,6 @@ set(log4qt_SOURCES
     ndc.cpp                                                                                                                                                           
     patternlayout.cpp                                                                                                                                                 
     propertyconfigurator.cpp                                                                                                                                          
-    qmllogger.cpp                                                                                                                                                     
     rollingbinaryfileappender.cpp                                                                                                                                     
     rollingfileappender.cpp                                                                                                                                           
     signalappender.cpp                                                                                                                                                
@@ -94,7 +93,6 @@ set(log4qt_HEADERS
     ndc.h
     patternlayout.h
     propertyconfigurator.h
-    qmllogger.h
     rollingbinaryfileappender.h
     rollingfileappender.h
     signalappender.h
@@ -152,6 +150,43 @@ target_link_libraries(log4qt
         Qt${QT_VERSION_MAJOR}::Concurrent
 )
 
+if(BUILD_WITH_QML_LOGGING)
+    target_sources(log4qt
+        PRIVATE
+         qmllogger.cpp
+         qmllogger.h
+    )
+    # append to log4qt_HEADERS or proper install
+    list(APPEND log4qt_HEADERS
+         qmllogger.h
+    )
+
+    target_link_libraries(log4qt PRIVATE Qt${QT_VERSION_MAJOR}::Qml)
+    target_include_directories(log4qt
+          PUBLIC
+              $<TARGET_PROPERTY:Qt::Qml,INTERFACE_INCLUDE_DIRECTORIES>
+    )
+
+    if (QT_VERSION_MAJOR GREATER 6 OR (QT_VERSION_MAJOR EQUAL 6 AND QT_VERSION_MINOR GREATER 1))
+        qt_add_qml_module(
+            log4qt
+            URI org.log4qt
+            VERSION 1.0
+            OUTPUT_DIRECTORY
+            ${CMAKE_BINARY_DIR}/bin/org/log4qt
+            SOURCES
+                qmllogger.cpp qmllogger.h
+            NO_PLUGIN
+            RESOURCE_PREFIX
+                "/qt/qml"
+        )
+        message(STATUS "Log4Qt: Registered logging support as qml module (org.log4qt)")
+    endif()
+    message(STATUS "Log4Qt: Enabling qml logging support")
+else()
+    message(STATUS "Log4Qt: Disabling qml logging support - disabled by cmake option")
+endif()
+
 target_include_directories(log4qt PUBLIC
     $<BUILD_INTERFACE:${LOG4QT_BUILD_INCLUDE_DIR}>
     $<INSTALL_INTERFACE:include>)
@@ -171,7 +206,10 @@ if(BUILD_WITH_DB_LOGGING)
          databaseappender.h
          databaselayout.h
     )
-
+    target_compile_definitions(log4qt
+        PRIVATE
+            LOG4QT_DB_LOGGING_SUPPORT
+    )
     target_link_libraries(log4qt PRIVATE Qt${QT_VERSION_MAJOR}::Sql)
     target_include_directories(log4qt
           PUBLIC
@@ -195,6 +233,10 @@ if(BUILD_WITH_TELNET_LOGGING)
     list(APPEND log4qt_HEADERS
          telnetappender.h
     )
+    target_compile_definitions(log4qt
+        PRIVATE
+            LOG4QT_TELNET_LOGGING_SUPPORT
+)
     target_link_libraries(log4qt PRIVATE Qt${QT_VERSION_MAJOR}::Network)
     target_include_directories(log4qt
           PUBLIC
