@@ -82,7 +82,11 @@ void Hierarchy::resetConfiguration()
     Logger *p_qt_logger = logger(QStringLiteral("Qt"));
     Logger *p_root_logger = rootLogger();
 
+#if (__cplusplus >= 201703L)
+    for (auto &&p_logger : std::as_const(mLoggers))
+#else
     for (auto &&p_logger : qAsConst(mLoggers))
+#endif
     {
         if ((p_logger == p_logging_logger) || (p_logger == p_qt_logger) || (p_logger == p_root_logger))
             continue;
