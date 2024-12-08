@@ -31,7 +31,7 @@ option(BUILD_WITH_DB_LOGGING "Build with database logging support, link against 
 option(BUILD_WITH_TELNET_LOGGING "Build with telnet logging support, link against Qt network lib (default: on)" OFF)
 
 # With qml logging support or without
-option(BUILD_WITH_QML_LOGGING "Build with qml logging support, link against Qt qml lib (default: on)" ON)
+option(BUILD_WITH_QML_LOGGING "Build with qml logging support, link against Qt qml lib (default: on)" OFF)
 
 # Enable documentation generation with doxygen
 OPTION(BUILD_WITH_DOCS "Enable documentation generation (default: off)" OFF)
