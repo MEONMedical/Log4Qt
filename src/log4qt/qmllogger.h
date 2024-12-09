@@ -26,6 +26,7 @@
 #include "level.h"
 
 #include <QObject>
+#include <QtQml/qqmlregistration.h>
 
 namespace Log4Qt
 {
@@ -56,6 +57,7 @@ class LOG4QT_EXPORT QmlLogger : public QObject
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QString context READ context WRITE setContext NOTIFY contextChanged)
     Q_PROPERTY(Level level READ level WRITE setLevel NOTIFY levelChanged)
+    QML_NAMED_ELEMENT(Logger)
 
 public:
     enum Level

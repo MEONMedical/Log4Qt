@@ -33,6 +33,10 @@
 #include <QDataStream>
 #endif
 
+#if (__cplusplus >= 201703L) // C++17 or later
+#include <utility>
+#endif
+
 namespace Log4Qt
 {
 
@@ -61,11 +65,19 @@ void InitialisationHelper::doInitialiseEnvironmentSettings()
     setting_keys << QStringLiteral("Configuration");
 
     QHash<QString, QString> env_keys;
+#if (__cplusplus >= 201703L)
+    for (const auto &entry : std::as_const(setting_keys))
+#else
     for (const auto &entry : qAsConst(setting_keys))
+#endif
         env_keys.insert(QStringLiteral("log4qt_").append(entry).toUpper(), entry);
 
     QStringList sys_env = QProcess::systemEnvironment();
+#if (__cplusplus >= 201703L)
+    for (const auto &entry : std::as_const(sys_env))
+#else
     for (const auto &entry : qAsConst(sys_env))
+#endif
     {
         int i = entry.indexOf(QLatin1Char('='));
         if (i == -1)
