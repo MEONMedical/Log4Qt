@@ -132,7 +132,11 @@ void TelnetAppender::append(const LoggingEvent &event)
     Q_ASSERT_X(layout(), "TelnetAppender::append()", "Layout must not be null");
 
     QString message(layout()->format(event));
+#if (__cplusplus >= 201703L)
+    for (auto &&clientConnection : std::as_const(mTcpSockets))
+#else
     for (auto &&clientConnection : qAsConst(mTcpSockets))
+#endif
     {
         clientConnection->write(message.toLocal8Bit().constData());
         if (immediateFlush())
@@ -166,7 +170,11 @@ void TelnetAppender::closeServer()
     if (mTcpServer != nullptr)
         mTcpServer->close();
 
+#if (__cplusplus >= 201703L)
+    for (auto &&clientConnection : std::as_const(mTcpSockets))
+#else
     for (auto &&clientConnection : qAsConst(mTcpSockets))
+#endif
         delete clientConnection;
 
     mTcpSockets.clear();
