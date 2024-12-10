@@ -31,6 +31,10 @@
 #include <QTcpSocket>
 #include <QHostAddress>
 
+#if (__cplusplus >= 201703L) // C++17 or later
+#include <utility>
+#endif
+
 namespace Log4Qt
 {
 
