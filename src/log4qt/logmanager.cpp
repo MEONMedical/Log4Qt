@@ -318,7 +318,11 @@ void LogManager::doStartup()
 
     filesToCheck << default_file;
 
+#if (__cplusplus >= 201703L)
+    for (const auto &configFileName: std::as_const(filesToCheck))
+#else
     for (const auto &configFileName: qAsConst(filesToCheck))
+#endif
     {
         // Configuration using default file
         if (QFile::exists(configFileName))
@@ -349,7 +353,7 @@ void LogManager::welcome()
         {
             QDateTime utc = start_time.toUTC();
             QDateTime local = start_time.toLocalTime();
-            QDateTime local_as_utc = QDateTime(local.date(), local.time(), Qt::UTC);
+            QDateTime local_as_utc = QDateTime(local.date(), local.time(), QTimeZone::utc());
             int min = utc.secsTo(local_as_utc) / 60;
             if (min < 0)
                 offset += QLatin1Char('-');

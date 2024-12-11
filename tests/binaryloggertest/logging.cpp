@@ -4,6 +4,7 @@
 #include <QVariant>
 #include <QDateTime>
 #include <QStringBuilder>
+#include <QMetaType>
 
 static QString escape(const QString &string);
 static QString toString(const QVariantMap &map);
@@ -83,8 +84,10 @@ QString Logging::toString(const QVariant &value)
     return ::toString(value);
 }
 
+
 QString toString(const QVariant &value)
 {
+#if QT_VERSION < 0x060000
     switch (value.type())
     {
     case QVariant::Invalid:
@@ -210,11 +213,94 @@ QString toString(const QVariant &value)
 
     case QVariant::UserType:
         return toString(value, value.userType());
+#else
+    QMetaType metaType(value.typeId());
+    switch (metaType.id())
+    {
+    case QMetaType::UnknownType:
+    case QMetaType::QBitArray:
+    case QMetaType::QBitmap:
+    case QMetaType::QBrush:
+    case QMetaType::QColor:
+    case QMetaType::QCursor:
+    case QMetaType::QEasingCurve:
+    case QMetaType::QModelIndex:
+    case QMetaType::QFont:
+    case QMetaType::QIcon:
+    case QMetaType::QImage:
+    case QMetaType::QKeySequence:
+    case QMetaType::QLine:
+    case QMetaType::QLineF:
+    case QMetaType::QLocale:
+    case QMetaType::QTransform:
+    case QMetaType::QMatrix4x4:
+    case QMetaType::QPalette:
+    case QMetaType::QPen:
+    case QMetaType::QPixmap:
+    case QMetaType::QPoint:
+    case QMetaType::QPointF:
+    case QMetaType::QPolygon:
+    case QMetaType::QPolygonF:
+    case QMetaType::QQuaternion:
+    case QMetaType::QRect:
+    case QMetaType::QRectF:
+    case QMetaType::QRegularExpression:
+    case QMetaType::QRegion:
+    case QMetaType::QSize:
+    case QMetaType::QSizeF:
+    case QMetaType::QSizePolicy:
+    case QMetaType::QTextFormat:
+    case QMetaType::QTextLength:
+    case QMetaType::QVector2D:
+    case QMetaType::QVector3D:
+    case QMetaType::QVector4D:
+        return QStringLiteral("<%1>").arg(metaType.name());
 
+    case QMetaType::Int:
+    case QMetaType::Double:
+    case QMetaType::Char:
+    case QMetaType::Bool:
+    case QMetaType::UInt:
+    case QMetaType::LongLong:
+    case QMetaType::ULongLong:
+    case QMetaType::QUrl:
+    case QMetaType::QUuid:
+        return value.toString();
+
+    case QMetaType::QByteArray:
+        return toString(value.toByteArray());
+
+    case QMetaType::QDate:
+        return toString(value.toDate());
+
+    case QMetaType::QDateTime:
+        return toString(value.toDateTime());
+
+    case QMetaType::QVariantHash:
+        return toString(value.toHash());
+
+    case QMetaType::QVariantList:
+        return toString(value.toList());
+
+    case QMetaType::QVariantMap:
+        return toString(value.toMap());
+
+    case QMetaType::QString:
+        return toString(value.toString());
+
+    case QMetaType::QStringList:
+        return toString(value.toStringList());
+
+    case QMetaType::QTime:
+        return toString(value.toTime());
+
+    case QMetaType::User:
+        return toString(value, value.userType());
+#endif
     default:
         break;
     }
-    return QStringLiteral("<Unknow variant type>");
+    return QStringLiteral("<Unknow meta type>");
 }
 
 QString toString(const QVariantMap &map)

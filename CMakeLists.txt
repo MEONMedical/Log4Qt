@@ -25,10 +25,13 @@ if(BUILD_STATIC_LOG4CXX_LIB)
 endif()
 
 # With Database logging support or without
-option(BUILD_WITH_DB_LOGGING "Build with database logging support, link against Qt sql lib (default: on)" OFF)
+option(BUILD_WITH_DB_LOGGING "Build with database logging support, link against Qt sql lib (default: off)" OFF)
 
 # With Telnet logging support or without
-option(BUILD_WITH_TELNET_LOGGING "Build with telnet logging support, link against Qt network lib (default: on)" OFF)
+option(BUILD_WITH_TELNET_LOGGING "Build with telnet logging support, link against Qt network lib (default: off)" OFF)
+
+# With qml logging support or without
+option(BUILD_WITH_QML_LOGGING "Build with qml logging support, link against Qt qml lib (default: off)" OFF)
 
 # Enable documentation generation with doxygen
 OPTION(BUILD_WITH_DOCS "Enable documentation generation (default: off)" OFF)
@@ -80,6 +83,9 @@ if(BUILD_WITH_DB_LOGGING)
 endif()
 if(BUILD_WITH_TELNET_LOGGING)
     find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Network REQUIRED)
+endif()
+if(BUILD_WITH_QML_LOGGING)
+    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Qml REQUIRED)
 endif()
 
 add_definitions(-DQT_USE_QSTRINGBUILDER)

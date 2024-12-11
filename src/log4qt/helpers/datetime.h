@@ -24,6 +24,7 @@
 #include "log4qt/log4qtshared.h"
 
 #include <QDateTime>
+#include <QTimeZone>
 
 namespace Log4Qt
 {
@@ -55,6 +56,7 @@ public:
 
     DateTime(const DateTime &other);
 
+#if QT_VERSION < 0x060500
     /*!
      * Constructs a datetime with the given \a date and \a time, using
      * the time specification defined by \a timeSpec.
@@ -65,6 +67,18 @@ public:
     DateTime(QDate date,
              QTime time,
              Qt::TimeSpec timeSpec = Qt::LocalTime);
+#else
+    /*!
+     * Constructs a datetime with the given \a date and \a time, using
+     * the time zone defined by \a QTimeZone.
+     *
+     * \sa QDateTime::QDateTime(const QDate &date, const QTime &time,
+     *     QTimeZone = QTimeZone(QTimeZone::LocalTime))
+     */
+    DateTime(QDate date,
+             QTime time,
+             QTimeZone = QTimeZone(QTimeZone::LocalTime));
+#endif
 
     /*!
      * Assigns \a other to this DateTime and returns a reference to it.
@@ -112,7 +126,12 @@ public:
      * \sa QDateTime::currentDateTime()
      */
     static DateTime currentDateTime();
+#if QT_VERSION < 0x060500
     static DateTime fromMSecsSinceEpoch(qint64 msecs, Qt::TimeSpec spec, int offsetSeconds = 0);
+#else
+    static DateTime fromMSecsSinceEpoch(qint64 msecs, QTimeZone timeZone);
+#endif
+
     static DateTime fromMSecsSinceEpoch(qint64 msecs);
 
 private:
@@ -122,11 +141,19 @@ private:
 inline DateTime::DateTime(const QDateTime &other) : QDateTime(other)
 {}
 
+#if QT_VERSION < 0x060500
 inline DateTime::DateTime(QDate date,
                           QTime time,
                           Qt::TimeSpec timeSpec) :
     QDateTime(date, time, timeSpec)
 {}
+#else
+inline DateTime::DateTime(QDate date,
+                          QTime time,
+                          QTimeZone timeZone) :
+    QDateTime(date, time, timeZone)
+{}
+#endif
 
 inline DateTime &DateTime::operator=(const DateTime &other)
 {
@@ -144,10 +171,17 @@ inline DateTime DateTime::fromMSecsSinceEpoch(qint64 msecs)
     return DateTime(QDateTime::fromMSecsSinceEpoch(msecs));
 }
 
+#if QT_VERSION < 0x060500
 inline DateTime DateTime::fromMSecsSinceEpoch(qint64 msecs, Qt::TimeSpec spec, int offsetSeconds)
 {
     return DateTime(QDateTime::fromMSecsSinceEpoch(msecs, spec, offsetSeconds));
 }
+#else
+inline DateTime DateTime::fromMSecsSinceEpoch(qint64 msecs, QTimeZone timeZone)
+{
+    return DateTime(QDateTime::fromMSecsSinceEpoch(msecs, timeZone));
+}
+#endif
 
 } // namespace Log4Qt
 
