@@ -353,7 +353,7 @@ void LogManager::welcome()
         {
             QDateTime utc = start_time.toUTC();
             QDateTime local = start_time.toLocalTime();
-            QDateTime local_as_utc = QDateTime(local.date(), local.time(), QTimeZone(Qt::UTC));
+            QDateTime local_as_utc = QDateTime(local.date(), local.time(), QTimeZone::utc());
             int min = utc.secsTo(local_as_utc) / 60;
             if (min < 0)
                 offset += QLatin1Char('-');
