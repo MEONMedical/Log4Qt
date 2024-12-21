@@ -141,7 +141,7 @@ void Log4QtTest::DateTime_milliseconds_data()
     QTest::addColumn<QDateTime>("datetime");
     QTest::addColumn<qint64>("milliseconds");
 
-    QTest::newRow("2001-09-07 15:07:05.009") << QDateTime(QDate(2001, 9, 7), QTime(15, 7, 5, 9), Qt::UTC) << Q_INT64_C(999875225009);
+    QTest::newRow("2001-09-07 15:07:05.009") << QDateTime(QDate(2001, 9, 7), QTime(15, 7, 5, 9), QTimeZone::utc()) << Q_INT64_C(999875225009);
 }
 
 void Log4QtTest::DateTime_milliseconds()
