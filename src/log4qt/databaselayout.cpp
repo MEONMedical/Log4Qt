@@ -42,7 +42,7 @@ QSqlRecord DatabaseLayout::formatRecord(const LoggingEvent &event)
     if (!mTimeStamp.isEmpty())
     {
         field.setName(mTimeStamp);
-        field.setType(QVariant::DateTime);
+        field.setMetaType(QMetaType(QMetaType::QDateTime));
         field.setGenerated(true);
         field.setValue(DateTime::fromMSecsSinceEpoch(event.timeStamp()));
         record.append(field);
@@ -51,7 +51,7 @@ QSqlRecord DatabaseLayout::formatRecord(const LoggingEvent &event)
     if (!mLoggename.isEmpty())
     {
         field.setName(mLoggename);
-        field.setType(QVariant::String);
+        field.setMetaType(QMetaType(QMetaType::QString));
         field.setGenerated(true);
         field.setValue(event.loggename());
         record.append(field);
@@ -60,7 +60,7 @@ QSqlRecord DatabaseLayout::formatRecord(const LoggingEvent &event)
     if (!mThreadName.isEmpty())
     {
         field.setName(mThreadName);
-        field.setType(QVariant::String);
+        field.setMetaType(QMetaType(QMetaType::QString));
         field.setGenerated(true);
         field.setValue(event.threadName());
         record.append(field);
@@ -69,7 +69,7 @@ QSqlRecord DatabaseLayout::formatRecord(const LoggingEvent &event)
     if (!mLevel.isEmpty())
     {
         field.setName(mLevel);
-        field.setType(QVariant::String);
+        field.setMetaType(QMetaType(QMetaType::QString));
         field.setGenerated(true);
         field.setValue(event.level().toString());
         record.append(field);
@@ -78,7 +78,7 @@ QSqlRecord DatabaseLayout::formatRecord(const LoggingEvent &event)
     if (!mMessage.isEmpty())
     {
         field.setName(mMessage);
-        field.setType(QVariant::String);
+        field.setMetaType(QMetaType(QMetaType::QString));
         field.setGenerated(true);
         field.setValue(event.message());
         record.append(field);

@@ -25,13 +25,13 @@ if(BUILD_STATIC_LOG4CXX_LIB)
 endif()
 
 # With Database logging support or without
-option(BUILD_WITH_DB_LOGGING "Build with database logging support, link against Qt sql lib (default: on)" OFF)
+option(BUILD_WITH_DB_LOGGING "Build with database logging support, link against Qt sql lib (default: off)" OFF)
 
 # With Telnet logging support or without
-option(BUILD_WITH_TELNET_LOGGING "Build with telnet logging support, link against Qt network lib (default: on)" OFF)
+option(BUILD_WITH_TELNET_LOGGING "Build with telnet logging support, link against Qt network lib (default: on)" ON)
 
 # With qml logging support or without
-option(BUILD_WITH_QML_LOGGING "Build with qml logging support, link against Qt qml lib (default: on)" OFF)
+option(BUILD_WITH_QML_LOGGING "Build with qml logging support, link against Qt qml lib (default: on)" ON)
 
 # Enable documentation generation with doxygen
 OPTION(BUILD_WITH_DOCS "Enable documentation generation (default: off)" OFF)
@@ -128,7 +128,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
   # disable 4127: conditional expression is constant
   #         4512: assignment operator could not be generated
   #         4267: conversion from 'size_t' to 'type', possible loss of data
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd4127 -wd4512 -wd4267 -wd4913 -we4265")
+  set(GENERAL_MSVC_CXX_FLAGS "/wd4127 /wd4512 /wd4267 /wd4913 /w34265 /we4265 /permissive- /W4")
 
   string(REGEX REPLACE "/W[0-3]" "/W4" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
 
