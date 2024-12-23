@@ -45,8 +45,8 @@ int main(int argc, char *argv[])
 {
     QCoreApplication application(argc, argv);
 
-    auto *object = new LoggerObject(&application);
-    auto *object1 = new LoggerObjectPrio(&application);
+    const auto *object = new LoggerObject(&application);
+    const auto *object1 = new LoggerObjectPrio(&application);
     Q_UNUSED(object1)
 
     QObject::connect(object, &LoggerObject::exit, &application, &QCoreApplication::exit);

@@ -167,7 +167,7 @@ void AppenderSkeleton::customEvent(QEvent *event)
 {
     if (event->type() == LoggingEvent::eventId)
     {
-        auto logEvent = static_cast<LoggingEvent *>(event);
+        const auto logEvent = static_cast<LoggingEvent *>(event);
         doAppend(*logEvent);
         return ;
     }
@@ -197,7 +197,7 @@ void AppenderSkeleton::doAppend(const LoggingEvent &event)
     if (!isAsSevereAsThreshold(event.level()))
         return;
 
-    Filter  *filter = mpHeadFilter.data();
+    const auto  *filter = mpHeadFilter.data();
     while (filter)
     {
         Filter::Decision decision = filter->decide(event);

@@ -560,7 +560,7 @@ void PropertyConfigurator::startCaptureErrors()
 bool PropertyConfigurator::stopCaptureErrors()
 {
     Q_ASSERT_X(mpConfigureErrors, "PropertyConfigurator::stopCaptureErrors()", "mpConfigureErrors must not be empty.");
-    auto *listAppender = static_cast<ListAppender *>(mpConfigureErrors.data());
+    const auto *listAppender = static_cast<ListAppender *>(mpConfigureErrors.data());
     LogManager::logLogger()->removeAppender(mpConfigureErrors);
     ConfiguratorHelper::setConfigureError(listAppender->list());
     bool result = (listAppender->list().count() == 0);

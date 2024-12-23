@@ -44,7 +44,7 @@ LoggingEvent::LoggingEvent() :
     mProperties(MDC::context()),
     mSequenceNumber(nextSequenceNumber()),
     mThreadName(),
-    mTimeStamp(QDateTime::currentDateTime().toMSecsSinceEpoch())
+    mTimeStamp(QDateTime::currentMSecsSinceEpoch())
 {
     setThreadNameToCurrent();
 }
@@ -62,7 +62,7 @@ LoggingEvent::LoggingEvent(const Logger *logger,
     mProperties(MDC::context()),
     mSequenceNumber(nextSequenceNumber()),
     mThreadName(),
-    mTimeStamp(QDateTime::currentDateTime().toMSecsSinceEpoch())
+    mTimeStamp(QDateTime::currentMSecsSinceEpoch())
 {
     setThreadNameToCurrent();
 }
@@ -80,7 +80,7 @@ LoggingEvent::LoggingEvent(const Logger *logger,
        mProperties(MDC::context()),
        mSequenceNumber(nextSequenceNumber()),
        mThreadName(),
-       mTimeStamp(QDateTime::currentDateTime().toMSecsSinceEpoch()),
+       mTimeStamp(QDateTime::currentMSecsSinceEpoch()),
        mContext(context),
        mCategoryName(categoryName)
 {
