@@ -36,14 +36,14 @@
 #include "binarytotextlayout.h"
 #include "xmllayout.h"
 
-#if defined(LOG4QT_TELNET_LOGGING_SUPPORT)
+#ifdef LOG4QT_TELNET_LOGGING_SUPPORT
 #include "telnetappender.h"
 #endif
 
-#if defined(LOG4QT_DB_LOGGING_SUPPORT)
+#ifdef LOG4QT_DB_LOGGING_SUPPORT
 #include "databaseappender.h"
 #include "databaselayout.h"
-#endif //#ifdef LOG4QT_DB_LOGGING_SUPPORT
+#endif
 
 #include "asyncappender.h"
 #include "mainthreadappender.h"
@@ -115,14 +115,14 @@ Appender *create_signal_appender()
     return new SignalAppender;
 }
 
-#if defined(LOG4QT_DB_LOGGING_SUPPORT)
+#ifdef LOG4QT_DB_LOGGING_SUPPORT
 Appender *create_database_appender()
 {
     return new DatabaseAppender;
 }
-#endif //#if defined(LOG4QT_DB_LOGGING_SUPPORT)
+#endif
 
-#if defined(LOG4QT_TELNET_LOGGING_SUPPORT)
+#ifdef LOG4QT_TELNET_LOGGING_SUPPORT
 Appender *create_telnet_appender()
 {
     return new TelnetAppender;
@@ -215,12 +215,12 @@ Layout *create_simple_time_layout()
     return new SimpleTimeLayout;
 }
 
-#if defined(LOG4QT_DB_LOGGING_SUPPORT)
+#ifdef LOG4QT_DB_LOGGING_SUPPORT
 Layout *create_database_layout()
 {
     return new DatabaseLayout;
 }
-#endif //#if defined(LOG4QT_DB_LOGGING_SUPPORT)
+#endif
 
 Layout *create_ttcc_layout()
 {
@@ -454,12 +454,12 @@ void Factory::registerDefaultAppenders()
     mAppenderRegistry.insert(QStringLiteral("Log4Qt::ColorConsoleAppender"), create_color_console_appender);
 #endif
 
-#if defined(LOG4QT_DB_LOGGING_SUPPORT)
+#ifdef LOG4QT_DB_LOGGING_SUPPORT
     mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.DatabaseAppender"), create_database_appender);
     mAppenderRegistry.insert(QStringLiteral("Log4Qt::DatabaseAppender"), create_database_appender);
-#endif //#ifdef LOG4QT_DB_LOGGING_SUPPORT
+#endif
 
-#if defined(LOG4QT_TELNET_LOGGING_SUPPORT)
+#ifdef LOG4QT_TELNET_LOGGING_SUPPORT
     mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.TelnetAppender"), create_telnet_appender);
     mAppenderRegistry.insert(QStringLiteral("Log4Qt::TelnetAppender"), create_telnet_appender);
 #endif
@@ -514,10 +514,10 @@ void Factory::registerDefaultLayouts()
     mLayoutRegistry.insert(QStringLiteral("org.apache.log4j.SimpleTimeLayout"), create_simple_time_layout);
     mLayoutRegistry.insert(QStringLiteral("Log4Qt::SimpleTimeLayout"), create_simple_time_layout);
 
-#if defined(LOG4QT_DB_LOGGING_SUPPORT)
+#ifdef LOG4QT_DB_LOGGING_SUPPORT
     mLayoutRegistry.insert(QStringLiteral("org.apache.log4j.DatabaseLayout"), create_database_layout);
     mLayoutRegistry.insert(QStringLiteral("Log4Qt::DatabaseLayout"), create_database_layout);
-#endif //#ifdef (LOG4QT_DB_LOGGING_SUPPORT)
+#endif
 
     mLayoutRegistry.insert(QStringLiteral("org.apache.log4j.BinaryLayout"), create_binary_layout);
     mLayoutRegistry.insert(QStringLiteral("Log4Qt::BinaryLayout"), create_binary_layout);

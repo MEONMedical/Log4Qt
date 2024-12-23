@@ -166,7 +166,10 @@ if(BUILD_WITH_QML_LOGGING)
           PUBLIC
               $<TARGET_PROPERTY:Qt::Qml,INTERFACE_INCLUDE_DIRECTORIES>
     )
-
+    target_compile_definitions(log4qt
+        PRIVATE
+            LOG4QT_QML_LOGGING_SUPPORT
+    )
     if (QT_VERSION_MAJOR GREATER 6 OR (QT_VERSION_MAJOR EQUAL 6 AND QT_VERSION_MINOR GREATER 1))
         qt_add_qml_module(
             log4qt
