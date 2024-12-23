@@ -18,7 +18,7 @@ HEADERS_BASE += \
            $$PWD/layout.h \
            $$PWD/level.h \
            $$PWD/log4qt.h \
-           $$PWD/log4qtdefs \
+           $$PWD/log4qtdefs.h \
            $$PWD/log4qtshared.h \
            $$PWD/log4qtsharedptr.h \
            $$PWD/logger.h \
@@ -31,7 +31,6 @@ HEADERS_BASE += \
            $$PWD/ndc.h \
            $$PWD/patternlayout.h \
            $$PWD/propertyconfigurator.h \
-           $$PWD/qmllogger.h \
            $$PWD/rollingbinaryfileappender.h \
            $$PWD/rollingfileappender.h \
            $$PWD/signalappender.h \
@@ -122,8 +121,7 @@ SOURCES += $$PWD/appender.cpp \
            $$PWD/helpers/binaryclasslogger.cpp \
            $$PWD/rollingbinaryfileappender.cpp \
            $$PWD/binarylayout.cpp \
-           $$PWD/xmllayout.cpp \
-           $$PWD/qmllogger.cpp
+           $$PWD/xmllayout.cpp
 
 msvc {
     QMAKE_CXXFLAGS_WARN_ON -= -w34100
@@ -131,24 +129,48 @@ msvc {
 }
 
 # add databaseappender and -layout if QT contains sql
-contains(QT, sql) {
-message("Including databaseappender and -layout")
-HEADERS_BASE += \
-    $$PWD/databaseappender.h \
-    $$PWD/databaselayout.h
+build_with_db_logging {
+    message("Including databaseappender and -layout")
+    QT += sql
+    DEFINES += LOG4QT_DB_LOGGING_SUPPORT
 
-SOURCES += \
-    $$PWD/databaseappender.cpp \
-    $$PWD/databaselayout.cpp
+    HEADERS_BASE += \
+        $$PWD/databaseappender.h \
+        $$PWD/databaselayout.h
+
+    SOURCES += \
+        $$PWD/databaseappender.cpp \
+        $$PWD/databaselayout.cpp
+} else {
+    message("Skipping databaseappender and -layout")
 }
 
-contains(QT, network) {
-message("Including telnetappender")
-HEADERS_BASE += \
-    $$PWD/telnetappender.h
+build_with_telnet_logging {
+    message("Including telnetappender")
+    QT += network
+    DEFINES += LOG4QT_TELNET_LOGGING_SUPPORT
 
-SOURCES += \
-    $$PWD/telnetappender.cpp
+    HEADERS_BASE += \
+        $$PWD/telnetappender.h
+
+    SOURCES += \
+        $$PWD/telnetappender.cpp
+} else {
+    message("Skipping telnetappender")
+}
+
+build_with_qml_logging {
+    message("Including qml logger")
+    QT += qml
+    DEFINES += LOG4QT_QML_LOGGING_SUPPORT
+
+    HEADERS_BASE += \
+        $$PWD/qmllogger.h
+
+    SOURCES += \
+        $$PWD/qmllogger.cpp
+} else {
+    message("Skipping qml logger")
 }
 
 win32 {
@@ -157,14 +179,8 @@ win32 {
     HEADERS_BASE+=$$PWD/colorconsoleappender.h
     SOURCES+=$$PWD/colorconsoleappender.cpp
 }
+
 HEADERS += $$HEADERS_BASE \
            $$HEADERS_HELPERS \
            $$HEADERS_SPI \
            $$HEADERS_VARIA
-
-!contains(QT, sql) {
-message("Skipping databaseappender and -layout")
-}
-!contains(QT, network) {
-message("Skipping telnetappender")
-}

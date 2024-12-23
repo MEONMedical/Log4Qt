@@ -4,7 +4,10 @@ All notable changes to this project will be documented in this file.
 ----
 ## [v1.6.0] - ??
 ### Improvements
-
+- qmake: Make database, telnet appender and qml logger optional depending on CONFIG
+- cmake: Make database, telnet appender and qml logger optional depending on option
+- Use std::as_const instead of deprecated qAsConst for c++17 and greater
+- Use QMetaType instead of QVariant type
 - if console is blocked by debugger use OutputDebugString (win)
 - Support for Qt6
 - Minimum required Qt version is 5.12
@@ -14,7 +17,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - TTCCLayout crash fix (#69)
 - Fixes for Qt6.7
-- Replace deprecated Qt 5.15 stu
+- Replace deprecated Qt 5.15
 
 ## [v1.5.1] - 14.02.2020
 ### Improvements

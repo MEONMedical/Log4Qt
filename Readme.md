@@ -73,7 +73,9 @@ use qmake to build the project
     qmake "DEFINES+=LOG4QT_STATIC" or uncommend LOG4QT_STATIC in the build.pri file
     Don't forget to define LOG4QT_STATIC also in your project.
 
-    Logging to a database via databaseappender can be enabled with qmake "QT += sql"
+    Logging to a database via databaseappender can be enabled with qmake "CONFIG += build_with_db_logging"
+    Logging to a telnet via telnetappender can be enabled with qmake "CONFIG += build_with_telnet_logging"
+    QML logging support can be enabled with qmake "CONFIG += build_with_qml_logging"
 
 ### include in your project
 Can also be used by adding the log4qt source directly to your Qt project file by adding the following line:
@@ -87,9 +89,11 @@ cmake is the second option to build Log4Qt. An out-of-source build is required:
     cmake ../Log4Qt
     make/mingw32-make/msbuild Log4Qt.sln (same as with qmake)
     make/mingw32-make install
-    or:
-    msbuild /t:INSTALL Log4Qt.sln
+
 
     Addition cmake options are
-        * '-DBUILD_STATIC_LOG4CXX_LIB=ON|OFF' to build static log4qt lib (default: OFF)
-        * '-DBUILD_WITH_DB_LOGGING=ON|OFF' to build with database logging support
+        * '-DBUILD_SHARED_LIBS=OFF' to build static log4qt lib (default: ON)
+        * '-DBUILD_WITH_DB_LOGGING=ON|OFF to build with database logging support (default: OFF)
+        * '-DBUILD_WITH_TELNET_LOGGING=ON|OFF to build with telnet appender support (default: ON)
+        * '-DBUILD_WITH_QML_LOGGING=ON|OFF to build with qml logger support (default: ON)
+

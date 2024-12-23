@@ -26,7 +26,7 @@
 
 #include <QCoreApplication>
 
-#if defined(Q_OS_WIN)
+#ifdef Q_OS_WIN
 #ifndef UNICODE
 #define UNICODE
 #endif
@@ -103,8 +103,7 @@ void SystemLogAppender::append(const LoggingEvent &event)
 {
     QString message(layout()->format(event));
 
-#if defined(Q_OS_WIN)
-    //  Q_D(QtServiceBase);
+#ifdef Q_OS_WIN
     if (!winServiceInit())
         return;
     WORD wType;
@@ -168,7 +167,7 @@ void SystemLogAppender::append(const LoggingEvent &event)
         syslog(st, "%s", line.toLocal8Bit().constData());
     closelog();
 
-#endif //#if defined(Q_OS_WIN)
+#endif
 }
 
 QString SystemLogAppender::serviceName() const
