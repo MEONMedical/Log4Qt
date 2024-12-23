@@ -1,10 +1,10 @@
-#include <QString>
-#include <QtTest>
 #include <QFile>
 #include <QSaveFile>
-#include <QTemporaryFile>
+#include <QString>
 #include <QTemporaryDir>
+#include <QTemporaryFile>
 #include <QTextStream>
+#include <QtTest>
 
 #include "log4qt/helpers/configuratorhelper.h"
 
