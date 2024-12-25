@@ -56,6 +56,7 @@ public:
 
     DateTime(const DateTime &other);
 
+#if QT_VERSION < 0x060500
     /*!
      * Constructs a datetime with the given \a date and \a time, using
      * the time specification defined by \a timeSpec.
@@ -63,12 +64,17 @@ public:
      * \sa QDateTime::QDateTime(const QDate &date, const QTime &time,
      *     Qt::TimeSpec timeSpec = Qt::LocalTime)
      */
-#if QT_VERSION < 0x060500
     DateTime(QDate date,
              QTime time,
              Qt::TimeSpec timeSpec = Qt::LocalTime);
 #else
-
+    /*!
+     * Constructs a datetime with the given \a date and \a time, using
+     * the time zone defined by \a QTimeZone.
+     *
+     * \sa QDateTime::QDateTime(const QDate &date, const QTime &time,
+     *     QTimeZone = QTimeZone(QTimeZone::LocalTime))
+     */
     DateTime(QDate date,
              QTime time,
              QTimeZone = QTimeZone(QTimeZone::LocalTime));

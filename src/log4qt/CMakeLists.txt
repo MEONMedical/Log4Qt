@@ -239,7 +239,7 @@ if(BUILD_WITH_TELNET_LOGGING)
     target_compile_definitions(log4qt
         PRIVATE
             LOG4QT_TELNET_LOGGING_SUPPORT
-)
+    )
     target_link_libraries(log4qt PRIVATE Qt${QT_VERSION_MAJOR}::Network)
     target_include_directories(log4qt
           PUBLIC
