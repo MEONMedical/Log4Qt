@@ -426,13 +426,18 @@ void LogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &cont
     default:
         level = Level::TRACE_INT;
     }
-    LoggingEvent loggingEvent = LoggingEvent(instance()->qtLogger(),
+
+    QString categoryName = QStringLiteral("Qt");
+    if(context.category)
+        categoryName += QStringLiteral("::") + context.category;
+    categoryName = OptionConverter::classNameJavaToCpp(categoryName);
+    Logger* logger = instance()->qtLogger(categoryName);
+    LoggingEvent loggingEvent = LoggingEvent(logger,
                                              level,
                                              message,
                                              MessageContext(context.file, context.line, context.function),
-                                             QStringLiteral("Qt ") % context.category);
-
-    instance()->qtLogger()->log(loggingEvent);
+                                             categoryName);
+    logger->log(loggingEvent);
 
 
     // Qt fatal behaviour copied from global.cpp qt_message_output()
@@ -443,6 +448,7 @@ void LogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &cont
 
     // } end
 }
+
 
 #ifdef Q_OS_WIN
 static inline void convert_to_wchar_t_elided(wchar_t *d, size_t space, const char *s) Q_DECL_NOEXCEPT
