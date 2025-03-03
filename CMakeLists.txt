@@ -1,5 +1,8 @@
-cmake_minimum_required(VERSION 3.3.0)
+cmake_minimum_required(VERSION 3.10)
 project(Log4Qt VERSION 1.6.0)
+if(POLICY CMP0071)
+    cmake_policy(SET CMP0071 NEW)
+endif()
 
 set(LOG4QT_STANDALONE_BUILD OFF)
 if(PROJECT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
