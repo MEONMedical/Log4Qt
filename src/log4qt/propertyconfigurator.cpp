@@ -239,6 +239,7 @@ void PropertyConfigurator::configureGlobalSettings(const Properties &properties,
     value = properties.property(key_filterRules);
     if (!value.isNull())
     {
+        value.replace(";", "\n");
         LogManager::setFilterRules(value);
         staticLogger()->debug(QStringLiteral("Set filter rules to %1"), LogManager::filterRules());
     }
