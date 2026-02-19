@@ -1,0 +1,91 @@
+name: CMake Windows build and test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build-msvc:
+    name: MSVC - Qt ${{ matrix.qt_version }}
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        qt_version: [6.2.4, 6.5.3, 6.6.3, 6.7.3, 6.8.3, 6.9.1]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: ${{ matrix.qt_version }}
+
+    - name: Setup MSVC
+      uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{ runner.workspace }}/build
+
+    - name: Configure CMake
+      working-directory: ${{ runner.workspace }}/build
+      run: cmake ${{ github.workspace }} -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -GNinja
+
+    - name: Build
+      working-directory: ${{ runner.workspace }}/build
+      run: cmake --build . --config ${{ env.BUILD_TYPE }}
+
+    - name: Test
+      working-directory: ${{ runner.workspace }}/build
+      run: ctest -C ${{ env.BUILD_TYPE }} --output-on-failure
+
+  build-mingw:
+    name: MinGW - Qt ${{ matrix.qt_version }}
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - qt_version: '6.2.4'
+            mingw_tools: 'tools_mingw900'
+          - qt_version: '6.5.3'
+            mingw_tools: 'tools_mingw1120'
+          - qt_version: '6.6.3'
+            mingw_tools: 'tools_mingw1120'
+          - qt_version: '6.7.3'
+            mingw_tools: 'tools_mingw1310'
+          - qt_version: '6.8.3'
+            mingw_tools: 'tools_mingw1310'
+          - qt_version: '6.9.1'
+            mingw_tools: 'tools_mingw1310'
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: ${{ matrix.qt_version }}
+        arch: win64_mingw
+        tools: ${{ matrix.mingw_tools }}
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{ runner.workspace }}/build
+
+    - name: Configure CMake
+      working-directory: ${{ runner.workspace }}/build
+      run: cmake ${{ github.workspace }} -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -G "MinGW Makefiles"
+
+    - name: Build
+      working-directory: ${{ runner.workspace }}/build
+      run: cmake --build . --config ${{ env.BUILD_TYPE }}
+
+    - name: Test
+      working-directory: ${{ runner.workspace }}/build
+      run: ctest -C ${{ env.BUILD_TYPE }} --output-on-failure
