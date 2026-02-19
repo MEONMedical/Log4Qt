@@ -3,9 +3,9 @@ Log4Qt - Logging for the Qt cross-platform application framework
 
 Continuous Integration
 ----------------------
-Github actions CMake Ubuntu [![CMake Ubuntu build and test](https://github.com/MEONMedical/Log4Qt/actions/workflows/cmake-ubuntu.yml/badge.svg)](https://github.com/MEONMedical/Log4Qt/actions/workflows/cmake-ubuntu.yml)
-
-Github actions CMake Windows [![CMake Windows build and test](https://github.com/MEONMedical/Log4Qt/actions/workflows/cmake-windows.yml/badge.svg)](https://github.com/MEONMedical/Log4Qt/actions/workflows/cmake-windows.yml)
+[![CMake Ubuntu build and test](https://github.com/MEONMedical/Log4Qt/actions/workflows/cmake-ubuntu.yml/badge.svg)](https://github.com/MEONMedical/Log4Qt/actions/workflows/cmake-ubuntu.yml)
+[![CMake Windows build and test](https://github.com/MEONMedical/Log4Qt/actions/workflows/cmake-windows.yml/badge.svg)](https://github.com/MEONMedical/Log4Qt/actions/workflows/cmake-windows.yml)
+[![CMake macOS build and test](https://github.com/MEONMedical/Log4Qt/actions/workflows/cmake-macos.yml/badge.svg)](https://github.com/MEONMedical/Log4Qt/actions/workflows/cmake-macos.yml)
 
 
 Description
