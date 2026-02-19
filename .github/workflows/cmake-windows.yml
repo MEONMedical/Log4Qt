@@ -2,9 +2,9 @@ name: CMake Windows build and test
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, feature/github-actions-windows-ci  ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, feature/github-actions-windows-ci  ]
   workflow_dispatch:
 
 env:
@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        qt_version: [6.2.4, 6.5.3, 6.6.3, 6.7.3, 6.8.3, 6.9.1]
+        qt_version: [6.2.4, 6.5.3, 6.8.3, 6.10.2]
 
     steps:
     - uses: actions/checkout@v4
@@ -53,16 +53,12 @@ jobs:
       matrix:
         include:
           - qt_version: '6.2.4'
-            mingw_tools: 'tools_mingw900'
+            mingw_tools: 'tools_mingw90'
           - qt_version: '6.5.3'
-            mingw_tools: 'tools_mingw1120'
-          - qt_version: '6.6.3'
-            mingw_tools: 'tools_mingw1120'
-          - qt_version: '6.7.3'
             mingw_tools: 'tools_mingw1310'
           - qt_version: '6.8.3'
             mingw_tools: 'tools_mingw1310'
-          - qt_version: '6.9.1'
+          - qt_version: '6.10.2'
             mingw_tools: 'tools_mingw1310'
 
     steps:
