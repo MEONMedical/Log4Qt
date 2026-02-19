@@ -151,7 +151,8 @@ endif()
 # githob workflow files
 add_custom_target(githubworkflows SOURCES
                   ".github/workflows/cmake-ubuntu.yml"
-                  ".github/workflows/cmake-windows.yml")
+                  ".github/workflows/cmake-windows.yml"
+                  ".github/workflows/cmake-macos.yml")
 
 # Create a proper FindLog4Qt - module
 set(CMAKECONFIG_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/Log4Qt" )
