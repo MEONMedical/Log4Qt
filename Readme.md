@@ -5,6 +5,8 @@ Continuous Integration
 ----------------------
 Github actions CMake Ubuntu [![CMake Ubuntu build and test](https://github.com/MEONMedical/Log4Qt/actions/workflows/cmake-ubuntu.yml/badge.svg)](https://github.com/MEONMedical/Log4Qt/actions/workflows/cmake-ubuntu.yml)
 
+Github actions CMake Windows [![CMake Windows build and test](https://github.com/MEONMedical/Log4Qt/actions/workflows/cmake-windows.yml/badge.svg)](https://github.com/MEONMedical/Log4Qt/actions/workflows/cmake-windows.yml)
+
 Appveyor CI (Windows) [![Build status](https://ci.appveyor.com/api/projects/status/yhlqvbqeooy7ds2l?svg=true)](https://ci.appveyor.com/project/MeonMedical/log4qt)
 
 
