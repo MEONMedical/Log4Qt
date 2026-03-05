@@ -671,14 +671,7 @@ QString LoggepatternConverter::convert(const LoggingEvent &loggingEvent) const
     if (!loggingEvent.logger())
         return QString();
     QString name;
-
-    if (loggingEvent.logger() == LogManager::instance()->qtLogger())   // is qt logger
-        if (loggingEvent.categoryName().isEmpty())
-            name = LogManager::instance()->qtLogger()->name();
-        else
-            name = loggingEvent.categoryName();
-    else
-        name = loggingEvent.logger()->name();
+    name = loggingEvent.logger()->name();
 
     if (mPrecision <= 0 || (name.isEmpty()))
         return name;

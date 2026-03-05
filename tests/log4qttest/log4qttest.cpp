@@ -280,7 +280,7 @@ void Log4QtTest::PatternFormatter_data()
             << relative_string + " [main] DEBUG Test::TestLog4Qt foo.cpp:100 - foo() NDC - This is the message" + eol
             << 0;
     QTest::newRow("TTCC conversion with file, line and method - Qt logger")
-            << LoggingEvent(LogManager::instance()->qtLogger(),
+            << LoggingEvent(LogManager::instance()->qtLogger(QStringLiteral("Qt::category")),
                             Level(Level::DEBUG_INT),
                             QStringLiteral("This is the message"),
                             QStringLiteral("NDC"),
@@ -291,7 +291,21 @@ void Log4QtTest::PatternFormatter_data()
                             QStringLiteral("Qt category")
                             )
             << "%r [%t] %p %c %F:%L-%M %x - %m%n"
-            << relative_string + " [main] DEBUG Qt category foo.cpp:100-foo() NDC - This is the message" + eol
+            << relative_string + " [main] DEBUG Qt::category foo.cpp:100-foo() NDC - This is the message" + eol
+            << 0;
+    QTest::newRow("TTCC conversion with file, line and method - Qt logger java category name")
+            << LoggingEvent(LogManager::instance()->qtLogger(QStringLiteral("Qt.category")),
+                            Level(Level::DEBUG_INT),
+                            QStringLiteral("This is the message"),
+                            QStringLiteral("NDC"),
+                            properties,
+                            QStringLiteral("main"),
+                            relative_timestamp,
+                            MessageContext("foo.cpp", 100, "foo()"),
+                            QStringLiteral("Qt.category")
+                            )
+            << "%r [%t] %p %c %F:%L-%M %x - %m%n"
+            << relative_string + " [main] DEBUG Qt::category foo.cpp:100-foo() NDC - This is the message" + eol
             << 0;
     QTest::newRow("TTCC conversion with file, line and method - Qt logger no category")
             << LoggingEvent(LogManager::instance()->qtLogger(),

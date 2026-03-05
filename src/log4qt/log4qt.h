@@ -459,8 +459,8 @@
 
 #include <qglobal.h>
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 12, 0)
-#   error "Log4Qt requires Qt version 5.12.0 or higher"
+#if QT_VERSION < QT_VERSION_CHECK(5, 9, 0)
+#   error "Log4Qt requires Qt version 5.9.0 or higher"
 #endif
 
 #if (defined(Q_CC_MSVC) && _MSC_VER < 1900)
