@@ -28,6 +28,8 @@
 #include <QFileInfo>
 #include <QMutexLocker>
 
+using namespace Qt::StringLiterals;
+
 #ifdef Q_OS_WIN
 #include <windows.h>
 #endif
@@ -198,13 +200,18 @@ void RandomAccessFileAppender::openFile()
     Q_ASSERT_X(!mFile, "RandomAccessFileAppender::openFile()", "Opening file without closing previous file");
 
     QFileInfo fileInfo(mFileName);
-    QDir parentDir = fileInfo.dir();
-    if (!parentDir.exists())
+    const QString parentPath = fileInfo.absolutePath();
+    if (!QDir(parentPath).exists())
     {
         logger()->trace(u"Creating missing parent directory for file %1"_s, mFileName);
-        QString dirName = parentDir.dirName();
-        parentDir.cdUp();
-        parentDir.mkdir(dirName);
+        if (!QDir().mkpath(parentPath))
+        {
+            LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Unable to create parent directory '%1' for file '%2' of appender '%3'"),
+                                             AppenderOpeningFileError);
+            e << parentPath << mFileName << name();
+            logger()->error(e);
+            return;
+        }
     }
 
 #ifdef Q_OS_WIN

@@ -20,10 +20,11 @@
 
 #include "xmllayout.h"
 
-#include "log4qtdefs.h"
 #include "loggingevent.h"
 
 #include <QXmlStreamWriter>
+
+using namespace Qt::StringLiterals;
 
 namespace Log4Qt
 {

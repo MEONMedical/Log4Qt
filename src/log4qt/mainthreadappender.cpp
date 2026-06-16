@@ -42,12 +42,17 @@ void MainThreadAppender::activateOptions()
 
 void MainThreadAppender::append(const LoggingEvent &event)
 {
+    QCoreApplication *app = QCoreApplication::instance();
+    if (app == nullptr)
+        return;
+
     QReadLocker locker(&mAppenderGuard);
 
+    QThread *appThread = app->thread();
     for (const auto& pAppender : mAppenders)
     {
-        if (QThread::currentThread() != qApp->thread())
-            qApp->postEvent(pAppender.data(), new LoggingEvent(event));
+        if (QThread::currentThread() != appThread)
+            app->postEvent(pAppender.data(), new LoggingEvent(event));
         else
             pAppender->doAppend(event);
     }

@@ -20,12 +20,13 @@
 
 #include "fileappender.h"
 #include "abstractlayout.h"
-#include "loggingevent.h"
 
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
+
+using namespace Qt::StringLiterals;
 
 // if we are in WIN*
 #ifdef Q_OS_WIN
@@ -87,6 +88,18 @@ FileAppender::FileAppender(const LayoutSharedPtr &layout,
 FileAppender::~FileAppender()
 {
     closeInternal();
+}
+
+QString FileAppender::file() const
+{
+    QMutexLocker locker(&mObjectGuard);
+    return mFileName;
+}
+
+void FileAppender::setFile(const QString &fileName)
+{
+    QMutexLocker locker(&mObjectGuard);
+    mFileName = fileName;
 }
 
 void FileAppender::activateOptions()
@@ -166,13 +179,18 @@ void FileAppender::openFile()
     Q_ASSERT_X(!mFile && !mTextStream, "FileAppender::openFile()", "Opening file without closing previous file");
 
     QFileInfo file_info(mFileName);
-    QDir parent_dir = file_info.dir();
-    if (!parent_dir.exists())
+    const QString parent_path = file_info.absolutePath();
+    if (!QDir(parent_path).exists())
     {
         logger()->trace(u"Creating missing parent directory for file %1"_s, mFileName);
-        QString name = parent_dir.dirName();
-        parent_dir.cdUp();
-        parent_dir.mkdir(name);
+        if (!QDir().mkpath(parent_path))
+        {
+            LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Unable to create parent directory '%1' for file '%2' of appender '%3'"),
+                                             AppenderOpeningFileError);
+            e << parent_path << mFileName << name();
+            logger()->error(e);
+            return;
+        }
     }
 
 #ifdef Q_OS_WIN

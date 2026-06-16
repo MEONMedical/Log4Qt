@@ -19,7 +19,6 @@
  ******************************************************************************/
 
 #include "helpers/logerror.h"
-#include "log4qtdefs.h"
 
 #include <QBuffer>
 #include <QByteArray>
@@ -28,6 +27,8 @@
 #include <QThreadStorage>
 
 #include <utility>
+
+using namespace Qt::StringLiterals;
 
 namespace Log4Qt
 {
@@ -125,7 +126,7 @@ QString LogError::toString() const
     {
         QString causing_errors_str = u": "_s + mCausingErrors.at(0).toString();
         int i = 1;
-        while (i < mCausingErrors.count())
+        while (i < mCausingErrors.size())
         {
             causing_errors_str.append(u", "_s).append(mCausingErrors.at(i).toString());
             i++;

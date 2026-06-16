@@ -20,6 +20,8 @@
 
 #include "varia/listappender.h"
 
+using namespace Qt::StringLiterals;
+
 namespace Log4Qt
 {
 

@@ -26,6 +26,8 @@
 #include <QMutex>
 #include <QThread>
 
+using namespace Qt::StringLiterals;
+
 namespace Log4Qt
 {
 

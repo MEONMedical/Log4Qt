@@ -59,8 +59,14 @@ template<typename T> class BoundedBlockingQueue;
  * &nbsp;
  * \note The ownership and lifetime of objects of this class are managed.
  *       See \ref Ownership "Object ownership" for more details.
+ *
+ * \note The class is \c final by design. The worker thread is joined in
+ *       \c ~AsyncAppender, so a subclass destructor would run while the
+ *       worker is still calling back into this object (callAppenders(),
+ *       batchComplete()) — a use-after-free hazard on the subclass part.
+ *       Extend behaviour by attaching appenders, not by subclassing.
  */
-class LOG4QT_EXPORT AsyncAppender : public AppenderSkeleton, public AppenderAttachable
+class LOG4QT_EXPORT AsyncAppender final : public AppenderSkeleton, public AppenderAttachable
 {
     Q_OBJECT
 
@@ -122,7 +128,7 @@ public:
     // --- Property accessors ---------------------------------------------------
 
     int bufferSize() const { return mBufferSize; }
-    void setBufferSize(int size) { mBufferSize = size; }
+    void setBufferSize(int size);
 
     bool blocking() const { return mBlocking; }
     void setBlocking(bool blocking) { mBlocking = blocking; }
@@ -174,7 +180,7 @@ private:
     int mBufferSize = 1024;
     bool mBlocking = true;
     int mShutdownTimeout = 0;
-    Level mDiscardThreshold{Level::INFO_INT};
+    Level mDiscardThreshold = Level::INFO_INT;
     QueueFullPolicy mQueueFullPolicy = QueueFullPolicy::Block;
     QString mErrorRef;
     AppenderSharedPtr mErrorAppender;

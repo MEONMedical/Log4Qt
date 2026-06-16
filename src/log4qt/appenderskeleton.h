@@ -81,26 +81,14 @@ protected:
     ~AppenderSkeleton() override;
 
 public:
-    [[nodiscard]] FilterSharedPtr filter() const override
-    {
-        QMutexLocker locker(&mObjectGuard);
-        return mpHeadFilter;
-    }
+    [[nodiscard]] FilterSharedPtr filter() const override;
     [[nodiscard]] LayoutSharedPtr layout() const override;
     [[nodiscard]] bool isActive() const { return mIsActive.load(std::memory_order_relaxed); }
     [[nodiscard]] bool isClosed() const { return mIsClosed.load(std::memory_order_relaxed); }
-    [[nodiscard]] QString name() const override
-    {
-        QMutexLocker locker(&mObjectGuard);
-        return objectName();
-    }
+    [[nodiscard]] QString name() const override;
     [[nodiscard]] Level threshold() const { return mThreshold; }
     void setLayout(const LayoutSharedPtr &layout) override;
-    void setName(const QString &name) override
-    {
-        QMutexLocker locker(&mObjectGuard);
-        setObjectName(name);
-    }
+    void setName(const QString &name) override;
     void setThreshold(Level level) { mThreshold = level; }
 
     virtual void activateOptions();
@@ -212,6 +200,14 @@ protected:
     static void forwardEvent(const AppenderSharedPtr &appender, const LoggingEvent &event);
 
 protected:
+    /*!
+     * Lock-free read of the layout snapshot. Callable only while \c mObjectGuard
+     * is held by the caller — i.e. from within \c append() (Phase 5 of
+     * \c doAppend()). Returns a reference to the live \c mpLayout, so the
+     * caller does not pay the QSharedPointer refcount round-trip of \c layout().
+     */
+    [[nodiscard]] const LayoutSharedPtr &layoutSnapshot() const { return mpLayout; }
+
     mutable QRecursiveMutex mObjectGuard;
 
 private:
@@ -219,7 +215,7 @@ private:
     std::atomic<bool> mIsActive{false};
     std::atomic<bool> mIsClosed{false};
     LayoutSharedPtr mpLayout;
-    Level mThreshold;
+    std::atomic<Level> mThreshold;
     FilterSharedPtr mpHeadFilter;
     FilterSharedPtr mpTailFilter;
     void closeInternal();

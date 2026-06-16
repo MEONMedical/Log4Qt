@@ -22,7 +22,6 @@
  *
  ******************************************************************************/
 
-
 #include "databaselayout.h"
 
 #include "loggingevent.h"
@@ -30,6 +29,8 @@
 #include "helpers/datetime.h"
 
 #include <QtSql/QSqlField>
+
+using namespace Qt::StringLiterals;
 
 namespace Log4Qt
 {
@@ -48,9 +49,9 @@ QSqlRecord DatabaseLayout::formatRecord(const LoggingEvent &event)
         record.append(field);
     }
 
-    if (!mLoggename.isEmpty())
+    if (!mLoggername.isEmpty())
     {
-        field.setName(mLoggename);
+        field.setName(mLoggername);
         field.setMetaType(QMetaType(QMetaType::QString));
         field.setGenerated(true);
         field.setValue(event.loggername());
@@ -102,7 +103,7 @@ QString DatabaseLayout::format(const LoggingEvent &event)
     {
         result.append(mThreadName);
         result.append(":");
-        result.append(mThreadName);
+        result.append(event.threadName());
         result.append("; ");
     }
 
@@ -110,15 +111,15 @@ QString DatabaseLayout::format(const LoggingEvent &event)
     {
         result.append(mLevel);
         result.append(":");
-        result.append(mLevel);
+        result.append(event.level().toString());
         result.append("; ");
     }
 
-    if (!mLoggename.isEmpty())
+    if (!mLoggername.isEmpty())
     {
-        result.append(mLoggename);
+        result.append(mLoggername);
         result.append(":");
-        result.append(mLoggename);
+        result.append(event.loggername());
         result.append("; ");
     }
 
@@ -126,7 +127,7 @@ QString DatabaseLayout::format(const LoggingEvent &event)
     {
         result.append(mMessage);
         result.append(":");
-        result.append(mMessage);
+        result.append(event.message());
         result.append("; ");
     }
     return result;
@@ -136,9 +137,9 @@ QString DatabaseLayout::timeStampColumn() const
 {
     return mTimeStamp;
 }
-QString DatabaseLayout::loggenameColumn() const
+QString DatabaseLayout::loggerNameColumn() const
 {
-    return mLoggename;
+    return mLoggername;
 }
 QString DatabaseLayout::threadNameColumn() const
 {
@@ -161,9 +162,9 @@ void DatabaseLayout::setTimeStampColumn(const QString &columnName)
     mTimeStamp = columnName;
 }
 
-void DatabaseLayout::setLoggenameColumn(const QString &columnName)
+void DatabaseLayout::setLoggernameColumn(const QString &columnName)
 {
-    mLoggename = columnName;
+    mLoggername = columnName;
 }
 
 void DatabaseLayout::setThreadNameColumn(const QString &columnName)

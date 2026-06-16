@@ -28,6 +28,12 @@
 #include "appenderskeleton.h"
 
 #include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlQuery>
+
+#include <memory>
+#include <vector>
+
+class QThread;
 
 namespace Log4Qt
 {
@@ -35,7 +41,15 @@ namespace Log4Qt
 /*!
  * \brief The class DatabaseAppender appends log events to a sql database.
  *
- * \note All the functions declared in this class are thread-safe.
+ * \note A QSqlDatabase connection and the QSqlQuery prepared from it may only
+ *       be used on the thread that created them (a Qt requirement). This
+ *       appender prepares its statement in activateOptions() and executes it
+ *       in append(); both must therefore run on the same thread, and the
+ *       QSqlDatabase connection must have been opened on that thread. If a
+ *       logging call reaches append() from a different thread the event is
+ *       dropped and an error is logged (rather than corrupting the SQL
+ *       driver). To log to a database from arbitrary threads, place a
+ *       MainThreadAppender (or AsyncAppender bound to the DB thread) in front.
  * &nbsp;
  * \note The ownership and lifetime of objects of this class are managed.
  *       See \ref Ownership "Object ownership" for more details.
@@ -115,8 +129,19 @@ protected:
     void closeWriter();
 
 private:
+    enum class ColumnSource { TimeStamp, Loggername, ThreadName, Level, Message };
+
+    void resetPreparedQuery();
+    void prepareInsert();
+
     QString connectionName;
     QString tableName;
+    std::unique_ptr<QSqlQuery> mPreparedQuery;
+    std::vector<ColumnSource> mBindings;
+    // Thread that prepared mPreparedQuery (set in activateOptions). The query
+    // must only be exec'd on this thread. Accessed only under mObjectGuard.
+    QThread *mActivationThread = nullptr;
+    bool mWrongThreadLogged = false;
 };
 
 } // namespace Log4Qt

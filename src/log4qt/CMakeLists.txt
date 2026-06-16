@@ -80,7 +80,6 @@ set(log4qt_HEADERS
     jsonlayout.h
     abstractlayout.h
     level.h
-    log4qtdefs.h
     log4qt.h
     log4qtshared.h
     log4qtsharedptr.h

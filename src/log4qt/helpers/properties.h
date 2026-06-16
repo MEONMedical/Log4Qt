@@ -33,8 +33,13 @@ namespace Log4Qt
 {
 /*!
  * \brief The class Properties implements a JAVA property hash.
+ *
+ * \note Properties holds a QHash<QString, QString> by composition rather than
+ *       deriving from it: a public base with no virtual destructor is a
+ *       slicing/UB hazard if an instance is ever deleted through a base
+ *       pointer. The hash operations actually used are re-exposed below.
  */
-class LOG4QT_EXPORT Properties : public QHash<QString, QString>
+class LOG4QT_EXPORT Properties
 {
 public:
     explicit Properties(Properties *pDefaultProperties = nullptr) :
@@ -50,8 +55,20 @@ public:
     void setProperty(const QString &key,
                      const QString &value)
     {
-        insert(key, value);
+        mData.insert(key, value);
     }
+
+    // Hash value-type accessors (the subset of the former QHash base interface
+    // that callers rely on).
+    void clear() { mData.clear(); }
+    void insert(const QString &key, const QString &value) { mData.insert(key, value); }
+    [[nodiscard]] bool contains(const QString &key) const { return mData.contains(key); }
+    [[nodiscard]] QString value(const QString &key) const { return mData.value(key); }
+    [[nodiscard]] QString value(const QString &key, const QString &defaultValue) const { return mData.value(key, defaultValue); }
+    [[nodiscard]] qsizetype count() const { return mData.count(); }
+    [[nodiscard]] qsizetype size() const { return mData.size(); }
+    [[nodiscard]] bool isEmpty() const { return mData.isEmpty(); }
+    [[nodiscard]] QList<QString> keys() const { return mData.keys(); }
 
     void load(QIODevice *pDevice);
 
@@ -85,6 +102,7 @@ private:
     static QString trimLeft(const QString &line);
 
 private:
+    QHash<QString, QString> mData;
     Properties *mpDefaultProperties;
     static constexpr char msEscapeChar = '\\';
     static constexpr char msValueEscapeCodes[] = R"(tnr\"' )";

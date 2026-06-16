@@ -109,6 +109,14 @@ QHostAddress TelnetAppender::address() const
 
 void TelnetAppender::setPort(int port)
 {
+    if (port < 1 || port > 65535)
+    {
+        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Invalid port %1 for appender '%2'; valid range is 1..65535"),
+                                         AppenderTelnetServerNotRunning);
+        e << port << name();
+        logger()->error(e);
+        return;
+    }
     mPort = port;
 }
 
@@ -129,15 +137,30 @@ bool TelnetAppender::requiresLayout() const
 
 void TelnetAppender::append(const LoggingEvent &event)
 {
-    Q_ASSERT_X(layout(), "TelnetAppender::append()", "Layout must not be null");
+    const LayoutSharedPtr &layoutSnap = layoutSnapshot();
+    if (!layoutSnap)
+        return;
 
-    QString message(layout()->format(event));
+    const QByteArray bytes = layoutSnap->format(event).toLocal8Bit();
+    const bool flushAfterWrite = immediateFlush();
 
     for (auto &&clientConnection : mTcpSockets)
     {
-        clientConnection->write(message.toLocal8Bit().constData());
-        if (immediateFlush())
-            clientConnection->flush();
+        // QTcpSocket must be touched from its owner thread. Marshal the write
+        // across via AutoConnection: same-thread → direct, otherwise queued.
+        QMetaObject::invokeMethod(clientConnection,
+            [clientConnection, bytes, flushAfterWrite]() {
+                if (clientConnection->write(bytes) == -1)
+                {
+                    // Stream broke; abort drops the client and triggers
+                    // onClientDisconnected, which removes it from mTcpSockets.
+                    clientConnection->abort();
+                    return;
+                }
+                if (flushAfterWrite)
+                    clientConnection->flush();
+            },
+            Qt::AutoConnection);
     }
 }
 
@@ -159,21 +182,36 @@ void TelnetAppender::openServer()
 {
     mTcpServer = new QTcpServer(this);
     connect(mTcpServer, &QTcpServer::newConnection, this, &TelnetAppender::onNewConnection);
-    mTcpServer->listen(mAddress, mPort);
+    if (!mTcpServer->listen(mAddress, mPort))
+    {
+        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Telnet appender '%1' failed to listen on %2:%3"),
+                                         AppenderTelnetServerNotRunning);
+        e << name() << mAddress.toString() << mPort;
+        e.addCausingError(LogError(mTcpServer->errorString(),
+                                   static_cast<int>(mTcpServer->serverError())));
+        logger()->error(e);
+    }
 }
 
 void TelnetAppender::closeServer()
 {
-    if (mTcpServer != nullptr)
-        mTcpServer->close();
-
     for (auto &&clientConnection : mTcpSockets)
-        delete clientConnection;
+    {
+        // Stop further signals to this appender and let the event loop reclaim
+        // the socket; raw delete can crash if the network layer is mid-callback.
+        clientConnection->disconnect(this);
+        clientConnection->abort();
+        clientConnection->deleteLater();
+    }
 
     mTcpSockets.clear();
 
-    delete mTcpServer;
-    mTcpServer = nullptr;
+    if (mTcpServer != nullptr)
+    {
+        mTcpServer->close();
+        mTcpServer->deleteLater();
+        mTcpServer = nullptr;
+    }
 }
 
 QList<QTcpSocket *> TelnetAppender::clients() const
@@ -202,7 +240,8 @@ void TelnetAppender::sendWelcomeMessage(QTcpSocket *clientConnection)
     if (mWelcomeMessage.isEmpty())
         return;
 
-    clientConnection->write(mWelcomeMessage.toLocal8Bit().constData());
+    if (clientConnection->write(mWelcomeMessage.toLocal8Bit()) == -1)
+        clientConnection->abort();
 }
 
 void TelnetAppender::onClientDisconnected()

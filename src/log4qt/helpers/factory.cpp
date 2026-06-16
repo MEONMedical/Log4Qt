@@ -34,6 +34,8 @@
 #include "ttcclayout.h"
 #include "xmllayout.h"
 
+using namespace Qt::StringLiterals;
+
 #ifdef LOG4QT_TELNET_LOGGING_SUPPORT
 #include "telnetappender.h"
 #endif
@@ -198,7 +200,7 @@ AbstractLayout *create_simple_time_layout()
 }
 
 #ifdef LOG4QT_DB_LOGGING_SUPPORT
-Layout *create_database_layout()
+AbstractLayout *create_database_layout()
 {
     return new DatabaseLayout;
 }

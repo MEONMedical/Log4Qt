@@ -538,7 +538,7 @@ namespace Log4Qt
  *     \ref Log4Qt::LogManager::version() "LogManager::version()"
  */
 
-enum ErrorCode
+enum ErrorCode : int
 {
     Ok = 0,
     // AppenderSkeleton, FileAppender, WriterAppender
@@ -581,7 +581,7 @@ enum ErrorCode
     AppenderTelnetServerNotRunning,
     AppenderAsncDispatcherNotRunning,
     AppenderAsyncQueueFull,
-    AppenderAsyncShutdownTimeout
+    AppenderAsyncShutdownTimeout,
 };
 
 } // namespace Log4Qt

@@ -20,6 +20,8 @@
 
 #include "spi/filter.h"
 
+#include <QMutexLocker>
+
 namespace Log4Qt
 {
 
@@ -31,11 +33,13 @@ Filter::~Filter() = default;
 
 FilterSharedPtr Filter::next() const
 {
+    QMutexLocker locker(&mNextGuard);
     return mNext;
 }
 
 void Filter::setNext(const FilterSharedPtr &filter)
 {
+    QMutexLocker locker(&mNextGuard);
     mNext = filter;
 }
 

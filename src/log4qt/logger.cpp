@@ -20,7 +20,7 @@
 
 #include "logger.h"
 
-#include "appenderskeleton.h"
+#include "appender.h"
 #include "loggingevent.h"
 #include "loggerrepository.h"
 #include "logmanager.h"
@@ -28,6 +28,10 @@
 
 #include <QThread>
 #include <QCoreApplication>
+
+#include <utility>
+
+using namespace Qt::StringLiterals;
 
 namespace Log4Qt
 {
@@ -57,17 +61,31 @@ void Logger::setLevel(Level level)
             u"Invalid root logger level NULL_INT. Using DEBUG_INT instead"_s);
         level = Level::DEBUG_INT;
     }
-    mLevel = level;
+    const Level previous = mLevel.exchange(level, std::memory_order_release);
+    if (previous != level)
+        Q_EMIT levelChanged(level);
 }
 
 // Note: use MainThreadAppender if you want write the log from non-main threads
 // within the main trhead
 void Logger::callAppenders(const LoggingEvent &event) const
 {
-    QReadLocker locker(&mAppenderGuard);
+    // Snapshot the appender list under the read lock, then release it before
+    // doing the (potentially slow) appender I/O. The shared-pointer copies keep
+    // the appenders alive even if one is removed concurrently, and not holding
+    // the lock across I/O (or across the ancestor chain) means a concurrent
+    // addAppender()/removeAppender() no longer blocks for the dispatch duration.
+    QList<AppenderSharedPtr> appenders;
+    {
+        QReadLocker locker(&mAppenderGuard);
+        appenders = mAppenders;
+    }
 
-    for (const auto& appender : mAppenders)
+    for (const auto &appender : std::as_const(appenders))
         appender->doAppend(event);
+
+    // additivity() is atomic and parentLogger() is fixed at construction, so
+    // neither needs the appender lock.
     if (additivity() && (parentLogger() != nullptr))
         parentLogger()->callAppenders(event);
 }
@@ -145,7 +163,9 @@ Logger *Logger::parentLogger() const
 
 void Logger::setAdditivity(bool additivity)
 {
-    mAdditivity = additivity;
+    const bool previous = mAdditivity.exchange(additivity, std::memory_order_release);
+    if (previous != additivity)
+        Q_EMIT additivityChanged(additivity);
 }
 
 // Level operations

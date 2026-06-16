@@ -61,7 +61,7 @@ class LOG4QT_EXPORT QmlLogger : public QObject
 
 
 public:
-    enum Level
+    enum Level : int
     {
         Null = Log4Qt::Level::NULL_INT,
         All = Log4Qt::Level::ALL_INT,
@@ -71,7 +71,7 @@ public:
         Warn  = Log4Qt::Level::WARN_INT,
         Error = Log4Qt::Level::ERROR_INT,
         Fatal = Log4Qt::Level::FATAL_INT,
-        Off = Log4Qt::Level::OFF_INT
+        Off = Log4Qt::Level::OFF_INT,
     };
     Q_ENUM(Level)
 

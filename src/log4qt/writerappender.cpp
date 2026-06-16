@@ -119,12 +119,13 @@ bool WriterAppender::requiresLayout() const
 
 void WriterAppender::append(const LoggingEvent &event)
 {
-    Q_ASSERT_X(layout(), "WriterAppender::append()", "Layout must not be null");
+    // Called under mObjectGuard by doAppend Phase 5 — read mpLayout directly
+    // to avoid an extra recursive-mutex acquisition and a QSharedPointer copy.
+    const LayoutSharedPtr &layoutSnap = layoutSnapshot();
+    if (!layoutSnap)
+        return;
 
-    // Optimize: avoid QString copy by using const reference
-    const QString &message = layout()->format(event);
-
-    *mWriter << message;
+    *mWriter << layoutSnap->format(event);
     if (handleIoErrors())
         return;
 

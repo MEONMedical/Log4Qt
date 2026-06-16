@@ -26,6 +26,8 @@
 #include <QHash>
 #include <QReadWriteLock>
 
+#include <atomic>
+
 namespace Log4Qt
 {
 
@@ -60,7 +62,7 @@ private:
 private:
     mutable QReadWriteLock mObjectGuard;
     QHash<QString, Logger *> mLoggers;
-    Level mThreshold;
+    std::atomic<Level> mThreshold;
     Logger *mRootLogger;
 };
 

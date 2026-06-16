@@ -92,20 +92,16 @@ class LoggerRepository;
 class LOG4QT_EXPORT XmlConfigurator
 {
 public:
-    XmlConfigurator() {}
+    XmlConfigurator() = delete;
 
-private:
-    Q_DISABLE_COPY_MOVE(XmlConfigurator)
-
-public:
     /*!
      * Reads the configuration from the XML file \a configFileName
      * and configures the \a loggerRepository.
      *
      * \sa ConfiguratorHelper::configureError()
      */
-    bool doConfigure(const QString &configFileName,
-                     LoggerRepository *loggerRepository = nullptr);
+    static bool doConfigure(const QString &configFileName,
+                            LoggerRepository *loggerRepository = nullptr);
 
     /*!
      * Reads the configuration from the XML file \a configFilename

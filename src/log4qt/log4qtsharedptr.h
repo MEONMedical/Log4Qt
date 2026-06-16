@@ -46,11 +46,14 @@ public:
      * Constructs a Log4QtSharedPtr that takes ownership of \a ptr.
      * The object will be deleted via deleteLater() when the last
      * reference is destroyed.
-     * 
-     * \note Not explicit to allow implicit conversions from raw pointers,
-     * maintaining compatibility with existing code.
+     *
+     * \note Explicit to prevent silent conversions from raw pointers —
+     * an implicit conversion is a use-after-free risk if the source is
+     * a stack pointer, a member of another object, or already owned.
+     * Callers must write \c MyPtr(new T(...)) at the point of ownership
+     * transfer.
      */
-    Log4QtSharedPtr(Log4QtClass *ptr)
+    explicit Log4QtSharedPtr(Log4QtClass *ptr)
         : QSharedPointer<Log4QtClass>(ptr, &Log4QtClass::deleteLater)
     {
         static_assert(std::is_base_of_v<QObject, Log4QtClass>,

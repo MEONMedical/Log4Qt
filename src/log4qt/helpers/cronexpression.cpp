@@ -20,9 +20,9 @@
 
 #include "helpers/cronexpression.h"
 
-#include "log4qtdefs.h"
-
 #include <QStringList>
+
+using namespace Qt::StringLiterals;
 
 namespace Log4Qt
 {

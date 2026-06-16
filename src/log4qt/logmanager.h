@@ -29,6 +29,8 @@
 #include <QString>
 #include <QVersionNumber>
 
+#include <atomic>
+
 namespace Log4Qt
 {
 
@@ -77,7 +79,7 @@ public:
      */
     [[nodiscard]] static bool handleQtMessages()
     {
-        return instance()->mHandleQtMessages;
+        return instance()->mHandleQtMessages.load(std::memory_order_acquire);
     }
 
     /*!
@@ -87,7 +89,7 @@ public:
      */
     [[nodiscard]] static bool watchThisFile()
     {
-        return instance()->mWatchThisFile;
+        return instance()->mWatchThisFile.load(std::memory_order_acquire);
     }
 
     /*!
@@ -95,20 +97,14 @@ public:
      *
      * \sa setFilterRules()
      */
-    [[nodiscard]] static QString filterRules()
-    {
-        return instance()->mFilterRules;
-    }
+    [[nodiscard]] static QString filterRules();
 
     /*!
      * Returns the message pattern for qc[Info|Debug|Warning|Critical]
      *
      * \sa setMessagePattern()
      */
-    [[nodiscard]] static QString messagePattern()
-    {
-        return instance()->mMessagePattern;
-    }
+    [[nodiscard]] static QString messagePattern();
 
     [[nodiscard]] static LoggerRepository *loggerRepository()
     {
@@ -332,10 +328,11 @@ private:
     mutable QRecursiveMutex mObjectGuard;
 
     LoggerRepository *mLoggerRepository;
-    bool mHandleQtMessages, mWatchThisFile;
+    std::atomic<bool> mHandleQtMessages;
+    std::atomic<bool> mWatchThisFile;
     QString mFilterRules, mMessagePattern;
     QtMessageHandler mQtMsgHandler;
-    static LogManager *mInstance;
+    static std::atomic<LogManager *> mInstance;
 };
 
 } // namespace Log4Qt

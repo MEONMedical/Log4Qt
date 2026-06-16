@@ -85,7 +85,7 @@ void DailyRollingFileAppender::activateOptions()
 
     // Set up DateRolloverStrategy in Embedded mode for filename construction.
     auto *strategy = new DateRolloverStrategy;
-    strategy->setMode(DateRolloverStrategy::Embedded);
+    strategy->setMode(DateRolloverStrategy::NamingMode::Embedded);
     strategy->setDatePattern(mDatePattern);
     strategy->setKeepDays(mKeepDays);
     setRolloverStrategy(RolloverStrategySharedPtr(strategy));

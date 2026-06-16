@@ -22,7 +22,6 @@
 #define LOG4QT_APPENDER_H
 
 #include "abstractlayout.h"
-#include "log4qtdefs.h"
 #include "log4qtsharedptr.h"
 #include "spi/filter.h"
 #include "helpers/classlogger.h"
@@ -66,7 +65,7 @@ class LOG4QT_EXPORT Appender : public QObject
      *
      * \sa requiresLayout(), setRequiresLayout()
      */
-    Q_PROPERTY(bool requiresLayout READ requiresLayout)
+    Q_PROPERTY(bool requiresLayout READ requiresLayout CONSTANT)
 
 public:
     Appender(QObject *parent = nullptr);

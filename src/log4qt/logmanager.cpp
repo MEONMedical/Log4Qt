@@ -44,6 +44,8 @@
 
 #include <cstdlib>
 
+using namespace Qt::StringLiterals;
+
 namespace Log4Qt
 {
 
@@ -103,19 +105,25 @@ LogManager *LogManager::instance()
     // to construct, an exit handler must be set and doStartup must be
     // called.
 
-    if (!mInstance)
+    LogManager *p = mInstance.load(std::memory_order_acquire);
+    if (p == nullptr)
     {
         QMutexLocker locker(singleton_guard());
-        if (!mInstance)
+        p = mInstance.load(std::memory_order_relaxed);
+        if (p == nullptr)
         {
-            mInstance = new LogManager;
+            p = new LogManager;
+            // Publish before running setup so recursive calls into instance()
+            // observe a fully-constructed object (the setup steps below may
+            // call back into instance() via the logging system).
+            mInstance.store(p, std::memory_order_release);
             atexit(shutdown);
-            mInstance->doConfigureLogLogger();
-            mInstance->welcome();
-            mInstance->doStartup();
+            p->doConfigureLogLogger();
+            p->welcome();
+            p->doStartup();
         }
     }
-    return mInstance;
+    return p;
 }
 
 
@@ -148,6 +156,20 @@ void LogManager::shutdown()
     instance()->mLoggerRepository->shutdown();
 }
 
+
+QString LogManager::filterRules()
+{
+    LogManager *self = instance();
+    QMutexLocker locker(&self->mObjectGuard);
+    return self->mFilterRules;
+}
+
+QString LogManager::messagePattern()
+{
+    LogManager *self = instance();
+    QMutexLocker locker(&self->mObjectGuard);
+    return self->mMessagePattern;
+}
 
 void LogManager::doSetHandleQtMessages(bool handleQtMessages)
 {
@@ -521,7 +543,7 @@ static bool isFatal(QtMsgType msgType)
         return fatalCriticals;
     }
 
-    if (msgType == QtWarningMsg || msgType == QtCriticalMsg) {
+    if (msgType == QtWarningMsg) {
         static bool fatalWarnings = !qEnvironmentVariableIsEmpty("QT_FATAL_WARNINGS");
         return fatalWarnings;
     }
@@ -529,6 +551,6 @@ static bool isFatal(QtMsgType msgType)
     return false;
 }
 
-LogManager *LogManager::mInstance = nullptr;
+std::atomic<LogManager *> LogManager::mInstance{nullptr};
 
 }  // namespace Log4Qt

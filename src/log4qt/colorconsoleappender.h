@@ -74,7 +74,7 @@ protected:
     void append(const LoggingEvent &event) override;
 
 private:
-    HANDLE hConsole;
+    HANDLE hConsole = nullptr;
 #endif
     void closeInternal();
 };

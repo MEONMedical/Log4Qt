@@ -26,6 +26,8 @@
 
 #include <QTextStream>
 
+using namespace Qt::StringLiterals;
+
 #ifdef Q_OS_WIN
 #include <windows.h>
 #endif
@@ -103,6 +105,11 @@ void ConsoleAppender::activateOptions()
         mtextStream = std::make_unique<QTextStream>(stderr);
     setWriter(mtextStream.get());
 
+#ifdef Q_OS_WIN
+    mUseOutputDebugString = (GetConsoleWindow() == nullptr &&
+                             qEnvironmentVariableIntValue("QT_ASSUME_STDERR_HAS_CONSOLE") == 0);
+#endif
+
     WriterAppender::activateOptions();
 }
 
@@ -131,13 +138,14 @@ void ConsoleAppender::closeStream()
 void ConsoleAppender::append(const LoggingEvent &event)
 {
 #ifdef Q_OS_WIN
-    if (GetConsoleWindow() == nullptr &&
-        qEnvironmentVariableIntValue("QT_ASSUME_STDERR_HAS_CONSOLE") == 0)
+    if (mUseOutputDebugString)
     {
-        // if console is blocked by debugger use OutputDebugString
-        Q_ASSERT_X(layout(), "ConsoleAppender::append()", "Layout must not be null");
+        // If console is blocked by debugger use OutputDebugString.
+        const LayoutSharedPtr &layoutSnap = layoutSnapshot();
+        if (!layoutSnap)
+            return;
 
-        QString message(layout()->format(event));
+        QString message(layoutSnap->format(event));
 
         OutputDebugString(message.toStdWString().c_str());
     }

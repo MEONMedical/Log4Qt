@@ -19,7 +19,6 @@
  ******************************************************************************/
 
 #include "helpers/appenderattachable.h"
-#include "varia/listappender.h"
 #include "appender.h"
 
 #include <algorithm>
@@ -70,6 +69,7 @@ bool AppenderAttachable::isAttached(const AppenderSharedPtr &appender) const
 
 void AppenderAttachable::removeAllAppenders()
 {
+    QWriteLocker locker(&mAppenderGuard);
     mAppenders.clear();
 }
 

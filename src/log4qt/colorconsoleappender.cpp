@@ -26,6 +26,8 @@
 #include <QTextStream>
 #include <vector>
 
+using namespace Qt::StringLiterals;
+
 constexpr int NIX_BACK_BLACK      = 40;
 constexpr int NIX_BACK_RED        = 41;
 constexpr int NIX_BACK_GREEN      = 42;
@@ -283,7 +285,9 @@ void ColorConsoleAppender::closeInternal()
         return;
 
 #ifdef Q_OS_WIN
-    CloseHandle(hConsole);
+    // Do not CloseHandle() — hConsole was obtained from GetStdHandle(), which
+    // returns a process-owned handle that must not be closed by user code.
+    hConsole = nullptr;
 #endif
 }
 

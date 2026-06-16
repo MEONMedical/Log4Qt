@@ -69,10 +69,12 @@ public:
     static const QEvent::Type eventId;
     LoggingEvent();
     virtual ~LoggingEvent();
-    
-    // Explicitly default copy operations
-    LoggingEvent(const LoggingEvent &other);
-    LoggingEvent &operator=(const LoggingEvent &other);
+
+    // QSharedDataPointer copy/assign is non-throwing (atomic refcount op only).
+    LoggingEvent(const LoggingEvent &other) noexcept;
+    LoggingEvent &operator=(const LoggingEvent &other) noexcept;
+    LoggingEvent(LoggingEvent &&other) noexcept = default;
+    LoggingEvent &operator=(LoggingEvent &&other) noexcept = default;
 
     LoggingEvent(const Logger *logger,
                  Level level,

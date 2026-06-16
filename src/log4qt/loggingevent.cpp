@@ -23,6 +23,7 @@
 #include "helpers/initialisationhelper.h"
 #include "helpers/datetime.h"
 #include "logger.h"
+#include "logmanager.h"
 #include "mdc.h"
 #include "ndc.h"
 
@@ -33,6 +34,8 @@
 #include <QPointer>
 #include <QProperty>
 #include <QThread>
+
+using namespace Qt::StringLiterals;
 
 namespace Log4Qt
 {
@@ -112,13 +115,13 @@ LoggingEvent::LoggingEvent() :
 
 LoggingEvent::~LoggingEvent() = default;
 
-LoggingEvent::LoggingEvent(const LoggingEvent &other) :
+LoggingEvent::LoggingEvent(const LoggingEvent &other) noexcept :
     QEvent(other),
     d(other.d)
 {
 }
 
-LoggingEvent &LoggingEvent::operator=(const LoggingEvent &other)
+LoggingEvent &LoggingEvent::operator=(const LoggingEvent &other) noexcept
 {
     if (this != &other)
     {
@@ -421,9 +424,16 @@ QDataStream &operator<<(QDataStream &out, const LoggingEvent &loggingEvent)
 
 QDataStream &operator>>(QDataStream &in, LoggingEvent &loggingEvent)
 {
-    // version
+    constexpr quint16 kCurrentVersion = 0;
+
     quint16 version;
     in >> version;
+    if (in.status() != QDataStream::Ok || version != kCurrentVersion)
+    {
+        in.setStatus(QDataStream::ReadCorruptData);
+        return in;
+    }
+
     // Version 0 data
     QString logger;
     in >> loggingEvent.d->mLevel
@@ -434,7 +444,13 @@ QDataStream &operator>>(QDataStream &in, LoggingEvent &loggingEvent)
        >> loggingEvent.d->mSequenceNumber
        >> loggingEvent.d->mThreadName
        >> loggingEvent.d->mTimeStamp;
-    if (logger.isEmpty())
+
+    if (in.status() != QDataStream::Ok)
+        return in;
+
+    // Do not auto-create loggers from an untrusted stream. Only resolve the
+    // event's logger if a logger with this name has already been registered.
+    if (logger.isEmpty() || !LogManager::exists(logger.toLatin1().constData()))
         loggingEvent.d->mLogger = nullptr;
     else
         loggingEvent.d->mLogger = Logger::logger(logger);

@@ -40,6 +40,12 @@ public:
     bool requiresLayout() const override { return true; }
 
 protected:
+    // The signal is emitted from preAppend(), which runs outside the appender
+    // lock (Phase 4b of doAppend). Emitting under mObjectGuard would let a
+    // Qt::DirectConnection slot run synchronously while the lock is held —
+    // a deadlock hazard if the slot acquires another lock. append() is left
+    // empty; all work happens in preAppend().
+    void preAppend(const Log4Qt::LoggingEvent &event, const LayoutSharedPtr &layout) override;
     void append(const Log4Qt::LoggingEvent &event) override;
 
 Q_SIGNALS:

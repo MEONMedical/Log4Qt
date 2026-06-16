@@ -29,6 +29,8 @@
 #include <QCoreApplication>
 #include <QThread>
 
+using namespace Qt::StringLiterals;
+
 namespace Log4Qt
 {
 
@@ -38,24 +40,25 @@ bool BasicConfigurator::configure()
     list->setName(u"BasicConfigurator"_s);
     list->setConfiguratorList(true);
     list->setThreshold(Level::ERROR_INT);
-    LogManager::logLogger()->addAppender(AppenderSharedPtr(list));
+    AppenderSharedPtr listPtr(list);
+    LogManager::logLogger()->addAppender(listPtr);
 
     LayoutSharedPtr p_layout(new PatternLayout(PatternLayout::TtccPattern));
     p_layout->setName(u"BasicConfigurator TTCC"_s);
     p_layout->activateOptions();
-    ConsoleAppender *p_appender = new ConsoleAppender(p_layout, ConsoleAppender::StdOut);
+    auto *p_appender = new ConsoleAppender(p_layout, ConsoleAppender::StdOut);
     p_appender->setName(u"BasicConfigurator stdout"_s);
     p_appender->activateOptions();
-    LogManager::rootLogger()->addAppender(p_appender);
+    LogManager::rootLogger()->addAppender(AppenderSharedPtr(p_appender));
 
-    LogManager::logLogger()->removeAppender(list);
+    LogManager::logLogger()->removeAppender(listPtr);
     ConfiguratorHelper::setConfigureError(list->list());
-    return (list->list().count() == 0);
+    return (list->list().size() == 0);
 }
 
 void BasicConfigurator::configure(Appender *pAppender)
 {
-    LogManager::rootLogger()->addAppender(pAppender);
+    LogManager::rootLogger()->addAppender(AppenderSharedPtr(pAppender));
 }
 
 void BasicConfigurator::resetConfiguration()

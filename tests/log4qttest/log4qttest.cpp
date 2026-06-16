@@ -64,6 +64,8 @@
 
 #include <type_traits>
 
+using namespace Qt::StringLiterals;
+
 using namespace Log4Qt;
 #if QT_VERSION >= 0x050E00
 using Qt::endl;
@@ -1225,7 +1227,7 @@ void Log4QtTest::AppenderSkeleton_threshold()
 
     auto *p_appender = new Log4Qt::ListAppender();
     Log4Qt::Logger *p_logger = test_logger();
-    p_logger->addAppender(p_appender);
+    p_logger->addAppender(Log4Qt::AppenderSharedPtr(p_appender));
 
     // Threshold
     p_appender->setThreshold(Level::ERROR_INT);
@@ -1744,7 +1746,7 @@ void Log4QtTest::PropertyConfigurator_reset()
     // - If the reset flag is set, configure must remove the appender
 
     const QLatin1String key_reset("reset");
-    test_logger()->addAppender(new Log4Qt::ListAppender);
+    test_logger()->addAppender(Log4Qt::AppenderSharedPtr(new Log4Qt::ListAppender));
     mProperties.setProperty(key_reset,
                             QStringLiteral("false"));
     QVERIFY(PropertyConfigurator::configure(mProperties));

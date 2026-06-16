@@ -24,6 +24,8 @@
 #include <QCoreApplication>
 #include <QDataStream>
 
+using namespace Qt::StringLiterals;
+
 namespace Log4Qt
 {
 
@@ -57,33 +59,34 @@ int Level::syslogEquivalent() const
 
 QString Level::toString() const
 {
-    const char *p_context = "Level";
-    const int value = toInt();
+    // Cache the translated strings on first use. The locale active at first
+    // call is the one captured for the lifetime of the process — log-level
+    // names are conventionally not retranslated at runtime.
+    static const char *const p_context = "Level";
+    static const QString sNull  = QCoreApplication::translate(p_context, "NULL");
+    static const QString sAll   = QCoreApplication::translate(p_context, "ALL");
+    static const QString sTrace = QCoreApplication::translate(p_context, "TRACE");
+    static const QString sDebug = QCoreApplication::translate(p_context, "DEBUG");
+    static const QString sInfo  = QCoreApplication::translate(p_context, "INFO");
+    static const QString sWarn  = QCoreApplication::translate(p_context, "WARN");
+    static const QString sError = QCoreApplication::translate(p_context, "ERROR");
+    static const QString sFatal = QCoreApplication::translate(p_context, "FATAL");
+    static const QString sOff   = QCoreApplication::translate(p_context, "OFF");
 
-    switch (value)
+    switch (toInt())
     {
-    case NULL_INT:
-        return QCoreApplication::translate(p_context, "NULL");
-    case ALL_INT:
-        return QCoreApplication::translate(p_context, "ALL");
-    case TRACE_INT:
-        return QCoreApplication::translate(p_context, "TRACE");
-    case DEBUG_INT:
-        return QCoreApplication::translate(p_context, "DEBUG");
-    case INFO_INT:
-        return QCoreApplication::translate(p_context, "INFO");
-    case WARN_INT:
-        return QCoreApplication::translate(p_context, "WARN");
-    case ERROR_INT:
-        return QCoreApplication::translate(p_context, "ERROR");
-    case FATAL_INT:
-        return QCoreApplication::translate(p_context, "FATAL");
-    case OFF_INT:
-        return QCoreApplication::translate(p_context, "OFF");
-    default:
-        Q_ASSERT_X(false, "Level::toString()", "Unknown level value");
-        return QCoreApplication::translate(p_context, "NULL");
+    case NULL_INT:  return sNull;
+    case ALL_INT:   return sAll;
+    case TRACE_INT: return sTrace;
+    case DEBUG_INT: return sDebug;
+    case INFO_INT:  return sInfo;
+    case WARN_INT:  return sWarn;
+    case ERROR_INT: return sError;
+    case FATAL_INT: return sFatal;
+    case OFF_INT:   return sOff;
     }
+    Q_ASSERT_X(false, "Level::toString()", "Unknown level value");
+    return sNull;
 }
 
 Level Level::fromString(QStringView level, bool *ok)

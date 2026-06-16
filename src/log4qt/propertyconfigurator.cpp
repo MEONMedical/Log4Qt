@@ -38,6 +38,8 @@
 #include <QFile>
 #include <QSet>
 
+using namespace Qt::StringLiterals;
+
 namespace Log4Qt
 {
 
@@ -651,7 +653,7 @@ Properties PropertyConfigurator::translateLegacyProperties(const Properties &pro
     {
         if (!key.startsWith(providerOldPrefix))
             continue;
-        result.setProperty(providerNewPrefix + key.mid(providerOldPrefix.length()),
+        result.setProperty(providerNewPrefix + key.mid(providerOldPrefix.size()),
                            properties.property(key));
     }
 
@@ -797,7 +799,7 @@ bool PropertyConfigurator::stopCaptureErrors()
     const auto *listAppender = static_cast<ListAppender *>(mpConfigureErrors.data());
     LogManager::logLogger()->removeAppender(mpConfigureErrors);
     ConfiguratorHelper::setConfigureError(listAppender->list());
-    bool result = (listAppender->list().count() == 0);
+    bool result = (listAppender->list().size() == 0);
     return result;
 }
 

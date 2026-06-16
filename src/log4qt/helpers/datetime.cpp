@@ -25,6 +25,8 @@
 #include <atomic>
 #include <QReadWriteLock>
 
+using namespace Qt::StringLiterals;
+
 namespace Log4Qt
 {
 
@@ -72,7 +74,7 @@ DateTime::DateTime() = default;
 
 DateTime::~DateTime() = default;
 
-DateTime::DateTime(const DateTime &other) = default;
+DateTime::DateTime(const DateTime &other) noexcept = default;
 
 // Static fast path: formats epoch ms without constructing a QDateTime for the
 // named formats. Named formats are cached thread-locally (keyed by epoch ms)

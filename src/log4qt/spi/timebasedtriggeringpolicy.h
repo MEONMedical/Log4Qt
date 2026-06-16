@@ -70,14 +70,14 @@ class LOG4QT_EXPORT TimeBasedTriggeringPolicy : public TriggeringPolicy
     Q_PROPERTY(int maxRandomDelay READ maxRandomDelay WRITE setMaxRandomDelay)
 
 public:
-    enum Frequency
+    enum class Frequency : int
     {
         Minutely = 0,
         Hourly,
         HalfDaily,
         Daily,
         Weekly,
-        Monthly
+        Monthly,
     };
     Q_ENUM(Frequency)
 
@@ -87,13 +87,15 @@ public:
     void setDatePattern(const QString &datePattern) { mDatePattern = datePattern; }
 
     [[nodiscard]] int interval() const { return mInterval; }
-    void setInterval(int interval) { mInterval = interval; }
+    // Clamp to >= 1: mInterval is a divisor in computeRollOverTime(), which runs
+    // on the logging thread, so a 0/negative value must never be storable.
+    void setInterval(int interval) { mInterval = interval > 0 ? interval : 1; }
 
     [[nodiscard]] bool modulate() const { return mModulate; }
     void setModulate(bool modulate) { mModulate = modulate; }
 
     [[nodiscard]] int maxRandomDelay() const { return mMaxRandomDelay; }
-    void setMaxRandomDelay(int maxRandomDelay) { mMaxRandomDelay = maxRandomDelay; }
+    void setMaxRandomDelay(int maxRandomDelay) { mMaxRandomDelay = maxRandomDelay < 0 ? 0 : maxRandomDelay; }
 
     [[nodiscard]] Frequency frequency() const { return mFrequency; }
 
@@ -111,9 +113,9 @@ private:
     QString mDatePattern;
     QString mActiveDatePattern;
     Frequency mFrequency;
-    int mInterval{1};
-    bool mModulate{false};
-    int mMaxRandomDelay{0};
+    int mInterval = 1;
+    bool mModulate = false;
+    int mMaxRandomDelay = 0;
     QDateTime mRollOverTime;
 };
 

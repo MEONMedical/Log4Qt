@@ -24,21 +24,31 @@
 #include "helpers/optionconverter.h"
 
 #include <algorithm>
+#include <utility>
+
+using namespace Qt::StringLiterals;
 
 namespace Log4Qt
 {
 
 LOG4QT_DECLARE_STATIC_LOGGER(static_logger, ::LoggerRepository)
 
-Hierarchy::Hierarchy() 
+Hierarchy::Hierarchy()
     : mObjectGuard(QReadWriteLock::Recursive)
     , mThreshold(Level::NULL_INT)
-    , mRootLogger(logger(QString()))
+    , mRootLogger(createLogger(QString()))
 {}
 
 Hierarchy::~Hierarchy()
 {
     static_logger()->warn(u"Unexpected destruction of Hierarchy"_s);
+
+    QWriteLocker locker(&mObjectGuard);
+    // Hierarchy is a friend of Logger, so we can reach the protected destructor.
+    for (Logger *logger : std::as_const(mLoggers))
+        delete logger;
+    mLoggers.clear();
+    mRootLogger = nullptr;
 }
 
 bool Hierarchy::exists(const QString &name) const
@@ -50,8 +60,18 @@ bool Hierarchy::exists(const QString &name) const
 
 Logger *Hierarchy::logger(const QString &name)
 {
-    QWriteLocker locker(&mObjectGuard);
-
+    // A single write lock is used deliberately instead of a read-lock
+    // fast-path followed by a write-lock on miss. mObjectGuard is a
+    // *recursive* QReadWriteLock, and logger() is called re-entrantly while
+    // the write lock is already held: resetConfiguration() holds the write
+    // lock and calls Logger::setLevel(NULL_INT) on the root logger, which
+    // logs a warning that resolves a class logger back through logger().
+    // Qt's recursive QReadWriteLock only recognizes recursion within the same
+    // lock mode — acquiring a read lock while the thread holds the write lock
+    // deadlocks. A recursive write-acquire is safe, so we take the write lock
+    // directly. Logger lookups are cached at every call site (see the
+    // LOG4QT_DECLARE_*_LOGGER macros), so this is not a hot path.
+    QWriteLocker writeLocker(&mObjectGuard);
     return createLogger(name);
 }
 

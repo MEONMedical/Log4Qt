@@ -78,7 +78,7 @@ private:
     std::bitset<13> mMonths;        // bit 1..12
     std::bitset<8>  mDaysOfWeek;    // bit 1..7  (1=Sunday)
 
-    bool mValid{false};
+    bool mValid = false;
     QString mErrorString;
 };
 

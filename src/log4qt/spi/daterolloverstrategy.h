@@ -91,10 +91,10 @@ class LOG4QT_EXPORT DateRolloverStrategy : public RolloverStrategy
     Q_PROPERTY(bool datedActiveFile READ datedActiveFile WRITE setDatedActiveFile)
 
 public:
-    enum NamingMode
+    enum class NamingMode : int
     {
         Suffix = 0,
-        Embedded
+        Embedded,
     };
     Q_ENUM(NamingMode)
 

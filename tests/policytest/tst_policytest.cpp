@@ -341,7 +341,7 @@ void PolicyTest::TimeBasedTriggeringPolicy_defaults()
 {
     Log4Qt::TimeBasedTriggeringPolicy policy;
     QCOMPARE(policy.datePattern(), QString("'.'yyyy-MM-dd"));
-    QCOMPARE(policy.frequency(), Log4Qt::TimeBasedTriggeringPolicy::Daily);
+    QCOMPARE(policy.frequency(), Log4Qt::TimeBasedTriggeringPolicy::Frequency::Daily);
 }
 
 void PolicyTest::TimeBasedTriggeringPolicy_frequency_data()
@@ -349,16 +349,16 @@ void PolicyTest::TimeBasedTriggeringPolicy_frequency_data()
     QTest::addColumn<QString>("pattern");
     QTest::addColumn<int>("expectedFrequency");
 
-    QTest::newRow("minutely-mm")  << "'.'mm"         << static_cast<int>(TimeBasedTriggeringPolicy::Minutely);
-    QTest::newRow("hourly-HH")   << "'.'HH"         << static_cast<int>(TimeBasedTriggeringPolicy::Hourly);
-    QTest::newRow("halfdaily-a")  << "'.'a"          << static_cast<int>(TimeBasedTriggeringPolicy::HalfDaily);
-    QTest::newRow("daily-dd")     << "'.'yyyy-MM-dd" << static_cast<int>(TimeBasedTriggeringPolicy::Daily);
-    QTest::newRow("monthly-MM")   << "'.'yyyy-MM"    << static_cast<int>(TimeBasedTriggeringPolicy::Monthly);
-    QTest::newRow("weekly-ww")    << "'.'yyyy-ww"    << static_cast<int>(TimeBasedTriggeringPolicy::Weekly);
-    QTest::newRow("hourly-h")     << "'.'h"           << static_cast<int>(TimeBasedTriggeringPolicy::Hourly);
-    QTest::newRow("halfdaily-AP") << "'.'AP"          << static_cast<int>(TimeBasedTriggeringPolicy::HalfDaily);
-    QTest::newRow("quoted-mm")    << "'mm'.yyyy-MM"   << static_cast<int>(TimeBasedTriggeringPolicy::Monthly);
-    QTest::newRow("dayname-ddd")  << "'.'ddd"         << static_cast<int>(TimeBasedTriggeringPolicy::Daily);
+    QTest::newRow("minutely-mm")  << "'.'mm"         << static_cast<int>(TimeBasedTriggeringPolicy::Frequency::Minutely);
+    QTest::newRow("hourly-HH")   << "'.'HH"         << static_cast<int>(TimeBasedTriggeringPolicy::Frequency::Hourly);
+    QTest::newRow("halfdaily-a")  << "'.'a"          << static_cast<int>(TimeBasedTriggeringPolicy::Frequency::HalfDaily);
+    QTest::newRow("daily-dd")     << "'.'yyyy-MM-dd" << static_cast<int>(TimeBasedTriggeringPolicy::Frequency::Daily);
+    QTest::newRow("monthly-MM")   << "'.'yyyy-MM"    << static_cast<int>(TimeBasedTriggeringPolicy::Frequency::Monthly);
+    QTest::newRow("weekly-ww")    << "'.'yyyy-ww"    << static_cast<int>(TimeBasedTriggeringPolicy::Frequency::Weekly);
+    QTest::newRow("hourly-h")     << "'.'h"           << static_cast<int>(TimeBasedTriggeringPolicy::Frequency::Hourly);
+    QTest::newRow("halfdaily-AP") << "'.'AP"          << static_cast<int>(TimeBasedTriggeringPolicy::Frequency::HalfDaily);
+    QTest::newRow("quoted-mm")    << "'mm'.yyyy-MM"   << static_cast<int>(TimeBasedTriggeringPolicy::Frequency::Monthly);
+    QTest::newRow("dayname-ddd")  << "'.'ddd"         << static_cast<int>(TimeBasedTriggeringPolicy::Frequency::Daily);
 }
 
 void PolicyTest::TimeBasedTriggeringPolicy_frequency()
@@ -422,7 +422,7 @@ void PolicyTest::TimeBasedTriggeringPolicy_modulateAlignment()
     policy.setModulate(true);
     policy.activateOptions();
 
-    QCOMPARE(policy.frequency(), Log4Qt::TimeBasedTriggeringPolicy::Minutely);
+    QCOMPARE(policy.frequency(), Log4Qt::TimeBasedTriggeringPolicy::Frequency::Minutely);
 
     // Should not trigger immediately since rollover time is in the future
     LoggingEvent event;
@@ -484,7 +484,7 @@ void PolicyTest::TimeBasedTriggeringPolicy_propertyConfigurator()
     QCOMPARE(timePolicy->interval(), 4);
     QCOMPARE(timePolicy->modulate(), true);
     QCOMPARE(timePolicy->maxRandomDelay(), 30);
-    QCOMPARE(timePolicy->frequency(), Log4Qt::TimeBasedTriggeringPolicy::Hourly);
+    QCOMPARE(timePolicy->frequency(), Log4Qt::TimeBasedTriggeringPolicy::Frequency::Hourly);
 }
 
 // ---------------------------------------------------------------------------
@@ -662,7 +662,7 @@ void PolicyTest::DateRolloverStrategy_defaults()
 {
     Log4Qt::DateRolloverStrategy strategy;
     QCOMPARE(strategy.datePattern(), QString("'.'yyyy-MM-dd"));
-    QCOMPARE(strategy.mode(), Log4Qt::DateRolloverStrategy::Suffix);
+    QCOMPARE(strategy.mode(), Log4Qt::DateRolloverStrategy::NamingMode::Suffix);
     QCOMPARE(strategy.modeString(), QString("Suffix"));
     QCOMPARE(strategy.maxBackups(), 0);
 }
@@ -684,7 +684,7 @@ void PolicyTest::DateRolloverStrategy_suffixMode()
 
     Log4Qt::DateRolloverStrategy strategy;
     strategy.setDatePattern("'.'yyyy-MM-dd");
-    strategy.setMode(Log4Qt::DateRolloverStrategy::Suffix);
+    strategy.setMode(Log4Qt::DateRolloverStrategy::NamingMode::Suffix);
 
     QString result = strategy.rollover(basePath);
 
@@ -710,7 +710,7 @@ void PolicyTest::DateRolloverStrategy_embeddedMode()
     strategy.setDatePattern("_yyyy-MM-dd");
     strategy.setModeString("Embedded");
 
-    QCOMPARE(strategy.mode(), Log4Qt::DateRolloverStrategy::Embedded);
+    QCOMPARE(strategy.mode(), Log4Qt::DateRolloverStrategy::NamingMode::Embedded);
 
     QString result = strategy.rollover(basePath);
 
@@ -803,7 +803,7 @@ void PolicyTest::DateRolloverStrategy_suffixPropertyConfigurator()
     auto *dateStrategy = qobject_cast<DateRolloverStrategy *>(appender->rolloverStrategy().data());
     QVERIFY(dateStrategy != nullptr);
     QCOMPARE(dateStrategy->datePattern(), QString("'.'yyyy-MM-dd"));
-    QCOMPARE(dateStrategy->mode(), DateRolloverStrategy::Suffix);
+    QCOMPARE(dateStrategy->mode(), DateRolloverStrategy::NamingMode::Suffix);
     QCOMPARE(dateStrategy->maxBackups(), 30);
 }
 
@@ -849,7 +849,7 @@ void PolicyTest::DateRolloverStrategy_embeddedPropertyConfigurator()
     auto *dateStrategy = qobject_cast<DateRolloverStrategy *>(appender->rolloverStrategy().data());
     QVERIFY(dateStrategy != nullptr);
     QCOMPARE(dateStrategy->datePattern(), QString("_yyyy_MM_dd"));
-    QCOMPARE(dateStrategy->mode(), DateRolloverStrategy::Embedded);
+    QCOMPARE(dateStrategy->mode(), DateRolloverStrategy::NamingMode::Embedded);
     QCOMPARE(dateStrategy->maxBackups(), 90);
 
     // After activation with OnStartup, the file should have the date embedded
@@ -868,11 +868,11 @@ void PolicyTest::DateRolloverStrategy_initialFileName_offByDefault()
     const QString path = QStringLiteral("logs/app.log");
 
     Log4Qt::DateRolloverStrategy suffix;
-    suffix.setMode(Log4Qt::DateRolloverStrategy::Suffix);
+    suffix.setMode(Log4Qt::DateRolloverStrategy::NamingMode::Suffix);
     QCOMPARE(suffix.initialFileName(path), path);
 
     Log4Qt::DateRolloverStrategy embedded;
-    embedded.setMode(Log4Qt::DateRolloverStrategy::Embedded);
+    embedded.setMode(Log4Qt::DateRolloverStrategy::NamingMode::Embedded);
     QCOMPARE(embedded.initialFileName(path), path);
 }
 
@@ -885,7 +885,7 @@ void PolicyTest::DateRolloverStrategy_initialFileName_datedEmbedded()
 
     Log4Qt::DateRolloverStrategy strategy;
     strategy.setDatePattern("_yyyy_MM_dd");
-    strategy.setMode(Log4Qt::DateRolloverStrategy::Embedded);
+    strategy.setMode(Log4Qt::DateRolloverStrategy::NamingMode::Embedded);
     strategy.setDatedActiveFile(true);
 
     const QString basePath = tempDir.path() + "/app.log";
@@ -899,7 +899,7 @@ void PolicyTest::DateRolloverStrategy_initialFileName_datedSuffix()
 
     Log4Qt::DateRolloverStrategy strategy;
     strategy.setDatePattern("'.'yyyy-MM-dd");
-    strategy.setMode(Log4Qt::DateRolloverStrategy::Suffix);
+    strategy.setMode(Log4Qt::DateRolloverStrategy::NamingMode::Suffix);
     strategy.setDatedActiveFile(true);
 
     const QString basePath = QStringLiteral("logs/app.log");
@@ -927,7 +927,7 @@ void PolicyTest::DateRolloverStrategy_datedActiveFile_rolloverNoRename()
 
     Log4Qt::DateRolloverStrategy strategy;
     strategy.setDatePattern("_yyyy_MM_dd");
-    strategy.setMode(Log4Qt::DateRolloverStrategy::Embedded);
+    strategy.setMode(Log4Qt::DateRolloverStrategy::NamingMode::Embedded);
     strategy.setDatedActiveFile(true);
 
     const QString result = strategy.rollover(basePath);
@@ -1132,7 +1132,7 @@ void PolicyTest::RollingFileAppender_initialFileName_appliedOnStartup()
     auto *ds = qobject_cast<DateRolloverStrategy *>(strategy.data());
     QVERIFY(ds != nullptr);
     ds->setDatePattern("_yyyy_MM_dd");
-    ds->setMode(DateRolloverStrategy::Embedded);
+    ds->setMode(DateRolloverStrategy::NamingMode::Embedded);
     ds->setDatedActiveFile(true);
     appender.setRolloverStrategy(strategy);
 
@@ -1164,7 +1164,7 @@ void PolicyTest::RollingFileAppender_rolloverUsesBaseFileName()
     auto *ds = qobject_cast<DateRolloverStrategy *>(strategy.data());
     QVERIFY(ds != nullptr);
     ds->setDatePattern("_yyyy_MM_dd");
-    ds->setMode(DateRolloverStrategy::Embedded);
+    ds->setMode(DateRolloverStrategy::NamingMode::Embedded);
     ds->setDatedActiveFile(true);
     appender.setRolloverStrategy(strategy);
 
