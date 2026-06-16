@@ -25,6 +25,8 @@
 
 #include <QReadLocker>
 
+using namespace Qt::StringLiterals;
+
 namespace Log4Qt
 {
 
@@ -44,6 +46,17 @@ bool AsyncAppender::requiresLayout() const
 }
 
 // --- Property accessors ------------------------------------------------------
+
+void AsyncAppender::setBufferSize(int size)
+{
+    if (size <= 0)
+    {
+        logger()->warn(u"AsyncAppender '%1': invalid bufferSize %2, clamping to 1"_s
+                       .arg(name()).arg(size));
+        size = 1;
+    }
+    mBufferSize = size;
+}
 
 void AsyncAppender::setQueueFullPolicy(QueueFullPolicy policy)
 {
@@ -202,6 +215,7 @@ void AsyncAppender::handleQueueFull(const LoggingEvent &event)
 
 bool AsyncAppender::checkEntryConditions() const
 {
+    QMutexLocker locker(&mObjectGuard);
     if (mWorker && !mWorker->isRunning())
     {
         LogError e = LOG4QT_QCLASS_ERROR(

@@ -118,7 +118,7 @@ public:
      *
      * \sa \ref LogError::LogError(const char *, int, const char *, const char *, Encoding) "LogError::LogError()"
      */
-    enum Encoding
+    enum Encoding : int
     {
         /*! LATIN-1 */
         Latin1,
@@ -128,7 +128,7 @@ public:
          */
         CodecForTr,
         /*! UTF-8 */
-        UnicodeUtf8
+        UnicodeUtf8,
     };
 
     /*!

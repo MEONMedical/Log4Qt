@@ -44,11 +44,27 @@ LOG4QT_IMPLEMENT_INSTANCE(ConfiguratorHelper)
 
 void ConfiguratorHelper::doConfigurationFileChanged(const QString &fileName)
 {
-    if (!mConfigureFunc ||
-        !QFileInfo::exists(mConfigurationFile.absoluteFilePath()))
+    ConfigureFunc func = nullptr;
+    QString configPath;
+    {
+        QMutexLocker locker(&mObjectGuard);
+        func = mConfigureFunc;
+        configPath = mConfigurationFile.absoluteFilePath();
+    }
+
+    if (!func || !QFileInfo::exists(configPath))
         return;
-    mConfigureFunc(fileName);
-    Q_EMIT configurationFileChanged(fileName, mConfigureError.count() > 0);
+
+    // Run the user callback outside the lock; it may call back into
+    // setConfigureError() and would self-deadlock on a non-recursive mutex.
+    func(fileName);
+
+    bool hadError;
+    {
+        QMutexLocker locker(&mObjectGuard);
+        hadError = !mConfigureError.isEmpty();
+    }
+    Q_EMIT configurationFileChanged(fileName, hadError);
 }
 
 void ConfiguratorHelper::doConfigurationFileDirectoryChanged([[maybe_unused]] const QString &path)
@@ -58,8 +74,12 @@ void ConfiguratorHelper::doConfigurationFileDirectoryChanged([[maybe_unused]] co
 
 void ConfiguratorHelper::tryToReAddConfigurationFile()
 {
-    if (!mConfigurationFileWatch->files().contains(mConfigurationFile.absoluteFilePath()))
-        mConfigurationFileWatch->addPath(mConfigurationFile.absoluteFilePath());
+    QMutexLocker locker(&mObjectGuard);
+    if (!mConfigurationFileWatch)
+        return;
+    const QString path = mConfigurationFile.absoluteFilePath();
+    if (!mConfigurationFileWatch->files().contains(path))
+        mConfigurationFileWatch->addPath(path);
 }
 
 void ConfiguratorHelper::doSetConfigurationFile(const QString &fileName,

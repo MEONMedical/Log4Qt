@@ -21,7 +21,6 @@
 #ifndef LOG4QT_PATTERNFORMATTER_H
 #define LOG4QT_PATTERNFORMATTER_H
 
-#include "log4qt/log4qtdefs.h"
 #include "log4qt/log4qtshared.h"
 
 #include <QList>

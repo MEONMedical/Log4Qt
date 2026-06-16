@@ -51,9 +51,11 @@ bool WDCAppender::requiresLayout() const
 
 void WDCAppender::append(const LoggingEvent &event)
 {
-    Q_ASSERT_X(layout(), "WDCAppender::append()", "Layout must not be null");
+    const LayoutSharedPtr &layoutSnap = layoutSnapshot();
+    if (!layoutSnap)
+        return;
 
-    QString message(layout()->format(event));
+    QString message(layoutSnap->format(event));
 
     OutputDebugString(message.toStdWString().c_str());
 }

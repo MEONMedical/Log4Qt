@@ -57,12 +57,12 @@ public:
      *
      * \sa target(), setTarget()
      */
-    enum Target
+    enum Target : int
     {
         /*! The output target is standard out. */
         StdOut,
         /*! The output target is standard error. */
-        StdErr
+        StdErr,
     };
     Q_ENUM(Target)
 
@@ -106,6 +106,9 @@ protected:
 private:
     std::atomic<Target> mTarget;
     std::unique_ptr<QTextStream> mtextStream;
+#ifdef Q_OS_WIN
+    bool mUseOutputDebugString = false;
+#endif
     void closeInternal();
 };
 

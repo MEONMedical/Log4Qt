@@ -29,6 +29,8 @@
 #include <QProcess>
 #include <QSettings>
 
+using namespace Qt::StringLiterals;
+
 #ifndef QT_NO_DATASTREAM
 #include <QDataStream>
 #endif

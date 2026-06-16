@@ -21,7 +21,6 @@
 #include "spi/daterolloverstrategy.h"
 
 #include "helpers/datetime.h"
-#include "log4qtdefs.h"
 
 #include <QDateTime>
 #include <QDir>
@@ -32,6 +31,8 @@
 #include <QRegularExpression>
 
 #include <algorithm>
+
+using namespace Qt::StringLiterals;
 
 namespace
 {
@@ -50,7 +51,7 @@ void deleteObsoleteFiles(
     const QString ext = fi.completeSuffix();
 
     QString nameFilter;
-    if (mode == Log4Qt::DateRolloverStrategy::Suffix)
+    if (mode == Log4Qt::DateRolloverStrategy::NamingMode::Suffix)
         nameFilter = fi.fileName() + u"*"_s;
     else
         nameFilter = base + u"*"_s + (ext.isEmpty() ? u""_s : u"."_s + ext);
@@ -64,8 +65,12 @@ void deleteObsoleteFiles(
     if (keepDays > 0)
     {
         const QDate cutoff = currentDate.addDays(-keepDays);
+        // Escape the filename-derived parts: base/ext can contain regex
+        // metacharacters (e.g. '.' in "app.v2.log") that would otherwise
+        // match unintended sibling files and delete them.
         const QRegularExpression dateExtractor(
-            base + u"(.*)"_s + (ext.isEmpty() ? u""_s : u"\\."_s + ext));
+            QRegularExpression::escape(base) + u"(.*)"_s
+            + (ext.isEmpty() ? u""_s : u"\\."_s + QRegularExpression::escape(ext)));
 
         entries.removeIf([&](const QFileInfo &entry) {
             const auto match = dateExtractor.match(entry.fileName());
@@ -98,7 +103,7 @@ namespace Log4Qt
 DateRolloverStrategy::DateRolloverStrategy(QObject *parent) :
     RolloverStrategy(parent),
     mDatePattern(u"'.'yyyy-MM-dd"_s),
-    mMode(Suffix),
+    mMode(NamingMode::Suffix),
     mMaxBackups(0),
     mKeepDays(0),
     mDatedActiveFile(false)
@@ -107,15 +112,15 @@ DateRolloverStrategy::DateRolloverStrategy(QObject *parent) :
 
 QString DateRolloverStrategy::modeString() const
 {
-    return mMode == Embedded ? u"Embedded"_s : u"Suffix"_s;
+    return mMode == NamingMode::Embedded ? u"Embedded"_s : u"Suffix"_s;
 }
 
 void DateRolloverStrategy::setModeString(const QString &mode)
 {
     if (mode.compare(u"Embedded"_s, Qt::CaseInsensitive) == 0)
-        mMode = Embedded;
+        mMode = NamingMode::Embedded;
     else
-        mMode = Suffix;
+        mMode = NamingMode::Suffix;
 }
 
 void DateRolloverStrategy::activateOptions()
@@ -156,7 +161,7 @@ QString DateRolloverStrategy::rollover(const QString &fileName)
         return buildBackupName(fileName, dateTime);
     }
 
-    if (mMode == Suffix)
+    if (mMode == NamingMode::Suffix)
     {
         // Use the active suffix to name the backup after the period it belongs to.
         // mActiveSuffix is set during activateOptions() and updated after each rollover.
@@ -183,7 +188,7 @@ QString DateRolloverStrategy::buildBackupName(const QString &fileName,
 {
     const QString dateStr = dateTime.toString(mDatePattern);
 
-    if (mMode == Suffix)
+    if (mMode == NamingMode::Suffix)
         return fileName + dateStr;
 
     // Embedded: insert date between basename and extension

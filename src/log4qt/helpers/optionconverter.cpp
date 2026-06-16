@@ -25,6 +25,8 @@
 #include "logger.h"
 #include "consoleappender.h"
 
+using namespace Qt::StringLiterals;
+
 namespace Log4Qt
 {
 
@@ -39,8 +41,8 @@ QString OptionConverter::findAndSubst(const Properties &properties,
 
     const QString begin_subst = u"${"_s;
     const QString end_subst = u"}"_s;
-    const int begin_length = begin_subst.length();
-    const int end_length = end_subst.length();
+    const int begin_length = begin_subst.size();
+    const int end_length = end_subst.size();
 
     // Don't return a null string, the null string indicates that the
     // property key does not exist.
@@ -49,13 +51,13 @@ QString OptionConverter::findAndSubst(const Properties &properties,
     int i = 0;
     int begin;
     int end;
-    while (i < value.length())
+    while (i < value.size())
     {
         begin = value.indexOf(begin_subst, i);
         if (begin == -1)
         {
             result += value.mid(i);
-            i = value.length();
+            i = value.size();
         }
         else
         {
@@ -146,24 +148,24 @@ qint64 OptionConverter::toFileSize(const QString &option,
     int i;
     i = s.indexOf(u"kb"_s);
     if (i >= 0)
-        f = 1024;
+        f = 1024LL;
     else
     {
         i = s.indexOf(u"mb"_s);
         if (i >= 0)
-            f = 1024 * 1024;
+            f = 1024LL * 1024;
         else
         {
             i = s.indexOf(u"gb"_s);
             if (i >= 0)
-                f = 1024 * 1024 * 1024;
+                f = 1024LL * 1024 * 1024;
         }
     }
     if (i < 0)
-        i = s.length();
+        i = s.size();
     bool convertOk;
     qint64 value = s.left(i).toLongLong(&convertOk);
-    if (!convertOk || value < 0 || s.length() > i + 2)
+    if (!convertOk || value < 0 || s.size() > i + 2)
     {
         LogError e = LOG4QT_ERROR(QT_TR_NOOP("Invalid option string '%1' for a file size"),
                                   ConfiguratorInvalidOptionError,
@@ -180,8 +182,11 @@ qint64 OptionConverter::toFileSize(const QString &option,
 int OptionConverter::toInt(const QString &option,
                            bool *ok)
 {
-    int value = option.trimmed().toInt(ok);
-    if (*ok)
+    bool convertOk;
+    int value = option.trimmed().toInt(&convertOk);
+    if (ok != nullptr)
+        *ok = convertOk;
+    if (convertOk)
         return value;
 
     LogError e = LOG4QT_ERROR(QT_TR_NOOP("Invalid option string '%1' for an integer"),
@@ -252,11 +257,13 @@ QStringConverter::Encoding OptionConverter::toEncoding(const QString &option,
 {
     std::optional<QStringConverter::Encoding> encoding = QStringConverter::encodingForName(option.toStdString().c_str());
     if (encoding.has_value()) {
-        *ok = true;
+        if (ok != nullptr)
+            *ok = true;
         return encoding.value();
     }
 
-    *ok = false;
+    if (ok != nullptr)
+        *ok = false;
 
     LogError e = LOG4QT_ERROR(QT_TR_NOOP("Invalid option string '%1' for a QStringConverter::Encoding"),
                               ConfiguratorInvalidOptionError,

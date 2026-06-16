@@ -232,7 +232,7 @@ class LOG4QT_EXPORT Logger : public QObject, public AppenderAttachable
      *
      * \sa additive(), setAdditive()
      */
-    Q_PROPERTY(bool additivity READ additivity WRITE setAdditivity)
+    Q_PROPERTY(bool additivity READ additivity WRITE setAdditivity NOTIFY additivityChanged)
 
     /*!
      * The property holds the level used by the logger.
@@ -240,28 +240,28 @@ class LOG4QT_EXPORT Logger : public QObject, public AppenderAttachable
      * The default is Level::NULL_INT.
      * \sa level(), setLevel()
      */
-    Q_PROPERTY(Log4Qt::Level level READ level WRITE setLevel)
+    Q_PROPERTY(Log4Qt::Level level READ level WRITE setLevel NOTIFY levelChanged)
 
     /*!
      * The property holds the LoggerRepository of the logger.
      *
      * \sa loggerRepository()
      */
-    Q_PROPERTY(LoggerRepository *loggerRepository READ loggerRepository)
+    Q_PROPERTY(LoggerRepository *loggerRepository READ loggerRepository CONSTANT)
 
     /*!
      * The property holds the name of the logger.
      *
      * \sa name()
      */
-    Q_PROPERTY(QString name READ name)
+    Q_PROPERTY(QString name READ name CONSTANT)
 
     /*!
      * The property holds the parent logger of the logger.
      *
      * \sa parentLogger()
      */
-    Q_PROPERTY(Logger *parentLogger READ parentLogger)
+    Q_PROPERTY(Logger *parentLogger READ parentLogger CONSTANT)
 
     LOG4QT_DECLARE_QCLASS_LOGGER
 
@@ -431,6 +431,10 @@ public:
     static Logger *logger(const QString &name);
     static Logger *logger(const char *name);
     static Logger *rootLogger();
+
+Q_SIGNALS:
+    void additivityChanged(bool additivity);
+    void levelChanged(Log4Qt::Level level);
 
 protected:
     void forcedLog(Level level, const QString &message) const;

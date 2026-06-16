@@ -87,7 +87,7 @@ public:
      *
      * \sa setConversionPattern(ConversionPattern);
      */
-    enum ConversionPattern
+    enum ConversionPattern : int
     {
         /*! The default conversion pattern string is "%m,%n". */
         DefaultPattern,
@@ -95,7 +95,7 @@ public:
          * The ttcc conversion pattern string is
          * "%r [%t] %p %c %x - %m%n".
          */
-        TtccPattern
+        TtccPattern,
     };
     Q_ENUM(ConversionPattern)
 

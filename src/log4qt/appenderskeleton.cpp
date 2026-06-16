@@ -27,6 +27,8 @@
 
 #include <QScopeGuard>
 
+using namespace Qt::StringLiterals;
+
 namespace Log4Qt
 {
 
@@ -262,6 +264,24 @@ LayoutSharedPtr Log4Qt::AppenderSkeleton::layout() const
 {
     QMutexLocker locker(&mObjectGuard);
     return mpLayout;
+}
+
+FilterSharedPtr AppenderSkeleton::filter() const
+{
+    QMutexLocker locker(&mObjectGuard);
+    return mpHeadFilter;
+}
+
+QString AppenderSkeleton::name() const
+{
+    QMutexLocker locker(&mObjectGuard);
+    return objectName();
+}
+
+void AppenderSkeleton::setName(const QString &name)
+{
+    QMutexLocker locker(&mObjectGuard);
+    setObjectName(name);
 }
 
 } // namespace Log4Qt

@@ -41,6 +41,8 @@
 #include <QElapsedTimer>
 #include <QDebug>
 
+using namespace Qt::StringLiterals;
+
 void PerformanceTest::initTestCase()
 {
     // Create temporary directory for test files
@@ -94,8 +96,8 @@ void PerformanceTest::testSimpleLoggingPerformance()
     auto nullAppender = new Log4Qt::NullAppender();
     nullAppender->setName("NullAppender");
     nullAppender->activateOptions();
-    logger->addAppender(nullAppender);
-    
+    logger->addAppender(Log4Qt::AppenderSharedPtr(nullAppender));
+
     if (level == "DEBUG")
         logger->setLevel(Log4Qt::Level::DEBUG_INT);
     else if (level == "INFO")
@@ -150,17 +152,17 @@ void PerformanceTest::testFileAppenderPerformance()
     if (layoutType == "simple")
     {
         auto layout = new Log4Qt::SimpleLayout();
-        fileAppender->setLayout(layout);
+        fileAppender->setLayout(Log4Qt::LayoutSharedPtr(layout));
     }
     else if (layoutType == "pattern")
     {
         auto layout = new Log4Qt::PatternLayout();
         layout->setConversionPattern("%d{ISO8601} [%t] %-5p %c - %m%n");
-        fileAppender->setLayout(layout);
+        fileAppender->setLayout(Log4Qt::LayoutSharedPtr(layout));
     }
-    
+
     fileAppender->activateOptions();
-    logger->addAppender(fileAppender);
+    logger->addAppender(Log4Qt::AppenderSharedPtr(fileAppender));
     
     // Benchmark logging
     QBENCHMARK
@@ -228,9 +230,9 @@ void PerformanceTest::testMultiThreadedLoggingPerformance()
     fileAppender->setImmediateFlush(false); // Use buffering for better performance
     
     auto layout = new Log4Qt::SimpleLayout();
-    fileAppender->setLayout(layout);
+    fileAppender->setLayout(Log4Qt::LayoutSharedPtr(layout));
     fileAppender->activateOptions();
-    logger->addAppender(fileAppender);
+    logger->addAppender(Log4Qt::AppenderSharedPtr(fileAppender));
     
     // Benchmark multi-threaded logging
     QBENCHMARK
@@ -279,10 +281,10 @@ void PerformanceTest::testFormattingPerformance()
     
     auto layout = new Log4Qt::PatternLayout();
     layout->setConversionPattern(pattern);
-    nullAppender->setLayout(layout);
+    nullAppender->setLayout(Log4Qt::LayoutSharedPtr(layout));
     nullAppender->activateOptions();
-    
-    logger->addAppender(nullAppender);
+
+    logger->addAppender(Log4Qt::AppenderSharedPtr(nullAppender));
     
     // Benchmark formatting
     QBENCHMARK
@@ -325,11 +327,11 @@ void PerformanceTest::testFilteringPerformance()
         auto filter = new Log4Qt::LevelMatchFilter();
         filter->setLevelToMatch(Log4Qt::Level::INFO_INT);
         filter->setAcceptOnMatch(true);
-        nullAppender->addFilter(filter);
+        nullAppender->addFilter(Log4Qt::FilterSharedPtr(filter));
     }
-    
+
     nullAppender->activateOptions();
-    logger->addAppender(nullAppender);
+    logger->addAppender(Log4Qt::AppenderSharedPtr(nullAppender));
     
     // Benchmark with filtering
     QBENCHMARK
@@ -381,8 +383,8 @@ void PerformanceTest::testTimestampCacheWindowPerformance()
     auto nullAppender = new Log4Qt::NullAppender();
     nullAppender->setName("NullAppender");
     nullAppender->activateOptions();
-    logger->addAppender(nullAppender);
-    
+    logger->addAppender(Log4Qt::AppenderSharedPtr(nullAppender));
+
     // Benchmark pure logging event creation with different cache windows
     QBENCHMARK
     {
@@ -427,7 +429,7 @@ void PerformanceTest::testLoggerTemplateDisabled()
     auto nullAppender = new Log4Qt::NullAppender();
     nullAppender->setName("NullAppender");
     nullAppender->activateOptions();
-    logger->addAppender(nullAppender);
+    logger->addAppender(Log4Qt::AppenderSharedPtr(nullAppender));
 
     // Benchmark logging calls that should be short-circuited (check isEnabledFor)
     QBENCHMARK
@@ -473,10 +475,10 @@ void PerformanceTest::testPatternFormatterOptimization()
     auto layout = new Log4Qt::PatternLayout();
     layout->setConversionPattern(pattern);
     layout->activateOptions();
-    
-    nullAppender->setLayout(layout);
+
+    nullAppender->setLayout(Log4Qt::LayoutSharedPtr(layout));
     nullAppender->activateOptions();
-    logger->addAppender(nullAppender);
+    logger->addAppender(Log4Qt::AppenderSharedPtr(nullAppender));
 
     // Benchmark the formatting speed with optimized PatternFormatter
     QBENCHMARK
@@ -516,7 +518,7 @@ void PerformanceTest::testLogStreamLazyInit()
     auto nullAppender = new Log4Qt::NullAppender();
     nullAppender->setName("NullAppender");
     nullAppender->activateOptions();
-    logger->addAppender(nullAppender);
+    logger->addAppender(Log4Qt::AppenderSharedPtr(nullAppender));
 
     // Set logger level to control enabled/disabled state
     if (enabled) {
@@ -573,16 +575,17 @@ void PerformanceTest::testAppenderComparison()
 
     Log4Qt::Appender *appenderPtr = nullptr;
 
+    Log4Qt::LayoutSharedPtr layoutPtr(layout);
     if (appenderType == "file")
     {
         auto appender = new Log4Qt::FileAppender();
         appender->setName("FileAppender");
         appender->setFile(testFile);
         appender->setImmediateFlush(false);
-        appender->setLayout(layout);
+        appender->setLayout(layoutPtr);
         appender->activateOptions();
         appenderPtr = appender;
-        logger->addAppender(appender);
+        logger->addAppender(Log4Qt::AppenderSharedPtr(appender));
     }
     else
     {
@@ -590,10 +593,10 @@ void PerformanceTest::testAppenderComparison()
         appender->setName("RAFAppender");
         appender->setFile(testFile);
         appender->setImmediateFlush(false);
-        appender->setLayout(layout);
+        appender->setLayout(layoutPtr);
         appender->activateOptions();
         appenderPtr = appender;
-        logger->addAppender(appender);
+        logger->addAppender(Log4Qt::AppenderSharedPtr(appender));
     }
 
     QBENCHMARK
@@ -660,16 +663,17 @@ void PerformanceTest::testAppenderComparisonMultiThreaded()
 
     Log4Qt::Appender *appenderPtr = nullptr;
 
+    Log4Qt::LayoutSharedPtr layoutPtr(layout);
     if (appenderType == "file")
     {
         auto appender = new Log4Qt::FileAppender();
         appender->setName("FileAppender");
         appender->setFile(testFile);
         appender->setImmediateFlush(false);
-        appender->setLayout(layout);
+        appender->setLayout(layoutPtr);
         appender->activateOptions();
         appenderPtr = appender;
-        logger->addAppender(appender);
+        logger->addAppender(Log4Qt::AppenderSharedPtr(appender));
     }
     else
     {
@@ -677,10 +681,10 @@ void PerformanceTest::testAppenderComparisonMultiThreaded()
         appender->setName("RAFAppender");
         appender->setFile(testFile);
         appender->setImmediateFlush(false);
-        appender->setLayout(layout);
+        appender->setLayout(layoutPtr);
         appender->activateOptions();
         appenderPtr = appender;
-        logger->addAppender(appender);
+        logger->addAppender(Log4Qt::AppenderSharedPtr(appender));
     }
 
     QBENCHMARK

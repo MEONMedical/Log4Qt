@@ -24,6 +24,7 @@
 #include "log4qt/log4qt.h"
 #include "log4qt/log4qtsharedptr.h"
 
+#include <QMutex>
 #include <QObject>
 
 namespace Log4Qt
@@ -56,13 +57,13 @@ class LOG4QT_EXPORT Filter : public QObject
     Q_PROPERTY(FilterSharedPtr next READ next WRITE setNext)
 
 public:
-    enum Decision
+    enum Decision : int
     {
         Accept, /*!< The log event must be logged immediately without consulting
                      with the remaining filters, if any, in the chain. */
         Deny, /*!< The log event must be dropped immediately without consulting
                    with the remaining filters, if any, in the chain. */
-        Neutral /*!< This filter is neutral with respect to the log event. The
+        Neutral, /*!< This filter is neutral with respect to the log event. The
                    remaining filters, if any, should be consulted for a final decision. */
     };
     Q_ENUM(Decision)
@@ -78,6 +79,7 @@ public:
     [[nodiscard]] virtual Decision decide(const LoggingEvent &event) const = 0;
 
 private:
+    mutable QMutex mNextGuard;
     FilterSharedPtr mNext;
 };
 

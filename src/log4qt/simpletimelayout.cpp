@@ -20,20 +20,24 @@
 
 #include "simpletimelayout.h"
 
-#include "log4qtdefs.h"
 #include "loggingevent.h"
 #include "helpers/datetime.h"
+
+#include <QStringBuilder>
+
+using namespace Qt::StringLiterals;
 
 namespace Log4Qt
 {
 
 QString SimpleTimeLayout::format(const LoggingEvent &event)
 {
-    return DateTime::fromMSecsSinceEpoch(event.timeStamp()).toString(u"dd.MM.yyyy hh:mm"_s)
-           + u"["_s + event.threadName() + u"]"_s
-           + u" "_s + event.level().toString()
-           + u" "_s + event.loggername()
-           + u" - "_s + event.message() + AbstractLayout::endOfLine();
+    return DateTime::formatMsecs(event.timeStamp(), u"dd.MM.yyyy hh:mm"_s)
+           % u"["_s % event.threadName() % u"] "_s
+           % event.level().toString()
+           % u' ' % event.loggername()
+           % u" - "_s % event.message()
+           % AbstractLayout::endOfLine();
 }
 
 

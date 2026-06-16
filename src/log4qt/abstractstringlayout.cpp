@@ -21,7 +21,8 @@
 #include "abstractstringlayout.h"
 
 #include "loggingevent.h"
-#include "log4qtdefs.h"
+
+using namespace Qt::StringLiterals;
 
 namespace Log4Qt
 {

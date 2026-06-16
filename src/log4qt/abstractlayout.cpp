@@ -18,11 +18,11 @@
  *
  ******************************************************************************/
 
-#include "log4qtdefs.h"
 #include "abstractlayout.h"
 
 #include <QReadWriteLock>
 
+using namespace Qt::StringLiterals;
 
 namespace Log4Qt
 {
@@ -40,6 +40,26 @@ AbstractLayout::~AbstractLayout() = default;
 QString AbstractLayout::contentType() const
 {
     return u"text/plain"_s;
+}
+
+QString AbstractLayout::name() const
+{
+    return objectName();
+}
+
+void AbstractLayout::setFooter(const QString &footer)
+{
+    mFooter = footer;
+}
+
+void AbstractLayout::setHeader(const QString &header)
+{
+    mHeader = header;
+}
+
+void AbstractLayout::setName(const QString &name)
+{
+    setObjectName(name);
 }
 
 QString AbstractLayout::header() const

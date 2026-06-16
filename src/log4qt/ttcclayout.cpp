@@ -25,6 +25,8 @@
 
 #include <QDateTime>
 
+using namespace Qt::StringLiterals;
+
 namespace Log4Qt
 {
 

@@ -171,18 +171,19 @@ void setupRootLogger(const QString &introMessage)
     auto *layout = new Log4Qt::TTCCLayout();
     layout->setName(QStringLiteral("My Layout"));
     layout->activateOptions();
+    Log4Qt::LayoutSharedPtr layoutPtr(layout);
     // Create a console appender
-    Log4Qt::ConsoleAppender *consoleAppender = new Log4Qt::ConsoleAppender(layout, Log4Qt::ConsoleAppender::StdOut);
+    auto *consoleAppender = new Log4Qt::ConsoleAppender(layoutPtr, Log4Qt::ConsoleAppender::StdOut);
     consoleAppender->setName(QStringLiteral("My Appender"));
     consoleAppender->activateOptions();
     // Add appender on root logger
-    logger->addAppender(consoleAppender);
+    logger->addAppender(Log4Qt::AppenderSharedPtr(consoleAppender));
     // Create a file appender
-    Log4Qt::FileAppender *fileAppender = new Log4Qt::FileAppender(layout, QCoreApplication::applicationDirPath() + "/basic.log", true);
+    auto *fileAppender = new Log4Qt::FileAppender(layoutPtr, QCoreApplication::applicationDirPath() + "/basic.log", true);
     fileAppender->setName(QStringLiteral("My file appender"));
     fileAppender->activateOptions();
     // Add appender on root logger
-    logger->addAppender(fileAppender);
+    logger->addAppender(Log4Qt::AppenderSharedPtr(fileAppender));
     // Create a JSON file appender — serial number and session timestamps
     // are written as JSON objects in the header and footer lines.
     auto *jsonSerialProvider = new JsonSerialNumberHeaderProvider;
@@ -191,10 +192,10 @@ void setupRootLogger(const QString &introMessage)
     jsonLayout->setName(QStringLiteral("My JSON Layout"));
     jsonLayout->setHeaderFooterProvider(Log4Qt::HeaderFooterProviderSharedPtr(jsonSerialProvider));
     jsonLayout->activateOptions();
-    auto *jsonFileAppender = new Log4Qt::FileAppender(jsonLayout, QCoreApplication::applicationDirPath() + "/basic.json", true);
+    auto *jsonFileAppender = new Log4Qt::FileAppender(Log4Qt::LayoutSharedPtr(jsonLayout), QCoreApplication::applicationDirPath() + "/basic.json", true);
     jsonFileAppender->setName(QStringLiteral("My JSON file appender"));
     jsonFileAppender->activateOptions();
-    logger->addAppender(jsonFileAppender);
+    logger->addAppender(Log4Qt::AppenderSharedPtr(jsonFileAppender));
 
     // Set level to info
     logger->setLevel(Log4Qt::Level::INFO_INT);

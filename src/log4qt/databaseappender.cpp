@@ -30,11 +30,14 @@
 
 #include "helpers/datetime.h"
 
+#include <QStringBuilder>
+#include <QThread>
 #include <QtSql/QSqlDriver>
-#include <QtSql/QSqlQuery>
 #include <QtSql/QSqlRecord>
 #include <QtSql/QSqlField>
 #include <QtSql/QSqlError>
+
+using namespace Qt::StringLiterals;
 
 namespace Log4Qt
 {
@@ -72,6 +75,7 @@ void DatabaseAppender::setConnection(const QString &connection)
         return;
 
     connectionName = connection;
+    resetPreparedQuery();
 }
 
 void DatabaseAppender::setTable(const QString &table)
@@ -82,6 +86,7 @@ void DatabaseAppender::setTable(const QString &table)
         return;
 
     tableName = table;
+    resetPreparedQuery();
 }
 
 void DatabaseAppender::activateOptions()
@@ -97,7 +102,67 @@ void DatabaseAppender::activateOptions()
         return;
     }
 
+    prepareInsert();
+
     AppenderSkeleton::activateOptions();
+}
+
+void DatabaseAppender::resetPreparedQuery()
+{
+    mPreparedQuery.reset();
+    mBindings.clear();
+    mActivationThread = nullptr;
+    mWrongThreadLogged = false;
+}
+
+void DatabaseAppender::prepareInsert()
+{
+    resetPreparedQuery();
+
+    DatabaseLayout *dbLayout = qobject_cast<DatabaseLayout *>(layout().data());
+    if (dbLayout == nullptr)
+        return;
+
+    struct ColumnSpec { QString name; ColumnSource source; };
+    const ColumnSpec specs[] = {
+        { dbLayout->timeStampColumn(), ColumnSource::TimeStamp },
+        { dbLayout->loggerNameColumn(), ColumnSource::Loggername },
+        { dbLayout->threadNameColumn(), ColumnSource::ThreadName },
+        { dbLayout->levelColumn(), ColumnSource::Level },
+        { dbLayout->messageColumn(), ColumnSource::Message },
+    };
+
+    QStringList columns;
+    columns.reserve(std::size(specs));
+    for (const auto &spec : specs)
+    {
+        if (spec.name.isEmpty())
+            continue;
+        columns.append(spec.name);
+        mBindings.push_back(spec.source);
+    }
+
+    if (columns.isEmpty())
+        return;
+
+    const QString placeholders = QStringList(columns.size(), u"?"_s).join(u',');
+    const QString sql = u"INSERT INTO "_s % tableName
+                        % u" ("_s % columns.join(u',')
+                        % u") VALUES ("_s % placeholders % u')';
+
+    auto query = std::make_unique<QSqlQuery>(QSqlDatabase::database(connectionName));
+    if (!query->prepare(sql))
+    {
+        LogError e = LOG4QT_ERROR(QT_TR_NOOP("Sql prepare error: '%1'"),
+                                  AppenderExecSqlQueryError,
+                                  Q_FUNC_INFO);
+        e << query->lastError().text();
+        logger()->error(e);
+        mBindings.clear();
+        return;
+    }
+    mPreparedQuery = std::move(query);
+    mActivationThread = QThread::currentThread();
 }
 
 bool DatabaseAppender::requiresLayout() const
@@ -107,29 +172,60 @@ bool DatabaseAppender::requiresLayout() const
 
 void DatabaseAppender::append(const LoggingEvent &event)
 {
-    DatabaseLayout *databaseLayout = qobject_cast<DatabaseLayout *>(layout().data());
-
-    if (databaseLayout != nullptr)
+    if (mPreparedQuery == nullptr)
     {
-        QSqlRecord record = databaseLayout->formatRecord(event);
-
-        QSqlDatabase database = QSqlDatabase::database(connectionName);
-        QSqlQuery query(database);
-        if (!query.exec(database.driver()->sqlStatement(QSqlDriver::InsertStatement
-                        , tableName, record, false)))
-        {
-            LogError e = LOG4QT_ERROR(QT_TR_NOOP("Sql query exec error: '%1'"),
-                                      AppenderExecSqlQueryError,
-                                      Q_FUNC_INFO);
-            e << query.lastQuery() + " " + query.lastError().text();
-            logger()->error(e);
-        }
-    }
-    else
-    {
-        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' with invalid layout"),
+        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' with invalid layout or unprepared query"),
                                          AppenderInvalidDatabaseLayoutError);
         e << name();
+        logger()->error(e);
+        return;
+    }
+
+    // QSqlQuery/QSqlDatabase are bound to the thread that created them. Using
+    // them from another thread is undefined and can crash the driver, so drop
+    // the event (logging the cause once) instead.
+    if (mActivationThread != nullptr && QThread::currentThread() != mActivationThread)
+    {
+        if (!mWrongThreadLogged)
+        {
+            LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Appender '%1' was fed from a thread other than the one that activated it; QSqlDatabase is not thread-safe. Front it with a MainThreadAppender or open the connection on the logging thread."),
+                                             AppenderExecSqlQueryError);
+            e << name();
+            logger()->error(e);
+            mWrongThreadLogged = true;
+        }
+        return;
+    }
+
+    for (std::size_t i = 0; i < mBindings.size(); ++i)
+    {
+        const int pos = static_cast<int>(i);
+        switch (mBindings[i])
+        {
+        case ColumnSource::TimeStamp:
+            mPreparedQuery->bindValue(pos, DateTime::fromMSecsSinceEpoch(event.timeStamp()));
+            break;
+        case ColumnSource::Loggername:
+            mPreparedQuery->bindValue(pos, event.loggername());
+            break;
+        case ColumnSource::ThreadName:
+            mPreparedQuery->bindValue(pos, event.threadName());
+            break;
+        case ColumnSource::Level:
+            mPreparedQuery->bindValue(pos, event.level().toString());
+            break;
+        case ColumnSource::Message:
+            mPreparedQuery->bindValue(pos, event.message());
+            break;
+        }
+    }
+
+    if (!mPreparedQuery->exec())
+    {
+        LogError e = LOG4QT_ERROR(QT_TR_NOOP("Sql query exec error: '%1'"),
+                                  AppenderExecSqlQueryError,
+                                  Q_FUNC_INFO);
+        e << mPreparedQuery->lastQuery() % u' ' % mPreparedQuery->lastError().text();
         logger()->error(e);
     }
 }

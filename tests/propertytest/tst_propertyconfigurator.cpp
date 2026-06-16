@@ -38,6 +38,8 @@
 #include "log4qt/varia/levelmatchfilter.h"
 #include "log4qt/loggerrepository.h"
 
+using namespace Qt::StringLiterals;
+
 using namespace Log4Qt;
 
 class PropertyConfiguratorTest : public QObject

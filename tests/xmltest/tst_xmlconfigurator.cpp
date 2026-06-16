@@ -34,6 +34,8 @@
 #include "log4qt/patternlayout.h"
 #include "log4qt/ttcclayout.h"
 
+using namespace Qt::StringLiterals;
+
 using namespace Log4Qt;
 
 class XmlConfiguratorTest : public QObject
@@ -284,8 +286,7 @@ void XmlConfiguratorTest::testConfigureFromFile()
 </configuration>
 )");
 
-    XmlConfigurator configurator;
-    QVERIFY(configurator.doConfigure(file));
+    QVERIFY(XmlConfigurator::doConfigure(file));
     QCOMPARE(LogManager::rootLogger()->level(), Level::TRACE_INT);
 }
 

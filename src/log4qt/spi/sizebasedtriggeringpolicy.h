@@ -54,7 +54,7 @@ public:
     explicit SizeBasedTriggeringPolicy(QObject *parent = nullptr);
 
     [[nodiscard]] qint64 maximumFileSize() const { return mMaximumFileSize; }
-    void setMaximumFileSize(qint64 maximumFileSize) { mMaximumFileSize = maximumFileSize; }
+    void setMaximumFileSize(qint64 maximumFileSize);
 
     [[nodiscard]] QString maxFileSize() const { return QString::number(mMaximumFileSize); }
     void setMaxFileSize(const QString &maxFileSize);

@@ -23,7 +23,7 @@
 
 #include "log4qt/log4qtshared.h"
 
-#include <QAtomicPointer>
+#include <atomic>
 
 class QObject;
 
@@ -64,7 +64,7 @@ public:
     Logger *logger(const QObject *object);
 
 private:
-    mutable QAtomicPointer<Logger> mLogger;
+    mutable std::atomic<Logger *> mLogger;
 };
 
 } // namespace Log4Qt

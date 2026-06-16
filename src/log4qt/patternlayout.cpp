@@ -24,6 +24,8 @@
 #include "helpers/patternformatter.h"
 #include "loggingevent.h"
 
+using namespace Qt::StringLiterals;
+
 namespace Log4Qt
 {
 

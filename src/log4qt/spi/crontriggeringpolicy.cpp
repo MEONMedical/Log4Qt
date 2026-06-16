@@ -21,10 +21,15 @@
 #include "spi/crontriggeringpolicy.h"
 
 #include "helpers/datetime.h"
-#include "log4qtdefs.h"
+#include "helpers/logerror.h"
+#include "logger.h"
+
+using namespace Qt::StringLiterals;
 
 namespace Log4Qt
 {
+
+LOG4QT_DECLARE_STATIC_LOGGER(static_logger, Log4Qt::CronTriggeringPolicy)
 
 CronTriggeringPolicy::CronTriggeringPolicy(QObject *parent) :
     TriggeringPolicy(parent),
@@ -37,6 +42,11 @@ void CronTriggeringPolicy::activateOptions()
     mCronExpression = CronExpression(mSchedule);
     if (!mCronExpression.isValid())
     {
+        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Invalid cron expression '%1'; triggering disabled"),
+                                         ConfiguratorInvalidOptionError);
+        e << mSchedule;
+        e.addCausingError(LogError(mCronExpression.errorString(), 0));
+        static_logger()->error(e);
         // Leave mNextFireTime invalid so isTriggeringEvent always returns false
         mNextFireTime = QDateTime();
         return;

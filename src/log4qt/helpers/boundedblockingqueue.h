@@ -45,10 +45,9 @@ class BoundedBlockingQueue
 {
 public:
     explicit BoundedBlockingQueue(int capacity)
-        : mCapacity(capacity)
-        , mBuffer(static_cast<std::size_t>(capacity))
+        : mCapacity(capacity > 0 ? capacity : 1)
+        , mBuffer(static_cast<std::size_t>(mCapacity))
     {
-        Q_ASSERT(capacity > 0);
     }
 
     /*!
@@ -119,7 +118,7 @@ public:
     int drain(std::vector<T> &out, int maxItems)
     {
         QMutexLocker locker(&mMutex);
-        const int count = std::min(mSize, maxItems);
+        const int count = (std::min)(mSize, maxItems);
         out.reserve(out.size() + static_cast<std::size_t>(count));
 
         for (int i = 0; i < count; ++i)

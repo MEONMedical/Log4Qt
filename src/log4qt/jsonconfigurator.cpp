@@ -30,6 +30,8 @@
 #include <QJsonObject>
 #include <QJsonValue>
 
+using namespace Qt::StringLiterals;
+
 namespace Log4Qt
 {
 
@@ -48,8 +50,7 @@ bool JsonConfigurator::doConfigure(const QString &configFileName,
 
 bool JsonConfigurator::configure(const QString &configFilename)
 {
-    JsonConfigurator configurator;
-    return configurator.doConfigure(configFilename);
+    return doConfigure(configFilename);
 }
 
 bool JsonConfigurator::configureAndWatch(const QString &configFilename)
@@ -58,8 +59,7 @@ bool JsonConfigurator::configureAndWatch(const QString &configFilename)
     if (configFilename.isEmpty())
         return true;
 
-    JsonConfigurator configurator;
-    bool result = configurator.doConfigure(configFilename);
+    const bool result = doConfigure(configFilename);
     ConfiguratorHelper::setConfigurationFile(configFilename, configure);
     return result;
 }

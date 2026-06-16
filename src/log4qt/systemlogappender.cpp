@@ -26,6 +26,8 @@
 
 #include <QCoreApplication>
 
+using namespace Qt::StringLiterals;
+
 #ifdef Q_OS_WIN
 #ifndef UNICODE
 #define UNICODE

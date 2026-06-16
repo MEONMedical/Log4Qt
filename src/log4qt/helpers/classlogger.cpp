@@ -32,10 +32,14 @@ ClassLogger::ClassLogger() :
 Logger *ClassLogger::logger(const QObject *object)
 {
     Q_ASSERT_X(object, "ClassLogger::logger()", "pObject must not be null");
-    if (!static_cast<Logger *>(mLogger.loadAcquire()))
-        mLogger.testAndSetOrdered(nullptr,
-                                   LogManager::logger(QString::fromLatin1(object->metaObject()->className())));
-    return const_cast<Logger *>(static_cast<Logger *>(mLogger.loadAcquire()));
+    if (mLogger.load(std::memory_order_acquire) == nullptr)
+    {
+        Logger *expected = nullptr;
+        Logger *resolved = LogManager::logger(QString::fromLatin1(object->metaObject()->className()));
+        mLogger.compare_exchange_strong(expected, resolved,
+                                        std::memory_order_acq_rel, std::memory_order_acquire);
+    }
+    return mLogger.load(std::memory_order_acquire);
 }
 
 } // namespace Log4Qt

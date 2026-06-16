@@ -28,8 +28,11 @@
 #include "logmanager.h"
 
 #include <QString>
+#include <QStringBuilder>
 
 #include <utility>
+
+using namespace Qt::StringLiterals;
 
 namespace Log4Qt
 {
@@ -472,7 +475,7 @@ void PatternFormatter::parse()
     QString literal;
     int converter_start = 0;
     int option_start = 0;
-    while (i < mPattern.length())
+    while (i < mPattern.size())
     {
         // i points to the current character
         // c contains the current character
@@ -683,7 +686,7 @@ void PatternConverter::format(QString &format, const LoggingEvent &loggingEvent)
 
     // If the data item is longer than the maximum field, then the extra characters
     // are removed from the beginning of the data item and not from the end.
-    if (s.length() > mFormattingInfo.mMaxLength)
+    if (s.size() > mFormattingInfo.mMaxLength)
         format.append(s.right(mFormattingInfo.mMaxLength));
     else if (mFormattingInfo.mLeftAligned)
         format.append(s.leftJustified(mFormattingInfo.mMinLength, space, false));
@@ -721,10 +724,13 @@ void BasicPatternConverter::convert(QString &format, const LoggingEvent &logging
     case LocationConverter:
     {
         const auto &ctx = loggingEvent.context();
-        format.append(u"%1:%2 - %3"_s.arg(
-            ctx.file ? QString::fromUtf8(ctx.file) : QString(),
-            QString::number(ctx.line),
-            ctx.function ? QString::fromUtf8(ctx.function) : QString()));
+        // QStringBuilder avoids the per-event arg()-parser and produces a
+        // single allocation; QLatin1String wraps the stable __FILE__ /
+        // Q_FUNC_INFO C-strings without a UTF-8 conversion pass.
+        format += QLatin1String(ctx.file ? ctx.file : "")
+                  % QLatin1Char(':') % QString::number(ctx.line)
+                  % QLatin1String(" - ")
+                  % QLatin1String(ctx.function ? ctx.function : "");
         break;
     }
     case CategoryNameConverter:
@@ -768,10 +774,10 @@ void LoggepatternConverter::convert(QString &format, const LoggingEvent &logging
     const QString separator(u"::"_s);
 
     int i = mPrecision;
-    int begin = name.length();
+    int begin = name.size();
     while ((i > 0) && (begin >= 0))
     {
-        begin = name.lastIndexOf(separator, begin - name.length() - 1);
+        begin = name.lastIndexOf(separator, begin - name.size() - 1);
         i--;
     }
     if (begin < 0)

@@ -69,7 +69,8 @@ public:
     DateTime(const QDateTime &other) : QDateTime(other)
     {}
 
-    DateTime(const DateTime &other);
+    DateTime(const DateTime &other) noexcept;
+    DateTime(DateTime &&other) noexcept = default;
 
     /*!
      * Constructs a datetime with the given \a date and \a time, using
@@ -87,11 +88,12 @@ public:
     /*!
      * Assigns \a other to this DateTime and returns a reference to it.
      */
-    DateTime &operator=(const DateTime &other)
+    DateTime &operator=(const DateTime &other) noexcept
     {
         QDateTime::operator=(other);
         return *this;
     }
+    DateTime &operator=(DateTime &&other) noexcept = default;
 
     /*!
      * Returns the datetime as a string. The \a format parameter

@@ -26,6 +26,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
+using namespace Qt::StringLiterals;
+
 namespace Log4Qt
 {
 

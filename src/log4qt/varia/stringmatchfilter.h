@@ -53,24 +53,41 @@ class LOG4QT_EXPORT StringMatchFilter : public Filter
      */
     Q_PROPERTY(QString stringToMatch READ stringToMatch WRITE setStringToMatch)
 
+    /*!
+     * The property holds the case sensitivity used to match the string.
+     *
+     * The default is Qt::CaseSensitive.
+     *
+     * \sa caseSensitivity(), setCaseSensitivity()
+     */
+    Q_PROPERTY(Qt::CaseSensitivity caseSensitivity READ caseSensitivity WRITE setCaseSensitivity)
+
 public:
     StringMatchFilter(QObject *parent = nullptr);
 
     [[nodiscard]] bool acceptOnMatch() const { return mAcceptOnMatch; }
     [[nodiscard]] QString stringToMatch() const { return mStringToMatch; }
+    [[nodiscard]] Qt::CaseSensitivity caseSensitivity() const { return mCaseSensitivity; }
     void setAcceptOnMatch(bool accept) { mAcceptOnMatch = accept; }
-    void setStringToMatch(const QString &string, Qt::CaseSensitivity cs = Qt::CaseSensitive)
+    void setStringToMatch(const QString &string) { mStringToMatch = string; }
+    void setStringToMatch(const QString &string, Qt::CaseSensitivity cs)
     {
         mStringToMatch = string;
         mCaseSensitivity = cs;
     }
+    void setCaseSensitivity(Qt::CaseSensitivity cs) { mCaseSensitivity = cs; }
 
     Decision decide(const LoggingEvent &event) const override;
 
 private:
-    bool mAcceptOnMatch;
+    bool mAcceptOnMatch = true;
     QString mStringToMatch;
-    Qt::CaseSensitivity mCaseSensitivity;
+    // Default is case-sensitive: pre-D-040 the single-argument setter defaulted
+    // its Qt::CaseSensitivity argument to Qt::CaseSensitive, so the single-arg
+    // setStringToMatch() must keep matching case-sensitively for backward
+    // compatibility (the dedicated two-arg overload / property opt into
+    // case-insensitive matching).
+    Qt::CaseSensitivity mCaseSensitivity = Qt::CaseSensitive;
 };
 
 } // namespace Log4Qt

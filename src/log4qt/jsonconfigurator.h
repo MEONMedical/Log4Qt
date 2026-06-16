@@ -96,20 +96,16 @@ class LoggerRepository;
 class LOG4QT_EXPORT JsonConfigurator
 {
 public:
-    JsonConfigurator() {}
+    JsonConfigurator() = delete;
 
-private:
-    Q_DISABLE_COPY_MOVE(JsonConfigurator)
-
-public:
     /*!
      * Reads the configuration from the JSON file \a configFileName
      * and configures the \a loggerRepository.
      *
      * \sa ConfiguratorHelper::configureError()
      */
-    bool doConfigure(const QString &configFileName,
-                     LoggerRepository *loggerRepository = nullptr);
+    static bool doConfigure(const QString &configFileName,
+                            LoggerRepository *loggerRepository = nullptr);
 
     /*!
      * Reads the configuration from the JSON file \a configFilename

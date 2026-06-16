@@ -21,16 +21,33 @@
 #include "spi/sizebasedtriggeringpolicy.h"
 
 #include "helpers/optionconverter.h"
+#include "logger.h"
 
 #include <QIODevice>
 
+using namespace Qt::StringLiterals;
+
 namespace Log4Qt
 {
+
+LOG4QT_DECLARE_STATIC_LOGGER(static_logger, Log4Qt::SizeBasedTriggeringPolicy)
 
 SizeBasedTriggeringPolicy::SizeBasedTriggeringPolicy(QObject *parent) :
     TriggeringPolicy(parent),
     mMaximumFileSize(defaultMaximumFileSize)
 {
+}
+
+void SizeBasedTriggeringPolicy::setMaximumFileSize(qint64 maximumFileSize)
+{
+    if (maximumFileSize <= 0)
+    {
+        static_logger()->warn(u"Invalid maximumFileSize %1; retaining current value %2"_s
+                              .arg(maximumFileSize)
+                              .arg(mMaximumFileSize));
+        return;
+    }
+    mMaximumFileSize = maximumFileSize;
 }
 
 void SizeBasedTriggeringPolicy::setMaxFileSize(const QString &maxFileSize)

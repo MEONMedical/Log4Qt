@@ -89,19 +89,11 @@ private:
 
 public:
     bool appendFile() const { return mAppendFile; }
-    QString file() const
-    {
-        QMutexLocker locker(&mObjectGuard);
-        return mFileName;
-    }
+    QString file() const;
     bool bufferedIo() const { return mBufferedIo; }
     void setAppendFile(bool append) { mAppendFile = append; }
     void setBufferedIo(bool buffered) { mBufferedIo = buffered; }
-    void setFile(const QString &fileName)
-    {
-        QMutexLocker locker(&mObjectGuard);
-        mFileName = fileName;
-    }
+    void setFile(const QString &fileName);
 
     void activateOptions() override;
     void close() override;

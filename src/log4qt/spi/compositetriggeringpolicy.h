@@ -32,8 +32,17 @@ namespace Log4Qt
  * \brief The class CompositeTriggeringPolicy combines multiple triggering
  *        policies using OR logic. A rollover is triggered if ANY contained
  *        policy returns \c true.
+ *
+ * \note Thread-safety contract: the contained policy list is \e not
+ *       independently synchronised. All access is serialised by the owning
+ *       RollingFileAppender's mutex — addPolicy() runs under that lock during
+ *       configuration, and activateOptions()/isTriggeringEvent()/
+ *       isStartupTrigger() run under the same lock during logging. Policies
+ *       must therefore be added before/at activation, never concurrently with
+ *       rollover evaluation. The class is \c final so this contract cannot be
+ *       broken by a subclass adding unsynchronised mutation.
  */
-class LOG4QT_EXPORT CompositeTriggeringPolicy : public TriggeringPolicy
+class LOG4QT_EXPORT CompositeTriggeringPolicy final : public TriggeringPolicy
 {
     Q_OBJECT
 

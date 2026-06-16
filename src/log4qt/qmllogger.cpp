@@ -26,6 +26,8 @@
 #include <QStringBuilder>
 #include <QTimer>
 
+using namespace Qt::StringLiterals;
+
 namespace Log4Qt
 {
 
@@ -77,6 +79,7 @@ void QmlLogger::setName(const QString &name)
     if (mName != name)
     {
         mName = name;
+        mLogger = nullptr;
         Q_EMIT nameChanged(name);
     }
 }
@@ -88,7 +91,7 @@ QString QmlLogger::context() const
 
 QmlLogger::Level QmlLogger::level() const
 {
-    return static_cast<QmlLogger::Level>(mLogger->level().toInt());
+    return static_cast<QmlLogger::Level>(logger()->level().toInt());
 }
 
 void QmlLogger::setContext(const QString &context)
@@ -96,6 +99,7 @@ void QmlLogger::setContext(const QString &context)
     if (mContext != context)
     {
         mContext = context;
+        mLogger = nullptr;
         Q_EMIT contextChanged(context);
     }
 }
@@ -104,7 +108,7 @@ void QmlLogger::setLevel(QmlLogger::Level level)
 {
     if (this->level() != level)
     {
-        mLogger->setLevel(Log4Qt::Level(static_cast<Log4Qt::Level::Value>(level)));
+        logger()->setLevel(Log4Qt::Level(static_cast<Log4Qt::Level::Value>(level)));
         Q_EMIT levelChanged(level);
     }
 }

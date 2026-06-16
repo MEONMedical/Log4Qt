@@ -21,9 +21,10 @@
 #include "spi/timebasedtriggeringpolicy.h"
 
 #include "helpers/datetime.h"
-#include "log4qtdefs.h"
 
 #include <QRandomGenerator>
+
+using namespace Qt::StringLiterals;
 
 namespace Log4Qt
 {
@@ -31,7 +32,7 @@ namespace Log4Qt
 TimeBasedTriggeringPolicy::TimeBasedTriggeringPolicy(QObject *parent) :
     TriggeringPolicy(parent),
     mDatePattern(u"'.'yyyy-MM-dd"_s),
-    mFrequency(Daily)
+    mFrequency(Frequency::Daily)
 {
 }
 
@@ -120,17 +121,17 @@ void TimeBasedTriggeringPolicy::computeFrequency()
     }
 
     if (foundMinutes)
-        mFrequency = Minutely;
+        mFrequency = Frequency::Minutely;
     else if (foundHours)
-        mFrequency = Hourly;
+        mFrequency = Frequency::Hourly;
     else if (foundAmPm)
-        mFrequency = HalfDaily;
+        mFrequency = Frequency::HalfDaily;
     else if (foundDay)
-        mFrequency = Daily;
+        mFrequency = Frequency::Daily;
     else if (foundWeek)
-        mFrequency = Weekly;
+        mFrequency = Frequency::Weekly;
     else if (foundMonth)
-        mFrequency = Monthly;
+        mFrequency = Frequency::Monthly;
     else
         return;
 
@@ -149,7 +150,7 @@ void TimeBasedTriggeringPolicy::computeRollOverTime()
     {
         switch (mFrequency)
         {
-        case Minutely:
+        case Frequency::Minutely:
         {
             // Align to interval-minute boundaries within the hour
             int minuteOfHour = nowTime.minute();
@@ -158,7 +159,7 @@ void TimeBasedTriggeringPolicy::computeRollOverTime()
             mRollOverTime = hourStart.addSecs(nextBucket * 60);
             break;
         }
-        case Hourly:
+        case Frequency::Hourly:
         {
             // Align to interval-hour boundaries within the day
             int hourOfDay = nowTime.hour();
@@ -167,7 +168,7 @@ void TimeBasedTriggeringPolicy::computeRollOverTime()
             mRollOverTime = dayStart.addSecs(nextBucket * 3600);
             break;
         }
-        case HalfDaily:
+        case Frequency::HalfDaily:
         {
             // 12-hour blocks from midnight
             int halfDayIndex = nowTime.hour() / 12;
@@ -176,7 +177,7 @@ void TimeBasedTriggeringPolicy::computeRollOverTime()
             mRollOverTime = dayStart.addSecs(nextBucket * 12 * 3600);
             break;
         }
-        case Daily:
+        case Frequency::Daily:
         {
             // Align to interval-day boundaries from a fixed epoch
             const QDate epoch(2000, 1, 1);
@@ -185,7 +186,7 @@ void TimeBasedTriggeringPolicy::computeRollOverTime()
             mRollOverTime = QDateTime(epoch.addDays(nextBucket), QTime(0, 0, 0, 0));
             break;
         }
-        case Weekly:
+        case Frequency::Weekly:
         {
             // Align to interval-week boundaries from a known Sunday
             const QDate epochSunday(2000, 1, 2); // 2000-01-02 is a Sunday
@@ -195,7 +196,7 @@ void TimeBasedTriggeringPolicy::computeRollOverTime()
             mRollOverTime = QDateTime(epochSunday.addDays(nextBucket * 7), QTime(0, 0, 0, 0));
             break;
         }
-        case Monthly:
+        case Frequency::Monthly:
         {
             // Align to interval-month boundaries from January 2000
             int monthsSinceEpoch = (nowDate.year() - 2000) * 12 + (nowDate.month() - 1);
@@ -211,32 +212,32 @@ void TimeBasedTriggeringPolicy::computeRollOverTime()
     {
         switch (mFrequency)
         {
-        case Minutely:
+        case Frequency::Minutely:
         {
             QDateTime start(nowDate, QTime(nowTime.hour(), nowTime.minute(), 0, 0));
             mRollOverTime = start.addSecs(mInterval * 60);
             break;
         }
-        case Hourly:
+        case Frequency::Hourly:
         {
             QDateTime start(nowDate, QTime(nowTime.hour(), 0, 0, 0));
             mRollOverTime = start.addSecs(mInterval * 3600);
             break;
         }
-        case HalfDaily:
+        case Frequency::HalfDaily:
         {
             int hour = nowTime.hour() >= 12 ? 12 : 0;
             QDateTime start(nowDate, QTime(hour, 0, 0, 0));
             mRollOverTime = start.addSecs(mInterval * 12 * 3600);
             break;
         }
-        case Daily:
+        case Frequency::Daily:
         {
             QDateTime start(nowDate, QTime(0, 0, 0, 0));
             mRollOverTime = start.addDays(mInterval);
             break;
         }
-        case Weekly:
+        case Frequency::Weekly:
         {
             int day = nowDate.dayOfWeek();
             if (day == Qt::Sunday)
@@ -245,7 +246,7 @@ void TimeBasedTriggeringPolicy::computeRollOverTime()
             mRollOverTime = start.addDays(mInterval * 7);
             break;
         }
-        case Monthly:
+        case Frequency::Monthly:
         {
             QDateTime start(QDate(nowDate.year(), nowDate.month(), 1), QTime(0, 0, 0, 0));
             mRollOverTime = start.addMonths(mInterval);

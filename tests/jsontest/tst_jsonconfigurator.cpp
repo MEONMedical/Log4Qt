@@ -34,6 +34,8 @@
 #include "log4qt/patternlayout.h"
 #include "log4qt/ttcclayout.h"
 
+using namespace Qt::StringLiterals;
+
 using namespace Log4Qt;
 
 class JsonConfiguratorTest : public QObject
@@ -260,8 +262,7 @@ void JsonConfiguratorTest::testConfigureFromFile()
         }
     })");
 
-    JsonConfigurator configurator;
-    QVERIFY(configurator.doConfigure(file));
+    QVERIFY(JsonConfigurator::doConfigure(file));
     QCOMPARE(LogManager::rootLogger()->level(), Level::TRACE_INT);
 }
 

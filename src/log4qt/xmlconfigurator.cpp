@@ -28,6 +28,8 @@
 #include <QFile>
 #include <QXmlStreamReader>
 
+using namespace Qt::StringLiterals;
+
 namespace Log4Qt
 {
 
@@ -46,8 +48,7 @@ bool XmlConfigurator::doConfigure(const QString &configFileName,
 
 bool XmlConfigurator::configure(const QString &configFilename)
 {
-    XmlConfigurator configurator;
-    return configurator.doConfigure(configFilename);
+    return doConfigure(configFilename);
 }
 
 bool XmlConfigurator::configureAndWatch(const QString &configFilename)
@@ -56,8 +57,7 @@ bool XmlConfigurator::configureAndWatch(const QString &configFilename)
     if (configFilename.isEmpty())
         return true;
 
-    XmlConfigurator configurator;
-    bool result = configurator.doConfigure(configFilename);
+    const bool result = doConfigure(configFilename);
     ConfiguratorHelper::setConfigurationFile(configFilename, configure);
     return result;
 }

@@ -26,10 +26,7 @@ namespace Log4Qt
 {
 
 StringMatchFilter::StringMatchFilter(QObject *parent) :
-    Filter(parent),
-    mAcceptOnMatch(true),
-    mStringToMatch(),
-    mCaseSensitivity(Qt::CaseInsensitive)
+    Filter(parent)
 {}
 
 

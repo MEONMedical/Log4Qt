@@ -70,10 +70,10 @@ public:
     [[nodiscard]] virtual QString contentType() const;
     [[nodiscard]] virtual QString footer() const;
     [[nodiscard]] virtual QString header() const;
-    [[nodiscard]] QString name() const { return objectName(); }
-    void setFooter(const QString &footer) { mFooter = footer; }
-    void setHeader(const QString &header) { mHeader = header; }
-    void setName(const QString &name) { setObjectName(name); }
+    [[nodiscard]] QString name() const;
+    void setFooter(const QString &footer);
+    void setHeader(const QString &header);
+    void setName(const QString &name);
 
     /*!
      * Sets a per-layout header/footer provider. When set and the provider

@@ -28,6 +28,8 @@
 
 #include <utility>
 
+using namespace Qt::StringLiterals;
+
 namespace Log4Qt
 {
 
@@ -54,8 +56,8 @@ void Properties::load(QIODevice *pDevice)
         line = trimLeft(stream.readLine());
         line_number++;
 
-        if (!line.isEmpty() && line.at(line.length() - 1) == append_char)
-            property += line.left(line.length() - 1);
+        if (!line.isEmpty() && line.at(line.size() - 1) == append_char)
+            property += line.left(line.size() - 1);
         else
         {
             property += line;
@@ -135,10 +137,10 @@ void Properties::parseProperty(const QString &property,
     };
     const QString value_escape_codes = QLatin1String(msValueEscapeCodes);
     const QString value_escape_chars = QLatin1String(msValueEscapeChars);
-    Q_ASSERT_X(value_escape_codes.length() == value_escape_chars.length(), "parseProperty()", "Value escape sequence character definition does not map");
+    Q_ASSERT_X(value_escape_codes.size() == value_escape_chars.size(), "parseProperty()", "Value escape sequence character definition does not map");
     const QString key_escape_codes = QLatin1String(msKeyEscapeCodes);
     const QString key_escape_chars = QLatin1String(msKeyEscapeChars);
-    Q_ASSERT_X(key_escape_codes.length() == key_escape_chars.length(), "parseProperty()", "Key escape sequence character definition does not map");
+    Q_ASSERT_X(key_escape_codes.size() == key_escape_chars.size(), "parseProperty()", "Key escape sequence character definition does not map");
 
     if (property.isEmpty())
         return;
@@ -151,7 +153,7 @@ void Properties::parseProperty(const QString &property,
     QString *p_string = &key;
     uint ucs = 0;
     int ucs_digits = 0;
-    while (i < property.length())
+    while (i < property.size())
     {
         // i points to the current character.
         // c contains the current character
@@ -248,7 +250,7 @@ void Properties::parseProperty(const QString &property,
             {
                 ucs = ucs * 16 + hex;
                 ucs_digits++;
-                if (ucs_digits == 4 || i == property.length() - 1)
+                if (ucs_digits == 4 || i == property.size() - 1)
                 {
                     *p_string += QChar(ucs);
                     state = ValueState;
@@ -290,9 +292,9 @@ int Properties::hexDigitValue(QChar digit)
 QString Properties::trimLeft(const QString &line)
 {
     int i = 0;
-    while (i < line.length() && line.at(i).isSpace())
+    while (i < line.size() && line.at(i).isSpace())
         i++;
-    return line.right(line.length() - i);
+    return line.right(line.size() - i);
 }
 
 } // namespace Log4Qt

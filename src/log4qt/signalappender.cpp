@@ -30,10 +30,21 @@ SignalAppender::SignalAppender(QObject *parent) :
 {
 }
 
-void SignalAppender::append(const LoggingEvent &event)
+void SignalAppender::preAppend(const LoggingEvent &event, const LayoutSharedPtr &layout)
 {
-    QString message(layout()->format(event));
-    Q_EMIT appended(message);
+    // Runs outside mObjectGuard. Use the layout snapshot passed by doAppend
+    // rather than layout() so we neither re-acquire the lock nor race a
+    // concurrent setLayout(). Emitting here means a DirectConnection slot
+    // executes without the appender lock held.
+    if (!layout)
+        return;
+    Q_EMIT appended(layout->format(event));
+}
+
+void SignalAppender::append(const LoggingEvent & /*event*/)
+{
+    // Intentionally empty: SignalAppender emits from preAppend() (outside the
+    // lock). See the header for the rationale.
 }
 
 }
