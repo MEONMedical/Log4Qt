@@ -62,6 +62,7 @@
 
 #include <QtTest/QTest>
 
+#include <atomic>
 #include <type_traits>
 
 using namespace Log4Qt;
@@ -1586,7 +1587,7 @@ void Log4QtTest::LoggingEvent_threadName()
 
 void Log4QtTest::LoggingEvent_threadNameReactive()
 {
-    // Verify that the QBindable notifier picks up thread renames
+    // Verify that the objectNameChanged connection picks up thread renames
     // so that a second LoggingEvent sees the new name.
     QThread *main = QThread::currentThread();
     const QString savedName = main->objectName();
@@ -1603,6 +1604,40 @@ void Log4QtTest::LoggingEvent_threadNameReactive()
     QCOMPARE(after.threadName(), QStringLiteral("AfterRename"));
 
     main->setObjectName(savedName);
+}
+
+void Log4QtTest::LoggingEvent_workerThreadDeleteLater()
+{
+    // Regression test: logging from a worker thread that is cleaned up with
+    // the canonical connect(thread, finished, thread, deleteLater) pattern
+    // must not crash. A former implementation kept a thread_local
+    // QPropertyNotifier observing the QThread's objectName; its TLS destructor
+    // ran at OS-thread exit — after deleteLater may already have destroyed the
+    // QThread object in the creating thread — and unlinked from a freed
+    // observer list (use-after-free, best detected under ASan).
+    std::atomic<bool> namesOk{true};
+    for (int i = 0; i < 50; ++i)
+    {
+        QThread *thread = QThread::create([i, &namesOk]()
+        {
+            QThread::currentThread()->setObjectName(
+                QStringLiteral("Worker-%1").arg(i));
+            for (int j = 0; j < 10; ++j)
+            {
+                LoggingEvent event(test_logger(), Level(Level::DEBUG_INT),
+                                   QStringLiteral("worker message"));
+                if (event.threadName() != QStringLiteral("Worker-%1").arg(i))
+                    namesOk = false;
+            }
+        });
+        connect(thread, &QThread::finished, thread, &QObject::deleteLater);
+        bool destroyed = false;
+        connect(thread, &QObject::destroyed, this,
+                [&destroyed]() { destroyed = true; });
+        thread->start();
+        QTRY_VERIFY(destroyed);
+    }
+    QVERIFY2(namesOk, "worker LoggingEvents should carry the worker thread name");
 }
 
 void Log4QtTest::MessageContext_source_location()
