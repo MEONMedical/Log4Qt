@@ -30,9 +30,10 @@
 #include <QByteArray>
 #include <QDataStream>
 #include <QMutex>
-#include <QPointer>
-#include <QProperty>
 #include <QThread>
+
+#include <atomic>
+#include <memory>
 
 namespace Log4Qt
 {
@@ -248,34 +249,43 @@ qint64 LoggingEvent::startTime()
 
 void LoggingEvent::setThreadNameToCurrent()
 {
-    static thread_local QString cachedName;
-    static thread_local QString cachedPtrName;
-
-    // Flag set by QBindable notifier when objectName changes.
-    // The cached name is re-read lazily on the next call.
-    static thread_local bool nameChanged = true;
-    static thread_local QPropertyNotifier notifier = []() -> QPropertyNotifier {
-        QThread *thread = QThread::currentThread();
-        if (!thread)
-            return {};
-        return thread->bindableObjectName().addNotifier([wp = QPointer<QThread>(thread)]() {
-            if (wp && QThread::currentThread() == wp.data())
-                nameChanged = true;
-        });
-    }();
-
-    if (nameChanged)
+    // Per-thread cache of the thread name, invalidated via objectNameChanged.
+    // The dirty flag lives on the heap, shared with the signal lambda, so that
+    // neither side ever touches the other's memory during teardown: the TLS
+    // destructor releases only its shared_ptr reference (it must not touch the
+    // QThread object, which may already be deleted via the canonical
+    // finished -> deleteLater pattern by the time TLS destructors run at
+    // OS-thread exit), and destruction of the QThread disconnects the lambda
+    // through QObject's thread-safe connection machinery.
+    struct ThreadNameCache
     {
-        if (const QThread *thread = QThread::currentThread())
-        {
-            cachedName = thread->objectName();
-            cachedPtrName = u"0x%1"_s.arg(reinterpret_cast<quintptr>(thread),
-                                           QT_POINTER_SIZE * 2, 16, QChar('0'));
-        }
-        nameChanged = false;
+        QString name;
+        QString ptrName;
+        std::shared_ptr<std::atomic<bool>> dirty
+            = std::make_shared<std::atomic<bool>>(true);
+        bool connected = false;
+    };
+    static thread_local ThreadNameCache cache;
+
+    QThread *thread = QThread::currentThread();
+
+    if (thread && !cache.connected)
+    {
+        QObject::connect(thread, &QObject::objectNameChanged, thread,
+                         [dirty = cache.dirty]
+                         { dirty->store(true, std::memory_order_relaxed); },
+                         Qt::DirectConnection);
+        cache.connected = true;
     }
 
-    d->mThreadName = cachedName.isEmpty() ? cachedPtrName : cachedName;
+    if (thread && cache.dirty->exchange(false, std::memory_order_relaxed))
+    {
+        cache.name = thread->objectName();
+        cache.ptrName = u"0x%1"_s.arg(reinterpret_cast<quintptr>(thread),
+                                      QT_POINTER_SIZE * 2, 16, QChar('0'));
+    }
+
+    d->mThreadName = cache.name.isEmpty() ? cache.ptrName : cache.name;
 }
 
 qint64 LoggingEvent::nextSequenceNumber()
