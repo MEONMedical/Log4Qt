@@ -14,8 +14,9 @@ if(POLICY CMP0087)
     cmake_policy(SET CMP0087 NEW)
 endif()
 
-# set old policy for CMAKE_CXX_SCAN_FOR_MODULES for clang
-cmake_policy(SET CMP0155 OLD)
+# disable C++20 module scanning for clang
+# (replaces the deprecated cmake_policy(SET CMP0155 OLD))
+set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 
 option(LOG4QT_ENABLE_TESTS "${PROJECT_NAME}: Enable tests" ${PROJECT_IS_TOP_LEVEL})
 option(LOG4QT_ENABLE_EXAMPLES "${PROJECT_NAME}: Enable examples" ${PROJECT_IS_TOP_LEVEL})
