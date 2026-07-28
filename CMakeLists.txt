@@ -70,25 +70,20 @@ set(CMAKE_AUTOMOC TRUE)
 # Min. Qt version is 6.5
 set(QT_MIN_VERSION 6.5.0)
 
-if (NOT Qt6_FOUND)
-    find_package(Qt6 COMPONENTS Core REQUIRED)
-endif()
+find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core)
 message(STATUS "Qt version is ${Qt6Core_VERSION}")
-if (Qt6Core_VERSION VERSION_LESS ${QT_MIN_VERSION})
-    message(FATAL_ERROR "Minimum supported Qt version is ${QT_MIN_VERSION}")
-endif()
 set(QT_VERSION_MAJOR 6)
 
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Concurrent REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} ${QT_MIN_VERSION} REQUIRED COMPONENTS Concurrent)
 
 if(BUILD_WITH_DB_LOGGING)
-    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Sql REQUIRED)
+    find_package(Qt${QT_VERSION_MAJOR} ${QT_MIN_VERSION} REQUIRED COMPONENTS Sql)
 endif()
 if(BUILD_WITH_TELNET_LOGGING)
-    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Network REQUIRED)
+    find_package(Qt${QT_VERSION_MAJOR} ${QT_MIN_VERSION} REQUIRED COMPONENTS Network)
 endif()
 if(BUILD_WITH_QML_LOGGING)
-    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Qml REQUIRED)
+    find_package(Qt${QT_VERSION_MAJOR} ${QT_MIN_VERSION} REQUIRED COMPONENTS Qml)
 endif()
 
 # Qt compile definitions - will be applied to targets via target_compile_definitions

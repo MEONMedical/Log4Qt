@@ -1,7 +1,7 @@
 # Separate CMakeLists.txt for QString benchmark
 # To use: copy this to CMakeLists.txt or add to existing one
 
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Test REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} ${QT_MIN_VERSION} REQUIRED COMPONENTS Test)
 
 set(qstring_benchmark_SOURCES
     qstring_benchmark.cpp

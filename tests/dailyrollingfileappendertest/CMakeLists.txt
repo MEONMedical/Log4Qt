@@ -1,4 +1,4 @@
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Test REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} ${QT_MIN_VERSION} REQUIRED COMPONENTS Test)
 
 set(TEST_NAME tst_dailyrollingfileappendertest)
 
