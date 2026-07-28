@@ -193,6 +193,24 @@ install(EXPORT log4qt_targets
 # Include CMakePackageConfigHelpers before using its commands
 include(CMakePackageConfigHelpers)
 
+# Qt components consumers of the installed package must be able to resolve:
+# all PUBLIC link dependencies, plus the PRIVATE ones for static builds
+# (they appear in the export as $<LINK_ONLY:...> references).
+set(LOG4QT_CONFIG_QT_COMPONENTS Core)
+if(NOT BUILD_SHARED_LIBS)
+    list(APPEND LOG4QT_CONFIG_QT_COMPONENTS Concurrent)
+endif()
+if(BUILD_WITH_DB_LOGGING)
+    list(APPEND LOG4QT_CONFIG_QT_COMPONENTS Sql)
+endif()
+if(BUILD_WITH_TELNET_LOGGING)
+    list(APPEND LOG4QT_CONFIG_QT_COMPONENTS Network)
+endif()
+if(BUILD_WITH_QML_LOGGING)
+    list(APPEND LOG4QT_CONFIG_QT_COMPONENTS Qml)
+endif()
+list(JOIN LOG4QT_CONFIG_QT_COMPONENTS " " LOG4QT_CONFIG_QT_COMPONENTS)
+
 configure_package_config_file(
     "${Log4Qt_MODULE_DIR}/Log4QtConfig.cmake.in"
     "${PROJECT_BINARY_DIR}/Log4QtConfig.cmake"

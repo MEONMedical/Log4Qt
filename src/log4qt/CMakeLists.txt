@@ -196,11 +196,8 @@ if(BUILD_WITH_QML_LOGGING)
          qmllogger.h
     )
 
-    target_link_libraries(log4qt PRIVATE Qt${QT_VERSION_MAJOR}::Qml)
-    target_include_directories(log4qt
-          PUBLIC
-              $<TARGET_PROPERTY:Qt::Qml,INTERFACE_INCLUDE_DIRECTORIES>
-    )
+    # PUBLIC: the installed qmllogger.h includes QtQml headers
+    target_link_libraries(log4qt PUBLIC Qt${QT_VERSION_MAJOR}::Qml)
     target_compile_definitions(log4qt
         PRIVATE
             LOG4QT_QML_LOGGING_SUPPORT
@@ -250,11 +247,8 @@ if(BUILD_WITH_DB_LOGGING)
         PRIVATE
             LOG4QT_DB_LOGGING_SUPPORT
     )
-    target_link_libraries(log4qt PRIVATE Qt${QT_VERSION_MAJOR}::Sql)
-    target_include_directories(log4qt
-          PUBLIC
-              $<TARGET_PROPERTY:Qt::Sql,INTERFACE_INCLUDE_DIRECTORIES>
-    )
+    # PUBLIC: the installed databaseappender.h/databaselayout.h include QtSql headers
+    target_link_libraries(log4qt PUBLIC Qt${QT_VERSION_MAJOR}::Sql)
     message(STATUS "Log4Qt: Enabling database logging support")
 else()
     message(STATUS "Log4Qt: Disabling database logging support - disabled by cmake option")
@@ -277,11 +271,8 @@ if(BUILD_WITH_TELNET_LOGGING)
         PRIVATE
             LOG4QT_TELNET_LOGGING_SUPPORT
     )
-    target_link_libraries(log4qt PRIVATE Qt${QT_VERSION_MAJOR}::Network)
-    target_include_directories(log4qt
-          PUBLIC
-              $<TARGET_PROPERTY:Qt::Network,INTERFACE_INCLUDE_DIRECTORIES>
-    )
+    # PUBLIC: the installed telnetappender.h includes QtNetwork headers
+    target_link_libraries(log4qt PUBLIC Qt${QT_VERSION_MAJOR}::Network)
     message(STATUS "Log4Qt: Enabling telnet logging support")
 else()
     message(STATUS "Log4Qt: Disabling telnet logging support - disabled by cmake option")
