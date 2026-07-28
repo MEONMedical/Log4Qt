@@ -48,9 +48,6 @@ option(BUILD_WITH_QML_LOGGING "Build with qml logging support, link against Qt q
 # Enable documentation generation with doxygen
 OPTION(BUILD_WITH_DOCS "Enable documentation generation (default: off)" OFF)
 
-# Helper to be able to properly install into the correct directories (esp. lib/lib64)
-include(GNUInstallDirs)
-
 # Automatically include ${CMAKE_CURRENT_SOURCE_DIR} and ${CMAKE_CURRENT_BINARY_DIR}
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
@@ -65,12 +62,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
-# we want to use cmake automoc feature
-set(CMAKE_AUTOMOC TRUE)
 # Min. Qt version is 6.5
 set(QT_MIN_VERSION 6.5.0)
 
 find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core)
+# Enables AUTOMOC/AUTOUIC, includes GNUInstallDirs, sets install RPATH
+# defaults and opts into the Qt CMake policies up to ${QT_MIN_VERSION}.
+# Parent projects can opt out via QT_NO_STANDARD_PROJECT_SETUP.
+qt_standard_project_setup(REQUIRES ${QT_MIN_VERSION})
 message(STATUS "Qt version is ${Qt6Core_VERSION}")
 set(QT_VERSION_MAJOR 6)
 
