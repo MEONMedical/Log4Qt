@@ -8,5 +8,5 @@ set(basic_SOURCES
     main.cpp
 )
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-add_executable(basic ${basic_SOURCES})
-target_link_libraries(basic log4qt)
+qt_add_executable(basic ${basic_SOURCES})
+target_link_libraries(basic PRIVATE log4qt)

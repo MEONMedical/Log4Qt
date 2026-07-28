@@ -154,7 +154,15 @@ if(WIN32)
     )
 endif()
 
-add_library(log4qt ${log4qt_SOURCES} ${log4qt_HEADERS} ${log4qt_HEADERS_helpers} ${log4qt_HEADERS_spi} ${log4qt_HEADERS_varia})
+# Explicit library type: without it (and with QTP0003 unset, which needs
+# Qt >= 6.7) qt_add_library would ignore BUILD_SHARED_LIBS and follow how
+# Qt itself was built.
+if(BUILD_SHARED_LIBS)
+    set(log4qt_LIB_TYPE SHARED)
+else()
+    set(log4qt_LIB_TYPE STATIC)
+endif()
+qt_add_library(log4qt ${log4qt_LIB_TYPE} ${log4qt_SOURCES} ${log4qt_HEADERS} ${log4qt_HEADERS_helpers} ${log4qt_HEADERS_spi} ${log4qt_HEADERS_varia})
 add_library(Log4Qt::log4qt ALIAS log4qt)
 
 # Set target properties
