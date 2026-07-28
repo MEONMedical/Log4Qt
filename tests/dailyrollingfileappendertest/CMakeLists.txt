@@ -5,7 +5,6 @@ set(TEST_NAME tst_dailyrollingfileappendertest)
 set(dfa_SOURCES
     dailyrollingfileappendertest.cpp
 )
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 qt_add_executable(${TEST_NAME} ${dfa_SOURCES})
 target_link_libraries(${TEST_NAME} PRIVATE log4qt Qt${QT_VERSION_MAJOR}::Test)
 

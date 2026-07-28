@@ -48,9 +48,8 @@ option(BUILD_WITH_QML_LOGGING "Build with qml logging support, link against Qt q
 # Enable documentation generation with doxygen
 OPTION(BUILD_WITH_DOCS "Enable documentation generation (default: off)" OFF)
 
-# Automatically include ${CMAKE_CURRENT_SOURCE_DIR} and ${CMAKE_CURRENT_BINARY_DIR}
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
+# Put the library and all test/example executables into one bin directory
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Set include dir src (used by target_include_directories in src/log4qt)
 set(LOG4QT_BUILD_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
@@ -92,7 +91,7 @@ set(LOG4QT_QT_DEFINITIONS
     #QT_NO_CAST_FROM_ASCII
     QT_NO_URL_CAST_FROM_STRING
     QT_DEPRECATED_WARNINGS
-    QT_DISABLE_DEPRECATED_BEFORE=0x060400
+    QT_DISABLE_DEPRECATED_BEFORE=0x060500
     UNICODE
     _UNICODE
 )
@@ -154,8 +153,8 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         /we4265
         /permissive-
     )
+    # UNICODE/_UNICODE are already in LOG4QT_QT_DEFINITIONS
     list(APPEND LOG4QT_COMPILE_DEFINITIONS
-        UNICODE
         NOMINMAX
     )
     set(CMAKE_DEBUG_POSTFIX _d)

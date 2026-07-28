@@ -1,5 +1,3 @@
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
 set(log4qt_SOURCES
     abstractstringlayout.cpp
     appender.cpp
@@ -194,12 +192,7 @@ if(LOG4QT_COMPILE_OPTIONS)
 endif()
 
 if(BUILD_WITH_QML_LOGGING)
-    target_sources(log4qt
-        PRIVATE
-         qmllogger.cpp
-         qmllogger.h
-    )
-    # append to log4qt_HEADERS or proper install
+    # append to log4qt_HEADERS for proper install
     list(APPEND log4qt_HEADERS
          qmllogger.h
     )
@@ -210,32 +203,30 @@ if(BUILD_WITH_QML_LOGGING)
         PRIVATE
             LOG4QT_QML_LOGGING_SUPPORT
     )
-    if (TRUE) # Qt >= 6.5 always supports qt_add_qml_module
-        qt_add_qml_module(
-            log4qt
-            URI org.log4qt
-            VERSION 1.0
-            OUTPUT_DIRECTORY
-            ${CMAKE_BINARY_DIR}/bin/org/log4qt
-            SOURCES
-                qmllogger.cpp qmllogger.h
-            NO_PLUGIN
-            RESOURCE_PREFIX
-                "/qt/qml"
-            OUTPUT_TARGETS log4qt_qml_extra_targets
+    qt_add_qml_module(
+        log4qt
+        URI org.log4qt
+        VERSION 1.0
+        OUTPUT_DIRECTORY
+        ${CMAKE_BINARY_DIR}/bin/org/log4qt
+        SOURCES
+            qmllogger.cpp qmllogger.h
+        NO_PLUGIN
+        RESOURCE_PREFIX
+            "/qt/qml"
+        OUTPUT_TARGETS log4qt_qml_extra_targets
+    )
+    # In static builds qt_add_qml_module creates internal resource
+    # targets that the backing library's link interface references;
+    # they must be in the same export set or install(EXPORT) fails.
+    if(log4qt_qml_extra_targets)
+        install(TARGETS ${log4qt_qml_extra_targets}
+            EXPORT log4qt_targets
+            COMPONENT Devel
+            DESTINATION ${CMAKE_INSTALL_LIBDIR}
         )
-        # In static builds qt_add_qml_module creates internal resource
-        # targets that the backing library's link interface references;
-        # they must be in the same export set or install(EXPORT) fails.
-        if(log4qt_qml_extra_targets)
-            install(TARGETS ${log4qt_qml_extra_targets}
-                EXPORT log4qt_targets
-                COMPONENT Devel
-                DESTINATION ${CMAKE_INSTALL_LIBDIR}
-            )
-        endif()
-        message(STATUS "Log4Qt: Registered logging support as qml module (org.log4qt)")
     endif()
+    message(STATUS "Log4Qt: Registered logging support as qml module (org.log4qt)")
     message(STATUS "Log4Qt: Enabling qml logging support")
 else()
     message(STATUS "Log4Qt: Disabling qml logging support - disabled by cmake option")

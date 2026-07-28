@@ -8,7 +8,6 @@ set(qstring_benchmark_SOURCES
     qstring_benchmark.h
 )
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 qt_add_executable(qstring_benchmark ${qstring_benchmark_SOURCES})
 target_link_libraries(qstring_benchmark PRIVATE log4qt Qt${QT_VERSION_MAJOR}::Test)
 
