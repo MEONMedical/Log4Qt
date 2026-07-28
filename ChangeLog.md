@@ -121,6 +121,10 @@ All notable changes to this project will be documented in this file.
 ### Improvements
 - Modernized codebase to C++20; applied `const` correctness and `constexpr`
   improvements throughout.
+- Modernized the CMake build to current Qt 6 practice:
+  `qt_standard_project_setup()`, `qt_add_library`/`qt_add_executable`,
+  version-pinned `find_package(Qt6 6.5 ...)` calls, and explicit link
+  visibility throughout.
 - `SizeBasedTriggeringPolicy` uses `QIODevice::pos()` instead of `size()` for
   accurate in-progress file size tracking.
 - `TriggeringPolicy::isTriggeringEvent()` now receives a `QIODevice *` directly.
@@ -147,6 +151,12 @@ All notable changes to this project will be documented in this file.
   shared atomic dirty flag, so thread-local teardown never touches the
   `QThread`. Affected any code that logs from worker threads cleaned up with
   `deleteLater`.
+- Installed package config now declares the Qt modules consumers need:
+  optional features (Sql/Network/Qml) link PUBLIC since their installed
+  headers include Qt module headers, and `Log4QtConfig.cmake` finds the
+  matching components. Static builds with QML logging enabled no longer
+  fail at CMake generate time (qml module resource targets are now part
+  of the install export).
 
 ### Deprecated / Removed
 - Removed qmake support
