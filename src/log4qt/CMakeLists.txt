@@ -222,7 +222,18 @@ if(BUILD_WITH_QML_LOGGING)
             NO_PLUGIN
             RESOURCE_PREFIX
                 "/qt/qml"
+            OUTPUT_TARGETS log4qt_qml_extra_targets
         )
+        # In static builds qt_add_qml_module creates internal resource
+        # targets that the backing library's link interface references;
+        # they must be in the same export set or install(EXPORT) fails.
+        if(log4qt_qml_extra_targets)
+            install(TARGETS ${log4qt_qml_extra_targets}
+                EXPORT log4qt_targets
+                COMPONENT Devel
+                DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            )
+        endif()
         message(STATUS "Log4Qt: Registered logging support as qml module (org.log4qt)")
     endif()
     message(STATUS "Log4Qt: Enabling qml logging support")
