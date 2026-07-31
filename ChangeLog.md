@@ -137,6 +137,17 @@ All notable changes to this project will be documented in this file.
   daily rotation). Use `RollingFileAppender` with `TimeBasedTriggeringPolicy`
   and `DateRolloverStrategy(Suffix)` instead.
 
+### Fixed
+- Use-after-free crash at worker-thread exit: the per-thread name cache in
+  `LoggingEvent` observed the `QThread`'s `objectName` via a `thread_local`
+  `QPropertyNotifier`, whose destructor ran at OS-thread exit — after the
+  `QThread` object may already have been deleted through the canonical
+  `connect(thread, finished, thread, deleteLater)` cleanup pattern. The cache
+  is now invalidated through a `QObject::objectNameChanged` connection with a
+  shared atomic dirty flag, so thread-local teardown never touches the
+  `QThread`. Affected any code that logs from worker threads cleaned up with
+  `deleteLater`.
+
 ### Deprecated / Removed
 - Removed qmake support
 - Removed binary logger
