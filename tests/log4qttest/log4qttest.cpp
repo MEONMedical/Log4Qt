@@ -1314,6 +1314,32 @@ void Log4QtTest::AppenderSkeleton_filter()
 }
 
 
+// Regression test: clearFilters() left a stale tail pointer, so a filter
+// added afterwards was chained onto the orphaned old list while the head
+// stayed null — the new filter (here a deny-all) was never evaluated and
+// every event passed.
+void Log4QtTest::AppenderSkeleton_clearFilters()
+{
+    Log4Qt::ListAppender appender;
+
+    auto *matchFilter = new Log4Qt::LevelMatchFilter();
+    matchFilter->setLevelToMatch(Level::WARN_INT);
+    appender.addFilter(FilterSharedPtr(matchFilter));
+
+    appender.clearFilters();
+    QVERIFY(appender.firstFilter().isNull());
+
+    appender.addFilter(FilterSharedPtr(new Log4Qt::DenyAllFilter()));
+    QVERIFY(!appender.firstFilter().isNull());
+
+    appender.doAppend(LoggingEvent(test_logger(), Level::WARN_INT,
+                                   QStringLiteral("Message")));
+
+    // The deny-all filter added after clearFilters() must reject the event
+    QCOMPARE(appender.list().count(), 0);
+}
+
+
 void Log4QtTest::BasicConfigurator()
 {
     LogManager::resetConfiguration();
