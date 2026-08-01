@@ -62,31 +62,45 @@ QString Level::toString() const
     // Cache the translated strings on first use. The locale active at first
     // call is the one captured for the lifetime of the process — log-level
     // names are conventionally not retranslated at runtime.
+    //
+    // The cache is intentionally leaked (held through a pointer, so no
+    // destructor is registered): Log4Qt logs during static destruction — the
+    // atexit-registered LogManager::shutdown() formats a shutdown event after
+    // function-local statics have already been destroyed. Destructible
+    // statics here would be read after destruction (use-after-free at exit).
+    // This matches the library's design of leaking its singletons so that
+    // logging stays usable until the very end of the process.
     static const char *const p_context = "Level";
-    static const QString sNull  = QCoreApplication::translate(p_context, "NULL");
-    static const QString sAll   = QCoreApplication::translate(p_context, "ALL");
-    static const QString sTrace = QCoreApplication::translate(p_context, "TRACE");
-    static const QString sDebug = QCoreApplication::translate(p_context, "DEBUG");
-    static const QString sInfo  = QCoreApplication::translate(p_context, "INFO");
-    static const QString sWarn  = QCoreApplication::translate(p_context, "WARN");
-    static const QString sError = QCoreApplication::translate(p_context, "ERROR");
-    static const QString sFatal = QCoreApplication::translate(p_context, "FATAL");
-    static const QString sOff   = QCoreApplication::translate(p_context, "OFF");
+    struct Names
+    {
+        QString null, all, trace, debug, info, warn, error, fatal, off;
+    };
+    static const Names *const s_names = new Names {
+        QCoreApplication::translate(p_context, "NULL"),
+        QCoreApplication::translate(p_context, "ALL"),
+        QCoreApplication::translate(p_context, "TRACE"),
+        QCoreApplication::translate(p_context, "DEBUG"),
+        QCoreApplication::translate(p_context, "INFO"),
+        QCoreApplication::translate(p_context, "WARN"),
+        QCoreApplication::translate(p_context, "ERROR"),
+        QCoreApplication::translate(p_context, "FATAL"),
+        QCoreApplication::translate(p_context, "OFF"),
+    };
 
     switch (toInt())
     {
-    case NULL_INT:  return sNull;
-    case ALL_INT:   return sAll;
-    case TRACE_INT: return sTrace;
-    case DEBUG_INT: return sDebug;
-    case INFO_INT:  return sInfo;
-    case WARN_INT:  return sWarn;
-    case ERROR_INT: return sError;
-    case FATAL_INT: return sFatal;
-    case OFF_INT:   return sOff;
+    case NULL_INT:  return s_names->null;
+    case ALL_INT:   return s_names->all;
+    case TRACE_INT: return s_names->trace;
+    case DEBUG_INT: return s_names->debug;
+    case INFO_INT:  return s_names->info;
+    case WARN_INT:  return s_names->warn;
+    case ERROR_INT: return s_names->error;
+    case FATAL_INT: return s_names->fatal;
+    case OFF_INT:   return s_names->off;
     }
     Q_ASSERT_X(false, "Level::toString()", "Unknown level value");
-    return sNull;
+    return s_names->null;
 }
 
 Level Level::fromString(QStringView level, bool *ok)
