@@ -112,6 +112,8 @@ private Q_SLOTS:
     void DateRolloverStrategy_initialFileName_datedSuffix();
     void DateRolloverStrategy_datedActiveFile_rolloverNoRename();
     void DateRolloverStrategy_datedActiveFilePropertyConfigurator();
+    void DateRolloverStrategy_keepDaysSuffixMode();
+    void DateRolloverStrategy_maxBackupsExcludesActiveFile();
 
     // DefaultRolloverStrategy
     void DefaultRolloverStrategy_defaults();
@@ -124,6 +126,9 @@ private Q_SLOTS:
     void RollingFileAppender_initialFileName_appliedOnStartup();
     void RollingFileAppender_rolloverUsesBaseFileName();
     void RollingFileAppender_defaultStrategyUnchangedOnStartup();
+    void RollingFileAppender_startupRolloverPreservesPreviousLog();
+    void RollingFileAppender_reopenAppendsWhenRolloverKeepsFile();
+    void RollingFileAppender_reopenAppendsWhenRenameFails();
 
     // Factory
     void Factory_createTriggeringPolicy_data();
@@ -980,6 +985,91 @@ void PolicyTest::DateRolloverStrategy_datedActiveFilePropertyConfigurator()
     QVERIFY(!QFile::exists(file));
 }
 
+// Regression test: the keepDays date extractor expected the date between
+// basename and extension, which never matches Suffix-mode backup names
+// (fileName + date, e.g. "app.log.2026-07-30") — retention silently deleted
+// nothing and backups accumulated without bound.
+void PolicyTest::DateRolloverStrategy_keepDaysSuffixMode()
+{
+    QTemporaryDir tempDir;
+    QVERIFY(tempDir.isValid());
+
+    DateTime::setProvider([] { return QDateTime(QDate(2026, 8, 1), QTime(10, 0)); });
+
+    const QString basePath = tempDir.path() + "/app.log";
+    auto writeFile = [](const QString &path)
+    {
+        QFile f(path);
+        QVERIFY(f.open(QIODevice::WriteOnly));
+        f.write("data");
+    };
+
+    // Two backups older than the 7-day cutoff (2026-07-25), one within it
+    writeFile(basePath + ".2026-07-20");
+    writeFile(basePath + ".2026-07-22");
+    writeFile(basePath + ".2026-07-30");
+    writeFile(basePath);
+
+    {
+        Log4Qt::DateRolloverStrategy strategy;
+        strategy.setDatePattern("'.'yyyy-MM-dd");
+        strategy.setMode(Log4Qt::DateRolloverStrategy::NamingMode::Suffix);
+        strategy.setKeepDays(7);
+        strategy.activateOptions();
+        strategy.rollover(basePath);
+    } // destructor waits for async cleanup to complete
+
+    QVERIFY(!QFile::exists(basePath + ".2026-07-20"));
+    QVERIFY(!QFile::exists(basePath + ".2026-07-22"));
+    QVERIFY(QFile::exists(basePath + ".2026-07-30"));
+    QVERIFY(QFile::exists(basePath + ".2026-08-01")); // backup just created by the rollover
+}
+
+// Regression test: the maxBackups pruning excluded only the base file name,
+// so with datedActiveFile the current period's active file was counted as
+// (and could displace) a backup — with maxBackups=1 the pruning deleted the
+// just-archived backup.
+void PolicyTest::DateRolloverStrategy_maxBackupsExcludesActiveFile()
+{
+    QTemporaryDir tempDir;
+    QVERIFY(tempDir.isValid());
+
+    DateTime::setProvider([] { return QDateTime(QDate(2026, 8, 1), QTime(10, 0)); });
+
+    const QString basePath = tempDir.path() + "/app.log";
+    auto writeFileAged = [](const QString &path, const QDateTime &mtime)
+    {
+        QFile f(path);
+        QVERIFY(f.open(QIODevice::WriteOnly));
+        f.write("data");
+        f.close();
+        QVERIFY(f.open(QIODevice::ReadWrite));
+        QVERIFY(f.setFileTime(mtime, QFileDevice::FileModificationTime));
+    };
+
+    // Three existing backups (oldest first) plus the current period's active file
+    writeFileAged(basePath + ".2026-07-29", QDateTime(QDate(2026, 7, 29), QTime(0, 0)));
+    writeFileAged(basePath + ".2026-07-30", QDateTime(QDate(2026, 7, 30), QTime(0, 0)));
+    writeFileAged(basePath + ".2026-07-31", QDateTime(QDate(2026, 7, 31), QTime(0, 0)));
+    writeFileAged(basePath + ".2026-08-01", QDateTime(QDate(2026, 8, 1), QTime(9, 0)));
+
+    {
+        Log4Qt::DateRolloverStrategy strategy;
+        strategy.setDatePattern("'.'yyyy-MM-dd");
+        strategy.setMode(Log4Qt::DateRolloverStrategy::NamingMode::Suffix);
+        strategy.setDatedActiveFile(true);
+        strategy.setMaxBackups(2);
+        strategy.activateOptions();
+        strategy.rollover(basePath); // same period: active file stays app.log.2026-08-01
+    } // destructor waits for async cleanup to complete
+
+    // Active file survives; the two newest backups are kept, the oldest deleted
+    QVERIFY(QFile::exists(basePath + ".2026-08-01"));
+    QVERIFY(QFile::exists(basePath + ".2026-07-31"));
+    QVERIFY(QFile::exists(basePath + ".2026-07-30"));
+    QVERIFY(!QFile::exists(basePath + ".2026-07-29"));
+}
+
 // ---------------------------------------------------------------------------
 // DefaultRolloverStrategy
 // ---------------------------------------------------------------------------
@@ -1201,6 +1291,136 @@ void PolicyTest::RollingFileAppender_defaultStrategyUnchangedOnStartup()
     QVERIFY(QFile::exists(basePath));
 
     appender.close();
+}
+
+// Regression test: activateOptions() used to open the file (truncating it,
+// appendFile defaults to false) BEFORE performing the startup rollover, so
+// the previous run's log was destroyed and an empty file was archived.
+void PolicyTest::RollingFileAppender_startupRolloverPreservesPreviousLog()
+{
+    QTemporaryDir tempDir;
+    QVERIFY(tempDir.isValid());
+
+    const QString basePath = tempDir.path() + "/app.log";
+
+    // Simulate the previous run's log file
+    {
+        QFile f(basePath);
+        QVERIFY(f.open(QIODevice::WriteOnly));
+        f.write("previous run content\n");
+    }
+
+    auto layout = LayoutSharedPtr(new SimpleLayout);
+    RollingFileAppender appender(layout, basePath);
+    appender.setName(QStringLiteral("Rolling"));
+    appender.addTriggeringPolicy(TriggeringPolicySharedPtr(new OnStartupTriggeringPolicy));
+    appender.setRolloverStrategy(RolloverStrategySharedPtr(new DefaultRolloverStrategy));
+
+    appender.activateOptions();
+    appender.doAppend(LoggingEvent(LogManager::rootLogger(), Level::INFO_INT,
+                                   QStringLiteral("new run message")));
+    appender.close();
+
+    // The previous run's content must have been archived, not truncated
+    QFile backup(basePath + ".1");
+    QVERIFY(backup.exists());
+    QVERIFY(backup.open(QIODevice::ReadOnly));
+    QVERIFY(backup.readAll().contains("previous run content"));
+
+    QFile active(basePath);
+    QVERIFY(active.open(QIODevice::ReadOnly));
+    const QByteArray content = active.readAll();
+    QVERIFY(content.contains("new run message"));
+    QVERIFY(!content.contains("previous run content"));
+}
+
+// Regression test: when a rollover keeps the current file as the active file
+// (datedActiveFile within the same period), the reopen used to truncate it,
+// destroying everything logged in the period so far.
+void PolicyTest::RollingFileAppender_reopenAppendsWhenRolloverKeepsFile()
+{
+    QTemporaryDir tempDir;
+    QVERIFY(tempDir.isValid());
+
+    DateTime::setProvider([] { return QDateTime(QDate(2026, 8, 1), QTime(10, 0)); });
+
+    const QString basePath = tempDir.path() + "/app.log";
+
+    auto layout = LayoutSharedPtr(new SimpleLayout);
+    RollableFileAppender appender(layout, basePath);
+    appender.setName(QStringLiteral("Rolling"));
+
+    auto *strategy = new DateRolloverStrategy;
+    strategy->setDatePattern("'.'yyyy-MM-dd");
+    strategy->setMode(DateRolloverStrategy::NamingMode::Suffix);
+    strategy->setDatedActiveFile(true);
+    appender.setRolloverStrategy(RolloverStrategySharedPtr(strategy));
+
+    appender.activateOptions();
+    appender.doAppend(LoggingEvent(LogManager::rootLogger(), Level::INFO_INT,
+                                   QStringLiteral("first message")));
+
+    appender.triggerRollover(); // same period: strategy returns the same dated file
+
+    appender.doAppend(LoggingEvent(LogManager::rootLogger(), Level::INFO_INT,
+                                   QStringLiteral("second message")));
+    appender.close();
+
+    QFile active(basePath + ".2026-08-01");
+    QVERIFY(active.exists());
+    QVERIFY(active.open(QIODevice::ReadOnly));
+    const QByteArray content = active.readAll();
+    QVERIFY(content.contains("first message"));
+    QVERIFY(content.contains("second message"));
+}
+
+// Regression test: when the rollover rename fails (e.g. the file is locked or
+// the directory is not writable), the reopen used to truncate the file whose
+// content could not be archived — silent loss of the entire active log.
+void PolicyTest::RollingFileAppender_reopenAppendsWhenRenameFails()
+{
+#ifndef Q_OS_UNIX
+    QSKIP("Requires POSIX directory permissions to force a rename failure");
+#else
+    QTemporaryDir tempDir;
+    QVERIFY(tempDir.isValid());
+
+    const QString subDirPath = tempDir.path() + "/logs";
+    QVERIFY(QDir().mkpath(subDirPath));
+    const QString basePath = subDirPath + "/app.log";
+
+    auto layout = LayoutSharedPtr(new SimpleLayout);
+    RollableFileAppender appender(layout, basePath);
+    appender.setName(QStringLiteral("Rolling"));
+    appender.setRolloverStrategy(RolloverStrategySharedPtr(new DefaultRolloverStrategy));
+
+    appender.activateOptions();
+    appender.doAppend(LoggingEvent(LogManager::rootLogger(), Level::INFO_INT,
+                                   QStringLiteral("first message")));
+
+    // Make the directory read-only so the rollover rename must fail
+    QVERIFY(QFile::setPermissions(subDirPath,
+                                  QFileDevice::ReadOwner | QFileDevice::ExeOwner));
+
+    appender.triggerRollover();
+    appender.doAppend(LoggingEvent(LogManager::rootLogger(), Level::INFO_INT,
+                                   QStringLiteral("second message")));
+    appender.close();
+
+    // Restore permissions so QTemporaryDir can clean up
+    QFile::setPermissions(subDirPath,
+                          QFileDevice::ReadOwner | QFileDevice::WriteOwner
+                          | QFileDevice::ExeOwner);
+
+    if (QFile::exists(basePath + ".1"))
+        QSKIP("Rename unexpectedly succeeded (running as root?)");
+
+    QFile active(basePath);
+    QVERIFY(active.open(QIODevice::ReadOnly));
+    const QByteArray content = active.readAll();
+    QVERIFY(content.contains("first message"));
+    QVERIFY(content.contains("second message"));
+#endif
 }
 
 // ---------------------------------------------------------------------------

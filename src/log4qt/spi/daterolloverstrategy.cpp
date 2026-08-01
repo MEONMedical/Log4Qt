@@ -43,7 +43,8 @@ void deleteObsoleteFiles(
         int keepDays,
         const QString &datePattern,
         const QDate &currentDate,
-        const QString &fileName)
+        const QString &fileName,
+        const QString &activeFileName)
 {
     const QFileInfo fi(fileName);
     const QDir dir(fi.absolutePath());
@@ -58,19 +59,32 @@ void deleteObsoleteFiles(
 
     QFileInfoList entries = dir.entryInfoList({nameFilter}, QDir::Files, QDir::Name);
 
+    // Exclude the base file and the currently active file (a dated name in
+    // Embedded/datedActiveFile operation) — the active file is not a backup
+    // and must neither be counted against maxBackups nor deleted.
+    const QString activeFilePath = QFileInfo(activeFileName).absoluteFilePath();
     entries.removeIf([&](const QFileInfo &entry) {
-        return entry.absoluteFilePath() == fi.absoluteFilePath();
+        return entry.absoluteFilePath() == fi.absoluteFilePath()
+            || entry.absoluteFilePath() == activeFilePath;
     });
 
     if (keepDays > 0)
     {
         const QDate cutoff = currentDate.addDays(-keepDays);
-        // Escape the filename-derived parts: base/ext can contain regex
-        // metacharacters (e.g. '.' in "app.v2.log") that would otherwise
-        // match unintended sibling files and delete them.
+        // The date extractor must mirror buildBackupName(): in Suffix mode
+        // the date is appended after the full filename ("app.log.2026-07-30"),
+        // in Embedded mode it is inserted between basename and extension
+        // ("app.2026-07-30.log"). Escape the filename-derived parts: base/ext
+        // can contain regex metacharacters (e.g. '.' in "app.v2.log") that
+        // would otherwise match unintended sibling files and delete them.
+        QString extractorPattern;
+        if (mode == Log4Qt::DateRolloverStrategy::NamingMode::Suffix)
+            extractorPattern = QRegularExpression::escape(fi.fileName()) + u"(.*)"_s;
+        else
+            extractorPattern = QRegularExpression::escape(base) + u"(.*)"_s
+                + (ext.isEmpty() ? u""_s : u"\\."_s + QRegularExpression::escape(ext));
         const QRegularExpression dateExtractor(
-            QRegularExpression::escape(base) + u"(.*)"_s
-            + (ext.isEmpty() ? u""_s : u"\\."_s + QRegularExpression::escape(ext)));
+            QRegularExpression::anchoredPattern(extractorPattern));
 
         entries.removeIf([&](const QFileInfo &entry) {
             const auto match = dateExtractor.match(entry.fileName());
@@ -145,11 +159,14 @@ QString DateRolloverStrategy::rollover(const QString &fileName)
 {
     const auto dateTime = DateTime::currentDateTime();
 
-    auto scheduleCleanup = [&] {
+    // activeFileName is the file the appender will write to after this
+    // rollover — the cleanup must never count or delete it.
+    auto scheduleCleanup = [&](const QString &activeFileName) {
         if (mMaxBackups > 0 || mKeepDays > 0)
             mCleanupExecutors.addFuture(
                 QtConcurrent::run(deleteObsoleteFiles, mMode, mMaxBackups,
-                                  mKeepDays, mDatePattern, dateTime.date(), fileName));
+                                  mKeepDays, mDatePattern, dateTime.date(),
+                                  fileName, activeFileName));
     };
 
     if (mDatedActiveFile)
@@ -157,8 +174,9 @@ QString DateRolloverStrategy::rollover(const QString &fileName)
         // Each period writes to its own dated file directly, so no rename
         // is needed — just return the dated name for the new active file.
         mActiveSuffix = dateTime.toString(mDatePattern);
-        scheduleCleanup();
-        return buildBackupName(fileName, dateTime);
+        const QString activeName = buildBackupName(fileName, dateTime);
+        scheduleCleanup(activeName);
+        return activeName;
     }
 
     if (mMode == NamingMode::Suffix)
@@ -173,13 +191,13 @@ QString DateRolloverStrategy::rollover(const QString &fileName)
             removeFile(backupName);
         if (QFile::exists(fileName))
             renameFile(fileName, backupName);
-        scheduleCleanup();
+        scheduleCleanup(fileName);
         return fileName;
     }
 
     mActiveSuffix = dateTime.toString(mDatePattern);
     const QString backupName = buildBackupName(fileName, dateTime);
-    scheduleCleanup();
+    scheduleCleanup(backupName);
     return backupName;
 }
 
