@@ -1410,6 +1410,62 @@ void Log4QtTest::AppenderSkeleton_recursionGuardBlocksSelfOnly()
 }
 
 
+// Regression test: the non-template logWithLocation() overloads called
+// forcedLog() unconditionally, bypassing the logger's level check — direct
+// API callers got events below the configured level.
+void Log4QtTest::Logger_logWithLocationHonoursLevel()
+{
+    resetLogging();
+
+    Logger *logger = LogManager::logger(QStringLiteral("Test::LogWithLocation"));
+    logger->setLevel(Level::WARN_INT);
+    logger->setAdditivity(false);
+
+    auto *list = new Log4Qt::ListAppender;
+    list->setName(QStringLiteral("List"));
+    logger->addAppender(AppenderSharedPtr(list));
+
+    logger->logWithLocation(Level::DEBUG_INT, __FILE__, __LINE__, Q_FUNC_INFO,
+                            QStringLiteral("below level"));
+    logger->logWithLocation(Level::ERROR_INT, __FILE__, __LINE__, Q_FUNC_INFO,
+                            QStringLiteral("above level"));
+
+    QCOMPARE(list->list().count(), 1);
+    QCOMPARE(list->list().at(0).message(), QStringLiteral("above level"));
+
+    logger->removeAllAppenders();
+}
+
+
+// Regression test: resetConfiguration() used to emit levelChanged /
+// additivityChanged while holding the repository write lock. A direct-
+// connected slot querying the repository (exists(), loggers()) then
+// self-deadlocked, because the recursive QReadWriteLock does not allow
+// read-locking while the write lock is held on the same thread.
+void Log4QtTest::Hierarchy_signalSlotsMayQueryRepositoryDuringReset()
+{
+    resetLogging();
+
+    Logger *logger = LogManager::logger(QStringLiteral("Test::ResetSignals"));
+    logger->setLevel(Level::INFO_INT);
+
+    int notified = 0;
+    const auto connection = connect(logger, &Logger::levelChanged,
+                                    [&notified] {
+        // Query the repository from within the signal emission — this hung
+        // forever when the signal was emitted under the write lock.
+        const auto loggers = LogManager::loggerRepository()->loggers();
+        Q_UNUSED(loggers)
+        ++notified;
+    });
+
+    LogManager::resetConfiguration();
+
+    QVERIFY(notified > 0);
+    disconnect(connection);
+}
+
+
 void Log4QtTest::BasicConfigurator()
 {
     LogManager::resetConfiguration();
