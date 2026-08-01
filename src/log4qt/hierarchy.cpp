@@ -89,31 +89,45 @@ void Hierarchy::setThreshold(const QString &threshold)
 
 void Hierarchy::resetConfiguration()
 {
-    QWriteLocker locker(&mObjectGuard);
+    Logger *p_logging_logger;
+    Logger *p_qt_logger;
+    Logger *p_root_logger;
+    QList<Logger *> loggers;
+
+    {
+        QWriteLocker locker(&mObjectGuard);
+        p_logging_logger = createLogger(u""_s);
+        p_qt_logger = createLogger(u"Qt"_s);
+        p_root_logger = mRootLogger;
+        loggers = mLoggers.values();
+    }
+
+    // Reset the loggers AFTER releasing the repository lock: setLevel() and
+    // setAdditivity() emit levelChanged/additivityChanged, and a direct-
+    // connected slot calling back into the repository (exists(), loggers())
+    // would self-deadlock — the recursive QReadWriteLock does not allow
+    // taking the read lock while the write lock is held. The loggers
+    // themselves are never destroyed, and resetLogger() does not touch the
+    // logger map, so no lock is needed here.
 
     // Reset all loggers.
     // Leave log, qt and root logger to the last to allow debugging of shutdown.
 
-    Logger *p_logging_logger = createLogger(u""_s);
-    Logger *p_qt_logger = createLogger(u"Qt"_s);
-    Logger *p_root_logger = mRootLogger;
-
     // Define predicate for regular (non-special) loggers
     auto isRegularLogger = [=](Logger* logger) {
-        return logger != p_logging_logger && 
-               logger != p_qt_logger && 
+        return logger != p_logging_logger &&
+               logger != p_qt_logger &&
                logger != p_root_logger;
     };
 
     // Reset all regular loggers
-    auto loggers = mLoggers.values();
-    std::for_each(loggers.begin(), loggers.end(), 
+    std::for_each(loggers.begin(), loggers.end(),
                   [&](Logger* logger) {
                       if (isRegularLogger(logger)) {
                           resetLogger(logger, Level::NULL_INT);
                       }
                   });
-    
+
     // Reset special loggers
     resetLogger(p_qt_logger, Level::NULL_INT);
     resetLogger(p_logging_logger, Level::NULL_INT);

@@ -111,6 +111,8 @@ private Q_SLOTS:
     void AppenderSkeleton_clearFilters();
     void AppenderSkeleton_internalErrorsReachOtherAppenders();
     void AppenderSkeleton_recursionGuardBlocksSelfOnly();
+    void Logger_logWithLocationHonoursLevel();
+    void Hierarchy_signalSlotsMayQueryRepositoryDuringReset();
     void BasicConfigurator();
     void FileAppender();
     void RollingFileAppender_dateSuffix();
