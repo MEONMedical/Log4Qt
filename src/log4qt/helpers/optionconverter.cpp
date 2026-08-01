@@ -32,12 +32,29 @@ namespace Log4Qt
 
 LOG4QT_DECLARE_STATIC_LOGGER(logger, Log4Qt::OptionConverter)
 
-QString OptionConverter::findAndSubst(const Properties &properties,
-                                      const QString &key)
+namespace
+{
+
+QString findAndSubstImpl(const Properties &properties,
+                         const QString &key,
+                         QStringList &keysInProgress)
 {
     QString value = properties.property(key);
     if (value.isNull())
         return value;
+
+    // Detect circular ${...} references (e.g. 'a=${a}' or 'a=${b}', 'b=${a}'):
+    // unbounded recursion would overflow the stack on a configuration typo.
+    if (keysInProgress.contains(key))
+    {
+        LogError e = LOG4QT_ERROR(QT_TR_NOOP("Circular substitution detected for key '%1' (substitution chain: %2)."),
+                                  ConfiguratorInvalidSubstitutionError,
+                                  "Log4Qt::OptionConverter");
+        e << key << keysInProgress.join(u" -> "_s);
+        logger()->error(e);
+        return QString();
+    }
+    keysInProgress.append(key);
 
     const QString begin_subst = u"${"_s;
     const QString end_subst = u"}"_s;
@@ -70,17 +87,28 @@ QString OptionConverter::findAndSubst(const Properties &properties,
                                           "Log4Qt::OptionConverter");
                 e << begin << value;
                 logger()->error(e);
+                keysInProgress.removeLast();
                 return result;
             }
             auto keyName = value.mid(begin + begin_length, end - begin - end_length - 1);
-            auto subValue = findAndSubst(properties, keyName);
+            auto subValue = findAndSubstImpl(properties, keyName, keysInProgress);
             if (subValue.isNull() && keyName.startsWith(QLatin1String("LOG4QT_")))
                 subValue = qgetenv(qPrintable(keyName));
             result +=subValue;
             i = end + end_length;
         }
     }
+    keysInProgress.removeLast();
     return result;
+}
+
+} // anonymous namespace
+
+QString OptionConverter::findAndSubst(const Properties &properties,
+                                      const QString &key)
+{
+    QStringList keysInProgress;
+    return findAndSubstImpl(properties, key, keysInProgress);
 }
 
 QString OptionConverter::classNameJavaToCpp(const QString &className)

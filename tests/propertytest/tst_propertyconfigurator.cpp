@@ -27,6 +27,7 @@
 #include "log4qt/consoleappender.h"
 #include "log4qt/dailyrollingfileappender.h"
 #include "log4qt/helpers/configuratorhelper.h"
+#include "log4qt/helpers/optionconverter.h"
 #include "log4qt/helpers/properties.h"
 #include "log4qt/logger.h"
 #include "log4qt/logmanager.h"
@@ -79,6 +80,7 @@ private Q_SLOTS:
     void testLegacyRealWorldConfig();
     void testLegacyVariableSubstitution();
     void testLegacyCrossReferenceSubstitution();
+    void testCircularSubstitution();
     // HeaderFooterProvider configuration tests
     void testGlobalHeaderFooterProvider();
     void testPerLayoutHeaderFooterProvider();
@@ -737,6 +739,31 @@ void PropertyConfiguratorTest::testLegacyCrossReferenceSubstitution()
     auto *ttcc = qobject_cast<TTCCLayout *>(dailyApp->layout().data());
     QVERIFY(ttcc);
     QCOMPARE(ttcc->dateFormat(), u"ISO8601"_s);
+}
+
+// Regression test: a circular ${...} reference — a plausible configuration
+// typo like 'logpath=${logpath}/logs' — used to recurse without bound and
+// crash the process with a stack overflow during configure().
+void PropertyConfiguratorTest::testCircularSubstitution()
+{
+    Properties props;
+
+    // Direct self-reference
+    props.setProperty(u"self"_s, u"${self}/logs"_s);
+    QCOMPARE(OptionConverter::findAndSubst(props, u"self"_s), u"/logs"_s);
+
+    // Mutual cycle
+    props.setProperty(u"ping"_s, u"${pong}"_s);
+    props.setProperty(u"pong"_s, u"${ping}"_s);
+    QCOMPARE(OptionConverter::findAndSubst(props, u"ping"_s), u""_s);
+
+    // Legitimate nested substitution keeps working, and the same key may
+    // appear more than once as long as there is no cycle
+    props.setProperty(u"base"_s, u"/var"_s);
+    props.setProperty(u"logdir"_s, u"${base}/log"_s);
+    props.setProperty(u"file"_s, u"${logdir}/app.log (${base})"_s);
+    QCOMPARE(OptionConverter::findAndSubst(props, u"file"_s),
+             u"/var/log/app.log (/var)"_s);
 }
 
 // --- HeaderFooterProvider configuration ---
