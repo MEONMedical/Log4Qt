@@ -21,6 +21,7 @@ private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();
     void testConfiguratorHelperSaveFileToTempDeleteOrigAndRename();
+    void testWatchConfiguredFromWorkerThread();
 
 private:
     void createTestFile(const QString &filename) const;
@@ -123,6 +124,41 @@ void FilewatcherTest::testConfiguratorHelperSaveFileToTempDeleteOrigAndRename()
     modifyTestFile(testFilePath);
     QVERIFY(QFile::exists(testFilePath));
     QTRY_VERIFY(configurationFileChangeSpy.count() == 1);  // expected from modify
+    QFile::remove(testFilePath);
+}
+
+// Regression test: the QFileSystemWatcher was created on (and stayed in) the
+// thread that called setConfigurationFile(). When that thread had no running
+// event loop or exited — a typical short-lived application init thread —
+// file changes were silently never detected. The watcher must live in the
+// ConfiguratorHelper's thread.
+void FilewatcherTest::testWatchConfiguredFromWorkerThread()
+{
+    // The helper singleton lives in this (main) thread
+    Log4Qt::ConfiguratorHelper::instance();
+
+    QTemporaryDir tempDir;
+    QString testFilePath = tempDir.path() + "log4qt.properties";
+    createTestFile(testFilePath);
+    QSignalSpy configurationFileChangeSpy(Log4Qt::ConfiguratorHelper::instance(),
+                                          &Log4Qt::ConfiguratorHelper::configurationFileChanged);
+
+    // Configure the watch from a short-lived worker thread, then let the
+    // thread exit before the file changes
+    QThread worker;
+    QObject context;
+    context.moveToThread(&worker);
+    worker.start();
+    QMetaObject::invokeMethod(&context, [testFilePath] {
+        Log4Qt::ConfiguratorHelper::instance()->setConfigurationFile(testFilePath, configure);
+    }, Qt::BlockingQueuedConnection);
+    worker.quit();
+    worker.wait();
+
+    modifyTestFile(testFilePath);
+    QTRY_VERIFY(configurationFileChangeSpy.count() == 1);
+
+    Log4Qt::ConfiguratorHelper::instance()->setConfigurationFile(); // stop watching
     QFile::remove(testFilePath);
 }
 

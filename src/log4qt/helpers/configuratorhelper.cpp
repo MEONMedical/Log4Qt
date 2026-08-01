@@ -88,7 +88,16 @@ void ConfiguratorHelper::doSetConfigurationFile(const QString &fileName,
     QMutexLocker locker(&mObjectGuard);
     mConfigurationFile.setFile(fileName);
     mConfigureFunc = nullptr;
-    mConfigurationFileWatch.reset();
+    if (mConfigurationFileWatch)
+    {
+        // Retire the old watcher via deleteLater: it lives in the helper's
+        // thread (see below), so a plain delete from the calling thread
+        // would destroy a QObject cross-thread — and could destroy it while
+        // its own fileChanged emission is still on the call stack.
+        auto *oldWatch = mConfigurationFileWatch.release();
+        oldWatch->disconnect(this);
+        oldWatch->deleteLater();
+    }
     if (fileName.isEmpty() || !QFileInfo::exists(fileName))
         return;
 
@@ -102,6 +111,12 @@ void ConfiguratorHelper::doSetConfigurationFile(const QString &fileName,
                 this, &ConfiguratorHelper::doConfigurationFileChanged);
         connect(mConfigurationFileWatch.get(), &QFileSystemWatcher::directoryChanged,
                 this, &ConfiguratorHelper::doConfigurationFileDirectoryChanged);
+        // The watcher must live in the helper's thread: change notifications
+        // need a running event loop in the watcher's thread — the thread
+        // calling configureAndWatch() may have none or may exit — and
+        // tryToReAddConfigurationFile() runs on the helper's thread and
+        // calls watcher methods directly.
+        mConfigurationFileWatch->moveToThread(thread());
     }
     else
         qWarning() << "Add Path '" << fileName << "' to file system watcher failed!";
