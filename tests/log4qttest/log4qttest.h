@@ -113,6 +113,7 @@ private Q_SLOTS:
     void AppenderSkeleton_recursionGuardBlocksSelfOnly();
     void Logger_logWithLocationHonoursLevel();
     void Hierarchy_signalSlotsMayQueryRepositoryDuringReset();
+    void PatternLayout_patternEndingInOptionCharacter();
     void BasicConfigurator();
     void FileAppender();
     void RollingFileAppender_dateSuffix();

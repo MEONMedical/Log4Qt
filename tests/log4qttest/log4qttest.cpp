@@ -1466,6 +1466,26 @@ void Log4QtTest::Hierarchy_signalSlotsMayQueryRepositoryDuringReset()
 }
 
 
+// Regression test: a conversion pattern ending in an option-capable
+// character (%c, %d, %P) left the parser waiting for a possible '{option}'
+// at end of input; the tail was then emitted as literal text (plus an
+// "Unexpected end of pattern" warning) instead of creating the converter.
+void Log4QtTest::PatternLayout_patternEndingInOptionCharacter()
+{
+    PatternLayout layout;
+    layout.setConversionPattern(QStringLiteral("%m %c"));
+    layout.activateOptions();
+
+    const LoggingEvent event(test_logger(), Level::INFO_INT,
+                             QStringLiteral("MSG"));
+    const QString formatted = layout.format(event);
+
+    QVERIFY2(!formatted.contains(QStringLiteral("%c")), qPrintable(formatted));
+    QVERIFY(formatted.contains(QStringLiteral("MSG")));
+    QVERIFY(formatted.contains(QStringLiteral("Test::TestLog4Qt")));
+}
+
+
 void Log4QtTest::BasicConfigurator()
 {
     LogManager::resetConfiguration();
