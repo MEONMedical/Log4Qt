@@ -144,7 +144,14 @@ void TelnetAppender::append(const LoggingEvent &event)
     const QByteArray bytes = layoutSnap->format(event).toLocal8Bit();
     const bool flushAfterWrite = immediateFlush();
 
-    for (auto &&clientConnection : mTcpSockets)
+    // Iterate over a copy: when the logging call happens on the appender's
+    // own thread, the lambda below runs synchronously, and a failed write
+    // aborts the socket. abort() emits disconnected() synchronously, so
+    // onClientDisconnected() re-enters through the recursive mutex and
+    // removes the socket from mTcpSockets — mutating the list here would
+    // invalidate the iterators of a range-for over the member itself.
+    const QList<QTcpSocket *> sockets = mTcpSockets;
+    for (auto *clientConnection : sockets)
     {
         // QTcpSocket must be touched from its owner thread. Marshal the write
         // across via AutoConnection: same-thread → direct, otherwise queued.
