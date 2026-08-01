@@ -298,6 +298,8 @@ void Logger::log(const LoggingEvent &logEvent) const
 
 void Logger::logWithLocation(Level level, const char *file, int line, const char *function, const QString &message) const
 {
+    if (!isEnabledFor(level))
+        return;
     LoggingEvent loggingEvent = LoggingEvent(this,
                                              level,
                                              message,
@@ -309,6 +311,8 @@ void Logger::logWithLocation(Level level, const char *file, int line, const char
 #ifdef __cpp_lib_source_location
 void Logger::logWithLocation(Level level, const QString &message, const std::source_location &loc) const
 {
+    if (!isEnabledFor(level))
+        return;
     LoggingEvent loggingEvent = LoggingEvent(this,
                                              level,
                                              message,
