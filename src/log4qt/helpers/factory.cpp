@@ -389,6 +389,33 @@ void Factory::doSetObjectProperty(QObject *object,
         variant = value;
     else if (type == u"QStringConverter::Encoding"_s)
         variant = QVariant::fromValue(OptionConverter::toEncoding(value, &ok));
+    else if (meta_property.isEnumType())
+    {
+        // Generic fallback for enum (and flag) properties, e.g.
+        // Qt::CaseSensitivity on StringMatchFilter: convert the configured
+        // key name through the property's QMetaEnum.
+        const QMetaEnum metaEnum = meta_property.enumerator();
+        const QByteArray keys = value.toLatin1();
+        int enumValue = 0;
+        if (metaEnum.isValid())
+            enumValue = metaEnum.isFlag() ? metaEnum.keysToValue(keys.constData(), &ok)
+                                          : metaEnum.keyToValue(keys.constData(), &ok);
+        else
+            ok = false;
+        if (!ok)
+        {
+            LogError e = LOG4QT_ERROR(QT_TR_NOOP("Cannot convert value '%1' to enum type '%2' for property '%3' on object of class '%4'"),
+                                      ConfiguratorUnknownTypeError,
+                                      "Log4Qt::Factory");
+            e << value
+              << type
+              << property
+              << QString::fromLatin1(object->metaObject()->className());
+            logger()->error(e);
+            return;
+        }
+        variant = QVariant(enumValue);
+    }
     else
     {
         LogError e = LOG4QT_ERROR(QT_TR_NOOP("Cannot convert to type '%1' for property '%2' on object of class '%3'"),

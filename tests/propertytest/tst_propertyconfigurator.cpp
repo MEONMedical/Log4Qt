@@ -37,6 +37,7 @@
 #include "log4qt/spi/headerfooterprovider.h"
 #include "log4qt/ttcclayout.h"
 #include "log4qt/varia/levelmatchfilter.h"
+#include "log4qt/varia/stringmatchfilter.h"
 #include "log4qt/loggerrepository.h"
 
 using namespace Qt::StringLiterals;
@@ -82,6 +83,7 @@ private Q_SLOTS:
     void testLegacyCrossReferenceSubstitution();
     void testCircularSubstitution();
     void testSubstitutionWithLiteralClosingBrace();
+    void testEnumPropertyFromConfig();
     // HeaderFooterProvider configuration tests
     void testGlobalHeaderFooterProvider();
     void testPerLayoutHeaderFooterProvider();
@@ -783,6 +785,35 @@ void PropertyConfiguratorTest::testSubstitutionWithLiteralClosingBrace()
     props.setProperty(u"braceOnly"_s, u"plain}text"_s);
     QCOMPARE(OptionConverter::findAndSubst(props, u"braceOnly"_s),
              u"plain}text"_s);
+}
+
+// Regression test: Factory::doSetObjectProperty() had no conversion for enum
+// property types, so StringMatchFilter's caseSensitivity property — added
+// specifically to be configurable — failed with ConfiguratorUnknownTypeError
+// from every configuration format.
+void PropertyConfiguratorTest::testEnumPropertyFromConfig()
+{
+    Properties props;
+    props.setProperty(u"appender.console.type"_s, u"Console"_s);
+    props.setProperty(u"appender.console.layout.type"_s, u"SimpleLayout"_s);
+    props.setProperty(u"appender.console.filter.f1.type"_s, u"StringMatch"_s);
+    props.setProperty(u"appender.console.filter.f1.stringToMatch"_s, u"needle"_s);
+    props.setProperty(u"appender.console.filter.f1.caseSensitivity"_s,
+                      u"CaseInsensitive"_s);
+    props.setProperty(u"rootLogger.level"_s, u"ALL"_s);
+    props.setProperty(u"rootLogger.appenderRef.0.ref"_s, u"console"_s);
+
+    QVERIFY(PropertyConfigurator::configure(props));
+
+    Logger *root = LogManager::rootLogger();
+    auto *consoleApp = qobject_cast<ConsoleAppender *>(root->appenders().first().data());
+    QVERIFY(consoleApp);
+
+    auto *stringMatch =
+        qobject_cast<StringMatchFilter *>(consoleApp->filter().data());
+    QVERIFY(stringMatch);
+    QCOMPARE(stringMatch->stringToMatch(), u"needle"_s);
+    QCOMPARE(stringMatch->caseSensitivity(), Qt::CaseInsensitive);
 }
 
 // --- HeaderFooterProvider configuration ---
