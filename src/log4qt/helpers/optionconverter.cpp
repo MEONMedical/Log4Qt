@@ -79,7 +79,10 @@ QString findAndSubstImpl(const Properties &properties,
         else
         {
             result += value.mid(i, begin - i);
-            end = value.indexOf(end_subst, i + begin_length);
+            // Search for the closing bracket from the '${' that was found,
+            // not from the scan position: a literal '}' between i and begin
+            // would otherwise be picked up as the closing bracket.
+            end = value.indexOf(end_subst, begin + begin_length);
             if (end == -1)
             {
                 LogError e = LOG4QT_ERROR(QT_TR_NOOP("Missing closing bracket for opening bracket at %1. Invalid subsitution in value %2."),

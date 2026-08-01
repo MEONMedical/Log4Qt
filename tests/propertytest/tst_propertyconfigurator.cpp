@@ -81,6 +81,7 @@ private Q_SLOTS:
     void testLegacyVariableSubstitution();
     void testLegacyCrossReferenceSubstitution();
     void testCircularSubstitution();
+    void testSubstitutionWithLiteralClosingBrace();
     // HeaderFooterProvider configuration tests
     void testGlobalHeaderFooterProvider();
     void testPerLayoutHeaderFooterProvider();
@@ -764,6 +765,24 @@ void PropertyConfiguratorTest::testCircularSubstitution()
     props.setProperty(u"file"_s, u"${logdir}/app.log (${base})"_s);
     QCOMPARE(OptionConverter::findAndSubst(props, u"file"_s),
              u"/var/log/app.log (/var)"_s);
+}
+
+// Regression test: the search for the closing bracket started at the scan
+// position instead of at the '${' that was found, so a literal '}' earlier
+// in the value was picked up as the closing bracket — producing a bogus key
+// lookup, duplicated text and a corrupted value.
+void PropertyConfiguratorTest::testSubstitutionWithLiteralClosingBrace()
+{
+    Properties props;
+    props.setProperty(u"key"_s, u"VALUE"_s);
+
+    props.setProperty(u"braceBefore"_s, u"ab}c${key}"_s);
+    QCOMPARE(OptionConverter::findAndSubst(props, u"braceBefore"_s),
+             u"ab}cVALUE"_s);
+
+    props.setProperty(u"braceOnly"_s, u"plain}text"_s);
+    QCOMPARE(OptionConverter::findAndSubst(props, u"braceOnly"_s),
+             u"plain}text"_s);
 }
 
 // --- HeaderFooterProvider configuration ---
