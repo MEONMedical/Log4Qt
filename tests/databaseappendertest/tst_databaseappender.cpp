@@ -45,6 +45,7 @@ private Q_SLOTS:
     void DatabaseAppender_basicInsert();
     void DatabaseAppender_recoversFromLateTableCreation();
     void DatabaseAppender_recoversFromClosedConnection();
+    void DatabaseAppender_escapesIdentifiers();
 
 private:
     void createLogTable();
@@ -162,6 +163,43 @@ void DatabaseAppenderTest::DatabaseAppender_recoversFromClosedConnection()
                                    QStringLiteral("after drop")));
 
     QCOMPARE(rowCount(QStringLiteral("after drop")), 1);
+}
+
+// Regression test: the INSERT statement was built by raw string
+// concatenation, without the identifier escaping the previously used
+// QSqlDriver::sqlStatement() applied — table or column names containing
+// spaces (or reserved words / mixed case) failed to prepare.
+void DatabaseAppenderTest::DatabaseAppender_escapesIdentifiers()
+{
+    {
+        QSqlQuery query(QSqlDatabase::database(kConnection));
+        QVERIFY2(query.exec(QStringLiteral(
+            "CREATE TABLE \"log table\" (\"time stamp\" TEXT, logger TEXT, "
+            "thread TEXT, level TEXT, \"log message\" TEXT)")),
+                 qPrintable(query.lastError().text()));
+    }
+
+    auto *layout = new DatabaseLayout;
+    layout->setTimeStampColumn(QStringLiteral("time stamp"));
+    layout->setLoggernameColumn(QStringLiteral("logger"));
+    layout->setThreadNameColumn(QStringLiteral("thread"));
+    layout->setLevelColumn(QStringLiteral("level"));
+    layout->setMessageColumn(QStringLiteral("log message"));
+
+    DatabaseAppender appender(LayoutSharedPtr(layout),
+                              QStringLiteral("log table"), kConnection);
+    appender.setName(QStringLiteral("Db"));
+    appender.activateOptions();
+    QVERIFY(appender.isActive());
+
+    appender.doAppend(LoggingEvent(LogManager::rootLogger(), Level::INFO_INT,
+                                   QStringLiteral("spaced message")));
+
+    QSqlQuery query(QSqlDatabase::database(kConnection));
+    QVERIFY(query.exec(QStringLiteral(
+        "SELECT COUNT(*) FROM \"log table\" WHERE \"log message\" = 'spaced message'")));
+    QVERIFY(query.next());
+    QCOMPARE(query.value(0).toInt(), 1);
 }
 
 QTEST_MAIN(DatabaseAppenderTest)

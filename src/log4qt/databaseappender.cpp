@@ -107,8 +107,24 @@ void DatabaseAppender::activateOptions()
     AppenderSkeleton::activateOptions();
 }
 
+DatabaseAppender::~DatabaseAppender()
+{
+    resetPreparedQuery();
+}
+
 void DatabaseAppender::resetPreparedQuery()
 {
+    if (mPreparedQuery != nullptr && mActivationThread != nullptr
+        && QThread::currentThread() != mActivationThread)
+    {
+        // ~QSqlQuery tears down the statement through driver code — running
+        // that on a thread other than the one that created the query is the
+        // exact cross-thread driver use the activation-thread guard in
+        // append() exists to prevent. Intentionally leak the handle instead;
+        // resetting from a foreign thread is a rare reconfiguration path.
+        logger()->warn(u"Appender '%1': prepared statement released from a foreign thread; leaking the handle to avoid cross-thread database driver access"_s.arg(name()));
+        Q_UNUSED(mPreparedQuery.release())
+    }
     mPreparedQuery.reset();
     mBindings.clear();
     mActivationThread = nullptr;
@@ -145,12 +161,27 @@ void DatabaseAppender::prepareInsert()
     if (columns.isEmpty())
         return;
 
+    QSqlDatabase database = QSqlDatabase::database(connectionName);
+
+    // Escape the table and column identifiers through the driver, as the
+    // previously used QSqlDriver::sqlStatement() did: quoted, mixed-case or
+    // spaced identifiers from the configuration would otherwise produce an
+    // invalid statement (or inject into it). Escape into locals — the
+    // members hold the configured, unescaped names.
+    QString escapedTable = tableName;
+    if (const QSqlDriver *driver = database.driver())
+    {
+        escapedTable = driver->escapeIdentifier(tableName, QSqlDriver::TableName);
+        for (QString &column : columns)
+            column = driver->escapeIdentifier(column, QSqlDriver::FieldName);
+    }
+
     const QString placeholders = QStringList(columns.size(), u"?"_s).join(u',');
-    const QString sql = u"INSERT INTO "_s % tableName
+    const QString sql = u"INSERT INTO "_s % escapedTable
                         % u" ("_s % columns.join(u',')
                         % u") VALUES ("_s % placeholders % u')';
 
-    auto query = std::make_unique<QSqlQuery>(QSqlDatabase::database(connectionName));
+    auto query = std::make_unique<QSqlQuery>(database);
     if (!query->prepare(sql))
     {
         LogError e = LOG4QT_ERROR(QT_TR_NOOP("Sql prepare error: '%1'"),
