@@ -199,6 +199,24 @@ void RandomAccessFileAppender::openFile()
 {
     Q_ASSERT_X(!mFile, "RandomAccessFileAppender::openFile()", "Opening file without closing previous file");
 
+#ifdef Q_OS_WIN
+    // Let Windows resolve any environment variables in the file path BEFORE
+    // the parent directory is derived and created below — otherwise a junk
+    // directory literally named '%VAR%' is created while the expanded path's
+    // parent never is. Query the required buffer size instead of relying on
+    // MAX_PATH, which silently truncated long expansions.
+    {
+        const std::wstring rawPath = mFileName.toStdWString();
+        const DWORD required = ExpandEnvironmentStringsW(rawPath.c_str(), nullptr, 0);
+        if (required > 0)
+        {
+            std::wstring expanded(required, L'\0');
+            if (ExpandEnvironmentStringsW(rawPath.c_str(), expanded.data(), required) > 0)
+                mFileName = QString::fromWCharArray(expanded.c_str());
+        }
+    }
+#endif
+
     QFileInfo fileInfo(mFileName);
     const QString parentPath = fileInfo.absolutePath();
     if (!QDir(parentPath).exists())
@@ -213,12 +231,6 @@ void RandomAccessFileAppender::openFile()
             return;
         }
     }
-
-#ifdef Q_OS_WIN
-    wchar_t buffer[MAX_PATH];
-    if (ExpandEnvironmentStringsW(mFileName.toStdWString().c_str(), buffer, MAX_PATH))
-        mFileName = QString::fromWCharArray(buffer);
-#endif
 
     mFile = std::make_unique<QFile>(mFileName);
     QFile::OpenMode mode = QIODevice::WriteOnly;
