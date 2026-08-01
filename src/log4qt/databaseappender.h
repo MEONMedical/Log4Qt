@@ -133,6 +133,7 @@ private:
 
     void resetPreparedQuery();
     void prepareInsert();
+    void bindEventValues(const LoggingEvent &event);
 
     QString connectionName;
     QString tableName;

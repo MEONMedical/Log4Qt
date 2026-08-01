@@ -1,4 +1,7 @@
 add_subdirectory(asyncappendertest)
+if(BUILD_WITH_DB_LOGGING)
+    add_subdirectory(databaseappendertest)
+endif()
 add_subdirectory(headerfootertest)
 add_subdirectory(jsonlayouttest)
 add_subdirectory(dailyrollingfileappendertest)
