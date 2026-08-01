@@ -198,10 +198,12 @@ void AppenderSkeleton::doAppend(const LoggingEvent &event)
     preAppend(event, layoutSnap);
 
     // Phase 5 — actual I/O (under lock).
-    // Re-check isActive(): close() may have been called while the lock was
-    // released during Phases 4–4b.
+    // Re-check the full entry conditions: close(), setWriter(nullptr) or a
+    // reconfiguration may have torn down the appender's resources while the
+    // lock was released during Phases 4–4b. isActive() alone does not cover
+    // subclass resources (writer, file, dispatcher thread).
     QMutexLocker locker(&mObjectGuard);
-    if (isActive())
+    if (checkEntryConditions())
         append(event);
 }
 

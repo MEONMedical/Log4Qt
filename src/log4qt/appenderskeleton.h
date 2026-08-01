@@ -111,8 +111,11 @@ public:
      * \li Phase 4 — Filter chain evaluation and \c preAppend() call, both
      *     \e outside \c mObjectGuard. Multiple threads may execute this phase
      *     concurrently.
-     * \li Phase 5 — \c append() call under \c mObjectGuard. Serialises the
-     *     actual I/O across threads.
+     * \li Phase 5 — Re-check of the entry conditions followed by the
+     *     \c append() call, both under \c mObjectGuard. Serialises the
+     *     actual I/O across threads and guards against resources torn down
+     *     (\c close(), writer/file removal) while the lock was released
+     *     during Phase 4.
      *
      * \sa append(), preAppend(), checkEntryConditions(),
      *     isAsSevereAsThreshold(), Filter
