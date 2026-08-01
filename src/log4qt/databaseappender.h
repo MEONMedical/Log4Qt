@@ -81,6 +81,7 @@ public:
                      , const QString &tableName
                      , const QString &connection = QSqlDatabase::defaultConnection
                      , QObject *parent = nullptr);
+    ~DatabaseAppender() override;
 
 private:
     Q_DISABLE_COPY_MOVE(DatabaseAppender)
