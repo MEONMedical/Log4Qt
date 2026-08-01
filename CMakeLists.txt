@@ -48,12 +48,8 @@ option(BUILD_WITH_QML_LOGGING "Build with qml logging support, link against Qt q
 # Enable documentation generation with doxygen
 OPTION(BUILD_WITH_DOCS "Enable documentation generation (default: off)" OFF)
 
-# Helper to be able to properly install into the correct directories (esp. lib/lib64)
-include(GNUInstallDirs)
-
-# Automatically include ${CMAKE_CURRENT_SOURCE_DIR} and ${CMAKE_CURRENT_BINARY_DIR}
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
+# Put the library and all test/example executables into one bin directory
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Set include dir src (used by target_include_directories in src/log4qt)
 set(LOG4QT_BUILD_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
@@ -65,30 +61,27 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
-# we want to use cmake automoc feature
-set(CMAKE_AUTOMOC TRUE)
 # Min. Qt version is 6.5
 set(QT_MIN_VERSION 6.5.0)
 
-if (NOT Qt6_FOUND)
-    find_package(Qt6 COMPONENTS Core REQUIRED)
-endif()
+find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core)
+# Enables AUTOMOC/AUTOUIC, includes GNUInstallDirs, sets install RPATH
+# defaults and opts into the Qt CMake policies up to ${QT_MIN_VERSION}.
+# Parent projects can opt out via QT_NO_STANDARD_PROJECT_SETUP.
+qt_standard_project_setup(REQUIRES ${QT_MIN_VERSION})
 message(STATUS "Qt version is ${Qt6Core_VERSION}")
-if (Qt6Core_VERSION VERSION_LESS ${QT_MIN_VERSION})
-    message(FATAL_ERROR "Minimum supported Qt version is ${QT_MIN_VERSION}")
-endif()
 set(QT_VERSION_MAJOR 6)
 
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Concurrent REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} ${QT_MIN_VERSION} REQUIRED COMPONENTS Concurrent)
 
 if(BUILD_WITH_DB_LOGGING)
-    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Sql REQUIRED)
+    find_package(Qt${QT_VERSION_MAJOR} ${QT_MIN_VERSION} REQUIRED COMPONENTS Sql)
 endif()
 if(BUILD_WITH_TELNET_LOGGING)
-    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Network REQUIRED)
+    find_package(Qt${QT_VERSION_MAJOR} ${QT_MIN_VERSION} REQUIRED COMPONENTS Network)
 endif()
 if(BUILD_WITH_QML_LOGGING)
-    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Qml REQUIRED)
+    find_package(Qt${QT_VERSION_MAJOR} ${QT_MIN_VERSION} REQUIRED COMPONENTS Qml)
 endif()
 
 # Qt compile definitions - will be applied to targets via target_compile_definitions
@@ -98,7 +91,7 @@ set(LOG4QT_QT_DEFINITIONS
     #QT_NO_CAST_FROM_ASCII
     QT_NO_URL_CAST_FROM_STRING
     QT_DEPRECATED_WARNINGS
-    QT_DISABLE_DEPRECATED_BEFORE=0x060400
+    QT_DISABLE_DEPRECATED_BEFORE=0x060500
     UNICODE
     _UNICODE
 )
@@ -160,8 +153,8 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         /we4265
         /permissive-
     )
+    # UNICODE/_UNICODE are already in LOG4QT_QT_DEFINITIONS
     list(APPEND LOG4QT_COMPILE_DEFINITIONS
-        UNICODE
         NOMINMAX
     )
     set(CMAKE_DEBUG_POSTFIX _d)
@@ -198,6 +191,24 @@ install(EXPORT log4qt_targets
 
 # Include CMakePackageConfigHelpers before using its commands
 include(CMakePackageConfigHelpers)
+
+# Qt components consumers of the installed package must be able to resolve:
+# all PUBLIC link dependencies, plus the PRIVATE ones for static builds
+# (they appear in the export as $<LINK_ONLY:...> references).
+set(LOG4QT_CONFIG_QT_COMPONENTS Core)
+if(NOT BUILD_SHARED_LIBS)
+    list(APPEND LOG4QT_CONFIG_QT_COMPONENTS Concurrent)
+endif()
+if(BUILD_WITH_DB_LOGGING)
+    list(APPEND LOG4QT_CONFIG_QT_COMPONENTS Sql)
+endif()
+if(BUILD_WITH_TELNET_LOGGING)
+    list(APPEND LOG4QT_CONFIG_QT_COMPONENTS Network)
+endif()
+if(BUILD_WITH_QML_LOGGING)
+    list(APPEND LOG4QT_CONFIG_QT_COMPONENTS Qml)
+endif()
+list(JOIN LOG4QT_CONFIG_QT_COMPONENTS " " LOG4QT_CONFIG_QT_COMPONENTS)
 
 configure_package_config_file(
     "${Log4Qt_MODULE_DIR}/Log4QtConfig.cmake.in"

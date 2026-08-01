@@ -1,5 +1,3 @@
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
 set(log4qt_SOURCES
     abstractstringlayout.cpp
     appender.cpp
@@ -153,7 +151,15 @@ if(WIN32)
     )
 endif()
 
-add_library(log4qt ${log4qt_SOURCES} ${log4qt_HEADERS} ${log4qt_HEADERS_helpers} ${log4qt_HEADERS_spi} ${log4qt_HEADERS_varia})
+# Explicit library type: without it (and with QTP0003 unset, which needs
+# Qt >= 6.7) qt_add_library would ignore BUILD_SHARED_LIBS and follow how
+# Qt itself was built.
+if(BUILD_SHARED_LIBS)
+    set(log4qt_LIB_TYPE SHARED)
+else()
+    set(log4qt_LIB_TYPE STATIC)
+endif()
+qt_add_library(log4qt ${log4qt_LIB_TYPE} ${log4qt_SOURCES} ${log4qt_HEADERS} ${log4qt_HEADERS_helpers} ${log4qt_HEADERS_spi} ${log4qt_HEADERS_varia})
 add_library(Log4Qt::log4qt ALIAS log4qt)
 
 # Set target properties
@@ -185,40 +191,41 @@ if(LOG4QT_COMPILE_OPTIONS)
 endif()
 
 if(BUILD_WITH_QML_LOGGING)
-    target_sources(log4qt
-        PRIVATE
-         qmllogger.cpp
-         qmllogger.h
-    )
-    # append to log4qt_HEADERS or proper install
+    # append to log4qt_HEADERS for proper install
     list(APPEND log4qt_HEADERS
          qmllogger.h
     )
 
-    target_link_libraries(log4qt PRIVATE Qt${QT_VERSION_MAJOR}::Qml)
-    target_include_directories(log4qt
-          PUBLIC
-              $<TARGET_PROPERTY:Qt::Qml,INTERFACE_INCLUDE_DIRECTORIES>
-    )
+    # PUBLIC: the installed qmllogger.h includes QtQml headers
+    target_link_libraries(log4qt PUBLIC Qt${QT_VERSION_MAJOR}::Qml)
     target_compile_definitions(log4qt
         PRIVATE
             LOG4QT_QML_LOGGING_SUPPORT
     )
-    if (TRUE) # Qt >= 6.5 always supports qt_add_qml_module
-        qt_add_qml_module(
-            log4qt
-            URI org.log4qt
-            VERSION 1.0
-            OUTPUT_DIRECTORY
-            ${CMAKE_BINARY_DIR}/bin/org/log4qt
-            SOURCES
-                qmllogger.cpp qmllogger.h
-            NO_PLUGIN
-            RESOURCE_PREFIX
-                "/qt/qml"
+    qt_add_qml_module(
+        log4qt
+        URI org.log4qt
+        VERSION 1.0
+        OUTPUT_DIRECTORY
+        ${CMAKE_BINARY_DIR}/bin/org/log4qt
+        SOURCES
+            qmllogger.cpp qmllogger.h
+        NO_PLUGIN
+        RESOURCE_PREFIX
+            "/qt/qml"
+        OUTPUT_TARGETS log4qt_qml_extra_targets
+    )
+    # In static builds qt_add_qml_module creates internal resource
+    # targets that the backing library's link interface references;
+    # they must be in the same export set or install(EXPORT) fails.
+    if(log4qt_qml_extra_targets)
+        install(TARGETS ${log4qt_qml_extra_targets}
+            EXPORT log4qt_targets
+            COMPONENT Devel
+            DESTINATION ${CMAKE_INSTALL_LIBDIR}
         )
-        message(STATUS "Log4Qt: Registered logging support as qml module (org.log4qt)")
     endif()
+    message(STATUS "Log4Qt: Registered logging support as qml module (org.log4qt)")
     message(STATUS "Log4Qt: Enabling qml logging support")
 else()
     message(STATUS "Log4Qt: Disabling qml logging support - disabled by cmake option")
@@ -249,11 +256,8 @@ if(BUILD_WITH_DB_LOGGING)
         PRIVATE
             LOG4QT_DB_LOGGING_SUPPORT
     )
-    target_link_libraries(log4qt PRIVATE Qt${QT_VERSION_MAJOR}::Sql)
-    target_include_directories(log4qt
-          PUBLIC
-              $<TARGET_PROPERTY:Qt::Sql,INTERFACE_INCLUDE_DIRECTORIES>
-    )
+    # PUBLIC: the installed databaseappender.h/databaselayout.h include QtSql headers
+    target_link_libraries(log4qt PUBLIC Qt${QT_VERSION_MAJOR}::Sql)
     message(STATUS "Log4Qt: Enabling database logging support")
 else()
     message(STATUS "Log4Qt: Disabling database logging support - disabled by cmake option")
@@ -276,11 +280,8 @@ if(BUILD_WITH_TELNET_LOGGING)
         PRIVATE
             LOG4QT_TELNET_LOGGING_SUPPORT
     )
-    target_link_libraries(log4qt PRIVATE Qt${QT_VERSION_MAJOR}::Network)
-    target_include_directories(log4qt
-          PUBLIC
-              $<TARGET_PROPERTY:Qt::Network,INTERFACE_INCLUDE_DIRECTORIES>
-    )
+    # PUBLIC: the installed telnetappender.h includes QtNetwork headers
+    target_link_libraries(log4qt PUBLIC Qt${QT_VERSION_MAJOR}::Network)
     message(STATUS "Log4Qt: Enabling telnet logging support")
 else()
     message(STATUS "Log4Qt: Disabling telnet logging support - disabled by cmake option")
