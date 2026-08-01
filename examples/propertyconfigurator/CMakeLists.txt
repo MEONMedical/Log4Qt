@@ -1,4 +1,4 @@
-set(basic_SOURCES
+set(propertyconfigurator_SOURCES
     loggerobject.cpp
     loggerobject.h
     loggerobjectprio.cpp
@@ -7,5 +7,5 @@ set(basic_SOURCES
     loggerstatic.h
     main.cpp
 )
-qt_add_executable(propertyconfigurator ${basic_SOURCES})
+qt_add_executable(propertyconfigurator ${propertyconfigurator_SOURCES})
 target_link_libraries(propertyconfigurator PRIVATE log4qt)
