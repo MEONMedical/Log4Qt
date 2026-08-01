@@ -53,6 +53,7 @@ private Q_SLOTS:
     void testRealWorldConfig();
     void testConfigureMissingFile();
     void testConfigureMalformedXml();
+    void testDocumentationExample();
 
 private:
     void writeXmlFile(const QString &path, const QByteArray &content);
@@ -393,6 +394,56 @@ void XmlConfiguratorTest::testConfigureMalformedXml()
     writeXmlFile(file, "<not><valid><xml");
 
     QVERIFY(!XmlConfigurator::configure(file));
+}
+
+// Keeps the example in the xmlconfigurator.h class documentation honest:
+// the previous doc showed an unsupported Log4j2-style dialect that silently
+// configured nothing. This is the exact XML from the documentation.
+void XmlConfiguratorTest::testDocumentationExample()
+{
+    QTemporaryDir dir;
+    QVERIFY(dir.isValid());
+    const QString file = dir.path() + "/doc.xml";
+    writeXmlFile(file, R"(<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender>
+        <console>
+            <type>Console</type>
+            <layout conversionPattern="%-5p %c - %m%n">
+                <type>PatternLayout</type>
+            </layout>
+        </console>
+    </appender>
+    <rootLogger level="ALL">
+        <appenderRef>
+            <ref0 ref="console"/>
+        </appenderRef>
+    </rootLogger>
+    <logger>
+        <MyApp name="MyApp" level="ERROR" additivity="false">
+            <appenderRef>
+                <ref0 ref="console"/>
+            </appenderRef>
+        </MyApp>
+    </logger>
+</configuration>
+)");
+
+    QVERIFY(XmlConfigurator::configure(file));
+
+    Logger *root = LogManager::rootLogger();
+    QCOMPARE(root->level(), Level::ALL_INT);
+    QCOMPARE(root->appenders().count(), 1);
+    auto *consoleApp = qobject_cast<ConsoleAppender *>(root->appenders().first().data());
+    QVERIFY(consoleApp);
+    auto *pattern = qobject_cast<PatternLayout *>(consoleApp->layout().data());
+    QVERIFY(pattern);
+    QCOMPARE(pattern->conversionPattern(), u"%-5p %c - %m%n"_s);
+
+    Logger *myApp = LogManager::logger(u"MyApp"_s);
+    QCOMPARE(myApp->level(), Level::ERROR_INT);
+    QCOMPARE(myApp->additivity(), false);
+    QCOMPARE(myApp->appenders().count(), 1);
 }
 
 QTEST_GUILESS_MAIN(XmlConfiguratorTest)

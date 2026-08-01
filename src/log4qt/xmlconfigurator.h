@@ -33,45 +33,56 @@ class LoggerRepository;
 
 /*!
  * \brief The class XmlConfigurator allows the configuration of the
- *        package from an XML file using a Log4j2-style structured format.
+ *        package from an XML file.
  *
  * The XML structure maps directly to the flat property keys used by
- * PropertyConfigurator. Nested elements produce dot-separated keys
- * and XML attributes on elements are also flattened as child properties.
- * For example:
+ * PropertyConfigurator: element names become dot-separated key segments
+ * verbatim, element text becomes the value, and XML attributes are
+ * flattened as child properties. For example:
  *
  * \code{.xml}
  * <?xml version="1.0" encoding="UTF-8"?>
- * <Configuration>
- *     <Appenders>
- *         <Console name="console">
- *             <PatternLayout conversionPattern="%-5p %c - %m%n" />
- *         </Console>
- *     </Appenders>
- *     <Loggers>
- *         <Root level="ALL">
- *             <AppenderRef ref="console" />
- *         </Root>
- *         <Logger name="MyApp" level="ERROR" additivity="false">
- *             <AppenderRef ref="console" />
- *         </Logger>
- *     </Loggers>
- * </Configuration>
+ * <configuration>
+ *     <appender>
+ *         <console>
+ *             <type>Console</type>
+ *             <layout conversionPattern="%-5p %c - %m%n">
+ *                 <type>PatternLayout</type>
+ *             </layout>
+ *         </console>
+ *     </appender>
+ *     <rootLogger level="ALL">
+ *         <appenderRef>
+ *             <ref0 ref="console"/>
+ *         </appenderRef>
+ *     </rootLogger>
+ *     <logger>
+ *         <MyApp name="MyApp" level="ERROR" additivity="false">
+ *             <appenderRef>
+ *                 <ref0 ref="console"/>
+ *             </appenderRef>
+ *         </MyApp>
+ *     </logger>
+ * </configuration>
  * \endcode
  *
  * This produces the equivalent flat properties:
  * \code
  * appender.console.type=Console
- * appender.console.name=console
  * appender.console.layout.type=PatternLayout
  * appender.console.layout.conversionPattern=%-5p %c - %m%n
  * rootLogger.level=ALL
- * rootLogger.appenderRef.0.ref=console
+ * rootLogger.appenderRef.ref0.ref=console
  * logger.MyApp.name=MyApp
  * logger.MyApp.level=ERROR
  * logger.MyApp.additivity=false
- * logger.MyApp.appenderRef.0.ref=console
+ * logger.MyApp.appenderRef.ref0.ref=console
  * \endcode
+ *
+ * \note The Log4j2 XML dialect (\c &lt;Configuration&gt;&lt;Appenders&gt;
+ *       \c &lt;Console name="..."&gt; ...) is \e not supported — element
+ *       names are not translated, so such a file flattens to keys the
+ *       configurator ignores and configures nothing.
  *
  * Variable substitution (\c ${varname}) works in attribute values
  * and text content, resolved by OptionConverter::findAndSubst() after
