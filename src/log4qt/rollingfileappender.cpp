@@ -100,13 +100,19 @@ void RollingFileAppender::activateOptions()
 
     // Remember the configured base filename. Rollovers always operate on the
     // base name so that strategies never see an already-transformed filename.
-    mBaseFileName = file();
+    // On re-activation, only adopt a name the user changed: file() may hold
+    // the strategy-transformed active name from a previous activation or
+    // rollover (e.g. a dated filename), and deriving the base from it would
+    // stack the transformation ('app.2026-08-01.2026-08-01.log').
+    if (mBaseFileName.isEmpty() || file() != mActiveFileName)
+        mBaseFileName = file();
 
     // Allow the strategy to set the initial active filename (e.g. date-embedded name)
     // before the file is opened, so the correct name is used from the very first startup.
     const QString initial = mRolloverStrategy->initialFileName(mBaseFileName);
     if (initial != file())
         setFile(initial);
+    mActiveFileName = initial;
 
     // Check startup trigger BEFORE opening the file — openFile() may truncate
     bool startupRollover = false;
@@ -159,6 +165,7 @@ void RollingFileAppender::rollOver()
     QString nextFile = mRolloverStrategy->rollover(baseName);
     if (nextFile != file())
         setFile(nextFile);
+    mActiveFileName = nextFile;
 
     // If the file to be opened still exists, its content has not been
     // archived — either a rename/remove failed during the rollover (e.g. the
