@@ -109,6 +109,8 @@ private Q_SLOTS:
     void AppenderSkeleton_filter_data();
     void AppenderSkeleton_filter();
     void AppenderSkeleton_clearFilters();
+    void AppenderSkeleton_internalErrorsReachOtherAppenders();
+    void AppenderSkeleton_recursionGuardBlocksSelfOnly();
     void BasicConfigurator();
     void FileAppender();
     void RollingFileAppender_dateSuffix();

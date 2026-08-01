@@ -100,9 +100,10 @@ public:
      * Performs checks and delegates the actual appending to the subclass.
      *
      * The function executes in five phases:
-     * \li Phase 1 — Thread-local recursion guard. Prevents infinite loops when
-     *     an appender internally logs a message through a logger that routes
-     *     back to any appender on the same thread.
+     * \li Phase 1 — Thread-local, per-appender recursion guard. Prevents
+     *     infinite loops when an appender internally logs a message through
+     *     a logger that routes back to an appender that is already appending
+     *     on the same thread; other appenders still receive such messages.
      * \li Phase 2 — Fast atomic pre-checks (\c isActive(), \c isClosed())
      *     without acquiring the lock.
      * \li Phase 3 — Entry conditions (\c checkEntryConditions()), threshold
@@ -175,9 +176,9 @@ protected:
      * \li The function must be stateless with respect to shared appender data.
      *     Any result must be stored in thread-local storage and consumed by the
      *     subsequent \c append() call.
-     * \li The function must not call \c doAppend() (directly or indirectly) —
-     *     the per-thread recursion guard in \c doAppend() would silently drop
-     *     the nested call.
+     * \li The function must not call \c doAppend() on this appender (directly
+     *     or indirectly) — the per-appender recursion guard in \c doAppend()
+     *     would silently drop the nested call.
      *
      * The default implementation is a no-op; all existing appenders are
      * unaffected.
@@ -187,14 +188,14 @@ protected:
     virtual void preAppend(const LoggingEvent &event, const LayoutSharedPtr &layout);
 
     /*!
-     * Forwards \a event to \a appender via its \c doAppend() entry point,
-     * bypassing the thread-local recursion guard for this one call.
+     * Forwards \a event to \a appender via its \c doAppend() entry point.
      *
      * Use this for \e intentional event forwarding (e.g. routing an overflow
      * event to an error appender) where the call is not a recursive side-effect
-     * of logging but an explicit redirect. All other \c doAppend() checks
-     * (active, closed, threshold, filters) still run normally on the target
-     * appender.
+     * of logging but an explicit redirect. All \c doAppend() checks (recursion
+     * guard, active, closed, threshold, filters) run normally on the target
+     * appender: the guard is per appender, so the redirect passes it unless it
+     * forms a true cycle back to an appender already appending on this thread.
      *
      * \note Do \e not use this inside \c append() or \c preAppend() to route
      *       internally generated log messages — use a normal logger call there;

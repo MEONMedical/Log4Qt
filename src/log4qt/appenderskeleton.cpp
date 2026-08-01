@@ -32,16 +32,33 @@ using namespace Qt::StringLiterals;
 namespace Log4Qt
 {
 
-// Per-thread recursion depth. Incremented on entry to doAppend() and
-// decremented on exit. Any value > 0 means the current thread is already
-// inside an appender's processing chain, so further doAppend() calls on
-// the same thread are silently dropped to prevent infinite recursion.
+// Per-thread stack of the appenders currently executing doAppend(). An
+// appender that is already on the stack is silently dropped: an appender
+// that internally logs an error through a logger routing back to itself
+// must not recurse. Because the guard is per appender (not a plain depth
+// counter), such internal diagnostics — e.g. a file appender's disk-full
+// error — still reach every *other* appender on the thread.
 //
-// This replaces the former per-appender bool flag (mAppendRecursionGuard)
-// and makes it thread-local so that doAppend() can release mObjectGuard
+// The stack is thread-local so that doAppend() can release mObjectGuard
 // before the expensive formatting step without creating a data race on the
-// guard variable itself.
-thread_local int s_appendDepth = 0;
+// guard itself, and deliberately trivially destructible (plain array, no
+// dynamic allocation) so no TLS destructor is registered — logging from
+// other thread_local destructors at thread exit stays safe.
+struct AppendStack
+{
+    static constexpr int MaxDepth = 16;
+    const void *appenders[MaxDepth];
+    int depth;
+
+    bool contains(const void *appender) const
+    {
+        for (int i = 0; i < depth; ++i)
+            if (appenders[i] == appender)
+                return true;
+        return false;
+    }
+};
+thread_local AppendStack s_appendStack {};
 
 AppenderSkeleton::AppenderSkeleton(QObject *parent)
     : Appender(parent)
@@ -156,14 +173,16 @@ void AppenderSkeleton::customEvent(QEvent *event)
 
 void AppenderSkeleton::doAppend(const LoggingEvent &event)
 {
-    // Phase 1 — recursion guard (thread-local, no lock needed).
+    // Phase 1 — per-appender recursion guard (thread-local, no lock needed).
     // Prevents infinite loops when an appender internally logs an error
-    // through a logger that routes back to the same (or any) appender.
-    if (s_appendDepth > 0)
+    // through a logger that routes back to an appender already appending on
+    // this thread; every other appender still receives such diagnostics.
+    // MaxDepth bounds pathological dispatch chains.
+    if (s_appendStack.depth >= AppendStack::MaxDepth || s_appendStack.contains(this))
         return;
 
-    ++s_appendDepth;
-    const auto depthGuard = qScopeGuard([]{ --s_appendDepth; });
+    s_appendStack.appenders[s_appendStack.depth++] = this;
+    const auto stackGuard = qScopeGuard([]{ --s_appendStack.depth; });
 
     // Phase 2 — fast pre-checks via atomics (no lock needed).
     if (!isActive() || isClosed())
@@ -225,13 +244,10 @@ void AppenderSkeleton::forwardEvent(const AppenderSharedPtr &appender, const Log
 {
     if (!appender)
         return;
-    // Temporarily reset the recursion depth so that doAppend() on the target
-    // appender is not silently dropped. This is safe because forwarding is an
-    // intentional redirect, not a recursive side-effect of logging.
-    const int saved = s_appendDepth;
-    s_appendDepth = 0;
+    // The recursion guard is per appender, so an intentional redirect to a
+    // different appender passes it naturally; only true cycles — forwarding
+    // to an appender that is already appending on this thread — are dropped.
     appender->doAppend(event);
-    s_appendDepth = saved;
 }
 
 bool AppenderSkeleton::checkEntryConditions() const
