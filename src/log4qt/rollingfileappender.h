@@ -111,6 +111,10 @@ private:
     TriggeringPolicySharedPtr mTriggeringPolicy;
     RolloverStrategySharedPtr mRolloverStrategy;
     QString mBaseFileName;
+    // Active filename last set internally (initial name or rollover result);
+    // used to tell a strategy-transformed file() from a user-configured one
+    // when (re-)activating.
+    QString mActiveFileName;
     bool mSkipFooterOnStartup = false;
 };
 

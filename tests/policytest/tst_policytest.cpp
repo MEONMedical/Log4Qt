@@ -129,6 +129,7 @@ private Q_SLOTS:
     void RollingFileAppender_startupRolloverPreservesPreviousLog();
     void RollingFileAppender_reopenAppendsWhenRolloverKeepsFile();
     void RollingFileAppender_reopenAppendsWhenRenameFails();
+    void RollingFileAppender_reactivationKeepsBaseFileName();
 
     // Factory
     void Factory_createTriggeringPolicy_data();
@@ -1421,6 +1422,47 @@ void PolicyTest::RollingFileAppender_reopenAppendsWhenRenameFails()
     QVERIFY(content.contains("first message"));
     QVERIFY(content.contains("second message"));
 #endif
+}
+
+// Regression test: a second activateOptions() call re-read the base name
+// from file(), which by then held the strategy-transformed active name —
+// the date was stacked again ('app.2026-08-01.2026-08-01.log') on every
+// re-activation. A user-configured new file name must still be adopted.
+void PolicyTest::RollingFileAppender_reactivationKeepsBaseFileName()
+{
+    QTemporaryDir tempDir;
+    QVERIFY(tempDir.isValid());
+
+    DateTime::setProvider([] { return QDateTime(QDate(2026, 8, 1), QTime(10, 0)); });
+
+    const QString basePath = tempDir.path() + "/app.log";
+    const QString datedPath = tempDir.path() + "/app.2026-08-01.log";
+
+    auto layout = LayoutSharedPtr(new SimpleLayout);
+    RollingFileAppender appender(layout, basePath);
+    appender.setName(QStringLiteral("Rolling"));
+
+    auto *strategy = new DateRolloverStrategy;
+    strategy->setDatePattern(".yyyy-MM-dd");
+    strategy->setMode(DateRolloverStrategy::NamingMode::Embedded);
+    strategy->setDatedActiveFile(true);
+    appender.setRolloverStrategy(RolloverStrategySharedPtr(strategy));
+
+    appender.activateOptions();
+    QCOMPARE(appender.file(), datedPath);
+
+    // Re-activation (legal public API, e.g. after changing a property) must
+    // not stack another date onto the already-transformed active name
+    appender.activateOptions();
+    QCOMPARE(appender.file(), datedPath);
+
+    // A user-configured new base name must be picked up on re-activation
+    const QString newBase = tempDir.path() + "/renamed.log";
+    appender.setFile(newBase);
+    appender.activateOptions();
+    QCOMPARE(appender.file(), tempDir.path() + "/renamed.2026-08-01.log");
+
+    appender.close();
 }
 
 // ---------------------------------------------------------------------------
