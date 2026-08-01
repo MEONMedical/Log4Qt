@@ -235,6 +235,11 @@ target_include_directories(log4qt
     PUBLIC
         $<BUILD_INTERFACE:${LOG4QT_BUILD_INCLUDE_DIR}>
         $<INSTALL_INTERFACE:include>
+    PRIVATE
+        # The library's own sources include their headers without the
+        # log4qt/ prefix (e.g. "logmanager.h", "helpers/factory.h").
+        # Previously provided globally by CMAKE_INCLUDE_CURRENT_DIR.
+        ${CMAKE_CURRENT_SOURCE_DIR}
 )
 #
 # add databaseappender if database logging support was enabled
