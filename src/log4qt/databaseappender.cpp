@@ -170,8 +170,41 @@ bool DatabaseAppender::requiresLayout() const
     return true;
 }
 
+void DatabaseAppender::bindEventValues(const LoggingEvent &event)
+{
+    for (std::size_t i = 0; i < mBindings.size(); ++i)
+    {
+        const int pos = static_cast<int>(i);
+        switch (mBindings[i])
+        {
+        case ColumnSource::TimeStamp:
+            mPreparedQuery->bindValue(pos, DateTime::fromMSecsSinceEpoch(event.timeStamp()));
+            break;
+        case ColumnSource::Loggername:
+            mPreparedQuery->bindValue(pos, event.loggername());
+            break;
+        case ColumnSource::ThreadName:
+            mPreparedQuery->bindValue(pos, event.threadName());
+            break;
+        case ColumnSource::Level:
+            mPreparedQuery->bindValue(pos, event.level().toString());
+            break;
+        case ColumnSource::Message:
+            mPreparedQuery->bindValue(pos, event.message());
+            break;
+        }
+    }
+}
+
 void DatabaseAppender::append(const LoggingEvent &event)
 {
+    // The activation-time prepare may have failed — e.g. the database was
+    // briefly unreachable or the table did not exist yet — so retry before
+    // giving up. resetPreparedQuery() cleared mActivationThread, so the new
+    // query binds to the current logging thread.
+    if (mPreparedQuery == nullptr)
+        prepareInsert();
+
     if (mPreparedQuery == nullptr)
     {
         LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' with invalid layout or unprepared query"),
@@ -197,37 +230,29 @@ void DatabaseAppender::append(const LoggingEvent &event)
         return;
     }
 
-    for (std::size_t i = 0; i < mBindings.size(); ++i)
+    bindEventValues(event);
+    if (mPreparedQuery->exec())
+        return;
+
+    // The connection may have dropped since the statement was prepared
+    // (server restart, network outage). QSqlDatabase::database() re-opens a
+    // closed connection, so re-prepare the statement and retry once before
+    // reporting the failure.
+    const QString execError = mPreparedQuery->lastQuery() % u' '
+                              % mPreparedQuery->lastError().text();
+    prepareInsert();
+    if (mPreparedQuery != nullptr)
     {
-        const int pos = static_cast<int>(i);
-        switch (mBindings[i])
-        {
-        case ColumnSource::TimeStamp:
-            mPreparedQuery->bindValue(pos, DateTime::fromMSecsSinceEpoch(event.timeStamp()));
-            break;
-        case ColumnSource::Loggername:
-            mPreparedQuery->bindValue(pos, event.loggername());
-            break;
-        case ColumnSource::ThreadName:
-            mPreparedQuery->bindValue(pos, event.threadName());
-            break;
-        case ColumnSource::Level:
-            mPreparedQuery->bindValue(pos, event.level().toString());
-            break;
-        case ColumnSource::Message:
-            mPreparedQuery->bindValue(pos, event.message());
-            break;
-        }
+        bindEventValues(event);
+        if (mPreparedQuery->exec())
+            return;
     }
 
-    if (!mPreparedQuery->exec())
-    {
-        LogError e = LOG4QT_ERROR(QT_TR_NOOP("Sql query exec error: '%1'"),
-                                  AppenderExecSqlQueryError,
-                                  Q_FUNC_INFO);
-        e << mPreparedQuery->lastQuery() % u' ' % mPreparedQuery->lastError().text();
-        logger()->error(e);
-    }
+    LogError e = LOG4QT_ERROR(QT_TR_NOOP("Sql query exec error: '%1'"),
+                              AppenderExecSqlQueryError,
+                              Q_FUNC_INFO);
+    e << execError;
+    logger()->error(e);
 }
 
 bool DatabaseAppender::checkEntryConditions() const
