@@ -54,7 +54,7 @@ void MainThreadAppender::append(const LoggingEvent &event)
         if (QThread::currentThread() != appThread)
             app->postEvent(pAppender.data(), new LoggingEvent(event));
         else
-            pAppender->doAppend(event);
+            forwardEvent(pAppender, event);
     }
 }
 
