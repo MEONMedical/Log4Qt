@@ -124,6 +124,10 @@ void AppenderSkeleton::clearFilters()
     QMutexLocker locker(&mObjectGuard);
 
     mpHeadFilter.reset();
+    // Reset the tail as well: a stale tail would make the next addFilter()
+    // chain onto the orphaned old list while the head stays null, so filters
+    // added after clearFilters() would never be evaluated.
+    mpTailFilter.reset();
 }
 
 void AppenderSkeleton::close()
