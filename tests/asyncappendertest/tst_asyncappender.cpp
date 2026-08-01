@@ -122,6 +122,7 @@ private Q_SLOTS:
 
     // Shutdown tests
     void AsyncAppender_gracefulShutdown();
+    void AsyncAppender_reactivateAfterClose();
 
     // Batch signal tests
     void AsyncAppender_batchComplete();
@@ -603,6 +604,45 @@ void AsyncAppenderTest::AsyncAppender_gracefulShutdown()
 
     // All events must have been drained before close() returned
     QCOMPARE(list->list().size(), count);
+}
+
+// Regression test: activateOptions() after close() used to restart the
+// worker thread without clearing the closed flag — the re-activated
+// appender dropped every event, and destruction skipped the shutdown
+// (closeInternal() early-returned on isClosed()), destroying a running
+// QThread together with the queue it was blocked on.
+void AsyncAppenderTest::AsyncAppender_reactivateAfterClose()
+{
+    auto *list = new ListAppender;
+    list->setName(QStringLiteral("List"));
+    AppenderSharedPtr listPtr(list);
+
+    {
+        AsyncAppender async;
+        async.setName(QStringLiteral("TestAsync"));
+        async.setBufferSize(16);
+        async.addAppender(listPtr);
+
+        async.activateOptions();
+        async.doAppend(LoggingEvent(test_logger(), Level::INFO_INT,
+                                    QStringLiteral("before close")));
+        async.close();
+        QVERIFY(async.isClosed());
+
+        async.activateOptions();
+        QVERIFY(async.isActive());
+        QVERIFY(!async.isClosed());
+
+        async.doAppend(LoggingEvent(test_logger(), Level::INFO_INT,
+                                    QStringLiteral("after reactivate")));
+
+        // Destruction of the re-activated appender must join the restarted
+        // worker thread and drain the queue.
+    }
+
+    QCOMPARE(list->list().size(), 2);
+    QCOMPARE(list->list().at(0).message(), QStringLiteral("before close"));
+    QCOMPARE(list->list().at(1).message(), QStringLiteral("after reactivate"));
 }
 
 // ===========================================================================

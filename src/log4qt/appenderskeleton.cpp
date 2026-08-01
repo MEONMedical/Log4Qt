@@ -88,6 +88,10 @@ void AppenderSkeleton::activateOptions()
         logger()->error(e);
         return;
     }
+    // Activation resurrects a closed appender: subclasses recreate their
+    // resources (file, writer, dispatcher thread) in their activateOptions()
+    // overrides, so the closed flag must be cleared alongside setting active.
+    mIsClosed.store(false, std::memory_order_relaxed);
     mIsActive.store(true, std::memory_order_relaxed);
 }
 
