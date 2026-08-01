@@ -21,7 +21,10 @@
 #include "asyncappender.h"
 #include "helpers/asyncworker.h"
 #include "helpers/boundedblockingqueue.h"
+#include "logger.h"
+#include "loggerrepository.h"
 #include "loggingevent.h"
+#include "logmanager.h"
 
 #include <QReadLocker>
 
@@ -85,7 +88,32 @@ void AsyncAppender::setQueueFullPolicyString(const QString &policy)
 
 void AsyncAppender::setErrorAppender(const AppenderSharedPtr &appender)
 {
+    QMutexLocker locker(&mObjectGuard);
     mErrorAppender = appender;
+}
+
+void AsyncAppender::resolveErrorAppender(bool warnIfMissing)
+{
+    if (mErrorAppender || mErrorRef.isEmpty())
+        return;
+
+    const auto loggers = LogManager::loggerRepository()->loggers();
+    for (const auto *logger : loggers)
+    {
+        const auto appenders = logger->appenders();
+        for (const auto &appender : appenders)
+        {
+            if (appender && appender->name() == mErrorRef)
+            {
+                mErrorAppender = appender;
+                return;
+            }
+        }
+    }
+
+    if (warnIfMissing)
+        logger()->warn(u"AsyncAppender '%1': errorRef appender '%2' was not found on any logger"_s
+                       .arg(name(), mErrorRef));
 }
 
 // --- Lifecycle ---------------------------------------------------------------
@@ -102,6 +130,8 @@ void AsyncAppender::activateOptions()
     mWorker = std::make_unique<AsyncWorker>(this, mQueue.get());
     mWorker->setObjectName(QStringLiteral("Log4Qt-Async-%1").arg(name()));
     mWorker->start();
+
+    resolveErrorAppender(true);
 
     AppenderSkeleton::activateOptions();
 }
@@ -199,6 +229,10 @@ void AsyncAppender::append(const LoggingEvent &event)
 
 void AsyncAppender::handleQueueFull(const LoggingEvent &event)
 {
+    // The referenced appender may not have existed yet when activateOptions()
+    // ran (e.g. it was configured after this appender) — retry silently.
+    resolveErrorAppender(false);
+
     if (mErrorAppender)
     {
         forwardEvent(mErrorAppender, event);

@@ -118,6 +118,7 @@ private Q_SLOTS:
 
     // Error appender tests
     void AsyncAppender_errorAppender();
+    void AsyncAppender_errorRefResolution();
     void AsyncAppender_noErrorAppender();
 
     // Shutdown tests
@@ -557,6 +558,40 @@ void AsyncAppenderTest::AsyncAppender_errorAppender()
     async.close();
 
     QVERIFY(errorList->list().size() > 0);
+}
+
+// Regression test: the errorRef property was documented as "resolved at
+// activateOptions() time" but was never resolved — a fallback appender
+// configured by name was silently ignored and overflow events vanished.
+void AsyncAppenderTest::AsyncAppender_errorRefResolution()
+{
+    // The referenced appender is attached to a logger, where the resolution
+    // must find it by name
+    auto *errorList = new ListAppender;
+    errorList->setName(QStringLiteral("ErrorRefList"));
+    AppenderSharedPtr errorPtr(errorList);
+    Logger *holder = LogManager::logger(QStringLiteral("Test::ErrorRefHolder"));
+    holder->addAppender(errorPtr);
+
+    AsyncAppender async;
+    async.setName(QStringLiteral("TestAsync"));
+    async.setBufferSize(2);
+    async.setBlocking(false);
+    async.setErrorRef(QStringLiteral("ErrorRefList"));
+
+    auto *slow = new SlowAppender(200);
+    slow->setName(QStringLiteral("Slow"));
+    async.addAppender(AppenderSharedPtr(slow));
+    async.activateOptions();
+
+    for (int i = 0; i < 10; ++i)
+        async.doAppend(LoggingEvent(test_logger(), Level::INFO_INT,
+                                    QStringLiteral("msg%1").arg(i)));
+
+    async.close();
+
+    QVERIFY(errorList->list().size() > 0);
+    holder->removeAppender(errorPtr);
 }
 
 void AsyncAppenderTest::AsyncAppender_noErrorAppender()
