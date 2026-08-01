@@ -1,0 +1,61 @@
+# Bitbucket Pipelines: build Log4Qt and run the test suite on Qt 6.8 LTS
+# and Qt 6.11 in parallel. Runs on pull requests and pushes to master.
+#
+# Qt is provisioned with aqtinstall (the same mechanism the GitHub Actions
+# workflows use), limited to the archives the build needs so the per-version
+# cache stays below Bitbucket's cache size limit.
+
+image: ubuntu:24.04
+
+definitions:
+  caches:
+    qt683: /opt/qt/6.8.3
+    qt6111: /opt/qt/6.11.1
+    pipcache: ~/.cache/pip
+  yaml-anchors:
+    - &build-and-test |
+      set -ex
+      apt-get update
+      DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+          g++ cmake ninja-build git python3-pip ca-certificates \
+          libgl-dev libegl-dev libglx-dev libopengl-dev \
+          libfontconfig1 libglib2.0-0 libdbus-1-3 libxkbcommon0
+      python3 -m pip install --break-system-packages aqtinstall
+      test -d "/opt/qt/${QT_VERSION}/gcc_64" || \
+          aqt install-qt linux desktop "${QT_VERSION}" -O /opt/qt \
+              --archives qtbase qtdeclarative qttools icu
+      cmake -S . -B build -GNinja \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_PREFIX_PATH="/opt/qt/${QT_VERSION}/gcc_64" \
+          -DBUILD_WITH_DB_LOGGING=ON
+      cmake --build build
+      ctest --test-dir build --output-on-failure
+  steps:
+    - step: &qt68
+        name: Qt 6.8 LTS build and test
+        caches:
+          - qt683
+          - pipcache
+        script:
+          - export QT_VERSION=6.8.3
+          - *build-and-test
+    - step: &qt611
+        name: Qt 6.11 build and test
+        caches:
+          - qt6111
+          - pipcache
+        script:
+          - export QT_VERSION=6.11.1
+          - *build-and-test
+
+pipelines:
+  pull-requests:
+    '**':
+      - parallel:
+          - step: *qt68
+          - step: *qt611
+  branches:
+    master:
+      - parallel:
+          - step: *qt68
+          - step: *qt611
