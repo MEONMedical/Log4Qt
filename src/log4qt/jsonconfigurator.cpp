@@ -26,6 +26,7 @@
 #include "propertyconfigurator.h"
 
 #include <QFile>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
@@ -123,35 +124,54 @@ void JsonConfigurator::flattenJsonObject(const QJsonObject &object,
 {
     for (auto it = object.begin(); it != object.end(); ++it)
     {
-        const QString &key = it.key();
-        const QJsonValue &value = it.value();
+        const QString fullKey = prefix.isEmpty() ? it.key() : prefix + it.key();
+        flattenJsonValue(it.value(), fullKey, properties);
+    }
+}
 
-        QString fullKey = prefix.isEmpty() ? key : prefix + key;
+void JsonConfigurator::flattenJsonArray(const QJsonArray &array,
+                                        const QString &prefix,
+                                        Properties &properties)
+{
+    // Arrays flatten to numeric key segments, equivalent to a JSON object
+    // with "0", "1", ... keys — e.g. "appenderRef": [{"ref": "console"}]
+    // yields rootLogger.appenderRef.0.ref.
+    for (qsizetype i = 0; i < array.size(); ++i)
+        flattenJsonValue(array.at(i), prefix + u"."_s + QString::number(i),
+                         properties);
+}
 
-        if (value.isObject())
-        {
-            flattenJsonObject(value.toObject(), fullKey + u"."_s, properties);
-        }
-        else if (value.isString())
-        {
-            properties.setProperty(fullKey, value.toString());
-        }
-        else if (value.isBool())
-        {
-            properties.setProperty(fullKey, value.toBool() ? u"true"_s : u"false"_s);
-        }
-        else if (value.isDouble())
-        {
-            double d = value.toDouble();
-            if (d == static_cast<qint64>(d))
-                properties.setProperty(fullKey, QString::number(static_cast<qint64>(d)));
-            else
-                properties.setProperty(fullKey, QString::number(d));
-        }
-        else if (value.isNull())
-        {
-            properties.setProperty(fullKey, QString());
-        }
+void JsonConfigurator::flattenJsonValue(const QJsonValue &value,
+                                        const QString &fullKey,
+                                        Properties &properties)
+{
+    if (value.isObject())
+    {
+        flattenJsonObject(value.toObject(), fullKey + u"."_s, properties);
+    }
+    else if (value.isArray())
+    {
+        flattenJsonArray(value.toArray(), fullKey, properties);
+    }
+    else if (value.isString())
+    {
+        properties.setProperty(fullKey, value.toString());
+    }
+    else if (value.isBool())
+    {
+        properties.setProperty(fullKey, value.toBool() ? u"true"_s : u"false"_s);
+    }
+    else if (value.isDouble())
+    {
+        double d = value.toDouble();
+        if (d == static_cast<qint64>(d))
+            properties.setProperty(fullKey, QString::number(static_cast<qint64>(d)));
+        else
+            properties.setProperty(fullKey, QString::number(d));
+    }
+    else if (value.isNull())
+    {
+        properties.setProperty(fullKey, QString());
     }
 }
 

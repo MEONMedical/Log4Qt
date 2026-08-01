@@ -49,6 +49,7 @@ private Q_SLOTS:
     void testFlattenBooleans();
     void testFlattenNumbers();
     void testFlattenNull();
+    void testFlattenArrays();
     void testFlattenFullConfig();
     void testConfigureFromFile();
     void testRealWorldConfig();
@@ -194,6 +195,42 @@ void JsonConfiguratorTest::testFlattenNull()
 
     QVERIFY(JsonConfigurator::configure(file));
     QCOMPARE(LogManager::rootLogger()->level(), Level::ERROR_INT);
+}
+
+// Regression test: JSON arrays matched no branch in the flattener and were
+// silently dropped while configure() still returned true — a log4j2-style
+// "appenderRef": [{"ref": ...}] list half-configured the logger with zero
+// diagnostics. Arrays now flatten to numeric key segments.
+void JsonConfiguratorTest::testFlattenArrays()
+{
+    QTemporaryDir dir;
+    QVERIFY(dir.isValid());
+    const QString file = dir.path() + "/test.json";
+    writeJsonFile(file, R"({
+        "appender": {
+            "console": {
+                "type": "Console",
+                "layout": { "type": "SimpleLayout" }
+            },
+            "console2": {
+                "type": "Console",
+                "layout": { "type": "SimpleLayout" }
+            }
+        },
+        "rootLogger": {
+            "level": "DEBUG",
+            "appenderRef": [
+                { "ref": "console" },
+                { "ref": "console2" }
+            ]
+        }
+    })");
+
+    QVERIFY(JsonConfigurator::configure(file));
+
+    Logger *root = LogManager::rootLogger();
+    QCOMPARE(root->level(), Level::DEBUG_INT);
+    QCOMPARE(root->appenders().count(), 2);
 }
 
 void JsonConfiguratorTest::testFlattenFullConfig()

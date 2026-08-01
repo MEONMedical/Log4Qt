@@ -23,7 +23,9 @@
 
 #include "log4qtshared.h"
 
+class QJsonArray;
 class QJsonObject;
+class QJsonValue;
 
 namespace Log4Qt
 {
@@ -130,6 +132,12 @@ private:
     static void flattenJsonObject(const QJsonObject &object,
                                   const QString &prefix,
                                   Properties &properties);
+    static void flattenJsonArray(const QJsonArray &array,
+                                 const QString &prefix,
+                                 Properties &properties);
+    static void flattenJsonValue(const QJsonValue &value,
+                                 const QString &fullKey,
+                                 Properties &properties);
 };
 
 } // namespace Log4Qt
