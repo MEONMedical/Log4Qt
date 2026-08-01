@@ -25,6 +25,7 @@
 #include "spi/compositetriggeringpolicy.h"
 #include "spi/defaultrolloverstrategy.h"
 
+#include <QFile>
 #include <QFileInfo>
 
 using namespace Qt::StringLiterals;
@@ -118,12 +119,23 @@ void RollingFileAppender::activateOptions()
         startupRollover = mTriggeringPolicy->isStartupTrigger(file(), fileSize);
     }
 
-    FileAppender::activateOptions();
+    if (startupRollover)
+    {
+        // The previous run's file must be archived by rollOver() below.
+        // Do not let the first open truncate it (appendFile defaults to
+        // false) — open it in append mode, then roll over.
+        const bool configuredAppend = appendFile();
+        setAppendFile(true);
+        FileAppender::activateOptions();
+        setAppendFile(configuredAppend);
 
-    if (startupRollover) {
         if (mSkipFooterOnStartup)
             suppressNextFooter();
         rollOver();
+    }
+    else
+    {
+        FileAppender::activateOptions();
     }
 }
 
@@ -147,7 +159,22 @@ void RollingFileAppender::rollOver()
     QString nextFile = mRolloverStrategy->rollover(baseName);
     if (nextFile != file())
         setFile(nextFile);
-    FileAppender::openFile();
+
+    // If the file to be opened still exists, its content has not been
+    // archived — either a rename/remove failed during the rollover (e.g. the
+    // file is locked by another process) or the strategy reuses a dated file
+    // for the current period. Open it in append mode in that case: truncating
+    // would silently destroy the un-archived log content.
+    if (!appendFile() && QFile::exists(file()))
+    {
+        setAppendFile(true);
+        FileAppender::openFile();
+        setAppendFile(false);
+    }
+    else
+    {
+        FileAppender::openFile();
+    }
 }
 
 } // namespace Log4Qt
