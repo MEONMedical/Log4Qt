@@ -6,14 +6,6 @@ project(Log4Qt
     LANGUAGES CXX
 )
 
-# Modern CMake policies
-if(POLICY CMP0071)
-    cmake_policy(SET CMP0071 NEW)
-endif()
-if(POLICY CMP0087)
-    cmake_policy(SET CMP0087 NEW)
-endif()
-
 # disable C++20 module scanning for clang
 # (replaces the deprecated cmake_policy(SET CMP0155 OLD))
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
@@ -46,10 +38,14 @@ option(BUILD_WITH_TELNET_LOGGING "Build with telnet logging support, link agains
 option(BUILD_WITH_QML_LOGGING "Build with qml logging support, link against Qt qml lib (default: on)" ON)
 
 # Enable documentation generation with doxygen
-OPTION(BUILD_WITH_DOCS "Enable documentation generation (default: off)" OFF)
+option(BUILD_WITH_DOCS "Enable documentation generation (default: off)" OFF)
 
-# Put the library and all test/example executables into one bin directory
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+# Put the library and all test/example executables into one bin directory.
+# Only when building Log4Qt itself: an embedding parent project
+# (add_subdirectory/FetchContent) keeps control of its own layout.
+if(PROJECT_IS_TOP_LEVEL)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+endif()
 
 # Set include dir src (used by target_include_directories in src/log4qt)
 set(LOG4QT_BUILD_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)

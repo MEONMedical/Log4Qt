@@ -234,7 +234,7 @@ endif()
 target_include_directories(log4qt
     PUBLIC
         $<BUILD_INTERFACE:${LOG4QT_BUILD_INCLUDE_DIR}>
-        $<INSTALL_INTERFACE:include>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     PRIVATE
         # The library's own sources include their headers without the
         # log4qt/ prefix (e.g. "logmanager.h", "helpers/factory.h").
@@ -312,7 +312,7 @@ install(TARGETS log4qt
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    INCLUDES DESTINATION include
+    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
 # Install headers
