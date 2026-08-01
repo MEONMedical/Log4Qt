@@ -613,7 +613,15 @@ void PatternFormatter::parse()
         i++;
     }
 
-    if (state != LiteralState)
+    if (state == PossibleOptionState)
+    {
+        // The pattern ended directly after an option-capable conversion
+        // character (%c, %d, %P): no '{option}' follows, so create the
+        // converter with default options instead of treating the tail as an
+        // error and emitting it as literal text.
+        createConverter(mPattern.at(i - 1), formatting_info);
+    }
+    else if (state != LiteralState)
     {
         logger()->warn(u"Unexpected end of pattern '%1'"_s, mPattern);
         if (state == EscapeState)
