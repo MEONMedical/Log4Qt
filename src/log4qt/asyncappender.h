@@ -145,8 +145,19 @@ public:
     QString queueFullPolicyString() const;
     void setQueueFullPolicyString(const QString &policy);
 
-    QString errorRef() const { return mErrorRef; }
-    void setErrorRef(const QString &name) { mErrorRef = name; }
+    QString errorRef() const
+    {
+        QMutexLocker locker(&mObjectGuard);
+        return mErrorRef;
+    }
+    void setErrorRef(const QString &name)
+    {
+        QMutexLocker locker(&mObjectGuard);
+        if (mErrorRef == name)
+            return;
+        mErrorRef = name;
+        mErrorAppender.clear(); // re-resolved from the new reference on demand
+    }
 
     void setErrorAppender(const AppenderSharedPtr &appender);
 
@@ -172,16 +183,23 @@ protected:
     void append(const LoggingEvent &event) override;
 
 private:
+    // Resolves mErrorRef into mErrorAppender by searching the repository's
+    // loggers for an appender with that name. Must be called under
+    // mObjectGuard.
+    void resolveErrorAppender(bool warnIfMissing);
     Q_DISABLE_COPY_MOVE(AsyncAppender)
 
     void closeInternal();
     void handleQueueFull(const LoggingEvent &event);
 
-    int mBufferSize = 1024;
-    bool mBlocking = true;
-    int mShutdownTimeout = 0;
-    Level mDiscardThreshold = Level::INFO_INT;
-    QueueFullPolicy mQueueFullPolicy = QueueFullPolicy::Block;
+    // Atomics: read from append()/closeInternal() while the public setters
+    // may run concurrently on other threads (documented thread-safety).
+    std::atomic<int> mBufferSize{1024};
+    std::atomic<bool> mBlocking{true};
+    std::atomic<int> mShutdownTimeout{0};
+    std::atomic<Level> mDiscardThreshold{Level(Level::INFO_INT)};
+    std::atomic<QueueFullPolicy> mQueueFullPolicy{QueueFullPolicy::Block};
+    // Guarded by mObjectGuard
     QString mErrorRef;
     AppenderSharedPtr mErrorAppender;
 
