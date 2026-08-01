@@ -1340,6 +1340,76 @@ void Log4QtTest::AppenderSkeleton_clearFilters()
 }
 
 
+// Test helper: an appender that reports an internal failure (as e.g. a file
+// appender does on a full disk) through its class logger while appending.
+// Without Q_OBJECT its class logger is "Log4Qt::AppenderSkeleton", which is
+// parented to the Log4Qt logLogger — the logger resetLogging() equips with
+// the loggingEvents() list appender.
+class InternalErrorAppender : public Log4Qt::AppenderSkeleton
+{
+public:
+    explicit InternalErrorAppender(QObject *parent = nullptr)
+        : AppenderSkeleton(parent) {}
+    bool requiresLayout() const override { return false; }
+
+    int appendCount = 0;
+protected:
+    void append(const Log4Qt::LoggingEvent &event) override
+    {
+        Q_UNUSED(event)
+        ++appendCount;
+        logger()->error(QStringLiteral("internal failure while appending"));
+    }
+};
+
+
+// Regression test: the process-wide-per-thread recursion depth guard dropped
+// every event logged from inside doAppend(), so internal diagnostics (disk
+// full, rollover failures, misconfiguration errors) were invisible on every
+// appender. With the per-appender guard they reach all other appenders.
+void Log4QtTest::AppenderSkeleton_internalErrorsReachOtherAppenders()
+{
+    resetLogging();
+
+    InternalErrorAppender failing;
+    failing.setName(QStringLiteral("Failing"));
+    failing.doAppend(LoggingEvent(test_logger(), Level::INFO_INT,
+                                  QStringLiteral("trigger")));
+
+    QCOMPARE(failing.appendCount, 1);
+
+    // The internal error raised inside append() must reach the logLogger's
+    // list appender
+    QCOMPARE(loggingEvents()->list().count(), 1);
+    QVERIFY(loggingEvents()->list().at(0).message()
+                .contains(QStringLiteral("internal failure")));
+}
+
+
+// The guard must still break true cycles: an appender whose internal error
+// routes back to itself is dropped exactly there — no re-entry, no unbounded
+// recursion — while other appenders on the same logger still get the error.
+void Log4QtTest::AppenderSkeleton_recursionGuardBlocksSelfOnly()
+{
+    resetLogging();
+
+    auto *failing = new InternalErrorAppender;
+    failing->setName(QStringLiteral("Failing"));
+    AppenderSharedPtr failingPtr(failing);
+    LogManager::logLogger()->addAppender(failingPtr);
+
+    failing->doAppend(LoggingEvent(test_logger(), Level::INFO_INT,
+                                   QStringLiteral("trigger")));
+
+    // The error event was dispatched to the logLogger: the list appender
+    // received it, the raising appender itself was not re-entered.
+    QCOMPARE(failing->appendCount, 1);
+    QCOMPARE(loggingEvents()->list().count(), 1);
+
+    LogManager::logLogger()->removeAppender(failingPtr);
+}
+
+
 void Log4QtTest::BasicConfigurator()
 {
     LogManager::resetConfiguration();
