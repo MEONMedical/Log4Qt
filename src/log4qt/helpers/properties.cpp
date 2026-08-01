@@ -51,12 +51,28 @@ void Properties::load(QIODevice *pDevice)
     QString property;
     int property_start_line = 1;
 
+    // A line continues on the next one only if it ends in an ODD number of
+    // escape characters — a trailing escaped backslash ('...\\') is data,
+    // not a continuation.
+    auto endsWithContinuation = [append_char](const QString &l)
+    {
+        int escapes = 0;
+        for (int pos = l.size() - 1; pos >= 0 && l.at(pos) == append_char; --pos)
+            ++escapes;
+        return (escapes % 2) == 1;
+    };
+
     do
     {
         line = trimLeft(stream.readLine());
         line_number++;
 
-        if (!line.isEmpty() && line.at(line.size() - 1) == append_char)
+        // Comment lines are never continued: a '#'/'!' line ending in the
+        // escape character must not swallow the following property line.
+        const bool isCommentLine = property.isEmpty() && !line.isEmpty()
+            && (line.at(0) == QLatin1Char('#') || line.at(0) == QLatin1Char('!'));
+
+        if (!isCommentLine && !line.isEmpty() && endsWithContinuation(line))
             property += line.left(line.size() - 1);
         else
         {

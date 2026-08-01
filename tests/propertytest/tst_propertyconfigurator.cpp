@@ -18,6 +18,7 @@
  *
  ******************************************************************************/
 
+#include <QBuffer>
 #include <QDir>
 #include <QFile>
 #include <QTemporaryDir>
@@ -84,6 +85,7 @@ private Q_SLOTS:
     void testCircularSubstitution();
     void testSubstitutionWithLiteralClosingBrace();
     void testEnumPropertyFromConfig();
+    void testPropertiesLineContinuation();
     // HeaderFooterProvider configuration tests
     void testGlobalHeaderFooterProvider();
     void testPerLayoutHeaderFooterProvider();
@@ -814,6 +816,31 @@ void PropertyConfiguratorTest::testEnumPropertyFromConfig()
     QVERIFY(stringMatch);
     QCOMPARE(stringMatch->stringToMatch(), u"needle"_s);
     QCOMPARE(stringMatch->caseSensitivity(), Qt::CaseInsensitive);
+}
+
+// Regression test: the line-continuation check treated ANY line ending in a
+// backslash as continued — a value ending in an escaped backslash swallowed
+// the next property line, and a comment ending in '\' absorbed the following
+// property into the discarded comment.
+void PropertyConfiguratorTest::testPropertiesLineContinuation()
+{
+    QByteArray data =
+        "dir=C:\\\\path\\\\\n"                      // value ends in escaped '\'
+        "next=alpha\n"
+        "# a comment ending in a backslash \\\n"
+        "afterComment=beta\n"
+        "wrapped=one\\\n"
+        "two\n";
+    QBuffer buffer(&data);
+    QVERIFY(buffer.open(QIODevice::ReadOnly));
+
+    Properties props;
+    props.load(&buffer);
+
+    QVERIFY(!props.property(u"dir"_s).isNull());
+    QCOMPARE(props.property(u"next"_s), u"alpha"_s);        // was swallowed by 'dir'
+    QCOMPARE(props.property(u"afterComment"_s), u"beta"_s); // was eaten by the comment
+    QCOMPARE(props.property(u"wrapped"_s), u"onetwo"_s);    // real continuation still works
 }
 
 // --- HeaderFooterProvider configuration ---
