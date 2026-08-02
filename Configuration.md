@@ -96,7 +96,7 @@ property is left unchanged.
 | `File` | FileAppender | Writes to a single file. |
 | `RollingFile` | RollingFileAppender | File with policy/strategy-based rotation. |
 | `DailyFile` | DailyRollingFileAppender | Daily file with configurable retention. |
-| `Async` | AsyncAppender | Asynchronous wrapper appender. |
+| `Async` | AsyncAppender | Asynchronous wrapper appender. `errorRef` names the appender that receives events a full queue cannot accept; it is resolved after the whole file is read, so it may name an appender declared further down. |
 | `MainThread` | MainThreadAppender | Dispatches to the main thread. |
 | `Signal` | SignalAppender | Emits a Qt signal per log event. |
 | `SystemLog` | SystemLogAppender | Writes to the system log (syslog / Event Log). |

@@ -26,6 +26,7 @@
 #include "helpers/properties.h"
 #include "appenderskeleton.h"
 #include "abstractlayout.h"
+#include "asyncappender.h"
 #include "logger.h"
 #include "logmanager.h"
 #include "loggerrepository.h"
@@ -37,6 +38,8 @@
 
 #include <QFile>
 #include <QSet>
+
+#include <utility>
 
 using namespace Qt::StringLiterals;
 
@@ -146,6 +149,7 @@ void PropertyConfigurator::configureFromProperties(const Properties &properties,
     Properties translated = translateLegacyProperties(properties);
     configureGlobalSettings(translated, loggerRepository);
     configureAppenders(translated);
+    resolveAppenderReferences();
     configureRootLogger(translated, loggerRepository);
     configureLoggers(translated, loggerRepository);
     mAppenderRegistry.clear();
@@ -435,6 +439,33 @@ void PropertyConfigurator::configureAppenders(const Properties &properties)
             skeleton->activateOptions();
 
         mAppenderRegistry.insert(appenderName, appender);
+    }
+}
+
+
+void PropertyConfigurator::resolveAppenderReferences()
+{
+    // Appenders are activated as they are parsed, so an appender referenced by
+    // an earlier one does not exist yet at that point. Resolve those
+    // references here, where the registry holds every appender of this
+    // configuration — the same way appenderRef is resolved for the loggers.
+    for (const auto &appender : std::as_const(mAppenderRegistry))
+    {
+        auto *async = qobject_cast<AsyncAppender *>(appender.data());
+        if (async == nullptr)
+            continue;
+
+        const QString ref = async->errorRef();
+        if (ref.isEmpty())
+            continue;
+
+        // The registry is keyed by appender name (the name property, or the
+        // alias when none is given), which is what errorRef refers to.
+        const AppenderSharedPtr errorAppender = mAppenderRegistry.value(ref);
+        if (errorAppender)
+            async->setErrorAppender(errorAppender);
+        else
+            staticLogger()->warn(u"Unable to resolve errorRef '%1' of appender '%2'"_s, ref, async->name());
     }
 }
 

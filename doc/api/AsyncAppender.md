@@ -37,7 +37,7 @@ The class's role is that of an asynchronous dispatcher: producers call the inher
 | `shutdownTimeout` | `int` | `shutdownTimeout` | `setShutdownTimeout` | — | Milliseconds to wait for the queue to drain during shutdown. `0` (default) waits indefinitely. On timeout the worker is terminated and a warning logged. |
 | `discardThreshold` | `Log4Qt::Level` | `discardThreshold` | `setDiscardThreshold` | — | Under the `Discard` policy, events at or below this level are dropped when the queue is full; higher-priority events still block. Default `INFO`. |
 | `queueFullPolicy` | `QString` | `queueFullPolicyString` | `setQueueFullPolicyString` | — | The queue-full policy as text: `"Block"`, `"Discard"`, or `"Synchronous"` (case-insensitive; unrecognised values fall back to `Block`). Default `"Block"`. |
-| `errorRef` | `QString` | `errorRef` | `setErrorRef` | — | Name of a fallback appender that receives events the queue cannot accept. Resolved by searching the repository's loggers for an appender with that name: first at `activateOptions()` (warning if not found), then retried silently on each queue-full event, so an appender configured *after* this one is still picked up. |
+| `errorRef` | `QString` | `errorRef` | `setErrorRef` | — | Name of a fallback appender that receives events the queue cannot accept. Resolved **outside the append path**: a configurator calls `setErrorAppender()` once every appender of the configuration exists (so the reference may name an appender declared later in the same file), and `activateOptions()` additionally searches the repository's loggers once for programmatic setups. Never resolved while appending — see Thread Safety. |
 
 ## 5. Enumerations
 
@@ -105,11 +105,11 @@ String-based get/set used by the `queueFullPolicy` property and configurators. R
 
 #### QString errorRef() const / void setErrorRef(const QString &name)
 
-Get/set the name of the fallback error appender. Both are inline but take `mObjectGuard`, so the reference can be reconfigured from any thread. Setting a *different* name also clears the cached `mErrorAppender`, so the new reference is re-resolved on demand; setting the same name is a no-op.
+Get/set the name of the fallback error appender. Both are inline but take `mObjectGuard`, so the reference can be reconfigured from any thread. Setting a *different* name also clears the cached `mErrorAppender`, so the new reference is resolved again at the next `activateOptions()` (or by whoever calls `setErrorAppender()`); setting the same name is a no-op.
 
 #### void setErrorAppender(const AppenderSharedPtr &appender)
 
-Directly assigns the fallback appender that receives events when the queue is full and they cannot be enqueued (used under the non-blocking `Block` path). Holds a shared reference, and takes precedence over `errorRef` because name resolution is skipped once a fallback appender is cached. Acquires `mObjectGuard`.
+Directly assigns the fallback appender that receives events when the queue is full and they cannot be enqueued (used under the non-blocking `Block` path). Holds a shared reference, and takes precedence over `errorRef` because name resolution is skipped once a fallback appender is set. This is also how configurators wire `errorRef` — `PropertyConfigurator` resolves the name against the appenders it created and calls this method, which is why the referenced appender may be declared after this one. Acquires `mObjectGuard`.
 
 #### qint64 discardedCount() const
 
@@ -117,7 +117,9 @@ Returns the running total of events dropped under the `Discard` policy. Read wit
 
 #### void activateOptions() override
 
-Creates the `BoundedBlockingQueue` (sized to `bufferSize`) and the `AsyncWorker`, names the worker thread `Log4Qt-Async-<name>`, starts it, resolves `errorRef` into the fallback appender (logging a warning if the name matches no appender on any logger), then chains to `AppenderSkeleton::activateOptions()`. Idempotent: if a worker already exists it returns immediately. Guarded by `mObjectGuard`.
+Creates the `BoundedBlockingQueue` (sized to `bufferSize`) and the `AsyncWorker`, names the worker thread `Log4Qt-Async-<name>`, and starts it — all under `mObjectGuard`, and idempotent: if a worker already exists it returns immediately.
+
+It then **releases the lock** and resolves `errorRef` once by searching the repository's loggers for an appender with that name, before chaining to `AppenderSkeleton::activateOptions()`. The search runs unlocked because it acquires the repository and logger read locks, which the logging path takes *before* `mObjectGuard`. A name that matches nothing is logged at debug level only, not as a warning: configurators activate each appender as they parse it, so a reference to an appender declared later in the file is legitimately unresolvable here and is fixed up by the configurator afterwards.
 
 #### void close() override
 
@@ -158,7 +160,8 @@ All public functions are thread-safe. This class is explicitly a multi-threaded 
 - **Consumer side:** a single `AsyncWorker` thread runs `dequeue()` in a loop and calls `callAppenders()`, which takes a read lock on `mAppenderGuard` while iterating attached appenders.
 - **Queue:** `BoundedBlockingQueue` uses a `QMutex` plus two `QWaitCondition`s (`mNotFull`, `mNotEmpty`) and an atomic shutdown flag, providing blocking and non-blocking enqueue, blocking dequeue, bulk drain, and a clean shutdown that wakes all waiters.
 - **Backpressure:** under the blocking `Block` policy a full queue throttles producers, which is the mechanism that prevents unbounded memory growth.
-- **Configuration:** `mBufferSize`, `mBlocking`, `mShutdownTimeout`, `mDiscardThreshold` and `mQueueFullPolicy` are `std::atomic`, because `append()` and `closeInternal()` read them while the public setters may run concurrently on another thread. `mErrorRef` and `mErrorAppender` are `QString`/`AppenderSharedPtr` instead and are therefore guarded by `mObjectGuard` — `errorRef()`, `setErrorRef()`, `setErrorAppender()` and the private `resolveErrorAppender()` all run under that lock.
+- **Configuration:** `mBufferSize`, `mBlocking`, `mShutdownTimeout`, `mDiscardThreshold` and `mQueueFullPolicy` are `std::atomic`, because `append()` and `closeInternal()` read them while the public setters may run concurrently on another thread. `mErrorRef` and `mErrorAppender` are `QString`/`AppenderSharedPtr` instead and are therefore guarded by `mObjectGuard` — `errorRef()`, `setErrorRef()` and `setErrorAppender()` all run under that lock.
+- **Lock ordering:** the private `resolveErrorAppender()` must *not* hold `mObjectGuard` while it searches, and is never called from the append path. It takes the lock only to snapshot `errorRef` and, afterwards, to store the result. Two reasons: the search acquires the repository read lock (`LoggerRepository::loggers()`) and each logger's appender read lock, which the logging path acquires *before* `mObjectGuard` (`Logger::callAppenders()` → `Appender::doAppend()`) — the reverse order would risk deadlock, including the same-thread `write`→`read` deadlock on the repository's recursive `QReadWriteLock` when a thread logs while holding the write lock. And a repository-wide search inside `handleQueueFull()` would serialise every producer for its duration, precisely when the appender is already saturated.
 - `discardedCount` is a `std::atomic<qint64>`; lifecycle transitions are guarded by `mObjectGuard`.
 
 The `batchComplete()` signal is emitted on the worker thread — connect with `Qt::QueuedConnection` if the receiver lives on another thread.
@@ -167,7 +170,7 @@ The `batchComplete()` signal is emitted on the worker thread — connect with `Q
 
 - Wraps and drives any number of attached `Appender` instances (added via `AppenderAttachable::addAppender()`); these are the real sinks.
 - Owns and starts an `AsyncWorker`, which calls back into `callAppenders()` and emits `batchComplete()` through the appender.
-- Optionally forwards overflow events to an error appender resolved from `errorRef` (set by a configurator) or assigned via `setErrorAppender()`.
+- Optionally forwards overflow events to an error appender assigned via `setErrorAppender()` — by a configurator resolving `errorRef`, or directly by application code. When `errorRef` is set but was never resolved, the overflow warning names the unresolved reference.
 - Uses `forwardEvent()` (inherited static helper) to push events into downstream appenders' `doAppend()` while bypassing the recursion guard for these intentional redirects.
 
 ## 16. Usage Example

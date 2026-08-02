@@ -55,6 +55,13 @@ template<typename T> class BoundedBlockingQueue;
  *     thread, bypassing the queue.
  * \endlist
  *
+ * The fallback appender used on overflow is either assigned directly with
+ * setErrorAppender() or named through the \l errorRef property. A named
+ * reference is resolved off the append path: a configurator resolves it once
+ * every appender of the configuration exists — so it may name an appender
+ * declared later in the same file — and activateOptions() additionally
+ * searches the repository once, for appenders wired up in code.
+ *
  * \note All the functions declared in this class are thread-safe.
  * &nbsp;
  * \note The ownership and lifetime of objects of this class are managed.
@@ -184,9 +191,13 @@ protected:
 
 private:
     // Resolves mErrorRef into mErrorAppender by searching the repository's
-    // loggers for an appender with that name. Must be called under
-    // mObjectGuard.
-    void resolveErrorAppender(bool warnIfMissing);
+    // loggers for an appender with that name. Must NOT be called with
+    // mObjectGuard held, and never from the append path: the search takes the
+    // repository and logger read locks, which the logging path acquires
+    // *before* mObjectGuard. Called from activateOptions() only; configurators
+    // set the appender directly through setErrorAppender() once every appender
+    // of the configuration exists.
+    void resolveErrorAppender();
     Q_DISABLE_COPY_MOVE(AsyncAppender)
 
     void closeInternal();
