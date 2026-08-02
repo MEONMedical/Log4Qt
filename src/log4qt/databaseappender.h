@@ -51,6 +51,17 @@ namespace Log4Qt
  *       driver). To log to a database from arbitrary threads, place a
  *       MainThreadAppender (or AsyncAppender bound to the DB thread) in front.
  * &nbsp;
+ * \note The statement is re-prepared from append() when no prepared statement
+ *       exists (the prepare at activation may have failed because the table
+ *       did not exist yet or the database was briefly unreachable) and once
+ *       after a failed exec() (the connection may have dropped since;
+ *       QSqlDatabase::database() re-opens it). Re-preparing happens on the
+ *       logging thread under the appender lock, so the statement always
+ *       belongs to the thread that executes it. Table and column identifiers
+ *       are escaped through QSqlDriver::escapeIdentifier(); the members keep
+ *       the configured, unescaped names so a re-prepare does not
+ *       double-escape.
+ * &nbsp;
  * \note The ownership and lifetime of objects of this class are managed.
  *       See \ref Ownership "Object ownership" for more details.
  */
@@ -117,7 +128,8 @@ protected:
      * AppenderSkeleton::checkEntryConditions() is returned.
      *
      * The checked conditions are:
-     * - A writer has been set (AppenderUseMissingWriterError)
+     * - The configured database connection exists and the table name is not
+     *   empty (AppenderMissingDatabaseOrTableError)
      *
      * The function is called as part of the checkEntryConditions() chain
      * started by AppenderSkeleton::doAppend().
@@ -140,8 +152,10 @@ private:
     QString tableName;
     std::unique_ptr<QSqlQuery> mPreparedQuery;
     std::vector<ColumnSource> mBindings;
-    // Thread that prepared mPreparedQuery (set in activateOptions). The query
-    // must only be exec'd on this thread. Accessed only under mObjectGuard.
+    // Thread that prepared mPreparedQuery (set in prepareInsert(), which runs
+    // from activateOptions() or from append() when re-preparing). The query
+    // must only be exec'd — and destroyed — on this thread. Accessed only
+    // under mObjectGuard.
     QThread *mActivationThread = nullptr;
     bool mWrongThreadLogged = false;
 };

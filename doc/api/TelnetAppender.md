@@ -10,7 +10,7 @@ A developer uses it for remote, ad-hoc, read-only log monitoring of a running pr
 
 - **Header includes:** `appenderskeleton.h` (base class), `<QString>`, `<QHostAddress>`; forward declarations of `QTcpServer` and `QTcpSocket`.
 - **Implementation includes:** `abstractlayout.h`, `loggingevent.h`, `<QTcpServer>`, `<QTcpSocket>`, `<QHostAddress>`.
-- **Qt module:** Qt Network (linked privately in `CMakeLists.txt` as `Qt::Network`) plus Qt Core.
+- **Qt module:** Qt Network plus Qt Core. `Qt::Network` is linked **`PUBLIC`** (only when `BUILD_WITH_TELNET_LOGGING` is enabled), because the installed `telnetappender.h` includes QtNetwork headers.
 - **Project-internal types:**
   - `Layout` / `AbstractLayout` — formats each `LoggingEvent` into the text streamed to clients; obtained via the lock-free `layoutSnapshot()` from `AppenderSkeleton`.
   - `LoggingEvent` — the event to format.
@@ -102,7 +102,7 @@ Sets a message sent once to each newly connected client. If empty, no welcome is
 
 #### void append(const LoggingEvent &event) override
 
-Invoked from `doAppend()` under `mObjectGuard`. Formats the event using the `layoutSnapshot()` layout to `toLocal8Bit()` bytes. For each connected client socket it marshals the write onto that socket's owner thread with `QMetaObject::invokeMethod(..., Qt::AutoConnection)`: a `write()` failure triggers `abort()` (which drops the client and fires `onClientDisconnected`), and on success an optional `flush()` is performed when `immediateFlush` is set. Marshalling is necessary because a `QTcpSocket` must be used only from its owning thread.
+Invoked from `doAppend()` under `mObjectGuard`. Formats the event using the `layoutSnapshot()` layout to `toLocal8Bit()` bytes. It then iterates a **copy** of the client list, not the member itself: when the logging call happens on the appender's own thread the write lambda runs synchronously, and a failed write calls `abort()`, which emits `disconnected()` synchronously — so `onClientDisconnected()` re-enters through the recursive mutex and removes the socket from `mTcpSockets` while the loop is running. Iterating the member directly would invalidate the iterators mid-loop. For each socket in the snapshot it marshals the write onto that socket's owner thread with `QMetaObject::invokeMethod(..., Qt::AutoConnection)`: a `write()` failure triggers `abort()` (which drops the client and fires `onClientDisconnected`), and on success an optional `flush()` is performed when `immediateFlush` is set. Marshalling is necessary because a `QTcpSocket` must be used only from its owning thread.
 
 #### bool checkEntryConditions() const override
 

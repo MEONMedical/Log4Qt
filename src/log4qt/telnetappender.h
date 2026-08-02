@@ -131,7 +131,8 @@ protected:
      * AppenderSkeleton::checkEntryConditions() is returned.
      *
      * The checked conditions are:
-     * - A writer has been set (AppenderUseMissingWriterError)
+     * - The telnet server exists and is listening
+     *   (AppenderTelnetServerNotRunning)
      *
      * The function is called as part of the checkEntryConditions() chain
      * started by AppenderSkeleton::doAppend().

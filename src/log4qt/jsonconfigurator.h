@@ -35,11 +35,12 @@ class LoggerRepository;
 
 /*!
  * \brief The class JsonConfigurator allows the configuration of the
- *        package from a JSON file using a Log4j2-style structured format.
+ *        package from a JSON file.
  *
  * The JSON structure maps directly to the flat property keys used by
- * PropertyConfigurator. Nested objects produce dot-separated keys.
- * For example:
+ * PropertyConfigurator: object keys become dot-separated key segments
+ * verbatim, they are never translated. Nested objects produce
+ * dot-separated keys. For example:
  *
  * \code{.json}
  * {
@@ -55,18 +56,14 @@ class LoggerRepository;
  *     },
  *     "rootLogger": {
  *         "level": "ALL",
- *         "appenderRef": {
- *             "0": { "ref": "console" }
- *         }
+ *         "appenderRef": [ { "ref": "console" } ]
  *     },
  *     "logger": {
  *         "MyApp": {
  *             "name": "MyApp",
  *             "level": "ERROR",
  *             "additivity": "false",
- *             "appenderRef": {
- *                 "0": { "ref": "console" }
- *             }
+ *             "appenderRef": [ { "ref": "console" } ]
  *         }
  *     }
  * }
@@ -75,8 +72,13 @@ class LoggerRepository;
  * Flattening rules:
  * - Nested objects produce dot-separated keys:
  *   \c {"a":{"b":"c"}} becomes \c a.b=c
+ * - Arrays produce numeric key segments, equivalent to an object
+ *   with \c "0", \c "1", ... keys:
+ *   \c {"appenderRef":[{"ref":"console"}]} becomes
+ *   \c appenderRef.0.ref=console
  * - JSON booleans and numbers are stringified
  *   (\c true becomes \c "true", \c 42 becomes \c "42")
+ * - JSON \c null produces an empty value
  * - Variable substitution (\c ${varname}) works in string values
  *   and is resolved by OptionConverter::findAndSubst() after
  *   flattening

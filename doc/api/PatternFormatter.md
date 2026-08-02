@@ -13,7 +13,7 @@ The formatter also tracks whether the pattern uses any *location-sensitive* spec
 - Header: `src/log4qt/helpers/patternformatter.h`
 - Source: `src/log4qt/helpers/patternformatter.cpp`
 
-Header dependencies: `log4qt/log4qtdefs.h`, `log4qt/log4qtshared.h` (export macro), `QList`, `QString`, `<memory>`, `<vector>`. The header forward-declares `FormattingInfo`, `PatternConverter`, `LoggingEvent`, and `QObject`.
+Header dependencies: `log4qt/log4qtshared.h` (export macro), `QList`, `QString`, `<memory>`, `<vector>`. The header forward-declares `FormattingInfo`, `PatternConverter`, `LoggingEvent`, and `QObject`.
 
 Source dependencies: `helpers/datetime.h` (`DateTime::formatMsecs`), `helpers/logerror.h`, `abstractlayout.h` (`AbstractLayout::endOfLine()`), `logger.h`, `loggingevent.h`, `logmanager.h`, plus `QString` and `QStringBuilder`. The converter hierarchy (`PatternConverter` and its subclasses) and the `FormattingInfo` helper are defined privately in the `.cpp` and are not part of the public API.
 
@@ -47,7 +47,7 @@ None.
 
 #### explicit PatternFormatter(const QString &pattern)
 
-Creates a formatter and immediately parses `pattern` into the converter chain. Parsing is forgiving: an invalid conversion character is logged as a warning and emitted as a literal, and an unexpected end of pattern is logged and the trailing text emitted as a literal. Recoverable option errors are logged as `LogError`s (codes `LayoutExpectedDigitError`, `LayoutOptionIsNotIntegerError`, `LayoutIntegerIsNotPositiveError`).
+Creates a formatter and immediately parses `pattern` into the converter chain. Parsing is forgiving: an invalid conversion character is logged as a warning and emitted as a literal, and an unexpected end of pattern is logged and the trailing text emitted as a literal. A pattern that ends *directly* on an option-capable conversion character (`%c`, `%d`, `%P`) is not an error — no `{option}` follows, so the converter is created with its default options, which is why a pattern like `"%d"` or `"%m%n %c"` works as written. Recoverable option errors are logged as `LogError`s (codes `LayoutExpectedDigitError`, `LayoutOptionIsNotIntegerError`, `LayoutIntegerIsNotPositiveError`).
 
 #### virtual ~PatternFormatter()
 

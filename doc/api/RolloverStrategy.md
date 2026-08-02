@@ -100,7 +100,7 @@ Not registered for QML. No `QML_ELEMENT` / `qmlRegisterType` exists for this cla
 ## 14. Inter-Class Interactions
 
 - `RollingFileAppender::activateOptions()` calls `activateOptions()` and `initialFileName()` on the strategy, then opens the (possibly renamed) file.
-- `RollingFileAppender::rollOver()` closes the active file, calls `rollover(baseName)`, and reopens whatever path is returned.
+- `RollingFileAppender::rollOver()` closes the active file, calls `rollover(baseName)`, and reopens whatever path is returned — in append mode if that path still exists, so content a failed rename could not archive is never truncated.
 - `TriggeringPolicy` determines *when* `rollOver()` runs; `RolloverStrategy` determines *how* it is carried out — the two collaborate but never reference each other.
 
 ## 15. External Communication

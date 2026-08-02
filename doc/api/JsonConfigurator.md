@@ -4,7 +4,7 @@
 
 Log4Qt is a Qt port of Apache log4j. *Configurators* read configuration data and build the runtime logger/appender/layout graph held by the `LoggerRepository` via the `LogManager` singleton.
 
-`JsonConfigurator` configures the logging framework from a JSON file written in a log4j2-style structured format. It does not implement configuration logic of its own: it parses the JSON document, flattens its nested object structure into the same flat key/value `Properties` model used by `PropertyConfigurator`, and delegates the actual configuration to `PropertyConfigurator`. This reuses all existing parsing, factory, and type-conversion logic without duplication.
+`JsonConfigurator` configures the logging framework from a JSON file whose object keys *are* the property keys — they are taken verbatim, never translated, so the Log4j2 JSON dialect is not a supported input. It does not implement configuration logic of its own: it parses the JSON document, flattens its nested object structure into the same flat key/value `Properties` model used by `PropertyConfigurator`, and delegates the actual configuration to `PropertyConfigurator`. This reuses all existing parsing, factory, and type-conversion logic without duplication.
 
 A developer reaches for `JsonConfigurator` when configuration is more comfortably expressed as JSON than as flat `.properties` lines. During automatic startup the `LogManager` searches for `log4qt.json` *after* `log4qt.properties`, so `.properties` files take priority; the `Configuration` setting also accepts `.json` files.
 
@@ -24,7 +24,7 @@ Build requirement: `Qt6::Core`. The implementation uses `QFile`, `QJsonDocument`
 
 ## 3. Class Hierarchy and Role
 
-`JsonConfigurator` has no base class. It is a non-instantiable utility class — its constructor is explicitly `= delete`d, so it exposes only static functions and serves purely as a namespace for the JSON entry points. The private static helpers `jsonToProperties()` and `flattenJsonObject()` implement parsing and recursive flattening.
+`JsonConfigurator` has no base class. It is a non-instantiable utility class — its constructor is explicitly `= delete`d, so it exposes only static functions and serves purely as a namespace for the JSON entry points. The private static helpers `jsonToProperties()`, `flattenJsonObject()`, `flattenJsonArray()` and `flattenJsonValue()` implement parsing and recursive flattening — `flattenJsonValue()` is the single place where a value's kind (object, array, string, bool, number, null) decides how it is written into the `Properties`.
 
 ## 9. Public Methods
 
@@ -62,11 +62,12 @@ All functions are thread-safe, as stated in the header. The delegated `PropertyC
 Flattening rules (header-documented):
 
 - Nested objects produce dot-separated keys: `{"a":{"b":"c"}}` becomes `a.b=c`.
+- **Arrays flatten to numeric key segments**, exactly as an object with `"0"`, `"1"`, … keys would: `"appenderRef": [{"ref": "console"}]` becomes `rootLogger.appenderRef.0.ref=console`. This lets natural JSON lists be used wherever the flat model expects an alias segment, instead of forcing the author to invent placeholder names.
 - JSON booleans and numbers are stringified (`true` → `"true"`, integral doubles → integer text, `42` → `"42"`).
 - JSON `null` produces an empty-string value.
 - `${var}` substitution is performed later by `OptionConverter::findAndSubst()` inside `PropertyConfigurator`.
 
-The resulting flat keys mirror the log4j2 schema (`appender.*`, `rootLogger.*`, `logger.*`). When used via `configureAndWatch`, the file is watched by a `QFileSystemWatcher` owned by `ConfiguratorHelper`, and changes trigger a reload using the static `configure` callback. No network, IPC, or external-process communication is involved.
+The resulting flat keys are the `PropertyConfigurator` keys (`appender.*`, `rootLogger.*`, `logger.*`) documented in `Configuration.md`. When used via `configureAndWatch`, the file is watched by a `QFileSystemWatcher` owned by `ConfiguratorHelper`, and changes trigger a reload using the static `configure` callback. No network, IPC, or external-process communication is involved.
 
 ## 16. Usage Example
 

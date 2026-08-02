@@ -99,8 +99,7 @@ Library-wide umbrella header, build/visibility macros, and helper types used thr
 | File | Description |
 |------|-------------|
 | [log4qt.h](log4qt.md) | Umbrella/version header: `LOG4QT_VERSION`, version constants and check macro, the `ErrorCode` enum, and compile-time Qt/compiler requirement guards. |
-| [log4qtshared.h](log4qtshared.md) | The `LOG4QT_EXPORT` symbol-visibility macro, expanding for static, exporting, and importing builds. |
-| [log4qtdefs.h](log4qtdefs.md) | The `LOG4QT_LITERAL` helper and the `Qt::StringLiterals` import. (The `LOG4QT_DECLARE_*_LOGGER` convenience macros live in `logger.h`.) |
+| [log4qtshared.h](log4qtshared.md) | The `LOG4QT_EXPORT` symbol-visibility macro, expanding for static, exporting, and importing builds. (The `LOG4QT_DECLARE_*_LOGGER` convenience macros live in `logger.h`.) |
 | [log4qtsharedptr.h](log4qtsharedptr.md) | `Log4QtSharedPtr<T>` — a `QObject` shared pointer that disposes via `deleteLater()`. |
 
 ## Triggering Policies and Rollover Strategies (`spi/`)

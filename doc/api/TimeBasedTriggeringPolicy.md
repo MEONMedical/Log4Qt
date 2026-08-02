@@ -10,7 +10,7 @@
 - Source: `src/log4qt/spi/timebasedtriggeringpolicy.cpp`
 - Base class: `TriggeringPolicy`
 - Public dependencies: `QDateTime`
-- Implementation dependencies: `helpers/datetime.h` (`DateTime::currentDateTime`), `log4qtdefs.h`, `QRandomGenerator`
+- Implementation dependencies: `helpers/datetime.h` (`DateTime::currentDateTime`), `QRandomGenerator`, plus a `Qt::StringLiterals` using-directive
 - Exported via the `LOG4QT_EXPORT` macro.
 
 ## 3. Class Hierarchy and Role

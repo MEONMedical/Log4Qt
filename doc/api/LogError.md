@@ -26,7 +26,7 @@ Two convenience macros simplify construction:
 
 Header dependencies: `log4qt/log4qtshared.h` (for the `LOG4QT_EXPORT` macro), `QString`, `QVariant`.
 
-Source dependencies: `QBuffer`, `QByteArray`, `QDataStream`, `QCoreApplication` (for `translate()`), `QThreadStorage` (for the per-thread last-error slot), and `log4qtdefs.h` (for the `u"..."_s` string literal helper).
+Source dependencies: `QBuffer`, `QByteArray`, `QDataStream`, `QCoreApplication` (for `translate()`), `QThreadStorage` (for the per-thread last-error slot), and a `Qt::StringLiterals` using-directive (for the `u"..."_s` string literal helper).
 
 The integer error codes used with `LogError` (for example `LayoutExpectedDigitError`, `ConfiguratorInvalidOptionError`) are defined in the library-wide `ErrorCode` enum in `src/log4qt/log4qt.h`.
 

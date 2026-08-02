@@ -47,6 +47,13 @@ namespace Log4Qt
  * change can be accessed using configureError().
  *
  * \note All the functions declared in this class are thread-safe.
+ * &nbsp;
+ * \note The file system watcher is moved into the thread this singleton
+ *       lives in, no matter which thread called setConfigurationFile(): the
+ *       watcher needs a running event loop in its own thread, and
+ *       tryToReAddConfigurationFile() calls it directly from the helper's
+ *       thread. The configure callback and configurationFileChanged() are
+ *       therefore always run/emitted in the helper's thread.
  */
 class LOG4QT_EXPORT ConfiguratorHelper : public QObject
 {

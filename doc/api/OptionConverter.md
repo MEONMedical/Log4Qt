@@ -13,7 +13,7 @@ Each conversion follows a consistent contract: on success the typed value is ret
 - Header: `src/log4qt/helpers/optionconverter.h`
 - Source: `src/log4qt/helpers/optionconverter.cpp`
 
-Header dependencies: `log4qt/log4qtdefs.h`, `log4qt/log4qtshared.h` (export macro), `log4qt/level.h` (`Level` return type), `QString`, `QStringConverter`. The header forward-declares `Log4Qt::Properties`.
+Header dependencies: `log4qt/log4qtshared.h` (export macro), `log4qt/level.h` (`Level` return type), `QString`, `QStringConverter`. The header forward-declares `Log4Qt::Properties`.
 
 Source dependencies: `helpers/logerror.h`, `helpers/properties.h`, `logger.h` (for `LOG4QT_DECLARE_STATIC_LOGGER`), and `consoleappender.h` (for the `ConsoleAppender::Target` constants returned by `toTarget()`).
 
@@ -54,7 +54,10 @@ Looks up `key` in `properties` and recursively expands `${name}` references foun
 - If the key does not exist (the looked-up value is a *null* string), the null string is returned unchanged — callers use this to distinguish "missing" from "empty".
 - Text outside `${...}` is copied verbatim; each `${name}` is replaced by recursively resolving `name` against the same `properties`.
 - If a referenced sub-key is not found **and** its name starts with `LOG4QT_`, the value is taken from the environment via `qgetenv()`.
-- A `${` with no matching closing `}` logs a `ConfiguratorInvalidSubstitutionError` and returns the result accumulated so far.
+- A `${` with no matching closing `}` logs a `ConfiguratorInvalidSubstitutionError` and returns the result accumulated so far. The closing `}` is searched from the position of the opening `${`, so a literal `}` appearing earlier in the value is not mistaken for the terminator.
+- **Circular references are detected, not followed.** The recursion carries the chain of keys currently being expanded; re-entering a key that is already in that chain (`a=${a}`, or `a=${b}` with `b=${a}`) logs a `ConfiguratorInvalidSubstitutionError` naming the key and the chain (`a -> b`) and yields an empty string for that reference instead of recursing until the stack overflows. A configuration typo therefore produces an error message, not a crash.
+
+The public `findAndSubst()` is a thin wrapper that starts an empty in-progress chain and delegates to a file-local recursive implementation.
 
 ### Class-name translation
 

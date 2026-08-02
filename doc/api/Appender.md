@@ -21,7 +21,7 @@ Project-internal types it depends on:
 - **`LoggingEvent`** (`loggingevent.h`, forward-declared) — the immutable record of a single log call.
 - **`Log4QtSharedPtr`** (`log4qtsharedptr.h`) — the reference-counted smart pointer used for managed ownership.
 - **`ClassLogger`** (`helpers/classlogger.h`) — lazily provides a `Logger` named after the concrete class, used for internal error reporting.
-- **`LOG4QT_EXPORT`** (`log4qtdefs.h`) — the import/export visibility macro for the shared library.
+- **`LOG4QT_EXPORT`** (`log4qtshared.h`, pulled in transitively) — the import/export visibility macro for the shared library.
 
 ## 3. Class Hierarchy and Role
 

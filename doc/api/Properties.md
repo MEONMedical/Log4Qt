@@ -110,8 +110,8 @@ As above, but returns `defaultValue` when the key resolves to a null string (i.e
 Reads `java.util.Properties`-format text from `pDevice` and inserts the parsed entries. A `nullptr` device is logged as a warning and ignored. The reader supports:
 
 - Leading whitespace trimming on each line.
-- Line continuation: a line ending in a backslash (`\`) is joined with the following line.
-- Comment lines beginning with `!` or `#` (detected during key parsing).
+- Line continuation: a line ending in a backslash (`\`) is joined with the following line — but only if it ends in an **odd** number of backslashes. A line ending in `\\` is an escaped backslash, i.e. data, and does not continue.
+- Comment lines beginning with `!` or `#` (detected during key parsing). A comment line is **never** continued, so a comment that happens to end in a backslash cannot swallow the property line that follows it.
 - `key = value` and `key : value` separators, as well as whitespace as a key/value separator.
 - Escape sequences in keys (`\ `, `\:`, `\=`) and values (`\t`, `\n`, `\r`, `\\`, `\"`, `\'`, `\ `), plus `\uXXXX` Unicode escapes. Unknown escapes are logged as warnings and the character is taken literally.
 

@@ -170,15 +170,15 @@ Argument-substituting generic-level overload, analogous to the per-level variadi
 
 #### void logWithLocation(Level level, const char *file, int line, const char *function, const QString &message) const
 
-Logs `message` at `level`, attaching source-location information (file, line, function) to the resulting `LoggingEvent` via a `MessageContext`. This bypasses the `isEnabledFor` check itself — callers (typically the `l4q*` macros) are expected to have already guarded the call. The `file` and `function` pointers must point to strings with static storage duration (e.g. `__FILE__`, `Q_FUNC_INFO`).
+Logs `message` at `level`, attaching source-location information (file, line, function) to the resulting `LoggingEvent` via a `MessageContext`. Returns without logging unless `isEnabledFor(level)` passes, so the configured logger level is honoured even when the call is not guarded by the caller (the `l4q*` macros guard anyway, making the check a cheap redundant test on the hot path). The `file` and `function` pointers must point to strings with static storage duration (e.g. `__FILE__`, `Q_FUNC_INFO`).
 
 #### template<typename ...Ts> void logWithLocation(Level level, const char *file, int line, const char *function, const QString &message, Ts &&...ts) const
 
-Variadic location-aware overload. Performs `arg` substitution and re-checks `isEnabledFor(level)` before delegating to the non-variadic form.
+Variadic location-aware overload. Checks `isEnabledFor(level)` before performing the `arg` substitution, so the argument formatting is skipped for disabled levels, then delegates to the non-variadic form (which checks again).
 
 #### void logWithLocation(Level level, const QString &message, const std::source_location &loc = std::source_location::current()) const
 
-Available when the compiler provides `<source_location>` (`__cpp_lib_source_location`). Captures the call site automatically and logs with that context.
+Available when the compiler provides `<source_location>` (`__cpp_lib_source_location`). Captures the call site automatically and logs with that context, again only if `isEnabledFor(level)` passes.
 
 ### Dispatch
 

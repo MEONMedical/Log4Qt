@@ -4,13 +4,13 @@
 
 Log4Qt is a Qt port of Apache log4j. An *appender* is the sink that writes a formatted log event somewhere. `DatabaseAppender` writes each log event as a row inserted into a table of a SQL database accessed through Qt SQL.
 
-A developer uses it to persist logs into a relational database for querying, auditing, or centralised collection. The column-to-field mapping is supplied by a companion `DatabaseLayout`, which names the table columns for timestamp, logger name, thread name, level, and message. The appender precompiles a parameterised `INSERT` statement once and re-binds values for every event, so per-event cost is just value binding plus execution.
+A developer uses it to persist logs into a relational database for querying, auditing, or centralised collection. The column-to-field mapping is supplied by a companion `DatabaseLayout`, which names the table columns for timestamp, logger name, thread name, level, and message. The appender precompiles a parameterised `INSERT` statement once and re-binds values for every event, so per-event cost is just value binding plus execution. Preparation is self-healing: if it could not succeed at activation time, or if the connection is later lost, the statement is re-prepared from `append()` and the insert retried once.
 
 ## 2. Project Structure and Dependencies
 
 - **Header includes:** `appenderskeleton.h` (base class), `<QtSql/QSqlDatabase>`, `<QtSql/QSqlQuery>`, `<memory>`, `<vector>`.
 - **Implementation includes:** `databaselayout.h`, `loggingevent.h`, `helpers/datetime.h`, `<QStringBuilder>`, and the Qt SQL diagnostics headers (`QSqlDriver`, `QSqlRecord`, `QSqlField`, `QSqlError`).
-- **Qt module:** Qt SQL (linked privately in `CMakeLists.txt` as `Qt::Sql`) plus Qt Core.
+- **Qt module:** Qt SQL plus Qt Core. `Qt::Sql` is linked **`PUBLIC`** (only when `BUILD_WITH_DB_LOGGING` is enabled), because the installed `databaseappender.h` / `databaselayout.h` include QtSql headers — consumers of the installed library need it on their include path too.
 - **Project-internal types:**
   - `DatabaseLayout` — a `Layout` subclass that supplies the target column names (`timeStampColumn()`, `loggerNameColumn()`, `threadNameColumn()`, `levelColumn()`, `messageColumn()`). `prepareInsert()` `qobject_cast`s the configured layout to this type; if the cast fails, no statement is prepared.
   - `LoggingEvent` — source of the bound values (`timeStamp()`, `loggername()`, `threadName()`, `level()`, `message()`).
@@ -59,6 +59,10 @@ Constructs with a layout (expected to be a `DatabaseLayout`) and the default con
 
 Constructs fully configured: layout, target table, and connection name.
 
+#### ~DatabaseAppender() override
+
+Releases the prepared statement through `resetPreparedQuery()`, which routes the teardown through the activation-thread check described under Thread Safety. An explicit destructor is needed because destroying the `QSqlQuery` implicitly would tear the statement down through driver code on whatever thread happens to destroy the appender.
+
 #### bool requiresLayout() const override
 
 Returns `true` — a (database) layout is mandatory.
@@ -87,7 +91,14 @@ Validates that the named connection exists (`QSqlDatabase::contains`) and a non-
 
 #### void append(const LoggingEvent &event) override
 
-Invoked from `doAppend()` under `mObjectGuard`. If no prepared statement exists it logs `AppenderInvalidDatabaseLayoutError` and returns. It then verifies the calling thread is the one that prepared the statement (captured in `activateOptions()`): if a log call reaches `append()` from a different thread it logs once (`AppenderExecSqlQueryError`) and **drops the event** rather than touch the `QSqlQuery` cross-thread, which is undefined and can crash the SQL driver. Otherwise it iterates the binding plan, binding each positional placeholder to the corresponding event field (timestamp via `DateTime::fromMSecsSinceEpoch`, logger name, thread name, level string, message), then calls `exec()`. A failed execution is logged with the failing query text and `QSqlError` text (`AppenderExecSqlQueryError`).
+Invoked from `doAppend()` under `mObjectGuard`. In order:
+
+1. **Late prepare.** If no prepared statement exists, `prepareInsert()` is retried here. The activation-time prepare legitimately fails in transient situations — the table did not exist yet, the database was briefly unreachable — and without this retry every subsequent event would be rejected as "unprepared query" for the rest of the process. Only if the retry also fails does it log `AppenderInvalidDatabaseLayoutError` and return.
+2. **Thread check.** It verifies the calling thread is the one that prepared the statement (recorded by `prepareInsert()`): if a log call reaches `append()` from a different thread it logs once (`AppenderExecSqlQueryError`) and **drops the event** rather than touch the `QSqlQuery` cross-thread, which is undefined and can crash the SQL driver.
+3. **Bind and execute.** `bindEventValues()` walks the binding plan, binding each positional placeholder to the corresponding event field (timestamp via `DateTime::fromMSecsSinceEpoch`, logger name, thread name, level string, message), then `exec()` runs the insert.
+4. **Retry once on failure.** A failed `exec()` is usually a connection that dropped since preparation (server restart, network outage). Because `QSqlDatabase::database()` re-opens a closed connection, the statement is re-prepared, re-bound and executed once more. Only if that retry also fails is the error reported — with the *original* failure's query and `QSqlError` text (`AppenderExecSqlQueryError`), since that is the diagnostically useful one.
+
+Re-preparing happens on the logging thread under the appender lock, which keeps the activation-thread guard consistent: the new query belongs to the thread that will use it.
 
 #### bool checkEntryConditions() const override
 
@@ -100,13 +111,14 @@ Declared protected for the lifecycle of the underlying writer/statement (release
 ## 11. Ownership and Lifecycle
 
 - The appender is a `QObject`; a `parent` deletes it. In normal use it is held via `AppenderSharedPtr` and managed by the logger repository.
-- The prepared `QSqlQuery` is owned via `std::unique_ptr` (`mPreparedQuery`) and rebuilt by `prepareInsert()` / cleared by `resetPreparedQuery()` whenever the connection or table changes.
+- The prepared `QSqlQuery` is owned via `std::unique_ptr` (`mPreparedQuery`) and rebuilt by `prepareInsert()` / cleared by `resetPreparedQuery()` whenever the connection or table changes, and by the destructor.
+- `resetPreparedQuery()` is reachable from `setConnection()` / `setTable()` on any thread. When it runs on a thread other than the one that prepared the statement it **intentionally leaks the query handle** (with a logged warning) instead of destroying it, because `~QSqlQuery` tears the statement down through driver code — precisely the cross-thread driver use the activation-thread guard exists to prevent. Reconfiguring the connection or table from a foreign thread is a rare path, and a leaked handle is preferable to a driver crash.
 - The `QSqlDatabase` connection itself is **not owned** by the appender — it is looked up by name from Qt's global connection registry. The application is responsible for opening and (eventually) removing that connection.
 - The binding plan (`mBindings`) is a `std::vector<ColumnSource>` rebuilt alongside the prepared statement.
 
 ## 12. Thread Safety
 
-All public functions are thread-safe. Configuration accessors (`connection()`, `table()`, the setters), `activateOptions()`, and `append()` all take `mObjectGuard` (a recursive mutex), so the prepared statement is only ever bound and executed by one thread at a time — important because a single `QSqlQuery`/`QSqlDatabase` connection is not safe for concurrent use. Beyond serialisation, Qt requires a database connection (and queries prepared from it) to be used only on the thread that created them. `append()` enforces this at runtime: it records the thread that prepared the statement in `activateOptions()` and, if a later log call arrives on a different thread, logs once and drops the event instead of corrupting the driver. To log to the database from multiple threads, front this appender with a single-threaded dispatcher (for example a `MainThreadAppender` or an `AsyncAppender` bound to the database thread) so all SQL work happens on one thread — and ensure the connection was opened on that same thread (the library cannot detect a connection opened elsewhere).
+All public functions are thread-safe. Configuration accessors (`connection()`, `table()`, the setters), `activateOptions()`, and `append()` all take `mObjectGuard` (a recursive mutex), so the prepared statement is only ever bound and executed by one thread at a time — important because a single `QSqlQuery`/`QSqlDatabase` connection is not safe for concurrent use. Beyond serialisation, Qt requires a database connection (and queries prepared from it) to be used only on the thread that created them. `append()` enforces this at runtime: `prepareInsert()` records the thread that prepared the statement and, if a later log call arrives on a different thread, `append()` logs once and drops the event instead of corrupting the driver. `resetPreparedQuery()` and the destructor apply the same check to statement *teardown* (leaking the handle rather than destroying it off-thread — see Ownership and Lifecycle). To log to the database from multiple threads, front this appender with a single-threaded dispatcher (for example a `MainThreadAppender` or an `AsyncAppender` bound to the database thread) so all SQL work happens on one thread — and ensure the connection was opened on that same thread (the library cannot detect a connection opened elsewhere).
 
 ## 14. Inter-Class Interactions
 
@@ -121,7 +133,8 @@ All public functions are thread-safe. Configuration accessors (`connection()`, `
 - **Channel / driver:** a `QSqlDatabase` connection identified by `connection`, using whatever Qt SQL driver that connection was opened with (e.g. QSQLITE, QPSQL, QMYSQL, QODBC). The appender does not open or configure the connection — it only looks it up by name.
 - **Direction:** outbound only. The appender issues `INSERT` statements; it never reads rows back.
 - **Protocol / format:** a single parameterised `INSERT INTO <table> (<columns>) VALUES (?, ?, …)` statement, prepared once in `prepareInsert()`. Columns are exactly those non-empty column names returned by the `DatabaseLayout`, in fixed order (timestamp, logger name, thread name, level, message). Each event re-binds the positional parameters and executes.
-- **Error handling:** preparation failures and execution failures are logged via the internal logger (with the SQL error text) and otherwise swallowed — a failing `INSERT` does not throw or propagate. If the connection disappears or the table is cleared, `checkEntryConditions()` blocks the append and logs an error.
+- **Identifier escaping:** the table and column names are run through `QSqlDriver::escapeIdentifier()` (with `TableName` / `FieldName` respectively) before being concatenated into the statement, so quoted, mixed-case or space-containing identifiers work and configured identifiers cannot be injected into the statement text. The escaping is applied to locals only — `tableName` and the layout's column names keep their configured, unescaped form, so a re-prepare does not double-escape. If the driver cannot be obtained the raw names are used as a fallback.
+- **Error handling:** preparation failures and execution failures are logged via the internal logger (with the SQL error text) and otherwise swallowed — a failing `INSERT` does not throw or propagate. Both are retried once (see `append()`), so a transient outage or a table created after startup recovers on its own. If the connection disappears or the table name is cleared, `checkEntryConditions()` blocks the append and logs an error.
 - **Threading implications:** the connection must be used on a single thread (Qt SQL constraint); serialise access (e.g. behind `AsyncAppender`) when logging from multiple threads.
 
 ## 16. Usage Example

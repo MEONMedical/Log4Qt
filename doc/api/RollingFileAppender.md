@@ -44,7 +44,7 @@ None. `RollingFileAppender` declares no `Q_ENUM`. (The numbered/date rotation en
 
 ## 6. Public Member Variables
 
-None. All state (`mTriggeringPolicy`, `mRolloverStrategy`, `mBaseFileName`, `mSkipFooterOnStartup`) is private and accessed through the methods below.
+None. All state (`mTriggeringPolicy`, `mRolloverStrategy`, `mBaseFileName`, `mActiveFileName`, `mSkipFooterOnStartup`) is private and accessed through the methods below. `mBaseFileName` is the configured, untransformed name that rollovers operate on; `mActiveFileName` is the name the appender itself last installed (the strategy's initial name, or the result of the most recent rollover) and exists to tell a strategy-transformed `file()` apart from one the user reconfigured.
 
 ## 7. Signals
 
@@ -82,10 +82,10 @@ Finalises configuration and opens the file. In order it:
 
 1. Installs a `DefaultRolloverStrategy` if no strategy was set.
 2. Activates the triggering policy (if any) and the strategy.
-3. Records the configured base filename in `mBaseFileName`, so rollovers always operate on the original name and a strategy never sees an already-transformed filename.
-4. Asks the strategy for an `initialFileName()` (e.g. a date-embedded name) and switches to it *before* opening, so the correct name is used from the very first startup.
+3. Records the configured base filename in `mBaseFileName`, so rollovers always operate on the original name and a strategy never sees an already-transformed filename. On **re-activation** the base name is only re-read from `file()` when the user actually changed it (`file() != mActiveFileName`) — otherwise `file()` still holds the strategy-transformed active name from the previous activation or rollover, and deriving the base from it would stack the transformation (`app.2026-08-01.2026-08-01.log`).
+4. Asks the strategy for an `initialFileName()` (e.g. a date-embedded name) and switches to it *before* opening, so the correct name is used from the very first startup; the result is remembered as `mActiveFileName`.
 5. Evaluates `isStartupTrigger()` on the policy **before** `FileAppender::activateOptions()` opens the file (because opening may truncate it).
-6. Calls `FileAppender::activateOptions()`.
+6. Calls `FileAppender::activateOptions()`. When a startup rollover is pending, the first open is forced into **append** mode regardless of the configured `appendFile` — the previous run's file still has to be archived by `rollOver()`, and truncating it here would destroy exactly the content being archived. The configured value is restored immediately afterwards.
 7. If a startup rollover was requested, optionally suppresses the next footer (per `skipFooterOnStartup`) and calls `rollOver()`.
 
 Overrides `FileAppender::activateOptions()`. Thread-safe.
@@ -96,7 +96,11 @@ Overrides `FileAppender::activateOptions()`. Thread-safe.
 Writes the event through `FileAppender::append()`, then asks the triggering policy whether this event should trigger a rollover via `isTriggeringEvent(writer()->device(), event)`. If so, calls `rollOver()`. The policy reads the file position from the active device (a cached value, no syscall) for size-based decisions. Overrides `FileAppender::append()`.
 
 #### void rollOver()
-Performs the rollover. It logs the strategy class name at debug level, closes the file (`closeFile()`), computes the base name (`mBaseFileName`, or the current `file()` if empty), invokes `mRolloverStrategy->rollover(baseName)` to obtain the next file path, switches to that path if it differs from the current one, and reopens via `FileAppender::openFile()`. This is `virtual` so subclasses (e.g. `DailyRollingFileAppender`) can extend rollover behaviour.
+Performs the rollover. It logs the strategy class name at debug level, closes the file (`closeFile()`), computes the base name (`mBaseFileName`, or the current `file()` if empty), invokes `mRolloverStrategy->rollover(baseName)` to obtain the next file path, switches to that path if it differs from the current one, records it as `mActiveFileName`, and reopens via `FileAppender::openFile()`.
+
+The reopen deliberately overrides `appendFile` when the file to be opened **still exists**: either a rename/remove failed during the rollover (e.g. another process holds the file open) or the strategy intentionally reuses a dated file for the current period. In both cases the content has not been archived, so the file is opened in append mode instead of being truncated; the configured `appendFile` value is restored afterwards. Only when the path is genuinely free does the normal (possibly truncating) open apply.
+
+This is `virtual` so subclasses (e.g. `DailyRollingFileAppender`) can extend rollover behaviour.
 
 ## 11. Ownership and Lifecycle
 

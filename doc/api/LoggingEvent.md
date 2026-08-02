@@ -215,7 +215,9 @@ None overridden. (The private `setThreadNameToCurrent()` and `nextSequenceNumber
 
 ## 12. Thread Safety
 
-A single `LoggingEvent` instance is not internally synchronised; treat it as immutable once handed to appenders and do not mutate the same instance from multiple threads. The implicitly-shared data uses atomic reference counting, so independent copies in different threads are safe. The static sequence counter (`msSequenceCount`) is a `std::atomic<qint64>`, so sequence-number assignment is thread-safe. Thread-name capture caches per-thread state (thread-local) and reacts to `objectName` changes via a property notifier.
+A single `LoggingEvent` instance is not internally synchronised; treat it as immutable once handed to appenders and do not mutate the same instance from multiple threads. The implicitly-shared data uses atomic reference counting, so independent copies in different threads are safe. The static sequence counter (`msSequenceCount`) is a `std::atomic<qint64>`, so sequence-number assignment is thread-safe.
+
+Thread-name capture caches per-thread state in a `thread_local` struct and invalidates it from the thread's `objectNameChanged` signal, so a renamed thread is picked up without querying `QThread` on every event. The invalidation flag is a `std::shared_ptr<std::atomic<bool>>` shared between the cache and the connected lambda, which keeps teardown safe in both directions: the TLS destructor only drops its reference (it must not touch the `QThread`, which may already have been deleted through the usual `finished` → `deleteLater` pattern by the time TLS destructors run at OS-thread exit), and destroying the `QThread` disconnects the lambda through `QObject`'s own thread-safe connection machinery. When the thread has no `objectName`, the formatted thread pointer is used as the name instead.
 
 ## 13. QML Exposure
 

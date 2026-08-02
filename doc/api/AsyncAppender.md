@@ -37,7 +37,7 @@ The class's role is that of an asynchronous dispatcher: producers call the inher
 | `shutdownTimeout` | `int` | `shutdownTimeout` | `setShutdownTimeout` | — | Milliseconds to wait for the queue to drain during shutdown. `0` (default) waits indefinitely. On timeout the worker is terminated and a warning logged. |
 | `discardThreshold` | `Log4Qt::Level` | `discardThreshold` | `setDiscardThreshold` | — | Under the `Discard` policy, events at or below this level are dropped when the queue is full; higher-priority events still block. Default `INFO`. |
 | `queueFullPolicy` | `QString` | `queueFullPolicyString` | `setQueueFullPolicyString` | — | The queue-full policy as text: `"Block"`, `"Discard"`, or `"Synchronous"` (case-insensitive; unrecognised values fall back to `Block`). Default `"Block"`. |
-| `errorRef` | `QString` | `errorRef` | `setErrorRef` | — | Name of a fallback appender that receives events the queue cannot accept. Resolved at `activateOptions()` time by the configurator. |
+| `errorRef` | `QString` | `errorRef` | `setErrorRef` | — | Name of a fallback appender that receives events the queue cannot accept. Resolved by searching the repository's loggers for an appender with that name: first at `activateOptions()` (warning if not found), then retried silently on each queue-full event, so an appender configured *after* this one is still picked up. |
 
 ## 5. Enumerations
 
@@ -81,7 +81,7 @@ Returns the configured maximum queue capacity.
 
 #### void setBufferSize(int size)
 
-Sets the queue capacity. Non-positive values are clamped to 1 and a warning is logged. The new size takes effect only at the next `activateOptions()`.
+Sets the queue capacity (an atomic store). Non-positive values are clamped to 1 and a warning is logged. The new size takes effect only at the next `activateOptions()`, since the queue is sized when it is created.
 
 #### bool blocking() const / void setBlocking(bool blocking)
 
@@ -105,11 +105,11 @@ String-based get/set used by the `queueFullPolicy` property and configurators. R
 
 #### QString errorRef() const / void setErrorRef(const QString &name)
 
-Get/set the name of the fallback error appender, resolved later by the configurator.
+Get/set the name of the fallback error appender. Both are inline but take `mObjectGuard`, so the reference can be reconfigured from any thread. Setting a *different* name also clears the cached `mErrorAppender`, so the new reference is re-resolved on demand; setting the same name is a no-op.
 
 #### void setErrorAppender(const AppenderSharedPtr &appender)
 
-Directly assigns the fallback appender that receives events when the queue is full and they cannot be enqueued (used under the non-blocking `Block` path). Holds a shared reference.
+Directly assigns the fallback appender that receives events when the queue is full and they cannot be enqueued (used under the non-blocking `Block` path). Holds a shared reference, and takes precedence over `errorRef` because name resolution is skipped once a fallback appender is cached. Acquires `mObjectGuard`.
 
 #### qint64 discardedCount() const
 
@@ -117,7 +117,7 @@ Returns the running total of events dropped under the `Discard` policy. Read wit
 
 #### void activateOptions() override
 
-Creates the `BoundedBlockingQueue` (sized to `bufferSize`) and the `AsyncWorker`, names the worker thread `Log4Qt-Async-<name>`, starts it, then chains to `AppenderSkeleton::activateOptions()`. Idempotent: if a worker already exists it returns immediately. Guarded by `mObjectGuard`.
+Creates the `BoundedBlockingQueue` (sized to `bufferSize`) and the `AsyncWorker`, names the worker thread `Log4Qt-Async-<name>`, starts it, resolves `errorRef` into the fallback appender (logging a warning if the name matches no appender on any logger), then chains to `AppenderSkeleton::activateOptions()`. Idempotent: if a worker already exists it returns immediately. Guarded by `mObjectGuard`.
 
 #### void close() override
 
@@ -158,6 +158,7 @@ All public functions are thread-safe. This class is explicitly a multi-threaded 
 - **Consumer side:** a single `AsyncWorker` thread runs `dequeue()` in a loop and calls `callAppenders()`, which takes a read lock on `mAppenderGuard` while iterating attached appenders.
 - **Queue:** `BoundedBlockingQueue` uses a `QMutex` plus two `QWaitCondition`s (`mNotFull`, `mNotEmpty`) and an atomic shutdown flag, providing blocking and non-blocking enqueue, blocking dequeue, bulk drain, and a clean shutdown that wakes all waiters.
 - **Backpressure:** under the blocking `Block` policy a full queue throttles producers, which is the mechanism that prevents unbounded memory growth.
+- **Configuration:** `mBufferSize`, `mBlocking`, `mShutdownTimeout`, `mDiscardThreshold` and `mQueueFullPolicy` are `std::atomic`, because `append()` and `closeInternal()` read them while the public setters may run concurrently on another thread. `mErrorRef` and `mErrorAppender` are `QString`/`AppenderSharedPtr` instead and are therefore guarded by `mObjectGuard` — `errorRef()`, `setErrorRef()`, `setErrorAppender()` and the private `resolveErrorAppender()` all run under that lock.
 - `discardedCount` is a `std::atomic<qint64>`; lifecycle transitions are guarded by `mObjectGuard`.
 
 The `batchComplete()` signal is emitted on the worker thread — connect with `Qt::QueuedConnection` if the receiver lives on another thread.
