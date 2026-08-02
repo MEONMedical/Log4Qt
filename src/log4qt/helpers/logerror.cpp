@@ -23,7 +23,6 @@
 #include <QBuffer>
 #include <QByteArray>
 #include <QDataStream>
-#include <QCoreApplication>
 #include <QThreadStorage>
 
 #include <utility>
@@ -56,33 +55,14 @@ LogError::LogError(const QString &message,
 LogError::LogError(const char *message,
                    int code,
                    const char *symbol,
-                   const char *context,
-                   Encoding encoding) :
+                   const char *context) :
     mCode(code),
     mContext(QString::fromLatin1(context)),
+    mMessage(cleanMessage(QString::fromUtf8(message))),
     mSymbol(QString::fromLatin1(symbol))
 {
-    switch (encoding)
-    {
-    case Latin1:
-        mMessage = QString::fromLatin1(message);
-        break;
-    case UnicodeUtf8:
-        mMessage = QString::fromUtf8(message);
-        break;
-    default:
-        Q_ASSERT_X(false, "LogError::LogError", "Unknown encoding constant");
-        mMessage = QString::fromLatin1(message);
-    }
-    mMessage = cleanMessage(mMessage);
-
     if (mSymbol == QString::number(mCode))
         mSymbol.clear();
-}
-
-QString LogError::translatedMessage() const
-{
-    return QCoreApplication::translate(mContext.toLatin1().constData(), mMessage.toUtf8().constData(), nullptr);
 }
 
 LogError LogError::lastError()

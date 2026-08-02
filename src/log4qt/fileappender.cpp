@@ -108,7 +108,7 @@ void FileAppender::activateOptions()
 
     if (mFileName.isEmpty())
     {
-        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Activation of Appender '%1' that requires file and has no file set"),
+        LogError e = LOG4QT_QCLASS_ERROR("Activation of Appender '%1' that requires file and has no file set",
                                          AppenderActivateMissingFileError);
         e << name();
         logger()->error(e);
@@ -140,7 +140,7 @@ bool FileAppender::checkEntryConditions() const
 {
     if (!mFile || !mTextStream)
     {
-        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' without open file"),
+        LogError e = LOG4QT_QCLASS_ERROR("Use of appender '%1' without open file",
                                          AppenderNoOpenFileError);
         e << name();
         logger()->error(e);
@@ -165,7 +165,7 @@ bool FileAppender::handleIoErrors() const
     if (mFile->error() == QFile::NoError)
         return false;
 
-    LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Unable to write to file '%1' for appender '%2'"),
+    LogError e = LOG4QT_QCLASS_ERROR("Unable to write to file '%1' for appender '%2'",
                                      AppenderWritingFileError);
     e << mFileName << name();
     e.addCausingError(LogError(mFile->errorString(), mFile->error()));
@@ -203,7 +203,7 @@ void FileAppender::openFile()
         logger()->trace(u"Creating missing parent directory for file %1"_s, mFileName);
         if (!QDir().mkpath(parent_path))
         {
-            LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Unable to create parent directory '%1' for file '%2' of appender '%3'"),
+            LogError e = LOG4QT_QCLASS_ERROR("Unable to create parent directory '%1' for file '%2' of appender '%3'",
                                              AppenderOpeningFileError);
             e << parent_path << mFileName << name();
             logger()->error(e);
@@ -221,7 +221,7 @@ void FileAppender::openFile()
         mode |= QIODevice::Unbuffered;
     if (!mFile->open(mode))
     {
-        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Unable to open file '%1' for appender '%2'"),
+        LogError e = LOG4QT_QCLASS_ERROR("Unable to open file '%1' for appender '%2'",
                                          AppenderOpeningFileError);
         e << mFileName << name();
         e.addCausingError(LogError(mFile->errorString(), mFile->error()));
@@ -252,7 +252,7 @@ bool FileAppender::removeFile(QFile &file) const
     if (file.remove())
         return true;
 
-    LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Unable to remove file '%1' for appender '%2'"),
+    LogError e = LOG4QT_QCLASS_ERROR("Unable to remove file '%1' for appender '%2'",
                                      AppenderRemoveFileError);
     e << file.fileName() << name();
     e.addCausingError(LogError(file.errorString(), file.error()));
@@ -267,7 +267,7 @@ bool FileAppender::renameFile(QFile &file,
     if (file.rename(fileName))
         return true;
 
-    LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Unable to rename file '%1' to '%2' for appender '%3'"),
+    LogError e = LOG4QT_QCLASS_ERROR("Unable to rename file '%1' to '%2' for appender '%3'",
                                      AppenderRenamingFileError);
     e << file.fileName() << fileName << name();
     e.addCausingError(LogError(file.errorString(), file.error()));

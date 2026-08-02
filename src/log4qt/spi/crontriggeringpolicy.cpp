@@ -42,7 +42,7 @@ void CronTriggeringPolicy::activateOptions()
     mCronExpression = CronExpression(mSchedule);
     if (!mCronExpression.isValid())
     {
-        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Invalid cron expression '%1'; triggering disabled"),
+        LogError e = LOG4QT_QCLASS_ERROR("Invalid cron expression '%1'; triggering disabled",
                                          ConfiguratorInvalidOptionError);
         e << mSchedule;
         e.addCausingError(LogError(mCronExpression.errorString(), 0));

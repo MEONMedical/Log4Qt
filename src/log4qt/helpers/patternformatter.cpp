@@ -551,7 +551,7 @@ void PatternFormatter::parse()
             }
             else
             {
-                LogError e = LOG4QT_ERROR(QT_TR_NOOP("Found character '%1' where digit was expected."),
+                LogError e = LOG4QT_ERROR("Found character '%1' where digit was expected.",
                                           LayoutExpectedDigitError,
                                           "Log4Qt::PatternFormatter");
                 e << QString(c);
@@ -644,7 +644,7 @@ int PatternFormatter::parseIntegerOption(QStringView option)
     int result = option.toInt(&ok);
     if (!ok)
     {
-        LogError e = LOG4QT_ERROR(QT_TR_NOOP("Option '%1' cannot be converted into an integer"),
+        LogError e = LOG4QT_ERROR("Option '%1' cannot be converted into an integer",
                                   LayoutOptionIsNotIntegerError,
                                   "Log4Qt::PatternFormatter");
         e << option.toString();
@@ -652,7 +652,7 @@ int PatternFormatter::parseIntegerOption(QStringView option)
     }
     if (result < 0)
     {
-        LogError e = LOG4QT_ERROR(QT_TR_NOOP("Option %1 isn't a positive integer"),
+        LogError e = LOG4QT_ERROR("Option %1 isn't a positive integer",
                                   LayoutIntegerIsNotPositiveError,
                                   "Log4Qt::PatternFormatter");
         e << result;

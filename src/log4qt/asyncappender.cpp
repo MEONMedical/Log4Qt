@@ -189,7 +189,7 @@ void AsyncAppender::closeInternal()
         if (!mWorker->wait(timeout))
         {
             LogError e = LOG4QT_QCLASS_ERROR(
-                QT_TR_NOOP("Shutdown timeout expired for async appender '%1' with events still in queue"),
+                "Shutdown timeout expired for async appender '%1' with events still in queue",
                 AppenderAsyncShutdownTimeout);
             e << name();
             logger()->warn(e);
@@ -272,7 +272,7 @@ void AsyncAppender::handleQueueFull(const LoggingEvent &event)
     if (!mErrorRef.isEmpty())
     {
         LogError e = LOG4QT_QCLASS_ERROR(
-            QT_TR_NOOP("Async appender '%1' queue is full, event dropped: errorRef '%2' was never resolved to an appender"),
+            "Async appender '%1' queue is full, event dropped: errorRef '%2' was never resolved to an appender",
             AppenderAsyncQueueFull);
         e << name() << mErrorRef;
         logger()->warn(e);
@@ -280,7 +280,7 @@ void AsyncAppender::handleQueueFull(const LoggingEvent &event)
     }
 
     LogError e = LOG4QT_QCLASS_ERROR(
-        QT_TR_NOOP("Async appender '%1' queue is full, event dropped"),
+        "Async appender '%1' queue is full, event dropped",
         AppenderAsyncQueueFull);
     e << name();
     logger()->warn(e);
@@ -292,7 +292,7 @@ bool AsyncAppender::checkEntryConditions() const
     if (mWorker && !mWorker->isRunning())
     {
         LogError e = LOG4QT_QCLASS_ERROR(
-            QT_TR_NOOP("Use of appender '%1' without a running dispatcher thread"),
+            "Use of appender '%1' without a running dispatcher thread",
             AppenderAsncDispatcherNotRunning);
         e << name();
         logger()->error(e);

@@ -2,14 +2,14 @@
 
 ## 1. Class Overview
 
-`LogError` is a structured error value type used throughout Log4Qt's internal error-reporting path. It captures an error in a way that keeps the *message template* separate from the *substitution arguments*, so that all information remains accessible after the error has been raised. This separation makes it possible to translate the message at a later point in time, or to obtain both a translated text (for a UI) and an untranslated text (for a log) from the same error object.
+`LogError` is a structured error value type used throughout Log4Qt's internal error-reporting path. It captures an error in a way that keeps the *message template* separate from the *substitution arguments*, so that all information — the code, the symbol, the raising context, the individual arguments and the chain of causing errors — remains inspectable after the error has been raised, instead of being flattened into one opaque string.
 
 An error carries:
 
 - a message template (`message()`),
 - a list of arguments to be substituted into the template (`args()`),
 - an integer error `code()` and/or a symbolic `symbol()`,
-- a translation `context()` used with `QCoreApplication::translate()`, and
+- a `context()` naming where the error was raised (usually the class name), and
 - a list of *causing errors* (`causingErrors()`) that form a chain of related failures.
 
 The class also maintains a per-thread "last error" slot accessible via the static `lastError()` / `setLastError()` pair.
@@ -26,7 +26,7 @@ Two convenience macros simplify construction:
 
 Header dependencies: `log4qt/log4qtshared.h` (for the `LOG4QT_EXPORT` macro), `QString`, `QVariant`.
 
-Source dependencies: `QBuffer`, `QByteArray`, `QDataStream`, `QCoreApplication` (for `translate()`), `QThreadStorage` (for the per-thread last-error slot), and a `Qt::StringLiterals` using-directive (for the `u"..."_s` string literal helper).
+Source dependencies: `QBuffer`, `QByteArray`, `QDataStream`, `QThreadStorage` (for the per-thread last-error slot), and a `Qt::StringLiterals` using-directive (for the `u"..."_s` string literal helper).
 
 The integer error codes used with `LogError` (for example `LayoutExpectedDigitError`, `ConfiguratorInvalidOptionError`) are defined in the library-wide `ErrorCode` enum in `src/log4qt/log4qt.h`.
 
@@ -45,13 +45,7 @@ None. `LogError` is not a `QObject` and declares no `Q_PROPERTY` members.
 
 ## 5. Enumerations
 
-| Enum | Underlying type | Value | Description |
-|------|-----------------|-------|-------------|
-| `Encoding` | `int` | `Latin1` | The `const char *` message argument is Latin-1 encoded. |
-| `Encoding` | `int` | `CodecForTr` | The encoding specified by `QTextCodec::codecForTr()` (Latin-1 if none has been set). |
-| `Encoding` | `int` | `UnicodeUtf8` | The `const char *` message argument is UTF-8 encoded. |
-
-`Encoding` selects how the `const char *` message passed to the `const char *` constructor overload is decoded into a `QString`.
+None. (The `const char *` message passed to the corresponding constructor overload is always decoded as UTF-8, matching the encoding of the library's sources.)
 
 ## 6. Public Member Variables
 
@@ -75,11 +69,11 @@ Creates an empty error. The code is set to `0` and all other members are empty. 
 
 #### LogError(const QString &message, int code = 0, const QString &symbol = QString(), const QString &context = QString())
 
-Creates an error from a `QString` message with the given `code`, `symbol`, and `context`. The message is passed through an internal cleaning step that strips a single trailing `.` (period). `context` must be convertible to Latin-1; its Latin-1 form is used as the translation context for `translatedMessage()`.
+Creates an error from a `QString` message with the given `code`, `symbol`, and `context`. The message is passed through an internal cleaning step that strips a single trailing `.` (period). `context` is typically the raising class's name; `toString()` renders it together with the symbol as `Context::SYMBOL`.
 
-#### LogError(const char *message, int code = 0, const char *symbol = nullptr, const char *context = nullptr, Encoding encoding = Latin1)
+#### LogError(const char *message, int code = 0, const char *symbol = nullptr, const char *context = nullptr)
 
-Creates an error from a C-string message decoded according to `encoding` (`symbol` and `context` are always treated as Latin-1). To support the `LOG4QT_ERROR` / `LOG4QT_QCLASS_ERROR` macros, the constructor checks whether `symbol` equals the decimal string form of `code`; if so, the symbol is cleared. The message is also cleaned of a single trailing period.
+Creates an error from a UTF-8 C-string message (`symbol` and `context` are treated as Latin-1). To support the `LOG4QT_ERROR` / `LOG4QT_QCLASS_ERROR` macros, the constructor checks whether `symbol` equals the decimal string form of `code`; if so, the symbol is cleared. The message is also cleaned of a single trailing period.
 
 ### Accessors and mutators
 
@@ -89,7 +83,7 @@ Returns the integer error code.
 
 #### const QString &context() const
 
-Returns the translation context.
+Returns the context the error was raised in — usually the class name. `toString()` renders it with the symbol as `Context::SYMBOL`.
 
 #### const QString &message() const
 
@@ -105,7 +99,7 @@ Sets the integer error code.
 
 #### void setContext(const QString &context)
 
-Sets the translation context. Must be Latin-1 convertible.
+Sets the context (usually the raising class's name).
 
 #### void setMessage(const QString &message)
 
@@ -115,19 +109,13 @@ Sets the message template; the supplied string is cleaned of a single trailing p
 
 Sets the symbolic name.
 
-### Message rendering and translation
-
-#### QString translatedMessage() const
-
-Returns the translated message template via `QCoreApplication::translate(context().toLatin1(), message().toUtf8(), nullptr)`. No arguments are substituted.
+### Message rendering
 
 #### QString messageWithArgs() const
 
-Returns the (untranslated) message with all arguments substituted in order using `QString::arg()`.
+Returns the message with all arguments substituted in order using `QString::arg()`.
 
-#### QString translatedMessageWithArgs() const
-
-Returns the translated message with all arguments substituted using `QString::arg()`.
+Error text is deliberately **not** localizable: Log4Qt ships no translations, and its diagnostics go into log files that are read and parsed as plain, locale-independent text.
 
 #### QString toString() const
 
@@ -224,7 +212,7 @@ using namespace Log4Qt;
 if (!c.isDigit())
 {
     LogError e = LOG4QT_ERROR(
-        QT_TR_NOOP("Found character '%1' where digit was expected."),
+        "Found character '%1' where digit was expected.",
         LayoutExpectedDigitError,
         "Log4Qt::PatternFormatter");
     e << QString(c);
@@ -235,7 +223,7 @@ if (!c.isDigit())
 if (!file.open(mode))
 {
     LogError e = LOG4QT_QCLASS_ERROR(
-        QT_TR_NOOP("Unable to open file '%1' for appender '%2'"),
+        "Unable to open file '%1' for appender '%2'",
         AppenderOpeningFileError);
     e << file.fileName() << name();
     e.addCausingError(LogError(file.errorString(), file.error()));
@@ -243,7 +231,7 @@ if (!file.open(mode))
     LogError::setLastError(e);   // remember it for this thread
 }
 
-// Render for a log vs. a UI:
-const QString forLog = e.messageWithArgs();
-const QString forUi  = e.translatedMessageWithArgs();
+// Render it:
+const QString message = e.messageWithArgs();   // template with arguments
+const QString full    = e.toString();          // + Context::SYMBOL, code, causing errors
 ```
