@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        qt_version: [6.5.3, 6.8.3, 6.11.1]
+        qt_version: [6.5.3, 6.8.3, 6.10.2]
 
     steps:
     - uses: actions/checkout@v6
