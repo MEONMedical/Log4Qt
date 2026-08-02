@@ -12,12 +12,25 @@ env:
 
 jobs:
   build-msvc:
-    name: MSVC - Qt ${{ matrix.qt_version }}
-    runs-on: windows-latest
+    name: MSVC - Qt ${{ matrix.qt_version }} (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        qt_version: [6.5.3, 6.8.3, 6.10.2]
+        include:
+          # Qt 6.5.3 is pinned to the Visual Studio 2022 image on purpose: its
+          # qvarlengtharray.h copies through stdext::make_checked_array_iterator,
+          # which the STL of Visual Studio 2026 (MSVC 14.5x, the toolchain on
+          # windows-latest since June 2026) no longer provides. Qt fixed this
+          # after 6.5.3, but 6.5.4+ are commercial-only, so no open-source
+          # Qt 6.5 builds with a current MSVC. When windows-2022 is retired,
+          # drop this entry instead of moving it to a newer image.
+          - qt_version: '6.5.3'
+            os: windows-2022
+          - qt_version: '6.8.3'
+            os: windows-latest
+          - qt_version: '6.11.1'
+            os: windows-latest
 
     steps:
     - uses: actions/checkout@v6
@@ -56,7 +69,7 @@ jobs:
             mingw_tools: 'tools_mingw1310'
           - qt_version: '6.8.3'
             mingw_tools: 'tools_mingw1310'
-          - qt_version: '6.10.2'
+          - qt_version: '6.11.1'
             mingw_tools: 'tools_mingw1310'
 
     steps:

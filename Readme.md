@@ -129,8 +129,10 @@ Log4Qt::XmlConfigurator::configureAndWatch("path/to/config.xml");
 
 Requirements
 ------------
-* Minimum Qt version required Qt 6.4 (for support of Qt versions down to 5.3 use branch 1.4 or the lates 1.4.x release
+* Minimum Qt version required Qt 6.5 (for support of Qt versions down to 5.3 use branch 1.4 or the lates 1.4.x release
   or for support of Qt versions down to 5.7 use branch 1.6 or the lates 1.5.x release)
+  Note: Qt 6.5 needs Visual Studio 2022 on Windows/MSVC — Qt 6.5.3, the last open source 6.5 patch, does not
+  compile with the Visual Studio 2026 toolchain (its headers use the `stdext` array iterators that MSVC removed).
 * C++20 required (minimum compiler version MSVC 19.29 (Visual Studio 2019 16.11), GCC 10, or Clang 10)
 
 License
