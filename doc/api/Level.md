@@ -14,7 +14,7 @@ A developer reaches for `Level` whenever they need to name a severity (e.g. `Lev
 - `<QString>`, `<QStringView>` — for `toString` / `fromString`.
 - `<QMetaType>` — for `Q_DECLARE_METATYPE`, registering `Log4Qt::Level` with Qt's meta-type system so it can travel through `QVariant`, signals, and properties.
 
-The implementation (`level.cpp`) additionally uses `QCoreApplication::translate` for localizable level names and `<QDataStream>` for serialization, and routes its own warnings through a static logger named `Log4Qt::Level`.
+The implementation (`level.cpp`) additionally uses `<QDataStream>` for serialization and routes its own warnings through a static logger named `Log4Qt::Level`.
 
 Build requirement: `Qt6::Core`.
 
@@ -76,11 +76,11 @@ Defaulted C++20 three-way comparison. Generates all relational operators (`<`, `
 
 #### QString toString() const
 
-Returns the canonical name of the level (`"NULL"`, `"ALL"`, `"TRACE"`, `"DEBUG"`, `"INFO"`, `"WARN"`, `"ERROR"`, `"FATAL"`, `"OFF"`). The names are obtained once via `QCoreApplication::translate` (context `"Level"`) and cached for the process lifetime, so the locale active at first call is the one used thereafter — level names are not retranslated at runtime.
+Returns the canonical name of the level (`"NULL"`, `"ALL"`, `"TRACE"`, `"DEBUG"`, `"INFO"`, `"WARN"`, `"ERROR"`, `"FATAL"`, `"OFF"`). The names are plain literals and are **not** localized: they are part of the log format — layouts write them via `%p`, log tooling parses them, and `fromString()` has to accept them again — so they must not vary with the locale. The returned `QString`s reference static literal data, so no allocation happens and `toString()` stays usable while the process is shutting down.
 
 #### static Level fromString(QStringView level, bool *ok = nullptr)
 
-Parses a level name into a `Level`. Accepts both the canonical English token and its translated form (same `"Level"` translation context). On success, sets `*ok` to `true` (if provided) and returns the matching level. On an unrecognized string it logs a warning, sets `*ok` to `false`, and returns `Level::NULL_INT`.
+Parses a level name into a `Level`, accepting the canonical tokens returned by `toString()`. On success, sets `*ok` to `true` (if provided) and returns the matching level. On an unrecognized string it logs a warning, sets `*ok` to `false`, and returns `Level::NULL_INT`.
 
 ## 10. Protected Virtual Methods
 
@@ -90,11 +90,11 @@ None.
 
 `Level` is a value type with automatic storage and trivial copy/move semantics (`Q_PRIMITIVE_TYPE`). There is no heap allocation and no ownership concern — instances are copied freely, stored in containers and `QVariant`, and passed by value.
 
-The one exception is `toString()`'s translation cache: it is held through a raw pointer to a heap-allocated block that is **intentionally never freed**. Log4Qt logs during static destruction — the `atexit`-registered `LogManager::shutdown()` formats a shutdown event after function-local statics have already been destroyed — so a destructible static here would be read after destruction. Leaking it matches the library's existing design of leaking its singletons so logging stays usable to the very end of the process.
+`toString()` needs no cache and holds no static state: it returns `QString`s over static literal data, which is also what makes it safe to call while the process is shutting down (Log4Qt logs during static destruction — the `atexit`-registered `LogManager::shutdown()` formats a shutdown event).
 
 ## 12. Thread Safety
 
-All functions are thread-safe, as stated in the header. Instances are immutable after construction except via assignment. `toString`'s cached translations are initialised once through a function-local `static` pointer (thread-safe initialisation, deliberately leaked — see Section 11), and are read-only afterwards. The class carries no shared mutable state.
+All functions are thread-safe, as stated in the header. Instances are immutable after construction except via assignment, and neither `toString()` nor `fromString()` touches shared mutable state.
 
 ## 13. QML Exposure
 

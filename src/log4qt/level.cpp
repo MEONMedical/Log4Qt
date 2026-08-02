@@ -21,7 +21,6 @@
 #include "level.h"
 #include "logger.h"
 
-#include <QCoreApplication>
 #include <QDataStream>
 
 using namespace Qt::StringLiterals;
@@ -59,82 +58,48 @@ int Level::syslogEquivalent() const
 
 QString Level::toString() const
 {
-    // Cache the translated strings on first use. The locale active at first
-    // call is the one captured for the lifetime of the process — log-level
-    // names are conventionally not retranslated at runtime.
-    //
-    // The cache is intentionally leaked (held through a pointer, so no
-    // destructor is registered): Log4Qt logs during static destruction — the
-    // atexit-registered LogManager::shutdown() formats a shutdown event after
-    // function-local statics have already been destroyed. Destructible
-    // statics here would be read after destruction (use-after-free at exit).
-    // This matches the library's design of leaking its singletons so that
-    // logging stays usable until the very end of the process.
-    static const char *const p_context = "Level";
-    struct Names
-    {
-        QString null, all, trace, debug, info, warn, error, fatal, off;
-    };
-    static const Names *const s_names = new Names {
-        QCoreApplication::translate(p_context, "NULL"),
-        QCoreApplication::translate(p_context, "ALL"),
-        QCoreApplication::translate(p_context, "TRACE"),
-        QCoreApplication::translate(p_context, "DEBUG"),
-        QCoreApplication::translate(p_context, "INFO"),
-        QCoreApplication::translate(p_context, "WARN"),
-        QCoreApplication::translate(p_context, "ERROR"),
-        QCoreApplication::translate(p_context, "FATAL"),
-        QCoreApplication::translate(p_context, "OFF"),
-    };
-
+    // Level names are part of the log format: tooling parses them and
+    // fromString() must accept them again, so they are locale-independent
+    // literals. The returned QStrings reference static literal data, which
+    // also keeps toString() usable while the process is shutting down.
     switch (toInt())
     {
-    case NULL_INT:  return s_names->null;
-    case ALL_INT:   return s_names->all;
-    case TRACE_INT: return s_names->trace;
-    case DEBUG_INT: return s_names->debug;
-    case INFO_INT:  return s_names->info;
-    case WARN_INT:  return s_names->warn;
-    case ERROR_INT: return s_names->error;
-    case FATAL_INT: return s_names->fatal;
-    case OFF_INT:   return s_names->off;
+    case NULL_INT:  return u"NULL"_s;
+    case ALL_INT:   return u"ALL"_s;
+    case TRACE_INT: return u"TRACE"_s;
+    case DEBUG_INT: return u"DEBUG"_s;
+    case INFO_INT:  return u"INFO"_s;
+    case WARN_INT:  return u"WARN"_s;
+    case ERROR_INT: return u"ERROR"_s;
+    case FATAL_INT: return u"FATAL"_s;
+    case OFF_INT:   return u"OFF"_s;
     }
     Q_ASSERT_X(false, "Level::toString()", "Unknown level value");
-    return s_names->null;
+    return u"NULL"_s;
 }
 
 Level Level::fromString(QStringView level, bool *ok)
 {
-    const char *context = "Level";
     if (ok != nullptr)
         *ok = true;
 
-    if (level == u"OFF"_s ||
-            level == QCoreApplication::translate(context, "OFF"))
+    if (level == u"OFF"_s)
         return OFF_INT;
-    if (level == u"FATAL"_s ||
-            level == QCoreApplication::translate(context, "FATAL"))
+    if (level == u"FATAL"_s)
         return FATAL_INT;
-    if (level == u"ERROR"_s ||
-            level == QCoreApplication::translate(context, "ERROR"))
+    if (level == u"ERROR"_s)
         return ERROR_INT;
-    if (level == u"WARN"_s ||
-            level == QCoreApplication::translate(context, "WARN"))
+    if (level == u"WARN"_s)
         return WARN_INT;
-    if (level == u"INFO"_s ||
-            level == QCoreApplication::translate(context, "INFO"))
+    if (level == u"INFO"_s)
         return INFO_INT;
-    if (level == u"DEBUG"_s ||
-            level == QCoreApplication::translate(context, "DEBUG"))
+    if (level == u"DEBUG"_s)
         return DEBUG_INT;
-    if (level == u"TRACE"_s ||
-            level == QCoreApplication::translate(context, "TRACE"))
+    if (level == u"TRACE"_s)
         return TRACE_INT;
-    if (level == u"ALL"_s ||
-            level == QCoreApplication::translate(context, "ALL"))
+    if (level == u"ALL"_s)
         return ALL_INT;
-    if (level == u"NULL"_s ||
-            level == QCoreApplication::translate(context, "NULL"))
+    if (level == u"NULL"_s)
         return NULL_INT;
 
     logger()->warn(u"Use of invalid level string '%1'. Using 'Level::NULL_INT' instead."_s, level);

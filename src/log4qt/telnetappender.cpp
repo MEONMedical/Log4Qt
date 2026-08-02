@@ -111,7 +111,7 @@ void TelnetAppender::setPort(int port)
 {
     if (port < 1 || port > 65535)
     {
-        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Invalid port %1 for appender '%2'; valid range is 1..65535"),
+        LogError e = LOG4QT_QCLASS_ERROR("Invalid port %1 for appender '%2'; valid range is 1..65535",
                                          AppenderTelnetServerNotRunning);
         e << port << name();
         logger()->error(e);
@@ -175,7 +175,7 @@ bool TelnetAppender::checkEntryConditions() const
 {
     if ((mTcpServer == nullptr) || !mTcpServer->isListening())
     {
-        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' without a listing telnet server"),
+        LogError e = LOG4QT_QCLASS_ERROR("Use of appender '%1' without a listing telnet server",
                                 AppenderTelnetServerNotRunning);
         e << name();
         logger()->error(e);
@@ -191,7 +191,7 @@ void TelnetAppender::openServer()
     connect(mTcpServer, &QTcpServer::newConnection, this, &TelnetAppender::onNewConnection);
     if (!mTcpServer->listen(mAddress, mPort))
     {
-        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Telnet appender '%1' failed to listen on %2:%3"),
+        LogError e = LOG4QT_QCLASS_ERROR("Telnet appender '%1' failed to listen on %2:%3",
                                          AppenderTelnetServerNotRunning);
         e << name() << mAddress.toString() << mPort;
         e.addCausingError(LogError(mTcpServer->errorString(),

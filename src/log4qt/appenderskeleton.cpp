@@ -99,7 +99,7 @@ void AppenderSkeleton::activateOptions()
 
     if (requiresLayout() && !layout())
     {
-        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Activation of appender '%1' that requires layout and has no layout set"),
+        LogError e = LOG4QT_QCLASS_ERROR("Activation of appender '%1' that requires layout and has no layout set",
                                          AppenderActivateMissingLayoutError);
         e << name();
         logger()->error(e);
@@ -254,7 +254,7 @@ bool AppenderSkeleton::checkEntryConditions() const
 {
     if (!isActive())
     {
-        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of non activated appender '%1'"),
+        LogError e = LOG4QT_QCLASS_ERROR("Use of non activated appender '%1'",
                                          AppenderNotActivatedError);
         e << name();
         logger()->error(e);
@@ -262,7 +262,7 @@ bool AppenderSkeleton::checkEntryConditions() const
     }
     if (isClosed())
     {
-        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of closed appender '%1'"),
+        LogError e = LOG4QT_QCLASS_ERROR("Use of closed appender '%1'",
                                          AppenderClosedError);
         e << name();
         logger()->error(e);
@@ -270,7 +270,7 @@ bool AppenderSkeleton::checkEntryConditions() const
     }
     if (requiresLayout() && !layout())
     {
-        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' that requires layout and has no layout set"),
+        LogError e = LOG4QT_QCLASS_ERROR("Use of appender '%1' that requires layout and has no layout set",
                                          AppenderUseMissingLayoutError);
         e << name();
         logger()->error(e);

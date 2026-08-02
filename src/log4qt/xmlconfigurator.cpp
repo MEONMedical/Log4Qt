@@ -67,7 +67,7 @@ bool XmlConfigurator::xmlToProperties(const QString &file, Properties &propertie
     QFile f(file);
     if (!f.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        LogError e = LOG4QT_ERROR(QT_TR_NOOP("Unable to open XML file '%1'"),
+        LogError e = LOG4QT_ERROR("Unable to open XML file '%1'",
                                   ConfiguratorOpeningFileError,
                                   "Log4Qt::XmlConfigurator");
         e << file;
@@ -84,7 +84,7 @@ bool XmlConfigurator::xmlToProperties(const QString &file, Properties &propertie
 
     if (xml.hasError())
     {
-        LogError e = LOG4QT_ERROR(QT_TR_NOOP("Unable to read XML file '%1'"),
+        LogError e = LOG4QT_ERROR("Unable to read XML file '%1'",
                                   ConfiguratorReadingFileError,
                                   "Log4Qt::XmlConfigurator");
         e << file;
@@ -95,7 +95,7 @@ bool XmlConfigurator::xmlToProperties(const QString &file, Properties &propertie
 
     if (xml.atEnd())
     {
-        LogError e = LOG4QT_ERROR(QT_TR_NOOP("Unable to read XML file '%1'"),
+        LogError e = LOG4QT_ERROR("Unable to read XML file '%1'",
                                   ConfiguratorReadingFileError,
                                   "Log4Qt::XmlConfigurator");
         e << file;
@@ -117,7 +117,7 @@ bool XmlConfigurator::xmlToProperties(const QString &file, Properties &propertie
 
     if (xml.hasError())
     {
-        LogError e = LOG4QT_ERROR(QT_TR_NOOP("Unable to read XML file '%1'"),
+        LogError e = LOG4QT_ERROR("Unable to read XML file '%1'",
                                   ConfiguratorReadingFileError,
                                   "Log4Qt::XmlConfigurator");
         e << file;

@@ -38,7 +38,7 @@ namespace Log4Qt
  * \code
  * if (!c.isDigit())
      * {
-     *     Error e = LOG4QT_ERROR(QT_TR_NOOP("Found character '%1' where digit was expected."),
+     *     Error e = LOG4QT_ERROR("Found character '%1' where digit was expected.",
      *                            LayoutExpectedDigitError,
      *                            "Log4Qt::PatternFormatter");
      *     e << QString(c);
@@ -60,7 +60,7 @@ namespace Log4Qt
  * \code
  * if (!mpFile->open(mode))
  * {
- *      LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Unable to open file '%1' for appender '%2'"),
+ *      LogError e = LOG4QT_QCLASS_ERROR("Unable to open file '%1' for appender '%2'",
      *                                       AppenderOpeningFileError);
  *      e << mFileName << name();
  *      e.addCausingError(LogError(mpFile->errorString(), mpFile->error()));
@@ -77,11 +77,8 @@ namespace Log4Qt
  *
  * The class error allows storing error information in a structured way.
  * The error message is stored separately from the information that may be
- * substituted into the message string. This way it is possible to access
- * all information after the error has been raised. It also allows to
- * translate the error at a later point in time or to get a translated and
- * a not translated error text (e.g. translated for the UI and not
- * translated for a log).
+ * substituted into the message string. This way all information is still
+ * accessible after the error has been raised.
  *
  * The message is accessed using message() and setMessage(). Arguments for
  * the message can be added using addArg() or operator<<(). The arguments
@@ -91,10 +88,9 @@ namespace Log4Qt
  * An error code can be set as integer value code() and/or a symbolic value
  * symbol().
  *
- * To allow the translation of the message the error stores the translation
- * context (context(), setContext()). The translated message can be accessed
- * using translatedMessage() or using translatedMessageWithArgs(), if it
- * should contain the arguments.
+ * The error also stores the context it was raised in (context(),
+ * setContext()) — usually the class name. toString() renders it together
+ * with the symbol as \c Context::SYMBOL.
  *
  * An error can have one or more related errors that caused it. An error is
  * related using addCausingError(). All causing errors can be retrieved using
@@ -112,26 +108,6 @@ class LOG4QT_EXPORT LogError
 public:
 
     /*!
-     * The enum Encoding defines the 8-bit encoding of a character string
-     * arguments to \ref LogError::LogError(const char *, int, const char *,
-     * const char *, Encoding) "LogError::LogError()".
-     *
-     * \sa \ref LogError::LogError(const char *, int, const char *, const char *, Encoding) "LogError::LogError()"
-     */
-    enum Encoding : int
-    {
-        /*! LATIN-1 */
-        Latin1,
-        /*!
-         * The encoding specified by QTextCodec::codecForTr()
-         * (Latin-1 if none has been set).
-         */
-        CodecForTr,
-        /*! UTF-8 */
-        UnicodeUtf8,
-    };
-
-    /*!
     * Creates an empty error. The error code is set to 0 and all other
     * members are set to be empty.
     *
@@ -144,12 +120,7 @@ public:
      * \a code. The symbol for the error code is set to \a rSymbol and the
      * context to \a rContext.
      *
-     * \a rContext must be string that can be converted to Latin-1. The
-     * Latin-1 representation of the string is used with
-     * QApplication::translate(), if a translation for \a message is
-     * requested.
-     *
-     * \sa translatedMessage(), translatedMessageWithArgs()
+     * \sa context(), toString()
      */
     explicit LogError(const QString &message,
                       int code = 0,
@@ -161,8 +132,8 @@ public:
      * \a code. The symbol for the error code is set to \a pSymbol and the
      * context to \a pContext.
      *
-     * \a encoding specifies the encoding of \a pMessage. \a pSymbol and
-     * \a pContext are expected to be Latin-1.
+     * \a pMessage is expected to be UTF-8; \a pSymbol and \a pContext are
+     * expected to be Latin-1.
      *
      * \note To support the macros \ref Log4Qt::LOG4QT_ERROR "LOG4QT_ERROR"
      *       and \ref Log4Qt::LOG4QT_QCLASS_ERROR "LOG4QT_QCLASS_ERROR"
@@ -170,13 +141,12 @@ public:
      *       \a code. If it is, the symbol is set to be empty. Otherwise symbol
      *       is set to \a pSymbol.
      *
-     * \sa translatedMessage(), translatedMessageWithArgs()
+     * \sa context(), toString()
      */
     explicit LogError(const char *message,
                       int code = 0,
                       const char *symbol = nullptr,
-                      const char *context = nullptr,
-                      Encoding encoding = Latin1);
+                      const char *context = nullptr);
 
     /*!
      * Returns the error code.
@@ -207,17 +177,6 @@ public:
     [[nodiscard]] const QString &symbol() const { return mSymbol; }
 
     /*!
-     * Returns the translated error message.
-     *
-     * The translated message is created by calling
-     * QCoreApplication::translate() using context().toLatin1() as
-     * context and message.toUtf8() as message.
-     *
-     * \sa translatedMessageWithArgs()
-     */
-    QString translatedMessage() const;
-
-    /*!
      * Sets the error code to \a code.
      *
      * \sa code()
@@ -225,14 +184,11 @@ public:
     void setCode(int code) { mCode = code; }
 
     /*!
-     * Sets the context to \a className.
+     * Sets the context to \a className. The context is usually the name of
+     * the class that raised the error; toString() renders it together with
+     * the symbol as \c Context::SYMBOL.
      *
-     * \a rContext must be string that can be converted to Latin-1. The
-    * Latin-1 representation of the string is used with
-    * QApplication::translate(), if a translation for \a message is
-    * requestd.
-     *
-    * \sa context(), translatedMessage(), translatedMessageWithArgs()
+     * \sa context(), toString()
      */
     void setContext(const QString &context) { mContext = context; }
 
@@ -351,17 +307,9 @@ public:
      * Returns the message with arguments. The arguments are incoorporated
      * into the messag using QString::arg().
      *
-     * \sa QString::arg(), translatedMessageWithArgs()
+     * \sa QString::arg(), message(), toString()
      */
     QString messageWithArgs() const { return insertArgs(message()); }
-
-    /*!
-     * Returns the translated message with arguments. The arguments are
-     * incoorporated into the messag using QString::arg().
-     *
-     * \sa QString::arg(), messageWithArgs(), translatedMessage()
-     */
-    QString translatedMessageWithArgs() const { return insertArgs(translatedMessage()); }
 
     /*!
      * Appends \a rArg to the list of arguments and returns a reference to

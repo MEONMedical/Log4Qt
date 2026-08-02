@@ -156,8 +156,8 @@ All notable changes to this project will be documented in this file.
 - `RollingFileAppender` re-activation stacked the strategy's filename
   transformation onto the base name.
 - Filters added after `AppenderSkeleton::clearFilters()` were never evaluated.
-- Use-after-free of the `Level::toString()` translation cache during
-  exit-time logging.
+- Use-after-free of the `Level::toString()` name cache during exit-time
+  logging (the cache is gone with the translation support).
 - Client list iterator invalidation in `TelnetAppender::append()`.
 - `DatabaseAppender` did not recover from a failed prepare or from a
   connection dropped after activation.
@@ -209,6 +209,15 @@ All notable changes to this project will be documented in this file.
 ### Deprecated / Removed
 - Removed qmake support
 - Removed binary logger
+- **Breaking:** Removed the unused translation support. The library never
+  shipped translations (no `.ts`/`.qm` files, no Linguist step in the build),
+  and log output is deliberately locale-independent. Gone are
+  `LogError::translatedMessage()`, `LogError::translatedMessageWithArgs()`,
+  the `LogError::Encoding` enum and its constructor parameter (the `const
+  char *` message is now always decoded as UTF-8), and the `QT_TR_NOOP` marks
+  around the internal error messages. `Level::toString()` /
+  `Level::fromString()` use the canonical level names directly instead of
+  `QCoreApplication::translate()`.
 
 ## [v1.6.0] - ??
 

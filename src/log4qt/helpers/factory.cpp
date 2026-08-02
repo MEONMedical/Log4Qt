@@ -404,7 +404,7 @@ void Factory::doSetObjectProperty(QObject *object,
             ok = false;
         if (!ok)
         {
-            LogError e = LOG4QT_ERROR(QT_TR_NOOP("Cannot convert value '%1' to enum type '%2' for property '%3' on object of class '%4'"),
+            LogError e = LOG4QT_ERROR("Cannot convert value '%1' to enum type '%2' for property '%3' on object of class '%4'",
                                       ConfiguratorUnknownTypeError,
                                       "Log4Qt::Factory");
             e << value
@@ -418,7 +418,7 @@ void Factory::doSetObjectProperty(QObject *object,
     }
     else
     {
-        LogError e = LOG4QT_ERROR(QT_TR_NOOP("Cannot convert to type '%1' for property '%2' on object of class '%3'"),
+        LogError e = LOG4QT_ERROR("Cannot convert to type '%1' for property '%2' on object of class '%3'",
                                   ConfiguratorUnknownTypeError,
                                   "Log4Qt::Factory");
         e << type
@@ -760,13 +760,13 @@ bool Factory::validateObjectProperty(QMetaProperty &metaProperty,
     // - Property is writable
 
     const char *context = "Log4Qt::Factory";
-    LogError e = LOG4QT_ERROR(QT_TR_NOOP("Unable to set property value on object"),
+    LogError e = LOG4QT_ERROR("Unable to set property value on object",
                               ConfiguratorPropertyError,
                               context);
 
     if (object == nullptr)
     {
-        LogError ce = LOG4QT_ERROR(QT_TR_NOOP("Invalid null object pointer"),
+        LogError ce = LOG4QT_ERROR("Invalid null object pointer",
                                    0,
                                    context);
         e.addCausingError(ce);
@@ -775,7 +775,7 @@ bool Factory::validateObjectProperty(QMetaProperty &metaProperty,
     }
     if (property.isEmpty())
     {
-        LogError ce = LOG4QT_ERROR(QT_TR_NOOP("Invalid empty property name"),
+        LogError ce = LOG4QT_ERROR("Invalid empty property name",
                                    0,
                                    context);
         e.addCausingError(ce);
@@ -793,7 +793,7 @@ bool Factory::validateObjectProperty(QMetaProperty &metaProperty,
         i = p_meta_object->indexOfProperty(propertyString.toLatin1().constData());
         if (i < 0)
         {
-            LogError ce = LOG4QT_ERROR(QT_TR_NOOP("Property '%1' does not exist in class '%2'"),
+            LogError ce = LOG4QT_ERROR("Property '%1' does not exist in class '%2'",
                                        0,
                                        context);
             ce << propertyString
@@ -806,7 +806,7 @@ bool Factory::validateObjectProperty(QMetaProperty &metaProperty,
     metaProperty = p_meta_object->property(i);
     if (!metaProperty.isWritable())
     {
-        LogError ce = LOG4QT_ERROR(QT_TR_NOOP("Property '%1' is not writable in class '%2'"),
+        LogError ce = LOG4QT_ERROR("Property '%1' is not writable in class '%2'",
                                    0,
                                    context);
         ce << property

@@ -47,7 +47,7 @@ QString findAndSubstImpl(const Properties &properties,
     // unbounded recursion would overflow the stack on a configuration typo.
     if (keysInProgress.contains(key))
     {
-        LogError e = LOG4QT_ERROR(QT_TR_NOOP("Circular substitution detected for key '%1' (substitution chain: %2)."),
+        LogError e = LOG4QT_ERROR("Circular substitution detected for key '%1' (substitution chain: %2).",
                                   ConfiguratorInvalidSubstitutionError,
                                   "Log4Qt::OptionConverter");
         e << key << keysInProgress.join(u" -> "_s);
@@ -85,7 +85,7 @@ QString findAndSubstImpl(const Properties &properties,
             end = value.indexOf(end_subst, begin + begin_length);
             if (end == -1)
             {
-                LogError e = LOG4QT_ERROR(QT_TR_NOOP("Missing closing bracket for opening bracket at %1. Invalid subsitution in value %2."),
+                LogError e = LOG4QT_ERROR("Missing closing bracket for opening bracket at %1. Invalid subsitution in value %2.",
                                           ConfiguratorInvalidSubstitutionError,
                                           "Log4Qt::OptionConverter");
                 e << begin << value;
@@ -143,7 +143,7 @@ bool OptionConverter::toBoolean(const QString &option,
 
     if (ok)
         *ok = false;
-    LogError e = LOG4QT_ERROR(QT_TR_NOOP("Invalid option string '%1' for a boolean"),
+    LogError e = LOG4QT_ERROR("Invalid option string '%1' for a boolean",
                               ConfiguratorInvalidOptionError,
                               "Log4Qt::OptionConverter");
     e << option;
@@ -198,7 +198,7 @@ qint64 OptionConverter::toFileSize(const QString &option,
     qint64 value = s.left(i).toLongLong(&convertOk);
     if (!convertOk || value < 0 || s.size() > i + 2)
     {
-        LogError e = LOG4QT_ERROR(QT_TR_NOOP("Invalid option string '%1' for a file size"),
+        LogError e = LOG4QT_ERROR("Invalid option string '%1' for a file size",
                                   ConfiguratorInvalidOptionError,
                                   "Log4Qt::OptionConverter");
         e << option;
@@ -220,7 +220,7 @@ int OptionConverter::toInt(const QString &option,
     if (convertOk)
         return value;
 
-    LogError e = LOG4QT_ERROR(QT_TR_NOOP("Invalid option string '%1' for an integer"),
+    LogError e = LOG4QT_ERROR("Invalid option string '%1' for an integer",
                               ConfiguratorInvalidOptionError,
                               "Log4Qt::OptionConverter");
     e << option;
@@ -238,7 +238,7 @@ Level OptionConverter::toLevel(const QString &option,
     if (convertOk)
         return level;
 
-    LogError e = LOG4QT_ERROR(QT_TR_NOOP("Invalid option string '%1' for a level"),
+    LogError e = LOG4QT_ERROR("Invalid option string '%1' for a level",
                               ConfiguratorInvalidOptionError,
                               "Log4Qt::OptionConverter");
     e << option;
@@ -275,7 +275,7 @@ int OptionConverter::toTarget(const QString &option,
 
     if (ok)
         *ok = false;
-    LogError e = LOG4QT_ERROR(QT_TR_NOOP("Invalid option string '%1' for a target"),
+    LogError e = LOG4QT_ERROR("Invalid option string '%1' for a target",
                               ConfiguratorInvalidOptionError,
                               "Log4Qt::OptionConverter");
     e << option;
@@ -296,7 +296,7 @@ QStringConverter::Encoding OptionConverter::toEncoding(const QString &option,
     if (ok != nullptr)
         *ok = false;
 
-    LogError e = LOG4QT_ERROR(QT_TR_NOOP("Invalid option string '%1' for a QStringConverter::Encoding"),
+    LogError e = LOG4QT_ERROR("Invalid option string '%1' for a QStringConverter::Encoding",
                               ConfiguratorInvalidOptionError,
                               "Log4Qt::OptionConverter");
     e << option;

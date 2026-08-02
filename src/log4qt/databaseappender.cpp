@@ -95,7 +95,7 @@ void DatabaseAppender::activateOptions()
 
     if (!QSqlDatabase::contains(connectionName) || tableName.isEmpty())
     {
-        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Activation of Appender '%1' that requires sql connection and table and has no connection or table set")
+        LogError e = LOG4QT_QCLASS_ERROR("Activation of Appender '%1' that requires sql connection and table and has no connection or table set"
                                          , AppenderMissingDatabaseOrTableError);
         e << name();
         logger()->error(e);
@@ -184,7 +184,7 @@ void DatabaseAppender::prepareInsert()
     auto query = std::make_unique<QSqlQuery>(database);
     if (!query->prepare(sql))
     {
-        LogError e = LOG4QT_ERROR(QT_TR_NOOP("Sql prepare error: '%1'"),
+        LogError e = LOG4QT_ERROR("Sql prepare error: '%1'",
                                   AppenderExecSqlQueryError,
                                   Q_FUNC_INFO);
         e << query->lastError().text();
@@ -238,7 +238,7 @@ void DatabaseAppender::append(const LoggingEvent &event)
 
     if (mPreparedQuery == nullptr)
     {
-        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' with invalid layout or unprepared query"),
+        LogError e = LOG4QT_QCLASS_ERROR("Use of appender '%1' with invalid layout or unprepared query",
                                          AppenderInvalidDatabaseLayoutError);
         e << name();
         logger()->error(e);
@@ -252,7 +252,7 @@ void DatabaseAppender::append(const LoggingEvent &event)
     {
         if (!mWrongThreadLogged)
         {
-            LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Appender '%1' was fed from a thread other than the one that activated it; QSqlDatabase is not thread-safe. Front it with a MainThreadAppender or open the connection on the logging thread."),
+            LogError e = LOG4QT_QCLASS_ERROR("Appender '%1' was fed from a thread other than the one that activated it; QSqlDatabase is not thread-safe. Front it with a MainThreadAppender or open the connection on the logging thread.",
                                              AppenderExecSqlQueryError);
             e << name();
             logger()->error(e);
@@ -279,7 +279,7 @@ void DatabaseAppender::append(const LoggingEvent &event)
             return;
     }
 
-    LogError e = LOG4QT_ERROR(QT_TR_NOOP("Sql query exec error: '%1'"),
+    LogError e = LOG4QT_ERROR("Sql query exec error: '%1'",
                               AppenderExecSqlQueryError,
                               Q_FUNC_INFO);
     e << execError;
@@ -290,7 +290,7 @@ bool DatabaseAppender::checkEntryConditions() const
 {
     if (!QSqlDatabase::contains(connectionName) || tableName.isEmpty())
     {
-        LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' with invalid database or empty table name"),
+        LogError e = LOG4QT_QCLASS_ERROR("Use of appender '%1' with invalid database or empty table name",
                                          AppenderMissingDatabaseOrTableError);
         e << name();
         logger()->error(e);

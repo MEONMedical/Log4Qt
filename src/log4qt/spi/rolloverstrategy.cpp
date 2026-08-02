@@ -52,7 +52,7 @@ bool RolloverStrategy::removeFile(const QString &fileName)
     if (f.remove())
         return true;
 
-    LogError e = LOG4QT_ERROR(QT_TR_NOOP("Unable to remove file '%1' during rollover"),
+    LogError e = LOG4QT_ERROR("Unable to remove file '%1' during rollover",
                               AppenderRemoveFileError,
                               "Log4Qt::RolloverStrategy");
     e << fileName;
@@ -67,7 +67,7 @@ bool RolloverStrategy::renameFile(const QString &source, const QString &target)
     if (f.rename(target))
         return true;
 
-    LogError e = LOG4QT_ERROR(QT_TR_NOOP("Unable to rename file '%1' to '%2' during rollover"),
+    LogError e = LOG4QT_ERROR("Unable to rename file '%1' to '%2' during rollover",
                               AppenderRenamingFileError,
                               "Log4Qt::RolloverStrategy");
     e << source << target;

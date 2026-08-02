@@ -70,7 +70,7 @@ bool JsonConfigurator::jsonToProperties(const QString &file, Properties &propert
     QFile f(file);
     if (!f.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        LogError e = LOG4QT_ERROR(QT_TR_NOOP("Unable to open JSON file '%1'"),
+        LogError e = LOG4QT_ERROR("Unable to open JSON file '%1'",
                                   ConfiguratorOpeningFileError,
                                   "Log4Qt::JsonConfigurator");
         e << file;
@@ -83,7 +83,7 @@ bool JsonConfigurator::jsonToProperties(const QString &file, Properties &propert
     QJsonDocument doc = QJsonDocument::fromJson(f.readAll(), &parseError);
     if (f.error())
     {
-        LogError e = LOG4QT_ERROR(QT_TR_NOOP("Unable to read JSON file '%1'"),
+        LogError e = LOG4QT_ERROR("Unable to read JSON file '%1'",
                                   ConfiguratorReadingFileError,
                                   "Log4Qt::JsonConfigurator");
         e << file;
@@ -94,7 +94,7 @@ bool JsonConfigurator::jsonToProperties(const QString &file, Properties &propert
 
     if (parseError.error != QJsonParseError::NoError)
     {
-        LogError e = LOG4QT_ERROR(QT_TR_NOOP("Unable to read JSON file '%1'"),
+        LogError e = LOG4QT_ERROR("Unable to read JSON file '%1'",
                                   ConfiguratorReadingFileError,
                                   "Log4Qt::JsonConfigurator");
         e << file;
@@ -105,7 +105,7 @@ bool JsonConfigurator::jsonToProperties(const QString &file, Properties &propert
 
     if (!doc.isObject())
     {
-        LogError e = LOG4QT_ERROR(QT_TR_NOOP("Unable to read JSON file '%1'"),
+        LogError e = LOG4QT_ERROR("Unable to read JSON file '%1'",
                                   ConfiguratorReadingFileError,
                                   "Log4Qt::JsonConfigurator");
         e << file;
