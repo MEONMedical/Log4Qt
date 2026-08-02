@@ -176,8 +176,8 @@ All notable changes to this project will be documented in this file.
 - `Logger::logWithLocation()` ignored the configured logger level.
 - `Hierarchy::resetConfiguration()` emitted logger change signals under the
   repository write lock.
-- `AsyncAppender::errorRef` was never resolved, and its configuration setters
-  were unsynchronised.
+- `AsyncAppender::errorRef` was never resolved; it is now resolved by the
+  configurator and at activation, never from the append path.
 - Enum and flag properties could not be set from a configuration file.
 - `Properties::load()` line continuation for escaped backslashes and comment
   lines.

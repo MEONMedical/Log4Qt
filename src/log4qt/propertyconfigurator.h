@@ -110,6 +110,7 @@ private:
     void configureGlobalSettings(const Properties &properties,
                                  LoggerRepository *loggerRepository) const;
     void configureAppenders(const Properties &properties);
+    void resolveAppenderReferences();
     void configureRootLogger(const Properties &properties,
                              LoggerRepository *loggerRepository);
     void configureLoggers(const Properties &properties,

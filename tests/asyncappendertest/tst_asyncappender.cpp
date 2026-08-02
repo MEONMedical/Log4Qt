@@ -27,8 +27,10 @@
 #include "log4qt/loggingevent.h"
 #include "log4qt/logger.h"
 #include "log4qt/logmanager.h"
+#include "log4qt/propertyconfigurator.h"
 #include "log4qt/varia/listappender.h"
 #include "log4qt/helpers/boundedblockingqueue.h"
+#include "log4qt/helpers/properties.h"
 
 using namespace Log4Qt;
 
@@ -119,6 +121,8 @@ private Q_SLOTS:
     // Error appender tests
     void AsyncAppender_errorAppender();
     void AsyncAppender_errorRefResolution();
+    void AsyncAppender_errorRefResolvedByConfigurator();
+    void AsyncAppender_errorRefUnresolvedByConfigurator();
     void AsyncAppender_noErrorAppender();
 
     // Shutdown tests
@@ -592,6 +596,79 @@ void AsyncAppenderTest::AsyncAppender_errorRefResolution()
 
     QVERIFY(errorList->list().size() > 0);
     holder->removeAppender(errorPtr);
+}
+
+// Regression test: the referenced appender may be declared AFTER the async
+// appender in the same configuration. PropertyConfigurator activates every
+// appender as it parses it, so at that point the reference cannot be resolved
+// yet. It used to be retried from handleQueueFull() — a full repository scan
+// under mObjectGuard on the producing thread, for every dropped event. The
+// configurator now resolves it once, after all appenders exist.
+void AsyncAppenderTest::AsyncAppender_errorRefResolvedByConfigurator()
+{
+    // Appender aliases are configured in sorted order, so "async" is created
+    // and activated before "errors" exists.
+    Properties props;
+    props.setProperty(QStringLiteral("appender.async.type"), QStringLiteral("Async"));
+    props.setProperty(QStringLiteral("appender.async.bufferSize"), QStringLiteral("1"));
+    props.setProperty(QStringLiteral("appender.async.blocking"), QStringLiteral("false"));
+    props.setProperty(QStringLiteral("appender.async.errorRef"), QStringLiteral("errors"));
+    props.setProperty(QStringLiteral("appender.errors.type"), QStringLiteral("List"));
+    props.setProperty(QStringLiteral("rootLogger.level"), QStringLiteral("ALL"));
+    props.setProperty(QStringLiteral("rootLogger.appenderRef.0.ref"), QStringLiteral("async"));
+    // Hold the error appender on a logger so the test can inspect it.
+    props.setProperty(QStringLiteral("logger.holder.name"), QStringLiteral("Test::ErrorRefConfigured"));
+    props.setProperty(QStringLiteral("logger.holder.appenderRef.0.ref"), QStringLiteral("errors"));
+
+    QVERIFY(PropertyConfigurator::configure(props));
+
+    auto *async = qobject_cast<AsyncAppender *>(
+                      LogManager::rootLogger()->appenders().value(0).data());
+    QVERIFY(async);
+
+    // A slow consumer makes the one-event queue overflow.
+    async->addAppender(AppenderSharedPtr(new SlowAppender(200)));
+
+    for (int i = 0; i < 10; ++i)
+        async->doAppend(LoggingEvent(test_logger(), Level::INFO_INT,
+                                     QStringLiteral("msg%1").arg(i)));
+
+    async->close();
+
+    Logger *holder = LogManager::logger(QStringLiteral("Test::ErrorRefConfigured"));
+    auto *errorList = qobject_cast<ListAppender *>(holder->appenders().value(0).data());
+    QVERIFY(errorList);
+    QVERIFY(errorList->list().size() > 0);
+}
+
+// An errorRef naming an appender that does not exist is a configuration
+// mistake: the configurator warns (it is not a configuration *error*), and
+// overflow events are dropped without the appender ever searching the
+// repository from the append path.
+void AsyncAppenderTest::AsyncAppender_errorRefUnresolvedByConfigurator()
+{
+    Properties props;
+    props.setProperty(QStringLiteral("appender.async.type"), QStringLiteral("Async"));
+    props.setProperty(QStringLiteral("appender.async.bufferSize"), QStringLiteral("1"));
+    props.setProperty(QStringLiteral("appender.async.blocking"), QStringLiteral("false"));
+    props.setProperty(QStringLiteral("appender.async.errorRef"), QStringLiteral("NoSuchAppender"));
+    props.setProperty(QStringLiteral("rootLogger.level"), QStringLiteral("ALL"));
+    props.setProperty(QStringLiteral("rootLogger.appenderRef.0.ref"), QStringLiteral("async"));
+
+    QVERIFY(PropertyConfigurator::configure(props));
+
+    auto *async = qobject_cast<AsyncAppender *>(
+                      LogManager::rootLogger()->appenders().value(0).data());
+    QVERIFY(async);
+
+    async->addAppender(AppenderSharedPtr(new SlowAppender(50)));
+
+    for (int i = 0; i < 10; ++i)
+        async->doAppend(LoggingEvent(test_logger(), Level::INFO_INT,
+                                     QStringLiteral("msg%1").arg(i)));
+
+    // Just verifying no crash/hang: the dropped events are only logged.
+    async->close();
 }
 
 void AsyncAppenderTest::AsyncAppender_noErrorAppender()

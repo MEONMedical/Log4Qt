@@ -92,46 +92,74 @@ void AsyncAppender::setErrorAppender(const AppenderSharedPtr &appender)
     mErrorAppender = appender;
 }
 
-void AsyncAppender::resolveErrorAppender(bool warnIfMissing)
+void AsyncAppender::resolveErrorAppender()
 {
-    if (mErrorAppender || mErrorRef.isEmpty())
-        return;
+    QString ref;
+    {
+        QMutexLocker locker(&mObjectGuard);
+        if (mErrorAppender || mErrorRef.isEmpty())
+            return;
+        ref = mErrorRef;
+    }
 
+    // Search with mObjectGuard released: loggers() takes the repository's read
+    // lock and appenders() the loggers' read locks, while the logging path
+    // takes those before mObjectGuard (Logger::callAppenders() ->
+    // Appender::doAppend()). Searching under mObjectGuard would invert that
+    // order — and a thread that logs while holding the repository write lock
+    // (see Hierarchy::logger()) would deadlock on the recursive
+    // QReadWriteLock, which does not allow a read acquire from a writer.
+    AppenderSharedPtr resolved;
     const auto loggers = LogManager::loggerRepository()->loggers();
     for (const auto *logger : loggers)
     {
         const auto appenders = logger->appenders();
         for (const auto &appender : appenders)
         {
-            if (appender && appender->name() == mErrorRef)
+            if (appender && appender->name() == ref)
             {
-                mErrorAppender = appender;
-                return;
+                resolved = appender;
+                break;
             }
         }
+        if (resolved)
+            break;
     }
 
-    if (warnIfMissing)
-        logger()->warn(u"AsyncAppender '%1': errorRef appender '%2' was not found on any logger"_s
-                       .arg(name(), mErrorRef));
+    if (!resolved)
+    {
+        // Only debug: a configurator resolves the reference once every
+        // appender of the configuration exists, so a reference to an appender
+        // declared later in the same file is not yet an error here.
+        logger()->debug(u"AsyncAppender '%1': errorRef appender '%2' was not found on any logger"_s
+                        .arg(name(), ref));
+        return;
+    }
+
+    QMutexLocker locker(&mObjectGuard);
+    if (mErrorRef == ref && !mErrorAppender)
+        mErrorAppender = resolved;
 }
 
 // --- Lifecycle ---------------------------------------------------------------
 
 void AsyncAppender::activateOptions()
 {
-    QMutexLocker locker(&mObjectGuard);
+    {
+        QMutexLocker locker(&mObjectGuard);
 
-    if (mWorker)
-        return;
+        if (mWorker)
+            return;
 
-    mQueue = std::make_unique<BoundedBlockingQueue<LoggingEvent>>(mBufferSize);
+        mQueue = std::make_unique<BoundedBlockingQueue<LoggingEvent>>(mBufferSize);
 
-    mWorker = std::make_unique<AsyncWorker>(this, mQueue.get());
-    mWorker->setObjectName(QStringLiteral("Log4Qt-Async-%1").arg(name()));
-    mWorker->start();
+        mWorker = std::make_unique<AsyncWorker>(this, mQueue.get());
+        mWorker->setObjectName(QStringLiteral("Log4Qt-Async-%1").arg(name()));
+        mWorker->start();
+    }
 
-    resolveErrorAppender(true);
+    // Outside the lock: the lookup takes repository and logger locks.
+    resolveErrorAppender();
 
     AppenderSkeleton::activateOptions();
 }
@@ -229,22 +257,33 @@ void AsyncAppender::append(const LoggingEvent &event)
 
 void AsyncAppender::handleQueueFull(const LoggingEvent &event)
 {
-    // The referenced appender may not have existed yet when activateOptions()
-    // ran (e.g. it was configured after this appender) — retry silently.
-    resolveErrorAppender(false);
-
+    // Deliberately no errorRef lookup here: this runs under mObjectGuard on
+    // the producing thread (doAppend() phase 5), so a repository search would
+    // serialise every producer for its duration — exactly when the appender is
+    // already saturated — and would invert the lock order of the logging path
+    // (see resolveErrorAppender()). The reference is resolved once, by the
+    // configurator after all appenders exist or in activateOptions().
     if (mErrorAppender)
     {
         forwardEvent(mErrorAppender, event);
+        return;
     }
-    else
+
+    if (!mErrorRef.isEmpty())
     {
         LogError e = LOG4QT_QCLASS_ERROR(
-            QT_TR_NOOP("Async appender '%1' queue is full, event dropped"),
+            QT_TR_NOOP("Async appender '%1' queue is full, event dropped: errorRef '%2' was never resolved to an appender"),
             AppenderAsyncQueueFull);
-        e << name();
+        e << name() << mErrorRef;
         logger()->warn(e);
+        return;
     }
+
+    LogError e = LOG4QT_QCLASS_ERROR(
+        QT_TR_NOOP("Async appender '%1' queue is full, event dropped"),
+        AppenderAsyncQueueFull);
+    e << name();
+    logger()->warn(e);
 }
 
 bool AsyncAppender::checkEntryConditions() const

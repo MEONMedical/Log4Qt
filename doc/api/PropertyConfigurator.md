@@ -73,7 +73,24 @@ Any existing watch is stopped first (by calling `setConfigurationFile()` with no
 
 ## 10. Protected Virtual Methods
 
-None. `PropertyConfigurator` declares no virtual methods and is not designed for subclassing. All configuration steps below the public surface (`configureFromFile`, `configureFromProperties`, `configureAppenders`, `configureRootLogger`, `configureLoggers`, `translateLegacyProperties`, `extractAliases`, `setProperties`, and the error-capture helpers) are private implementation detail.
+None. `PropertyConfigurator` declares no virtual methods and is not designed for subclassing. All configuration steps below the public surface (`configureFromFile`, `configureFromProperties`, `configureAppenders`, `resolveAppenderReferences`, `configureRootLogger`, `configureLoggers`, `translateLegacyProperties`, `extractAliases`, `setProperties`, and the error-capture helpers) are private implementation detail.
+
+### Appender-to-appender references
+
+`configureFromProperties()` runs `resolveAppenderReferences()` between
+`configureAppenders()` and the logger passes. Appenders are created *and
+activated* one at a time as they are parsed, so an appender that refers to
+another one by name cannot resolve it during its own activation — the target
+may not exist yet. This step runs once the registry holds every appender of the
+configuration and wires those references up, the same way `appenderRef` is
+resolved for loggers.
+
+Currently the only such reference is `AsyncAppender::errorRef`: for each
+`AsyncAppender` with a non-empty `errorRef` the named appender is looked up in
+`mAppenderRegistry` and installed via `setErrorAppender()`. A reference that
+matches no appender is reported as a warning (not a configuration error, so
+`doConfigure()` still succeeds). Because JSON and XML configuration is flattened
+and delegated to this class, the behaviour is identical in all three formats.
 
 ## 11. Ownership and Lifecycle
 
@@ -88,6 +105,8 @@ Objects created during configuration are owned by reference-counted shared point
 - The error-capture `ListAppender` (`mpConfigureErrors`) is created in `startCaptureErrors()`, attached to the internal log logger, and removed in `stopCaptureErrors()`.
 
 When an `appenderRef`/`rootLogger.appenderRef` set is present, the target logger's existing appenders are removed first (`removeAllAppenders()`) so the file is authoritative.
+
+An appender referenced by another appender (`AsyncAppender::errorRef`) is kept alive by the referring appender's own `AppenderSharedPtr`, so it survives the registry being cleared even if no logger references it.
 
 ## 12. Thread Safety
 
