@@ -83,7 +83,9 @@ Returns whether the given level is strictly below the threshold (inline), i.e. s
 
 #### void resetConfiguration() override
 
-Resets every logger under the write lock. Regular loggers are reset first (appenders removed, additivity restored, level set to `NULL_INT`); the special loggers are reset last so shutdown can still be logged — the `Qt` and internal (empty-name) loggers to `NULL_INT`, and the root logger to `DEBUG_INT`.
+Resets every logger. Only the *collection* step runs under the write lock (the special loggers are fetched and the logger list is snapshotted); the resets themselves run **after the lock is released**. That ordering is required: `resetLogger()` calls `setLevel()` / `setAdditivity()`, which emit `levelChanged` / `additivityChanged`, and a directly connected slot calling back into the repository (`exists()`, `loggers()`) would self-deadlock — the recursive `QReadWriteLock` does not allow taking the read lock while the write lock is held. Releasing the lock is safe because loggers are never destroyed here and `resetLogger()` does not touch the logger map.
+
+Regular loggers are reset first (appenders removed, additivity restored, level set to `NULL_INT`); the special loggers are reset last so shutdown can still be logged — the `Qt` and internal (empty-name) loggers to `NULL_INT`, and the root logger to `DEBUG_INT`.
 
 #### void shutdown() override
 
@@ -99,7 +101,7 @@ Logs a debug message and delegates to `resetConfiguration()`.
 
 ## 12. Thread Safety
 
-Fully thread-safe, as stated in the header. A single `mutable QReadWriteLock` constructed in recursive mode guards all logger storage: read operations (`exists`, `loggers`, `rootLogger` reads) take read locks, while mutating and create-on-demand operations (`logger`, `resetConfiguration`) take write locks. The recursive mode is deliberate to support re-entrant lookups that occur while the write lock is held (e.g. the warning logged during `resetConfiguration` resolves a logger). The threshold is stored as `std::atomic<Level>`.
+Fully thread-safe, as stated in the header. A single `mutable QReadWriteLock` constructed in recursive mode guards all logger storage: read operations (`exists`, `loggers`, `rootLogger` reads) take read locks, while mutating and create-on-demand operations (`logger`, `resetConfiguration`) take write locks. The recursive mode is deliberate to support re-entrant lookups that occur while the write lock is held (e.g. a warning logged from a locked section resolves a logger). Recursion only works within the same lock mode, however, so work that can trigger *read* access from a callback — notably the logger resets in `resetConfiguration()`, which emit change signals — is deliberately performed after the write lock is released. The threshold is stored as `std::atomic<Level>`.
 
 ## 13. QML Exposure
 

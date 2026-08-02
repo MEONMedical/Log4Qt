@@ -4,7 +4,9 @@
 
 Log4Qt is a Qt port of Apache log4j. *Configurators* read configuration data and build the runtime logger/appender/layout graph held by the `LoggerRepository` via the `LogManager` singleton.
 
-`XmlConfigurator` configures the logging framework from an XML file written in a log4j2-style structured format. Like `JsonConfigurator`, it implements no configuration logic of its own: it parses the XML with a `QXmlStreamReader`, flattens nested elements and their attributes into the flat key/value `Properties` model used by `PropertyConfigurator`, and delegates the actual configuration to `PropertyConfigurator`. This reuses all existing parsing, factory, and type-conversion logic without duplication.
+`XmlConfigurator` configures the logging framework from an XML file whose element names *are* the property keys. Like `JsonConfigurator`, it implements no configuration logic of its own: it parses the XML with a `QXmlStreamReader`, flattens nested elements and their attributes into the flat key/value `Properties` model used by `PropertyConfigurator`, and delegates the actual configuration to `PropertyConfigurator`. This reuses all existing parsing, factory, and type-conversion logic without duplication.
+
+> **The Log4j2 XML dialect is not supported.** Element names are taken verbatim — they are never translated — so a file using `<Configuration><Appenders><Console name="…">` flattens to keys the configurator ignores, and configures nothing. Write the elements as the property keys themselves, as shown in the example below.
 
 A developer reaches for `XmlConfigurator` when configuration is expressed as XML. During automatic startup the `LogManager` searches for `log4qt.xml` *after* `log4qt.json`, so `.properties` and `.json` files take priority; the `Configuration` setting also accepts `.xml` files.
 
@@ -61,12 +63,13 @@ All functions are thread-safe, as stated in the header. The delegated `PropertyC
 
 Flattening rules:
 
-- Nested elements produce dot-separated keys, with the element name prefixing its children: `<Console><PatternLayout/></Console>` under `appender` yields keys like `appender.console.layout.type`.
-- XML attributes are flattened as child properties of their element: `<Logger name="MyApp" level="ERROR"/>` yields `logger.MyApp.name=MyApp` and `logger.MyApp.level=ERROR`.
-- Non-whitespace text content of a leaf element (no child elements) is stored as the element's value.
+- Element names become dot-separated key segments **verbatim**: `<appender><console><layout><type>` yields the key `appender.console.layout.type`. No element name is mapped or rewritten.
+- XML attributes are flattened as child properties of their element: `<MyApp name="MyApp" level="ERROR"/>` under `logger` yields `logger.MyApp.name=MyApp` and `logger.MyApp.level=ERROR`.
+- Non-whitespace text content of a leaf element (no child elements) is stored as the element's value: `<type>Console</type>` yields `…type=Console`.
+- Because keys come from element names, list-like entries need a distinct child name per item — hence `<appenderRef><ref0 ref="console"/></appenderRef>` producing `rootLogger.appenderRef.ref0.ref=console`. Any unique name works; only the `ref` attribute is read.
 - `${var}` substitution in attribute values and text content is performed later by `OptionConverter::findAndSubst()` inside `PropertyConfigurator`.
 
-The resulting flat keys mirror the log4j2 schema (`appender.*`, `rootLogger.*`, `logger.*`). When used via `configureAndWatch`, the file is watched by a `QFileSystemWatcher` owned by `ConfiguratorHelper`, and changes trigger a reload using the static `configure` callback. No network, IPC, or external-process communication is involved.
+The resulting flat keys are exactly the `PropertyConfigurator` keys (`appender.*`, `rootLogger.*`, `logger.*`) documented in `Configuration.md`. When used via `configureAndWatch`, the file is watched by a `QFileSystemWatcher` owned by `ConfiguratorHelper`, and changes trigger a reload using the static `configure` callback. No network, IPC, or external-process communication is involved.
 
 ## 16. Usage Example
 
@@ -98,16 +101,29 @@ A minimal `log4qt.xml`:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration>
-    <Appenders>
-        <Console name="console">
-            <PatternLayout conversionPattern="%-5p %c - %m%n" />
-        </Console>
-    </Appenders>
-    <Loggers>
-        <Root level="ALL">
-            <AppenderRef ref="console" />
-        </Root>
-    </Loggers>
-</Configuration>
+<configuration>
+    <appender>
+        <console>
+            <type>Console</type>
+            <layout conversionPattern="%-5p %c - %m%n">
+                <type>PatternLayout</type>
+            </layout>
+        </console>
+    </appender>
+    <rootLogger level="ALL">
+        <appenderRef>
+            <ref0 ref="console"/>
+        </appenderRef>
+    </rootLogger>
+</configuration>
+```
+
+which flattens to:
+
+```properties
+appender.console.type=Console
+appender.console.layout.type=PatternLayout
+appender.console.layout.conversionPattern=%-5p %c - %m%n
+rootLogger.level=ALL
+rootLogger.appenderRef.ref0.ref=console
 ```

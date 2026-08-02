@@ -71,9 +71,11 @@ Defined by `AppenderSkeleton`; invoked from `doAppend()` on whatever thread logg
 1. Fetches `QCoreApplication::instance()`; if there is none, returns (no event loop to post into).
 2. Takes a read lock on `mAppenderGuard`.
 3. Determines the application's main thread via `app->thread()`.
-4. For each attached appender: if the current thread is **not** the main thread, posts a freshly heap-allocated `new LoggingEvent(event)` to that appender via `QCoreApplication::postEvent()`; if already on the main thread, calls the appender's `doAppend(event)` directly.
+4. For each attached appender: if the current thread is **not** the main thread, posts a freshly heap-allocated `new LoggingEvent(event)` to that appender via `QCoreApplication::postEvent()`; if already on the main thread, hands the event straight to the appender via the inherited `forwardEvent()` helper.
 
 The posted `LoggingEvent` is later received by the target appender's `customEvent()` (provided by `AppenderSkeleton`), which dispatches it back through the normal append pipeline — now on the main thread. Qt's event system takes ownership of the posted event and deletes it after delivery.
+
+> Same-thread delivery must go through `forwardEvent()` rather than being skipped or specially cased. `MainThreadAppender::append()` runs inside its *own* `doAppend()`, so the recursion guard already lists this appender; forwarding to a *different* downstream appender passes the per-appender guard normally. (Before the guard became per-appender, this path dropped every event logged on the main thread.)
 
 ## 11. Ownership and Lifecycle
 
@@ -90,7 +92,7 @@ All public functions are thread-safe. The threading model is the entire point of
 - The attached-appender list is read under a shared `QReadLocker` on `mAppenderGuard`.
 - The marshalling decision is made per attached appender by comparing `QThread::currentThread()` against `QCoreApplication::instance()->thread()`:
   - **Off the main thread** → `postEvent()` enqueues a copy into the main thread's event loop. Delivery is asynchronous; the downstream `append()` runs on the main thread.
-  - **On the main thread** → direct synchronous `doAppend()`.
+  - **On the main thread** → direct synchronous delivery via `forwardEvent()` (i.e. the downstream `doAppend()`), with all of the target's own checks applied.
 
 This guarantees downstream GUI-bound appenders only ever execute on the GUI thread, which is exactly where Qt Widgets / Quick objects must be touched. The trade-off is that off-thread logging is delivered asynchronously and requires a running event loop on the main thread.
 

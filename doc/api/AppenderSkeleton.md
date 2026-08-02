@@ -8,7 +8,7 @@
 - the **filter chain** (head/tail linked list of `Filter` objects),
 - the **threshold** `Level` below which events are discarded,
 - the **active / closed** lifecycle state, and
-- the complete `doAppend()` lifecycle, including a five-phase locking strategy and a thread-local recursion guard.
+- the complete `doAppend()` lifecycle, including a five-phase locking strategy and a per-appender, thread-local recursion guard.
 
 A developer writing a new appender almost always derives from `AppenderSkeleton` (directly, or via `WriterAppender`) and implements `append()`, optionally overriding `checkEntryConditions()`, `activateOptions()`, and `preAppend()`.
 
@@ -91,7 +91,7 @@ Sets the threshold level. Inline atomic store.
 
 #### virtual void activateOptions()
 
-Validates configuration and marks the appender active. The base implementation checks that, if `requiresLayout()` is `true`, a layout has been set; if not, it logs an `AppenderActivateMissingLayoutError` and leaves the appender inactive. Subclasses override this to open their resources first and then call the base. Acquires `mObjectGuard`.
+Validates configuration and marks the appender active. The base implementation checks that, if `requiresLayout()` is `true`, a layout has been set; if not, it logs an `AppenderActivateMissingLayoutError` and leaves the appender inactive. On success it sets the active flag **and clears the closed flag**, so activation resurrects a previously closed appender — subclasses recreate their resources (file, writer, dispatcher thread) in their own override before chaining to the base. Acquires `mObjectGuard`.
 
 #### void addFilter(const FilterSharedPtr &filter) [override]
 
@@ -99,7 +99,7 @@ Appends `filter` to the tail of the filter chain. A null filter is ignored (a wa
 
 #### void clearFilters() [override]
 
-Removes all filters by resetting the head pointer. Acquires `mObjectGuard`.
+Removes all filters by resetting **both** the head and the tail pointer. Resetting the tail matters: a stale tail would make the next `addFilter()` chain onto the orphaned old list while the head stayed null, so filters added after a clear would never be evaluated. Acquires `mObjectGuard`.
 
 #### void close() [override]
 
@@ -143,11 +143,11 @@ Tests the conditions required before `append()` may run: the appender is active 
 
 #### virtual void preAppend(const LoggingEvent &event, const LayoutSharedPtr &layout)
 
-Optional hook called in Phase 4b of `doAppend()` — **outside** `mObjectGuard`, after entry checks and the filter chain have passed. It receives a `QSharedPointer` snapshot of the layout that stays valid for the call even if the layout is replaced concurrently. Subclasses (e.g. `RandomAccessFileAppender`) use it to perform expensive, read-only preparation (typically layout formatting) into thread-local storage while other threads run their own `preAppend()` in parallel. Contract: must be stateless with respect to shared appender data, store results in thread-local storage, and must not call `doAppend()` (the recursion guard would drop the nested call). The default implementation is a no-op.
+Optional hook called in Phase 4b of `doAppend()` — **outside** `mObjectGuard`, after entry checks and the filter chain have passed. It receives a `QSharedPointer` snapshot of the layout that stays valid for the call even if the layout is replaced concurrently. Subclasses (e.g. `RandomAccessFileAppender`) use it to perform expensive, read-only preparation (typically layout formatting) into thread-local storage while other threads run their own `preAppend()` in parallel. Contract: must be stateless with respect to shared appender data, store results in thread-local storage, and must not call `doAppend()` **on this appender** (the recursion guard would drop the nested call). The default implementation is a no-op.
 
 #### static void forwardEvent(const AppenderSharedPtr &appender, const LoggingEvent &event)
 
-Forwards `event` to `appender->doAppend()` while temporarily resetting the thread-local recursion depth, so the call is **not** dropped by the recursion guard. Used for intentional event redirection (e.g. routing an overflow event to an error appender), not for internally generated log messages. All normal `doAppend()` checks still run on the target appender.
+Forwards `event` to `appender->doAppend()` (null-safe). Used for intentional event redirection (e.g. routing an overflow event to an error appender), not for internally generated log messages. All `doAppend()` checks — recursion guard, active, closed, threshold, filters — run normally on the target appender. No guard state is bypassed: because the guard is per appender, a redirect to a *different* appender passes it naturally, and only a true cycle (forwarding to an appender already appending on this thread) is dropped.
 
 #### const LayoutSharedPtr &layoutSnapshot() const
 
@@ -163,12 +163,12 @@ Lock-free read of the live layout pointer. **Callable only while `mObjectGuard` 
 
 `doAppend()` (defined here, overriding `Appender::doAppend`) executes in five phases. Understanding them is essential for subclassing:
 
-- **Phase 1 — Recursion guard.** A `thread_local int s_appendDepth` is checked: if it is already greater than zero the call returns immediately. This prevents infinite loops when an appender logs an internal error through a logger that routes back to an appender on the same thread. The depth is incremented on entry and decremented on scope exit via `qScopeGuard`. (`forwardEvent()` is the sanctioned way to bypass this for intentional redirects.)
+- **Phase 1 — Recursion guard (per appender).** A `thread_local AppendStack s_appendStack` holds the appenders currently appending on this thread. The call returns immediately if *this* appender is already on the stack, or if the stack has reached `AppendStack::MaxDepth` (16, bounding pathological dispatch chains). Otherwise the appender is pushed and popped again on scope exit via `qScopeGuard`. Because the guard is keyed per appender rather than per thread, an appender that logs an internal error still reaches *every other* appender — only a genuine cycle back into an appender already appending on this thread is dropped. The stack is a plain array with no dynamic allocation, so no TLS destructor is registered and logging from other `thread_local` destructors at thread exit stays safe.
 - **Phase 2 — Fast atomic pre-checks.** `isActive()` and `isClosed()` are read without the lock; the call returns if the appender is inactive or closed.
 - **Phase 3 — Entry conditions and snapshot (under `mObjectGuard`).** `checkEntryConditions()` runs, the threshold is applied via `isAsSevereAsThreshold(event.level())`, and the head filter plus the layout are snapshotted into shared pointers (so they stay alive after the lock is released). The lock is then released.
 - **Phase 4 — Filter chain (no lock).** The chain is walked: `Filter::Accept` breaks out and proceeds, `Filter::Deny` returns (event dropped), `Filter::Neutral` advances to the next filter. Because `decide()` is `const`, multiple threads may evaluate concurrently.
 - **Phase 4b — `preAppend()` (no lock).** The pre-format hook runs outside the lock so heavy formatting parallelises.
-- **Phase 5 — `append()` (under `mObjectGuard`).** The lock is re-acquired, `isActive()` is re-checked (close() may have run during Phases 4–4b), and the subclass `append()` performs the serialised output.
+- **Phase 5 — `append()` (under `mObjectGuard`).** The lock is re-acquired and the **full `checkEntryConditions()`** is re-evaluated before `append()` runs. `isActive()` alone is not enough: `close()`, `setWriter(nullptr)` or a reconfiguration may have torn down subclass resources (writer, file, dispatcher thread) while the lock was released during Phases 4–4b, and only the subclass check covers those. If the re-check fails the event is dropped; otherwise the subclass `append()` performs the serialised output.
 
 `checkEntryConditions()`, `preAppend()`, and `append()` are the three override points; subclass `checkEntryConditions()` overrides should chain to the base implementation.
 
@@ -178,7 +178,7 @@ An `AppenderSkeleton` is a `QObject`: with a non-null parent it is destroyed by 
 
 ## 11. Thread Safety
 
-Fully **thread-safe**. State is split between lock-free atomics (`mIsActive`, `mIsClosed`, `mThreshold`) for cheap reads, and `mObjectGuard` (a `QRecursiveMutex`) for layout, filter chain, and the serialised `append()` step. The recursive mutex permits a subclass method already holding the lock (e.g. `activateOptions()`) to call another locking method without deadlock. The thread-local recursion guard prevents re-entrant `doAppend()` loops. The carefully staged lock acquire/release in `doAppend()` lets filter evaluation and `preAppend()` run concurrently while keeping I/O serialised.
+Fully **thread-safe**. State is split between lock-free atomics (`mIsActive`, `mIsClosed`, `mThreshold`) for cheap reads, and `mObjectGuard` (a `QRecursiveMutex`) for layout, filter chain, and the serialised `append()` step. The recursive mutex permits a subclass method already holding the lock (e.g. `activateOptions()`) to call another locking method without deadlock. The thread-local, per-appender recursion guard prevents re-entrant `doAppend()` loops without silencing diagnostics on unrelated appenders. The carefully staged lock acquire/release in `doAppend()` lets filter evaluation and `preAppend()` run concurrently while keeping I/O serialised.
 
 ## 12. Inter-Class Interactions
 

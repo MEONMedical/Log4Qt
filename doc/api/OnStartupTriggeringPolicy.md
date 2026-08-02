@@ -68,7 +68,7 @@ Not registered with QML.
 
 ## 14. Inter-Class Interactions
 
-- `RollingFileAppender::activateOptions()` calls `isStartupTrigger()` *before* opening the file (because opening may truncate it). When `true`, the appender optionally suppresses the next footer (`skipFooterOnStartup`) and performs the rollover.
+- `RollingFileAppender::activateOptions()` calls `isStartupTrigger()` *before* opening the file (because opening may truncate it). When `true`, the appender forces that first open into **append** mode regardless of the configured `appendFile` — otherwise the previous run's log would be truncated before the rollover could archive it, and an empty file would be archived instead — then optionally suppresses the next footer (`skipFooterOnStartup`) and performs the rollover.
 - `RollingFileAppender::append()` calls `isTriggeringEvent()` per event, which always returns `false` here.
 - `Factory` registers this class under `"Log4Qt::OnStartupTriggeringPolicy"` and `"OnStartupTriggeringPolicy"`.
 

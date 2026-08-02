@@ -82,9 +82,17 @@ All notable changes to this project will be documented in this file.
 - **`DateTime::formatMsecs()`** — static method with thread-local cache for
   named formats (`ISO8601`, `ABSOLUTE`, `DATE`). Repeated calls within the
   same millisecond cost only a `qint64` comparison.
-- Dedicated unit test suites for `AsyncAppender` (`tests/asyncappendertest`)
-  and `JsonLayout` (`tests/jsonlayouttest`).
+- Dedicated unit test suites for `AsyncAppender` (`tests/asyncappendertest`),
+  `JsonLayout` (`tests/jsonlayouttest`), `DatabaseAppender`
+  (`tests/databaseappendertest`, QSQLITE), `MainThreadAppender`,
+  `TelnetAppender` and `WriterAppender`.
 - All CTest/build target names now carry a `tst_` prefix.
+- JSON configuration accepts **arrays**, flattened to numeric key segments
+  (`"appenderRef": [{"ref": "console"}]` → `appenderRef.0.ref=console`).
+- Enum and flag (`Q_ENUM` / `Q_FLAG`) properties can be set from any
+  configuration format by their key name (e.g.
+  `caseSensitivity=CaseInsensitive`), converted through the property's
+  `QMetaEnum`.
 - **`HeaderFooterProvider` SPI** (`spi/headerfooterprovider.h`) — pluggable
   interface for dynamic log-file headers and footers. Applications subclass
   `HeaderFooterProvider` and register it with the `Factory` to inject runtime
@@ -142,6 +150,46 @@ All notable changes to this project will be documented in this file.
   and `DateRolloverStrategy(Suffix)` instead.
 
 ### Fixed
+- Rolling file rollover data loss and broken backup retention: truncation
+  before archiving on startup rollover and on reopen, `keepDays` never
+  matching `Suffix`-mode backups, `maxBackups` counting the active file.
+- `RollingFileAppender` re-activation stacked the strategy's filename
+  transformation onto the base name.
+- Filters added after `AppenderSkeleton::clearFilters()` were never evaluated.
+- Use-after-free of the `Level::toString()` translation cache during
+  exit-time logging.
+- Client list iterator invalidation in `TelnetAppender::append()`.
+- `DatabaseAppender` did not recover from a failed prepare or from a
+  connection dropped after activation.
+- Unescaped SQL identifiers and cross-thread statement teardown in
+  `DatabaseAppender`.
+- Stack overflow on circular `${...}` property substitution.
+- `findAndSubst()` mistook a literal `}` before a `${...}` reference for its
+  closing bracket.
+- The `doAppend()` recursion guard dropped internal diagnostics on all
+  appenders instead of only the recursing one.
+- `MainThreadAppender` dropped every event logged on the main thread.
+- Close/append race in `doAppend()` phase 5, which re-checked only
+  `isActive()` instead of the full entry conditions.
+- `AppenderSkeleton::activateOptions()` did not clear the closed flag, so
+  re-activation after `close()` stayed closed.
+- `Logger::logWithLocation()` ignored the configured logger level.
+- `Hierarchy::resetConfiguration()` emitted logger change signals under the
+  repository write lock.
+- `AsyncAppender::errorRef` was never resolved, and its configuration setters
+  were unsynchronised.
+- Enum and flag properties could not be set from a configuration file.
+- `Properties::load()` line continuation for escaped backslashes and comment
+  lines.
+- `JsonConfigurator` silently skipped JSON arrays.
+- The `XmlConfigurator` documentation example used the unsupported Log4j2
+  dialect.
+- `PatternFormatter` patterns ending on an option-capable conversion
+  character (`%c`, `%d`, `%P`).
+- On Windows, file paths were expanded for environment variables only after
+  the parent directory had been derived from them.
+- The configuration file watcher stayed in the thread that called
+  `setConfigurationFile()`.
 - Use-after-free crash at worker-thread exit: the per-thread name cache in
   `LoggingEvent` observed the `QThread`'s `objectName` via a `thread_local`
   `QPropertyNotifier`, whose destructor ran at OS-thread exit — after the

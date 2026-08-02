@@ -23,8 +23,8 @@ from a log4j-style `.properties` file at runtime.
 
 The example is built as part of the Log4Qt CMake project:
 
-- Target: `basic` (see `CMakeLists.txt`); links against the `log4qt` library.
-- Output: placed in `${CMAKE_BINARY_DIR}/bin`.
+- Target: `basic`, created with `qt_add_executable()` (see `CMakeLists.txt`); links privately against the `log4qt` library.
+- Output: placed in `${CMAKE_BINARY_DIR}/bin` when Log4Qt is the top-level project. When Log4Qt is embedded via `add_subdirectory()`/`FetchContent`, the parent project's own layout applies.
 
 Run the resulting `basic` executable. It writes `basic.log` and `basic.json` next to the executable
 and mirrors output to the console. The program logs a START banner, runs for a short time as the

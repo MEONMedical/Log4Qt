@@ -90,9 +90,11 @@ None.
 
 `Level` is a value type with automatic storage and trivial copy/move semantics (`Q_PRIMITIVE_TYPE`). There is no heap allocation and no ownership concern — instances are copied freely, stored in containers and `QVariant`, and passed by value.
 
+The one exception is `toString()`'s translation cache: it is held through a raw pointer to a heap-allocated block that is **intentionally never freed**. Log4Qt logs during static destruction — the `atexit`-registered `LogManager::shutdown()` formats a shutdown event after function-local statics have already been destroyed — so a destructible static here would be read after destruction. Leaking it matches the library's existing design of leaking its singletons so logging stays usable to the very end of the process.
+
 ## 12. Thread Safety
 
-All functions are thread-safe, as stated in the header. Instances are immutable after construction except via assignment, and `toString`'s cached translations are initialised as function-local statics (thread-safe initialisation). The class carries no shared mutable state.
+All functions are thread-safe, as stated in the header. Instances are immutable after construction except via assignment. `toString`'s cached translations are initialised once through a function-local `static` pointer (thread-safe initialisation, deliberately leaked — see Section 11), and are read-only afterwards. The class carries no shared mutable state.
 
 ## 13. QML Exposure
 

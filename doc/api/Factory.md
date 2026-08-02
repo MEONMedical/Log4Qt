@@ -158,7 +158,9 @@ Each returns the list of class names with a registered factory in the correspond
 Sets the named property of `object` to `value`, performing validation and string-to-type conversion. Behaviour:
 
 - Validates that `object` is non-null, the property name is non-empty, the property exists, and is writable. If the exact name is not found it retries with the first character lower-cased (Java property names are upper-case-first), accommodating Log4j-style configuration keys.
-- Converts `value` based on the property's declared type. Supported types: `bool`, `int`, `Log4Qt::Level`, `QString`, and `QStringConverter::Encoding` (the latter four via `OptionConverter`). An unsupported type produces a logged `LogError` and no write.
+- Converts `value` based on the property's declared type. Named types: `bool`, `int`, `Log4Qt::Level`, `QString`, and `QStringConverter::Encoding` (converted via `OptionConverter`).
+- **Any `Q_ENUM`/`Q_FLAG` property** is handled by a generic fallback: when `QMetaProperty::isEnumType()` is true, the string is resolved through the property's `QMetaEnum` — `keysToValue()` for flags (so `"A|B"` works), `keyToValue()` otherwise. Values are therefore written as the enum **key name**, e.g. `caseSensitivity=CaseInsensitive` for the `Qt::CaseSensitivity` property of `StringMatchFilter`. An unknown key (or an invalid `QMetaEnum`) logs a `ConfiguratorUnknownTypeError` naming the value, type, property and class, and nothing is written.
+- Any other type produces a logged `LogError` and no write.
 - On a successful conversion, writes the value via `QMetaProperty::write()`.
 
 ### Singleton accessor

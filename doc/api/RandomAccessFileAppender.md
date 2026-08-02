@@ -110,7 +110,7 @@ Inspects `QFile::error()`; if not `NoError`, logs an `AppenderWritingFileError` 
 Writes the accumulated buffer to the file with a single `QFile::write()`, checks for I/O errors, and clears the buffer (preserving its reserved capacity for reuse). No-op when the buffer is empty.
 
 #### virtual void openFile()
-Opens the log file for writing. Creates the parent directory if missing (logging `AppenderOpeningFileError` on failure), and on Windows expands environment variables in the path via `ExpandEnvironmentStringsW`. Opens in `WriteOnly` mode with `Append` or `Truncate` depending on `appendFile` — **without** `QIODevice::Text` (raw UTF-8 is written; the layout's `endOfLine()` already supplies the platform line ending) and without `Unbuffered` (the class manages its own buffer). On open failure logs an error and resets the file. For a new/empty file, the layout header (if any) is staged into the buffer so it is part of the first flush. Declared `virtual` so rolling subclasses may override.
+Opens the log file for writing. On Windows it first expands environment variables in the path via `ExpandEnvironmentStringsW` (sizing the buffer from the API rather than assuming `MAX_PATH`), and only then derives and creates the parent directory if it is missing (logging `AppenderOpeningFileError` on failure) — expanding afterwards would create a directory literally named `%VAR%` and leave the real target's parent missing. Opens in `WriteOnly` mode with `Append` or `Truncate` depending on `appendFile` — **without** `QIODevice::Text` (raw UTF-8 is written; the layout's `endOfLine()` already supplies the platform line ending) and without `Unbuffered` (the class manages its own buffer). On open failure logs an error and resets the file. For a new/empty file, the layout header (if any) is staged into the buffer so it is part of the first flush. Declared `virtual` so rolling subclasses may override.
 
 #### void closeFile()
 If a file is open, stages the layout footer (if any) into the buffer, performs a final `flushBuffer()`, then resets the `QFile` and clears the buffer.
@@ -141,7 +141,7 @@ Not registered for QML.
 
 ## 15. External Communication
 
-A single owned `QFile`. Writes are batched into one `write()` call per flush; flushes occur when the buffer fills, on `immediateFlush`, and on close/destruction. Parent directories are auto-created and Windows environment variables in the path are expanded. No network or IPC.
+A single owned `QFile`. Writes are batched into one `write()` call per flush; flushes occur when the buffer fills, on `immediateFlush`, and on close/destruction. Windows environment variables in the path are expanded first, then the parent directories of the expanded path are auto-created. No network or IPC.
 
 ## 16. Usage Example
 

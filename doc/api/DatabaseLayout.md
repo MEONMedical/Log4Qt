@@ -9,7 +9,7 @@ Reach for `DatabaseLayout` when log records should be stored in a relational dat
 ## 2. Project Structure and Dependencies
 
 - **Instantiated by**: The database appender (compiled alongside it under `BUILD_WITH_DB_LOGGING`), and application code/configurators that map fields to columns.
-- **Qt modules**: Qt Core and **Qt Sql** (`QSqlRecord`, `QSqlField`, `QMetaType`). The build links `Qt::Sql` privately only when database logging is enabled.
+- **Qt modules**: Qt Core and **Qt Sql** (`QSqlRecord`, `QSqlField`, `QMetaType`). The build links `Qt::Sql` `PUBLIC` (the installed headers include QtSql headers), and only when database logging is enabled.
 - **Internal types**: `AbstractLayout` (base — note: *not* `AbstractStringLayout`), `LoggingEvent`, `Level`, and `DateTime` (`helpers/datetime.h`) for epoch-to-`QDateTime` conversion.
 
 ## 3. Class Hierarchy and Role

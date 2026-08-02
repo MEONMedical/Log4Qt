@@ -76,6 +76,18 @@ arbitrary identifier used to reference the appender from loggers.
 | `appender.<alias>.filter.<falias>.<property>` | Filter properties. |
 | `appender.<alias>.<property>` | Any Qt property on the appender object (e.g. `file`, `target`). |
 
+#### Property Value Conversion
+
+Property values are strings and are converted to the property's declared type:
+`bool` (`true`/`false`, `enabled`/`disabled`, `1`/`0`), `int`, `Log4Qt::Level`
+(level name), `QString`, and `QStringConverter::Encoding`.
+
+Any **enum or flag property** (`Q_ENUM` / `Q_FLAG`) is also supported: write the
+enum **key name**, e.g. `caseSensitivity=CaseInsensitive` for the
+`Qt::CaseSensitivity` property of `StringMatchFilter`. Flag properties accept
+`Key1|Key2`. An unknown key is reported as a configuration error and the
+property is left unchanged.
+
 ### Built-in Appender Types
 
 | Short Name | Class | Description |
@@ -115,7 +127,7 @@ arbitrary identifier used to reference the appender from loggers.
 | `DenyAll` | DenyAllFilter | Denies all events. |
 | `LevelMatch` | LevelMatchFilter | Matches a specific level. Properties: `levelToMatch`, `acceptOnMatch`. |
 | `LevelRange` | LevelRangeFilter | Matches a range of levels. Properties: `levelMin`, `levelMax`, `acceptOnMatch`. |
-| `StringMatch` | StringMatchFilter | Matches a substring. Properties: `stringToMatch`, `acceptOnMatch`. |
+| `StringMatch` | StringMatchFilter | Matches a substring. Properties: `stringToMatch`, `acceptOnMatch`, `caseSensitivity` (`CaseSensitive` / `CaseInsensitive`, default `CaseSensitive`). |
 
 ### Triggering Policies (RollingFileAppender)
 
@@ -504,7 +516,17 @@ logger.network.level=WARN
 
 The JSON structure maps directly to the flat property keys. Nested objects
 produce dot-separated keys. Boolean and numeric values are automatically
-stringified.
+stringified, and `null` becomes an empty value.
+
+**Arrays** flatten to numeric key segments, exactly as an object with `"0"`,
+`"1"`, … keys would. So an appender reference list can be written naturally:
+
+```json
+"rootLogger": { "level": "ALL", "appenderRef": [ { "ref": "console" } ] }
+```
+
+which produces `rootLogger.appenderRef.0.ref=console`. The object form with
+named aliases (as in the complete example below) remains equally valid.
 
 > **Selecting the appender/layout/filter class:** use the `type` key — **not**
 > `class` or `@Class`. Unlike Log4j's XML `class="..."` attribute, Log4Qt uses a
@@ -608,6 +630,11 @@ stringified.
 The XML structure uses element names as key segments. The root element (e.g.
 `<configuration>`) is skipped; its children become top-level keys. XML
 attributes on an element are flattened as child properties.
+
+> Element names are used **verbatim** — they are never translated — so the
+> Log4j2 XML dialect (`<Configuration><Appenders><Console name="...">`) is not
+> supported: it flattens to keys Log4Qt ignores and configures nothing. Write
+> the elements as the property keys themselves, as in the example below.
 
 > **Selecting the appender/layout/filter class:** use a `type` element — **not**
 > a `class` attribute as in Log4j's XML format. Write

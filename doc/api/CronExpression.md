@@ -11,7 +11,7 @@ A developer reaches for `CronExpression` when a time-based schedule must be expr
 - **Used by:** `CronTriggeringPolicy` (`spi/crontriggeringpolicy.h` / `.cpp`). The policy stores a `CronExpression` built from its configured schedule string, checks `isValid()` (logging `errorString()` on failure), and calls `nextFireTime()` against `DateTime::currentDateTime()` to compute the next rollover instant.
 - **Qt module dependency:** Qt Core — uses `QDateTime`, `QDate`, `QTime`, `QString`, and `QStringList`.
 - **Standard library:** `<bitset>` for compact per-field match sets.
-- **Project headers:** `log4qt/log4qt.h` (for the `LOG4QT_EXPORT` macro and the `u"..."_s` string literal helper) and `log4qtdefs.h`.
+- **Project headers:** `log4qt/log4qt.h`, which pulls in `log4qtshared.h` for the `LOG4QT_EXPORT` macro. The `.cpp` imports `Qt::StringLiterals` for the `u"..."_s` literal helper.
 - **Build requirement:** part of the `log4qt` target; sources `helpers/cronexpression.cpp` and `helpers/cronexpression.h` are listed in `src/log4qt/CMakeLists.txt`. The class is exported from the shared library via `LOG4QT_EXPORT`.
 
 ## 3. Class Hierarchy and Role

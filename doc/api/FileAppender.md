@@ -2,7 +2,7 @@
 
 ## 1. Class Overview
 
-`FileAppender` writes formatted log events to a file on disk. It opens a `QFile`, wraps it in a `QTextStream`, and hands that stream to its `WriterAppender` base for the actual writing. It adds file-specific configuration: the **file name**, whether to **append** to an existing file or truncate it, and whether I/O is **buffered**. It also creates any missing parent directories, expands environment variables in the path on Windows, and reports file I/O errors back through the logging system.
+`FileAppender` writes formatted log events to a file on disk. It opens a `QFile`, wraps it in a `QTextStream`, and hands that stream to its `WriterAppender` base for the actual writing. It adds file-specific configuration: the **file name**, whether to **append** to an existing file or truncate it, and whether I/O is **buffered**. It also expands environment variables in the path on Windows, creates any missing parent directories of the resulting path, and reports file I/O errors back through the logging system.
 
 `FileAppender` is the base for the rolling and time-based file appenders (`RollingFileAppender`, `DailyRollingFileAppender`, `RandomAccessFileAppender`), which reuse its `openFile()` / `closeFile()` / `renameFile()` / `removeFile()` primitives.
 
@@ -104,7 +104,7 @@ Defined by `WriterAppender` (which returns `false`). This override inspects the 
 
 #### virtual void openFile()
 
-Opens the configured file for the appender. It asserts no file is already open, creates the parent directory if it does not exist (logging `AppenderOpeningFileError` on failure), and on Windows expands environment variables in the path via `ExpandEnvironmentStringsW`. It opens the `QFile` with `WriteOnly | Text`, plus `Append` or `Truncate` according to `appendFile`, plus `Unbuffered` when buffering is disabled; on failure it logs `AppenderOpeningFileError`. When appending to a non-empty existing file it sets a one-shot flag to suppress the next header (the header is already present from the prior run). It then creates the `QTextStream` over the file and installs it as the writer via `setWriter()`. Subclasses override to customise file opening for rollover.
+Opens the configured file for the appender. It asserts no file is already open, then, **on Windows first**, expands environment variables in the path via `ExpandEnvironmentStringsW` (querying the required buffer size rather than assuming `MAX_PATH`, which silently truncated long expansions). Only afterwards is the parent directory derived and created if missing (logging `AppenderOpeningFileError` on failure). The order matters: deriving the parent from the unexpanded path creates a junk directory literally named `%VAR%` while the real target's parent is never created. It opens the `QFile` with `WriteOnly | Text`, plus `Append` or `Truncate` according to `appendFile`, plus `Unbuffered` when buffering is disabled; on failure it logs `AppenderOpeningFileError`. When appending to a non-empty existing file it sets a one-shot flag to suppress the next header (the header is already present from the prior run). It then creates the `QTextStream` over the file and installs it as the writer via `setWriter()`. Subclasses override to customise file opening for rollover.
 
 #### bool removeFile(QFile &file) const
 
@@ -133,7 +133,7 @@ Performs **file-system I/O**.
 - **Direction:** outbound only (writes log lines to a file).
 - **Channel:** a `QFile` opened `WriteOnly | Text`, optionally `Append`/`Truncate` and `Unbuffered`, wrapped in a `QTextStream` with the configured encoding.
 - **Data format:** the layout's formatted text per event, plus optional header/footer.
-- **Path handling:** missing parent directories are created; on Windows, environment variables embedded in the path are expanded.
+- **Path handling:** on Windows, environment variables embedded in the path are expanded first; missing parent directories of the resulting path are then created.
 - **Error handling:** open, write, rename, and remove failures are logged through the framework as structured `LogError`s (`AppenderOpeningFileError`, `AppenderWritingFileError`, `AppenderRenamingFileError`, `AppenderRemoveFileError`) rather than thrown.
 
 ## 10. Inter-Class Interactions

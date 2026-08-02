@@ -12,7 +12,7 @@ The cron expression uses the Quartz format with six fields: `seconds minutes hou
 - Source: `src/log4qt/spi/crontriggeringpolicy.cpp`
 - Base class: `TriggeringPolicy`
 - Public dependencies: `log4qt/helpers/cronexpression.h` (`CronExpression`), `QDateTime`
-- Implementation dependencies: `helpers/datetime.h` (`DateTime::currentDateTime`), `helpers/logerror.h`, `log4qtdefs.h`, `logger.h`
+- Implementation dependencies: `helpers/datetime.h` (`DateTime::currentDateTime`), `helpers/logerror.h`, `logger.h`, plus a `Qt::StringLiterals` using-directive
 - Exported via the `LOG4QT_EXPORT` macro.
 
 ## 3. Class Hierarchy and Role

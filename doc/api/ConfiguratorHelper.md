@@ -43,7 +43,7 @@ Dependencies:
 
 Emitted after a change to `fileName` has been processed (i.e. after the configure callback has run). `error` is `true` if the configuration produced errors (the stored error list from `configureError()` is non-empty), `false` otherwise. Connect to this signal to be notified of live reloads and their outcome.
 
-This signal is emitted from the slot handling the file-system watcher notification, which runs in the thread of the singleton's `QObject` (the thread in which the helper/instance lives, normally the main thread).
+This signal is emitted from the slot handling the file-system watcher notification, which always runs in the thread the singleton's `QObject` lives in (normally the main thread) — the watcher is explicitly moved into that thread, so the delivery thread does not depend on which thread called `setConfigurationFile()` / `configureAndWatch()`.
 
 ## Public Methods
 
@@ -72,6 +72,8 @@ Sets the configuration file to watch and the callback to invoke when it changes.
 - Passing an empty `fileName` (the default) stops watching and clears the callback.
 - If `fileName` does not exist on disk, watching is not started.
 - Otherwise a `QFileSystemWatcher` is created watching both the file and its containing directory; on a file change the callback runs and `configurationFileChanged()` is emitted.
+- The new watcher is then moved into the helper's thread with `moveToThread()`. This is required for correctness rather than convenience: change notifications need a running event loop in the watcher's own thread (the thread that called `setConfigurationFile()` may have none, or may exit), and `tryToReAddConfigurationFile()` runs on the helper's thread and calls watcher methods directly.
+- A previously installed watcher is disconnected and retired with `deleteLater()` instead of being deleted inline — it lives in the helper's thread, so a plain delete from the calling thread would destroy a `QObject` cross-thread, possibly while its own `fileChanged` emission is still on the call stack.
 
 If the watcher fails to add the file path, a warning is logged and no watch is established. Delegates to the private `doSetConfigurationFile()`.
 
@@ -85,11 +87,13 @@ These are `private Q_SLOTS` (not part of the public API) but document the live-r
 
 ## Ownership and Lifecycle
 
-`ConfiguratorHelper` is a process singleton with a non-trivial private destructor; the single instance is created on first `instance()` call and intentionally lives for the duration of the process. It owns its `QFileSystemWatcher` via `std::unique_ptr` (`mConfigurationFileWatch`), which is created in `setConfigurationFile()` and reset when watching is stopped or reconfigured. The stored `ConfigureFunc` is a plain function pointer (no ownership). The `LoggingEvent` error list is owned by value.
+`ConfiguratorHelper` is a process singleton with a non-trivial private destructor; the single instance is created on first `instance()` call and intentionally lives for the duration of the process. It owns its `QFileSystemWatcher` via `std::unique_ptr` (`mConfigurationFileWatch`), which is created in `setConfigurationFile()` and lives in the helper's thread. When watching is stopped or reconfigured the pointer is `release()`d and the watcher is handed to Qt for deferred destruction via `deleteLater()` (see above), so ownership transfers to the event loop rather than the `unique_ptr` deleting it in place. The stored `ConfigureFunc` is a plain function pointer (no ownership). The `LoggingEvent` error list is owned by value.
 
 ## Thread Safety
 
 All public functions are thread-safe. State is guarded by a non-recursive `QMutex` (`mObjectGuard`). Accessors (`configureError()`, `configurationFile()`, `setConfigureError()`) hold the mutex only for the duration of the snapshot/assignment.
+
+The watcher's thread affinity is part of the thread-safety contract: `setConfigurationFile()` may be called from any thread, but the watcher is always moved into the helper's thread, so `fileChanged` / `directoryChanged` — and therefore the configure callback and the `configurationFileChanged()` emission — are consistently delivered there.
 
 A deliberate locking subtlety: in `doConfigurationFileChanged()` the user callback is invoked **outside** the mutex. The callback commonly calls back into `setConfigureError()` (which locks the same non-recursive mutex); running it under the lock would self-deadlock. State needed by the callback is copied out under the lock first, the callback runs unlocked, and the error flag is re-read under the lock before emitting.
 

@@ -116,7 +116,7 @@ Performs the date-based rollover and returns the path the appender should open n
 - **Suffix mode:** builds the backup name from the *previous* period's active suffix, removes any pre-existing backup of that name, renames the base file to the backup name, schedules cleanup, and returns `fileName`.
 - **Embedded mode:** updates the active suffix, schedules cleanup, and returns the new embedded-date filename (the previous active file is left in place under its own dated name).
 
-Cleanup is scheduled only when `maxBackups > 0` or `keepDays > 0`.
+Cleanup is scheduled only when `maxBackups > 0` or `keepDays > 0`. Each mode passes the *filename the appender will write to next* along to the cleanup — the dated name for dated-active-file and Embedded operation, the base name for Suffix mode — so the active file is never counted against `maxBackups` nor deleted.
 
 #### void waitForCleanup()
 Blocks until all pending asynchronous cleanup tasks (submitted by previous `rollover()` calls) have finished. Useful in tests or controlled shutdown to ensure deletions complete.
@@ -125,7 +125,12 @@ Blocks until all pending asynchronous cleanup tasks (submitted by previous `roll
 
 No new protected virtuals. The class overrides the base-class virtuals `activateOptions()`, `initialFileName()`, and the pure-virtual `rollover()` (all documented above) and reuses the inherited `removeFile()` / `renameFile()` helpers.
 
-A file-local (anonymous-namespace) helper `deleteObsoleteFiles()` performs the actual pruning on the worker thread: it scans the directory with a name filter derived from the mode, excludes the active file, deletes files older than the `keepDays` cutoff (date parsed from the filename via a `QRegularExpression`), and, if still over `maxBackups`, deletes the oldest by modification time.
+A file-local (anonymous-namespace) helper `deleteObsoleteFiles()` performs the actual pruning on the worker thread: it scans the directory with a name filter derived from the mode, excludes **both** the base filename and the filename that is now active (the two are different in Embedded / dated-active-file operation), deletes files older than the `keepDays` cutoff, and, if still over `maxBackups`, deletes the oldest by modification time.
+
+Two details of the `keepDays` step matter:
+
+- The date is parsed out of the filename with a `QRegularExpression` built **per naming mode**, mirroring `buildBackupName()`: in Suffix mode the date follows the complete filename (`app.log.2026-07-30`), in Embedded mode it sits between basename and extension (`app.2026-07-30.log`). A single pattern cannot match both — with the wrong one the captured date is empty and no backup is ever deleted.
+- The pattern is anchored (`QRegularExpression::anchoredPattern`) and its filename-derived parts are escaped, so a base or extension containing regex metacharacters (e.g. the `.` in `app.v2.log`) cannot match unintended sibling files.
 
 ## 11. Ownership and Lifecycle
 
