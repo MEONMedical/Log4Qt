@@ -8,6 +8,8 @@
 
 #include "log4qt/helpers/configuratorhelper.h"
 
+using namespace Qt::StringLiterals;
+
 class FilewatcherTest : public QObject
 {
     Q_OBJECT
@@ -71,7 +73,7 @@ void FilewatcherTest::cleanupTestCase()
 void FilewatcherTest::testFileWatcheSaveFileToTempDeleteOrigAndRename()
 {
     QTemporaryDir tempDir;
-    QString testFilePath = tempDir.path() + "test.txt";
+    QString testFilePath = tempDir.filePath(u"test.txt"_s);
     createTestFile(testFilePath);
 
     QScopedPointer<QFileSystemWatcher> fileWatcher(new QFileSystemWatcher());
@@ -105,7 +107,7 @@ bool configure(const QString &configFileName)
 void FilewatcherTest::testConfiguratorHelperSaveFileToTempDeleteOrigAndRename()
 {
     QTemporaryDir tempDir;
-    QString testFilePath = tempDir.path() + "log4qt.properties";
+    QString testFilePath = tempDir.filePath(u"log4qt.properties"_s);
     createTestFile(testFilePath);
     QSignalSpy configurationFileChangeSpy(Log4Qt::ConfiguratorHelper::instance(), &Log4Qt::ConfiguratorHelper::configurationFileChanged);
 
@@ -124,6 +126,9 @@ void FilewatcherTest::testConfiguratorHelperSaveFileToTempDeleteOrigAndRename()
     modifyTestFile(testFilePath);
     QVERIFY(QFile::exists(testFilePath));
     QTRY_VERIFY(configurationFileChangeSpy.count() == 1);  // expected from modify
+
+    // Stop watching before tempDir removes the watched directory
+    Log4Qt::ConfiguratorHelper::instance()->setConfigurationFile();
     QFile::remove(testFilePath);
 }
 
@@ -138,7 +143,7 @@ void FilewatcherTest::testWatchConfiguredFromWorkerThread()
     Log4Qt::ConfiguratorHelper::instance();
 
     QTemporaryDir tempDir;
-    QString testFilePath = tempDir.path() + "log4qt.properties";
+    QString testFilePath = tempDir.filePath(u"log4qt.properties"_s);
     createTestFile(testFilePath);
     QSignalSpy configurationFileChangeSpy(Log4Qt::ConfiguratorHelper::instance(),
                                           &Log4Qt::ConfiguratorHelper::configurationFileChanged);

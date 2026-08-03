@@ -175,7 +175,7 @@ bool TelnetAppender::checkEntryConditions() const
 {
     if ((mTcpServer == nullptr) || !mTcpServer->isListening())
     {
-        LogError e = LOG4QT_QCLASS_ERROR("Use of appender '%1' without a listing telnet server",
+        LogError e = LOG4QT_QCLASS_ERROR("Use of appender '%1' without a listening telnet server",
                                 AppenderTelnetServerNotRunning);
         e << name();
         logger()->error(e);
