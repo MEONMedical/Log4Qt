@@ -7,6 +7,9 @@ All notable changes to this project will be documented in this file.
 - `%X{key}` in a pattern printed the key literally instead of the MDC value
   (issue #79). A bare `%X` now renders the whole MDC as `{key=value, ...}`,
   like log4j.
+- `LogError`'s `QDataStream` operators were not marked `LOG4QT_EXPORT`, unlike
+  `Level`'s and `LoggingEvent`'s, so they were missing from the library's
+  export table on MSVC (related to issue #78).
 
 ## [v2.0.0] - 04.08.2026
 ### Added
