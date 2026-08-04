@@ -362,10 +362,10 @@ private:
 
 #ifndef QT_NO_DATASTREAM
     // Needs to be friend to stream objects
-    friend QDataStream &operator<<(QDataStream &stream,
-                                   const LogError &logError);
-    friend QDataStream &operator>>(QDataStream &stream,
-                                   LogError &logError);
+    friend LOG4QT_EXPORT QDataStream &operator<<(QDataStream &stream,
+                                                 const LogError &logError);
+    friend LOG4QT_EXPORT QDataStream &operator>>(QDataStream &stream,
+                                                 LogError &logError);
 #endif // QT_NO_DATASTREAM
 };
 
@@ -376,8 +376,8 @@ private:
  * Writes the given error \a logError to the given stream \a rStream,
  * and returns a reference to the stream.
  */
-QDataStream &operator<<(QDataStream &stream,
-                        const LogError &logError);
+LOG4QT_EXPORT QDataStream &operator<<(QDataStream &stream,
+                                      const LogError &logError);
 
 /*!
  * \relates LogError
@@ -385,8 +385,8 @@ QDataStream &operator<<(QDataStream &stream,
  * Reads an error from the given stream \a rStream into the given
  * error \a logError, and returns a reference to the stream.
  */
-QDataStream &operator>>(QDataStream &stream,
-                        LogError &logError);
+LOG4QT_EXPORT QDataStream &operator>>(QDataStream &stream,
+                                      LogError &logError);
 #endif // QT_NO_DATASTREAM
 
 } // namespace Log4Qt
