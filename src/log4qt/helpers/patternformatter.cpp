@@ -309,7 +309,10 @@ LOG4QT_DECLARE_STATIC_LOGGER(logger, Log4Qt::PatternFormatter)
 PatternFormatter::PatternFormatter(const QString &pattern) :
     mIgnoreCharacters(u"C"_s),
     mConversionCharacters(u"cdmprtxXFMLlP"_s),
-    mOptionCharacters(u"cdP"_s),
+    // Conversion characters that may be followed by a {option}. 'X' belongs
+    // here: without it the parser creates the MDC converter immediately and
+    // the '{key}' that follows is emitted as literal text.
+    mOptionCharacters(u"cdPX"_s),
     mPattern(pattern)
 {
     parse();
@@ -797,7 +800,25 @@ void LoggepatternConverter::convert(QString &format, const LoggingEvent &logging
 
 void MDCPatternConverter::convert(QString &format, const LoggingEvent &loggingEvent) const
 {
-    format.append(loggingEvent.mdc().value(mKey));
+    if (!mKey.isEmpty())
+    {
+        format.append(loggingEvent.mdc().value(mKey));
+        return;
+    }
+
+    // A bare %X renders the whole MDC as '{key=value, key=value}', the way
+    // log4j does. The keys are sorted so the output does not depend on the
+    // hash order.
+    const QHash<QString, QString> mdc = loggingEvent.mdc();
+    QStringList keys = mdc.keys();
+    keys.sort();
+
+    QStringList entries;
+    entries.reserve(keys.size());
+    for (const QString &key : std::as_const(keys))
+        entries.append(key % u'=' % mdc.value(key));
+
+    format.append(u'{' % entries.join(u", "_s) % u'}');
 }
 
 void PatternFormatter::setPropertySource(const QObject *source)

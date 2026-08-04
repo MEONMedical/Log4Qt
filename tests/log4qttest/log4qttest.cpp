@@ -314,6 +314,68 @@ void Log4QtTest::PatternFormatter_data()
             << relative_string + " [main] DEBUG Qt foo.cpp:100-foo() NDC - This is the message" + eol
             << 0;
 
+    // Regression test: %X was not listed as an option-capable conversion
+    // character, so the converter was created without a key and the '{key}'
+    // was emitted as literal text — '[{A}]' instead of '[a]'.
+    QTest::newRow("MDC conversion with key")
+            << LoggingEvent(test_logger(),
+                            Level(Level::DEBUG_INT),
+                            QStringLiteral("This is the message"),
+                            QStringLiteral("NDC"),
+                            properties,
+                            QStringLiteral("main"),
+                            relative_timestamp)
+            << "[%X{A}] %m"
+            << QStringLiteral("[a] This is the message")
+            << 0;
+    QTest::newRow("MDC conversion with unknown key")
+            << LoggingEvent(test_logger(),
+                            Level(Level::DEBUG_INT),
+                            QStringLiteral("This is the message"),
+                            QStringLiteral("NDC"),
+                            properties,
+                            QStringLiteral("main"),
+                            relative_timestamp)
+            << "[%X{noSuchKey}] %m"
+            << QStringLiteral("[] This is the message")
+            << 0;
+    // A bare %X renders the whole MDC, like log4j
+    QTest::newRow("MDC conversion without key")
+            << LoggingEvent(test_logger(),
+                            Level(Level::DEBUG_INT),
+                            QStringLiteral("This is the message"),
+                            QStringLiteral("NDC"),
+                            properties,
+                            QStringLiteral("main"),
+                            relative_timestamp)
+            << "%X %m"
+            << QStringLiteral("{A=a, B=b, C=c} This is the message")
+            << 0;
+    // ... and an empty MDC renders as an empty map, not as literal text
+    QTest::newRow("MDC conversion without key and empty MDC")
+            << LoggingEvent(test_logger(),
+                            Level(Level::DEBUG_INT),
+                            QStringLiteral("This is the message"),
+                            QStringLiteral("NDC"),
+                            QHash<QString, QString>(),
+                            QStringLiteral("main"),
+                            relative_timestamp)
+            << "%X %m"
+            << QStringLiteral("{} This is the message")
+            << 0;
+    // %X directly followed by a literal that is not an option
+    QTest::newRow("MDC conversion followed by a literal")
+            << LoggingEvent(test_logger(),
+                            Level(Level::DEBUG_INT),
+                            QStringLiteral("This is the message"),
+                            QStringLiteral("NDC"),
+                            properties,
+                            QStringLiteral("main"),
+                            relative_timestamp)
+            << "%X- %m"
+            << QStringLiteral("{A=a, B=b, C=c}- This is the message")
+            << 0;
+
     resetLogging();
 }
 
