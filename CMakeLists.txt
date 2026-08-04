@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.28)
 project(Log4Qt
-    VERSION 2.0.0
+    VERSION 2.0.1
     DESCRIPTION "Logging for the Qt cross-platform application framework"
     HOMEPAGE_URL "https://github.com/MEONMedical/Log4Qt"
     LANGUAGES CXX
