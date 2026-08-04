@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 ----
-## [v2.0.0] - ??
+## [v2.0.0] - 04.08.2026
 ### Added
 - JsonConfigurator for configuring logging from JSON files (`log4qt.json`).
   The JSON structure maps directly to flat property keys via dot-separated
@@ -125,6 +125,14 @@ All notable changes to this project will be documented in this file.
     `maxFileSize=10MB` replaces the old `maxFileSize` property.
   - `appender.X.strategy.type=DefaultRolloverStrategy` with
     `maxIndex=7` replaces the old `maxBackupIndex` property.
+- **Breaking:** `DailyFileAppender` renamed to `DailyRollingFileAppender` and
+  refactored to inherit from `RollingFileAppender`. It now delegates rollover
+  to `DateRolloverStrategy(Embedded)` instead of implementing its own file
+  naming logic. The `IDateRetriever` testability interface is preserved via
+  `DateTimeProvider`. The factory short alias `DailyFile` is unchanged.
+- **Breaking:** Removed the old `DailyRollingFileAppender` class (suffix-based
+  daily rotation). Use `RollingFileAppender` with `TimeBasedTriggeringPolicy`
+  and `DateRolloverStrategy(Suffix)` instead.
 
 ### Improvements
 - Modernized codebase to C++20; applied `const` correctness and `constexpr`
@@ -138,16 +146,6 @@ All notable changes to this project will be documented in this file.
 - `TriggeringPolicy::isTriggeringEvent()` now receives a `QIODevice *` directly.
 - `TimeBasedTriggeringPolicy` date-pattern parsing replaces the former
   `Frequency` enum with direct pattern analysis.
-
-### Changed (continued)
-- **Breaking:** `DailyFileAppender` renamed to `DailyRollingFileAppender` and
-  refactored to inherit from `RollingFileAppender`. It now delegates rollover
-  to `DateRolloverStrategy(Embedded)` instead of implementing its own file
-  naming logic. The `IDateRetriever` testability interface is preserved via
-  `DateTimeProvider`. The factory short alias `DailyFile` is unchanged.
-- **Breaking:** Removed the old `DailyRollingFileAppender` class (suffix-based
-  daily rotation). Use `RollingFileAppender` with `TimeBasedTriggeringPolicy`
-  and `DateRolloverStrategy(Suffix)` instead.
 
 ### Fixed
 - Rolling file rollover data loss and broken backup retention: truncation
