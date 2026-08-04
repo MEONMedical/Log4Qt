@@ -47,7 +47,7 @@ None.
 
 #### explicit PatternFormatter(const QString &pattern)
 
-Creates a formatter and immediately parses `pattern` into the converter chain. Parsing is forgiving: an invalid conversion character is logged as a warning and emitted as a literal, and an unexpected end of pattern is logged and the trailing text emitted as a literal. A pattern that ends *directly* on an option-capable conversion character (`%c`, `%d`, `%P`) is not an error — no `{option}` follows, so the converter is created with its default options, which is why a pattern like `"%d"` or `"%m%n %c"` works as written. Recoverable option errors are logged as `LogError`s (codes `LayoutExpectedDigitError`, `LayoutOptionIsNotIntegerError`, `LayoutIntegerIsNotPositiveError`).
+Creates a formatter and immediately parses `pattern` into the converter chain. Parsing is forgiving: an invalid conversion character is logged as a warning and emitted as a literal, and an unexpected end of pattern is logged and the trailing text emitted as a literal. A pattern that ends *directly* on an option-capable conversion character (`%c`, `%d`, `%P`, `%X`) is not an error — no `{option}` follows, so the converter is created with its default options, which is why a pattern like `"%d"` or `"%m%n %c"` works as written. Recoverable option errors are logged as `LogError`s (codes `LayoutExpectedDigitError`, `LayoutOptionIsNotIntegerError`, `LayoutIntegerIsNotPositiveError`).
 
 #### virtual ~PatternFormatter()
 
@@ -78,7 +78,7 @@ The recognized conversion characters are `c d m p r t x X F M L l P`. The charac
 | `%r` | Relative time | Renders the timestamp with the special `RELATIVE` format. |
 | `%t` | Thread name | |
 | `%x` | NDC (nested diagnostic context) | |
-| `%X` | MDC value | Requires a key: `%X{key}` looks the key up in the event's MDC. |
+| `%X` | MDC | `%X{key}` looks the key up in the event's MDC (an unknown key yields an empty string). A bare `%X` renders the whole MDC as `{key=value, key=value}` with the keys sorted, like log4j; an empty MDC renders as `{}`. |
 | `%P` | `QObject` property | Requires a key: `%P{key}`. Resolved against the object set by `setPropertySource()`. A bare `%P` with no `{key}` logs a warning. |
 | `%F` | Source file name | Location-sensitive; sets `requiresLocation()`. |
 | `%M` | Function name | Location-sensitive. |

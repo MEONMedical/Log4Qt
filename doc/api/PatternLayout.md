@@ -17,7 +17,7 @@ Reach for `PatternLayout` whenever you want full control over the single-line (o
 | `%r` | Milliseconds since application start |
 | `%t` | Thread name |
 | `%x` | NDC (nested diagnostic context) |
-| `%X` | MDC (mapped diagnostic context) |
+| `%X` | MDC (mapped diagnostic context) — `%X{key}` for one entry, bare `%X` for the whole map |
 | `%F` | Source file name (location-sensitive) |
 | `%M` | Method/function name (location-sensitive) |
 | `%L` | Line number (location-sensitive) |
