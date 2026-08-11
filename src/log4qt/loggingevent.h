@@ -71,10 +71,11 @@ public:
     virtual ~LoggingEvent();
 
     // QSharedDataPointer copy/assign is non-throwing (atomic refcount op only).
+    // QEvent deletes its move constructor and move assignment operator, so
+    // LoggingEvent cannot provide them either; rvalues bind to the copy
+    // operations, which are cheap (a refcount increment on the shared data).
     LoggingEvent(const LoggingEvent &other) noexcept;
     LoggingEvent &operator=(const LoggingEvent &other) noexcept;
-    LoggingEvent(LoggingEvent &&other) noexcept = default;
-    LoggingEvent &operator=(LoggingEvent &&other) noexcept = default;
 
     LoggingEvent(const Logger *logger,
                  Level level,
